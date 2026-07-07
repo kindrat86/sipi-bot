@@ -62,6 +62,16 @@ python3.11 -m spendfirewall.eval.run_eval   # 53 scenarios -> eval_report.json +
 { "mcpServers": { "sipi-bot": { "command": "python", "args": ["-m", "spendfirewall.mcp_server"] } } }
 ```
 
+## Framework integrations
+
+Drop-in "spend guardrails" recipes — each verified live against https://sipi.bot:
+
+- [LangChain & CrewAI](integrations/SPEND_GUARDRAILS_RECIPE.md) — `@tool` / `BaseTool` wrappers + zero-dep `sipi_guard.py` client
+- [OpenAI Agents SDK](integrations/openai-agents-sdk.md) — `@function_tool` guard
+- [Vercel AI SDK](integrations/vercel-ai-sdk.md) — `tool({execute})` guard + `sipiGuard.ts` client
+
+The core call is always the same: `evaluate(amount, merchant, category)` → `APPROVED` / `BLOCKED` / `FLAGGED`.
+
 ## Deploy (Fly.io)
 
 ```bash
