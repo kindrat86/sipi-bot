@@ -4,6 +4,8 @@ Dark, code-forward, mobile-first. Stdlib string templates (no jinja).
 """
 from __future__ import annotations
 
+import os
+
 CSS = """
 :root{--bg:#0a0a0a;--panel:#121316;--panel2:#17181c;--line:#23242a;
 --txt:#e8e8ea;--mut:#8a8d96;--accent:#00d4aa;--red:#ff5470;--amber:#ffb020;--green:#00d4aa;}
@@ -67,10 +69,34 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 @media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.nav-links a:not(.btn){display:none}section{padding:52px 0}}
 """
 
+# ─── PostHog analytics ───
+# Public client-side project token (safe to ship in HTML). Overridable via env.
+POSTHOG_KEY = os.environ.get("POSTHOG_KEY", "phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX")
+POSTHOG_HOST = os.environ.get("POSTHOG_HOST", "https://eu.i.posthog.com")
+
+POSTHOG_SNIPPET = (
+    "<script>!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){"
+    "function g(t,e){var o=e.split('.');2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){"
+    "t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement('script')).type='text/javascript',"
+    "p.crossOrigin='anonymous',p.async=!0,p.src=s.api_host.replace('.i.posthog.com','-assets.i.posthog.com')+'/static/array.js',"
+    "(r=t.getElementsByTagName('script')[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a='posthog',"
+    "u.people=u.people||[],u.toString=function(t){var e='posthog';return'posthog'!==a&&(e+='.'+a),t||(e+=' (stub)'),e},"
+    "u.people.toString=function(){return u.toString(1)+'.people (stub)'},o='init capture register register_once register_for_session "
+    "unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags "
+    "updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys "
+    "renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags "
+    "resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups "
+    "get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording "
+    "sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile "
+    "opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing "
+    "debug getPageViewId'.split(' '),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);"
+    f"posthog.init('{POSTHOG_KEY}',{{api_host:'{POSTHOG_HOST}',person_profiles:'identified_only'}})</script>"
+)
+
 
 def landing_page_html() -> str:
     return f"""<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
 <title>sipi.bot — The Spend Firewall for AI Agents</title>
 <meta name="description" content="Your autonomous AI agent has your credit card. sipi.bot approves, blocks, or flags every transaction against your rules — before a dollar moves. Spend controls for the agent economy.">
 <meta property="og:title" content="sipi.bot — The Spend Firewall for AI Agents">
@@ -200,7 +226,7 @@ body:JSON.stringify({{email:document.getElementById('em').value}})}})
 
 def dashboard_html() -> str:
     return f"""<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
 <title>sipi.bot — Control Room</title><style>{CSS}
 .tabs{{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto}}
 .tab{{padding:12px 18px;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent;white-space:nowrap}}
@@ -305,7 +331,7 @@ all();setInterval(loadStats,15000);
 
 def pricing_html() -> str:
     return f"""<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
 <title>sipi.bot — Pricing</title><style>{CSS}</style></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span></div>
 <div class="nav-links"><a href="/">Home</a><a href="/dashboard" class="btn">Dashboard</a></div></div></nav>
@@ -366,7 +392,7 @@ def key_success_html(rec) -> str:
     (the webhook is issuing it now). Still nothing after a minute? Email sales@sipiteno.com.</p>
     <a href="/pricing" class="btn ghost">Back to pricing</a>"""
     return f"""<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
 <title>sipi.bot — Your API key</title><style>{CSS}</style></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span></div>
 <div class="nav-links"><a href="/">Home</a></div></div></nav>
