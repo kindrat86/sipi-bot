@@ -1,0 +1,14 @@
+name: sipi-bot
+description: The spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties: {}
+    required: []
+  commandFunction: |-
+    () => ({ command: "uv", args: ["run", "--with", "sipi-bot[mcp]", "python", "-m", "spendfirewall.mcp_server"] })
+dependencies:
+  python:
+    - uv
+    - sipi-bot[mcp]

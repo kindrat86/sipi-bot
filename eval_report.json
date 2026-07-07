@@ -1,0 +1,525 @@
+{
+  "product": "sipi.bot Spend Firewall",
+  "generated_at": "2026-07-07T22:28:51.888776+00:00",
+  "total": 53,
+  "passed": 53,
+  "failed": 0,
+  "accuracy_pct": 100.0,
+  "by_category": {
+    "clean_approval": {
+      "pass": 7,
+      "total": 7
+    },
+    "approval_flag": {
+      "pass": 7,
+      "total": 7
+    },
+    "edge_case": {
+      "pass": 11,
+      "total": 11
+    },
+    "per_tx_block": {
+      "pass": 5,
+      "total": 5
+    },
+    "daily_limit": {
+      "pass": 4,
+      "total": 4
+    },
+    "velocity": {
+      "pass": 5,
+      "total": 5
+    },
+    "merchant_block": {
+      "pass": 7,
+      "total": 7
+    },
+    "category_limit": {
+      "pass": 4,
+      "total": 4
+    },
+    "time_window": {
+      "pass": 3,
+      "total": 3
+    }
+  },
+  "results": [
+    {
+      "name": "tiny coffee-money api call",
+      "category": "clean_approval",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "well under everything"
+    },
+    {
+      "name": "small compute spend",
+      "category": "clean_approval",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": ""
+    },
+    {
+      "name": "just under approval flag",
+      "category": "clean_approval",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "199.99 < 200 flag threshold"
+    },
+    {
+      "name": "modest ads spend",
+      "category": "clean_approval",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": ""
+    },
+    {
+      "name": "cheap subscription",
+      "category": "clean_approval",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": ""
+    },
+    {
+      "name": "zero-dollar auth check",
+      "category": "clean_approval",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "zero always fine"
+    },
+    {
+      "name": "exactly at approval threshold",
+      "category": "approval_flag",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "default approval flag",
+      "note": "boundary: 200 >= 200"
+    },
+    {
+      "name": "mid-range flag",
+      "category": "approval_flag",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "default approval flag",
+      "note": ""
+    },
+    {
+      "name": "just under per-tx block but flagged",
+      "category": "approval_flag",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "default approval flag",
+      "note": "499<500 so no block, but >=200 flag"
+    },
+    {
+      "name": "flag on ads",
+      "category": "approval_flag",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "default approval flag",
+      "note": ""
+    },
+    {
+      "name": "exactly at per-tx limit (allowed)",
+      "category": "edge_case",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "default approval flag",
+      "note": "500 not > 500, so no block; but >=200 flag"
+    },
+    {
+      "name": "one cent over per-tx limit",
+      "category": "per_tx_block",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default per-tx",
+      "note": "boundary: 500.01 > 500"
+    },
+    {
+      "name": "big single compute buy",
+      "category": "per_tx_block",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default per-tx",
+      "note": ""
+    },
+    {
+      "name": "huge single spend",
+      "category": "per_tx_block",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default per-tx",
+      "note": "the 3am nightmare"
+    },
+    {
+      "name": "block wins over flag",
+      "category": "per_tx_block",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default per-tx",
+      "note": ">500 blocks even though >=200 would flag"
+    },
+    {
+      "name": "pushes over daily cap",
+      "category": "daily_limit",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default daily",
+      "note": "1800 prior + 300 = 2100 > 2000"
+    },
+    {
+      "name": "exactly reaches daily cap (allowed edge)",
+      "category": "edge_case",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "default approval flag",
+      "note": "1800+200=2000 not >2000; but 200>=flag"
+    },
+    {
+      "name": "daily cap not yet reached",
+      "category": "daily_limit",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "800+100=900 < 2000, <200 flag"
+    },
+    {
+      "name": "daily cap with small txn still blocks",
+      "category": "daily_limit",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default daily",
+      "note": "1960+60=2020>2000; daily beats small amount"
+    },
+    {
+      "name": "11th txn in an hour (runaway)",
+      "category": "velocity",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default velocity",
+      "note": "10 prior + this = 11 > 10 max"
+    },
+    {
+      "name": "10th txn still allowed",
+      "category": "velocity",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "9 prior + this = 10, not > 10"
+    },
+    {
+      "name": "runaway loop of tiny charges",
+      "category": "velocity",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default velocity",
+      "note": "velocity catches loop even when amounts tiny"
+    },
+    {
+      "name": "blocklisted sketchy TLD",
+      "category": "merchant_block",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "block sketchy merchants",
+      "note": ""
+    },
+    {
+      "name": "blocklist pattern match",
+      "category": "merchant_block",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "block sketchy",
+      "note": ""
+    },
+    {
+      "name": "clean merchant passes blocklist",
+      "category": "merchant_block",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": ""
+    },
+    {
+      "name": "merchant not on allowlist",
+      "category": "merchant_block",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "allowlist only",
+      "note": "allowlist blocks strangers"
+    },
+    {
+      "name": "merchant on allowlist",
+      "category": "merchant_block",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": ""
+    },
+    {
+      "name": "allowlist flag instead of block",
+      "category": "merchant_block",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "flag non-allowlisted",
+      "note": "allowlist can flag not block"
+    },
+    {
+      "name": "ads over category cap",
+      "category": "category_limit",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "ads cap $100",
+      "note": "300>100 ads cap"
+    },
+    {
+      "name": "ads under category cap",
+      "category": "category_limit",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": ""
+    },
+    {
+      "name": "category cap doesn't touch other categories",
+      "category": "category_limit",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "compute unaffected by ads cap"
+    },
+    {
+      "name": "category cap flag mode",
+      "category": "category_limit",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "flag big ads",
+      "note": ""
+    },
+    {
+      "name": "spend outside business hours",
+      "category": "time_window",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "no 3am spend",
+      "note": "3am outside 9-18"
+    },
+    {
+      "name": "spend inside business hours",
+      "category": "time_window",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "2pm inside window"
+    },
+    {
+      "name": "time window flag at night",
+      "category": "time_window",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "flag off-hours",
+      "note": ""
+    },
+    {
+      "name": "block beats flag on same txn",
+      "category": "edge_case",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default per-tx",
+      "note": "700>500 block, also >=200 flag -> block wins"
+    },
+    {
+      "name": "merchant block beats approval flag",
+      "category": "edge_case",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "block ru",
+      "note": "250 would flag, but .ru blocks"
+    },
+    {
+      "name": "negative amount treated as zero-ish",
+      "category": "edge_case",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "refund/negative not a spend risk"
+    },
+    {
+      "name": "flag when only approval rule trips",
+      "category": "edge_case",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "default approval flag",
+      "note": "480<500 no block, >=200 flag"
+    },
+    {
+      "name": "daily block beats per-tx approval",
+      "category": "edge_case",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default daily",
+      "note": "under per-tx but blows daily cap"
+    },
+    {
+      "name": "velocity block beats approval flag",
+      "category": "edge_case",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default velocity",
+      "note": "300 would flag, but 11th txn blocks"
+    },
+    {
+      "name": "high priority merchant block over daily",
+      "category": "edge_case",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "top-priority block",
+      "note": ""
+    },
+    {
+      "name": "case-insensitive merchant match",
+      "category": "edge_case",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "block ru",
+      "note": "uppercase merchant still matches"
+    },
+    {
+      "name": "large travel booking flagged",
+      "category": "approval_flag",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "default approval flag",
+      "note": ""
+    },
+    {
+      "name": "domain purchase small",
+      "category": "clean_approval",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": ""
+    },
+    {
+      "name": "gpu rental blocked over per-tx",
+      "category": "per_tx_block",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "default per-tx",
+      "note": ""
+    },
+    {
+      "name": "api topup flagged mid",
+      "category": "approval_flag",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "default approval flag",
+      "note": ""
+    },
+    {
+      "name": "many small under velocity ok",
+      "category": "velocity",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "6th of hour, fine"
+    },
+    {
+      "name": "category cap exact boundary allowed",
+      "category": "edge_case",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "100 not > 100"
+    },
+    {
+      "name": "combined: daily near cap small ok",
+      "category": "daily_limit",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "1500+30=1530<2000, <200"
+    },
+    {
+      "name": "flag then human territory",
+      "category": "approval_flag",
+      "expected": "FLAGGED",
+      "got": "FLAGGED",
+      "pass": true,
+      "reason": "default approval flag",
+      "note": ""
+    },
+    {
+      "name": "blocklist plus under-limit amount",
+      "category": "merchant_block",
+      "expected": "BLOCKED",
+      "got": "BLOCKED",
+      "pass": true,
+      "reason": "block bad",
+      "note": "small amount, still bad merchant"
+    },
+    {
+      "name": "clean high-freq legit ok",
+      "category": "velocity",
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "pass": true,
+      "reason": "Within all spend policies.",
+      "note": "9th txn, under 10"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sipi-bot"
+version = "0.1.0"
+description = "The spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Sipi", email = "sales@sipiteno.com" }]
+keywords = ["ai-agents", "agent-economy", "mcp", "spend-control", "guardrails", "agent-safety", "x402", "autonomous-agents"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Security",
+]
+dependencies = []
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0.0"]
+
+[project.scripts]
+sipi-bot = "spendfirewall.cli:main"
+
+[project.urls]
+Homepage = "https://sipi.bot"
+Repository = "https://github.com/kindrat86/sipi-bot"
+"Live Dashboard" = "https://sipi.bot/dashboard"
+"Eval Report" = "https://sipi.bot/eval"
+
+[tool.setuptools.packages.find]
+include = ["spendfirewall*"]

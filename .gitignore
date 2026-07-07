@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.db
+*.db-wal
+*.db-shm
+smoke.db
+smoke2.db
+smoke_test.py
+smoke_billing.py
+subscribers.txt
+.buildvenv/
+.testvenv/
+dist/
+build/
+*.egg-info/
+.DS_Store
+nc_dns.py
