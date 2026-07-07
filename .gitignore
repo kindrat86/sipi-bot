@@ -17,3 +17,5 @@ build/
 nc_dns.py
 create_stripe_products.py
 SHOW_HN.md
+REGISTRY_CHECKLIST.md
+integrations/verify_integrations.py
