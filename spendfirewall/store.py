@@ -285,3 +285,13 @@ def recent_transactions(limit: int = 50) -> list[dict[str, Any]]:
             "SELECT id, agent_id, amount, currency, merchant, category, decision, reason, created_at "
             "FROM transactions ORDER BY created_at DESC LIMIT ?", (limit,)).fetchall()
         return [dict(r) for r in rows]
+
+
+def reset_demo_data() -> int:
+    """Clear transaction + approval history (keeps rules and agents).
+    Returns number of transactions cleared. For resetting the public demo."""
+    with _LOCK, _conn() as c:
+        n = c.execute("SELECT COUNT(*) AS n FROM transactions").fetchone()["n"]
+        c.execute("DELETE FROM transactions")
+        c.execute("DELETE FROM approvals")
+    return int(n)

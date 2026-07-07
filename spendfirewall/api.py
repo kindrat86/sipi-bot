@@ -254,6 +254,17 @@ class Handler(BaseHTTPRequestHandler):
             _broadcast({"type": "approval_resolved", "id": aid})
             return self._json(200, {"resolved": ok})
 
+        if path == "/admin/reset":
+            # Admin-gated: clears transaction + approval history (keeps rules/agents).
+            # Used to reset the public demo after testing. Set ADMIN_TOKEN on the server.
+            token = os.environ.get("ADMIN_TOKEN", "")
+            auth = self.headers.get("Authorization", "")
+            given = auth[7:].strip() if auth.startswith("Bearer ") else ""
+            if not token or given != token:
+                return self._json(403, {"error": "forbidden"})
+            n = store.reset_demo_data()
+            return self._json(200, {"reset": True, "cleared": n})
+
         if path == "/subscribe":
             email = (body.get("email") or "").strip()
             if email and "@" in email:
