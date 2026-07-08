@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>sipi.bot — The Spend Firewall for AI Agents</title>
+  <link>https://sipi.bot</link>
+  <description>Updates and resources for controlling autonomous AI agent spending.</description>
+  <language>en-us</language>
+  <lastBuildDate>Wed, 09 Jul 2026 00:00:00 GMT</lastBuildDate>
+  <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>sipi.bot — The Spend Firewall for AI Agents</title>
+    <link>https://sipi.bot</link>
+    <guid>https://sipi.bot</guid>
+    <description>Approve, block, or flag every agent transaction before a dollar moves. $99/month. MCP, HTTP, and CLI integration.</description>
+    <pubDate>Wed, 09 Jul 2026 00:00:00 GMT</pubDate>
+  </item>
+</channel>
+</rss>

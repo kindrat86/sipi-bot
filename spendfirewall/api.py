@@ -126,6 +126,16 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         path = urlparse(self.path).path
 
+        # SEO: redirect www to apex
+        if 'host' in (h.lower() for h in self.headers.keys()):
+            host = self.headers.get('Host', '') or self.headers.get('host', '')
+            if host.startswith('www.'):
+                target = 'https://' + host[4:] + self.path
+                self.send_response(301)
+                self.send_header('Location', target)
+                self.end_headers()
+                return
+
 
         # ── pSEO static pages ──────────────────────────
         try_pseo = self._serve_pseo(path)
