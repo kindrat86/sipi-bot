@@ -78,7 +78,16 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 .doc p,.doc li{color:var(--mut);font-size:16px;margin-bottom:12px}
 .doc h2{font-size:22px;margin:28px 0 10px}
 .doc .lead{color:var(--txt);font-size:18px}
-@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.nav-links a:not(.btn){display:none}section{padding:52px 0}}
+.deflist{max-width:760px;margin:8px auto 0;text-align:left}
+.deflist dt{font-weight:700;color:var(--accent);margin-top:16px;font-size:17px}
+.deflist dd{margin:6px 0 0;color:var(--mut);font-size:15px}
+.deflist code{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-family:'SF Mono',monospace;font-size:13px;color:var(--txt)}
+.cmp{width:100%;border-collapse:collapse;margin-top:20px;font-size:14.5px}
+.cmp th,.cmp td{border:1px solid var(--line);padding:12px 14px;text-align:left}
+.cmp thead th{background:var(--panel2);color:var(--txt);font-weight:700}
+.cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+.cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
+@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.nav-links a:not(.btn){display:none}section{padding:52px 0}.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
 """
 
 # ─── PostHog analytics ───
@@ -177,11 +186,29 @@ def landing_page_html() -> str:
   <div class="codebox mono">
 <span class="c"># Your agent asks before it spends</span><br>
 curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
-&nbsp;&nbsp;-H <span class="s">"Authorization: Bearer sk_live_..."</span> \\<br>
+&nbsp;&nbsp;-H <span class="s">"Authorization: Bearer ***"</span> \\<br>
 &nbsp;&nbsp;-d <span class="s">'{{"amount": 6200, "merchant": "unknown-gpu.ru", "category": "compute"}}'</span><br><br>
 <span class="c"># sipi.bot answers in &lt;5ms</span><br>
 {{ <span class="k">"decision"</span>: <span class="s">"BLOCKED"</span>, <span class="k">"reason"</span>: <span class="s">"Merchant not on allowlist"</span> }}
   </div>
+
+  <h2 class="mt40" style="margin-top:56px">The three decisions, defined</h2>
+  <dl class="deflist">
+    <dt>Approve</dt><dd>The transaction passes every active rule. sipi.bot returns <code>APPROVED</code> and your agent proceeds — logged for the audit trail.</dd>
+    <dt>Block</dt><dd>The transaction violates a hard rule (over a cap, unknown merchant, velocity breach). sipi.bot returns <code>BLOCKED</code> and no money moves.</dd>
+    <dt>Flag</dt><dd>The transaction is allowed but crosses an approval threshold. sipi.bot returns <code>FLAGGED</code> and routes it to your human-in-the-loop approval queue.</dd>
+  </dl>
+
+  <h2 class="mt40" style="margin-top:56px">How sipi.bot compares</h2>
+  <table class="cmp">
+    <thead><tr><th>Approach</th><th>Stops runaway spend</th><th>Latency</th><th>Audit log</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Trust the prompt</td><td>❌ No</td><td>—</td><td>❌ No</td><td>$0 (until it isn't)</td></tr>
+      <tr><td>Provider spend cap</td><td>⚠️ Per-provider only</td><td>—</td><td>⚠️ Partial</td><td>Varies</td></tr>
+      <tr><td>Human babysitter</td><td>✅ Yes</td><td>Minutes</td><td>⚠️ Manual</td><td>~$4,500/mo</td></tr>
+      <tr><td><strong>sipi.bot</strong></td><td>✅ Yes</td><td><strong>&lt;5ms</strong></td><td>✅ Tamper-evident</td><td><strong>$99/mo</strong></td></tr>
+    </tbody>
+  </table>
 </div></section>
 
 <section><div class="wrap">
