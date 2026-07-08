@@ -68,7 +68,7 @@ def page(title, desc, canonical, body, faq):
 {NAV}
 <main><div class="wrap">{body}
 <h2>Frequently asked</h2>
-{''.join(f'<div class="card"><p style="color:#e8e8ea;font-weight:600">{html.escape(q)}</p><p>{html.escape(a)}</p></div>' for q,a in faq)}
+{''.join(f'<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">{html.escape(q)}</h3><p>{html.escape(a)}</p></div>' for q,a in faq)}
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="https://github.com/kindrat86/sipi-bot" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">View source</a></p>
 </div></main>

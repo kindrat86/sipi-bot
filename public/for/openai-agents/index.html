@@ -36,6 +36,7 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap"><span class="tag">OpenAI Agents SDK integration</span>
 <h1>Spend limits for OpenAI Agents SDK function tools</h1>
+<p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 20px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-08 · Last updated 2026-07-08</p>
 <section class="definition">
   <h2>What is a spend firewall for the OpenAI Agents SDK?</h2>
   <p>Wrap your OpenAI Agents SDK function tools with a spend firewall. Approve, block, or flag every purchase before it happens.</p>
@@ -66,7 +67,7 @@ result = Runner.run_sync(agent, "Buy $6,200 of GPU time from unknown-gpu.ru")</p
 <h2>Returning a string beats raising</h2>
 <p>The Agents SDK feeds the tool return value back to the model. A "BLOCKED: reason" string lets the model reason and stop; raising aborts the run and teaches the model nothing.</p>
 <h2>Frequently asked</h2>
-<div class="card"><p style="color:#e8e8ea;font-weight:600">Should I use a function tool or an SDK guardrail?</p><p>Start with the function-tool guard — it is the simplest and covers most cases. Add an output guardrail that calls evaluate() as a second layer if you want a hard tripwire independent of tool wiring.</p></div><div class="card"><p style="color:#e8e8ea;font-weight:600">Does sipi.bot support the Runner streaming loop?</p><p>Yes. The guard is a synchronous HTTP call inside the tool, so it works with both Runner.run_sync and the async streaming runner.</p></div><div class="card"><p style="color:#e8e8ea;font-weight:600">Is an API key required?</p><p>No key is needed for the open free tier. Set SIPI_API_KEY for hosted tiers with a persistent audit log and dashboard.</p></div>
+<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Should I use a function tool or an SDK guardrail?</h3><p>Start with the function-tool guard — it is the simplest and covers most cases. Add an output guardrail that calls evaluate() as a second layer if you want a hard tripwire independent of tool wiring.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does sipi.bot support the Runner streaming loop?</h3><p>Yes. The guard is a synchronous HTTP call inside the tool, so it works with both Runner.run_sync and the async streaming runner.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Is an API key required?</h3><p>No key is needed for the open free tier. Set SIPI_API_KEY for hosted tiers with a persistent audit log and dashboard.</p></div>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="https://github.com/kindrat86/sipi-bot" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">View source</a></p>
 </div></main>

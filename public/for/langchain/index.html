@@ -36,6 +36,7 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap"><span class="tag">LangChain integration</span>
 <h1>Stop your LangChain agent from overspending</h1>
+<p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 20px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-08 · Last updated 2026-07-08</p>
 <section class="definition">
   <h2>What is a spend firewall for LangChain?</h2>
   <p>Add a spend firewall to your LangChain agent in 5 lines. Approve, block, or flag every tool-driven purchase before a dollar moves.</p>
@@ -62,7 +63,7 @@ def buy(amount: float, merchant: str, category: str = "") -> str:
 <h2>Why not a hardcoded check inside the tool?</h2>
 <p>A single <code>if amount &gt; 500</code> misses the runaway loop (40 small retries), the cumulative daily cap across many tool calls, the flag-for-human path, and the audit trail of why each spend was allowed. sipi.bot centralizes all of that in one call.</p>
 <h2>Frequently asked</h2>
-<div class="card"><p style="color:#e8e8ea;font-weight:600">Does sipi.bot work with LangGraph?</p><p>Yes. The guard call lives inside the tool or node function, so LangGraph agents get the same protection as LangChain ReAct agents — no extra wiring.</p></div><div class="card"><p style="color:#e8e8ea;font-weight:600">Do I need the LangChain SDK to call sipi.bot?</p><p>No. sipi_guard.py is a zero-dependency stdlib client. LangChain is only used for the @tool decorator in this example; the guard itself is a plain HTTP call.</p></div><div class="card"><p style="color:#e8e8ea;font-weight:600">What happens when a spend is blocked mid-run?</p><p>The tool returns a readable &#x27;BLOCKED: reason&#x27; string. The LangChain agent reads it as the tool result and stops retrying, explaining the block to the user instead of looping.</p></div>
+<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does sipi.bot work with LangGraph?</h3><p>Yes. The guard call lives inside the tool or node function, so LangGraph agents get the same protection as LangChain ReAct agents — no extra wiring.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Do I need the LangChain SDK to call sipi.bot?</h3><p>No. sipi_guard.py is a zero-dependency stdlib client. LangChain is only used for the @tool decorator in this example; the guard itself is a plain HTTP call.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">What happens when a spend is blocked mid-run?</h3><p>The tool returns a readable &#x27;BLOCKED: reason&#x27; string. The LangChain agent reads it as the tool result and stops retrying, explaining the block to the user instead of looping.</p></div>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="https://github.com/kindrat86/sipi-bot" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">View source</a></p>
 </div></main>
