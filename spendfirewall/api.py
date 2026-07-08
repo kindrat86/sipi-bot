@@ -126,6 +126,11 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         path = urlparse(self.path).path
 
+
+        # ── pSEO static pages ──────────────────────────
+        try_pseo = self._serve_pseo(path)
+        if try_pseo:
+            return
         if path == "/" or path == "/index.html":
             return self._html(templates.landing_page_html())
         if path == "/dashboard":
@@ -257,7 +262,24 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, {"deleted": store.delete_rule(rid)})
         return self._json(404, {"error": "not_found"})
 
-    def do_POST(self):
+    
+    def _serve_pseo(self, path):
+        """Serve pSEO static HTML pages from vs/ for/ learn/ integrations/ subdirs."""
+        import os
+        for prefix in ("/vs/", "/for/", "/learn/", "/integrations/"):
+            if path.startswith(prefix):
+                filepath = os.path.join(os.path.dirname(__file__), "..", path.lstrip("/"), "index.html")
+                filepath = os.path.normpath(filepath)
+                if os.path.isfile(filepath):
+                    try:
+                        with open(filepath, encoding="utf-8") as fh:
+                            return self._html(fh.read())
+                    except Exception:
+                        pass
+                return None
+        return None
+
+def do_POST(self):
         path = urlparse(self.path).path
 
         # Stripe webhook must read the RAW body once (before _body parses it)
