@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+Disallow: /checkout/
+Disallow: /keys/
+Disallow: /api/
+Disallow: /v1/
+
+# AI crawlers explicitly welcome on content
+User-agent: GPTBot
+Allow: /
+Disallow: /checkout/
+Disallow: /keys/
+User-agent: ClaudeBot
+Allow: /
+Disallow: /checkout/
+Disallow: /keys/
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://sipi.bot/sitemap.xml
