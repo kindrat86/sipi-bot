@@ -1,0 +1,68 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spend guardrails for the OpenAI Agents SDK — sipi.bot</title>
+<meta name="description" content="Wrap your OpenAI Agents SDK function tools with a spend firewall. Approve, block, or flag every purchase before it happens.">
+<link rel="canonical" href="https://sipi.bot/for/openai-agents/">
+<meta property="og:title" content="Spend guardrails for the OpenAI Agents SDK — sipi.bot">
+<meta property="og:description" content="Wrap your OpenAI Agents SDK function tools with a spend firewall. Approve, block, or flag every purchase before it happens.">
+<meta property="og:type" content="article"><meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Should I use a function tool or an SDK guardrail?", "acceptedAnswer": {"@type": "Answer", "text": "Start with the function-tool guard \u2014 it is the simplest and covers most cases. Add an output guardrail that calls evaluate() as a second layer if you want a hard tripwire independent of tool wiring."}}, {"@type": "Question", "name": "Does sipi.bot support the Runner streaming loop?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The guard is a synchronous HTTP call inside the tool, so it works with both Runner.run_sync and the async streaming runner."}}, {"@type": "Question", "name": "Is an API key required?", "acceptedAnswer": {"@type": "Answer", "text": "No key is needed for the open free tier. Set SIPI_API_KEY for hosted tiers with a persistent audit log and dashboard."}}]}</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#00d4aa;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px}
+nav{border-bottom:1px solid #23242a;position:sticky;top:0;background:rgba(10,10,10,.9);backdrop-filter:blur(10px);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+.brand{font-weight:700;font-size:18px}.brand .d{color:#00d4aa}
+.nav-links a{color:#8a8d96;margin-left:20px;font-size:14px}
+main{padding:52px 0}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:16px}
+.lead{font-size:19px;color:#8a8d96;margin-bottom:28px}
+h2{font-size:24px;margin:36px 0 12px;letter-spacing:-.01em}
+p{color:#c9ccd3;margin-bottom:14px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:20px}
+pre{background:#000;border:1px solid #23242a;border-radius:12px;padding:18px;overflow-x:auto;font-size:13.5px;line-height:1.5;color:#cfd2d8;margin:16px 0;font-family:'SF Mono',ui-monospace,Menlo,monospace}
+code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
+.cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:13px 24px;border-radius:10px;margin:8px 8px 8px 0}
+.card{background:#121316;border:1px solid #23242a;border-radius:14px;padding:20px;margin:16px 0}
+.hub-links{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0}
+.hub-links li{background:#121316;border:1px solid #23242a;border-radius:12px;padding:18px}
+.hub-links a{font-weight:700;font-size:17px}
+.hub-links p{font-size:14px;color:#8a8d96;margin:6px 0 0}
+footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
+@media(max-width:640px){.hub-links{grid-template-columns:1fr}}
+</style></head><body>
+<nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
+<main><div class="wrap"><span class="tag">OpenAI Agents SDK integration</span>
+<h1>Spend limits for OpenAI Agents SDK function tools</h1>
+<p class="lead">The moment an OpenAI Agents SDK function tool can spend money, the prompt is the only thing between the model and your card. sipi.bot adds a real limit.</p>
+<p>Guard the spend inside a <code>@function_tool</code>. Return a string decision so the model can reason about a block instead of retrying it.</p>
+<pre>from agents import Agent, Runner, function_tool
+from sipi_guard import evaluate
+
+@function_tool
+def buy(amount: float, merchant: str, category: str = "") -> str:
+    "Spend money with a supplier (USD). A spend firewall decides if it is allowed."
+    d = evaluate(amount, merchant, category)
+    if d["decision"] == "BLOCKED":
+        return f"BLOCKED by spend policy: {d['reason']}. Do not retry."
+    if d["decision"] == "FLAGGED":
+        return f"NEEDS HUMAN APPROVAL: {d['reason']}. Not purchased."
+    return really_buy(amount, merchant)
+
+agent = Agent(name="Procurement agent",
+              instructions="Always use buy; if it returns BLOCKED or NEEDS HUMAN APPROVAL, stop and report.",
+              tools=[buy])
+result = Runner.run_sync(agent, "Buy $6,200 of GPU time from unknown-gpu.ru")</pre>
+<p>For belt-and-suspenders, add an SDK output guardrail that calls <code>evaluate()</code> on any proposed spend and trips a tripwire on BLOCKED. The tool-level check is usually enough for v1.</p>
+<h2>Returning a string beats raising</h2>
+<p>The Agents SDK feeds the tool return value back to the model. A "BLOCKED: reason" string lets the model reason and stop; raising aborts the run and teaches the model nothing.</p>
+<h2>Frequently asked</h2>
+<div class="card"><p style="color:#e8e8ea;font-weight:600">Should I use a function tool or an SDK guardrail?</p><p>Start with the function-tool guard — it is the simplest and covers most cases. Add an output guardrail that calls evaluate() as a second layer if you want a hard tripwire independent of tool wiring.</p></div><div class="card"><p style="color:#e8e8ea;font-weight:600">Does sipi.bot support the Runner streaming loop?</p><p>Yes. The guard is a synchronous HTTP call inside the tool, so it works with both Runner.run_sync and the async streaming runner.</p></div><div class="card"><p style="color:#e8e8ea;font-weight:600">Is an API key required?</p><p>No key is needed for the open free tier. Set SIPI_API_KEY for hosted tiers with a persistent audit log and dashboard.</p></div>
+<p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
+<a class="cta" href="https://github.com/kindrat86/sipi-bot" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">View source</a></p>
+</div></main>
+<footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents ·
+<a href="/for/">All integrations</a> · <a href="/">Home</a></div></footer>
+</body></html>

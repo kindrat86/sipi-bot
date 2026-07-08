@@ -277,6 +277,12 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 </div></section>
 
 <footer><div class="wrap">
+  <div style="margin-bottom:16px">
+    <strong style="color:var(--txt)">Framework integrations:</strong>
+    <a href="/for/langchain/">LangChain</a> · <a href="/for/crewai/">CrewAI</a> ·
+    <a href="/for/openai-agents/">OpenAI Agents SDK</a> · <a href="/for/vercel-ai-sdk/">Vercel AI SDK</a> ·
+    <a href="/for/">all integrations →</a>
+  </div>
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
   <a href="/dashboard">Dashboard</a> · <a href="/eval">Eval report</a> · <a href="/health">Status</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>
 </div></footer>
