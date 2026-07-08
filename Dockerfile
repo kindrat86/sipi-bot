@@ -13,6 +13,9 @@ COPY vs/ ./vs/
 COPY for/ ./for/
 COPY learn/ ./learn/
 COPY integrations/ ./integrations/
+COPY faq/ ./faq/
+COPY use-cases/ ./use-cases/
+COPY glossary/ ./glossary/
 
 # Persist SQLite + subscribers on a Fly volume mounted at /data.
 ENV SPENDFIREWALL_DB=/data/spendfirewall.db \
