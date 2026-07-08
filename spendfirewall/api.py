@@ -117,6 +117,10 @@ class Handler(BaseHTTPRequestHandler):
             return self._html(templates.dashboard_html())
         if path == "/health":
             return self._json(200, {"ok": True, "service": "sipi.bot", "version": __version__})
+        if path == "/BingSiteAuth.xml":
+            xml = ('<?xml version="1.0"?>\n<users>\n\t<user>'
+                   'FA4E122745948F0CAD16959F59DDCB85</user>\n</users>')
+            return self._send(200, xml.encode(), "application/xml")
         if path == "/.well-known/agent-card.json":
             return self._json(200, agent_card())
         if path == "/eval":
