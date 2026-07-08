@@ -36,6 +36,8 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap"><span class="tag">OpenAI Agents SDK integration</span>
 <h1>Spend limits for OpenAI Agents SDK function tools</h1>
+<div class="tldr"><p><strong>TL;DR:</strong> Wrap your OpenAI Agents SDK function tools with a spend firewall. Approve, block, or flag every purchase before it happens.</p></div>
+
 <p class="lead">The moment an OpenAI Agents SDK function tool can spend money, the prompt is the only thing between the model and your card. sipi.bot adds a real limit.</p>
 <p>Guard the spend inside a <code>@function_tool</code>. Return a string decision so the model can reason about a block instead of retrying it.</p>
 <pre>from agents import Agent, Runner, function_tool
