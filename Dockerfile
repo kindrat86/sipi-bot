@@ -8,6 +8,12 @@ COPY spendfirewall/ ./spendfirewall/
 COPY eval_report.json ./eval_report.json
 COPY public/ ./public/
 
+# pSEO static pages
+COPY vs/ ./vs/
+COPY for/ ./for/
+COPY learn/ ./learn/
+COPY integrations/ ./integrations/
+
 # Persist SQLite + subscribers on a Fly volume mounted at /data.
 ENV SPENDFIREWALL_DB=/data/spendfirewall.db \
     SUBS_FILE=/data/subscribers.txt \
