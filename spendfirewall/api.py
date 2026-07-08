@@ -266,7 +266,7 @@ class Handler(BaseHTTPRequestHandler):
     def _serve_pseo(self, path):
         """Serve pSEO static HTML pages from vs/ for/ learn/ integrations/ subdirs."""
         import os
-        for prefix in ("/vs/", "/for/", "/learn/", "/integrations/"):
+        for prefix in ("/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/"):
             if path.startswith(prefix):
                 filepath = os.path.join(os.path.dirname(__file__), "..", path.lstrip("/"), "index.html")
                 filepath = os.path.normpath(filepath)
