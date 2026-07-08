@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <defs>
+    <radialgradient id="g" cx="50%" cy="0%" r="80%">
+      <stop offset="0%" stop-color="#00d4aa" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+    </radialgradient>
+  </defs>
+  <text x="80" y="150" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="34" fill="#00d4aa" font-weight="700" letter-spacing="4">SPEND CONTROLS FOR THE AGENT ECONOMY</text>
+  <text x="80" y="290" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="88" fill="#e8e8ea" font-weight="800">The spend firewall</text>
+  <text x="80" y="390" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="88" fill="#e8e8ea" font-weight="800">for AI agents.</text>
+  <text x="80" y="500" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="38" fill="#8a8d96">Approve · block · flag every transaction in &lt;5ms — before a dollar moves.</text>
+  <text x="80" y="580" font-family="SF Mono,monospace" font-size="40" fill="#00d4aa" font-weight="700">sipi.bot</text>
+</svg>

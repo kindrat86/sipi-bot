@@ -86,9 +86,24 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Headers", "Authorization,Content-Type")
-        self.send_header("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS,HEAD")
+        # Security headers (Technical SEO + hardening)
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "SAMEORIGIN")
+        self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+        self.send_header("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
         self.end_headers()
+        if getattr(self, "_head_only", False):
+            return
         self.wfile.write(body)
+
+    def do_HEAD(self):
+        """Mirror do_GET but suppress the body (fixes 501-on-HEAD; crawlers/audits use HEAD)."""
+        self._head_only = True
+        try:
+            self.do_GET()
+        finally:
+            self._head_only = False
 
     def _json(self, code, obj):
         self._send(code, json.dumps(obj).encode(), "application/json")
@@ -141,6 +156,21 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, store.list_agents())
         if path == "/pricing":
             return self._html(templates.pricing_html())
+        if path == "/about":
+            return self._html(templates.doc_page_html(
+                "About", "/about",
+                "sipi.bot is the spend firewall for autonomous AI agents — evaluate every transaction against your rules and get approve, block, or flag in under 5ms.",
+                templates.ABOUT_BODY))
+        if path == "/privacy":
+            return self._html(templates.doc_page_html(
+                "Privacy Policy", "/privacy",
+                "How sipi.bot handles transaction metadata, account data, and analytics. We are a decision layer — we never store card numbers.",
+                templates.PRIVACY_BODY))
+        if path == "/terms":
+            return self._html(templates.doc_page_html(
+                "Terms of Service", "/terms",
+                "Terms for using sipi.bot, the spend firewall for autonomous AI agents, including the rule-integrity guarantee.",
+                templates.TERMS_BODY))
         if path == "/billing/status":
             return self._json(200, billing.status())
         if path.startswith("/checkout/"):

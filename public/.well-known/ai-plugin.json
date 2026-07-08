@@ -1,0 +1,15 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "sipi.bot Spend Firewall",
+  "name_for_model": "sipi_bot_spend_firewall",
+  "description_for_human": "The spend firewall for autonomous AI agents. Evaluates every transaction against your rules and returns approve, block, or flag before any money moves.",
+  "description_for_model": "Call before an autonomous agent spends money. POST /v1/transactions/evaluate with {amount, merchant, category} returns {decision: APPROVED|BLOCKED|FLAGGED, reason}. Enforces per-transaction caps, daily totals, velocity (runaway-loop protection), merchant allow/block, category limits, and time windows.",
+  "auth": { "type": "user_http", "authorization_type": "bearer" },
+  "api": {
+    "type": "openapi",
+    "url": "https://sipi.bot/openapi.json"
+  },
+  "logo_url": "https://sipi.bot/og.svg",
+  "contact_email": "hello@sipi.bot",
+  "legal_info_url": "https://sipi.bot/terms"
+}

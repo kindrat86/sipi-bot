@@ -66,6 +66,18 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 .form{display:flex;gap:10px;max-width:440px;margin:18px auto 0}
 .form input{flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:13px 15px;border-radius:10px;font-size:15px}
 .mt40{margin-top:40px}.mt24{margin-top:24px}
+.faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px;text-align:left}
+.faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.faq summary{font-weight:700;cursor:pointer;font-size:16px;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"+ ";color:var(--accent);font-weight:800}
+.faq details[open] summary::before{content:"– "}
+.faq details p{color:var(--mut);margin-top:12px;font-size:15px}
+.doc{max-width:760px;margin:0 auto;text-align:left}
+.doc h1{font-size:clamp(28px,5vw,40px);margin-bottom:8px}
+.doc p,.doc li{color:var(--mut);font-size:16px;margin-bottom:12px}
+.doc h2{font-size:22px;margin:28px 0 10px}
+.doc .lead{color:var(--txt);font-size:18px}
 @media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.nav-links a:not(.btn){display:none}section{padding:52px 0}}
 """
 
@@ -99,14 +111,24 @@ def landing_page_html() -> str:
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
 <title>sipi.bot — The Spend Firewall for AI Agents</title>
 <meta name="description" content="Your autonomous AI agent has your credit card. sipi.bot approves, blocks, or flags every transaction against your rules — before a dollar moves. Spend controls for the agent economy.">
+<link rel="canonical" href="https://sipi.bot/">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:title" content="sipi.bot — The Spend Firewall for AI Agents">
 <meta property="og:description" content="Approve, block, or flag every agent transaction before a dollar moves.">
-<meta property="og:type" content="website"><meta name="theme-color" content="#00d4aa">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/">
+<meta property="og:image" content="https://sipi.bot/og.svg"><meta property="og:site_name" content="sipi.bot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="sipi.bot — The Spend Firewall for AI Agents">
+<meta name="twitter:description" content="Approve, block, or flag every agent transaction before a dollar moves.">
+<meta name="twitter:image" content="https://sipi.bot/og.svg">
+<meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{{"@context":"https://schema.org","@graph":[{{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","url":"https://sipi.bot/","description":"The spend firewall for autonomous AI agents.","sameAs":["https://github.com/kindrat86/sipi-bot"]}},{{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{{"@id":"https://sipi.bot/#org"}}}},{{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","offers":{{"@type":"Offer","price":"99","priceCurrency":"USD"}},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]}},{{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}}}},{{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}}}},{{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{{"@type":"Answer","text":"sipi.bot is a flat $99/month for unlimited transaction evaluations, with a free self-hostable core on GitHub. There is no per-call fee."}}}},{{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it."}}}}]}}]}}</script>
 <style>{CSS}</style></head><body>
 <nav><div class="wrap">
   <div class="brand">sipi<span class="dot">.bot</span></div>
   <div class="nav-links">
     <a href="#how">How it works</a>
+    <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
     <a href="/dashboard" class="btn">Live Dashboard</a>
   </div>
@@ -115,7 +137,7 @@ def landing_page_html() -> str:
 <header class="hero"><div class="wrap">
   <span class="tag">Spend controls for the agent economy</span>
   <h1>Your AI agent just spent<br><span class="hl">$12,400 while you slept.</span></h1>
-  <p class="sub">You gave an autonomous agent your credit card and no spending limit. sipi.bot is the firewall that sits in front of every transaction and approves, blocks, or flags it against <em>your</em> rules — before a single dollar moves.</p>
+  <p class="sub"><strong>sipi.bot is a spend firewall for autonomous AI agents:</strong> it evaluates every transaction against your rules and returns approve, block, or flag in under 5ms — before a single dollar moves. You gave an autonomous agent your credit card and no spending limit; sipi.bot is the control layer that sits in front of it.</p>
   <a href="/pricing" class="btn">Protect my agent</a>
   &nbsp;&nbsp;<a href="#how" class="btn ghost">See how it works</a>
   <div class="kpis mt40">
@@ -210,9 +232,26 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
   </div>
 </div></section>
 
+<section id="faq"><div class="wrap">
+  <h2 class="center">Frequently asked questions</h2>
+  <p class="lead center"><strong>TL;DR:</strong> sipi.bot is a spend firewall for autonomous AI agents. Your agent asks permission before it spends; sipi.bot returns approve, block, or flag in under 5ms based on your rules — over HTTP, MCP, or CLI, for a flat $99/month.</p>
+  <div class="faq mt24">
+    <details open><summary>What is a spend firewall for AI agents?</summary>
+      <p>A <strong>spend firewall</strong> sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI.</p></details>
+    <details><summary>How does sipi.bot stop an agent from overspending?</summary>
+      <p>Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted.</p></details>
+    <details><summary>How much does sipi.bot cost?</summary>
+      <p>sipi.bot is a flat <strong>$99/month</strong> for unlimited transaction evaluations, with a free self-hostable core on GitHub. There is no per-call fee.</p></details>
+    <details><summary>Does sipi.bot work with MCP and Claude Code?</summary>
+      <p>Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it.</p></details>
+    <details><summary>What happens if sipi.bot wrongly approves a spend?</summary>
+      <p>If sipi.bot green-lights a spend that breaks one of your rules, that month is free. Every decision is written to a tamper-evident audit log so you can review exactly why anything was approved, blocked, or flagged.</p></details>
+  </div>
+</div></section>
+
 <footer><div class="wrap">
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
-  <a href="/dashboard">Dashboard</a> · <a href="/eval">Eval report</a> · <a href="/health">Status</a> · <a href="/.well-known/agent-card.json">Agent card</a>
+  <a href="/dashboard">Dashboard</a> · <a href="/eval">Eval report</a> · <a href="/health">Status</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>
 </div></footer>
 <script>
 function sub(e){{e.preventDefault();var m=document.getElementById('msg');
@@ -222,6 +261,79 @@ body:JSON.stringify({{email:document.getElementById('em').value}})}})
 .catch(()=>{{m.textContent='You are on the list.';}});return false;}}
 </script>
 </body></html>"""
+
+
+def doc_page_html(title: str, canonical_path: str, description: str, body_html: str) -> str:
+    """Reusable EEAT/content page (about, privacy, terms, contact)."""
+    return f"""<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
+<title>{title} — sipi.bot</title>
+<meta name="description" content="{description}">
+<link rel="canonical" href="https://sipi.bot{canonical_path}">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="{title} — sipi.bot">
+<meta property="og:description" content="{description}">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot{canonical_path}">
+<meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebPage","name":"{title}","url":"https://sipi.bot{canonical_path}","description":"{description}","isPartOf":{{"@type":"WebSite","name":"sipi.bot","url":"https://sipi.bot/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}}}}</script>
+<style>{CSS}</style></head><body>
+<nav><div class="wrap">
+  <div class="brand"><a href="/" style="color:var(--txt)">sipi<span class="dot">.bot</span></a></div>
+  <div class="nav-links">
+    <a href="/#how">How it works</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/dashboard" class="btn">Live Dashboard</a>
+  </div>
+</div></nav>
+<section><div class="wrap"><article class="doc">
+{body_html}
+<p style="margin-top:40px"><a href="/">← Back to sipi.bot</a></p>
+</article></div></section>
+<footer><div class="wrap">
+  sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
+  <a href="/dashboard">Dashboard</a> · <a href="/eval">Eval report</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>
+</div></footer>
+</body></html>"""
+
+
+ABOUT_BODY = """<h1>About sipi.bot</h1>
+<p class="lead">sipi.bot is the spend firewall for autonomous AI agents — the control layer that evaluates every transaction an agent attempts and returns approve, block, or flag before any money moves.</p>
+<h2>Why we built it</h2>
+<p>The agent economy handed autonomous software real spending power — API credits, compute, SaaS, payments — usually backed by a human's credit card and no hard limit. One infinite retry loop or one compromised prompt can drain thousands of dollars before anyone notices. "Trust the prompt" is not a spending policy.</p>
+<p>sipi.bot puts a deterministic firewall in front of that spending power. Your agent asks permission first; sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and answers in under 5&nbsp;ms. Every decision is written to a tamper-evident audit log, and the transactions that matter go to a human-in-the-loop approval queue.</p>
+<h2>How it works</h2>
+<p>sipi.bot exposes three native surfaces so any agent runtime can call it: a plain HTTP API, an MCP tool (for Claude Code, Cursor, and Hermes), and a CLI. The core engine is open source and self-hostable on GitHub; the hosted service is a flat $99/month for unlimited evaluations.</p>
+<h2>Who it's for</h2>
+<p>Teams and builders running autonomous agents that can spend money — payment agents, procurement bots, DevOps automations, and AI copilots with billing access — who need real spend controls, an audit trail, and human oversight without slowing the agent down.</p>
+<h2>Contact</h2>
+<p>Questions, security reports, or partnership requests: reach us on <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>.</p>"""
+
+PRIVACY_BODY = """<h1>Privacy Policy</h1>
+<p class="lead">Last updated: 2026. sipi.bot collects the minimum data needed to evaluate transactions and operate the service.</p>
+<h2>What we process</h2>
+<p>When your agent submits a transaction for evaluation, we process the transaction metadata you send (amount, merchant, category, timestamps) to apply your rules and write an audit record. We do not store card numbers or payment credentials — sipi.bot is a decision layer, not a payment processor.</p>
+<h2>Account data</h2>
+<p>If you subscribe, we store your email and billing status (via Stripe). Stripe processes payment details under its own privacy policy; we never see full card data.</p>
+<h2>Analytics</h2>
+<p>We use privacy-respecting product analytics (PostHog, EU region) to understand aggregate usage. You can block it with any standard tracker blocker.</p>
+<h2>Data retention & deletion</h2>
+<p>Audit logs are retained for your account's configured window. To request export or deletion of your data, contact us via <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>.</p>
+<h2>Self-hosting</h2>
+<p>If you self-host the open-source core, your transaction data never leaves your infrastructure and this policy does not apply to that deployment.</p>"""
+
+TERMS_BODY = """<h1>Terms of Service</h1>
+<p class="lead">Last updated: 2026. By using sipi.bot you agree to these terms.</p>
+<h2>The service</h2>
+<p>sipi.bot evaluates transactions your agent submits against rules you configure and returns a decision (approve, block, or flag). It is a decision and control layer; it does not itself move money.</p>
+<h2>Your responsibilities</h2>
+<p>You are responsible for the rules you configure and for how your agent acts on sipi.bot's decisions. You must not use sipi.bot to facilitate unlawful transactions.</p>
+<h2>Rule-integrity guarantee</h2>
+<p>If sipi.bot returns "approve" for a transaction that violated one of your active rules, that month's subscription is refunded. This guarantee covers rule-evaluation errors only, not losses from rules you did not configure or from acting against a "block"/"flag" decision.</p>
+<h2>Availability</h2>
+<p>We aim for high availability but provide the hosted service "as is" without warranty. For mission-critical deployments, the open-source core is self-hostable.</p>
+<h2>Changes</h2>
+<p>We may update these terms; material changes will be reflected by the "last updated" date above.</p>"""
 
 
 def dashboard_html() -> str:

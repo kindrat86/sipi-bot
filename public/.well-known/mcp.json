@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "2025-06-18",
+  "name": "sipi-bot-spend-firewall",
+  "description": "Spend firewall for autonomous AI agents: evaluate a transaction against your rules and get approve, block, or flag before any money moves.",
+  "vendor": "sipi.bot",
+  "homepage": "https://sipi.bot/",
+  "transport": { "type": "stdio", "command": "python", "args": ["-m", "spendfirewall.mcp_server"] },
+  "install": "pip install sipi-bot",
+  "tools": [
+    {
+      "name": "evaluate_transaction",
+      "description": "Given amount, merchant, and category, returns APPROVED, BLOCKED, or FLAGGED against the configured spend rules.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "amount": { "type": "number", "description": "Transaction amount in USD" },
+          "merchant": { "type": "string", "description": "Merchant or vendor name" },
+          "category": { "type": "string", "description": "Spend category, e.g. compute, saas, api" }
+        },
+        "required": ["amount", "merchant"]
+      }
+    }
+  ],
+  "documentation": "https://github.com/kindrat86/sipi-bot"
+}
