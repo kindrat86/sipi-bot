@@ -109,6 +109,16 @@ class Handler(BaseHTTPRequestHandler):
         self._send(code, json.dumps(obj).encode(), "application/json")
 
     def _html(self, html: str):
+    def _compressed(self, content):
+        """Return gzip-compressed bytes if client supports it."""
+        accept = self.headers.get('Accept-Encoding', '')
+        if 'gzip' in accept.lower():
+            import gzip
+            encoded = gzip.compress(content.encode())
+            self.send_header('Content-Encoding', 'gzip')
+            return encoded
+        return content.encode()
+
         self._send(200, html.encode(), "text/html; charset=utf-8")
 
     def _body(self) -> dict:
@@ -240,6 +250,8 @@ class Handler(BaseHTTPRequestHandler):
 
     def _sse(self):
         self.send_response(200)
+        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
         self.send_header("Content-Type", "text/event-stream")
         self.send_header("Cache-Control", "no-cache")
         self.send_header("Connection", "keep-alive")
