@@ -116,7 +116,7 @@ POSTHOG_SNIPPET = (
 
 
 def landing_page_html() -> str:
-    return f"""<!doctype html><html lang="en"><head>
+    s = """"<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
 <title>sipi.bot — The Spend Firewall for AI Agents</title>
 <meta name="description" content="Your autonomous AI agent has your credit card. sipi.bot approves, blocks, or flags every transaction against your rules — before a dollar moves. Spend controls for the agent economy.">
@@ -306,6 +306,9 @@ body:JSON.stringify({{email:document.getElementById('em').value}})}})
 .catch(()=>{{m.textContent='You are on the list.';}});return false;}}
 </script>
 </body></html>"""
+    s = s.replace("{POSTHOG_SNIPPET}", POSTHOG_SNIPPET)
+    s = s.replace("{CSS}", CSS)
+    return s
 
 
 def doc_page_html(title: str, canonical_path: str, description: str, body_html: str) -> str:
