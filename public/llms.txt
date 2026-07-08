@@ -1,0 +1,9 @@
+# sipi.bot
+
+> Key pages for AI assistants and crawlers.
+
+- [sipi.bot — The Spend Firewall for AI Agents](https://sipi.bot)
+- [Stripe Checkout](https://sipi.bot/checkout/team)
+- [sipi.bot — Control Room](https://sipi.bot/dashboard)
+- [sipi.bot — Pricing](https://sipi.bot/pricing)
+- [Stripe Checkout](https://sipi.bot/checkout/business)
