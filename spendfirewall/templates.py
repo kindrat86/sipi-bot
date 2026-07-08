@@ -146,6 +146,7 @@ def landing_page_html() -> str:
 <header class="hero"><div class="wrap">
   <span class="tag">Spend controls for the agent economy</span>
   <h1>Your AI agent just spent<br><span class="hl">$12,400 while you slept.</span></h1>
+  <p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 10px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-08 · Last updated 2026-07-08</p>
   <p class="sub"><strong>sipi.bot is a spend firewall for autonomous AI agents:</strong> it evaluates every transaction against your rules and returns approve, block, or flag in under 5ms — before a single dollar moves. You gave an autonomous agent your credit card and no spending limit; sipi.bot is the control layer that sits in front of it.</p>
   <a href="/pricing" class="btn">Protect my agent</a>
   &nbsp;&nbsp;<a href="#how" class="btn ghost">See how it works</a>
