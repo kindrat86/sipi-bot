@@ -22,3 +22,4 @@ integrations/verify_integrations.py
 .admin_token
 verify2.db
 integrations/verify_new_recipes.py
+.vercel

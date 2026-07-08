@@ -160,7 +160,38 @@ class Handler(BaseHTTPRequestHandler):
             return self._html(templates.key_success_html(rec))
         if path == "/v1/activity":
             return self._sse()
+        # Static files from public/ (sitemap.xml, robots.txt, llms.txt, pSEO
+        # pages written by the growth engine). Served last, before 404.
+        if self._serve_static(path):
+            return
         return self._json(404, {"error": "not_found"})
+
+    def _serve_static(self, path: str) -> bool:
+        """Serve a file from the public/ dir if it exists. Path-traversal safe."""
+        import mimetypes
+        root = os.environ.get("PUBLIC_DIR", os.path.join(os.getcwd(), "public"))
+        rel = path.lstrip("/") or "index.html"
+        if rel.endswith("/"):
+            rel += "index.html"
+        target = os.path.normpath(os.path.join(root, rel))
+        # containment check: must stay under root
+        if not target.startswith(os.path.abspath(root) + os.sep) and target != os.path.abspath(root):
+            return False
+        if not os.path.isfile(target):
+            # try /foo -> /foo/index.html (pSEO cluster pages)
+            alt = os.path.normpath(os.path.join(root, rel, "index.html"))
+            if os.path.isfile(alt):
+                target = alt
+            else:
+                return False
+        ctype = mimetypes.guess_type(target)[0] or "application/octet-stream"
+        try:
+            with open(target, "rb") as f:
+                data = f.read()
+        except OSError:
+            return False
+        self._send(200, data, ctype)
+        return True
 
     def _sse(self):
         self.send_response(200)
