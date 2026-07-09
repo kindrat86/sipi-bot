@@ -116,7 +116,7 @@ POSTHOG_SNIPPET = (
 
 
 def landing_page_html() -> str:
-    s = """"<!doctype html><html lang="en"><head>
+    s = """<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
 <title>sipi.bot — The Spend Firewall for AI Agents</title>
 <meta name="description" content="Your autonomous AI agent has your credit card. sipi.bot approves, blocks, or flags every transaction against your rules — before a dollar moves. Spend controls for the agent economy.">
@@ -131,13 +131,8 @@ def landing_page_html() -> str:
 <meta name="twitter:description" content="Approve, block, or flag every agent transaction before a dollar moves.">
 <meta name="twitter:image" content="https://sipi.bot/og.svg">
 <meta name="theme-color" content="#00d4aa">
-<script type="application/ld+json">{{"@context":"https://schema.org","@graph":[{{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","url":"https://sipi.bot/","description":"The spend firewall for autonomous AI agents.","sameAs":["https://github.com/kindrat86/sipi-bot"]}},{{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{{"@id":"https://sipi.bot/#org"}}}},{{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","offers":{{"@type":"Offer","price":"99","priceCurrency":"USD"}},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]}},{{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}}}},{{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}}}},{{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{{"@type":"Answer","text":"sipi.bot is a flat $99/month for unlimited transaction evaluations, with a free self-hostable core on GitHub. There is no per-call fee."}}}},{{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it."}}}}]}}]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","url":"https://sipi.bot/","description":"The spend firewall for autonomous AI agents.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Spend Firewall for AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-09"},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot is a flat $99/month for unlimited transaction evaluations, with a free self-hostable core on GitHub. There is no per-call fee."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it."}}]}]}</script>
 <style>{CSS}</style></head><body>
-    <!-- Traffic-Readiness JSON-LD org+website schema -->
-<script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","url":"https://sipi.bot","description":"The spend firewall for autonomous AI agents. Approve, block, or flag every transaction before a dollar moves.","sameAs":["https://github.com/kindrat86/sipi-bot", "https://pypi.org/project/sipi-bot/"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"SiteNavigationElement","name":["Home", "Dashboard", "About"],"url":["https://sipi.bot/", "https://sipi.bot/dashboard", "https://sipi.bot/about"]}]}
-</script>
-<!-- Traffic-Readiness JSON-LD org+website schema -->
 <nav><div class="wrap">
   <div class="brand">sipi<span class="dot">.bot</span></div>
   <div class="nav-links">
@@ -193,9 +188,9 @@ def landing_page_html() -> str:
 <span class="c"># Your agent asks before it spends</span><br>
 curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 &nbsp;&nbsp;-H <span class="s">"Authorization: Bearer ***"</span> \\<br>
-&nbsp;&nbsp;-d <span class="s">'{{"amount": 6200, "merchant": "unknown-gpu.ru", "category": "compute"}}'</span><br><br>
+&nbsp;&nbsp;-d <span class="s">'{"amount": 6200, "merchant": "unknown-gpu.ru", "category": "compute"}'</span><br><br>
 <span class="c"># sipi.bot answers in &lt;5ms</span><br>
-{{ <span class="k">"decision"</span>: <span class="s">"BLOCKED"</span>, <span class="k">"reason"</span>: <span class="s">"Merchant not on allowlist"</span> }}
+{ <span class="k">"decision"</span>: <span class="s">"BLOCKED"</span>, <span class="k">"reason"</span>: <span class="s">"Merchant not on allowlist"</span> }
   </div>
 
   <h2 class="mt40" style="margin-top:56px">The three decisions, defined</h2>
@@ -299,11 +294,11 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
   </div>
 </div></footer>
 <script>
-function sub(e){{e.preventDefault();var m=document.getElementById('msg');
-fetch('/subscribe',{{method:'POST',headers:{{'Content-Type':'application/json'}},
-body:JSON.stringify({{email:document.getElementById('em').value}})}})
-.then(r=>r.json()).then(d=>{{m.textContent=d.message||'You are on the list.';document.getElementById('em').value='';}})
-.catch(()=>{{m.textContent='You are on the list.';}});return false;}}
+function sub(e){e.preventDefault();var m=document.getElementById('msg');
+fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({email:document.getElementById('em').value})})
+.then(r=>r.json()).then(d=>{m.textContent=d.message||'You are on the list.';document.getElementById('em').value='';})
+.catch(()=>{m.textContent='You are on the list.';});return false;}
 </script>
 </body></html>"""
     s = s.replace("{POSTHOG_SNIPPET}", POSTHOG_SNIPPET)
