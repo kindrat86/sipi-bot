@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI agent spend control vs hardcoded budget check — sipi.bot</title>
+<meta name="description" content="Why a hardcoded `if amount &gt; X` check fails for autonomous agents. Compare hardcoded limits to a real spend firewall with velocity, daily caps, and human-approval paths.">
+<link rel="canonical" href="https://sipi.bot/vs/hardcoded-check/">
+<meta property="og:title" content="AI agent spend control vs hardcoded budget check — sipi.bot">
+<meta property="og:description" content="Why a hardcoded `if amount &gt; X` check fails for autonomous agents. Compare hardcoded limits to a real spend firewall with velocity, daily caps, and human-approval paths.">
+<meta property="og:type" content="article"><meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why not just set a spending limit on the credit card?", "acceptedAnswer": {"@type": "Answer", "text": "Card limits fire after the charge and block ALL spending, including legitimate purchases. sipi.bot decides before the spend, applies rules per merchant and category, and flags (instead of blocking) transactions that only need a human look."}}, {"@type": "Question", "name": "Can I combine a hardcoded check with sipi.bot?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Many teams use a per-tx limit in their tool code for the obvious case and sipi.bot for the compound cases \u2014 daily totals, velocity, merchant rules, time windows. They complement each other; sipi.bot catches what the hardcoded guard misses."}}, {"@type": "Question", "name": "How fast is the sipi.bot decision?", "acceptedAnswer": {"@type": "Answer", "text": "Under 5 millseconds on the hosted endpoint. The check is a single HTTP call your agent makes before the spend; it doesn't slow down the purchase path."}}]}</script>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#00d4aa;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px}
+nav{border-bottom:1px solid #23242a;position:sticky;top:0;background:rgba(10,10,10,.9);backdrop-filter:blur(10px);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+.brand{font-weight:700;font-size:18px}.brand .d{color:#00d4aa}
+.nav-links a{color:#8a8d96;margin-left:20px;font-size:14px}
+main{padding:52px 0}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:8px}
+.lead{font-size:19px;color:#8a8d96;margin-bottom:28px}
+h2{font-size:24px;margin:36px 0 12px;letter-spacing:-.01em}
+p{color:#c9ccd3;margin-bottom:14px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:20px}
+pre{background:#000;border:1px solid #23242a;border-radius:12px;padding:18px;overflow-x:auto;font-size:13.5px;line-height:1.5;color:#cfd2d8;margin:16px 0;font-family:'SF Mono',ui-monospace,Menlo,monospace}
+code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
+.card{background:#121316;border:1px solid #23242a;border-radius:14px;padding:20px;margin:16px 0}
+.cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:13px 24px;border-radius:10px;margin:8px 8px 8px 0}
+.cmp{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
+.cmp th,.cmp td{border:1px solid #23242a;padding:12px 14px;text-align:left}
+.cmp thead th{background:#121316;color:#e8e8ea;font-weight:700}
+.cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+.cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
+footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
+@media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
+</style></head><body>
+<nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
+<main><div class="wrap">
+<p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-09 · Last updated 2026-07-09</p>
+<span class="tag">Comparison</span>
+<h1>Hardcoded budget check vs a real spend firewall</h1>
+<p class="lead">Every developer's first instinct: an `if amount > 500` guard. It works until the agent retries 40 times in one minute, splits a purchase across calls, or hits a vendor you didn't block. Here's what a single-line check actually misses.</p>
+
+<h2>What the hardcoded check catches (and what it doesn't)</h2>
+<p>A per-transaction limit — say, blocking anything over $500 — catches exactly ONE case: a single large purchase. It doesn't prevent any of the following:</p>
+
+<table class="cmp"><thead><tr><th>Scenario</th><th>Hardcoded `if`</th><th>sipi.bot</th></tr></thead><tbody>
+<tr><td>Single purchase over $500</td><td style="color:#00d4aa">Caught ✓</td><td style="color:#00d4aa">Caught ✓</td></tr>
+<tr><td>40 small purchases ($40 each) in a retry loop</td><td style="color:#ff5470">Missed — $1,600 charged</td><td style="color:#00d4aa">Blocked — velocity rule stops at 11th</td></tr>
+<tr><td>Multiple agents sharing a budget, cumulative $2,100 over a day</td><td style="color:#ff5470">Missed — per-tx limit sees only $250 each</td><td style="color:#00d4aa">Blocked — daily total rule fires at $2,000</td></tr>
+<tr><td>Purchase from an unknown foreign vendor ($200)</td><td style="color:#ff5470">Missed — under per-tx limit</td><td style="color:#00d4aa">Blocked — merchant blocklist or allowlist</td></tr>
+<tr><td>Large compute spend at 3am local time</td><td style="color:#ff5470">Missed — amount is fine, time is not</td><td style="color:#00d4aa">Blocked or flagged — time-window rule</td></tr>
+<tr><td>Spend of $350 — legitimate but large enough to need a second pair of eyes</td><td style="color:#ff5470">Missed — goes through automatically</td><td style="color:#ffb020">Flagged for human review</td></tr>
+</tbody></table>
+
+<h2>The real cost: you're on call forever</h2>
+<p>A hardcoded check puts the burden on you to monitor, tune, and enforce limits across every agent, every merchant, and every time zone. sipi.bot centralizes the rules once, enforces them on every call, and gives you a tamper-evident audit log of exactly what was allowed and why. You stop being a firewall operator and start being the person who reads one approval notification in the morning.</p>
+<h2>When a hardcoded check is enough</h2>
+<p>If you have one agent, one merchant, 9-to-5 hours, and no risk of retry loops, a hardcoded check works fine. The moment you have any of: multiple agents, a vendor allowlist, cumulative caps, or 24-hour operation, you've already rebuilt sipi.bot — just without the test suite, the audit trail, and the 53-scenario eval gym.</p>
+<h2>Frequently asked</h2>
+<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Why not just set a spending limit on the credit card?</h3><p>Card limits fire after the charge and block ALL spending, including legitimate purchases. sipi.bot decides before the spend, applies rules per merchant and category, and flags (instead of blocking) transactions that only need a human look.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can I combine a hardcoded check with sipi.bot?</h3><p>Yes. Many teams use a per-tx limit in their tool code for the obvious case and sipi.bot for the compound cases — daily totals, velocity, merchant rules, time windows. They complement each other; sipi.bot catches what the hardcoded guard misses.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">How fast is the sipi.bot decision?</h3><p>Under 5 millseconds on the hosted endpoint. The check is a single HTTP call your agent makes before the spend; it doesn&#x27;t slow down the purchase path.</p></div>
+<p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
+<a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
+</div></main>
+<footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/vs/stripe-radar/">vs Stripe</a> · <a href="/alternatives/x402/">x402 alt</a> · <a href="/self-hosted/">self-host</a> · <a href="/">Home</a></div></footer>
+</body></html>
