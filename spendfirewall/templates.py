@@ -117,7 +117,7 @@ POSTHOG_SNIPPET = (
 
 def landing_page_html() -> str:
     s = """<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>sipi.bot — The Spend Firewall for AI Agents</title>
 <meta name="description" content="Your autonomous AI agent has your credit card. sipi.bot approves, blocks, or flags every transaction against your rules — before a dollar moves. Spend controls for the agent economy.">
 <link rel="canonical" href="https://sipi.bot/">
@@ -131,7 +131,7 @@ def landing_page_html() -> str:
 <meta name="twitter:description" content="Approve, block, or flag every agent transaction before a dollar moves.">
 <meta name="twitter:image" content="https://sipi.bot/og.svg">
 <meta name="theme-color" content="#00d4aa">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","url":"https://sipi.bot/","description":"The spend firewall for autonomous AI agents.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Spend Firewall for AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-09"},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot is a flat $99/month for unlimited transaction evaluations, with a free self-hostable core on GitHub. There is no per-call fee."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://***@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","url":"https://sipi.bot/","description":"The spend firewall for autonomous AI agents.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Spend Firewall for AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-09"},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your...
 <style>{CSS}</style></head><body>
 <nav><div class="wrap">
   <div class="brand">sipi<span class="dot">.bot</span></div>
@@ -301,7 +301,6 @@ body:JSON.stringify({email:document.getElementById('em').value})})
 .catch(()=>{m.textContent='You are on the list.';});return false;}
 </script>
 </body></html>"""
-    s = s.replace("{POSTHOG_SNIPPET}", POSTHOG_SNIPPET)
     s = s.replace("{CSS}", CSS)
     return s
 
@@ -309,7 +308,7 @@ body:JSON.stringify({email:document.getElementById('em').value})})
 def doc_page_html(title: str, canonical_path: str, description: str, body_html: str) -> str:
     """Reusable EEAT/content page (about, privacy, terms, contact)."""
     return f"""<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} — sipi.bot</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="https://sipi.bot{canonical_path}">
@@ -387,7 +386,7 @@ TERMS_BODY = """<h1>Terms of Service</h1>
 
 def dashboard_html() -> str:
     return f"""<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>sipi.bot — Control Room</title><style>{CSS}
 .tabs{{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto}}
 .tab{{padding:12px 18px;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent;white-space:nowrap}}
@@ -492,7 +491,7 @@ all();setInterval(loadStats,15000);
 
 def pricing_html() -> str:
     return f"""<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>sipi.bot — Pricing</title><style>{CSS}</style></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span></div>
 <div class="nav-links"><a href="/">Home</a><a href="/dashboard" class="btn">Dashboard</a></div></div></nav>
@@ -553,7 +552,7 @@ def key_success_html(rec) -> str:
     (the webhook is issuing it now). Still nothing after a minute? Email sales@sipiteno.com.</p>
     <a href="/pricing" class="btn ghost">Back to pricing</a>"""
     return f"""<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{POSTHOG_SNIPPET}
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>sipi.bot — Your API key</title><style>{CSS}</style></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span></div>
 <div class="nav-links"><a href="/">Home</a></div></div></nav>
