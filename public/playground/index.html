@@ -1,0 +1,132 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>sipi.bot Firewall Playground — Try it live, no signup</title>
+<meta name="description" content="Test the sipi.bot spend firewall in your browser right now. Enter a transaction and see APPROVED, BLOCKED, or FLAGGED instantly. No signup, no install.">
+<link rel="canonical" href="https://sipi.bot/playground/">
+<meta property="og:title" content="Try the sipi.bot Spend Firewall Live — Free Playground">
+<meta property="og:description" content="Enter a transaction and see the firewall's decision instantly. No signup, no install.">
+<meta property="og:type" content="website"><meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I try sipi.bot without signing up?","acceptedAnswer":{"@type":"Answer","text":"Yes. The playground lets you submit transactions to the live sipi.bot firewall and see APPROVED, BLOCKED, or FLAGGED decisions in real time. No account, no API key, no installation required."}},{"@type":"Question","name":"What are the default firewall rules?","acceptedAnswer":{"@type":"Answer","text":"The default policy blocks transactions over $500, blocks more than 10 transactions per hour, blocks once daily spend would exceed $2,000, and flags transactions of $200 or more for human approval."}},{"@type":"Question","name":"Does the playground use the real firewall?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every transaction you submit in the playground is evaluated by the same production sipi.bot firewall that paying customers use. The decisions are real, not simulated."}}]}</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#00d4aa;text-decoration:none}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+nav{border-bottom:1px solid #23242a;position:sticky;top:0;background:rgba(10,10,10,.92);backdrop-filter:blur(10px);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+.brand{font-weight:700;font-size:18px}.brand .d{color:#00d4aa}
+.nav-links a{color:#8a8d96;margin-left:20px;font-size:14px}
+main{padding:48px 0}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:18px}
+h1{font-size:clamp(26px,4.5vw,36px);margin-bottom:8px}
+.lead{font-size:18px;color:#8a8d96;margin-bottom:28px}
+h2{font-size:22px;margin:28px 0 10px}
+p{color:#c9ccd3;margin-bottom:12px}
+.form{background:#121316;border:1px solid #23242a;border-radius:16px;padding:24px;margin:20px 0}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.field label{font-size:14px;font-weight:600}
+.field input{background:#0a0a0a;border:1px solid #23242a;color:#e8e8ea;padding:12px 15px;border-radius:10px;font-size:16px}
+.field input:focus{outline:none;border-color:#00d4aa}
+.btn{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:13px 26px;border-radius:12px;border:none;cursor:pointer;font-size:16px;transition:transform .1s}
+.btn:hover{transform:translateY(-1px)}
+.result-card{border-radius:14px;padding:20px;margin:16px 0;font-size:18px;font-weight:700;display:none;align-items:center;gap:14px}
+.result-card.show{display:flex}
+.result-card.approved{background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.3);color:#00d4aa}
+.result-card.blocked{background:rgba(255,84,112,.1);border:1px solid rgba(255,84,112,.3);color:#ff5470}
+.result-card.flagged{background:rgba(255,176,32,.1);border:1px solid rgba(255,176,32,.3);color:#ffb020}
+.result-card .icon{font-size:28px}
+.result-card .detail{font-weight:400;font-size:14px;color:#8a8d96;margin-top:4px}
+.presets{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.preset{background:#121316;border:1px solid #23242a;border-radius:10px;padding:12px 14px;cursor:pointer;font-size:14px;color:#c9ccd3;transition:border-color .2s}
+.preset:hover{border-color:#00d4aa}
+.preset .amt{font-weight:700;color:#e8e8ea;font-size:16px}
+.rules-box{background:#0a0a0a;border:1px solid #23242a;border-radius:12px;padding:16px;margin:16px 0;font-size:14px}
+.rules-box code{color:#00d4aa;font-family:'SF Mono',monospace;font-size:13px}
+.code-out{background:#000;border:1px solid #23242a;border-radius:12px;padding:16px;font-size:13.5px;color:#cfd2d8;overflow-x:auto;font-family:'SF Mono',monospace;margin:12px 0}
+footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
+.cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:12px 22px;border-radius:10px;margin:8px 8px 8px 0}
+@media(max-width:640px){.presets{grid-template-columns:1fr}}
+</style></head><body>
+<nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div>
+<div class="nav-links"><a href="/tools/risk-calculator/">Risk Calculator</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
+<main><div class="wrap">
+<span class="tag">Live · No signup</span>
+<h1>Firewall Playground</h1>
+<p class="lead">Test the real sipi.bot firewall right here. Enter a transaction and get an instant APPROVED, BLOCKED, or FLAGGED decision. This is the live production endpoint — not a simulation.</p>
+
+<h2>Try a transaction</h2>
+<div class="form">
+<div class="field"><label>Amount (USD)</label><input type="number" id="pg-amt" value="350" step="10"></div>
+<div class="field"><label>Merchant</label><input type="text" id="pg-mer" value="aws.amazon.com"></div>
+<div class="field"><label>Category</label><input type="text" id="pg-cat" value="compute" placeholder="compute | api | ads | goods | travel"></div>
+<button class="btn" onclick="pgEval()">Evaluate transaction →</button>
+</div>
+
+<div class="result-card" id="pg-result">
+<span class="icon" id="pg-icon"></span>
+<div><div id="pg-decision"></div><div class="detail" id="pg-reason"></div></div>
+</div>
+
+<div class="code-out" id="pg-json">Result appears here…</div>
+
+<h2>Quick presets</h2>
+<div class="presets">
+<div class="preset" onclick="quick(5,'openai.com','api')"><div class="amt">$5 openai.com</div>Small API call — should pass</div>
+<div class="preset" onclick="quick(350,'aws.amazon.com','compute')"><div class="amt">$350 AWS</div>Mid-range — should flag</div>
+<div class="preset" onclick="quick(6200,'unknown-gpu.ru','compute')"><div class="amt">$6,200 sketchy</div>Large + bad merchant — should block</div>
+<div class="preset" onclick="quick(49,'google.com','ads')"><div class="amt">$49 Google Ads</div>Small ad spend — should pass</div>
+</div>
+
+<h2>Current default rules</h2>
+<div class="rules-box">
+<code>per_transaction</code>: max $500 → BLOCKED<br>
+<code>daily_total</code>: max $2,000 → BLOCKED<br>
+<code>velocity</code>: max 10 tx/hour → BLOCKED (runaway protection)<br>
+<code>approval_threshold</code>: ≥ $200 → FLAGGED for human review<br>
+<br>First BLOCK wins. FLAG is non-blocking. <a href="/dashboard">Edit rules on the dashboard →</a>
+</div>
+
+<p style="margin-top:24px">
+<a class="cta" href="/pricing">Get API key — $99/mo</a>
+<a class="cta" href="/for/langchain/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">LangChain integration</a>
+<a class="cta" href="/tools/risk-calculator/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Risk calculator</a>
+</p>
+</div></main>
+<footer><div class="wrap">
+<a href="/tools/">Tools</a> · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/">Home</a><br>
+sip<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents
+</div></footer>
+<script>
+function pgEval(){
+const amt=parseFloat(document.getElementById('pg-amt').value)||0;
+const mer=document.getElementById('pg-mer').value||'';
+const cat=document.getElementById('pg-cat').value||'';
+const body=JSON.stringify({amount:amt,merchant:mer,category:cat});
+const card=document.getElementById('pg-result');
+card.classList.remove('show');
+document.getElementById('pg-json').textContent='Evaluating…';
+fetch('/v1/transactions/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body})
+.then(r=>r.json()).then(d=>{
+document.getElementById('pg-json').textContent=JSON.stringify(d,null,2);
+const dec=d.decision;const icon={APPROVED:'✅',BLOCKED:'🛑',FLAGGED:'⚠️'}[dec]||'?';
+const cls=dec.toLowerCase();
+card.className='result-card show '+cls;
+document.getElementById('pg-icon').textContent=icon;
+document.getElementById('pg-decision').textContent=dec;
+document.getElementById('pg-reason').textContent=d.reason||'';
+}).catch(e=>{
+document.getElementById('pg-json').textContent='Error: '+e.message;
+card.className='result-card show blocked';
+document.getElementById('pg-icon').textContent='⚠️';
+document.getElementById('pg-decision').textContent='FETCH FAILED';
+document.getElementById('pg-reason').textContent=e.message;
+});
+}
+function quick(a,m,c){
+document.getElementById('pg-amt').value=a;
+document.getElementById('pg-mer').value=m;
+document.getElementById('pg-cat').value=c;
+pgEval();
+}
+</script>
+</body></html>

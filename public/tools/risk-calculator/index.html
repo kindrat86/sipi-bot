@@ -1,0 +1,177 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent Spend Risk Calculator — sipi.bot</title>
+<meta name="description" content="Free tool: calculate the financial risk of your autonomous AI agent's spending pattern. Get a personalized risk score and recommended guardrail rules. No signup required.">
+<link rel="canonical" href="https://sipi.bot/tools/risk-calculator/">
+<meta property="og:title" content="Agent Spend Risk Calculator — How much could your AI agent cost you?">
+<meta property="og:description" content="Free tool: calculate the financial risk of your autonomous AI agent's spending pattern. Get a personalized risk score and recommended guardrail rules.">
+<meta property="og:type" content="website"><meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is an AI agent spend risk calculator?","acceptedAnswer":{"@type":"Answer","text":"It is a free tool that estimates the financial risk of letting an autonomous AI agent spend money without guardrails. You input your agent's spending pattern and it outputs a risk score, worst-case scenarios, and recommended firewall rules."}},{"@type":"Question","name":"How does the spend risk calculator work?","acceptedAnswer":{"@type":"Answer","text":"You input your agent's average transaction amount, frequency, whether it runs 24/7, how many agents you deploy, and your monthly budget. The calculator models runaway scenarios, cumulative exposure, and velocity risk to produce a score from 0 (safe) to 100 (critical)."}},{"@type":"Question","name":"Is this calculator free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free, no signup. The calculator runs entirely in your browser. If the results concern you, sipi.bot offers a hosted spend firewall for $99/month or you can self-host the open-source core for free."}}]}</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#00d4aa;text-decoration:none}
+.wrap{max-width:840px;margin:0 auto;padding:0 22px}
+nav{border-bottom:1px solid #23242a;position:sticky;top:0;background:rgba(10,10,10,.92);backdrop-filter:blur(10px);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+.brand{font-weight:700;font-size:18px}.brand .d{color:#00d4aa}
+.nav-links a{color:#8a8d96;margin-left:20px;font-size:14px}
+main{padding:48px 0}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:18px}
+h1{font-size:clamp(26px,4.5vw,36px);line-height:1.1;margin-bottom:8px}
+.lead{font-size:18px;color:#8a8d96;margin-bottom:30px}
+h2{font-size:22px;margin:28px 0 10px}
+p{color:#c9ccd3;margin-bottom:12px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:14px;font-weight:600;color:#e8e8ea}
+.field .hint{font-size:12px;color:#8a8d96}
+.field input,.field select{background:#121316;border:1px solid #23242a;color:#e8e8ea;padding:11px 14px;border-radius:10px;font-size:15px}
+.field input:focus,.field select:focus{outline:none;border-color:#00d4aa}
+.btn{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;font-size:16px;transition:transform .1s;margin:8px 0}
+.btn:hover{transform:translateY(-1px)}
+.result{background:#121316;border:1px solid #23242a;border-radius:16px;padding:28px;margin:24px 0;display:none}
+.result.show{display:block}
+.score-ring{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:800;margin:0 auto 16px;position:relative}
+.score-ring svg{position:absolute;width:100%;height:100%;transform:rotate(-90deg)}
+.score-ring circle{fill:none;stroke-width:8;stroke-linecap:round}
+.score-ring .bg{stroke:#23242a}
+.score-ring .fg{stroke:var(--score-color,#00d4aa);transition:stroke-dashoffset .8s ease,stroke .3s}
+.score-label{text-align:center;font-size:15px;font-weight:600;margin-bottom:16px}
+.scenarios{margin:20px 0}
+.scenario{background:#0a0a0a;border:1px solid #23242a;border-radius:12px;padding:14px 16px;margin:8px 0;display:flex;justify-content:space-between;align-items:center}
+.scenario .label{font-size:14px;color:#c9ccd3}
+.scenario .amount{font-weight:700;font-size:16px}
+.rec-rules{margin:16px 0}
+.rec-rule{background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.2);border-radius:10px;padding:12px 14px;margin:8px 0;font-size:14px}
+.rec-rule code{background:#0a0a0a;padding:2px 7px;border-radius:5px;font-family:'SF Mono',monospace;font-size:13px;color:#00d4aa}
+.share-box{background:#0a0a0a;border:1px dashed #23242a;border-radius:10px;padding:14px;margin:16px 0;font-size:14px;color:#8a8d96}
+.share-box textarea{width:100%;background:transparent;border:none;color:#c9ccd3;font-size:13px;resize:none;margin-top:8px}
+footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
+.cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:12px 22px;border-radius:10px;margin:8px 8px 8px 0}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr}}
+</style></head><body>
+<nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div>
+<div class="nav-links"><a href="/playground/">Playground</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
+<main><div class="wrap">
+<span class="tag">Free tool · No signup</span>
+<h1>Agent Spend Risk Calculator</h1>
+<p class="lead">How much could your autonomous AI agent cost you in a worst-case scenario? Input your agent's spending pattern below and get a personalized risk score, worst-case cost projection, and recommended guardrail rules.</p>
+
+<div class="form-grid">
+<div class="field"><label>Average transaction amount</label>
+<span class="hint">What does one typical spend cost?</span>
+<input type="number" id="tx-amount" value="50" min="0" step="5"></div>
+<div class="field"><label>Transactions per hour</label>
+<span class="hint">How often does your agent spend?</span>
+<input type="number" id="tx-freq" value="3" min="0" step="1"></div>
+<div class="field"><label>Number of agents</label>
+<span class="hint">How many agents share the budget?</span>
+<input type="number" id="num-agents" value="1" min="1" step="1"></div>
+<div class="field"><label>Monthly budget ($)</label>
+<span class="hint">Your total monthly spend ceiling</span>
+<input type="number" id="monthly-budget" value="2000" min="0" step="100"></div>
+<div class="field"><label>Runs 24/7?</label>
+<span class="hint">Does your agent operate unsupervised at night?</span>
+<select id="runs-247"><option value="yes">Yes — unsupervised 24/7</option><option value="no">No — business hours only</option></select></div>
+<div class="field"><label>Has existing guardrails?</label>
+<span class="hint">Any spend controls in place?</span>
+<select id="has-controls"><option value="no">No guardrails</option><option value="hardcoded">Basic per-tx limit</option><option value="sipibot">sipi.bot firewall</option></select></div>
+</div>
+
+<button class="btn" onclick="calculate()">Calculate my risk →</button>
+
+<div class="result" id="result">
+<div class="score-ring" id="ring">
+<svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="ring-fg" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg>
+<span id="score-num">—</span>
+</div>
+<p class="score-label" id="score-label">—</p>
+
+<h2>Worst-case scenarios</h2>
+<div class="scenarios" id="scenarios"></div>
+
+<h2>Recommended guardrail rules</h2>
+<div class="rec-rules" id="recs"></div>
+
+<div class="share-box">
+<strong>Share your result:</strong>
+<textarea id="share-text" rows="3" readonly onclick="this.select()"></textarea>
+</div>
+
+<p><a class="cta" href="/pricing">Deploy these rules — $99/mo</a>
+<a class="cta" href="/self-hosted/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Self-host free</a>
+<a class="cta" href="/playground/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Try the firewall →</a></p>
+</div>
+</div></main>
+<footer><div class="wrap">
+<a href="/tools/">Tools</a> · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/">Home</a><br>
+sip<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents
+</div></footer>
+<script>
+function calculate(){
+const amt=parseFloat(document.getElementById('tx-amount').value)||0;
+const freq=parseFloat(document.getElementById('tx-freq').value)||0;
+const agents=parseInt(document.getElementById('num-agents').value)||1;
+const budget=parseFloat(document.getElementById('monthly-budget').value)||0;
+const r247=document.getElementById('runs-247').value==='yes';
+const controls=document.getElementById('has-controls').value;
+
+// Worst-case scenarios
+const hours=r247?24:10;
+const txPerDay=freq*hours*agents;
+const normalDaily=amt*freq*hours*agents;
+const runawayDaily=amt*Math.min(txPerDay*4,2000); // 4x burst cap
+const monthlyNormal=normalDaily*30;
+const monthlyWorst=runawayDaily*30;
+
+// Risk score (0-100)
+let risk=0;
+risk+=Math.min(30,monthlyWorst/budget*30); // budget exposure
+risk+=r247?20:5; // unsupervised time
+risk+=agents>1?15:5; // multi-agent compounding
+risk+=controls==='no'?25:controls==='hardcoded'?15:0; // no guardrails
+risk+=freq>5?10:freq>2?5:0; // high frequency
+risk=Math.min(100,Math.round(risk));
+
+const color=risk>=70?'#ff5470':risk>=40?'#ffb020':'#00d4aa';
+const label=risk>=70?'CRITICAL — deploy guardrails now':risk>=40?'ELEVATED — significant exposure':risk>=20?'MODERATE — some risk present':'LOW — well controlled';
+
+// Update UI
+document.getElementById('result').classList.add('show');
+document.getElementById('score-num').textContent=risk;
+document.getElementById('score-label').textContent=label;
+document.getElementById('ring').style.setProperty('--score-color',color);
+const offset=326.7-(326.7*risk/100);
+document.getElementById('ring-fg').style.strokeDashoffset=offset;
+document.getElementById('ring-fg').style.stroke=color;
+
+// Scenarios
+const fmt=n=>'$'+Math.round(n).toLocaleString();
+document.getElementById('scenarios').innerHTML=`
+<div class="scenario"><span class="label">Normal daily spend</span><span class="amount" style="color:#00d4aa">${fmt(normalDaily)}</span></div>
+<div class="scenario"><span class="label">Runaway loop (1 hour, 4x burst)</span><span class="amount" style="color:#ff5470">${fmt(amt*freq*4*agents)}</span></div>
+<div class="scenario"><span class="label">Monthly projected (normal)</span><span class="amount">${fmt(monthlyNormal)}</span></div>
+<div class="scenario"><span class="label">Monthly worst-case (unsupervised)</span><span class="amount" style="color:${monthlyWorst>budget*2?'#ff5470':'#ffb020'}">${fmt(monthlyWorst)}</span></div>
+<div class="scenario"><span class="label">Budget overshoot risk</span><span class="amount" style="color:${monthlyWorst>budget?'#ff5470':'#00d4aa'}">${monthlyWorst>budget?fmt(monthlyWorst-budget)+' over':'within budget'}</span></div>
+`;
+
+// Recommendations
+const cap500=Math.max(500,amt*3);
+const cap2000=Math.max(2000,budget/15);
+const vel=Math.max(10,freq*2);
+document.getElementById('recs').innerHTML=`
+<div class="rec-rule">✓ Per-transaction limit: <code>${'"max_amount": '+cap500}</code> — blocks any single spend over ${fmt(cap500)}</div>
+<div class="rec-rule">✓ Daily total cap: <code>${'"max_amount": '+cap2000}</code> — stops cumulative overspend at ${fmt(cap2000)}/day</div>
+<div class="rec-rule">✓ Velocity limit: <code>${'"max_count": '+vel+', "window_seconds": 3600}</code> — kills runaway loops after ${vel} tx/hour</div>
+${r247?'<div class="rec-rule">✓ Time window: <code>"start_hour": 7, "end_hour": 22</code> — block off-hours spending</div>':''}
+${controls==='no'?'<div class="rec-rule">⚠ No existing guardrails detected — deploy sipi.bot before going to production</div>':''}
+<div class="rec-rule">✓ Approval threshold: <code>"amount": '+Math.round(cap500*0.6)+'</code> — flag transactions over ${fmt(cap500*0.6)} for human review</div>
+`;
+
+// Share text
+const share=`My AI agent spend risk score: ${risk}/100 (${label}).\nWorst-case monthly exposure: ${fmt(monthlyWorst)} on a ${fmt(budget)}/mo budget.\nCalculate yours: https://sipi.bot/tools/risk-calculator/`;
+document.getElementById('share-text').value=share;
+}
+</script>
+</body></html>
