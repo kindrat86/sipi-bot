@@ -75,7 +75,7 @@ def agent_card() -> dict:
 
 
 class Handler(BaseHTTPRequestHandler):
-    protocol_version = "HTTP/1.1"
+    protocol_version = "HTTP/1.0"
 
     def log_message(self, *a):  # quieter logs
         pass
