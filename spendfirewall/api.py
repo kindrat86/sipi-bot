@@ -93,10 +93,12 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("X-Frame-Options", "SAMEORIGIN")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
         self.send_header("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
+        self.close_connection = True
         self.end_headers()
         if getattr(self, "_head_only", False):
             return
         self.wfile.write(body)
+        self.wfile.flush()
 
     def do_HEAD(self):
         """Mirror do_GET but suppress the body (fixes 501-on-HEAD; crawlers/audits use HEAD)."""
