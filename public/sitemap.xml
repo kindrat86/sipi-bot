@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://sipi.bot</loc></url>
-  <url><loc>https://sipi.bot/pricing</loc></url>
-  <url><loc>https://sipi.bot/dashboard</loc></url>
-  <url><loc>https://sipi.bot/for/</loc></url>
-  <url><loc>https://sipi.bot/for/langchain/</loc></url>
-  <url><loc>https://sipi.bot/for/crewai/</loc></url>
-  <url><loc>https://sipi.bot/for/openai-agents/</loc></url>
-  <url><loc>https://sipi.bot/for/vercel-ai-sdk/</loc></url>
-  <url><loc>https://sipi.bot/vs/hardcoded-check/</loc></url>
-  <url><loc>https://sipi.bot/vs/stripe-radar/</loc></url>
-  <url><loc>https://sipi.bot/alternatives/x402/</loc></url>
-  <url><loc>https://sipi.bot/self-hosted/</loc></url>
-  <url><loc>https://sipi.bot/tools/</loc></url>
-  <url><loc>https://sipi.bot/tools/risk-calculator/</loc></url>
-  <url><loc>https://sipi.bot/playground/</loc></url>
-  <url><loc>https://sipi.bot/about</loc></url>
+  <url><loc>https://sipi.bot</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/pricing</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/dashboard</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/for/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/for/langchain/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/for/crewai/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/for/openai-agents/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/for/vercel-ai-sdk/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/vs/hardcoded-check/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/vs/stripe-radar/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/alternatives/x402/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/self-hosted/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/tools/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/tools/risk-calculator/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/playground/</loc><lastmod>2026-07-17</lastmod></url>
+  <url><loc>https://sipi.bot/about</loc><lastmod>2026-07-17</lastmod></url>
 </urlset>
