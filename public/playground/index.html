@@ -53,6 +53,7 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <span class="tag">Live · No signup</span>
 <h1>Firewall Playground</h1>
 <p class="lead">Test the real sipi.bot firewall right here. Enter a transaction and get an instant APPROVED, BLOCKED, or FLAGGED decision. This is the live production endpoint — not a simulation.</p>
+<p style="color:#8a8d96;font-size:14px;margin:-16px 0 24px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-13 · Last updated 2026-07-17</p>
 
 <h2>Try a transaction</h2>
 <div class="form">
@@ -85,6 +86,11 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <code>approval_threshold</code>: ≥ $200 → FLAGGED for human review<br>
 <br>First BLOCK wins. FLAG is non-blocking. <a href="/dashboard">Edit rules on the dashboard →</a>
 </div>
+
+<h2 style="margin-top:36px">What happens when you click evaluate</h2>
+<p style="color:#c9ccd3;margin-bottom:14px">Your test transaction is POSTed to <code>/v1/transactions/evaluate</code> — the exact endpoint agents in production call before they spend. The rules engine walks your active rules in priority order: the first BLOCKED rule ends the evaluation immediately, while FLAGGED rules are recorded without stopping it, so a transaction can be flagged for review and still go through.</p>
+<p style="color:#c9ccd3;margin-bottom:14px">Every rule that fired comes back in the response, along with a plain-English reason like "Transaction $6,200.00 exceeds per-transaction limit $500.00".</p>
+<p style="color:#c9ccd3;margin-bottom:14px">The engine is deterministic — pure rule logic, no ML inference — which is why its decisions are reproducible: the public eval suite replays 53 labeled spend scenarios across nine categories — clean approvals, human-review flags, edge cases, and every blocking rule type — and the engine currently passes 53 of 53. The same engine ships in the MIT-licensed <a href="/self-hosted/">self-hosted core</a>, wires into <a href="/for/">LangChain, CrewAI, OpenAI Agents SDK, and Vercel AI SDK</a>, and runs hosted for a flat <a href="/pricing">$99/month</a>. Not sure which limits to set? Start from the <a href="/tools/risk-calculator/">risk calculator</a>'s recommended rules.</p>
 
 <p style="margin-top:24px">
 <a class="cta" href="/pricing">Get API key — $99/mo</a>

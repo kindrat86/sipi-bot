@@ -57,6 +57,7 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <span class="tag">Free tool · No signup</span>
 <h1>Agent Spend Risk Calculator</h1>
 <p class="lead">How much could your autonomous AI agent cost you in a worst-case scenario? Input your agent's spending pattern below and get a personalized risk score, worst-case cost projection, and recommended guardrail rules.</p>
+<p style="color:#8a8d96;font-size:14px;margin:-18px 0 26px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-13 · Last updated 2026-07-17</p>
 
 <div class="form-grid">
 <div class="field"><label>Average transaction amount</label>
@@ -102,6 +103,11 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <p><a class="cta" href="/pricing">Deploy these rules — $99/mo</a>
 <a class="cta" href="/self-hosted/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Self-host free</a>
 <a class="cta" href="/playground/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Try the firewall →</a></p>
+
+<h2 style="font-size:22px;margin:40px 0 10px">How the score is calculated</h2>
+<p style="color:#c9ccd3;margin-bottom:14px">The risk score is a 0–100 sum of five weighted factors, computed entirely in your browser: budget exposure (up to 30 points, from how far your worst-case month overshoots your budget), unsupervised 24/7 operation (20 points), multi-agent compounding (15 points), missing guardrails (25 points if you have none, 15 if you only have a hardcoded check), and high transaction frequency (up to 10 points). 70 or above is rated critical, 40–69 elevated.</p>
+<p style="color:#c9ccd3;margin-bottom:14px">The worst-case projection models the failure mode that actually empties budgets: a runaway retry loop. It assumes a 4× transaction burst, capped at 2,000 transactions per day, sustained across your unsupervised hours — 24 per day if your agent runs around the clock, 10 if it works business hours. Your inputs never leave the page; nothing you type is sent to a server.</p>
+<p style="color:#c9ccd3;margin-bottom:14px">The recommended rules map one-to-one onto sipi.bot's rule types — per-transaction limit, daily total cap, velocity limit, time window, and approval threshold — so you can paste them straight into the <a href="/dashboard">dashboard rule editor</a> or test them first in the <a href="/playground/">live playground</a>. See how they behave against a <a href="/vs/hardcoded-check/">plain hardcoded budget check</a>.</p>
 </div>
 </div></main>
 <footer><div class="wrap">

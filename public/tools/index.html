@@ -29,6 +29,7 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <main><div class="wrap">
 <h1>Free tools for the agent economy</h1>
 <p class="lead">Interactive tools to assess and test your AI agent's spending. No signup, no install.</p>
+<p style="color:#8a8d96;font-size:14px;margin-bottom:22px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-13 · Last updated 2026-07-17</p>
 <div class="tool-grid">
 <div class="tool"><span class="tag">Interactive</span>
 <h2><a href="/tools/risk-calculator/">Agent Spend Risk Calculator →</a></h2>
@@ -39,6 +40,10 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <p>Test the real sipi.bot firewall live. Enter a transaction and see APPROVED, BLOCKED, or FLAGGED instantly. No API key needed.</p>
 </div>
 </div>
+<h2 style="font-size:22px;margin:36px 0 10px">Why these tools are free</h2>
+<p style="color:#c9ccd3;margin-bottom:14px">Both tools answer the two questions every team asks before putting a spend firewall in front of an autonomous agent. The <a href="/tools/risk-calculator/">risk calculator</a> answers "how bad could it get?" — it takes your average transaction size, transaction rate, agent count, and monthly budget, and projects what a runaway retry loop or an unsupervised overnight session could cost. It runs entirely in your browser; nothing you type is sent to a server.</p>
+<p style="color:#c9ccd3;margin-bottom:14px">The <a href="/playground/">playground</a> answers "what would the firewall actually do?" — it sends your test transaction to the same production <code>/v1/transactions/evaluate</code> endpoint that paying customers call, and shows the real APPROVED, BLOCKED, or FLAGGED decision with the rule that produced it. The engine behind that endpoint is deterministic and passes a public eval suite of 53 labeled spend scenarios (53/53).</p>
+<p style="color:#c9ccd3;margin-bottom:14px">When you're ready to wire the firewall into your own stack, the <a href="/for/">framework integrations</a> cover LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK with a client of just a few lines, the core is MIT-licensed and <a href="/self-hosted/">free to self-host</a> on your own hardware, and the hosted service is a flat <a href="/pricing">$99/month</a> with no per-call fees and no metering.</p>
 </div></main>
 <footer><div class="wrap">
 <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/">Home</a><br>

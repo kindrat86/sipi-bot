@@ -470,6 +470,14 @@ input,select{{background:var(--panel2);border:1px solid var(--line);color:var(--
     </div>
     <div class="codebox mono mt24" id="t-out">Result appears here…</div>
   </div></div>
+
+  <div style="margin-top:56px;border-top:1px solid var(--line);padding-top:32px">
+    <h2 style="font-size:22px;margin-bottom:10px">What the control room shows</h2>
+    <p style="color:var(--mut);margin-bottom:14px">This is the live operations view of your spend firewall. The four counters at the top — dollars approved today, dollars blocked today, pending approvals, and active agents — refresh every 15 seconds, and the activity feed updates in real time over a server-sent-events stream, so a blocked transaction appears here the moment it happens.</p>
+    <p style="color:var(--mut);margin-bottom:14px"><strong style="color:var(--txt)">Live activity</strong> lists every evaluation with its amount, decision badge, merchant, and the exact rule that produced the decision. <strong style="color:var(--txt)">Approvals</strong> is the human-in-the-loop queue: transactions that crossed your approval threshold wait here until you approve or deny them. <strong style="color:var(--txt)">Rules</strong> is the policy editor with all seven rule types — per-transaction caps, daily totals, velocity limits, merchant block and allow lists, category limits, and approval thresholds — each with its own parameters, action, and priority. <strong style="color:var(--txt)">Agents</strong> registers a named agent and issues its API key.</p>
+    <p style="color:var(--mut);margin-bottom:14px">The <strong style="color:var(--txt)">Test API</strong> tab sends a real request to the same <span class="mono">/v1/transactions/evaluate</span> endpoint your agents call, so you can watch a $750 purchase from an unknown merchant get blocked, then see the decision land in the feed and the audit log. Prefer a guided demo? The <a href="/playground/">public playground</a> runs the same endpoint with preset scenarios, and the <a href="/for/">framework integrations</a> show the five-line client for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK.</p>
+    <p style="color:var(--mut)">Every decision shown here is also written to a tamper-evident audit log, and the engine behind it passes a public eval suite of 53 labeled spend scenarios (53/53). Hosting is a flat <a href="/pricing">$99/month</a>; the same dashboard ships in the MIT-licensed <a href="/self-hosted/">self-hosted core</a>.</p>
+  </div>
 </div>
 <script>
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{{
