@@ -284,6 +284,13 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <a href="/for/openai-agents/">OpenAI Agents SDK</a> · <a href="/for/vercel-ai-sdk/">Vercel AI SDK</a> ·
     <a href="/for/">all integrations →</a>
   </div>
+  <div style="margin-bottom:16px;font-size:13px;line-height:2">
+    <strong style="color:var(--txt)">Compare & alternatives:</strong>
+    <a href="/vs/hardcoded-check/">vs hardcoded budget check</a> ·
+    <a href="/vs/stripe-radar/">vs Stripe Radar</a> ·
+    <a href="/alternatives/x402/">x402 alternative</a> ·
+    <a href="/self-hosted/">self-hosted / open source</a>
+  </div>
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
   <a href="/dashboard">Dashboard</a> · <a href="/eval">Eval report</a> · <a href="/health">Status</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
   <div style="margin-top:14px;color:var(--mut);font-size:13px">Find us where builders are:
