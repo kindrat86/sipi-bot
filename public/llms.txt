@@ -17,7 +17,8 @@ as an MCP tool, an HTTP API, and a CLI. Open-source core (MIT), free to self-hos
 - Home: https://sipi.bot
 - Dashboard (live decisions, approvals, rules): https://sipi.bot/dashboard
 - Pricing (Team $99/mo, Business $499/mo): https://sipi.bot/pricing
-- Eval report (53/53 scenarios): https://sipi.bot/eval
+- Eval report JSON (53/53 scenarios): https://sipi.bot/eval
+- Eval report, human-readable: https://sipi.bot/eval-report/
 - Agent card: https://sipi.bot/.well-known/agent-card.json
 - Source: https://github.com/kindrat86/sipi-bot
 

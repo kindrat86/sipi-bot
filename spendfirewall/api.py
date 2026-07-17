@@ -80,9 +80,12 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, *a):  # quieter logs
         pass
 
-    def _send(self, code: int, body: bytes, ctype="application/json"):
+    def _send(self, code: int, body: bytes, ctype="application/json", noindex=False):
         self.send_response(code)
         self.send_header("Content-Type", ctype)
+        if noindex:
+            # Machine endpoints (JSON) should not appear in search indexes.
+            self.send_header("X-Robots-Tag", "noindex")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Connection", "close")
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -108,8 +111,8 @@ class Handler(BaseHTTPRequestHandler):
         finally:
             self._head_only = False
 
-    def _json(self, code, obj):
-        self._send(code, json.dumps(obj).encode(), "application/json")
+    def _json(self, code, obj, noindex=False):
+        self._send(code, json.dumps(obj).encode(), "application/json", noindex=noindex)
 
     def _html(self, html: str):
         self.send_response(200)
@@ -159,7 +162,8 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/dashboard":
             return self._html(templates.dashboard_html())
         if path == "/health":
-            return self._json(200, {"ok": True, "service": "sipi.bot", "version": __version__})
+            return self._json(200, {"ok": True, "service": "sipi.bot", "version": __version__},
+                              noindex=True)
         if path == "/BingSiteAuth.xml":
             xml = ('<?xml version="1.0"?>\n<users>\n\t<user>'
                    'FA4E122745948F0CAD16959F59DDCB85</user>\n</users>')
@@ -169,9 +173,10 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/eval":
             if os.path.exists(_EVAL_REPORT_PATH):
                 with open(_EVAL_REPORT_PATH) as f:
-                    return self._json(200, json.load(f))
+                    return self._json(200, json.load(f), noindex=True)
             return self._json(200, {"status": "not_run_yet",
-                                    "hint": "run: python -m spendfirewall.eval.run_eval"})
+                                    "hint": "run: python -m spendfirewall.eval.run_eval"},
+                              noindex=True)
         if path == "/api/stats":
             return self._json(200, core.status())
         if path == "/api/transactions":

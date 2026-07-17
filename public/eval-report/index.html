@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Decision-engine eval report: 53/53 scenarios — sipi.bot</title>
+<meta name="description" content="sipi.bot's spend-firewall engine passes 53 of 53 labeled eval scenarios across 9 categories — approvals, flags, blocks, and edge cases. Full methodology and how to reproduce it yourself.">
+<link rel="canonical" href="https://sipi.bot/eval-report/">
+<meta property="og:title" content="Decision-engine eval report: 53/53 scenarios — sipi.bot">
+<meta property="og:description" content="The spend firewall's public eval: 53 labeled scenarios, 9 categories, 100% passing. Reproducible from the open-source repo.">
+<meta property="og:type" content="article"><meta property="og:url" content="https://sipi.bot/eval-report/"><meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"sipi.bot decision-engine eval report","url":"https://sipi.bot/eval-report/","description":"Public eval of the sipi.bot spend-firewall engine: 53 labeled scenarios across 9 categories, 53 passing.","datePublished":"2026-07-17","dateModified":"2026-07-17","author":{"@type":"Organization","name":"sipi.bot"},"isPartOf":{"@type":"WebSite","name":"sipi.bot","url":"https://sipi.bot/"}}</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif}
+a{color:#00d4aa;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+nav{border-bottom:1px solid #23242a;position:sticky;top:0;background:rgba(10,10,10,.92);backdrop-filter:blur(10px);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+.brand{font-weight:700;font-size:18px}.brand .d{color:#00d4aa}
+.nav-links a{color:#8a8d96;margin-left:20px;font-size:14px}
+main{padding:48px 0}h1{font-size:clamp(26px,4.5vw,36px);margin-bottom:10px;letter-spacing:-.02em}
+h2{font-size:22px;margin:34px 0 10px}
+p{color:#c9ccd3;margin-bottom:14px}
+.lead{font-size:18px;color:#8a8d96}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:18px}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:16px 0}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid #23242a}
+th{color:#8a8d96;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+code{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:13.5px;background:#121316;border:1px solid #23242a;border-radius:6px;padding:2px 6px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.kpi{background:#121316;border:1px solid #23242a;border-radius:12px;padding:16px;text-align:center}
+.kpi .n{font-size:26px;font-weight:800;color:#00d4aa}.kpi .l{font-size:12px;color:#8a8d96}
+.cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:13px 24px;border-radius:10px;margin:8px 8px 8px 0}
+footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
+@media(max-width:560px){.kpis{grid-template-columns:1fr}}
+</style><script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head><body>
+<nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div>
+<div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
+<main><div class="wrap">
+<span class="tag">Public eval</span>
+<h1>Decision-engine eval report: 53/53 scenarios passing</h1>
+<p class="lead"><strong>TL;DR:</strong> sipi.bot's spend-firewall engine is tested against 53 labeled spend scenarios across 9 categories — clean approvals, human-review flags, every blocking rule type, and boundary edge cases. In the current report all 53 pass, and you can reproduce the run yourself from the open-source repo.</p>
+<p style="color:#8a8d96;font-size:14px"><span rel="author">By the sipi.bot engineering team</span> · Report generated 2026-07-07 · Page published 2026-07-17</p>
+<div class="kpis">
+<div class="kpi"><div class="n">53/53</div><div class="l">scenarios passing</div></div>
+<div class="kpi"><div class="n">9</div><div class="l">scenario categories</div></div>
+<div class="kpi"><div class="n">100%</div><div class="l">decision accuracy</div></div>
+</div>
+<h2>Why we publish an eval for a rules engine</h2>
+<p>A spend firewall only earns trust if its decisions are predictable. sipi.bot's engine is deterministic — pure rule logic, no ML inference — so the correct way to verify it is to replay labeled scenarios and check every decision. Each scenario defines a transaction (amount, merchant, category, timing) and the decision the engine must return under a reference rule set: <code>APPROVED</code>, <code>BLOCKED</code>, or <code>FLAGGED</code>.</p>
+<h2>Results by category</h2>
+<table>
+<thead><tr><th>Category</th><th>What it tests</th><th>Pass</th></tr></thead>
+<tbody>
+<tr><td>clean_approval</td><td>Legitimate spends that must pass untouched</td><td>7/7</td></tr>
+<tr><td>approval_flag</td><td>Spends that must route to the human approval queue</td><td>7/7</td></tr>
+<tr><td>edge_case</td><td>Boundary values — exactly at a limit, one cent over, zero-dollar auth checks</td><td>11/11</td></tr>
+<tr><td>per_tx_block</td><td>Single transactions over the per-transaction cap</td><td>5/5</td></tr>
+<tr><td>daily_limit</td><td>Cumulative spend crossing the daily total cap</td><td>4/4</td></tr>
+<tr><td>velocity</td><td>Runaway retry loops tripping the rate limit</td><td>5/5</td></tr>
+<tr><td>merchant_block</td><td>Blocklisted and non-allowlisted merchants</td><td>7/7</td></tr>
+<tr><td>category_limit</td><td>Spends exceeding a per-category limit</td><td>4/4</td></tr>
+<tr><td>time_window</td><td>Transactions outside allowed spend hours</td><td>3/3</td></tr>
+</tbody>
+</table>
+<p>The edge-case category is the largest on purpose. Scenarios like "exactly at per-tx limit (allowed)", "one cent over per-tx limit", and "zero-dollar auth check" pin down the boundary behaviour that a hand-rolled <a href="/vs/hardcoded-check/">hardcoded budget check</a> typically gets wrong, and they are exactly where an agent's retry logic tends to probe.</p>
+<h2>How to reproduce this report</h2>
+<p>The eval suite ships in the MIT-licensed repo, so you do not have to take this page's word for it. Clone <a href="https://github.com/kindrat86/sipi-bot" rel="noopener">the repository</a>, install it, and run <code>python -m spendfirewall.eval.run_eval</code> — the runner replays all 53 scenarios against the engine and writes the same JSON report the hosted service exposes at <code>https://sipi.bot/eval</code>. If any scenario fails, the run says so loudly.</p>
+<p>Want to poke the engine by hand instead? The <a href="/playground/">live playground</a> sends real transactions to the production endpoint with no API key, and the <a href="/dashboard">dashboard</a> shows every decision landing in the audit log. The same engine wires into <a href="/for/">LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK</a>, can be <a href="/self-hosted/">self-hosted for free</a>, or runs hosted at a flat <a href="/pricing">$99/month</a>.</p>
+<p><a class="cta" href="/playground/">Try the live engine →</a>
+<a class="cta" href="/self-hosted/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Self-host it free</a></p>
+</div></main>
+<footer><div class="wrap">
+<a href="/tools/">Tools</a> · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/">Home</a><br>
+sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents
+</div></footer>
+</body></html>
