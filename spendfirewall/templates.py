@@ -400,7 +400,7 @@ def dashboard_html() -> str:
 <link rel="canonical" href="https://sipi.bot/dashboard">
 <meta property="og:title" content="sipi.bot Control Room — Live agent spend monitoring">
 <meta property="og:description" content="Real-time transaction feed, approval queue, rule editor, and agent management for your spend firewall.">
-<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/dashboard"><meta property="og:image" content="https://sipi.bot/og.svg"><meta name="robots" content="noindex, follow"><meta name="theme-color" content="#00d4aa">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/dashboard"><meta property="og:image" content="https://sipi.bot/og.svg"><meta name="robots" content="index, follow"><meta name="theme-color" content="#00d4aa">
 <style>{CSS}
 .tabs{{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto}}
 .tab{{padding:12px 18px;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent;white-space:nowrap}}
