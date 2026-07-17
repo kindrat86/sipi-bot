@@ -119,7 +119,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "DENY")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://eu.i.posthog.com https://eu.posthog.com https://checkout.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://sipi.bot; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
+        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
         self.end_headers()
         self.wfile.write(html.encode())
@@ -210,6 +210,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send_response(302)
             self.send_header("Location", url)
             self.send_header("Content-Length", "0")
+            self.send_header("X-Robots-Tag", "noindex, nofollow")
             self.end_headers()
             return
         if path.startswith("/keys/"):
@@ -253,7 +254,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def _sse(self):
         self.send_response(200)
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://eu.i.posthog.com https://eu.posthog.com https://checkout.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://sipi.bot; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
+        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
         self.send_header("Content-Type", "text/event-stream")
         self.send_header("Cache-Control", "no-cache")
