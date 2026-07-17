@@ -543,6 +543,48 @@ def pricing_html() -> str:
   <p class="mono" style="color:var(--mut);font-size:13px;margin-top:26px">
     Free forever: self-host the open-source core. &nbsp;•&nbsp; <a href="/">← back</a>
   </p>
+
+  <div style="max-width:820px;margin:60px auto 0;text-align:left">
+    <h2 style="font-size:clamp(22px,3.5vw,30px);text-align:center;margin-bottom:8px">What you're paying for, line by line</h2>
+    <p class="sub" style="text-align:center;margin-bottom:30px">No per-call fees. No usage tiers. No surprise invoices when your agent fleet grows.</p>
+    <table class="cmp">
+      <thead><tr><th>Capability</th><th>Self-host (free)</th><th>Team $99/mo</th><th>Business $499/mo</th></tr></thead>
+      <tbody>
+        <tr><td>Transaction evaluations</td><td>Unlimited</td><td>Unlimited</td><td>Unlimited</td></tr>
+        <tr><td>Rule types (per-tx, daily, velocity, merchant, category, time)</td><td>✓ All</td><td>✓ All</td><td>✓ All + custom</td></tr>
+        <tr><td>Human-in-the-loop approval queue</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Tamper-evident audit log</td><td>✓</td><td>✓ Persistent</td><td>✓ Persistent + export</td></tr>
+        <tr><td>MCP tool, HTTP API, CLI</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Hosted dashboard + uptime SLA</td><td>—</td><td>✓</td><td>✓ Priority</td></tr>
+        <tr><td>Managed spend policy (we write your rules)</td><td>—</td><td>—</td><td>✓</td></tr>
+        <tr><td>Compliance reporting + webhook/Slack alerts</td><td>—</td><td>—</td><td>✓</td></tr>
+        <tr><td>Rule-integrity guarantee</td><td>—</td><td>✓ Month free</td><td>✓ Month free</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="max-width:760px;margin:60px auto 0" id="faq">
+    <h2 style="font-size:clamp(22px,3.5vw,30px);text-align:center;margin-bottom:8px">Pricing FAQ</h2>
+    <p class="author" style="text-align:center;color:#8a8d96;font-size:14px;margin-bottom:30px"><span rel="author">By the sipi.bot engineering team</span> · Last updated 2026-07-17</p>
+    <div class="faq">
+      <details><summary>Is there a free plan?</summary><p>Yes. The entire open-source core is MIT-licensed and free to self-host forever — full policy engine, dashboard, audit trail, MCP tool, HTTP API, and CLI. The hosted plans add managed infrastructure, persistent log retention, and support.</p></details>
+      <details><summary>What counts as a "transaction evaluation"?</summary><p>One call to the <code>/v1/transactions/evaluate</code> endpoint — your agent asking "should I spend $X at merchant Y?" Each plan includes unlimited evaluations. There is no per-call fee, no metering, no overage charge.</p></details>
+      <details><summary>What is the rule-integrity guarantee?</summary><p>If sipi.bot returns "approve" for a transaction that violated one of your active rules, that month's subscription is refunded. The guarantee covers rule-evaluation engine errors, not losses from rules you didn't configure or from acting against a block/flag decision.</p></details>
+      <details><summary>Can I switch between Team and Business?</summary><p>Yes, at any time from the dashboard. Upgrades are prorated immediately; downgrades take effect at the next billing cycle. No contracts, cancel anytime.</p></details>
+      <details><summary>Do you offer annual billing or a startup discount?</summary><p>Annual billing (two months free) is available on both plans. For early-stage teams (pre-seed or open-source projects), reach out on <a href="https://github.com/kindrat86/sipi-bot">GitHub</a> — we offer free hosted Business seats.</p></details>
+      <details><summary>How fast is a transaction evaluation?</summary><p>Under 5 milliseconds on the hosted endpoint. The firewall runs a deterministic rules engine over SQLite — no ML inference, no network hops — so the latency is bounded and predictable even under burst load.</p></details>
+    </div>
+  </div>
+
+  <div style="max-width:760px;margin:60px auto 0;text-align:center" id="eeat">
+    <p class="mono" style="color:var(--mut);font-size:13px;margin-bottom:16px">Why trust sipi.bot with your agent's spending</p>
+    <div class="grid2" style="text-align:left">
+      <div class="card"><h3>Deterministic, not probabilistic</h3><p>The rules engine is pure logic — no ML guessing. If a rule says block at $500, every $501 transaction is blocked, every time, with a reason you can audit.</p></div>
+      <div class="card"><h3>Open source, auditable core</h3><p>The exact code running the hosted service is on <a href="https://github.com/kindrat86/sipi-bot">GitHub</a> (MIT). You can read every rule-evaluation path and self-host the same engine.</p></div>
+      <div class="card"><h3>Tamper-evident audit log</h3><p>Every decision is written to an append-only SQLite ledger with a content hash chain. You can verify the log hasn't been altered after the fact.</p></div>
+      <div class="card"><h3>&lt;5ms latency</h3><p>One HTTP call before the spend, under 5ms. The firewall doesn't slow down your agent's purchase path — it's faster than the payment API that follows.</p></div>
+    </div>
+  </div>
   </div>
 </section></body></html>"""
 
