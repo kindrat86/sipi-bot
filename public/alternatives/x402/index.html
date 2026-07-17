@@ -32,13 +32,15 @@ code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
 .cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 @media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
-</style></head><body>
+</style><script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap">
-<p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-09 · Last updated 2026-07-09</p>
 <span class="tag">Alternative</span>
 <h1>Spend limits before x402 payments: sipi.bot as an agent-first guardrail</h1>
 <p class="lead">x402 is the protocol for autonomous agent-to-agent payments in USDC. But it doesn't decide whether the agent *should* spend at all — that's sipi.bot's job. One call before the x402 transaction approves, blocks, or flags the spend against your policy.</p>
+
+<p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-09 · Last updated 2026-07-09</p>
+
 
 <h2>The gap in agent-commerce infrastructure</h2>
 <p>The agent economy is building payment rails fast: x402 (Coinbase), AP2 (Google), and agent wallets are all solving the *how* of agent spending. But nobody is solving the *whether* — should this specific agent, at this specific time, pay this specific merchant, this specific amount?</p>

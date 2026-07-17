@@ -32,13 +32,15 @@ code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
 .cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 @media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
-</style></head><body>
+</style><script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap">
-<p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-09 · Last updated 2026-07-09</p>
 <span class="tag">Comparison</span>
 <h1>Hardcoded budget check vs a real spend firewall</h1>
 <p class="lead">Every developer's first instinct: an `if amount > 500` guard. It works until the agent retries 40 times in one minute, splits a purchase across calls, or hits a vendor you didn't block. Here's what a single-line check actually misses.</p>
+
+<p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-09 · Last updated 2026-07-09</p>
+
 
 <h2>What the hardcoded check catches (and what it doesn't)</h2>
 <p>A per-transaction limit — say, blocking anything over $500 — catches exactly ONE case: a single large purchase. It doesn't prevent any of the following:</p>
