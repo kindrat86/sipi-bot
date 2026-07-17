@@ -111,7 +111,7 @@ POSTHOG_SNIPPET = (
     "sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile "
     "opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing "
     "debug getPageViewId'.split(' '),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);"
-    f"posthog.init('{POSTHOG_KEY}',{{api_host:'{POSTHOG_HOST}',person_profiles:'identified_only'}})</script>"
+    f"posthog.init('{POSTHOG_KEY}',{{api_host:'{POSTHOG_HOST}',person_profiles:'identified_only',capture_pageview:false}});posthog.capture('$pageview',{{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth}})</script>"
 )
 
 
@@ -132,7 +132,7 @@ def landing_page_html() -> str:
 <meta name="twitter:image" content="https://sipi.bot/og.svg">
 <meta name="theme-color" content="#00d4aa">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","url":"https://sipi.bot/","description":"The spend firewall for autonomous AI agents.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Spend Firewall for AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-09"},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot is a flat $99/month for unlimited transaction evaluations, with a free self-hostable core on GitHub. There is no per-call fee."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it."}}]}]}</script>
-<style>{CSS}</style></head><body>
+<style>{CSS}</style>{POSTHOG}</head><body>
 <nav><div class="wrap">
   <div class="brand">sipi<span class="dot">.bot</span></div>
   <div class="nav-links">
@@ -302,6 +302,7 @@ body:JSON.stringify({email:document.getElementById('em').value})})
 </script>
 </body></html>"""
     s = s.replace("{CSS}", CSS)
+    s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
     return s
 
 
@@ -318,7 +319,7 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
 <meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot{canonical_path}">
 <meta name="theme-color" content="#00d4aa">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebPage","name":"{title}","url":"https://sipi.bot{canonical_path}","description":"{description}","isPartOf":{{"@type":"WebSite","name":"sipi.bot","url":"https://sipi.bot/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}}}}</script>
-<style>{CSS}</style></head><body>
+<style>{CSS}</style>{POSTHOG_SNIPPET}</head><body>
 <nav><div class="wrap">
   <div class="brand"><a href="/" style="color:var(--txt)">sipi<span class="dot">.bot</span></a></div>
   <div class="nav-links">
@@ -387,7 +388,13 @@ TERMS_BODY = """<h1>Terms of Service</h1>
 def dashboard_html() -> str:
     return f"""<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>sipi.bot — Control Room</title><style>{CSS}
+<title>sipi.bot — Control Room</title>
+<meta name="description" content="Live control room for your AI agent's spending: real-time transaction feed, approval queue, rule editor, and agent management. See every approve, block, and flag.">
+<link rel="canonical" href="https://sipi.bot/dashboard">
+<meta property="og:title" content="sipi.bot Control Room — Live agent spend monitoring">
+<meta property="og:description" content="Real-time transaction feed, approval queue, rule editor, and agent management for your spend firewall.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/dashboard"><meta property="og:image" content="https://sipi.bot/og.svg"><meta name="robots" content="noindex, follow"><meta name="theme-color" content="#00d4aa">
+<style>{CSS}
 .tabs{{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto}}
 .tab{{padding:12px 18px;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent;white-space:nowrap}}
 .tab.on{{color:var(--txt);border-bottom-color:var(--accent)}}
@@ -402,7 +409,7 @@ th,td{{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}}
 th{{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}}
 input,select{{background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:9px 11px;border-radius:8px;font-size:14px}}
 .mini{{padding:7px 13px;font-size:13px}}
-</style></head><body>
+</style>{POSTHOG_SNIPPET}</head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span> <span style="color:var(--mut);font-size:13px;font-weight:400">/ control room</span></div>
 <div class="nav-links"><a href="/">← Landing</a></div></div></nav>
 <div class="wrap" style="padding-top:28px;padding-bottom:60px">
@@ -492,7 +499,13 @@ all();setInterval(loadStats,15000);
 def pricing_html() -> str:
     return f"""<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>sipi.bot — Pricing</title><style>{CSS}</style></head><body>
+<title>sipi.bot — Pricing</title>
+<meta name="description" content="Flat $99/month for unlimited transaction evaluations, or $499/month for a managed spend policy. No per-call fees. Free self-hostable core. Rule-integrity guarantee.">
+<link rel="canonical" href="https://sipi.bot/pricing">
+<meta property="og:title" content="sipi.bot Pricing — Flat, no metered surprises">
+<meta property="og:description" content="Flat $99/month for unlimited transaction evaluations, or $499/month for a managed spend policy. No per-call fees.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/pricing"><meta property="og:image" content="https://sipi.bot/og.svg"><meta name="theme-color" content="#00d4aa">
+<style>{CSS}</style>{POSTHOG_SNIPPET}</head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span></div>
 <div class="nav-links"><a href="/">Home</a><a href="/dashboard" class="btn">Dashboard</a></div></div></nav>
 <section class="hero" style="padding-top:70px">
@@ -553,7 +566,11 @@ def key_success_html(rec) -> str:
     <a href="/pricing" class="btn ghost">Back to pricing</a>"""
     return f"""<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>sipi.bot — Your API key</title><style>{CSS}</style></head><body>
+<title>sipi.bot — Your API key</title>
+<meta name="description" content="Your sipi.bot API key. Use it as a Bearer token to authenticate transaction evaluation calls from your AI agents.">
+<link rel="canonical" href="https://sipi.bot/keys/">
+<meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#00d4aa">
+<style>{CSS}</style>{POSTHOG_SNIPPET}</head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span></div>
 <div class="nav-links"><a href="/">Home</a></div></div></nav>
 <section class="hero" style="padding-top:70px"><div class="wrap">{inner}</div></section>
