@@ -131,20 +131,23 @@ def landing_page_html() -> str:
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
 <link rel="search" type="application/opensearchdescription+xml" title="sipi.bot" href="https://sipi.bot/opensearch.xml">
-<title>sipi.bot — The Spend Firewall for AI Agents</title>
-<meta name="description" content="sipi.bot is a spend firewall for autonomous AI agents: one API call returns APPROVED, BLOCKED, or FLAGGED against your caps, velocity, and merchant rules before an agent spends. Not a SIP/VoIP telephony bot.">
+<title>sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents</title>
+<meta name="description" content="sipi.bot is a pre-spend firewall for autonomous AI agents: one API call returns APPROVED, BLOCKED, or FLAGGED against per-tx caps, velocity limits, and merchant allowlists before money moves.">
 <link rel="canonical" href="https://sipi.bot/">
+<link rel="alternate" hreflang="en" href="https://sipi.bot/">
+<link rel="alternate" hreflang="en-US" href="https://sipi.bot/">
+<link rel="alternate" hreflang="x-default" href="https://sipi.bot/">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta property="og:title" content="sipi.bot — The Spend Firewall for AI Agents">
-<meta property="og:description" content="sipi.bot is a spend firewall (payment-control API) for autonomous AI agents: approve, block, or flag every agent transaction before a dollar moves. Not a SIP/VoIP telephony bot.">
+<meta property="og:title" content="sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents">
+<meta property="og:description" content="sipi.bot is a pre-spend firewall (payment-control API) for autonomous AI agents: approve, block, or flag every agent transaction before a dollar moves.">
 <meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/">
-<meta property="og:image" content="https://sipi.bot/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="sipi.bot — The spend firewall for AI agents"><meta property="og:site_name" content="sipi.bot">
+<meta property="og:image" content="https://sipi.bot/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="sipi.bot — The pre-spend firewall for autonomous AI agents"><meta property="og:site_name" content="sipi.bot">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="sipi.bot — The Spend Firewall for AI Agents">
-<meta name="twitter:description" content="Approve, block, or flag every agent transaction before a dollar moves.">
+<meta name="twitter:title" content="sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents">
+<meta name="twitter:description" content="Pre-spend firewall for autonomous AI agents: approve, block, or flag every agent transaction before a dollar moves.">
 <meta name="twitter:image" content="https://sipi.bot/og.png">
 <meta name="theme-color" content="#00d4aa">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","alternateName":["sipibot","sipi bot","sipi.bot spend firewall"],"url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds.","disambiguatingDescription":"sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"],"knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","API Spend Governance","x402 Payment Protocol","Agent Transaction Monitoring","Runaway AI Cost Prevention","Agent Budget Management","Multi-Agent Spend Orchestration"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Spend Firewall for AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-17"},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","alternateName":["sipibot","sipi bot"],"applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","disambiguatingDescription":"A payment-control spend firewall API for autonomous AI agents — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"Hosted plans are flat-rate: Team is $99/month and Business is $499/month, both with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each."}},{"@type":"Question","name":"Is sipi.bot a SIP, voice, or telephony product?","acceptedAnswer":{"@type":"Answer","text":"No. Despite the name, sipi.bot has nothing to do with SIP, VoIP, or voice, and it is not a bot-management or 'block AI bots' tool. sipi.bot is a spend firewall that governs how much money autonomous AI agents can spend."}}]},{"@type":"SpeakableSpecification","cssSelector":["h1","h2","p"]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","alternateName":["sipibot","sipi bot","sipi.bot spend firewall"],"url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds.","disambiguatingDescription":"sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"],"knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","API Spend Governance","x402 Payment Protocol","Agent Transaction Monitoring","Runaway AI Cost Prevention","Agent Budget Management","Multi-Agent Spend Orchestration"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-17"},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","alternateName":["sipibot","sipi bot"],"applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","disambiguatingDescription":"A payment-control spend firewall API for autonomous AI agents — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"Hosted plans are flat-rate: Team is $99/month and Business is $499/month, both with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each."}},{"@type":"Question","name":"Is sipi.bot a SIP, voice, or telephony product?","acceptedAnswer":{"@type":"Answer","text":"No. Despite the name, sipi.bot has nothing to do with SIP, VoIP, or voice, and it is not a bot-management or 'block AI bots' tool. sipi.bot is a spend firewall that governs how much money autonomous AI agents can spend."}}]},{"@type":"SpeakableSpecification","cssSelector":["h1","h2","p"]}]}</script>
 <style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}</head><body>
 <nav><div class="wrap">
   <div class="brand">sipi<span class="dot">.bot</span></div>
@@ -476,6 +479,135 @@ body:JSON.stringify({email:document.getElementById('em').value,ref:ref})})
 .then(r=>r.json()).then(d=>{m.textContent=d.message||'You are on the list.';document.getElementById('em').value='';document.getElementById('ref').value='';})
 .catch(()=>{m.textContent='You are on the list.';});return false;}
 </script>
+<!-- CROSS-PORTFOLIO NETWORK FOOTER — generated 2026-07-18 -->
+<style>
+.portfolio-network {
+    max-width: 1200px;
+    margin: 4rem auto 2rem;
+    padding: 2rem 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+.portfolio-network h3 {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+    margin: 0 0 1rem;
+    text-align: center;
+}
+.network-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+}
+.network-card {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.15s;
+    background: #f9fafb;
+}
+.network-card:hover {
+    background: #f3f4f6;
+}
+.network-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.network-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #111827;
+    white-space: nowrap;
+}
+.network-tagline {
+    font-size: 0.6875rem;
+    color: #9ca3af;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    .portfolio-network { border-top-color: #374151; }
+    .portfolio-network h3 { color: #6b7280; }
+    .network-card { background: #1f2937; }
+    .network-card:hover { background: #374151; }
+    .network-name { color: #f9fafb; }
+    .network-tagline { color: #6b7280; }
+}
+</style>
+<section class="portfolio-network">
+    <h3>🚀 Explore Our Network</h3>
+    <nav class="network-grid" aria-label="Portfolio network">
+            <a href="https://gitdealflow.com" class="network-card" 
+               title="GitDealFlow: Track startup acquisitions & funding rounds">
+                <span class="network-dot" style="background:#10B981"></span>
+                <span class="network-name">GitDealFlow</span>
+                <span class="network-tagline">Data & Analytics</span>
+            </a>
+            <a href="https://signals.gitdealflow.com" class="network-card" 
+               title="Signals by GitDealFlow: AI-powered startup investment signals">
+                <span class="network-dot" style="background:#3B82F6"></span>
+                <span class="network-name">Signals by GitDealFlow</span>
+                <span class="network-tagline">AI & Investing</span>
+            </a>
+            <a href="https://invisibleexit.com" class="network-card" 
+               title="Invisible Exit: Acquisition readiness for bootstrapped SaaS">
+                <span class="network-dot" style="background:#8B5CF6"></span>
+                <span class="network-name">Invisible Exit</span>
+                <span class="network-tagline">SaaS & M&A</span>
+            </a>
+            <a href="https://sipiteno.com" class="network-card" 
+               title="SipiTeno: AI Agents for SaaS Operations">
+                <span class="network-dot" style="background:#F59E0B"></span>
+                <span class="network-name">SipiTeno</span>
+                <span class="network-tagline">AI Agents & Automation</span>
+            </a>
+            <a href="https://unlocksaas.com" class="network-card" 
+               title="UnlockSaaS: Launch your SaaS in 60 days">
+                <span class="network-dot" style="background:#EC4899"></span>
+                <span class="network-name">UnlockSaaS</span>
+                <span class="network-tagline">SaaS Building</span>
+            </a>
+            <a href="https://voicelogpro.com" class="network-card" 
+               title="VoiceLogPro: Voice-to-insight for field teams">
+                <span class="network-dot" style="background:#06B6D4"></span>
+                <span class="network-name">VoiceLogPro</span>
+                <span class="network-tagline">Voice AI & Field Ops</span>
+            </a>
+            <a href="https://carshake.online" class="network-card" 
+               title="CarShake: Valet-damage-proof vehicle handover">
+                <span class="network-dot" style="background:#EF4444"></span>
+                <span class="network-name">CarShake</span>
+                <span class="network-tagline">Automotive & Insurance</span>
+            </a>
+            <a href="https://churnlens.site" class="network-card" 
+               title="ChurnLens: Churn analytics that predict, not just report">
+                <span class="network-dot" style="background:#6366F1"></span>
+                <span class="network-name">ChurnLens</span>
+                <span class="network-tagline">SaaS Analytics</span>
+            </a>
+            <a href="https://sanctionsai.dev" class="network-card" 
+               title="SanctionsAI: AI agent payment compliance">
+                <span class="network-dot" style="background:#DC2626"></span>
+                <span class="network-name">SanctionsAI</span>
+                <span class="network-tagline">Compliance & Fintech</span>
+            </a>
+            <a href="https://sipi.bot" class="network-card" 
+               title="Sipi.bot: AI spend firewall for agent payments">
+                <span class="network-dot" style="background:#14B8A6"></span>
+                <span class="network-name">Sipi.bot</span>
+                <span class="network-tagline">AI Infrastructure</span>
+            </a>
+    </nav>
+</section>
 </body></html>"""
     s = s.replace("{CSS}", CSS)
     s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
@@ -937,7 +1069,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\\\<br>
 </div></section>
 
 <footer><div class="wrap">
-  <p>© 2026 sipi.bot — <a href="/">The spend firewall for AI agents</a></p>
+  <p>© 2026 sipi.bot — <a href="/">The pre-spend firewall for autonomous AI agents</a></p>
 </div></footer>
 </body></html>"""
     return s
