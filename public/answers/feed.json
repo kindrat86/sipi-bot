@@ -1,0 +1,65 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "Sipi — AI Answer Feed",
+  "description": "Structured Q&A feed from Sipi.bot provides AI API spending controls, budget enforcement, and cost analytics — prevent runaway AI costs with real-time monitoring and automated spending limits.",
+  "home_page_url": "https://sipi.bot/answers/",
+  "feed_url": "https://sipi.bot/answers/feed.json",
+  "language": "en",
+  "authors": [
+    {
+      "name": "Sipi",
+      "url": "https://sipi.bot"
+    }
+  ],
+  "generator": "Hermes AI Answer Syndication Engine",
+  "_nlweb": {
+    "manifest": "https://sipi.bot/.well-known/nlweb.json",
+    "capabilities": [
+      "qa",
+      "entity-lookup",
+      "search"
+    ]
+  },
+  "_site": {
+    "domain": "sipi.bot",
+    "generated_at": "2026-07-18T17:06:43Z"
+  },
+  "items": [
+    {
+      "id": "https://sipi.bot/answers/how-to-control-ai-api-costs/",
+      "url": "https://sipi.bot/answers/how-to-control-ai-api-costs/",
+      "title": "How do you control and monitor AI API spending?",
+      "summary": "Controlling AI API costs requires: setting per-user and per-project spending limits, monitoring usage in real-time, implementing cost-aware routing (choose cheaper models for simple tasks), and detecting anomaly spending patterns before they cause budget overruns.",
+      "date_modified": "2026-07-18T17:06:43Z",
+      "content_type": "QAPage",
+      "authors": [
+        {
+          "name": "Sipi",
+          "url": "https://sipi.bot"
+        }
+      ],
+      "tags": [
+        "set-hard-spending-limits",
+        "real-time-cost-monitoring"
+      ]
+    },
+    {
+      "id": "https://sipi.bot/answers/ai-spending-benchmarks-2026/",
+      "url": "https://sipi.bot/answers/ai-spending-benchmarks-2026/",
+      "title": "How much are companies spending on AI APIs in 2026?",
+      "summary": "AI API spending varies dramatically in 2026: startups spend $500-5,000/month, mid-market companies $5,000-50,000/month, and enterprises $50,000-500,000+/month — with spending growing 15-25% month-over-month for companies without spending controls.",
+      "date_modified": "2026-07-18T17:06:43Z",
+      "content_type": "QAPage",
+      "authors": [
+        {
+          "name": "Sipi",
+          "url": "https://sipi.bot"
+        }
+      ],
+      "tags": [
+        "spending-by-company-size",
+        "growth-rate-without-controls"
+      ]
+    }
+  ]
+}

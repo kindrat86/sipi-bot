@@ -1,0 +1,31 @@
+{
+  "name": "Sipi",
+  "description": "Sipi.bot provides AI API spending controls, budget enforcement, and cost analytics — prevent runaway AI costs with real-time monitoring and automated spending limits.",
+  "url": "https://sipi.bot",
+  "nlweb_version": "1.0",
+  "capabilities": [
+    "qa",
+    "entity-lookup",
+    "search",
+    "structured-answers"
+  ],
+  "endpoints": {
+    "answers_feed": "https://sipi.bot/answers/feed.json",
+    "search": "https://sipi.bot/sitemap.xml"
+  },
+  "entity_types": [
+    "Organization",
+    "SoftwareApplication",
+    "WebApplication"
+  ],
+  "content_types": [
+    "QAPage",
+    "FAQPage",
+    "Article",
+    "DefinedTerm"
+  ],
+  "refresh_interval_seconds": 86400,
+  "contact": "hello@sipi.bot",
+  "generator": "Hermes AI Answer Syndication Engine",
+  "generated_at": "2026-07-18T17:06:43Z"
+}
