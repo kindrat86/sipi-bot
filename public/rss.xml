@@ -3,9 +3,9 @@
   <channel>
     <title>sipi.bot</title>
     <link>https://sipi.bot</link>
-    <description>The Spend Firewall for AI Agents — approve, block, or flag every agent transaction before a dollar moves. Sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules in under 5ms. MCP, HTTP, and CLI integration. Flat $99/month.</description>
+    <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Jul 2026 09:11:06 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2026 17:12:17 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -18,172 +18,154 @@
       <title>sipi.bot — The Spend Firewall for AI Agents</title>
       <link>https://sipi.bot</link>
       <guid isPermaLink="true">https://sipi.bot</guid>
-      <description>Your autonomous AI agent has your credit card. sipi.bot approves, blocks, or flags every transaction against your rules — before a dollar moves. Spend controls for the agent economy.</description>
+      <description>sipi.bot is a spend firewall for autonomous AI agents: one API call returns APPROVED, BLOCKED, or FLAGGED against your caps, velocity, and merchant rules before an agent spends. Not a SIP/VoIP telephony bot.</description>
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Tue, 07 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
     <item>
-      <title>sipi.bot vs v0 — UI Generation vs Agent Spend Control</title>
-      <link>https://sipi.bot/vs/v0</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/v0</guid>
-      <description>v0 generates UI components from prompts. sipi.bot controls spending for autonomous agents. Different problems: design generation vs financial safety.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Thu, 16 Jul 2026 09:11:06 GMT</pubDate>
-    </item>
-    <item>
-      <title>sipi.bot vs Trae — AI Code Editor vs Spend Firewall</title>
-      <link>https://sipi.bot/vs/trae</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/trae</guid>
-      <description>Trae is an AI-powered code editor with agentic capabilities. sipi.bot is a spend firewall that blocks unauthorized agent transactions. Code generation vs s</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Tue, 14 Jul 2026 09:11:06 GMT</pubDate>
-    </item>
-    <item>
-      <title>SpendFirewall vs Stripe Spend Controls — Which Is Better in 2026?</title>
-      <link>https://sipi.bot/vs/stripe-spend-controls</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/stripe-spend-controls</guid>
-      <description>SpendFirewall vs Stripe Spend Controls: Payment fraud prevention. Detailed comparison of features, pricing, and use cases for spend firewall.</description>
+      <title>The Spend Firewall for AI Agents: A Complete Guide (2026)</title>
+      <link>https://sipi.bot/learn/spend-firewall-guide</link>
+      <guid isPermaLink="true">https://sipi.bot/learn/spend-firewall-guide</guid>
+      <description>The complete guide to AI agent spend control: what a spend firewall is, the 6 rule types every autonomous agent needs, how it differs from LLM budgets and observability tools, and how to deploy one in 5 lines of code. By sipi.bot.</description>
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
     <item>
-      <title>sipi.bot vs OpenAI Spending Limits — AI Agent Spend Control Compared</title>
-      <link>https://sipi.bot/vs/sipi-bot-vs-openai-spending-limits</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/sipi-bot-vs-openai-spending-limits</guid>
-      <description>OpenAI</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 10 Jul 2026 09:11:06 GMT</pubDate>
-    </item>
-    <item>
-      <title>sipi.bot vs Portkey — AI Agent Spend Management</title>
-      <link>https://sipi.bot/vs/portkey</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/portkey</guid>
-      <description>sipi.bot vs Portkey: Portkey is an AI gateway with observability — without per-transaction spend blocking rules. sipi.bot sits in front of every dollar and</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Wed, 08 Jul 2026 09:11:06 GMT</pubDate>
-    </item>
-    <item>
-      <title>sipi.bot vs OpenMeter — Usage Metering vs Spend Control</title>
-      <link>https://sipi.bot/vs/openmeter</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/openmeter</guid>
-      <description>sipi.bot vs OpenMeter: OpenMeter tracks usage-based billing — sipi.bot is a real-time spend firewall for autonomous agents. Metering vs enforcement.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Mon, 06 Jul 2026 09:11:06 GMT</pubDate>
-    </item>
-    <item>
-      <title>SpendFirewall vs OpenAI Spending Limits — Which Is Better in 2026?</title>
-      <link>https://sipi.bot/vs/openai-spending-limits</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/openai-spending-limits</guid>
-      <description>SpendFirewall vs OpenAI Spending Limits: API spending caps. Detailed comparison of features, pricing, and use cases for spend firewall.</description>
+      <title>Runaway AI Agent Incident Frequency (2026 Benchmark)</title>
+      <link>https://sipi.bot/benchmarks/runaway-incident-frequency</link>
+      <guid isPermaLink="true">https://sipi.bot/benchmarks/runaway-incident-frequency</guid>
+      <description>How often do autonomous AI agents runaway and overspend? Our benchmark of 312 production agent teams: 67% reported at least one runaway incident in 90 days, median cost $340, top decile over $5,000. Full methodology and breakdowns.</description>
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
     <item>
-      <title>SpendFirewall vs OpenAI Billing: which is right for you?</title>
-      <link>https://sipi.bot/vs/openai-billing</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/openai-billing</guid>
-      <description>An honest comparison of SpendFirewall and OpenAI Billing. Pricing, strengths, weaknesses, and when to pick each.</description>
+      <title>How to Prevent Runaway AI Costs (2026 Guide) — sipi.bot</title>
+      <link>https://sipi.bot/how-to/prevent-runaway-ai-costs</link>
+      <guid isPermaLink="true">https://sipi.bot/how-to/prevent-runaway-ai-costs</guid>
+      <description>Runaway AI agent costs happen when a retry loop or unattended session spends before you notice. The fix is a pre-spend firewall: per-transaction caps, velocity limits, and merchant allowlists that block the spend before it fires. Step-by-step.</description>
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
     <item>
-      <title>sipi.bot vs Modal Labs — Compute vs Spend Control</title>
-      <link>https://sipi.bot/vs/modal-labs</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/modal-labs</guid>
-      <description>Modal Labs provisions cloud compute for AI workloads. sipi.bot controls autonomous agent spend before money moves. Compute provisioning vs spend enforcemen</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Tue, 30 Jun 2026 09:11:06 GMT</pubDate>
-    </item>
-    <item>
-      <title>SpendFirewall vs LiteLLM: which is right for you?</title>
+      <title>sipi.bot vs LiteLLM: which is right for you?</title>
       <link>https://sipi.bot/vs/litellm</link>
       <guid isPermaLink="true">https://sipi.bot/vs/litellm</guid>
-      <description>An honest comparison of SpendFirewall and LiteLLM. Pricing, strengths, weaknesses, and when to pick each.</description>
+      <description>An honest comparison of sipi.bot and LiteLLM. Pricing, strengths, weaknesses, and when to pick each.</description>
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
     <item>
-      <title>SpendFirewall vs LangSmith: which is right for you?</title>
-      <link>https://sipi.bot/vs/langsmith</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/langsmith</guid>
-      <description>An honest comparison of SpendFirewall and LangSmith. Pricing, strengths, weaknesses, and when to pick each.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
-    </item>
-    <item>
-      <title>sipi.bot vs Langfuse — LLM Tracing vs Agent Spend Firewall</title>
-      <link>https://sipi.bot/vs/langfuse</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/langfuse</guid>
-      <description>sipi.bot vs Langfuse: Langfuse traces LLM calls — sipi.bot blocks unauthorized agent spend. Observability vs prevention. Different problems, different solu</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Wed, 24 Jun 2026 09:11:06 GMT</pubDate>
-    </item>
-    <item>
-      <title>SpendFirewall vs Helicone: which is right for you?</title>
+      <title>sipi.bot vs Helicone: which is right for you?</title>
       <link>https://sipi.bot/vs/helicone</link>
       <guid isPermaLink="true">https://sipi.bot/vs/helicone</guid>
-      <description>An honest comparison of SpendFirewall and Helicone. Pricing, strengths, weaknesses, and when to pick each.</description>
+      <description>An honest comparison of sipi.bot and Helicone. Pricing, strengths, weaknesses, and when to pick each.</description>
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
     <item>
-      <title>SpendFirewall vs GCP Billing — Which Is Better in 2026?</title>
-      <link>https://sipi.bot/vs/gcp-billing</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/gcp-billing</guid>
-      <description>SpendFirewall vs GCP Billing: Cloud billing console. Detailed comparison of features, pricing, and use cases for spend firewall.</description>
+      <title>Can an AI Agent Spend Money Without Permission?</title>
+      <link>https://sipi.bot/faq/can-ai-agent-spend-without-permission</link>
+      <guid isPermaLink="true">https://sipi.bot/faq/can-ai-agent-spend-without-permission</guid>
+      <description>Yes — if your AI agent has access to a payment method and no pre-spend guardrail, it can spend money without per-transaction approval. Here is how it happens and how to stop it.</description>
+      <dc:creator>sipi.bot</dc:creator>
+      <pubDate>Mon, 06 Jul 2026 17:12:17 GMT</pubDate>
+      <media:content url="https://sipi.bot/og.png" medium="image"/>
+    </item>
+    <item>
+      <title>What is Spend firewall? sipi.bot glossary</title>
+      <link>https://sipi.bot/glossary/spend-firewall</link>
+      <guid isPermaLink="true">https://sipi.bot/glossary/spend-firewall</guid>
+      <description>A spend firewall is a policy layer that approves or rejects each spend intent from an autonomous AI agent before the transaction executes.</description>
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
     <item>
-      <title>SpendFirewall vs AWS Budgets — Which Is Better in 2026?</title>
-      <link>https://sipi.bot/vs/aws-budgets</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/aws-budgets</guid>
-      <description>SpendFirewall vs AWS Budgets: Cloud cost monitoring. Detailed comparison of features, pricing, and use cases for spend firewall.</description>
+      <title>/learn</title>
+      <link>https://sipi.bot/learn</link>
+      <guid isPermaLink="true">https://sipi.bot/learn</guid>
+      <description>The Spend Firewall for AI Agents</description>
       <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
+      <pubDate>Thu, 02 Jul 2026 17:12:17 GMT</pubDate>
+    </item>
+    <item>
+      <title>/vs</title>
+      <link>https://sipi.bot/vs</link>
+      <guid isPermaLink="true">https://sipi.bot/vs</guid>
+      <description>The Spend Firewall for AI Agents</description>
+      <dc:creator>sipi.bot</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 17:12:17 GMT</pubDate>
+    </item>
+    <item>
+      <title>/faq</title>
+      <link>https://sipi.bot/faq</link>
+      <guid isPermaLink="true">https://sipi.bot/faq</guid>
+      <description>The Spend Firewall for AI Agents</description>
+      <dc:creator>sipi.bot</dc:creator>
+      <pubDate>Sun, 28 Jun 2026 17:12:17 GMT</pubDate>
+    </item>
+    <item>
+      <title>/glossary</title>
+      <link>https://sipi.bot/glossary</link>
+      <guid isPermaLink="true">https://sipi.bot/glossary</guid>
+      <description>The Spend Firewall for AI Agents</description>
+      <dc:creator>sipi.bot</dc:creator>
+      <pubDate>Fri, 26 Jun 2026 17:12:17 GMT</pubDate>
+    </item>
+    <item>
+      <title>AI agent framework integrations — sipi.bot</title>
+      <link>https://sipi.bot/for</link>
+      <guid isPermaLink="true">https://sipi.bot/for</guid>
+      <description>Add a spend firewall to LangChain, CrewAI, OpenAI Agents SDK, or Vercel AI SDK. One call approves, blocks, or flags every agent purchase.</description>
+      <dc:creator>sipi.bot</dc:creator>
+      <pubDate>Wed, 24 Jun 2026 17:12:17 GMT</pubDate>
+    </item>
+    <item>
+      <title>/best</title>
+      <link>https://sipi.bot/best</link>
+      <guid isPermaLink="true">https://sipi.bot/best</guid>
+      <description>The Spend Firewall for AI Agents</description>
+      <dc:creator>sipi.bot</dc:creator>
+      <pubDate>Mon, 22 Jun 2026 17:12:17 GMT</pubDate>
+    </item>
+    <item>
+      <title>Free Tools — sipi.bot</title>
+      <link>https://sipi.bot/tools</link>
+      <guid isPermaLink="true">https://sipi.bot/tools</guid>
+      <description>Free tools for the agent economy: spend risk calculator, live firewall playground. No signup required.</description>
+      <dc:creator>sipi.bot</dc:creator>
+      <pubDate>Sat, 20 Jun 2026 17:12:17 GMT</pubDate>
+    </item>
+    <item>
+      <title>Open source agent spend firewall — self-host sipi.bot</title>
+      <link>https://sipi.bot/self-hosted</link>
+      <guid isPermaLink="true">https://sipi.bot/self-hosted</guid>
+      <description>Self-host the sipi.bot spend firewall for free. Stdlib Python, zero framework dependencies, 37MB Docker image, MIT licensed. Full policy engine, dashboard, and audit trail on your own infrastructure.</description>
+      <dc:creator>sipi.bot</dc:creator>
+      <pubDate>Thu, 18 Jun 2026 17:12:17 GMT</pubDate>
+    </item>
+    <item>
+      <title>sipi.bot — Pricing</title>
+      <link>https://sipi.bot/pricing</link>
+      <guid isPermaLink="true">https://sipi.bot/pricing</guid>
+      <description>Flat $99/month for unlimited transaction evaluations, or $499/month for a managed spend policy. No per-call fees. Free self-hostable core. Rule-integrity guarantee.</description>
+      <dc:creator>sipi.bot</dc:creator>
+      <pubDate>Tue, 16 Jun 2026 17:12:17 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
     <item>
-      <title>SpendFirewall vs Anthropic Rate Limits — Which Is Better in 2026?</title>
-      <link>https://sipi.bot/vs/anthropic-rate-limits</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/anthropic-rate-limits</guid>
-      <description>SpendFirewall vs Anthropic Rate Limits: API rate limiting. Detailed comparison of features, pricing, and use cases for spend firewall.</description>
+      <title>sipi.bot Firewall Playground — Try it live, no signup</title>
+      <link>https://sipi.bot/playground</link>
+      <guid isPermaLink="true">https://sipi.bot/playground</guid>
+      <description>Test the sipi.bot spend firewall in your browser right now. Enter a transaction and see APPROVED, BLOCKED, or FLAGGED instantly. No signup, no install.</description>
       <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
-    </item>
-    <item>
-      <title>Spend Controls for AI Trading Bots</title>
-      <link>https://sipi.bot/use-cases/trading-bots</link>
-      <guid isPermaLink="true">https://sipi.bot/use-cases/trading-bots</guid>
-      <description>Trading bots execute orders autonomously. sipi.bot ensures every trade stays within your risk parameters — per-trade limits, daily exposure caps, and veloc</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Sun, 14 Jun 2026 09:11:06 GMT</pubDate>
-    </item>
-    <item>
-      <title>Spend Controls for AI Research Agents</title>
-      <link>https://sipi.bot/use-cases/research-agents</link>
-      <guid isPermaLink="true">https://sipi.bot/use-cases/research-agents</guid>
-      <description>Research agents purchase datasets, API access, and reports autonomously. sipi.bot ensures every purchase is approved, budgeted, and documented.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 12 Jun 2026 09:11:06 GMT</pubDate>
-    </item>
-    <item>
-      <title>SpendFirewall for Multi-Agent Budget Allocation — Built for Your Workflow</title>
-      <link>https://sipi.bot/use-cases/multi-agent-budgets</link>
-      <guid isPermaLink="true">https://sipi.bot/use-cases/multi-agent-budgets</guid>
-      <description>SpendFirewall for multi-agent budget allocation: Allocate and enforce separate budgets for each agent in a multi-agent system.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
+      <pubDate>Sun, 14 Jun 2026 17:12:17 GMT</pubDate>
     </item>
   </channel>
 </rss>
