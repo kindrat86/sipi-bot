@@ -446,7 +446,7 @@ class Handler(BaseHTTPRequestHandler):
         result directly or do_GET falls through and appends a second 404
         response to the body (the 82-page corruption bug)."""
         import os
-        for prefix in ("/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/"):
+        for prefix in ("/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/"):
             if path.startswith(prefix):
                 base = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
                 filepath = os.path.join(base, path.lstrip("/"), "index.html")
