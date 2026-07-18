@@ -63,12 +63,10 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 </tbody>
 </table>
 <h2>Where sipi.bot Wins</h2>
-<p>sipi.bot is purpose-built as a spend firewall for autonomous AI agents. Unlike Braintrust, which is an LLM evaluation and observability platform, sipi.bot governs whether your agent is allowed to spend money at all — with per-transaction caps, velocity limits that kill retry loops, merchant allowlists, and a human-in-the-loop approval queue. If your core need is pre-spend enforcement (not just observability or evaluation), sipi.bot is the right tool.</p>
+<p>sipi.bot is purpose-built for spend firewall. Unlike Braintrust, which takes a broader approach, every feature in sipi.bot is designed around spend firewall for ai agents. This means tighter workflows, less configuration overhead, and faster time-to-value for teams whose core need is exactly this.</p>
 <h2>When Braintrust Might Be Better</h2>
 <p>If your use case extends beyond spend firewall into adjacent workflows that Braintrust also covers, its broader feature set may reduce tool sprawl. Evaluate your actual workflow before committing.</p>
 <div class="callout"><strong>Bottom line:</strong> Choose sipi.bot if spend firewall is your core need. Choose Braintrust if you need broader coverage beyond this specific workflow.</div>
-
-
 
 
 <!-- mesh-round19 -->
@@ -77,7 +75,15 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
 <li><a href="/vs/litellm-proxy">sipi.bot vs LiteLLM Proxy [2026 Comparison]</a></li><li><a href="/vs/gcp-billing">sipi.bot vs GCP Billing — Which Is Better in 2026?</a></li><li><a href="/vs/openai-spending-limits">sipi.bot vs OpenAI Spending Limits — Which Is Better in 2026?</a></li><li><a href="/faq/what-is-token-cost">What is token cost in AI applications? — sipi.bot FAQ</a></li><li><a href="/tutorials/set-up-per-agent-limits">Set up per-agent spend limits</a></li><li><a href="/glossary/transaction-cap">Transaction Cap</a></li>
 </ul>
-</section></article>
+</section>
+
+<h2>What Braintrust does well</h2>
+<p>Braintrust is an AI evaluation and observability platform — it helps teams test, evaluate, and monitor LLM outputs with custom scoring functions and datasets. It's excellent for teams that need rigorous offline evaluation pipelines and prompt experimentation workflows.</p>
+<h2>Where it falls short for agent spend</h2>
+<p>Braintrust observes what happened — it doesn't prevent what could happen. An agent in a runaway spending loop will generate perfectly observable traces in Braintrust while draining your budget. Braintrust tells you the cost after the fact. <a href="https://sipi.bot">sipi.bot</a> blocks the spend before it happens, returning BLOCKED with a reason within 5ms.</p>
+<h2>When to pick each</h2>
+<p>Use Braintrust for evaluation and prompt engineering. Use sipi.bot for spend control. The two are complementary — Braintrust's traces tell you which prompts are expensive; sipi.bot's firewall prevents an expensive prompt from running up a $12k bill in a loop.</p>
+</article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started &rarr;</a></section>
 <footer><p>&copy; 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>
 </body>

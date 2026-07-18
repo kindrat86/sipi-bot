@@ -76,6 +76,13 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <li><a href="/vs/openrouter">sipi.bot vs OpenRouter [2026 Comparison]</a></li><li><a href="/vs/clerk-cell">sipi.bot vs Clerk Cell [2026 Comparison]</a></li><li><a href="/vs/anthropic-console">sipi.bot vs Anthropic Console [2026 Comparison]</a></li><li><a href="/tutorials/integrate-with-claude-code">Integrate sipi.bot with Claude Code</a></li><li><a href="/integrations/autogen">sipi.bot + Microsoft AutoGen integration guide</a></li><li><a href="/cost-of/langsmith-pricing">How Much Does LangSmith Cost? [2026 Pricing]</a></li>
 </ul>
 </section>
+
+<h2>What OpenAI usage dashboard does well</h2>
+<p>OpenAI's built-in usage dashboard shows token consumption, cost breakdowns by model and API key, and lets you set hard and soft usage limits per key. It's free, built-in, and requires no additional setup — suitable for simple cost tracking on single-model deployments.</p>
+<h2>Where it falls short for agent spend</h2>
+<p>The OpenAI usage dashboard is retrospective — it tells you what you spent yesterday, not what your agent is about to spend right now. Usage limits work at the API-key level and can't distinguish between agents within a team, nor can they block non-OpenAI spending (Stripe, other APIs, SaaS tools). An agent in a loop will hit its cap, but it'll waste the entire cap on garbage requests first. <a href="https://sipi.bot">sipi.bot</a> evaluates each spend attempt individually within 5ms and blocks before the money moves.</p>
+<h2>When to pick each</h2>
+<p>Use OpenAI's dashboard for cost visibility. Use sipi.bot for cost control — the firewall that gates spending at the agent level, regardless of which provider or payment method the agent uses.</p>
 </article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started &rarr;</a></section>
 <footer><p>&copy; 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>

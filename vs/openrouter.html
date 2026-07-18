@@ -65,6 +65,13 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <li><a href="/vs/openai-usage">sipi.bot vs OpenAI Usage API [2026 Comparison]</a></li><li><a href="/vs/openai-spending-limits">sipi.bot vs OpenAI Spending Limits — Which Is Better in 2026?</a></li><li><a href="/vs/stripe-spend-controls">sipi.bot vs Stripe Spend Controls — Which Is Better in 2026?</a></li><li><a href="/alternatives-to/helicone">Best Helicone alternatives alternatives in 2026</a></li><li><a href="/integrations/anthropic">sipi.bot + Anthropic Claude API integration guide</a></li><li><a href="/benchmarks/token-cost-by-provider">Token cost benchmarks by provider</a></li>
 </ul>
 </section>
+
+<h2>What OpenRouter does well</h2>
+<p>OpenRouter is a unified API gateway for 200+ LLM models — it lets you pay for any model through a single API key with transparent per-token pricing. It's the simplest way to access models from OpenAI, Anthropic, Google, Meta, Mistral, and others without managing separate provider accounts.</p>
+<h2>Where it falls short for agent spend</h2>
+<p>OpenRouter controls which models you can access — it doesn't control how much your agent spends. There's no merchant allowlist, no per-transaction cap, no velocity limit, and no approval workflow. An agent that decides to call Claude Opus 500 times in a retry loop will run up the same bill through OpenRouter as it would through Anthropic directly. OpenRouter is a payment rail. <a href="https://sipi.bot">sipi.bot</a> is a spend guardrail.</p>
+<h2>When to pick each</h2>
+<p>Use OpenRouter for model access and unified billing. Use sipi.bot for the actual spend control layer — the firewall that evaluates every purchase decision before the agent spends, regardless of which provider it's calling through.</p>
 </article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started &rarr;</a></section>
 <footer><p>&copy; 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>

@@ -76,6 +76,13 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <li><a href="/vs/stripe-spend-controls">sipi.bot vs Stripe Spend Controls — Which Is Better in 2026?</a></li><li><a href="/vs/openai-spending-limits">sipi.bot vs OpenAI Spending Limits — Which Is Better in 2026?</a></li><li><a href="/vs/openai-usage">sipi.bot vs OpenAI Usage API [2026 Comparison]</a></li><li><a href="/integrations/openai">sipi.bot + OpenAI API integration guide</a></li><li><a href="/for/llm-apps">sipi.bot for LLM Application Teams — Built for Your Workflow</a></li><li><a href="/faq/can-ai-agents-make-purchases">Can AI agents make purchases autonomously? [2026 Guide]</a></li>
 </ul>
 </section>
+
+<h2>What Anthropic Console does well</h2>
+<p>The Anthropic Console is Anthropic's native dashboard for API key management, usage tracking, and basic rate limiting. It shows you how many tokens you've consumed and lets you set hard usage caps per API key. For teams using only Claude models through Anthropic's direct API, it's a simple, built-in option that requires no additional setup.</p>
+<h2>Where it falls short for agent spend</h2>
+<p>The Console's rate limits and usage caps work at the API-key level — they don't understand what an agent is doing. An agent in a retry loop will exhaust its cap on garbage requests, and the Console won't distinguish between productive inference and runaway spending. It also only covers Anthropic models — if your agent uses OpenAI, Gemini, or any other provider, the Console can't help.</p>
+<h2>When to pick sipi.bot</h2>
+<p>If your agent uses multiple model providers or makes non-LLM purchases (Stripe, APIs, SaaS tools), <a href="https://sipi.bot">sipi.bot</a> is the right choice. It sits above all spending — LLM tokens, API calls, merchant transactions — and evaluates every spend attempt against your rules before money moves. The Console is a provider dashboard. sipi.bot is a spend firewall.</p>
 </article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started &rarr;</a></section>
 <footer><p>&copy; 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>

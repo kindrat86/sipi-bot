@@ -97,6 +97,13 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <li><a href="/vs/clerk-cell">sipi.bot vs Clerk Cell [2026 Comparison]</a></li><li><a href="/vs/litellm">sipi.bot vs LiteLLM: which is right for you?</a></li><li><a href="/vs/openai-billing">sipi.bot vs OpenAI Billing: which is right for you?</a></li><li><a href="/integrations/autogen">sipi.bot + Microsoft AutoGen integration guide</a></li><li><a href="/benchmarks/agent-spend-percent-of-revenue">Agent spend as percent of revenue</a></li><li><a href="/alternatives-to/helicone">Best Helicone alternatives alternatives in 2026</a></li>
 </ul>
 </section>
+
+<h2>What LangSmith does well</h2>
+<p>LangSmith is LangChain's observability, testing, and evaluation platform. It traces every chain/agent execution, tracks token usage and costs, and provides a hub for prompt management. For teams building on LangChain, it's the natural monitoring layer — deeply integrated with the framework's execution model.</p>
+<h2>Where it falls short for agent spend</h2>
+<p>LangSmith tells you how much your agent spent after the fact. It does not prevent spending. An agent that loops 500 times through an expensive chain will generate 500 beautiful LangSmith traces — and an equally large bill. LangSmith is an observability platform masquerading as cost control, and observing spending is not the same as controlling it.</p>
+<h2>When to pick sipi.bot</h2>
+<p>If you need to guarantee your agent stays within budget — not just know when it doesn't — <a href="https://sipi.bot">sipi.bot</a> is the right tool. Add a sipi.bot check before your LangChain agent makes any spend decision, and combine it with LangSmith's traces for a complete observe-and-control pipeline.</p>
 </article>
 <footer>
 <p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>

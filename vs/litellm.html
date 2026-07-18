@@ -97,6 +97,13 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <li><a href="/vs/stripe-spend-controls">sipi.bot vs Stripe Spend Controls — Which Is Better in 2026?</a></li><li><a href="/vs/openai-billing">sipi.bot vs OpenAI Billing: which is right for you?</a></li><li><a href="/vs/helicone">sipi.bot vs Helicone: which is right for you?</a></li><li><a href="/faq/how-much-should-my-ai-agent-spend">How much should my AI agent spend per task? [2026 Guide]</a></li><li><a href="/integrations/anthropic">sipi.bot + Anthropic Claude API integration guide</a></li><li><a href="/for/devops-automation">sipi.bot for Budget caps for DevOps automation: Spend firewall for AI agent</a></li>
 </ul>
 </section>
+
+<h2>What LiteLLM does well</h2>
+<p>LiteLLM is an open-source LLM proxy and gateway — it routes requests across 100+ LLM providers through a unified OpenAI-compatible API. It handles load balancing, rate limiting, and cost tracking per key/user/model. For teams that need a single interface to many LLM backends, it's the gold standard.</p>
+<h2>Where it falls short for agent spend</h2>
+<p>LiteLLM's "budgets" and "rate limits" work at the API-request level — they cap how many tokens a key can consume, but they don't understand the semantics of agent spending. An agent buying a SaaS subscription or running up Stripe charges isn't going through LiteLLM's proxy — and LiteLLM can't stop it. LiteLLM gates token consumption. <a href="https://sipi.bot">sipi.bot</a> gates all spending.</p>
+<h2>When to pick each</h2>
+<p>Use LiteLLM for provider routing and API-key-level rate limiting. Use sipi.bot for agent-level spend control — per-transaction caps, merchant allowlists, velocity limits, and approval thresholds that work across all spending, not just LLM tokens. The two integrate naturally: LiteLLM routes, sipi.bot guards.</p>
 </article>
 <footer>
 <p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>

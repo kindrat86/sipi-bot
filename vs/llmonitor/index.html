@@ -69,15 +69,21 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <div class="callout"><strong>Bottom line:</strong> Choose sipi.bot if spend firewall is your core need. Choose LLMonitor if you need broader coverage beyond this specific workflow.</div>
 
 
-
-
 <!-- mesh-round19 -->
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
 <li><a href="/vs/litellm">sipi.bot vs LiteLLM: which is right for you?</a></li><li><a href="/vs/openrouter">sipi.bot vs OpenRouter [2026 Comparison]</a></li><li><a href="/vs/anthropic-console">sipi.bot vs Anthropic Console [2026 Comparison]</a></li><li><a href="/glossary/velocity-cap">What is Velocity cap? sipi.bot glossary</a></li><li><a href="/glossary/spend-firewall">What is Spend firewall? sipi.bot glossary</a></li><li><a href="/glossary/agent-budget">Agent Budget</a></li>
 </ul>
-</section></article>
+</section>
+
+<h2>What LLMonitor does well</h2>
+<p>LLMonitor is an open-source LLM observability and cost monitoring platform. It traces requests, tracks token usage per user/model/key, and provides dashboards and alerts for cost anomalies. It supports most major LLM providers and has a generous free tier.</p>
+<h2>Where it falls short for agent spend</h2>
+<p>LLMonitor is passive monitoring — it logs what happened but doesn't prevent what could happen. Its "alerts" fire after a cost threshold is breached, not before. An agent in a runaway loop will trigger an alert — after it's already spent the money. <a href="https://sipi.bot">sipi.bot</a> is active control: every spend attempt runs through the rules engine and is APPROVED, BLOCKED, or FLAGGED before the charge occurs.</p>
+<h2>When to pick each</h2>
+<p>Use LLMonitor for dashboards and retrospective analysis. Use sipi.bot for the pre-spend guardrail — the 5ms decision that prevents a $12k loop from ever starting. The two are complementary, not competitive.</p>
+</article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started &rarr;</a></section>
 <footer><p>&copy; 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>
 </body>

@@ -65,6 +65,13 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <li><a href="/vs/openai-billing">sipi.bot vs OpenAI Billing: which is right for you?</a></li><li><a href="/vs/litellm">sipi.bot vs LiteLLM: which is right for you?</a></li><li><a href="/vs/aws-budgets">sipi.bot vs AWS Budgets — Which Is Better in 2026?</a></li><li><a href="/for/research-agents">sipi.bot for Spend controls for deep research agents: Spend firewall for AI</a></li><li><a href="/limits/recommended-limits-by-use-case">Recommended spend limits by AI agent use case</a></li><li><a href="/alternatives-to/helicone">Best Helicone alternatives alternatives in 2026</a></li>
 </ul>
 </section>
+
+<h2>What LiteLLM Proxy does well</h2>
+<p>LiteLLM Proxy provides a centralized gateway for routing LLM requests across 100+ providers, with built-in load balancing, rate limiting, cost tracking, and virtual key management. It's the production deployment of the open-source LiteLLM library — designed for teams that need a single API endpoint to access many models.</p>
+<h2>Where it falls short for agent spend</h2>
+<p>The proxy's rate limits and budgets operate at the API-request level. They can cap tokens per key or per user, but they can't understand or control non-LLM spending — Stripe purchases, API subscriptions, SaaS tool charges. An agent that routes all LLM calls through the proxy but makes direct Stripe purchases for SaaS tools is only partially covered. <a href="https://sipi.bot">sipi.bot</a> gates all spending — LLM tokens, API calls, merchant purchases — through a single decision endpoint.</p>
+<h2>When to pick each</h2>
+<p>Use LiteLLM Proxy for provider routing and API-key-level rate limiting. Add sipi.bot as the universal spend control layer that covers everything — not just the traffic going through the proxy.</p>
 </article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started &rarr;</a></section>
 <footer><p>&copy; 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>

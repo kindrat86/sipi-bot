@@ -97,6 +97,13 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <li><a href="/vs/openai-spending-limits">sipi.bot vs OpenAI Spending Limits — Which Is Better in 2026?</a></li><li><a href="/vs/litellm">sipi.bot vs LiteLLM: which is right for you?</a></li><li><a href="/vs/langsmith">sipi.bot vs LangSmith: which is right for you?</a></li><li><a href="/integrations/crewai">sipi.bot + CrewAI integration guide</a></li><li><a href="/benchmarks/ai-agent-cost-per-task">AI agent cost per task benchmarks</a></li><li><a href="/for/ai-trading-bots">sipi.bot for Spend controls for AI trading bots: Spend firewall for AI agen</a></li>
 </ul>
 </section>
+
+<h2>What Helicone does well</h2>
+<p>Helicone is an LLM observability and proxy platform — it logs every request, tracks costs per user/feature/key, and provides dashboards for spend analytics. It supports OpenAI, Anthropic, and other providers through a simple proxy or SDK integration. Helicone excels at answering "where did the money go?"</p>
+<h2>Where it falls short for agent spend</h2>
+<p>Helicone logs and reports — it doesn't block. An agent that enters a retry loop generating expensive-but-useless completions will show up beautifully in Helicone's dashboards while the bill accumulates. Helicone is post-hoc observability. <a href="https://sipi.bot">sipi.bot</a> is pre-transaction control: every spend attempt runs through the firewall rules engine and returns APPROVED, BLOCKED, or FLAGGED before the charge hits your payment method.</p>
+<h2>When to pick each</h2>
+<p>Use both. Helicone for cost analytics and dashboards. sipi.bot for the actual guardrail — the firewall that stops spending before it happens. The integration is straightforward: Helicone observes, sipi.bot prevents.</p>
 </article>
 <footer>
 <p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>

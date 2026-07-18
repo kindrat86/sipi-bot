@@ -71,15 +71,30 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <div class="callout"><strong>Cost-conscious alternative:</strong> sipi.bot offers a free tier for spend firewall with transparent, predictable pricing. <a href="https://sipi.bot/">See pricing &rarr;</a></div>
 
 
-
-
 <!-- mesh-round19 -->
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
 <li><a href="/cost-of/anthropic-api-cost">How Much Does Anthropic Claude API Cost? [2026 Pricing]</a></li><li><a href="/cost-of/langsmith-pricing">How Much Does LangSmith Cost? [2026 Pricing]</a></li><li><a href="/policies/per-transaction-limit-policy">Per-transaction limit policy</a></li><li><a href="/faq/how-ai-spend-control-works">How does AI agent spend control work?</a></li><li><a href="/templates/agent-purchase-policy">Agent Purchase Authorization Policy [Free Template 2026]</a></li>
 </ul>
-</section></article>
+</section>
+
+<h2>OpenAI API pricing tiers (2026)</h2>
+<table>
+<thead><tr><th>Model</th><th>Input (per 1M tokens)</th><th>Output (per 1M tokens)</th></tr></thead>
+<tbody>
+<tr><td>GPT-4o</td><td>$2.50</td><td>$10.00</td></tr>
+<tr><td>GPT-4o-mini</td><td>$0.15</td><td>$0.60</td></tr>
+<tr><td>GPT-4.1</td><td>$2.00</td><td>$8.00</td></tr>
+<tr><td>GPT-4.1-mini</td><td>$0.40</td><td>$1.60</td></tr>
+<tr><td>GPT-4.1-nano</td><td>$0.10</td><td>$0.40</td></tr>
+<tr><td>o3</td><td>$10.00</td><td>$40.00</td></tr>
+<tr><td>o4-mini</td><td>$1.10</td><td>$4.40</td></tr>
+</tbody>
+</table>
+<h2>Hidden costs for agent deployments</h2>
+<p>Pricing is per-token — but agent costs scale with retries. An agent that calls GPT-4o in a 10-retry loop on a single task consumes 10x the expected tokens. Without a spend firewall, a single bug can generate hundreds of unnecessary calls before anyone notices. <a href="https://sipi.bot">sipi.bot</a> catches this with velocity limits and per-transaction caps that block the loop after the first violation.</p>
+</article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started &rarr;</a></section>
 <footer><p>&copy; 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>
 </body>

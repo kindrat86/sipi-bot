@@ -69,15 +69,21 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <div class="callout"><strong>Bottom line:</strong> Choose sipi.bot if spend firewall is your core need. Choose Clerk Cell if you need broader coverage beyond this specific workflow.</div>
 
 
-
-
 <!-- mesh-round19 -->
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
 <li><a href="/vs/langsmith">sipi.bot vs LangSmith: which is right for you?</a></li><li><a href="/vs/braintrust">sipi.bot vs Braintrust [2026 Comparison]</a></li><li><a href="/vs/anthropic-rate-limits">sipi.bot vs Anthropic Rate Limits — Which Is Better in 2026?</a></li><li><a href="/integrations/crewai">sipi.bot + CrewAI integration guide</a></li><li><a href="/tutorials/integrate-with-claude-code">Integrate sipi.bot with Claude Code</a></li><li><a href="/learn/agent-spend-governance">Agent Spend Governance: Best Practices — Complete Guide 2026</a></li>
 </ul>
-</section></article>
+</section>
+
+<h2>What Clerk Cell does well</h2>
+<p>Clerk Cell provides usage-based billing and rate limiting for SaaS APIs — it meters API calls, enforces quotas, and handles Stripe billing integration. It's purpose-built for SaaS companies that need to charge customers based on API usage with flexible pricing models.</p>
+<h2>Where it falls short for agent spend</h2>
+<p>Clerk Cell meters and bills API usage — it doesn't understand agent semantics. An agent that makes 500 API calls in a retry loop gets metered and billed exactly like 500 legitimate calls. Clerk Cell can cap total API usage per customer, but it can't distinguish between productive spending and runaway agent loops. It gates API access. <a href="https://sipi.bot">sipi.bot</a> gates all spend decisions.</p>
+<h2>When to pick each</h2>
+<p>Use Clerk Cell for API metering and customer billing. Use sipi.bot when you need to control what your own agents spend — per-transaction caps, merchant allowlists, velocity limits, and approval workflows that work across all spending, not just API calls.</p>
+</article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started &rarr;</a></section>
 <footer><p>&copy; 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>
 </body>

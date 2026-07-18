@@ -97,6 +97,13 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <li><a href="/vs/langsmith">sipi.bot vs LangSmith: which is right for you?</a></li><li><a href="/vs/litellm">sipi.bot vs LiteLLM: which is right for you?</a></li><li><a href="/vs/gcp-billing">sipi.bot vs GCP Billing — Which Is Better in 2026?</a></li><li><a href="/for/ai-agent-platforms">sipi.bot for AI Agent Platforms — Built for Your Workflow</a></li><li><a href="/use-cases/multi-agent-budgets">sipi.bot for Multi-Agent Budget Allocation — Built for Your Workflow</a></li><li><a href="/glossary/merchant-allowlist">What is Merchant allowlist? sipi.bot glossary</a></li>
 </ul>
 </section>
+
+<h2>What OpenAI billing system does well</h2>
+<p>OpenAI's billing system handles payment methods, invoicing, and hard/soft usage limits at the organization level. You can set monthly spending caps that prevent charges beyond a threshold, and the dashboard shows real-time and historical spend by API key and model.</p>
+<h2>Where it falls short for agent spend</h2>
+<p>OpenAI billing caps are coarse — they apply to your entire organization's API usage, not individual agents. They can't distinguish between productive inference and a runaway agent loop. A monthly cap of $1,000 protects your budget from exceeding $1,000, but it doesn't prevent an agent from burning through the entire $1,000 in a single afternoon of retry loops. OpenAI billing is a ceiling. <a href="https://sipi.bot">sipi.bot</a> is a firewall: granular per-transaction, per-merchant, per-agent rules that evaluate each spend attempt individually.</p>
+<h2>When to pick each</h2>
+<p>Keep OpenAI billing for overall budget management. Add sipi.bot for agent-level spend control — the layer that catches anomalies within your budget before they exhaust it.</p>
 </article>
 <footer>
 <p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
