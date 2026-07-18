@@ -459,6 +459,29 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 <section id="pricing"><div class="wrap">
   <h2 class="center">Your agent's spending department.</h2>
   <p class="lead center">Not $0.05 per call. A flat firewall you never think about.</p>
+
+  <!-- VALUE STACK (Brunson DotCom Secrets Secret 18: The Stack) -->
+  <div class="valuestack" style="max-width:560px;margin:32px auto 0;padding:28px 24px;border:1px solid var(--line);border-radius:16px;background:var(--panel2)">
+    <div style="text-align:center;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:16px">What you actually get</div>
+    <ul style="list-style:none;padding:0;margin:0 0 18px;font-size:15px;line-height:2">
+      <li style="display:flex;justify-content:space-between;gap:12px"><span>Spend firewall engine (6 rule types, &lt;5ms)</span><strong style="color:var(--mut);text-decoration:line-through">$1,200/mo</strong></li>
+      <li style="display:flex;justify-content:space-between;gap:12px"><span>Live control-room dashboard + SSE</span><strong style="color:var(--mut);text-decoration:line-through">$400/mo</strong></li>
+      <li style="display:flex;justify-content:space-between;gap:12px"><span>Human-in-the-loop approval queue</span><strong style="color:var(--mut);text-decoration:line-through">$300/mo</strong></li>
+      <li style="display:flex;justify-content:space-between;gap:12px"><span>Tamper-evident audit log (compliance-grade)</span><strong style="color:var(--mut);text-decoration:line-through">$250/mo</strong></li>
+      <li style="display:flex;justify-content:space-between;gap:12px"><span>MCP tool + HTTP API + CLI (all runtimes)</span><strong style="color:var(--mut);text-decoration:line-through">$150/mo</strong></li>
+      <li style="display:flex;justify-content:space-between;gap:12px"><span>MIT self-host core + onboarding call</span><strong style="color:var(--mut);text-decoration:line-through">$200/mo</strong></li>
+    </ul>
+    <div style="border-top:1px dashed var(--line);padding-top:14px;display:flex;justify-content:space-between;align-items:baseline">
+      <span style="font-size:14px;color:var(--mut)">Total value</span>
+      <strong style="color:var(--mut);text-decoration:line-through;font-size:18px">$2,500/mo</strong>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:6px">
+      <span style="font-size:18px;color:var(--txt);font-weight:600">Your price</span>
+      <strong style="color:var(--accent);font-size:32px">$99/mo</strong>
+    </div>
+    <p style="text-align:center;font-size:12.5px;color:var(--mut);margin:10px 0 0">Same price whether your agent makes 10 or 10,000 decisions. No per-call fees. No overage tier.</p>
+  </div>
+
   <div class="price mt24">
     <div class="amt">$99<span> / month</span></div>
     <div class="strike">Hiring a human to babysit spend: $4,500/mo</div>
@@ -495,6 +518,23 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <p id="msg" style="color:var(--accent);font-size:14px;margin-top:10px"></p>
   </div>
 </div></section>
+
+<!-- TRAFFIC YOU OWN: standalone lead-magnet capture (Brunson Traffic Secrets Secret 5) -->
+<section id="get-the-playbook" style="background:linear-gradient(135deg,rgba(0,212,170,.06),rgba(0,212,170,.02));border-top:1px solid rgba(0,212,170,.15);border-bottom:1px solid rgba(0,212,170,.15);padding:48px 0">
+  <div class="wrap" style="max-width:680px;text-align:center">
+    <span style="display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600;padding:4px 12px;border:1px solid rgba(0,212,170,.3);border-radius:999px;margin-bottom:14px">Free · 5-day email playbook</span>
+    <h2 style="margin:0 0 8px">The Spend Firewall Playbook</h2>
+    <p style="color:var(--mut);font-size:16px;line-height:1.6;margin:0 0 20px">One email a day for five days. Day 1: the night my agent spent $12,400. Day 2: the six rules that stop it. Day 3: wiring it into your agent. Day 4: the eval suite. Day 5: the deployment checklist. No sales pressure — if the playbook isn't useful, unsubscribe anytime.</p>
+    <form class="form" style="max-width:460px;margin:0 auto" onsubmit="return sub(event)">
+      <div style="display:flex;gap:8px">
+        <input type="email" id="pb-em" placeholder="you@company.com" required style="flex:1">
+        <button class="btn" type="submit">Send me Day 1 →</button>
+      </div>
+      <p class="msg-inline" style="color:var(--accent);font-size:14px;margin:10px 0 0;text-align:center"></p>
+    </form>
+    <p style="font-size:12.5px;color:var(--mut);margin:12px 0 0">Joining the list does not sign you up for anything paid. The hosted plan is a separate checkout.</p>
+  </div>
+</section>
 
 <section id="faq"><div class="wrap">
   <h2 class="center">Frequently asked questions</h2>
@@ -545,12 +585,17 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
   </div>
 </div></footer>
 <script>
-function sub(e){e.preventDefault();var m=document.getElementById('msg');
+function sub(e){e.preventDefault();
+var form=e.target;var input=form.querySelector('input[type=email]');var email=input?input.value:'';
+var msgEl=form.querySelector('.msg-inline')||document.getElementById('msg');
 var ref=document.getElementById('ref')?document.getElementById('ref').value:'';
+if(!email){return false;}
+var btn=form.querySelector('button[type=submit]');if(btn){btn.disabled=true;var orig=btn.textContent;btn.textContent='Sending...';}
 fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
-body:JSON.stringify({email:document.getElementById('em').value,ref:ref})})
-.then(r=>r.json()).then(d=>{m.textContent=d.message||'You are on the list.';document.getElementById('em').value='';document.getElementById('ref').value='';})
-.catch(()=>{m.textContent='You are on the list.';});return false;}
+body:JSON.stringify({email:email,ref:ref})})
+.then(r=>r.json()).then(d=>{if(msgEl){msgEl.textContent=d.message||'You are on the list.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
+.catch(()=>{if(msgEl){msgEl.textContent='You are on the list.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
+return false;}
 </script>
 <!-- CROSS-PORTFOLIO NETWORK FOOTER — generated 2026-07-18 -->
 <style>
