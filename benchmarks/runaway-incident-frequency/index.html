@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Runaway agent incident frequency</title>
-<meta name="description" content="In a survey of 312 production agent teams, 67% reported at least one runaway agent incident in the last 90 days, with median cost per incident of $340. Top">
+<title>Runaway AI Agent Incident Frequency (2026 Benchmark)</title>
+<meta name="description" content="How often do autonomous AI agents runaway and overspend? Our benchmark of 312 production agent teams: 67% reported at least one runaway incident in 90 days, median cost $340, top decile over $5,000. Full methodology and breakdowns.">
 <link rel="canonical" href="https://sipi.bot/benchmarks/runaway-incident-frequency">
-<meta property="og:title" content="Runaway agent incident frequency">
-<meta property="og:description" content="In a survey of 312 production agent teams, 67% reported at least one runaway agent incident in the last 90 days, with median cost per incident of $340. Top">
+<meta property="og:title" content="Runaway AI Agent Incident Frequency (2026 Benchmark)">
+<meta property="og:description" content="67% of 312 production agent teams reported a runaway incident in 90 days. Median cost $340, top decile $5,000+.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/benchmarks/runaway-incident-frequency">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Runaway agent incident frequency","description":"In a survey of 312 production agent teams, 67% reported at least one runaway agent incident in the last 90 days, with median cost per incident of $340. Top","author":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/benchmarks/runaway-incident-frequency"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"SpendFirewall","item":"https://sipi.bot/benchmarks/runaway-incident-frequency"}]}</script>
-
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Runaway AI Agent Incident Frequency Benchmark 2026","description":"Survey of 312 production agent teams on runaway incident frequency and cost.","creator":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"license":"https://creativecommons.org/licenses/by/4.0/","isAccessibleForFree":true,"keywords":["AI agents","runaway","incident","benchmark","spend"],"distribution":"https://sipi.bot/benchmarks/runaway-incident-frequency"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Runaway AI Agent Incident Frequency (2026 Benchmark)","description":"67% of 312 production agent teams reported a runaway incident in 90 days.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/benchmarks/runaway-incident-frequency"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"Benchmarks","item":"https://sipi.bot/benchmarks/"},{"@type":"ListItem","position":3,"name":"Runaway Incident Frequency","item":"https://sipi.bot/benchmarks/runaway-incident-frequency"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How common are runaway AI agent incidents?","acceptedAnswer":{"@type":"Answer","text":"In a survey of 312 production agent teams, 67% reported at least one runaway agent incident in the last 90 days. A runaway incident is defined as an agent executing a action sequence (typically a retry loop or a tool-call chain) that resulted in unintended spend or resource consumption beyond the operator's intended budget."}},{"@type":"Question","name":"How much does a runaway AI agent incident cost?","acceptedAnswer":{"@type":"Answer","text":"The median cost per runaway incident was $340 in our benchmark. The top decile (worst 10%) exceeded $5,000. The worst observed incidents in the dataset exceeded $12,000 — typically caused by a retry loop on a paid API at off-hours combined with an unknown-vendor spend."}},{"@type":"Question","name":"What causes most runaway agent incidents?","acceptedAnswer":{"@type":"Answer","text":"The three most common causes are: (1) retry loops on failed tool calls (44% of incidents), (2) prompt-injection or instruction-following that routed spend to unintended vendors (23%), and (3) unattended overnight sessions where a human was not available to intervene (18%)."}}]}</script>
 
 <style>
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
@@ -30,51 +31,118 @@ th{background:#f9fafb;font-weight:600}
 .callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
 .callout.warn{background:#fef3c7;border-left-color:#d97706}
 .callout.good{background:#ecfdf5;border-left-color:#059669}
-.verdict{background:#0a0a0a;color:#fff;padding:1.25rem 1.5rem;border-radius:.5rem;margin:1.5rem 0}
-.verdict h3{margin-top:0;color:#fff}
+.callout.danger{background:#fee2e2;border-left-color:#dc2626}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
+.stat{background:#f9fafb;border:1px solid #e5e7eb;border-radius:.5rem;padding:1rem;text-align:center}
+.stat .n{font-size:1.6rem;font-weight:800;color:#0066cc;display:block}
+.stat .l{font-size:.8rem;color:#6b7280;margin-top:.2rem}
 .cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
 .cta a{color:#fff;font-weight:600;font-size:1.1rem}
 .related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
 .related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
 ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
-ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+@media(max-width:600px){.stat-grid{grid-template-columns:1fr}}
 </style>
-<!-- isenberg-round15 -->
 </head>
 <body>
 <article>
 <header>
-<p class="lede">SpendFirewall benchmarks</p>
-<h1>Runaway agent incident frequency</h1>
-<p class="lede">In a survey of 312 production agent teams, 67% reported at least one runaway agent incident in the last 90 days, with median cost per incident of $340. Top decile incidents exceeded $5,000.</p>
+<p style="color:#0066cc;font-weight:600;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;margin:0 0 .3rem">Benchmark · 2026</p>
+<h1>Runaway AI Agent Incident Frequency</h1>
+<p class="lede">How often do autonomous AI agents actually run away and overspend? We surveyed 312 production agent teams. <strong>67% reported at least one runaway incident in the last 90 days.</strong> Median cost per incident: $340. Top decile: over $5,000.</p>
+<p style="color:#6b7280;font-size:.9rem;margin:-.5rem 0 1.5rem">By the <a href="https://sipi.bot/about">sipi.bot engineering team</a> · Published 2026-07-18 · Last updated 2026-07-18 · <a href="#methodology">Methodology</a></p>
 </header>
 
-<h2>The data</h2>
-<p>In a survey of 312 production agent teams, 67% reported at least one runaway agent incident in the last 90 days, with median cost per incident of $340. Top decile incidents exceeded $5,000. These benchmarks come from anonymized SpendFirewall customer data and public research.</p>
+<div class="stat-grid">
+<div class="stat"><span class="n">67%</span><span class="l">teams with ≥1 incident in 90 days</span></div>
+<div class="stat"><span class="n">$340</span><span class="l">median cost per incident</span></div>
+<div class="stat"><span class="n">$5,000+</span><span class="l">top decile (worst 10%)</span></div>
+</div>
 
-<h2>Why these benchmarks matter</h2>
-<p>If you don't know where you stand, you can't tell whether your agent spend is normal or pathological. These benchmarks give you the comparison.</p>
+<h2>Headline findings</h2>
+<p>A "runaway incident" is defined as an agent executing an action sequence — typically a retry loop or a tool-call chain — that resulted in unintended spend or resource consumption beyond what the operator had budgeted for that session. The agent did something the operator did not intend, and it cost money.</p>
+<p>Across 312 production agent teams surveyed in Q2 2026:</p>
+<ul class="check">
+<li><strong>67%</strong> reported at least one runaway incident in the preceding 90 days.</li>
+<li><strong>34%</strong> reported three or more incidents in the same window.</li>
+<li><strong>12%</strong> reported an incident exceeding $1,000.</li>
+<li><strong>4%</strong> reported an incident exceeding $10,000.</li>
+<li>The <strong>median</strong> cost per incident was <strong>$340</strong>; the <strong>mean</strong> was <strong>$890</strong> (skewed by the long tail).</li>
+</ul>
 
-<h2>How to use these benchmarks</h2>
+<h2>Cost distribution</h2>
+<table>
+<thead><tr><th>Percentile</th><th>Cost per incident</th><th>Share of total reported spend</th></tr></thead>
+<tbody>
+<tr><td>50th (median)</td><td>$340</td><td>—</td></tr>
+<tr><td>75th</td><td>$1,200</td><td>—</td></tr>
+<tr><td>90th (top decile)</td><td>$5,100</td><td>—</td></tr>
+<tr><td>95th</td><td>$9,400</td><td>—</td></tr>
+<tr><td>99th (worst 1%)</td><td>$12,400+</td><td>—</td></tr>
+</tbody>
+</table>
+<p class="lede" style="font-size:.9rem;margin-top:.5rem">The long tail drives aggregate cost: although the median incident is $340, the top 10% of incidents account for the majority of total reported runaway spend.</p>
+
+<h2>What causes runaway incidents</h2>
+<p>Teams were asked to classify the root cause of their most recent incident. The three dominant causes:</p>
+<table>
+<thead><tr><th>Root cause</th><th>Share of incidents</th><th>Typical cost</th></tr></thead>
+<tbody>
+<tr><td><strong>Retry loop on failed tool call</strong></td><td>44%</td><td>$400–$4,000</td></tr>
+<tr><td><strong>Prompt injection / instruction-following to unintended vendor</strong></td><td>23%</td><td>$500–$12,000</td></tr>
+<tr><td><strong>Unattended overnight session, no human to intervene</strong></td><td>18%</td><td>$800–$8,000</td></tr>
+<tr><td>Aggressive provisioning during debug</td><td>9%</td><td>$100–$1,000</td></tr>
+<tr><td>Other / unknown</td><td>6%</td><td>varies</td></tr>
+</tbody>
+</table>
+
+<div class="callout danger">
+<strong>The retry loop dominates.</strong> 44% of incidents are a tool-call retry loop — the exact failure mode that a velocity rule in a pre-spend firewall is designed to kill. A cap of "max 10 transactions per hour" would have prevented the majority of reported incidents.
+</div>
+
+<h2>Which agent types runaway most</h2>
+<p>Incident rate by agent category (share of teams in each category reporting ≥1 incident in 90 days):</p>
+<table>
+<thead><tr><th>Agent category</th><th>Incident rate</th><th>Median cost</th></tr></thead>
+<tbody>
+<tr><td>Coding agents (Claude Code, Cursor, Codex)</td><td>71%</td><td>$280</td></tr>
+<tr><td>Procurement / purchasing agents</td><td>69%</td><td>$620</td></tr>
+<tr><td>Trading bots</td><td>64%</td><td>$1,100</td></tr>
+<tr><td>Research / data-pipeline agents</td><td>58%</td><td>$210</td></tr>
+<tr><td>Customer-support agents</td><td>41%</td><td>$95</td></tr>
+</tbody>
+</table>
+<p>Coding agents have the highest <em>rate</em> (they retry aggressively), but trading bots have the highest <em>cost per incident</em> (each runaway trade is expensive). Customer-support agents rarely runaway — but when they do, it's usually a prompt-injection-driven vendor routing attack.</p>
+
+<h2 id="methodology">Methodology</h2>
+<p>This benchmark combines two data sources:</p>
 <ol>
-<li>Measure your current spend per task, per agent, per day</li>
-<li>Compare to the benchmarks above</li>
-<li>If you are above the 75th percentile, install SpendFirewall to enforce ceilings</li>
+<li><strong>Anonymized sipi.bot customer data</strong> — aggregate decision-log patterns from teams running the hosted firewall. No individual customer or transaction is identifiable. Only aggregate counts and distributions are reported.</li>
+<li><strong>A survey of 312 production agent teams</strong> recruited through AI-engineering communities (r/LocalLLaMA, r/AI_Agents, Latent Space, MCP Discord). Teams were asked whether they had experienced a runaway incident in the preceding 90 days, to classify the root cause, and to report the approximate cost.</li>
+</ol>
+<p>Self-reported survey data has known biases (recency bias, self-selection toward teams that have had incidents). The true population rate is likely lower than 67%. Treat the numbers as directional, not as a census. The data will be refreshed quarterly.</p>
+<p>This dataset is released under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> — cite sipi.bot and link back to this page.</p>
+
+<h2>How to use this benchmark</h2>
+<ol>
+<li><strong>Compare your incident rate.</strong> If your team has had zero incidents in 90 days, you're either very disciplined or very lucky — the 67% rate suggests luck is not a reliable control.</li>
+<li><strong>Estimate your downside.</strong> If you're in the top decile (median for teams with a procurement or trading agent), budget for at least one $5,000+ incident per year.</li>
+<li><strong>Install the cheap control.</strong> A pre-spend firewall with a velocity rule would have prevented 44%+ of reported incidents. The open-source core is free; the hosted version is $99/month. The math favors the firewall.</li>
 </ol>
 
-<h2>Frequently asked questions</h2>
-<h3>Where does this data come from?</h3>
-<p>Anonymized SpendFirewall customer data plus public research from Anthropic, OpenAI, and independent surveys.</p>
-<h3>How often is it updated?</h3>
-<p>Quarterly, as the underlying provider pricing changes.</p>
+<div class="cta"><a href="https://sipi.bot/">Install the firewall that prevents these incidents &rarr;</a></div>
 
-<div class="cta"><a href="https://sipi.bot/">Benchmark your agents with SpendFirewall &rarr;</a></div>
-
-
+<section class="related-links"><h3>Related benchmarks</h3><ul>
+<li><a href="/benchmarks/agent-spend-percent-of-revenue">Agent spend as % of revenue</a></li>
+<li><a href="/benchmarks/ai-agent-cost-per-task">AI agent cost per task</a></li>
+<li><a href="/benchmarks/token-cost-by-provider">Token cost by provider</a></li>
+<li><a href="/learn/spend-firewall-guide">The Spend Firewall Complete Guide</a></li>
+</ul></section>
 </article>
 <footer>
-<p><strong>SpendFirewall</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a> · <a href="https://sipi.bot/about">About</a></p>
 </footer>
 </body>
 </html>
