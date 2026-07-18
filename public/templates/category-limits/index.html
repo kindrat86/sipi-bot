@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Category-based spend limits template for AI agents — sipi.bot</title>
+<meta name="description" content="A template for setting spend limits by category — compute, API, ads, goods, services. Control where your agents spend, not just how much.">
+<link rel="canonical" href="https://sipi.bot/templates/category-limits/">
+<meta property="og:title" content="Category-based spend limits template for AI agents — sipi.bot">
+<meta property="og:description" content="A template for setting spend limits by category — compute, API, ads, goods, services. Control where your agents spend, not just how much.">
+<meta property="og:type" content="article"><meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What categories are supported?", "acceptedAnswer": {"@type": "Answer", "text": "sipi.bot accepts any string as a category. Common choices: compute, api, ads, goods, services, software, travel, other. Pick a taxonomy that fits your agent's spending patterns and enforce it in your agent prompts."}}, {"@type": "Question", "name": "Do category limits replace the daily total cap?", "acceptedAnswer": {"@type": "Answer", "text": "No, they complement it. Set a global daily_total as your hard ceiling and category limits to prevent any single category from consuming the entire budget. Both rules fire on every transaction."}}, {"@type": "Question", "name": "Can I add custom categories?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The category field is a free-form string. Add categories like 'training', 'inference', 'data-labeling', or any label that makes sense for your use case. Create matching category_limit rules for each."}}]}</script>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#00d4aa;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px}
+nav{border-bottom:1px solid #23242a;position:sticky;top:0;background:rgba(10,10,10,.9);backdrop-filter:blur(10px);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+.brand{font-weight:700;font-size:18px}.brand .d{color:#00d4aa}
+.nav-links a{color:#8a8d96;margin-left:20px;font-size:14px}
+main{padding:52px 0}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:8px}
+.lead{font-size:19px;color:#8a8d96;margin-bottom:28px}
+h2{font-size:24px;margin:36px 0 12px;letter-spacing:-.01em}
+p{color:#c9ccd3;margin-bottom:14px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:20px}
+pre{background:#000;border:1px solid #23242a;border-radius:12px;padding:18px;overflow-x:auto;font-size:13.5px;line-height:1.5;color:#cfd2d8;margin:16px 0;font-family:'SF Mono',ui-monospace,Menlo,monospace}
+code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
+.card{background:#121316;border:1px solid #23242a;border-radius:14px;padding:20px;margin:16px 0}
+.cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:13px 24px;border-radius:10px;margin:8px 8px 8px 0}
+.cmp{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
+.cmp th,.cmp td{border:1px solid #23242a;padding:12px 14px;text-align:left}
+.cmp thead th{background:#121316;color:#e8e8ea;font-weight:700}
+.cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+.cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
+footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
+ol,ul{margin:0 0 16px 22px;color:#c9ccd3}
+ol li,ul li{margin-bottom:8px;line-height:1.6}
+@media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
+</style></head><body>
+<nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
+<main><div class="wrap">
+<p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-17 · Last updated 2026-07-17</p>
+<span class="tag">Template</span>
+<h1>Per-category spend limit template</h1>
+<p class="lead">Limit spending by category so your agents can't blow the compute budget even if the total is under the daily cap. Set independent limits for compute, APIs, ads, goods, and services.</p>
+
+<h2>Category limit rules</h2>
+<pre># Compute: up to $500/day (GPU rentals, cloud instances)
+curl -X POST https://sipi.bot/api/rules \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -d '{"rule_type":"category_limit","params":{"category":"compute","max_amount":500},"action":"BLOCKED","label":"compute-daily-cap"}'
+
+# APIs: up to $300/day (LLM tokens, search APIs, data feeds)
+curl -X POST https://sipi.bot/api/rules \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -d '{"rule_type":"category_limit","params":{"category":"api","max_amount":300},"action":"BLOCKED","label":"api-daily-cap"}'
+
+# Ads: up to $200/day (Google Ads, Meta Ads, LinkedIn Ads)
+curl -X POST https://sipi.bot/api/rules \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -d '{"rule_type":"category_limit","params":{"category":"ads","max_amount":200},"action":"BLOCKED","label":"ads-daily-cap"}'
+
+# Goods: up to $100/day (physical products, hardware)
+curl -X POST https://sipi.bot/api/rules \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -d '{"rule_type":"category_limit","params":{"category":"goods","max_amount":100},"action":"BLOCKED","label":"goods-daily-cap"}'
+
+# Services: up to $150/day (SaaS subscriptions, professional services)
+curl -X POST https://sipi.bot/api/rules \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -d '{"rule_type":"category_limit","params":{"category":"services","max_amount":150},"action":"BLOCKED","label":"services-daily-cap"}'</pre>
+
+<h2>How agents use categories</h2>
+<p>Your agent passes a category string when calling the spend firewall:</p>
+<pre># Python
+from sipi_guard import evaluate
+result = evaluate(amount=75.00, merchant="runpod.io", category="compute")
+
+# TypeScript
+import { evaluateSpend } from "./sipiGuard";
+const result = await evaluateSpend({amount: 75, merchant: "runpod.io", category: "compute"});
+
+# HTTP
+curl -X POST https://sipi.bot/v1/transactions/evaluate \
+  -d '{"amount":75,"merchant":"runpod.io","category":"compute"}'</pre>
+
+<p>Pick a category taxonomy that matches your business and document it in the agent's system prompt so every agent categorizes consistently.</p>
+<h2>Frequently asked</h2>
+<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">What categories are supported?</h3><p>sipi.bot accepts any string as a category. Common choices: compute, api, ads, goods, services, software, travel, other. Pick a taxonomy that fits your agent&#x27;s spending patterns and enforce it in your agent prompts.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Do category limits replace the daily total cap?</h3><p>No, they complement it. Set a global daily_total as your hard ceiling and category limits to prevent any single category from consuming the entire budget. Both rules fire on every transaction.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can I add custom categories?</h3><p>Yes. The category field is a free-form string. Add categories like &#x27;training&#x27;, &#x27;inference&#x27;, &#x27;data-labeling&#x27;, or any label that makes sense for your use case. Create matching category_limit rules for each.</p></div>
+<p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
+<a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
+</div></main>
+<footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents ·
+<a href="/for/">Integrations</a> · <a href="/">Home</a></div></footer>
+</body></html>

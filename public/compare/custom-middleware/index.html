@@ -1,0 +1,67 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>sipi.bot vs building custom spend middleware — sipi.bot</title>
+<meta name="description" content="Compare building your own spend guard in FastAPI/Express middleware to using sipi.bot. One is a weekend project; the other is a maintained firewall with an eval suite.">
+<link rel="canonical" href="https://sipi.bot/compare/custom-middleware/">
+<meta property="og:title" content="sipi.bot vs building custom spend middleware — sipi.bot">
+<meta property="og:description" content="Compare building your own spend guard in FastAPI/Express middleware to using sipi.bot. One is a weekend project; the other is a maintained firewall with an eval suite.">
+<meta property="og:type" content="article"><meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is building a custom guard really that hard?", "acceptedAnswer": {"@type": "Answer", "text": "The v1 is easy \u2014 one if statement. The v5 (daily totals, velocity, human-in-the-loop, audit trail) is a non-trivial distributed systems problem. sipi.bot has already solved it, tested it, and open-sourced the core."}}, {"@type": "Question", "name": "Can I extend sipi.bot if my needs are unique?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The core is MIT-licensed and runs on your hardware. Fork it, add custom rule types, wire in your own notification channels. The hosted version gives you uptime and support; the code is yours to modify."}}, {"@type": "Question", "name": "What if I only need per-transaction caps?", "acceptedAnswer": {"@type": "Answer", "text": "If that's truly all you need, a 2-line guard function is fine. The question is: will you still only need per-transaction caps in six months, when your agent fleet has grown and your CFO is asking about audit trails?"}}]}</script>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#00d4aa;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px}
+nav{border-bottom:1px solid #23242a;position:sticky;top:0;background:rgba(10,10,10,.9);backdrop-filter:blur(10px);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+.brand{font-weight:700;font-size:18px}.brand .d{color:#00d4aa}
+.nav-links a{color:#8a8d96;margin-left:20px;font-size:14px}
+main{padding:52px 0}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:8px}
+.lead{font-size:19px;color:#8a8d96;margin-bottom:28px}
+h2{font-size:24px;margin:36px 0 12px;letter-spacing:-.01em}
+p{color:#c9ccd3;margin-bottom:14px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:20px}
+pre{background:#000;border:1px solid #23242a;border-radius:12px;padding:18px;overflow-x:auto;font-size:13.5px;line-height:1.5;color:#cfd2d8;margin:16px 0;font-family:'SF Mono',ui-monospace,Menlo,monospace}
+code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
+.card{background:#121316;border:1px solid #23242a;border-radius:14px;padding:20px;margin:16px 0}
+.cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:13px 24px;border-radius:10px;margin:8px 8px 8px 0}
+.cmp{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
+.cmp th,.cmp td{border:1px solid #23242a;padding:12px 14px;text-align:left}
+.cmp thead th{background:#121316;color:#e8e8ea;font-weight:700}
+.cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+.cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
+footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
+ol,ul{margin:0 0 16px 22px;color:#c9ccd3}
+ol li,ul li{margin-bottom:8px;line-height:1.6}
+@media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
+</style></head><body>
+<nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
+<main><div class="wrap">
+<p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-17 · Last updated 2026-07-17</p>
+<span class="tag">Comparison</span>
+<h1>sipi.bot vs building custom spend middleware</h1>
+<p class="lead">Every team with an agent that spends money eventually writes a guard function. Here's what that guard function grows into, and why teams ship it to sipi.bot instead of maintaining it forever.</p>
+
+<h2>The life cycle of a custom spend guard</h2>
+<p>Week 1: <code>if amount > 500: raise ValueError</code>. Week 2: add a merchant list. Week 4: add daily totals in Redis. Week 8: add a human approval queue. Week 12: add an audit log. Week 16: realize you've built a worse version of sipi.bot, with no test suite, no eval gym, and your intern maintaining it.</p>
+
+<table class="cmp"><thead><tr><th>What you need</th><th>DIY middleware effort</th><th>sipi.bot</th></tr></thead><tbody>
+<tr><td>Per-transaction cap</td><td>2 lines of Python</td><td>Built-in</td></tr>
+<tr><td>Merchant allow/block list</td><td>A dict and an if statement</td><td>Built-in, configurable in dashboard</td></tr>
+<tr><td>Daily spending total across agents</td><td>Redis or Postgres, TTL keys, race conditions</td><td>Built-in, single writer, no races</td></tr>
+<tr><td>Velocity / runaway-loop protection</td><td>Sliding window counter, careful edge cases</td><td>Built-in, 53-scenario eval gym verified</td></tr>
+<tr><td>Human approval queue</td><td>Slack bot or custom dashboard</td><td>Built-in dashboard with Approve/Deny</td></tr>
+<tr><td>Tamper-evident audit log</td><td>Append-only table, hash chaining</td><td>Built-in, every decision logged</td></tr>
+<tr><td>Testing and maintenance</td><td>Your team's burden forever</td><td>Our team's burden; open-source core you can audit</td></tr>
+</tbody></table>
+
+<h2>The real cost is maintenance</h2>
+<p>Building the first version takes a weekend. Maintaining it — handling edge cases, fixing race conditions, adding features as your agent fleet grows, writing tests for every new rule — is a permanent tax on your team. sipi.bot costs $99/mo and ships with a 53-scenario eval suite that proves every rule works. The alternative is paying your engineer $150/hour to maintain a custom guard forever.</p>
+<h2>Frequently asked</h2>
+<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Is building a custom guard really that hard?</h3><p>The v1 is easy — one if statement. The v5 (daily totals, velocity, human-in-the-loop, audit trail) is a non-trivial distributed systems problem. sipi.bot has already solved it, tested it, and open-sourced the core.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can I extend sipi.bot if my needs are unique?</h3><p>Yes. The core is MIT-licensed and runs on your hardware. Fork it, add custom rule types, wire in your own notification channels. The hosted version gives you uptime and support; the code is yours to modify.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">What if I only need per-transaction caps?</h3><p>If that&#x27;s truly all you need, a 2-line guard function is fine. The question is: will you still only need per-transaction caps in six months, when your agent fleet has grown and your CFO is asking about audit trails?</p></div>
+<p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
+<a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
+</div></main>
+<footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents ·
+<a href="/for/">Integrations</a> · <a href="/">Home</a></div></footer>
+</body></html>

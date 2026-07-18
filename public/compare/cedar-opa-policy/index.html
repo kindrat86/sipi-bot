@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>sipi.bot vs Cedar/OPA policy engines for agent spend — sipi.bot</title>
+<meta name="description" content="Compare general-purpose policy engines (Cedar, OPA/Rego) to sipi.bot&#x27;s purpose-built spend firewall. Policy engines need you to write the spend logic; sipi.bot ships with it.">
+<link rel="canonical" href="https://sipi.bot/compare/cedar-opa-policy/">
+<meta property="og:title" content="sipi.bot vs Cedar/OPA policy engines for agent spend — sipi.bot">
+<meta property="og:description" content="Compare general-purpose policy engines (Cedar, OPA/Rego) to sipi.bot&#x27;s purpose-built spend firewall. Policy engines need you to write the spend logic; sipi.bot ships with it.">
+<meta property="og:type" content="article"><meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can sipi.bot replace OPA in my stack?", "acceptedAnswer": {"@type": "Answer", "text": "No. OPA is a general authorization engine for your entire platform \u2014 APIs, Kubernetes, microservices. sipi.bot is specifically for AI agent spend control. They solve different problems and can coexist."}}, {"@type": "Question", "name": "If I already use Cedar, do I still need sipi.bot?", "acceptedAnswer": {"@type": "Answer", "text": "Probably yes. Cedar evaluates authorization policies; sipi.bot evaluates spend decisions with domain-specific primitives (velocity, merchant rules, daily caps) that you'd have to reimplement in Cedar from scratch."}}, {"@type": "Question", "name": "Can sipi.bot's rules be expressed in Rego or Cedar?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, with enough effort. The question is: do you want to build, test, and maintain a complete spend-control system in a general policy language, or use a purpose-built product that ships with the primitives, dashboard, and eval suite already done?"}}]}</script>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#00d4aa;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px}
+nav{border-bottom:1px solid #23242a;position:sticky;top:0;background:rgba(10,10,10,.9);backdrop-filter:blur(10px);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+.brand{font-weight:700;font-size:18px}.brand .d{color:#00d4aa}
+.nav-links a{color:#8a8d96;margin-left:20px;font-size:14px}
+main{padding:52px 0}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:8px}
+.lead{font-size:19px;color:#8a8d96;margin-bottom:28px}
+h2{font-size:24px;margin:36px 0 12px;letter-spacing:-.01em}
+p{color:#c9ccd3;margin-bottom:14px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:20px}
+pre{background:#000;border:1px solid #23242a;border-radius:12px;padding:18px;overflow-x:auto;font-size:13.5px;line-height:1.5;color:#cfd2d8;margin:16px 0;font-family:'SF Mono',ui-monospace,Menlo,monospace}
+code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
+.card{background:#121316;border:1px solid #23242a;border-radius:14px;padding:20px;margin:16px 0}
+.cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:13px 24px;border-radius:10px;margin:8px 8px 8px 0}
+.cmp{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
+.cmp th,.cmp td{border:1px solid #23242a;padding:12px 14px;text-align:left}
+.cmp thead th{background:#121316;color:#e8e8ea;font-weight:700}
+.cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+.cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
+footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
+ol,ul{margin:0 0 16px 22px;color:#c9ccd3}
+ol li,ul li{margin-bottom:8px;line-height:1.6}
+@media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
+</style></head><body>
+<nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
+<main><div class="wrap">
+<p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-17 · Last updated 2026-07-17</p>
+<span class="tag">Comparison</span>
+<h1>sipi.bot vs Cedar and OPA: purpose-built spend firewall vs general policy engines</h1>
+<p class="lead">Cedar and Open Policy Agent are powerful policy engines. But they're policy *frameworks* — you write the spend rules from scratch. sipi.bot is a spend *product* — the rules, the dashboard, and the audit trail ship pre-built.</p>
+
+<table class="cmp"><thead><tr><th>Dimension</th><th>Cedar / OPA</th><th>sipi.bot</th></tr></thead><tbody>
+<tr><td>What it is</td><td>A policy language and evaluation engine</td><td>A spend firewall product with a pre-built rule set</td></tr>
+<tr><td>Rule authoring</td><td>You write Cedar policies or Rego rules from scratch</td><td>Pre-built rule types: per-tx cap, daily total, velocity, merchant, category, time window, approval threshold</td></tr>
+<tr><td>Domain knowledge required</td><td>General policy logic; you define everything</td><td>None — the spend-control primitives are built in</td></tr>
+<tr><td>Dashboard / UI</td><td>None — you build your own</td><td>Live dashboard with transaction feed, approval queue, rule editor</td></tr>
+<tr><td>Audit trail</td><td>You implement logging yourself</td><td>Tamper-evident audit log built in</td></tr>
+<tr><td>Agent framework integrations</td><td>You write the SDK wrappers</td><td>Pre-built wrappers for LangChain, CrewAI, OpenAI SDK, Vercel AI SDK</td></tr>
+<tr><td>Best for</td><td>Arbitrary authorization policies across an entire platform</td><td>Controlling how much money AI agents can spend, where, and when</td></tr>
+</tbody></table>
+
+<h2>Policy engine vs policy product</h2>
+<p>Cedar and OPA are excellent for what they do — arbitrary authorization policies — but they are not spend firewalls. To use them for agent spend control, you must design the spend model (amount, merchant, category, velocity), write the policy rules in their language, build the integration layer, add a dashboard, and maintain it all. sipi.bot gives you that entire stack in one product, pre-built and tested.</p>
+<p>If you already run OPA for platform-wide authorization and want to add agent spend control as one more policy domain, sipi.bot composes cleanly — call sipi.bot from your agent code, and keep OPA for everything else. They're not competitors; they operate at different layers of the stack.</p>
+<h2>Frequently asked</h2>
+<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can sipi.bot replace OPA in my stack?</h3><p>No. OPA is a general authorization engine for your entire platform — APIs, Kubernetes, microservices. sipi.bot is specifically for AI agent spend control. They solve different problems and can coexist.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">If I already use Cedar, do I still need sipi.bot?</h3><p>Probably yes. Cedar evaluates authorization policies; sipi.bot evaluates spend decisions with domain-specific primitives (velocity, merchant rules, daily caps) that you&#x27;d have to reimplement in Cedar from scratch.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can sipi.bot&#x27;s rules be expressed in Rego or Cedar?</h3><p>Yes, with enough effort. The question is: do you want to build, test, and maintain a complete spend-control system in a general policy language, or use a purpose-built product that ships with the primitives, dashboard, and eval suite already done?</p></div>
+<p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
+<a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
+</div></main>
+<footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents ·
+<a href="/for/">Integrations</a> · <a href="/">Home</a></div></footer>
+</body></html>

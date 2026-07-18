@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spend guard prompt template for AI agents — sipi.bot</title>
+<meta name="description" content="A reusable system prompt template that instructs your AI agent to check spend limits before every purchase. Drop into any agent framework — LangChain, CrewAI, OpenAI, Vercel AI SDK.">
+<link rel="canonical" href="https://sipi.bot/templates/spend-guard-prompt/">
+<meta property="og:title" content="Spend guard prompt template for AI agents — sipi.bot">
+<meta property="og:description" content="A reusable system prompt template that instructs your AI agent to check spend limits before every purchase. Drop into any agent framework — LangChain, CrewAI, OpenAI, Vercel AI SDK.">
+<meta property="og:type" content="article"><meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can the agent ignore this prompt?", "acceptedAnswer": {"@type": "Answer", "text": "Strong prompt engineering reduces the risk, but for hard enforcement, wrap the actual purchase tool with sipi_guard.py (Python) or sipiGuard.ts (TypeScript). The prompt sets the policy; the code wrapper enforces it even if the model ignores the prompt."}}, {"@type": "Question", "name": "Should I customize this template?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Add your specific daily budget, allowed merchants, and approval process details. The template is a starting point \u2014 adapt it to your organization's policies."}}, {"@type": "Question", "name": "Does this work with any LLM?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The template uses plain English instructions, no model-specific syntax. Works with GPT-4, Claude, Gemini, Llama, and any other capable LLM."}}]}</script>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#00d4aa;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px}
+nav{border-bottom:1px solid #23242a;position:sticky;top:0;background:rgba(10,10,10,.9);backdrop-filter:blur(10px);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+.brand{font-weight:700;font-size:18px}.brand .d{color:#00d4aa}
+.nav-links a{color:#8a8d96;margin-left:20px;font-size:14px}
+main{padding:52px 0}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:8px}
+.lead{font-size:19px;color:#8a8d96;margin-bottom:28px}
+h2{font-size:24px;margin:36px 0 12px;letter-spacing:-.01em}
+p{color:#c9ccd3;margin-bottom:14px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:20px}
+pre{background:#000;border:1px solid #23242a;border-radius:12px;padding:18px;overflow-x:auto;font-size:13.5px;line-height:1.5;color:#cfd2d8;margin:16px 0;font-family:'SF Mono',ui-monospace,Menlo,monospace}
+code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
+.card{background:#121316;border:1px solid #23242a;border-radius:14px;padding:20px;margin:16px 0}
+.cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:13px 24px;border-radius:10px;margin:8px 8px 8px 0}
+.cmp{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
+.cmp th,.cmp td{border:1px solid #23242a;padding:12px 14px;text-align:left}
+.cmp thead th{background:#121316;color:#e8e8ea;font-weight:700}
+.cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+.cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
+footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
+ol,ul{margin:0 0 16px 22px;color:#c9ccd3}
+ol li,ul li{margin-bottom:8px;line-height:1.6}
+@media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
+</style></head><body>
+<nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
+<main><div class="wrap">
+<p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-17 · Last updated 2026-07-17</p>
+<span class="tag">Template</span>
+<h1>Spend guard system prompt template</h1>
+<p class="lead">Give your agent this system prompt and it will check every purchase against your spend firewall before spending a dollar. Works with any agent framework.</p>
+
+<h2>The template</h2>
+<pre>You are an autonomous agent with the ability to spend money to accomplish tasks.
+Before every purchase, you MUST follow this spend-control protocol:
+
+1. IDENTIFY the purchase: amount, merchant name, and category (compute, api, ads,
+   goods, services, other).
+2. CALL the spend firewall: use the spend_guard tool with the amount, merchant, and
+   category. The firewall returns APPROVED, BLOCKED, or FLAGGED.
+3. ACT on the decision:
+   - APPROVED: proceed with the purchase.
+   - BLOCKED: do NOT retry. Explain to the user why the spend was blocked and stop.
+   - FLAGGED: explain to the user that the purchase requires human approval and
+     that you are waiting. Do NOT attempt to buy or find an alternative payment method.
+
+NEVER attempt to bypass the firewall by:
+- Splitting a large purchase into smaller transactions.
+- Using a different payment method.
+- Omitting or lying about the merchant name or category.
+Violations will be detected by velocity and merchant rules.</pre>
+
+<h2>Where to put it</h2>
+<p><strong>LangChain:</strong> Add to the system message in <code>ChatPromptTemplate.from_messages([("system", TEMPLATE), ...])</code>. <strong>CrewAI:</strong> Put in the agent's <code>backstory</code> parameter. <strong>OpenAI Agents SDK:</strong> Add to the <code>instructions</code> string in <code>Agent(instructions=TEMPLATE)</code>. <strong>Vercel AI SDK:</strong> Add to the <code>system</code> prop in <code>generateText({ system: TEMPLATE })</code>.</p>
+<h2>Frequently asked</h2>
+<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can the agent ignore this prompt?</h3><p>Strong prompt engineering reduces the risk, but for hard enforcement, wrap the actual purchase tool with sipi_guard.py (Python) or sipiGuard.ts (TypeScript). The prompt sets the policy; the code wrapper enforces it even if the model ignores the prompt.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Should I customize this template?</h3><p>Yes. Add your specific daily budget, allowed merchants, and approval process details. The template is a starting point — adapt it to your organization&#x27;s policies.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does this work with any LLM?</h3><p>Yes. The template uses plain English instructions, no model-specific syntax. Works with GPT-4, Claude, Gemini, Llama, and any other capable LLM.</p></div>
+<p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
+<a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
+</div></main>
+<footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents ·
+<a href="/for/">Integrations</a> · <a href="/">Home</a></div></footer>
+</body></html>
