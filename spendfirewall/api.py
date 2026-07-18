@@ -144,11 +144,15 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", origin)
         self.send_header("Access-Control-Allow-Headers", "Authorization,Content-Type")
         self.send_header("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS,HEAD")
-        # Security headers (Technical SEO + hardening)
+        # Security headers (Technical SEO + hardening) — matches _html() set.
+        # CSP/PP are tighter than HTML: JSON/XML responses carry no scripts,
+        # frames, or external assets, so default-src 'none' is safe here.
         self.send_header("X-Content-Type-Options", "nosniff")
-        self.send_header("X-Frame-Options", "SAMEORIGIN")
+        self.send_header("X-Frame-Options", "DENY")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
-        self.send_header("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
+        self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+        self.send_header("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
         self.close_connection = True
         self.end_headers()
         if getattr(self, "_head_only", False):
@@ -232,6 +236,13 @@ class Handler(BaseHTTPRequestHandler):
                 target = 'https://' + host[4:] + self.path
                 self.send_response(301)
                 self.send_header('Location', target)
+                # Redirects were bare (Location only) — add the baseline 4
+                # security headers so HSTS/transport hardening survives the hop.
+                self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+                self.send_header("X-Content-Type-Options", "nosniff")
+                self.send_header("X-Frame-Options", "DENY")
+                self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+                self.send_header("Content-Length", "0")
                 self.end_headers()
                 return
 
@@ -309,7 +320,10 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(200, {"jsonrpc": "2.0", "id": rpc_id, "result": {
                     "protocolVersion": "2024-11-05", "capabilities": _mcp_capabilities, "serverInfo": _mcp_server_info}})
             if method == "notifications/initialized":
-                self.send_response(202); self.end_headers(); return
+                # MCP handshake ack — was bare send_response(202) with ZERO headers.
+                # Use _send so it inherits the full security header set (HSTS/XCTO/
+                # XFO/RP/CSP/PP) consistent with every other response path.
+                return self._send(202, b"")
             if method == "tools/list":
                 return self._json(200, {"jsonrpc": "2.0", "id": rpc_id, "result": {"tools": _mcp_tools}})
             if method == "tools/call":
@@ -405,6 +419,11 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Location", url)
             self.send_header("Content-Length", "0")
             self.send_header("X-Robots-Tag", "noindex, nofollow")
+            # Checkout redirect was missing the baseline 4 security headers.
+            self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("X-Frame-Options", "DENY")
+            self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
             self.end_headers()
             return
         if path.startswith("/keys/"):
@@ -486,12 +505,17 @@ class Handler(BaseHTTPRequestHandler):
 
     def _sse(self):
         self.send_response(200)
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
-        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
         self.send_header("Content-Type", "text/event-stream")
         self.send_header("Cache-Control", "no-cache")
         self.send_header("Connection", "keep-alive")
         self.send_header("Access-Control-Allow-Origin", "*")
+        # Security headers — bring SSE up to the same baseline as _send/_html.
+        self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
         self.end_headers()
         q: queue.Queue = queue.Queue()
         with _SUB_LOCK:
