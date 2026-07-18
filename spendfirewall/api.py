@@ -32,6 +32,7 @@ from urllib.parse import urlparse
 
 from . import __version__, core, store, templates
 from . import billing
+from . import drip
 
 _SUBSCRIBERS: list[queue.Queue] = []
 _SUB_LOCK = threading.Lock()
@@ -39,6 +40,40 @@ _EVAL_REPORT_PATH = os.environ.get("EVAL_REPORT", os.path.join(os.getcwd(), "eva
 _SUBSCRIBERS_FILE = os.environ.get("SUBS_FILE", os.path.join(os.getcwd(), "subscribers.txt"))
 # Trusted origin echoed on state-changing control-plane routes instead of *.
 _TRUSTED_ORIGIN = (os.environ.get("PUBLIC_URL") or "https://sipi.bot").rstrip("/")
+
+# --- In-memory rate limiting (per-instance, abuse prevention) ---
+import time as _rl_time
+from collections import defaultdict as _rl_defaultdict
+
+_RATE_LIMITS = {
+    "subscribe": {"window": 3600, "max": 5},     # 5 email captures/hour/IP
+    "evaluate":  {"window": 60,   "max": 100},    # 100 evaluate calls/min/IP
+    "default":   {"window": 60,   "max": 60},     # 60 req/min/IP fallback
+}
+_rate_windows: dict[str, list[float]] = _rl_defaultdict(list)
+_last_rl_cleanup = _rl_time.time()
+
+
+def _check_rate_limit(route_key: str, client_ip: str) -> bool:
+    """Return True if within limit, False if exceeded. Thread-safe enough for ThreadingHTTPServer."""
+    global _last_rl_cleanup
+    cfg = _RATE_LIMITS.get(route_key, _RATE_LIMITS["default"])
+    now = _rl_time.time()
+    # Periodic cleanup (every 5 min) to prevent memory leak from abandoned IPs
+    if now - _last_rl_cleanup > 300:
+        _last_rl_cleanup = now
+        max_w = max(c["window"] for c in _RATE_LIMITS.values())
+        cutoff = now - max_w - 60
+        stale = [k for k, v in _rate_windows.items() if not v or max(v) < cutoff]
+        for k in stale:
+            del _rate_windows[k]
+    window_start = now - cfg["window"]
+    key = f"{client_ip}:{route_key}"
+    _rate_windows[key] = [t for t in _rate_windows[key] if t > window_start]
+    if len(_rate_windows[key]) >= cfg["max"]:
+        return False
+    _rate_windows[key].append(now)
+    return True
 
 
 def _broadcast(event: dict) -> None:
@@ -84,6 +119,18 @@ class Handler(BaseHTTPRequestHandler):
 
     def log_message(self, *a):  # quieter logs
         pass
+
+    def _client_ip(self) -> str:
+        forwarded = self.headers.get("X-Forwarded-For", "")
+        if forwarded:
+            return forwarded.split(",")[0].strip()
+        fly_ip = self.headers.get("Fly-Client-IP", "")
+        if fly_ip:
+            return fly_ip
+        return self.client_address[0] if self.client_address else "0.0.0.0"
+
+    def _check_rate(self, route_key: str) -> bool:
+        return _check_rate_limit(route_key, self._client_ip())
 
     def _send(self, code: int, body: bytes, ctype="application/json", noindex=False,
               origin="*"):
@@ -151,7 +198,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "DENY")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com https://www.googletagmanager.com https://*.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot https://*.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
+        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com https://www.googletagmanager.com https://*.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot https://*.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
         self.end_headers()
         if getattr(self, "_head_only", False):
@@ -401,7 +448,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def _sse(self):
         self.send_response(200)
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
+        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
         self.send_header("Content-Type", "text/event-stream")
         self.send_header("Cache-Control", "no-cache")
@@ -490,6 +537,8 @@ class Handler(BaseHTTPRequestHandler):
         body = self._body()
 
         if path == "/v1/transactions/evaluate":
+            if not self._check_rate("evaluate"):
+                return self._json(429, {"error": "rate_limited", "retry_after": 60})
             # Auth optional in free/self-host mode. If a key is provided, tie to agent.
             agent_id = None
             auth = self.headers.get("Authorization", "")
@@ -550,6 +599,8 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, {"reset": True, "cleared": n}, origin=_TRUSTED_ORIGIN)
 
         if path == "/subscribe":
+            if not self._check_rate("subscribe"):
+                return self._json(429, {"error": "rate_limited", "retry_after": 3600})
             email = (body.get("email") or "").strip()
             ref = (body.get("ref") or "").strip()
             if email and "@" in email:
@@ -561,12 +612,34 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(200, {"ok": True, "message": "You're on the list. We'll email your pilot access."})
             return self._json(400, {"ok": False, "message": "Enter a valid email."})
 
+        # Drip cron - protected endpoint to fire Soap Opera sequence
+        # (Brunson Traffic Secrets Secret #6: Follow-Up Funnels)
+        if path == "/cron/drip":
+            secret = os.environ.get("DRIP_CRON_SECRET", "")
+            tok = ""
+            if "?" in self.path:
+                q = urlparse(self.path).query
+                tok = q.split("secret=")[-1] if "secret=" in q else ""
+            if secret and tok == secret:
+                try:
+                    result = drip.send_soap_operas()
+                    return self._json(200, {"ok": True, "fired": True, "result": result})
+                except Exception as e:
+                    return self._json(500, {"ok": False, "error": str(e)})
+            return self._json(403, {"ok": False, "error": "forbidden"})
+
         return self._json(404, {"error": "not_found"})
 
 
 def serve(host="0.0.0.0", port=None):
     port = port or int(os.environ.get("PORT", 8080))
     store.init_db()
+    # Start the drip email scheduler (Soap Opera sequence for new subscribers)
+    # Brunson Traffic Secrets Secret #6: Follow-Up Funnels
+    try:
+        drip.start_drip_scheduler()
+    except Exception as e:
+        print(f"[drip] scheduler failed to start: {e}", flush=True)
     srv = ThreadingHTTPServer((host, port), Handler)
     print(f"sipi.bot spend firewall on http://{host}:{port}")
     srv.serve_forever()
