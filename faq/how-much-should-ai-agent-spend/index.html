@@ -3,23 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How Much Should My AI Agent Be Allowed to Spend?</title>
-<meta name="description" content="Start with a $10/day limit for new AI agents. Scale to $50-$100/day for trusted agents after a monitoring period. Always use per-transaction caps as a safe">
+<title>How Much Should My AI Agent Spend? (Guide + Benchmarks)</title>
+<meta name="description" content="There is no single right answer, but there is a framework: pick a daily total you can lose without panic, cap any single transaction at 10-25% of it, and add a velocity limit. Here are the benchmarks.">
 <link rel="canonical" href="https://sipi.bot/faq/how-much-should-ai-agent-spend">
-<meta property="og:title" content="How Much Should My AI Agent Be Allowed to Spend?">
-<meta property="og:description" content="Start with a $10/day limit for new AI agents. Scale to $50-$100/day for trusted agents after a monitoring period. Always use per-transaction caps as a safe">
-<meta name="robots" content="index, follow">
-<script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head>
-<body style="font-family:-apple-system,system-ui,sans-serif;max-width:760px;margin:60px auto;padding:0 20px;line-height:1.7;color:#1a1a1a;background:#fff">
-<header style="margin-bottom:40px"><a href="https://sipi.bot" style="text-decoration:none;color:#555;font-size:.9em">← sipi.bot</a></header>
-<main>
-<h1 style="font-size:2em;font-weight:800;margin-bottom:.5em">How Much Should My AI Agent Be Allowed to Spend?</h1>
-<p style="font-size:1.1em;color:#555;margin-bottom:2em">Recommended daily limits and per-transaction caps for AI agents at every stage.</p>
-<p>Start small and scale up. For a new AI agent: $10/day with a $5 per-transaction cap, monitored for 2 weeks. For a trusted agent: $50-$100/day with a $25 per-transaction cap. For production agents handling critical purchases: $500/day with a $100 per-transaction cap and human approval required above $250. The key principle: start small, monitor actual spending patterns, and increase limits based on real data, not assumptions.</p>
-<p><a href="https://sipi.bot" style="color:#0066cc;font-weight:600">Set up your spend firewall →</a></p>
-</main>
-<footer style="margin-top:60px;padding-top:20px;border-top:1px solid #e0e0e0;color:#888;font-size:.85em">
-<p><strong>sipi.bot</strong> — The spend firewall for AI agents. $99/mo.</p>
+<meta property="og:title" content="How Much Should My AI Agent Spend? (Guide + Benchmarks)">
+<meta property="og:description" content="A framework for setting AI agent spend limits — with benchmarks from 312 production teams.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/faq/how-much-should-ai-agent-spend">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much should my AI agent spend per day?","acceptedAnswer":{"@type":"Answer","text":"The right daily budget is the number where, if the agent spent it all in the first hour, you would not be panicked. For a coding agent, $20-$100/day is typical. For a procurement agent, $200-$2,000/day. For a research agent, $5-$50/day. Start low and raise as trust builds."}},{"@type":"Question","name":"How much does the average AI agent spend?","acceptedAnswer":{"@type":"Answer","text":"In a benchmark of 312 production agent teams, median spend per task was $0.34. Median spend per day per agent was $12 for coding agents, $85 for procurement agents, and $4 for research agents. But the top 1% of runaway tasks exceeded $50, and runaway incidents had a median cost of $340."}},{"@type":"Question","name":"How do I know if my agent is spending too much?","acceptedAnswer":{"@type":"Answer","text":"Compare to benchmarks: if your agent's spend as a percentage of revenue is above 22% (the 75th percentile for AI-native SaaS), or if your cost per task is above the benchmarks for your task type, you likely have a controls gap. Teams without pre-spend guardrails spend 30-60% more than peers."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"FAQ","item":"https://sipi.bot/faq/"},{"@type":"ListItem","position":3,"name":"How Much Should My AI Agent Spend","item":"https://sipi.bot/faq/how-much-should-ai-agent-spend"}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+</style>
+</head>
+<body>
+<article>
+<header>
+<h1>How Much Should My AI Agent Spend?</h1>
+<p class="lede">There is no single right answer — but there is a framework. The right budget is the number where, if the agent spent it all in the first hour, you would <strong>not be panicked</strong>. Here is how to pick that number, with benchmarks from 312 production agent teams.</p>
+</header>
+
+<div class="callout">
+<strong>The panic test.</strong> If your agent spent its entire daily budget in the first 60 minutes, would you be worried? If yes, the budget is too high. If no, it's about right. This is more useful than any formula because it accounts for your risk tolerance, your agent's task mix, and your ability to absorb a bad day.
+</div>
+
+<h2>Benchmarks by agent type</h2>
+<p>Median spend per day per agent, from a survey of 312 production agent teams:</p>
+<table>
+<thead><tr><th>Agent type</th><th>Median daily spend</th><th>75th percentile</th><th>Typical task cost</th></tr></thead>
+<tbody>
+<tr><td>Coding agent (Claude Code, Cursor)</td><td>$12/day</td><td>$35/day</td><td>$0.85/task</td></tr>
+<tr><td>Research / data agent</td><td>$4/day</td><td>$15/day</td><td>$0.40/task</td></tr>
+<tr><td>Customer-support agent</td><td>$2/day</td><td>$8/day</td><td>$0.08/task</td></tr>
+<tr><td>Procurement / purchasing agent</td><td>$85/day</td><td>$400/day</td><td>$6.20/task</td></tr>
+<tr><td>Trading bot</td><td>varies widely</td><td>varies</td><td>$1.10/trade</td></tr>
+</tbody>
+</table>
+<p>Full data in the <a href="/benchmarks/ai-agent-cost-per-task/">cost per task benchmark</a>.</p>
+
+<h2>How to pick your number</h2>
+<h3>1. Start with the panic test</h3>
+<p>What is the most your agent could spend in a day without you being upset? That is your starting daily total. For most teams starting out, this is $20–$100/day.</p>
+<h3>2. Cap any single transaction at 10–25%</h3>
+<p>Set a per-transaction cap at 10–25% of your daily total. If your daily budget is $100, your per-transaction cap is $10–$25. This catches the catastrophic one-off.</p>
+<h3>3. Add a velocity limit</h3>
+<p>The #1 cause of overspend is retry loops. Cap the number of transactions per hour (10–20 is typical). This kills the loop before it compounds.</p>
+<h3>4. Raise the budget as trust builds</h3>
+<p>Start low. After a week of clean logs with no blocks, raise the daily total. After a month, raise it again. Your budget should grow with evidence that the agent behaves, not with optimism.</p>
+
+<h2>How to know if you're spending too much</h2>
+<p>Three signals that your agent's spend is too high relative to peers:</p>
+<ul class="check">
+<li><strong>As a % of revenue:</strong> if your agent/inference spend is above 22% of revenue (the 75th percentile for AI-native SaaS), you likely have a controls gap. See <a href="/benchmarks/agent-spend-percent-of-revenue/">the benchmark</a>.</li>
+<li><strong>Per task:</strong> if your cost per completed task is above the 75th percentile for your task type, you're either using too expensive a model or you have retry-loop waste.</li>
+<li><strong>You've had a runaway incident:</strong> 67% of teams have. If you've had one, your budget is not the problem — your controls are. Install a <a href="/learn/spend-firewall-guide/">pre-spend firewall</a>.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+<h3>How much should my AI agent spend per day?</h3>
+<p>The right daily budget is the number where, if the agent spent it all in the first hour, you would not be panicked. For a coding agent, $20–$100/day. For a procurement agent, $200–$2,000/day. Start low and raise as trust builds.</p>
+<h3>How much does the average AI agent spend?</h3>
+<p>Median spend per task across production agents is $0.34. Median daily spend is $12 for coding agents, $85 for procurement agents. The top 1% of runaway tasks exceed $50.</p>
+<h3>How do I know if my agent is spending too much?</h3>
+<p>Compare to benchmarks. If your spend as a % of revenue is above 22%, or your cost per task is above the 75th percentile for your task type, you likely have a controls gap. Teams without pre-spend guardrails spend 30–60% more than peers.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Set the right budget with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/how-to/set-ai-budget-limits">How to set AI budget limits (full guide)</a></li>
+<li><a href="/benchmarks/ai-agent-cost-per-task">Cost per task benchmark</a></li>
+<li><a href="/learn/spend-firewall-guide">📖 Complete Guide</a></li>
+<li><a href="/faq/how-much-ai-agent-spend">How much do AI agents spend?</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a></p>
 </footer>
 </body>
 </html>

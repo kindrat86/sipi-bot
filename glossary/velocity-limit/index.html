@@ -3,23 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What Is a Velocity Limit? AI Agent Spend Protection</title>
-<meta name="description" content="A velocity limit caps how many transactions an AI agent can make in a time window — preventing runaway retry loops from draining your budget in seconds.">
+<title>Velocity Limit — Definition & How It Kills Retry Loops</title>
+<meta name="description" content="A velocity limit is a spend-firewall rule that caps the number of transactions an AI agent can make in a time window. It is the primary defense against retry loops — the #1 cause of runaway agent spend.">
 <link rel="canonical" href="https://sipi.bot/glossary/velocity-limit">
-<meta property="og:title" content="What Is a Velocity Limit? AI Agent Spend Protection">
-<meta property="og:description" content="A velocity limit caps how many transactions an AI agent can make in a time window — preventing runaway retry loops from draining your budget in seconds.">
-<meta name="robots" content="index, follow">
-<script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head>
-<body style="font-family:-apple-system,system-ui,sans-serif;max-width:760px;margin:60px auto;padding:0 20px;line-height:1.7;color:#1a1a1a;background:#fff">
-<header style="margin-bottom:40px"><a href="https://sipi.bot" style="text-decoration:none;color:#555;font-size:.9em">← sipi.bot</a></header>
-<main>
-<h1 style="font-size:2em;font-weight:800;margin-bottom:.5em">Velocity Limit</h1>
-<p style="font-size:1.1em;color:#555;margin-bottom:2em">How velocity limits prevent runaway AI agent spending.</p>
-<p>A velocity limit is a spend control rule that caps the number of transactions an AI agent can make in a defined time window. If an agent is configured to retry failed purchases, a single buggy prompt can trigger hundreds of charges in seconds. A velocity limit kills that loop instantly — e.g., 'max 5 transactions per minute' or 'max 20 per hour.'</p>
-<p><a href="https://sipi.bot" style="color:#0066cc;font-weight:600">Set up your spend firewall →</a></p>
-</main>
-<footer style="margin-top:60px;padding-top:20px;border-top:1px solid #e0e0e0;color:#888;font-size:.85em">
-<p><strong>sipi.bot</strong> — The spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.</p>
+<meta property="og:title" content="Velocity Limit — Definition & How It Kills Retry Loops">
+<meta property="og:description" content="A velocity limit caps transactions per time window. The #1 defense against runaway retry loops.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/glossary/velocity-limit">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"DefinedTerm","name":"Velocity Limit","description":"A spend-firewall rule that caps the number of transactions an AI agent can make in a time window, used to kill retry loops.","url":"https://sipi.bot/glossary/velocity-limit","inDefinedTermSet":{"@type":"DefinedTermSet","name":"sipi.bot Spend Firewall Glossary","url":"https://sipi.bot/glossary/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a velocity limit in AI agent spend control?","acceptedAnswer":{"@type":"Answer","text":"A velocity limit is a rule that caps the number of transactions an AI agent can make in a given time window (e.g., max 10 transactions per hour). When the agent hits the cap, further transactions are blocked. This is the primary defense against retry loops — the #1 cause of runaway agent spend."}},{"@type":"Question","name":"Why is a velocity limit important for AI agents?","acceptedAnswer":{"@type":"Answer","text":"Because retry loops are the most common cause of catastrophic agent spend (44% of incidents). A retry loop makes many transactions rapidly — each one a paid call. A velocity limit detects the pattern and blocks subsequent attempts, killing the loop before the wallet drains. No amount-based cap can do this; it requires a count-based rule."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"Glossary","item":"https://sipi.bot/glossary/"},{"@type":"ListItem","position":3,"name":"Velocity Limit","item":"https://sipi.bot/glossary/velocity-limit"}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+</style>
+</head>
+<body>
+<article>
+<header>
+<h1>Velocity Limit</h1>
+<p class="lede"><strong>Velocity limit</strong> — a spend-firewall rule that caps the number of transactions an AI agent can make in a time window. It is the primary defense against <strong>retry loops</strong>, the #1 cause of runaway agent spend (44% of incidents).</p>
+</header>
+
+<h2>Definition</h2>
+<p>A velocity limit is a count-based rule (as opposed to an amount-based rule like a per-transaction cap or daily total). It restricts how <em>many</em> transactions an agent can make per unit of time, regardless of how much each transaction costs. A typical velocity rule: <em>maximum 10 transactions per hour</em>.</p>
+<pre><code>{"rule_type": "velocity", "params": {"max_count": 10, "window_minutes": 60}, "action": "BLOCKED"}</code></pre>
+
+<h2>Why velocity matters more than amount</h2>
+<p>Most spend controls are amount-based — a per-transaction cap, a daily total, a monthly budget. These catch the big single spend or the aggregate bleed. But neither catches the pattern that actually causes catastrophic spend: <strong>many small transactions in rapid succession</strong>.</p>
+<p>A retry loop makes 40 calls in 90 seconds. Each call might cost only $0.50 — well under any per-transaction cap. But 40 × $0.50 = $20 in 90 seconds, and if the loop runs for an hour, that's $800. An amount-based daily cap of $1,000 would not trip until $1,000 is already gone. A velocity limit of 10 transactions per hour kills the loop on the 11th attempt, before $6 has been spent.</p>
+
+<div class="callout good">
+<strong>The math.</strong> A velocity rule is the cheapest insurance in spend control. It costs nothing to configure, runs in &lt;5ms, and prevents the single most common catastrophic failure mode. If you configure only one rule, make it a velocity limit.
+</div>
+
+<h2>How it works in sipi.bot</h2>
+<p>Every transaction the agent attempts is counted in a rolling window. When the count exceeds <code>max_count</code> within <code>window_minutes</code>, the next transaction is BLOCKED with reason "velocity limit exceeded." The agent must wait for the window to slide before it can transact again.</p>
+<p>Velocity limits compose with the other rule types — per-transaction caps, daily totals, merchant allowlists, category limits, time windows. The most effective configuration layers velocity (kills loops) with a per-transaction cap (catches the big one) and a merchant allowlist (blocks unknown vendors).</p>
+
+<h2>FAQ</h2>
+<h3>What is a velocity limit in AI agent spend control?</h3>
+<p>A velocity limit caps the number of transactions an agent can make in a time window (e.g., max 10 per hour). It is the primary defense against retry loops.</p>
+<h3>Why is a velocity limit important?</h3>
+<p>Retry loops are 44% of runaway incidents. A velocity limit detects the pattern and kills the loop before the wallet drains. No amount-based cap can do this.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Configure velocity limits with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related glossary terms</h3><ul>
+<li><a href="/glossary/per-transaction-limit">Per-transaction limit</a></li>
+<li><a href="/glossary/merchant-allowlist">Merchant allowlist</a></li>
+<li><a href="/glossary/runaway-cost">Runaway cost</a></li>
+<li><a href="/glossary/circuit-breaker">Circuit breaker</a></li>
+<li><a href="/learn/spend-firewall-guide">📖 Complete Guide</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a></p>
 </footer>
 </body>
 </html>
