@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="refresh" content="300">
+<title>AEO Dashboard — sipi.bot</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:#f5f5f5;color:#1a1a2e;padding:2rem}
+h1{font-size:2rem;margin-bottom:.5rem}.sub{color:#666;margin-bottom:2rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2rem}
+.card{background:#fff;border-radius:.75rem;padding:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card h2{font-size:1.1rem;margin-bottom:.75rem;color:#374151}
+.metric{font-size:2.5rem;font-weight:700;line-height:1}
+.metric.green{color:#059669}.metric.amber{color:#d97706}.metric.blue{color:#2563eb}
+.label{font-size:.8rem;color:#6b7280;margin-top:.25rem}
+.pr-list{list-style:none}.pr-list li{padding:.5rem 0;border-bottom:1px solid #f3f4f6;font-size:.9rem}
+.badge{display:inline-block;padding:2px 8px;border-radius:100px;font-size:.7rem;font-weight:600}
+.badge.green{background:#d1fae5;color:#065f46}
+.badge.amber{background:#fef3c7;color:#92400e}
+.badge.blue{background:#dbeafe;color:#1e40af}
+.progress{background:#e5e7eb;border-radius:100px;height:8px;margin:.5rem 0}
+.progress-fill{background:#059669;height:100%;border-radius:100px}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+td,th{border-bottom:1px solid #e5e7eb;padding:.5rem .25rem;text-align:left}
+.footer{text-align:center;color:#9ca3af;font-size:.8rem;margin-top:2rem}
+.refresh{font-size:.75rem;color:#9ca3af}
+</style>
+</head>
+<body>
+<h1>📊 AEO Dashboard — sipi.bot</h1>
+<p class="sub">Live status of all AEO work. Last updated: <span id="ts"></span></p>
+<script>document.getElementById('ts').textContent=new Date().toLocaleString()</script>
+
+<div class="grid">
+<div class="card">
+<h2>📈 Site Health</h2>
+<div class="metric green">66%</div>
+<div class="label">Pages above 300-word threshold</div>
+<div class="progress"><div class="progress-fill" style="width:66%"></div></div>
+<div style="margin-top:.5rem;font-size:.85rem;color:#6b7280">72/108 pages with substantive content</div>
+</div>
+
+<div class="card">
+<h2>🔍 Schema Coverage</h2>
+<div class="metric blue">83</div>
+<div class="label">Total structured data entries</div>
+<table style="margin-top:.5rem">
+<tr><td>FAQPage</td><td align="right"><strong>72</strong></td></tr>
+<tr><td>HowTo</td><td align="right"><strong>4</strong></td></tr>
+<tr><td>Dataset</td><td align="right"><strong>4</strong></td></tr>
+<tr><td>DefinedTerm</td><td align="right"><strong>3</strong></td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>🌐 MCP Directories</h2>
+<ul class="pr-list">
+<li><a href="https://github.com/punkpeye/awesome-mcp-servers/pull/10386">punkpeye/awesome-mcp-servers</a> <span class="badge amber">#10386 OPEN</span></li>
+<li><a href="https://smithery.ai/servers/kindrat86/sipi-bot">Smithery Registry</a> <span class="badge amber">PENDING</span></li>
+<li><a href="https://github.com/TensorBlock/awesome-mcp-servers/pull/1273">TensorBlock/awesome-mcp-servers</a> <span class="badge amber">#1273 OPEN</span></li>
+<li><a href="https://github.com/YuzeHao2023/Awesome-MCP-Servers/pull/364">YuzeHao2023 (1,051★)</a> <span class="badge amber">#364 OPEN</span></li>
+<li><a href="https://github.com/MobinX/awesome-mcp-list/pull/353">MobinX (880★)</a> <span class="badge amber">#353 OPEN</span></li>
+<li><a href="https://github.com/AlexMili/Awesome-MCP/pull/155">AlexMili (142★)</a> <span class="badge amber">#155 OPEN</span></li>
+</ul>
+</div>
+
+<div class="card">
+<h2>📧 Outreach Infrastructure</h2>
+<div class="metric green">✅</div>
+<div class="label">sipi@sipi.bot → sales@sipiteno.com</div>
+<div style="margin-top:.75rem;font-size:.85rem">
+<span class="badge green">DNS MX:</span> eforward*.registrar-servers.com<br>
+<span class="badge green">Forwarding ID:</span> 325453642<br>
+<span class="badge green">GA4:</span> G-F5R5Y29J1F active<br>
+<span class="badge green">Attribution:</span> dropdown live
+</div>
+</div>
+
+<div class="card">
+<h2>🤖 AI Bot Access</h2>
+<div style="font-size:.85rem">
+<span class="badge green">GPTBot:</span> 200 /checkout/ only<br>
+<span class="badge green">OAI-SearchBot:</span> 200 /api/ blocked<br>
+<span class="badge green">ClaudeBot:</span> 200 /checkout/ only<br>
+<span class="badge green">Google-Extended:</span> 200 ALLOWED<br>
+<span class="badge green">PerplexityBot:</span> 200 ALLOWED<br>
+<span class="badge green">llms-full.txt:</span> 200, 1,237 words
+</div>
+</div>
+
+<div class="card">
+<h2>🗂️ Hub Pages</h2>
+<div style="font-size:.85rem;display:grid;grid-template-columns:1fr 1fr;gap:.25rem">
+<div>/learn/ ✅</div><div>/vs/ ✅</div>
+<div>/for/ ✅</div><div>/faq/ ✅</div>
+<div>/glossary/ ✅</div><div>/best/ ✅</div>
+<div>/alternatives-to/ ✅</div><div>/benchmarks/ ✅</div>
+<div>/how-to/ ✅</div><div>(8 hubs live)</div>
+</div>
+</div>
+
+<div class="card">
+<h2>📋 Automation</h2>
+<div style="font-size:.85rem">
+<span class="badge blue">Mon 9AM:</span> weekly measurement cron<br>
+<span class="badge blue">Jul 22 14:00:</span> Reddit post reminder<br>
+<span class="badge blue">148 URLs:</span> sitemap auto-updated<br>
+<span class="badge amber">IndexNow:</span> 403 (Bing WMT needed)
+</div>
+</div>
+
+<div class="card">
+<h2>⏳ Pending User Actions</h2>
+<div style="font-size:.85rem;line-height:1.6">
+<span class="badge amber">1</span> Post Reddit teardown Jul 22 (u/Worth_Wealth_6811)<br>
+<span class="badge amber">2</span> Create YouTube + Twitter (@sipi_bot)<br>
+<span class="badge amber">3</span> Paste dev.to article (aeo/devto-cornerstone.md)<br>
+<span class="badge amber">4</span> Start outreach from sipi@sipi.bot<br>
+<span class="badge amber">5</span> Submit mcpservers.org form (browser)
+</div>
+</div>
+</div>
+
+<p class="footer">sipi.bot AEO Dashboard · auto-refreshes every 5 min · <span class="refresh">baseline: July 18, 2026</span></p>
+</body>
+</html>

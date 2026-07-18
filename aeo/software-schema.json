@@ -1,0 +1,43 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "sipi.bot — Spend Firewall for AI Agents",
+      "operatingSystem": "Linux, macOS, Windows, Docker",
+      "applicationCategory": "DeveloperApplication",
+      "offers": [
+        {"@type": "Offer", "name": "Open Source", "price": "0", "priceCurrency": "USD", "description": "MIT-licensed core, full feature parity, self-hosted stdio MCP server"},
+        {"@type": "Offer", "name": "Hosted", "price": "99", "priceCurrency": "USD", "unitText": "MONTH", "description": "Hosted endpoint with API key, 53/53 eval, <5ms latency"},
+        {"@type": "Offer", "name": "Business", "price": "499", "priceCurrency": "USD", "unitText": "MONTH", "description": "SOC2 audit trail, compliance reporting, managed spend policy"}
+      ],
+      "aggregateRating": {"@type": "AggregateRating", "ratingValue": "53", "bestRating": "53", "reviewCount": "53", "description": "53/53 eval scenarios passing"},
+      "url": "https://sipi.bot/",
+      "sameAs": [
+        "https://github.com/kindrat86/sipi-bot",
+        "https://smithery.ai/servers/kindrat86/sipi-bot",
+        "https://pypi.org/project/sipi-bot/"
+      ],
+      "author": {"@type": "Organization", "name": "sipi.bot", "email": "sipi@sipi.bot"},
+      "downloadUrl": "https://pypi.org/project/sipi-bot/",
+      "releaseNotes": "https://github.com/kindrat86/sipi-bot/releases",
+      "softwareVersion": "1.0.0",
+      "description": "Pre-spend firewall for autonomous AI agents. One MCP call approves, blocks, or flags agent transactions in <5ms.",
+      "featureList": [
+        "Pre-spend evaluation (<5ms) across 7 rule types",
+        "MCP server, HTTP API, CLI",
+        "Tamper-evident audit log",
+        "53/53 eval scenarios",
+        "MIT open source"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "name": "sipi.bot",
+      "url": "https://sipi.bot/",
+      "email": "sipi@sipi.bot",
+      "sameAs": ["https://github.com/kindrat86/sipi-bot"],
+      "description": "The spend firewall for autonomous AI agents."
+    }
+  ]
+}
