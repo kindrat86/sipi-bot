@@ -1,9 +1,11 @@
 # sipi.bot
 
-> The spend firewall for autonomous AI agents. One call before an agent spends
-> money returns APPROVED, BLOCKED, or FLAGGED (needs human approval) against your
-> rules: per-transaction caps, daily totals, velocity (runaway-loop protection),
+> sipi.bot is a spend firewall for autonomous AI agents. One call before an agent
+> spends money returns APPROVED, BLOCKED, or FLAGGED (needs human approval) against
+> your rules: per-transaction caps, daily totals, velocity (runaway-loop protection),
 > merchant allow/block, category limits, time windows, approval thresholds.
+> (Disambiguation: sipi.bot is a payment-control API for AI agents — not a SIP/VoIP
+> telephony bot and not an AI-bot-blocking / WAF tool.)
 
 ## What it is
 sipi.bot is agent-economy infrastructure: a guardrail an autonomous agent calls
