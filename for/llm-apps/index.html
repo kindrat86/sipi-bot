@@ -43,7 +43,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <p class="lede">Budget controls for teams building on LLM APIs</p>
 
 <h2>Why llm application teams choose sipi.bot</h2>
-<p>LLM app teams need to control token costs without throttling product velocity.</p>
+<p>LLM app teams need to control token costs without throttling product velocity. The challenge: LLM costs are per-call, but the tools that control them are mostly reactive (budget caps that fire after the call completes) or observability-only (dashboards that show you what you spent, not stop it). sipi.bot adds a pre-spend check in front of every LLM call — returning APPROVED, BLOCKED, or FLAGGED in under 5ms — so your app never exceeds budget, your retry loops never compound, and your audit trail is compliance-grade. Compose it with your existing LLM gateway (LiteLLM, Portkey) for routing + enforcement.</p>
 
 <h2>Common pain points sipi.bot solves</h2>
 <ul><li>Token costs unpredictable per request</li>

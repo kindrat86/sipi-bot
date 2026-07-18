@@ -48,6 +48,8 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <ul>
 <li>Chain-level budget caps</li><li>Token counting per step</li><li>Automatic chain interruption at limit</li><li>Cost analytics across all chains</li>
 </ul>
+<h3>How it works with LangChain</h3>
+<p>Wrap any LangChain Tool with sipi.bot's evaluate_spend check. Before the tool executes — whether it is an API call, a database query, or a payment — the firewall evaluates the proposed transaction and returns APPROVED, BLOCKED, or FLAGGED in under 5ms. Velocity limits kill retry loops (the #1 cause of runaway chain spend), and merchant allowlists block unknown vendor calls. See the client wrapper in the <a href="https://github.com/kindrat86/sipi-bot">GitHub repo</a>.</p>
 <h2>How it works</h2>
 <ol>
 <li>Connect your data source or workflow</li>

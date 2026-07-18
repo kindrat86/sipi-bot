@@ -45,6 +45,7 @@ details[open]{background:#fff}
 </ul>
 <h2>Why It Matters</h2>
 <p>AI costs directly impact your gross margin. A SaaS product with 30% AI cost per request has fundamentally different unit economics than one with 5% AI cost. Optimization is not optional; it is a business viability question.</p>
+<p>The two-lever framework: <strong>pay less per call</strong> (right-size models, cache prompts, compress context) and <strong>make fewer calls</strong> (kill retry loops with a velocity rule, block unnecessary spend with a merchant allowlist). Most teams optimize the first lever and leave 30-60% of savings on the table by ignoring the second. See the <a href="/how-to/reduce-ai-api-costs">full cost reduction guide</a>.</p>
 
 <h2>Frequently Asked Questions</h2>
 <details><summary><strong>What is model routing in AI cost optimization?</strong></summary><p>Model routing sends each request to the cheapest model that can handle it. Simple tasks use small, cheap models ($0.25/M tokens). Complex reasoning uses large models ($60/M tokens). This can reduce costs by 60-80%.</p></details>
