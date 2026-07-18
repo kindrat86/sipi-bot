@@ -415,6 +415,28 @@ class Handler(BaseHTTPRequestHandler):
             return self._sse()
         # Static files from public/ (sitemap.xml, robots.txt, llms.txt, pSEO
         # pages written by the growth engine). Served last, before 404.
+        if path == "/unsubscribe":
+            email = ""
+            parts = urlparse(self.path)
+            if parts.query:
+                for kv in parts.query.split("&"):
+                    if kv.startswith("email="):
+                        email = kv.split("=", 1)[1]
+            html = "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Unsubscribe - sipi.bot</title>"
+            html += "<style>body{background:#0a0a0a;color:#ccc;font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px}.card{background:#111;border:1px solid #1a1a1a;border-radius:16px;padding:40px;max-width:400px;text-align:center}h1{color:#fff;margin:0 0 8px;font-size:22px}p{color:#888;margin:0 0 24px;font-size:14px;line-height:1.6}.btn{background:#00d4aa;color:#0a0a0a;border:none;padding:12px 32px;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer}.btn:hover{opacity:.9}</style></head><body>"
+            html += "<div class='card'>"
+            if email:
+                html += "<h1>Unsubscribe</h1>"
+                html += "<p>We'll stop sending emails to <strong style='color:#fff'>" + email + "</strong>.</p>"
+                html += "<button class='btn' id='ubtn' onclick=\"fetch('/unsubscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:'" + email + "'})}).then(function(r){return r.json()}).then(function(d){if(d.ok){document.getElementById('ustatus').style.display='block';document.getElementById('ustatus').textContent='Unsubscribed.';document.getElementById('ubtn').style.display='none';}})\">Confirm unsubscribe</button>"
+                html += "<p id='ustatus' style='display:none;color:#00d4aa;margin-top:16px'></p>"
+            else:
+                html += "<h1>Unsubscribe</h1>"
+                html += "<p>Use the link from any email to unsubscribe.</p>"
+            html += "</div></body></html>"
+            return self._html(html)
+
+        # Static files from public/ (served before cron/drip)
         if self._serve_static(path):
             return
 
@@ -509,7 +531,7 @@ class Handler(BaseHTTPRequestHandler):
         result directly or do_GET falls through and appends a second 404
         response to the body (the 82-page corruption bug)."""
         import os
-        for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/"):
+        for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/", "/scenarios/", "/redflags/", "/calculators/", "/guides/"):
             if path.startswith(prefix):
                 base = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
                 filepath = os.path.join(base, path.lstrip("/"), "index.html")
