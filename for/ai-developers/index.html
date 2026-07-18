@@ -1,41 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spend Firewall for AI Developers — sipi.bot</title>
-    <meta name="description" content="Build AI agents with built-in spend controls. sipi.bot evaluates every transaction before money moves. MCP tool, HTTP API, CLI — integrate in 5 minutes.">
-    <link rel="canonical" href="https://sipi.bot/for/ai-developers">
-    <meta property="og:title" content="Spend Firewall for AI Developers — sipi.bot">
-    <meta property="og:description" content="Build AI agents with built-in spend controls. sipi.bot evaluates every transaction before money moves. MCP tool, HTTP API, CLI — integrate in 5 minutes.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://sipi.bot/for/ai-developers">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="robots" content="index, follow">
-    <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Spend Firewall for AI Developers — sipi.bot",
-    "description": "Build AI agents with built-in spend controls. sipi.bot evaluates every transaction before money moves. MCP tool, HTTP API, CLI — integrate in 5 minutes.",
-    "url": "https://sipi.bot/for/ai-developers",
-    "isPartOf": {"@type": "WebSite", "name": "sipi.bot", "url": "https://sipi.bot"},
-    "about": {"@type": "Thing", "name": "AI Developers"}
-}
-</script>
-<script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head>
-<body style="font-family:-apple-system,system-ui,sans-serif;max-width:760px;margin:60px auto;padding:0 20px;line-height:1.7;color:#1a1a1a;background:#fff">
-    <header style="margin-bottom:40px">
-        <a href="https://sipi.bot" style="text-decoration:none;color:#555;font-size:.9em">← Back to sipi.bot</a>
-    </header>
-    <main>
-        <h1 style="font-size:2em;font-weight:800;margin-bottom:.5em;line-height:1.2">Spend Firewall for AI Developers</h1>
-        <p style="font-size:1.1em;color:#555;margin-bottom:2em">Spend controls purpose-built for autonomous AI agent development.</p>
-        <p>Build AI agents with built-in spend controls. sipi.bot evaluates every transaction before money moves. MCP tool, HTTP API, CLI — integrate in 5 minutes.</p><p><a href="https://sipi.bot" style="color:#0066cc;font-weight:600">Try sipi.bot →</a></p>
-    </main>
-    <footer style="margin-top:60px;padding-top:20px;border-top:1px solid #e0e0e0;color:#888;font-size:.85em">
-        <p><strong>sipi.bot</strong> — The spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.</p>
-        <p><a href="https://sipi.bot" style="color:#555">Home</a></p>
-    </footer>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spend Firewall for AI Developers — sipi.bot</title>
+<meta name="description" content="If you're building autonomous AI agents that can spend money — API calls, compute, tools, payments — you need a pre-spend firewall. sipi.bot is the open-source control layer: MCP, HTTP, CLI, MIT-licensed, 53-scenario eval gym.">
+<link rel="canonical" href="https://sipi.bot/for/ai-developers">
+<meta property="og:title" content="Spend Firewall for AI Developers — sipi.bot">
+<meta property="og:description" content="The pre-spend control layer for developers building autonomous AI agents. MCP + HTTP + CLI. MIT-licensed. 53/53 eval scenarios.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/for/ai-developers">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Spend Firewall for AI Developers","description":"The pre-spend control layer for developers building autonomous AI agents.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/for/ai-developers"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"For AI Developers","item":"https://sipi.bot/for/ai-developers"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is sipi.bot open source?","acceptedAnswer":{"@type":"Answer","text":"Yes. The core engine is MIT-licensed and on GitHub at github.com/kindrat86/sipi-bot. You can read every rule-evaluation path, self-host the same engine that runs the hosted service, and contribute. The hosted service adds managed infrastructure, persistent log retention, and support."}},{"@type":"Question","name":"How is sipi.bot different from an LLM gateway?","acceptedAnswer":{"@type":"Answer","text":"An LLM gateway (LiteLLM, Portkey, OpenRouter) routes LLM calls and applies request-time guardrails. sipi.bot is a pre-spend firewall — it governs whether your agent is allowed to spend money at all, before any call fires. Most production stacks run both: sipi.bot for spend governance, the gateway for routing and prompt safety."}},{"@type":"Question","name":"What's in the eval gym?","acceptedAnswer":{"@type":"Answer","text":"53 labeled spend scenarios across 9 categories: clean approvals, approval flags, edge cases, per-transaction blocks, daily-limit blocks, velocity blocks, merchant blocks, category limits, and time windows. The engine passes 53/53. The full report is at sipi.bot/eval-report/ and the JSON at sipi.bot/eval. If you find a 54th scenario that breaks it, the team wants to know."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+</style>
+</head>
+<body>
+<article>
+<header>
+<h1>Spend Firewall for AI Developers</h1>
+<p class="lede">If you're building autonomous AI agents that can spend money — calling paid APIs, buying compute, triggering payments, settling on agent-commerce rails — you need a pre-spend firewall. <strong>sipi.bot</strong> is the open-source control layer: MCP, HTTP, CLI, MIT-licensed, with a 53-scenario public eval gym.</p>
+</header>
+
+<div class="callout good">
+<strong>Start in 60 seconds.</strong>
+<pre><code>pip install sipi-bot
+python -m spendfirewall.api  # self-host, serves on :8080</code></pre>
+Or hit the hosted endpoint with an API key. Or load the MCP server into Claude Code / Cursor / Hermes. Open source on <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>.
+</div>
+
+<h2>The developer problem</h2>
+<p>You're building an agent. The agent has tools. Some of those tools spend money — an LLM call, a cloud-provisioning command, a payment settlement, a data purchase. The agent decides when to call them. You have no deterministic guarantee that the spend is within policy. The prompt says "be cost-conscious." That is not a spending policy.</p>
+<p>The failure modes are well-documented at this point:</p>
+<ul class="check">
+<li><strong>Retry loops</strong> — a tool fails, the agent retries, each retry is a paid call, 40 retries in 90 seconds.</li>
+<li><strong>Novel vendor discovery</strong> — the agent finds a new vendor during tool use and spends there without approval.</li>
+<li><strong>Prompt injection</strong> — untrusted input instructs the agent to route spend to an attacker-controlled destination.</li>
+<li><strong>Unattended sessions</strong> — the agent runs overnight, something goes wrong, and you find out from Stripe at 9am.</li>
+<li><strong>Aggregate bleed</strong> — many small purchases that individually pass every rule but collectively blow the budget.</li>
+</ul>
+
+<h2>The developer answer</h2>
+<p>One HTTP call before any action that would move money. The firewall returns <strong>APPROVED, BLOCKED, or FLAGGED</strong> in under 5ms. On BLOCKED, the agent aborts. On FLAGGED, the transaction is routed to a human-in-the-loop queue. Every decision is written to a tamper-evident audit log.</p>
+<pre><code>import requests
+
+def guard(amount, merchant, category):
+    r = requests.post(
+        "https://sipi.bot/v1/transactions/evaluate",
+        headers={"Authorization": f"Bearer {SIPBOT_KEY}"},
+        json={"amount": amount, "merchant": merchant, "category": category},
+        timeout=5,
+    ).json()
+    return r["decision"]
+
+# wrap any paid action
+if guard(amount=6200, merchant="unknown-gpu.ru", category="compute") == "APPROVED":
+    do_paid_action()
+else:
+    abort()</code></pre>
+
+<h2>Three surfaces, one engine</h2>
+<table>
+<thead><tr><th>Surface</th><th>Invocation</th><th>Best for</th></tr></thead>
+<tbody>
+<tr><td><strong>MCP server</strong></td><td><code>python -m spendfirewall.mcp_server</code></td><td>Claude Code, Cursor, Hermes — loads as a tool natively</td></tr>
+<tr><td><strong>HTTP API</strong></td><td><code>POST /v1/transactions/evaluate</code></td><td>Any agent runtime — LangChain, CrewAI, custom</td></tr>
+<tr><td><strong>CLI</strong></td><td><code>sipi-guard --amount 500 --merchant X</code></td><td>Shells, CI pipelines, cron jobs</td></tr>
+<tr><td><strong>Agent card (A2A)</strong></td><td><code>GET /.well-known/agent-card.json</code></td><td>Agent-to-agent discovery</td></tr>
+</tbody>
+</table>
+
+<h2>Framework wrappers</h2>
+<p>Five-line client wrappers for the common agent frameworks — all in the <a href="https://github.com/kindrat86/sipi-bot">repo's /integrations directory</a>:</p>
+<ul class="check">
+<li><strong><a href="/for/langchain-agents">LangChain</a></strong> — wrap any Tool that spends.</li>
+<li><strong>CrewAI</strong> — guard any crew task that triggers payment.</li>
+<li><strong><a href="/for/openai-agents">OpenAI Agents SDK</a></strong> — register as a function_tool.</li>
+<li><strong>Vercel AI SDK</strong> — guard any tool call from the edge.</li>
+<li><strong><a href="/for/anthropic-agents">Anthropic Claude Agent SDK</a></strong> — native MCP.</li>
+</ul>
+
+<h2>The eval gym</h2>
+<p>The engine passes a public eval suite of <strong>53 labeled spend scenarios</strong> across 9 categories: clean approvals, approval flags, edge cases, per-transaction blocks, daily-limit blocks, velocity blocks, merchant blocks, category limits, and time windows. Boundary cases (exactly at threshold), precedence cases (block beats flag on the same transaction), and adversarial cases (case-insensitive merchant matching, sketchy TLDs) are all covered. The full report:</p>
+<ul class="check">
+<li><a href="/eval-report/">Human-readable eval report</a></li>
+<li><a href="/eval">Machine-readable JSON</a></li>
+<li><a href="https://github.com/kindrat86/sipi-bot/tree/main/spendfirewall/eval">Source for the scenarios</a></li>
+</ul>
+<p>If you find a 54th scenario that breaks the engine, the team wants to know.</p>
+
+<h2>Self-host vs hosted</h2>
+<table>
+<thead><tr><th></th><th>Self-host (free)</th><th>Hosted ($99/mo+)</th></tr></thead>
+<tbody>
+<tr><td>License</td><td>MIT</td><td>Service</td></tr>
+<tr><td>Engine</td><td>Full policy engine</td><td>Same engine</td></tr>
+<tr><td>Audit log</td><td>Local SQLite</td><td>Persistent + exportable</td></tr>
+<tr><td>Dashboard</td><td>Included</td><td>Included</td></tr>
+<tr><td>MCP / HTTP / CLI</td><td>All three</td><td>All three</td></tr>
+<tr><td>Rule-integrity guarantee</td><td>—</td><td>Green-light a rule violation, month is free</td></tr>
+<tr><td>Support</td><td>GitHub issues</td><td>Priority + SLA</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<strong>Not a replacement for your LLM gateway.</strong> Compose sipi.bot with <a href="/vs/litellm">LiteLLM</a> (routing), <a href="/vs/helicone">Helicone</a> (observability), or <a href="/vs/portkey">Portkey</a> (prompt guardrails). Different layers, different jobs.
+</div>
+
+<div class="cta"><a href="https://github.com/kindrat86/sipi-bot">Read the source on GitHub &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/learn/spend-firewall-guide">The Spend Firewall Complete Guide</a></li>
+<li><a href="/for/agent-builders">For agent builders</a></li>
+<li><a href="/for/ai-startups">For AI startups</a></li>
+<li><a href="/for/devtools-startups">For devtools startups</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a> · <a href="https://github.com/kindrat86/sipi-bot">GitHub</a></p>
+</footer>
 </body>
 </html>

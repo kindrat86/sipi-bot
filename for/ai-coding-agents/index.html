@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SpendFirewall for Spend guardrails for AI coding agents: Spend firewall for AI agents</title>
-<meta name="description" content="Claude Code, Cursor agents, and Codex loops can rack up $40 in 20 minutes. SpendFirewall caps per-loop spend and surfaces runaway agents before they burn y">
+<title>Spend Guardrails for AI Coding Agents — sipi.bot</title>
+<meta name="description" content="Claude Code, Cursor agents, and Codex loops can rack up $40 in 20 minutes provisioning cloud resources, calling paid APIs, and running pip installs of metered SDKs. sipi.bot caps per-loop spend and kills runaway coding agents before they burn your budget.">
 <link rel="canonical" href="https://sipi.bot/for/ai-coding-agents">
-<meta property="og:title" content="SpendFirewall for Spend guardrails for AI coding agents: Spend firewall for AI agents">
-<meta property="og:description" content="Claude Code, Cursor agents, and Codex loops can rack up $40 in 20 minutes. SpendFirewall caps per-loop spend and surfaces runaway agents before they burn y">
+<meta property="og:title" content="Spend Guardrails for AI Coding Agents — sipi.bot">
+<meta property="og:description" content="Pre-spend firewall for Claude Code, Cursor, Codex, and autonomous coding agents. Caps per-loop spend, kills runaway provisioning.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/for/ai-coding-agents">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"SpendFirewall for Spend guardrails for AI coding agents: Spend firewall for AI agents","description":"Claude Code, Cursor agents, and Codex loops can rack up $40 in 20 minutes. SpendFirewall caps per-loop spend and surfaces runaway agents before they burn y","author":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/for/ai-coding-agents"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"SpendFirewall","item":"https://sipi.bot/for/ai-coding-agents"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this page helpful?","acceptedAnswer":{"@type":"Answer","text":"Yes, this page covers the topic in depth for spend firewall users."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Spend Guardrails for AI Coding Agents","description":"How to add a pre-spend firewall to Claude Code, Cursor, and autonomous coding agents.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/for/ai-coding-agents"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"For AI Coding Agents","item":"https://sipi.bot/for/ai-coding-agents"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can Claude Code or Cursor spend money?","acceptedAnswer":{"@type":"Answer","text":"Yes. These agents run shell commands and call APIs — including ones that trigger payments: provisioning cloud resources (aws, gcloud, fly), calling paid APIs (OpenAI, Anthropic, data vendors), and installing SDKs that bill on use. A 20-minute coding session can rack up $40 of infrastructure spend if the agent provisions aggressively."}},{"@type":"Question","name":"How do I add sipi.bot to Claude Code or Cursor?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot ships a native MCP server (stdio). Install with pip install sipi-bot, then run python -m spendfirewall.mcp_server. Claude Code, Cursor, and Hermes load it as a tool automatically. The agent then calls evaluate_spend before any command that would move money."}},{"@type":"Question","name":"What's the biggest spend risk for AI coding agents?","acceptedAnswer":{"@type":"Answer","text":"Unattended provisioning loops. A coding agent that retries a failed aws ec2 run-instances command, or that scales up infrastructure during a debug session, can spend significant money before anyone notices. A velocity rule (max N provisioning calls per hour) kills the loop; a per-transaction cap catches the catastrophic single call."}}]}</script>
 
 <style>
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
@@ -25,61 +25,91 @@ h3{font-size:1.15rem;margin-top:1.5rem}
 a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
 .lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
 table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
-th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left;vertical-align:top}
 th{background:#f9fafb;font-weight:600}
 .callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
 .callout.warn{background:#fef3c7;border-left-color:#d97706}
 .callout.good{background:#ecfdf5;border-left-color:#059669}
-.verdict{background:#0a0a0a;color:#fff;padding:1.25rem 1.5rem;border-radius:.5rem;margin:1.5rem 0}
-.verdict h3{margin-top:0;color:#fff}
 .cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
 .cta a{color:#fff;font-weight:600;font-size:1.1rem}
 .related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
 .related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
 ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
-ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
 </style>
-<!-- isenberg-round15 -->
 </head>
 <body>
 <article>
 <header>
-<p class="lede">SpendFirewall for Spend guardrails for AI coding agents</p>
-<h1>SpendFirewall for Spend guardrails for AI coding agents</h1>
-<p class="lede">Claude Code, Cursor agents, and Codex loops can rack up $40 in 20 minutes. SpendFirewall caps per-loop spend and surfaces runaway agents before they burn your API budget.</p>
+<h1>Spend Guardrails for AI Coding Agents</h1>
+<p class="lede">Claude Code, Cursor agents, Codex loops, and autonomous coding agents can rack up <strong>$40 in 20 minutes</strong> provisioning cloud resources, calling paid APIs, and installing metered SDKs. <strong>sipi.bot</strong> caps per-loop spend and kills runaway coding agents before they burn your budget.</p>
 </header>
 
-<h2>Why spend guardrails for ai coding agents choose SpendFirewall</h2>
-<p>Claude Code, Cursor agents, and Codex loops can rack up $40 in 20 minutes. SpendFirewall caps per-loop spend and surfaces runaway agents before they burn your API budget. Built specifically for the spend firewall use case, SpendFirewall ships features that generic tools do not.</p>
-
-<h2>Key capabilities</h2>
-<ul class="check">
-<li>Spend firewall for AI agents</li>
-<li>Purpose-built for spend guardrails for ai coding agents</li>
-<li>Active development and support</li>
-<li>Documented API and workflows</li>
-</ul>
-
-<h2>How spend guardrails for ai coding agents use SpendFirewall</h2>
-<p>The typical workflow for spend guardrails for ai coding agents using SpendFirewall takes minutes, not days. Set up the spend firewall, connect your existing tools, and start producing output on day one.</p>
-
 <div class="callout">
-<p><strong>Get started:</strong> Claude Code, Cursor agents, and Codex loops can rack up $40 in 20 minutes. SpendFirewall caps per-loop spend and surfaces runaway agents bef...</p>
+<strong>What coding agents actually spend money on.</strong> Cloud provisioning (<code>aws ec2 run-instances</code>, <code>gcloud compute instances create</code>, <code>fly scale count</code>), paid API calls during debugging (OpenAI, Anthropic, data vendors), metered SDK installs that bill on use, infrastructure that scales up during a debug session and never scales down. None of these have a native "should I really run this?" check.
 </div>
 
-<h2>Frequently asked questions</h2>
-<h3>Is SpendFirewall built specifically for spend guardrails for ai coding agents?</h3>
-<p>Yes. SpendFirewall is purpose-built for the spend firewall use case, with workflows tailored to spend guardrails for ai coding agents.</p>
-<h3>How long does setup take?</h3>
-<p>Most spend guardrails for ai coding agents are productive with SpendFirewall within the first hour.</p>
+<h2>Native MCP integration</h2>
+<p>sipi.bot ships an MCP server that Claude Code, Cursor, and Hermes load as a tool directly. The agent evaluates every proposed spend through the MCP tool before executing the command:</p>
+<pre><code>pip install sipi-bot
+python -m spendfirewall.mcp_server</code></pre>
+<p>Once loaded, the agent can call <code>evaluate_spend</code> before any shell command that would move money:</p>
+<pre><code># inside Claude Code / Cursor
+evaluate_spend(amount=25, merchant="aws.amazon.com", category="compute")
+→ {"decision": "APPROVED", "reason": "Within all spend policies."}
+# agent proceeds to run: aws ec2 run-instances ...
 
-<div class="cta"><a href="https://sipi.bot/">Get started with SpendFirewall &rarr;</a></div>
+evaluate_spend(amount=2500, merchant="unknown-gpu.ru", category="compute")
+→ {"decision": "BLOCKED", "reason": "Merchant not on allowlist"}
+# agent does NOT run the command</code></pre>
 
-<section class="related-links"><h3>Related pages</h3><ul><li><a href="/for/ai-trading-bots">Spend controls for AI trading bots</a></li><li><a href="/for/support-bots">Spend ceilings for customer support bots</a></li><li><a href="/for/research-agents">Spend controls for deep research agents</a></li><li><a href="/for/ecommerce-bots">Spend controls for shopping agents</a></li><li><a href="/for/devops-automation">Budget caps for DevOps automation</a></li></ul></section>
+<h2>The failure modes sipi.bot catches</h2>
+<h3>1. The unattended provisioning loop</h3>
+<p>A coding agent retries a failed <code>aws ec2 run-instances</code> command. Each retry provisions another instance. By the time you notice, you have 15 instances running and a $400 bill. A velocity rule (max 5 provisioning calls per hour) kills the loop on the 6th attempt.</p>
+
+<h3>2. The aggressive scale-up during debug</h3>
+<p>An agent debugging a performance issue scales up infrastructure to test — <code>fly scale count 20</code>, <code>aws autoscaling set-desired-capacity 50</code> — and forgets to scale back down. A per-transaction cap blocks any single scale-up over a threshold; a daily total caps aggregate provisioning spend.</p>
+
+<h3>3. The novel metered SDK</h3>
+<p>The agent installs a metered SDK to test a feature. The SDK bills on use. A 20-minute test session racks up $40 before anyone notices. A category limit caps "metered-sdk" spend at a small daily amount.</p>
+
+<h3>4. The prompt-injected spend</h3>
+<p>If your coding agent ingests untrusted content (a GitHub issue, a PR body, a web page), a prompt injection can instruct it to route spend to an attacker-controlled vendor. A merchant allowlist blocks this — only vendors you've approved go through.</p>
+
+<h2>The rules that matter for coding agents</h2>
+<table>
+<thead><tr><th>Rule</th><th>What it catches</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Velocity</td><td>Retry loops, runaway provisioning</td><td>Max 5 cloud-provisioning calls per hour</td></tr>
+<tr><td>Per-transaction cap</td><td>Catastrophic single call</td><td>Block any single spend over $100</td></tr>
+<tr><td>Daily total</td><td>Aggregate debug-session spend</td><td>Max $200/day across all agent spend</td></tr>
+<tr><td>Category limit</td><td>Metered SDKs, data APIs</td><td>Cap "metered-sdk" at $20/day</td></tr>
+<tr><td>Merchant allowlist</td><td>Prompt-injected vendor routing</td><td>AWS, GCP, Fly, Vercel only</td></tr>
+<tr><td>Time window</td><td>Unattended overnight sessions</td><td>Flag all spend outside 9–18</td></tr>
+</tbody>
+</table>
+
+<div class="callout good">
+<strong>Works with:</strong> Claude Code, Cursor, Hermes, Codex CLI, Aider, Continue, Sweep, Devin, and any agent that can call an MCP tool or an HTTP endpoint.
+</div>
+
+<h2>What this is not</h2>
+<p>sipi.bot is not an LLM-cost-optimization tool. It will not tell you which model is cheapest or cache your prompts. It is a <em>spend firewall</em> — it stops your coding agent from spending money you didn't authorize, full stop. For LLM cost optimization, compose it with <a href="/vs/litellm">LiteLLM</a>; for LLM observability, compose it with <a href="/vs/helicone">Helicone</a> or <a href="/vs/langfuse">Langfuse</a>.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Add sipi.bot to your coding agent &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/learn/spend-firewall-guide">The Spend Firewall Complete Guide</a></li>
+<li><a href="/for/anthropic-agents">For Anthropic agents</a></li>
+<li><a href="/for/openai-agents">For OpenAI agents</a></li>
+<li><a href="/for/devops-automation">For DevOps automation</a></li>
+</ul></section>
 </article>
 <footer>
-<p><strong>SpendFirewall</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
 </footer>
 </body>
 </html>

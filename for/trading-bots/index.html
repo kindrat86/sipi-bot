@@ -2,29 +2,116 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Spend Control for AI Trading Bots — sipi.bot</title>
-<meta name="description" content="AI trading bots can execute thousands of transactions per minute. sipi.bot provides per-trade limits, daily P&L caps, and runaway-loop detection so your bo">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spend Controls for AI Trading Bots — sipi.bot</title>
+<meta name="description" content="Autonomous trading bots can place orders in milliseconds. sipi.bot is the pre-trade firewall that evaluates every order against your risk rules — per-trade size, daily loss caps, velocity limits, venue allowlists — before it executes.">
 <link rel="canonical" href="https://sipi.bot/for/trading-bots">
-<meta property="og:title" content="Spend Control for AI Trading Bots — sipi.bot">
-<meta property="og:description" content="AI trading bots can execute thousands of transactions per minute. sipi.bot provides per-trade limits, daily P&L caps, and runaway-loop detection so your bo">
-<meta property="og:type" content="website">
+<meta property="og:title" content="Spend Controls for AI Trading Bots — sipi.bot">
+<meta property="og:description" content="Pre-trade firewall for autonomous trading bots: per-trade size caps, daily loss limits, velocity protection, venue allowlists.">
+<meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/for/trading-bots">
+<meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Spend Control for AI Trading Bots — sipi.bot">
-<meta name="twitter:description" content="AI trading bots can execute thousands of transactions per minute. sipi.bot provides per-trade limits, daily P&L caps, and runaway-loop detection so your bo">
-<meta name="robots" content="index, follow">
-<script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head>
-<body style="font-family:-apple-system,system-ui,sans-serif;max-width:760px;margin:60px auto;padding:0 20px;line-height:1.7;color:#1a1a1a;background:#fff">
-<header style="margin-bottom:40px"><a href="https://sipi.bot" style="text-decoration:none;color:#555;font-size:.9em">← sipi.bot</a></header>
-<main>
-<h1 style="font-size:2em;font-weight:800;margin-bottom:.5em">Spend Firewall for AI Trading Bots</h1>
-<p style="font-size:1.1em;color:#555;margin-bottom:2em">AI trading bots operate at machine speed — thousands of trades per minute, $0 to $100K in seconds. Without a transaction firewall, a bug in your strategy code becomes a financial disaster before your phone buzzes. sipi.bot sits in front of every trade your bot attempts and evaluates it against your risk rules in under 5ms.</p>
-<h2>Trading bot controls</h2><ul><li><strong>Per-trade limit:</strong> Max position size per individual trade</li><li><strong>Daily P&amp;L cap:</strong> Hard stop when realized loss hits threshold</li><li><strong>Velocity circuit breaker:</strong> >50 trades/second → FLAGGED</li><li><strong>Asset allowlist:</strong> Only approved pairs, block everything else</li><li><strong>Time window:</strong> No trades outside market hours or defined windows</li></ul>
-<p style="margin-top:2em"><a href="https://sipi.bot" style="color:#0066cc;font-weight:600">Start now →</a></p>
-</main>
-<footer style="margin-top:60px;padding-top:20px;border-top:1px solid #e0e0e0;color:#888;font-size:.85em">
-<p><strong>sipi.bot</strong> — The Spend Firewall for AI Agents</p>
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Spend Controls for AI Trading Bots","description":"How to add a pre-trade firewall to autonomous trading bots.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/for/trading-bots"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"For Trading Bots","item":"https://sipi.bot/for/trading-bots"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can sipi.bot stop a runaway trading bot?","acceptedAnswer":{"@type":"Answer","text":"Yes. A velocity rule caps the number of trades per time window and blocks the Nth attempt — killing the runaway loop before the loss compounds. A daily loss cap blocks all further trades once aggregate loss crosses a threshold. Per-trade size caps catch the catastrophic single order."}},{"@type":"Question","name":"Is sipi.bot a broker or exchange?","acceptedAnswer":{"@type":"Answer","text":"No. sipi.bot is a decision API — it returns approve, block, or flag. Your existing broker or exchange API is what actually places (or doesn't place) the order. sipi.bot is rail-agnostic and works in front of any trading venue."}},{"@type":"Question","name":"Does this work with crypto trading bots?","acceptedAnswer":{"@type":"Answer","text":"Yes. Crypto trading bots, agent-commerce protocols (x402, AP2), and wallet-driven agents all call sipi.bot before settling a trade. The firewall evaluates the transaction (amount, venue, category) and returns a decision; your wallet or exchange API acts on it."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.danger{background:#fee2e2;border-left-color:#dc2626}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+</style>
+</head>
+<body>
+<article>
+<header>
+<h1>Spend Controls for AI Trading Bots</h1>
+<p class="lede">Autonomous trading bots can place orders in milliseconds — and a bug, a stale signal, or a compromised feed can drain an account before a human notices. <strong>sipi.bot</strong> is the pre-trade firewall that evaluates every order against your risk rules before it executes: per-trade size caps, daily loss limits, velocity protection, and venue allowlists.</p>
+</header>
+
+<div class="callout danger">
+<strong>The trading bot failure mode.</strong> A signal goes stale. Your bot retries the order. The venue's matching engine is happy to fill every retry. By the time your monitoring alerts, you've placed 40 orders in 90 seconds and the position is 10× what your risk model ever intended. This is the exact pattern sipi.bot's velocity rule was designed to kill.
+</div>
+
+<h2>What a pre-trade firewall does</h2>
+<p>sipi.bot sits in front of your order-placement logic. Every order the bot wants to place is first evaluated against your risk rules; the firewall returns <strong>APPROVED, BLOCKED, or FLAGGED</strong> in under 5ms. Only APPROVED orders reach your broker or exchange API.</p>
+<pre><code>def place_order(amount, venue, side, symbol):
+    # ask the firewall first
+    decision = sipibot.evaluate(
+        amount=amount,
+        merchant=venue,      # "binance", "interactive-brokers", etc.
+        category=f"{side}:{symbol}",
+    )
+    if decision["decision"] != "APPROVED":
+        log_block(decision["reason"])
+        return None
+    # only now actually place the order
+    return broker.submit(amount, venue, side, symbol)</code></pre>
+
+<h2>The risk rules that matter for trading bots</h2>
+<h3>1. Per-trade size cap</h3>
+<p>Block any single order over a hard ceiling. This is the floor — the catastrophic single-trade protection that catches a misformatted order (extra zero, wrong unit) before it reaches the venue.</p>
+<pre><code>{"rule_type": "per_transaction", "params": {"max_amount": 10000}, "action": "BLOCKED"}</code></pre>
+
+<h3>2. Daily loss / volume cap</h3>
+<p>A rolling cap across all trades in a day. Once aggregate notional crosses the threshold, all further trades are blocked. This is your daily-risk-circuit-breaker.</p>
+<pre><code>{"rule_type": "daily_total", "params": {"max_amount": 100000}, "action": "BLOCKED"}</code></pre>
+
+<h3>3. Velocity limit (the runaway-killer)</h3>
+<p>The rule that stops the 40-retry-in-90-seconds pattern. Cap the number of trades per window; the Nth attempt is blocked. Velocity rules catch bugs, stale signals, and compromised feeds far faster than amount-based rules, because the <em>pattern</em> of repeated orders is detectable before the <em>amount</em> becomes dangerous.</p>
+<pre><code>{"rule_type": "velocity", "params": {"max_count": 20, "window_minutes": 60}, "action": "BLOCKED"}</code></pre>
+
+<h3>4. Venue allowlist</h3>
+<p>Block orders to any venue you haven't explicitly approved — your defense against prompt-injection (in LLM-driven bots) or logic bugs that route orders to the wrong destination.</p>
+<pre><code>{"rule_type": "merchant_allow", "params": {"allowed": ["binance.com", "interactivebrokers.com"]}, "action": "BLOCKED"}</code></pre>
+
+<h3>5. Time windows</h3>
+<p>Block or flag trades outside market hours, during known high-volatility windows, or overnight when no human is watching.</p>
+<pre><code>{"rule_type": "time_window", "params": {"allowed_hours": "9:30-16:00"}, "action": "FLAGGED"}</code></pre>
+
+<h2>Why existing risk controls aren't enough</h2>
+<p>Most trading systems have <em>some</em> risk controls — broker-side limits, exchange circuit breakers, internal position-size checks. The gaps that sipi.bot fills:</p>
+<ul class="check">
+<li><strong>Cross-venue.</strong> Broker-side limits only protect that broker. A bot that trades across 5 venues has 5 independent limits and no aggregate cap. sipi.bot governs all venues through one policy.</li>
+<li><strong>Velocity-aware.</strong> Broker limits are usually amount-based, not count-based. They catch the big single order but not the 40 small ones in 90 seconds.</li>
+<li><strong>Pre-trade, not post-trade.</strong> Many internal risk systems reconcile after the fact. sipi.bot blocks before the order reaches the venue.</li>
+<li><strong>Agent-aware.</strong> If your trading logic is LLM-driven (a growing category), prompt injection can instruct the bot to route trades to attacker-controlled venues. The merchant allowlist stops this.</li>
+</ul>
+
+<h2>Crypto trading bots and agent-commerce rails</h2>
+<p>For crypto bots that settle via agent-payment protocols — <strong>x402</strong> (Coinbase), <strong>AP2</strong> (Google), <strong>AgentKit</strong> — sipi.bot is the compliance layer in front of the wallet. The protocol moves the funds; the firewall decides whether the move is allowed.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Protect your trading bot with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/learn/spend-firewall-guide">The Spend Firewall Complete Guide</a></li>
+<li><a href="/for/ai-trading-bots">For AI trading bots (deep dive)</a></li>
+<li><a href="/benchmarks/runaway-incident-frequency">Runaway incident benchmarks</a></li>
+<li><a href="/for/fintech-teams">For fintech teams</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
 </footer>
 </body>
 </html>

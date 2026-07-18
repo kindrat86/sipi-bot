@@ -1,25 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spend Controls for Anthropic Agents — sipi.bot</title>
-    <meta name="description" content="Add spend controls to Anthropic Claude-powered agents. MCP tool integration — your agent calls spend_check before any payment, gets structured approve/bloc">
-    <link rel="canonical" href="https://sipi.bot/for/anthropic-agents">
-    <meta property="og:title" content="Spend Controls for Anthropic Agents — sipi.bot">
-    <meta property="og:description" content="Add spend controls to Anthropic Claude-powered agents. MCP tool integration — your agent calls spend_check before any payment, gets structured approve/bloc">
-    <meta name="robots" content="index, follow">
-<script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head>
-<body style="font-family:-apple-system,system-ui,sans-serif;max-width:760px;margin:60px auto;padding:0 20px;line-height:1.7;color:#1a1a1a;background:#fff">
-    <header style="margin-bottom:40px"><a href="https://sipi.bot" style="text-decoration:none;color:#555;font-size:.9em">← sipi.bot</a></header>
-    <main>
-        <h1 style="font-size:2em;font-weight:800;margin-bottom:.5em">Spend Controls for Anthropic Agents</h1>
-        <p style="font-size:1.1em;color:#555;margin-bottom:2em">MCP-native spend controls for Claude-powered agents. 5ms decisions.</p>
-        <p>Anthropic's MCP protocol makes it easy to add tools to Claude agents. sipi.bot's MCP server is a single tool — spend_check — that evaluates any transaction against your rules and returns a structured decision. Works with Claude Desktop, Claude Code, and any MCP-compatible host.</p>
-        <p><a href="https://sipi.bot" style="color:#0066cc;font-weight:600">Set up your spend firewall →</a></p>
-    </main>
-    <footer style="margin-top:60px;padding-top:20px;border-top:1px solid #e0e0e0;color:#888;font-size:.85em">
-        <p><strong>sipi.bot</strong> — The spend firewall for AI agents. $99/mo.</p>
-    </footer>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spend Controls for Anthropic Claude Agents — sipi.bot</title>
+<meta name="description" content="Claude Agent SDK and Claude Code agents can call tools that spend money. sipi.bot is a native MCP tool they call before any payment — per-transaction caps, velocity limits, merchant allowlists, human approval queue.">
+<link rel="canonical" href="https://sipi.bot/for/anthropic-agents">
+<meta property="og:title" content="Spend Controls for Anthropic Claude Agents — sipi.bot">
+<meta property="og:description" content="Native MCP spend firewall for Claude Code, Claude Agent SDK, and Anthropic agents. One tool call before every payment.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/for/anthropic-agents">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Spend Controls for Anthropic Claude Agents","description":"How to add a pre-spend firewall to Claude Code and Claude Agent SDK agents.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/for/anthropic-agents"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"For Anthropic Agents","item":"https://sipi.bot/for/anthropic-agents"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Claude Code have spending limits?","acceptedAnswer":{"@type":"Answer","text":"No. Claude Code can call tools and run shell commands, including ones that trigger payments (API calls, cloud provisioning, pip installs of paid SDKs). It has no built-in spend control. sipi.bot is a native MCP tool that Claude Code calls before any payment — returning APPROVED, BLOCKED, or FLAGGED in under 5ms."}},{"@type":"Question","name":"Is sipi.bot an MCP server?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot ships a native MCP server (stdio) that Claude Code, Cursor, and Hermes load directly as a tool. The agent evaluates every proposed spend through the MCP tool before executing the payment action. Install: python -m spendfirewall.mcp_server."}},{"@type":"Question","name":"How is this different from Anthropic's rate limits?","acceptedAnswer":{"@type":"Answer","text":"Anthropic's rate limits cap calls to the Anthropic API — they protect Anthropic's infrastructure. They do not govern what your agent spends at other vendors (AWS, Stripe, third-party APIs). sipi.bot governs any payment the agent can trigger, not just calls to Anthropic."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+</style>
+</head>
+<body>
+<article>
+<header>
+<h1>Spend Controls for Anthropic Claude Agents</h1>
+<p class="lede">Claude Code, Claude Agent SDK, and Anthropic-powered agents can call tools that spend money — provisioning cloud resources, calling paid APIs, triggering Stripe charges. <strong>sipi.bot</strong> is a native MCP tool they call before any payment, returning <em>approve, block, or flag</em> in under 5ms.</p>
+</header>
+
+<div class="callout good">
+<strong>Native MCP integration.</strong> sipi.bot ships a Model Context Protocol server that Claude Code, Cursor, and Hermes load directly as a tool. Your agent evaluates every proposed spend through the MCP tool before executing the payment action — no HTTP plumbing required.
+<pre><code># install
+pip install sipi-bot
+# run the MCP server (stdio)
+python -m spendfirewall.mcp_server</code></pre>
+</div>
+
+<h2>Why Claude agents need spend controls</h2>
+<p>Claude agents are particularly capable tool-users — they can chain tools, write and execute code, and call shell commands. That capability cuts both ways: a Claude Code agent that can run <code>aws ec2 run-instances</code> or call a paid data API can spend real money, fast. The failure modes that matter:</p>
+<ul class="check">
+<li><strong>Tool-call retry loops</strong> — a flaky tool fails, Claude retries, each retry is a paid call. 40 retries in 90 seconds is how $4,000 disappears at 2am.</li>
+<li><strong>Agentic coding spend</strong> — Claude Code agents provisioning infrastructure (cloud, databases, SaaS) can rack up $40–$400 in a 20-minute session if left unchecked.</li>
+<li><strong>Novel vendor discovery</strong> — agents that find new vendors during tool use (or that have been prompt-injected) will happily spend at unapproved merchants.</li>
+<li><strong>Handoff chains</strong> — multi-agent systems where each step in the chain triggers a paid call compound spend linearly.</li>
+</ul>
+
+<h2>The three-decision model</h2>
+<p>sipi.bot returns one of three decisions for every proposed spend, in under 5ms:</p>
+<ul class="check">
+<li><strong>APPROVED</strong> — passes every active rule. The agent proceeds. Logged.</li>
+<li><strong>BLOCKED</strong> — violates a hard rule (over cap, unknown merchant, velocity breach, restricted category, off-hours). No money moves.</li>
+<li><strong>FLAGGED</strong> — crosses an approval threshold. Routed to a human-in-the-loop queue and held until resolved.</li>
+</ul>
+<p>The FLAG path is what makes sipi.bot usable in production. A binary cap either blocks too much (breaking the agent's workflow) or allows too much (the $12,400 morning). Flagging routes the ambiguous cases — a $500 compute buy at 3am from a vendor you've used before — to a human without blocking the routine ones.</p>
+
+<h2>Rules that matter for Claude agents</h2>
+<h3>Velocity limit</h3>
+<p>Claude's tendency to retry failed tools means velocity is your most important rule. Cap the number of transactions per hour and the retry loop dies on the Nth attempt.</p>
+<pre><code>{"rule_type": "velocity", "params": {"max_count": 10, "window_minutes": 60}, "action": "BLOCKED"}</code></pre>
+
+<h3>Time windows</h3>
+<p>Most runaway Claude Code incidents happen during unattended overnight sessions. Flag or block all agent spend outside business hours.</p>
+<pre><code>{"rule_type": "time_window", "params": {"allowed_hours": "9-18"}, "action": "FLAGGED"}</code></pre>
+
+<h3>Merchant allowlist</h3>
+<p>Block spend at any vendor you haven't explicitly approved — your defense against prompt-injection-driven spend and novel-vendor discovery.</p>
+<pre><code>{"rule_type": "merchant_allow", "params": {"allowed": ["anthropic.com", "aws.amazon.com", "stripe.com"]}, "action": "BLOCKED"}</code></pre>
+
+<h2>Anthropic rate limits vs sipi.bot</h2>
+<table>
+<thead><tr><th></th><th>Anthropic rate limits</th><th>sipi.bot</th></tr></thead>
+<tbody>
+<tr><td>What it limits</td><td>Calls to the Anthropic API</td><td>Any payment the agent triggers</td></tr>
+<tr><td>Direction</td><td>Inbound (you paying Anthropic)</td><td>Outbound (agent spending your money)</td></tr>
+<tr><td>Per-merchant</td><td>Anthropic only</td><td>Any merchant / vendor / API</td></tr>
+<tr><td>Velocity kill</td><td>No</td><td>Yes</td></tr>
+<tr><td>Human approval queue</td><td>No</td><td>Yes</td></tr>
+<tr><td>Audit log</td><td>Usage dashboards</td><td>Tamper-evident, compliance-grade</td></tr>
+</tbody>
+</table>
+
+<div class="cta"><a href="https://sipi.bot/">Add sipi.bot to your Claude agent &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/learn/spend-firewall-guide">The Spend Firewall Complete Guide</a></li>
+<li><a href="/for/openai-agents">Spend controls for OpenAI agents</a></li>
+<li><a href="/for/langchain-agents">Spend controls for LangChain</a></li>
+<li><a href="/for/ai-coding-agents">Spend controls for AI coding agents</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
 </body>
 </html>

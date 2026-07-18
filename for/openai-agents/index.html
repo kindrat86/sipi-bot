@@ -1,25 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spend Controls for OpenAI Agents — sipi.bot</title>
-    <meta name="description" content="OpenAI Agents SDK makes it easy to build autonomous agents. sipi.bot makes it easy to control their spending. One MCP tool call before every payment functi">
-    <link rel="canonical" href="https://sipi.bot/for/openai-agents">
-    <meta property="og:title" content="Spend Controls for OpenAI Agents — sipi.bot">
-    <meta property="og:description" content="OpenAI Agents SDK makes it easy to build autonomous agents. sipi.bot makes it easy to control their spending. One MCP tool call before every payment functi">
-    <meta name="robots" content="index, follow">
-<script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head>
-<body style="font-family:-apple-system,system-ui,sans-serif;max-width:760px;margin:60px auto;padding:0 20px;line-height:1.7;color:#1a1a1a;background:#fff">
-    <header style="margin-bottom:40px"><a href="https://sipi.bot" style="text-decoration:none;color:#555;font-size:.9em">← sipi.bot</a></header>
-    <main>
-        <h1 style="font-size:2em;font-weight:800;margin-bottom:.5em">Spend Controls for OpenAI Agents</h1>
-        <p style="font-size:1.1em;color:#555;margin-bottom:2em">Native MCP integration for OpenAI Agents SDK — approve, block, or flag in 5ms.</p>
-        <p>OpenAI Agents SDK gives your agent tools, handoffs, and guardrails — but no built-in spend controls. Add sipi.bot as an MCP tool and every payment function call gets evaluated against your rules before execution. Per-transaction limits, daily caps, velocity protection, and merchant allowlists — all in one tool call.</p>
-        <p><a href="https://sipi.bot" style="color:#0066cc;font-weight:600">Set up your spend firewall →</a></p>
-    </main>
-    <footer style="margin-top:60px;padding-top:20px;border-top:1px solid #e0e0e0;color:#888;font-size:.85em">
-        <p><strong>sipi.bot</strong> — The spend firewall for AI agents. $99/mo.</p>
-    </footer>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spend Controls for OpenAI Agents SDK — sipi.bot</title>
+<meta name="description" content="The OpenAI Agents SDK gives your agent tools and handoffs but no built-in spend controls. Add sipi.bot as a tool and every payment function call is evaluated against your rules — per-transaction caps, daily totals, velocity limits, merchant allowlists — before execution.">
+<link rel="canonical" href="https://sipi.bot/for/openai-agents">
+<meta property="og:title" content="Spend Controls for OpenAI Agents SDK — sipi.bot">
+<meta property="og:description" content="Native spend firewall for OpenAI Agents SDK: per-transaction caps, daily totals, velocity limits, merchant allowlists. One tool call before every payment.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/for/openai-agents">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Spend Controls for OpenAI Agents SDK","description":"How to add a pre-spend firewall to OpenAI Agents SDK agents.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/for/openai-agents"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"For OpenAI Agents","item":"https://sipi.bot/for/openai-agents"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does OpenAI Agents SDK have built-in spend limits?","acceptedAnswer":{"@type":"Answer","text":"No. The OpenAI Agents SDK gives your agent tools, handoffs, and prompt-level guardrails, but it has no native concept of spend control. If your agent can call a function that triggers a payment — an API purchase, a compute buy, a Stripe charge — the SDK will happily call it without checking whether the spend is allowed. sipi.bot adds that pre-spend check as a tool the agent calls before any paid action."}},{"@type":"Question","name":"How do I add sipi.bot to an OpenAI Agents SDK agent?","acceptedAnswer":{"@type":"Answer","text":"Register sipi.bot's evaluate_spend as a tool on your agent, and have every payment function check with it first. A typical integration is 10–15 lines: call sipi.bot's /v1/transactions/evaluate endpoint at the top of any tool that would move money, and return early if the decision is BLOCKED or FLAGGED."}},{"@type":"Question","name":"What spend rules matter most for OpenAI Agents SDK?","acceptedAnswer":{"@type":"Answer","text":"Velocity limits and per-transaction caps. OpenAI agents that use tool-calling in a loop are the most common source of runaway spend — a retry loop or a handoff chain where each step triggers a paid call. A velocity rule (e.g. max 10 transactions per hour) kills the loop on the 11th attempt, and a per-transaction cap catches the catastrophic single spend."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+</style>
+</head>
+<body>
+<article>
+<header>
+<h1>Spend Controls for OpenAI Agents SDK</h1>
+<p class="lede">The OpenAI Agents SDK gives your agent tools, handoffs, and prompt-level guardrails — but no built-in spend controls. Add <strong>sipi.bot</strong> as a tool and every payment function call gets evaluated against your rules before it executes: per-transaction caps, daily totals, velocity limits, and merchant allowlists.</p>
+</header>
+
+<div class="callout">
+<strong>The OpenAI Agents SDK gap.</strong> Agents built with the SDK can call any tool you give them — including tools that trigger real payments. A handoff chain where each step calls a paid API, or a retry loop on a flaky tool, can rack up significant spend before anyone notices. The SDK has no concept of "should this spend be allowed." sipi.bot adds that check as one tool call before the paid action fires.
+</div>
+
+<h2>What you get</h2>
+<ul class="check">
+<li><strong>Pre-spend evaluation</strong> — every payment tool call is checked against your rules in under 5ms, before it executes.</li>
+<li><strong>Per-transaction caps</strong> — block any single spend over a ceiling you set.</li>
+<li><strong>Daily totals</strong> — rolling budget across all agent transactions.</li>
+<li><strong>Velocity limits</strong> — kill retry loops and runaway handoff chains on the Nth repeat.</li>
+<li><strong>Merchant allowlists</strong> — block the agent from spending at any vendor you haven't approved.</li>
+<li><strong>Human-in-the-loop approval queue</strong> — large or ambiguous spend is FLAGGED and held for a human.</li>
+<li><strong>Tamper-evident audit log</strong> — every decision, immutable, with the rule that fired.</li>
+</ul>
+
+<h2>The integration: 15 lines</h2>
+<p>Register sipi.bot as a tool, and have every payment function check with it first. On BLOCKED, abort. On FLAGGED, route to a human.</p>
+<pre><code>from agents import Agent, function_tool
+import requests
+
+@function_tool
+def evaluate_spend(amount: float, merchant: str, category: str) -> dict:
+    """Check whether this spend is allowed before paying."""
+    r = requests.post(
+        "https://sipi.bot/v1/transactions/evaluate",
+        headers={"Authorization": f"Bearer {SIPBOT_KEY}"},
+        json={"amount": amount, "merchant": merchant, "category": category},
+        timeout=5,
+    ).json()
+    return r  # {"decision": "APPROVED|BLOCKED|FLAGGED", "reason": "..."}
+
+@function_tool
+def buy_compute(amount: float, vendor: str) -> str:
+    """Purchase GPU compute — gated by sipi.bot."""
+    decision = evaluate_spend(amount, vendor, "compute")
+    if decision["decision"] != "APPROVED":
+        return f"Blocked: {decision['reason']}"
+    # ... your actual purchase logic here
+    return "Purchased"
+
+agent = Agent(
+    name="procurement-agent",
+    instructions="You buy compute for the team. Always check evaluate_spend first.",
+    tools=[evaluate_spend, buy_compute],
+)</code></pre>
+
+<h2>The spend rules that matter most for OpenAI agents</h2>
+<h3>1. Velocity limit (the retry-loop killer)</h3>
+<p>OpenAI Agents SDK agents that use tool-calling in a loop are the most common source of runaway spend. A tool fails, the agent retries, the retry fails, the agent retries again — each retry is a paid call. A velocity rule caps the number of transactions per window and kills the loop on the Nth attempt.</p>
+<pre><code>{"rule_type": "velocity", "params": {"max_count": 10, "window_minutes": 60}, "action": "BLOCKED"}</code></pre>
+
+<h3>2. Per-transaction cap</h3>
+<p>Even with velocity under control, a single catastrophic spend — a $5,000 GPU rental, a misformatted API call that bills at a premium tier — needs a hard ceiling. Block anything over $500 outright.</p>
+<pre><code>{"rule_type": "per_transaction", "params": {"max_amount": 500}, "action": "BLOCKED"}</code></pre>
+
+<h3>3. Merchant allowlist</h3>
+<p>Agents that discover novel vendors during tool use (or that have been prompt-injected to route spend to an attacker-controlled merchant) are blocked by default. Only vendors you've approved go through.</p>
+<pre><code>{"rule_type": "merchant_allow", "params": {"allowed": ["openai.com", "aws.amazon.com"]}, "action": "BLOCKED"}</code></pre>
+
+<h2>Why not just use OpenAI's spending limits?</h2>
+<p>OpenAI's account-level spend limits are billing controls on your OpenAI account — they cap total spend with OpenAI, not what your <em>agent</em> spends. If your agent buys compute from AWS, advertising from Meta, or data from a third-party API, OpenAI's limit does nothing. sipi.bot governs spend across <strong>any</strong> payment the agent can trigger, not just calls to OpenAI.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Add sipi.bot to your OpenAI agent &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/learn/spend-firewall-guide">The Spend Firewall Complete Guide</a></li>
+<li><a href="/for/anthropic-agents">Spend controls for Anthropic agents</a></li>
+<li><a href="/for/langchain-agents">Spend controls for LangChain</a></li>
+<li><a href="/vs/openai-billing">sipi.bot vs OpenAI Billing</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
 </body>
 </html>
