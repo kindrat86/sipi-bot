@@ -368,6 +368,7 @@ body:JSON.stringify({email:document.getElementById('em').value,ref:ref})})
 </body></html>"""
     s = s.replace("{CSS}", CSS)
     s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
+    s = s.replace("{GA4_SNIPPET}", GA4_SNIPPET)
     return s
 
 
