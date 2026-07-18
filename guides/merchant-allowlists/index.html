@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merchant Allowlists for AI Agents | Sipi Bot</title>
+<meta name="description" content="A merchant allowlist is a restrictively curated list of API endpoints an agent is allowed to pay. Any payment attempt to an endpoint not on the list is aut">
+<link rel="canonical" href="https://sipi.bot/guides/merchant-allowlists">
+<meta property="og:title" content="Merchant Allowlists for AI Agents | Sipi Bot">
+<meta property="og:description" content="A merchant allowlist is a restrictively curated list of API endpoints an agent is allowed to pay. Any payment attempt to an endpoint not on the list is aut">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot"},{"@type":"ListItem","position":2,"name":"Merchant Allowlists for AI Agents","item":"https://sipi.bot/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Merchant Allowlists for AI Agents","description":"A merchant allowlist is a restrictively curated list of API endpoints an agent is allowed to pay. Any payment attempt to an endpoint not on the list is aut","author":{"@type":"Organization","name":"Sipi Bot"},"publisher":{"@type":"Organization","name":"Sipi Bot","url":"https://sipi.bot"},"datePublished":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type": "Question", "name": "How restrictive should allowlists be?", "acceptedAnswer": {"@type": "Answer", "text": "As restrictive as possible. Start with exactly the endpoints the agent needs. Add new endpoints as requirements emerge, not preemptively."}}, {"@type": "Question", "name": "Can agents request new allowlist entries?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, through Sipi Bot's policy API. The request is logged, and an admin can approve it via the dashboard. This allows dynamic scaling without compromising security."}}]}</script>
+
+</head>
+<body>
+<main>
+<h1>Merchant Allowlists for AI Agents</h1>
+<p>A merchant allowlist is a restrictively curated list of API endpoints an agent is allowed to pay. Any payment attempt to an endpoint not on the list is automatically blocked.</p>
+<p>The allowlist is the single most effective control against agent payment abuse. Even a compromised agent cannot spend on unapproved endpoints. Combined with circuit breakers, it creates a defense-in-depth payment security model.</p>
+<p>Sipi Bot's allowlist supports wildcards (e.g., api.openai.com/v1/chat/completions), rate limits per endpoint, and time-based access (only allow billing during business hours).</p>
+<section class="faq"><details><summary>How restrictive should allowlists be?</summary><p>As restrictive as possible. Start with exactly the endpoints the agent needs. Add new endpoints as requirements emerge, not preemptively.</p></details>
+<details><summary>Can agents request new allowlist entries?</summary><p>Yes, through Sipi Bot's policy API. The request is logged, and an admin can approve it via the dashboard. This allows dynamic scaling without compromising security.</p></details></section>
+<section class="cta"><a href="/">Start monitoring agent spend</a></section>
+</main>
+<footer>&copy; 2026 Sipi Bot</footer>
+</body></html>

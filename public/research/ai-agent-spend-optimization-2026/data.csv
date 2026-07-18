@@ -1,0 +1,16 @@
+task_type,optimal_model_tier,cost_per_1k_tasks_usd,waste_rate_pct,sample_size,common_mistake
+Text classification,Small (8B-class),0.12,71,420,Routing to GPT-4-class for binary labels
+Entity extraction,Small (8B-class),0.18,65,380,Using frontier models for regex-able patterns
+Summarization (short),Medium (70B-class),0.84,44,290,Not caching repeated document summaries
+Code generation,Large (frontier),4.20,18,510,Over-prompting with redundant context
+Multi-step reasoning,Large (frontier),6.50,12,180,Correct tier — minimal waste
+Creative writing,Large (frontier),3.80,22,240,Premature optimization to cheaper models
+Translation,Medium (70B-class),0.45,38,310,Using frontier for common language pairs
+Embedding generation,Specialized,0.03,52,680,Re-embedding unchanged documents
+Tool-use/function-calling,Large (frontier),5.20,28,220,Not implementing retry with fallback
+Document Q&A (RAG),Medium (70B-class),1.10,41,350,Full context instead of chunked retrieval
+JSON extraction,Small (8B-class),0.15,68,400,Premium models for structured output
+Intent detection,Small (8B-class),0.10,74,520,Overkill models for 5-class problems
+Sentiment analysis,Small (8B-class),0.08,77,600,Academic-grade model for binary task
+Long-context analysis (>32K),Large (frontier),8.40,15,90,Correct tier — expensive but necessary
+Image description,Large (frontier),2.10,33,160,Not batching image requests

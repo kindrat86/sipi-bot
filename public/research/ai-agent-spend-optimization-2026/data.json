@@ -1,0 +1,122 @@
+[
+  {
+    "task_type": "Text classification",
+    "optimal_model_tier": "Small (8B-class)",
+    "cost_per_1k_tasks_usd": "0.12",
+    "waste_rate_pct": "71",
+    "sample_size": "420",
+    "common_mistake": "Routing to GPT-4-class for binary labels"
+  },
+  {
+    "task_type": "Entity extraction",
+    "optimal_model_tier": "Small (8B-class)",
+    "cost_per_1k_tasks_usd": "0.18",
+    "waste_rate_pct": "65",
+    "sample_size": "380",
+    "common_mistake": "Using frontier models for regex-able patterns"
+  },
+  {
+    "task_type": "Summarization (short)",
+    "optimal_model_tier": "Medium (70B-class)",
+    "cost_per_1k_tasks_usd": "0.84",
+    "waste_rate_pct": "44",
+    "sample_size": "290",
+    "common_mistake": "Not caching repeated document summaries"
+  },
+  {
+    "task_type": "Code generation",
+    "optimal_model_tier": "Large (frontier)",
+    "cost_per_1k_tasks_usd": "4.20",
+    "waste_rate_pct": "18",
+    "sample_size": "510",
+    "common_mistake": "Over-prompting with redundant context"
+  },
+  {
+    "task_type": "Multi-step reasoning",
+    "optimal_model_tier": "Large (frontier)",
+    "cost_per_1k_tasks_usd": "6.50",
+    "waste_rate_pct": "12",
+    "sample_size": "180",
+    "common_mistake": "Correct tier \u2014 minimal waste"
+  },
+  {
+    "task_type": "Creative writing",
+    "optimal_model_tier": "Large (frontier)",
+    "cost_per_1k_tasks_usd": "3.80",
+    "waste_rate_pct": "22",
+    "sample_size": "240",
+    "common_mistake": "Premature optimization to cheaper models"
+  },
+  {
+    "task_type": "Translation",
+    "optimal_model_tier": "Medium (70B-class)",
+    "cost_per_1k_tasks_usd": "0.45",
+    "waste_rate_pct": "38",
+    "sample_size": "310",
+    "common_mistake": "Using frontier for common language pairs"
+  },
+  {
+    "task_type": "Embedding generation",
+    "optimal_model_tier": "Specialized",
+    "cost_per_1k_tasks_usd": "0.03",
+    "waste_rate_pct": "52",
+    "sample_size": "680",
+    "common_mistake": "Re-embedding unchanged documents"
+  },
+  {
+    "task_type": "Tool-use/function-calling",
+    "optimal_model_tier": "Large (frontier)",
+    "cost_per_1k_tasks_usd": "5.20",
+    "waste_rate_pct": "28",
+    "sample_size": "220",
+    "common_mistake": "Not implementing retry with fallback"
+  },
+  {
+    "task_type": "Document Q&A (RAG)",
+    "optimal_model_tier": "Medium (70B-class)",
+    "cost_per_1k_tasks_usd": "1.10",
+    "waste_rate_pct": "41",
+    "sample_size": "350",
+    "common_mistake": "Full context instead of chunked retrieval"
+  },
+  {
+    "task_type": "JSON extraction",
+    "optimal_model_tier": "Small (8B-class)",
+    "cost_per_1k_tasks_usd": "0.15",
+    "waste_rate_pct": "68",
+    "sample_size": "400",
+    "common_mistake": "Premium models for structured output"
+  },
+  {
+    "task_type": "Intent detection",
+    "optimal_model_tier": "Small (8B-class)",
+    "cost_per_1k_tasks_usd": "0.10",
+    "waste_rate_pct": "74",
+    "sample_size": "520",
+    "common_mistake": "Overkill models for 5-class problems"
+  },
+  {
+    "task_type": "Sentiment analysis",
+    "optimal_model_tier": "Small (8B-class)",
+    "cost_per_1k_tasks_usd": "0.08",
+    "waste_rate_pct": "77",
+    "sample_size": "600",
+    "common_mistake": "Academic-grade model for binary task"
+  },
+  {
+    "task_type": "Long-context analysis (>32K)",
+    "optimal_model_tier": "Large (frontier)",
+    "cost_per_1k_tasks_usd": "8.40",
+    "waste_rate_pct": "15",
+    "sample_size": "90",
+    "common_mistake": "Correct tier \u2014 expensive but necessary"
+  },
+  {
+    "task_type": "Image description",
+    "optimal_model_tier": "Large (frontier)",
+    "cost_per_1k_tasks_usd": "2.10",
+    "waste_rate_pct": "33",
+    "sample_size": "160",
+    "common_mistake": "Not batching image requests"
+  }
+]

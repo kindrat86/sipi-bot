@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velocity Caps for AI Agent Spending | Sipi Bot</title>
+<meta name="description" content="A velocity cap limits how many payments an agent can make in a given time window. Unlike a budget ceiling (total spend), a velocity cap limits the rate of ">
+<link rel="canonical" href="https://sipi.bot/guides/velocity-caps">
+<meta property="og:title" content="Velocity Caps for AI Agent Spending | Sipi Bot">
+<meta property="og:description" content="A velocity cap limits how many payments an agent can make in a given time window. Unlike a budget ceiling (total spend), a velocity cap limits the rate of ">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot"},{"@type":"ListItem","position":2,"name":"Velocity Caps for AI Agent Spending","item":"https://sipi.bot/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Velocity Caps for AI Agent Spending","description":"A velocity cap limits how many payments an agent can make in a given time window. Unlike a budget ceiling (total spend), a velocity cap limits the rate of ","author":{"@type":"Organization","name":"Sipi Bot"},"publisher":{"@type":"Organization","name":"Sipi Bot","url":"https://sipi.bot"},"datePublished":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type": "Question", "name": "What's the right velocity cap for my agent?", "acceptedAnswer": {"@type": "Answer", "text": "Start at 10 calls/minute per endpoint. Monitor for 1-2 weeks. Adjust based on actual usage patterns. The goal is to allow normal operations while preventing runaway loops."}}, {"@type": "Question", "name": "Do velocity caps affect user experience?", "acceptedAnswer": {"@type": "Answer", "text": "For well-behaved agents, no. Velocity caps only trigger on anomalous patterns. Sipi Bot's backoff is transparent to the agent \u2014 it just gets slower responses."}}]}</script>
+
+</head>
+<body>
+<main>
+<h1>Velocity Caps for AI Agent Spending</h1>
+<p>A velocity cap limits how many payments an agent can make in a given time window. Unlike a budget ceiling (total spend), a velocity cap limits the rate of spending.</p>
+<p>Velocity caps prevent the 'death by a thousand cuts' scenario where an agent makes thousands of micro-payments below the single-transaction limit. Default: 10 payments per minute per agent.</p>
+<p>Sipi Bot applies velocity caps at the agent, endpoint, and tenant level. An agent hitting the velocity cap gets automatic exponential backoff — retry intervals double with each attempt.</p>
+<section class="faq"><details><summary>What's the right velocity cap for my agent?</summary><p>Start at 10 calls/minute per endpoint. Monitor for 1-2 weeks. Adjust based on actual usage patterns. The goal is to allow normal operations while preventing runaway loops.</p></details>
+<details><summary>Do velocity caps affect user experience?</summary><p>For well-behaved agents, no. Velocity caps only trigger on anomalous patterns. Sipi Bot's backoff is transparent to the agent — it just gets slower responses.</p></details></section>
+<section class="cta"><a href="/">Start monitoring agent spend</a></section>
+</main>
+<footer>&copy; 2026 Sipi Bot</footer>
+</body></html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runaway Agent Loop Detection Scenario | Sipi Bot</title>
+<meta name="description" content="An agent enters a loop, repeatedly calling the same API endpoint and racking up costs. Sipi Bot detects the pattern (same endpoint + same parameters + exce">
+<link rel="canonical" href="https://sipi.bot/scenarios/runaway-agent-loop">
+<meta property="og:title" content="Runaway Agent Loop Detection Scenario | Sipi Bot">
+<meta property="og:description" content="An agent enters a loop, repeatedly calling the same API endpoint and racking up costs. Sipi Bot detects the pattern (same endpoint + same parameters + exce">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot"},{"@type":"ListItem","position":2,"name":"Runaway Agent Loop Detection Scenario","item":"https://sipi.bot/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Runaway Agent Loop Detection Scenario","description":"An agent enters a loop, repeatedly calling the same API endpoint and racking up costs. Sipi Bot detects the pattern (same endpoint + same parameters + exce","author":{"@type":"Organization","name":"Sipi Bot"},"publisher":{"@type":"Organization","name":"Sipi Bot","url":"https://sipi.bot"},"datePublished":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type": "Question", "name": "How many calls trigger the velocity cap?", "acceptedAnswer": {"@type": "Answer", "text": "Default is 10 calls per minute per agent. Configurable per agent profile. The cap prevents silent runaway costs from loop bugs."}}]}</script>
+
+</head>
+<body>
+<main>
+<h1>Runaway Agent Loop Detection Scenario</h1>
+<p>An agent enters a loop, repeatedly calling the same API endpoint and racking up costs. Sipi Bot detects the pattern (same endpoint + same parameters + excessive calls) and auto-throttles the agent.</p>
+<p>The velocity cap kicks in: if an agent makes more than N calls per minute, subsequent calls are queued with exponential backoff. The human operator is alerted to investigate the loop.</p>
+<section class="faq"><details><summary>How many calls trigger the velocity cap?</summary><p>Default is 10 calls per minute per agent. Configurable per agent profile. The cap prevents silent runaway costs from loop bugs.</p></details></section>
+<section class="cta"><a href="/">Start monitoring agent spend</a></section>
+</main>
+<footer>&copy; 2026 Sipi Bot</footer>
+</body></html>

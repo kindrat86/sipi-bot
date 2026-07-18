@@ -29,6 +29,12 @@ COPY how-to/ ./how-to/
 COPY templates/ ./templates/
 COPY cost-of/ ./cost-of/
 
+# 2026-07-18 pSEO expansion
+COPY scenarios/ ./scenarios/
+COPY redflags/ ./redflags/
+COPY calculators/ ./calculators/
+COPY guides/ ./guides/
+
 # Persist SQLite + subscribers on a Fly volume mounted at /data.
 ENV SPENDFIREWALL_DB=/data/spendfirewall.db \
     SUBS_FILE=/data/subscribers.txt \

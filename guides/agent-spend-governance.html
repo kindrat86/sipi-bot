@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent Spend Governance Guide | Sipi Bot</title>
+<meta name="description" content="Spend governance for AI agents is fundamentally different from human employee expense management. Agents operate at machine speed, can make thousands of de">
+<link rel="canonical" href="https://sipi.bot/guides/agent-spend-governance">
+<meta property="og:title" content="AI Agent Spend Governance Guide | Sipi Bot">
+<meta property="og:description" content="Spend governance for AI agents is fundamentally different from human employee expense management. Agents operate at machine speed, can make thousands of de">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot"},{"@type":"ListItem","position":2,"name":"AI Agent Spend Governance Guide","item":"https://sipi.bot/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AI Agent Spend Governance Guide","description":"Spend governance for AI agents is fundamentally different from human employee expense management. Agents operate at machine speed, can make thousands of de","author":{"@type":"Organization","name":"Sipi Bot"},"publisher":{"@type":"Organization","name":"Sipi Bot","url":"https://sipi.bot"},"datePublished":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type": "Question", "name": "What's the minimum governance setup for production agents?", "acceptedAnswer": {"@type": "Answer", "text": "At minimum: a daily budget ceiling, a merchant allowlist with exactly the endpoints the agent needs, and a notification webhook for any blocked transaction."}}, {"@type": "Question", "name": "How does agent spend governance differ from API key management?", "acceptedAnswer": {"@type": "Answer", "text": "API key management controls access; spend governance controls cost. An agent with a valid API key can still rack up unlimited costs. Sipi Bot separates authentication from authorization at the payment level."}}]}</script>
+
+</head>
+<body>
+<main>
+<h1>AI Agent Spend Governance Guide</h1>
+<p>Spend governance for AI agents is fundamentally different from human employee expense management. Agents operate at machine speed, can make thousands of decisions per minute, and don't have the judgment to distinguish normal from anomalous spending.</p>
+<p>Key principles of agent spend governance: (1) Default-deny — agents should have zero spending capacity until explicitly granted, (2) Least-privilege — agents should only be allowed to spend on the specific API endpoints they need, (3) Defense in depth — multiple independent safeguards (budgets, velocity caps, allowlists) rather than a single gate.</p>
+<p>Sipi Bot implements all three principles with an enterprise-grade policy engine. Every spend decision is evaluated against budget ceilings, merchant allowlists, velocity caps, and anomaly detection — all in under 100ms.</p>
+<section class="faq"><details><summary>What's the minimum governance setup for production agents?</summary><p>At minimum: a daily budget ceiling, a merchant allowlist with exactly the endpoints the agent needs, and a notification webhook for any blocked transaction.</p></details>
+<details><summary>How does agent spend governance differ from API key management?</summary><p>API key management controls access; spend governance controls cost. An agent with a valid API key can still rack up unlimited costs. Sipi Bot separates authentication from authorization at the payment level.</p></details></section>
+<section class="cta"><a href="/">Start monitoring agent spend</a></section>
+</main>
+<footer>&copy; 2026 Sipi Bot</footer>
+</body></html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circuit Breakers for AI Agents | Sipi Bot</title>
+<meta name="description" content="A circuit breaker is an automatic switch that stops an agent from spending after it exceeds a threshold. Think of it as a fuse for your agent's budget — on">
+<link rel="canonical" href="https://sipi.bot/guides/circuit-breakers-for-ai-agents">
+<meta property="og:title" content="Circuit Breakers for AI Agents | Sipi Bot">
+<meta property="og:description" content="A circuit breaker is an automatic switch that stops an agent from spending after it exceeds a threshold. Think of it as a fuse for your agent's budget — on">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot"},{"@type":"ListItem","position":2,"name":"Circuit Breakers for AI Agents","item":"https://sipi.bot/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Circuit Breakers for AI Agents","description":"A circuit breaker is an automatic switch that stops an agent from spending after it exceeds a threshold. Think of it as a fuse for your agent's budget \u2014 on","author":{"@type":"Organization","name":"Sipi Bot"},"publisher":{"@type":"Organization","name":"Sipi Bot","url":"https://sipi.bot"},"datePublished":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type": "Question", "name": "Should all agents have circuit breakers?", "acceptedAnswer": {"@type": "Answer", "text": "Every agent with spending capacity needs at least one circuit breaker. The safest minimum is a daily ceiling at 150% of expected daily spend."}}, {"@type": "Question", "name": "What happens after a circuit breaker trips?", "acceptedAnswer": {"@type": "Answer", "text": "The agent receives a block response on the next payment attempt. The human operator gets an alert with the spending breakdown. The ceiling can be reset via dashboard or API."}}]}</script>
+
+</head>
+<body>
+<main>
+<h1>Circuit Breakers for AI Agents</h1>
+<p>A circuit breaker is an automatic switch that stops an agent from spending after it exceeds a threshold. Think of it as a fuse for your agent's budget — once blown, it stays off until manually reset.</p>
+<p>Why circuit breakers matter: LLM API calls cost money, and loops happen. A single bug in an agent's reasoning loop can burn $1,000+ in minutes. Circuit breakers stop this instantly.</p>
+<p>Sipi Bot circuit breakers are configurable per agent, per team, and per project. You can set daily, weekly, and monthly ceilings with optional auto-reset (reduced ceiling) or manual-reset (full stop) behavior.</p>
+<section class="faq"><details><summary>Should all agents have circuit breakers?</summary><p>Every agent with spending capacity needs at least one circuit breaker. The safest minimum is a daily ceiling at 150% of expected daily spend.</p></details>
+<details><summary>What happens after a circuit breaker trips?</summary><p>The agent receives a block response on the next payment attempt. The human operator gets an alert with the spending breakdown. The ceiling can be reset via dashboard or API.</p></details></section>
+<section class="cta"><a href="/">Start monitoring agent spend</a></section>
+</main>
+<footer>&copy; 2026 Sipi Bot</footer>
+</body></html>

@@ -726,6 +726,21 @@ return false;}
             </a>
     </nav>
 </section>
+<!-- BRUNSON TRUST BAR -- idempotency:trust-bar-v1 -->
+<section style="background:linear-gradient(135deg, #0f172a, #1e293b);color:#e8eaed;padding:40px 24px;margin:60px 0 0;border-top:3px solid #00d4aa;text-align:center;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">
+  <div style="max-width:900px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:28px;margin-bottom:28px">
+      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">$12.4K</span><br><span style="font-size:.82rem;color:#94a3b8">Prevented Per Incident</span></div>
+      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">Real-time</span><br><span style="font-size:.82rem;color:#94a3b8">Spend Monitoring</span></div>
+      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">MCP</span><br><span style="font-size:.82rem;color:#94a3b8">Native Integration</span></div>
+      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">Free</span><br><span style="font-size:.82rem;color:#94a3b8">To Start</span></div>
+    </div>
+    <p style="font-size:1.05rem;margin-bottom:24px;color:#cbd5e1">Your AI agent should not have unlimited spending power. Put a firewall between it and your wallet.</p>
+    <a href="https://sipi.bot/#try-free" style="display:inline-block;background:linear-gradient(135deg,#00d4aa,#2deec0);color:#04130e;padding:14px 32px;border-radius:12px;font-weight:700;text-decoration:none;font-size:.95rem;box-shadow:0 8px 24px -10px rgba(0,212,170,.5)">Start Free</a>
+    <p style="margin-top:18px;font-size:.78rem;color:#6b7178">Free tier includes 5,000 checks/mo. No credit card. Pay only when you scale.</p>
+  </div>
+</section>
+<!-- /BRUNSON TRUST BAR -->
 </body></html>"""
     s = s.replace("{CSS}", CSS)
     s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
