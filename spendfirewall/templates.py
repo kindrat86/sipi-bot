@@ -226,6 +226,66 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
   </div>
 
   <h2 class="mt40" style="margin-top:56px">The three decisions, defined</h2>
+
+  <!-- ===== BRUNSON: NAMED FRAMEWORK (Ch16) — The 3-Decision Spend Firewall™ ===== -->
+  <section id="framework" style="margin-top:40px;padding:36px 28px;background:var(--panel);border:1px solid var(--line);border-radius:16px">
+    <div style="text-align:center;max-width:720px;margin:0 auto 28px">
+      <span class="tag">The Framework</span>
+      <h2 style="margin:14px 0 8px">Every agent transaction gets <span style="color:var(--accent)">one of three answers</span>.</h2>
+      <p style="color:var(--mut);font-size:1.02rem;line-height:1.6;margin:0">
+        Not a suggestion. Not a soft preference. A deterministic firewall. We call it
+        <strong style="color:var(--txt)">The 3-Decision Spend Firewall&trade;</strong>. Your agent calls it before every spend, it answers in under 5&nbsp;ms, and the answer is final.
+      </p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <!-- DECISION 1: APPROVED -->
+      <div style="background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:26px 22px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green)"></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <span style="display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:rgba(0,212,170,.12);border:1px solid rgba(0,212,170,.24);color:var(--accent);font-weight:800;font-size:.85rem">01</span>
+          <span style="font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:700">Decision One</span>
+        </div>
+        <h3 style="color:var(--green);font-size:1.25rem;margin:0 0 8px;font-weight:800;letter-spacing:.04em">APPROVED</h3>
+        <p style="color:var(--mut);font-size:.92rem;line-height:1.55;margin:0">
+          Transaction is within your <strong style="color:var(--txt)">caps</strong>, <strong style="color:var(--txt)">velocity rules</strong>, and <strong style="color:var(--txt)">merchant whitelist</strong>. The agent proceeds.
+        </p>
+      </div>
+      <!-- DECISION 2: BLOCKED -->
+      <div style="background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:26px 22px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--red)"></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <span style="display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:rgba(255,84,112,.12);border:1px solid rgba(255,84,112,.24);color:var(--red);font-weight:800;font-size:.85rem">02</span>
+          <span style="font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:700">Decision Two</span>
+        </div>
+        <h3 style="color:var(--red);font-size:1.25rem;margin:0 0 8px;font-weight:800;letter-spacing:.04em">BLOCKED</h3>
+        <p style="color:var(--mut);font-size:.92rem;line-height:1.55;margin:0">
+          Transaction exceeds a <strong style="color:var(--txt)">hard limit</strong>, hits a <strong style="color:var(--txt)">banned merchant category</strong>, or breaks a rule you set. The agent stops. <strong style="color:var(--red)">No override.</strong>
+        </p>
+      </div>
+      <!-- DECISION 3: FLAGGED -->
+      <div style="background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:26px 22px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--amber)"></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <span style="display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:rgba(255,176,32,.12);border:1px solid rgba(255,176,32,.24);color:var(--amber);font-weight:800;font-size:.85rem">03</span>
+          <span style="font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:700">Decision Three</span>
+        </div>
+        <h3 style="color:var(--amber);font-size:1.25rem;margin:0 0 8px;font-weight:800;letter-spacing:.04em">FLAGGED</h3>
+        <p style="color:var(--mut);font-size:.92rem;line-height:1.55;margin:0">
+          Edge case. Unusual pattern. New merchant. <strong style="color:var(--txt)">Held for human review</strong> before a single dollar moves.
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top:22px;text-align:center;padding:18px;background:rgba(0,212,170,.04);border:1px dashed rgba(0,212,170,.3);border-radius:12px">
+      <p style="color:var(--mut);font-size:.9rem;margin:0;line-height:1.6">
+        <span style="color:var(--accent);font-weight:800;letter-spacing:.06em">APPROVED &nbsp;&bull;&nbsp; BLOCKED &nbsp;&bull;&nbsp; FLAGGED.</span>
+        Three answers. Five milliseconds. Every transaction. That is the firewall.
+      </p>
+    </div>
+  </section>
+  <!-- ===== /BRUNSON FRAMEWORK ===== -->
+
   <dl class="deflist">
     <dt>Approve</dt><dd>The transaction passes every active rule. sipi.bot returns <code>APPROVED</code> and your agent proceeds — logged for the audit trail.</dd>
     <dt>Block</dt><dd>The transaction violates a hard rule (over a cap, unknown merchant, velocity breach). sipi.bot returns <code>BLOCKED</code> and no money moves.</dd>
