@@ -130,6 +130,7 @@ def landing_page_html() -> str:
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
+<link rel="search" type="application/opensearchdescription+xml" title="sipi.bot" href="https://sipi.bot/opensearch.xml">
 <title>sipi.bot — The Spend Firewall for AI Agents</title>
 <meta name="description" content="sipi.bot is a spend firewall for autonomous AI agents: one API call returns APPROVED, BLOCKED, or FLAGGED against your caps, velocity, and merchant rules before an agent spends. Not a SIP/VoIP telephony bot.">
 <link rel="canonical" href="https://sipi.bot/">
@@ -380,6 +381,7 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
+<link rel="search" type="application/opensearchdescription+xml" title="sipi.bot" href="https://sipi.bot/opensearch.xml">
 <title>{title} — sipi.bot</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="https://sipi.bot{canonical_path}">
@@ -460,6 +462,7 @@ def dashboard_html() -> str:
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
+<link rel="search" type="application/opensearchdescription+xml" title="sipi.bot" href="https://sipi.bot/opensearch.xml">
 <title>sipi.bot — Control Room</title>
 <meta name="description" content="Live control room for your AI agent's spending: real-time transaction feed, approval queue, rule editor, and agent management. See every approve, block, and flag.">
 <link rel="canonical" href="https://sipi.bot/dashboard">
@@ -583,6 +586,7 @@ def pricing_html() -> str:
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
+<link rel="search" type="application/opensearchdescription+xml" title="sipi.bot" href="https://sipi.bot/opensearch.xml">
 <title>sipi.bot — Pricing</title>
 <meta name="description" content="Flat $99/month for unlimited transaction evaluations, or $499/month for a managed spend policy. No per-call fees. Free self-hostable core. Rule-integrity guarantee.">
 <link rel="canonical" href="https://sipi.bot/pricing">
@@ -694,6 +698,7 @@ def key_success_html(rec) -> str:
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
+<link rel="search" type="application/opensearchdescription+xml" title="sipi.bot" href="https://sipi.bot/opensearch.xml">
 <title>sipi.bot — Your API key</title>
 <meta name="description" content="Your sipi.bot API key. Use it as a Bearer token to authenticate transaction evaluation calls from your AI agents.">
 <link rel="canonical" href="https://sipi.bot/keys/">

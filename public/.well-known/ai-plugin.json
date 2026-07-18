@@ -1,15 +1,18 @@
 {
   "schema_version": "v1",
-  "name_for_human": "sipi.bot Spend Firewall",
+  "name_for_human": "sipi.bot — Spend Firewall for AI Agents",
   "name_for_model": "sipi_bot_spend_firewall",
-  "description_for_human": "The spend firewall for autonomous AI agents. Evaluates every transaction against your rules and returns approve, block, or flag before any money moves.",
-  "description_for_model": "Call before an autonomous agent spends money. POST /v1/transactions/evaluate with {amount, merchant, category} returns {decision: APPROVED|BLOCKED|FLAGGED, reason}. Enforces per-transaction caps, daily totals, velocity (runaway-loop protection), merchant allow/block, category limits, and time windows.",
-  "auth": { "type": "user_http", "authorization_type": "bearer" },
+  "description_for_human": "Pre-spend firewall for autonomous AI agents. Approve, block, or flag every agent transaction before money moves.",
+  "description_for_model": "Use sipi.bot to evaluate whether an autonomous AI agent's proposed transaction should be approved, blocked, or flagged before money moves. The firewall checks against configurable spend rules: per-transaction caps, daily totals, velocity limits, merchant allowlists, category limits, time windows, and approval thresholds. Returns APPROVED, BLOCKED, or FLAGGED in under 5ms. All decisions are written to a tamper-evident audit log with a content-hash chain.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer"
+  },
   "api": {
     "type": "openapi",
     "url": "https://sipi.bot/openapi.json"
   },
-  "logo_url": "https://sipi.bot/og.svg",
-  "contact_email": "hello@sipi.bot",
-  "legal_info_url": "https://sipi.bot/terms"
+  "logo_url": "https://sipi.bot/og.png",
+  "contact_email": "sipi@sipi.bot",
+  "legal_info_url": "https://sipi.bot/privacy"
 }
