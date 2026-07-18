@@ -31,3 +31,5 @@ Allow: /
 # MCP manifest:        https://sipi.bot/.well-known/mcp.json
 
 Sitemap: https://sipi.bot/sitemap.xml
+
+Sitemap: https://sipi.bot/sitemap-index.xml
