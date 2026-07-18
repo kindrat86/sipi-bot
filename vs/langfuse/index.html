@@ -1,41 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sipi.bot vs Langfuse — LLM Tracing vs Agent Spend Firewall</title>
-    <meta name="description" content="sipi.bot vs Langfuse: Langfuse traces LLM calls — sipi.bot blocks unauthorized agent spend. Observability vs prevention. Different problems, different solu">
-    <link rel="canonical" href="https://sipi.bot/vs/langfuse">
-    <meta property="og:title" content="sipi.bot vs Langfuse — LLM Tracing vs Agent Spend Firewall">
-    <meta property="og:description" content="sipi.bot vs Langfuse: Langfuse traces LLM calls — sipi.bot blocks unauthorized agent spend. Observability vs prevention. Different problems, different solu">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://sipi.bot/vs/langfuse">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="robots" content="index, follow">
-    <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "sipi.bot vs Langfuse — LLM Tracing vs Agent Spend Firewall",
-    "description": "sipi.bot vs Langfuse: Langfuse traces LLM calls — sipi.bot blocks unauthorized agent spend. Observability vs prevention. Different problems, different solu",
-    "url": "https://sipi.bot/vs/langfuse",
-    "isPartOf": {"@type": "WebSite", "name": "sipi.bot", "url": "https://sipi.bot"},
-    "about": {"@type": "Thing", "name": "sipi.bot"}
-}
-</script>
-<script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head>
-<body style="font-family:-apple-system,system-ui,sans-serif;max-width:760px;margin:60px auto;padding:0 20px;line-height:1.7;color:#1a1a1a;background:#fff">
-    <header style="margin-bottom:40px">
-        <a href="https://sipi.bot" style="text-decoration:none;color:#555;font-size:.9em">← Back to sipi.bot</a>
-    </header>
-    <main>
-        <h1 style="font-size:2em;font-weight:800;margin-bottom:.5em;line-height:1.2">sipi.bot vs Langfuse</h1>
-        <p style="font-size:1.1em;color:#555;margin-bottom:2em">Langfuse observes. We protect your wallet from runaway agents.</p>
-        <p>sipi.bot vs Langfuse: Langfuse traces LLM calls — sipi.bot blocks unauthorized agent spend. Observability vs prevention. Different problems, different solutions.</p><p><a href="https://sipi.bot" style="color:#0066cc;font-weight:600">Try sipi.bot →</a></p>
-    </main>
-    <footer style="margin-top:60px;padding-top:20px;border-top:1px solid #e0e0e0;color:#888;font-size:.85em">
-        <p><strong>sipi.bot</strong> — The spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.</p>
-        <p><a href="https://sipi.bot" style="color:#555">Home</a></p>
-    </footer>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sipi.bot vs Langfuse: Spend Enforcement vs LLM Tracing</title>
+<meta name="description" content="sipi.bot and Langfuse are complementary. Langfuse is open-source LLM tracing and observability. sipi.bot is a pre-spend firewall that enforces limits before money moves. Use both.">
+<link rel="canonical" href="https://sipi.bot/vs/langfuse">
+<meta property="og:title" content="sipi.bot vs Langfuse: Spend Enforcement vs LLM Tracing">
+<meta property="og:description" content="Langfuse traces and observes your LLM calls. sipi.bot enforces spend limits before money moves. Complementary.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/vs/langfuse">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot vs Langfuse: Spend Enforcement vs LLM Tracing","description":"sipi.bot enforces spend limits pre-transaction; Langfuse traces and observes LLM calls. Complementary.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/vs/langfuse"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot vs Langfuse","item":"https://sipi.bot/vs/langfuse"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I replace Langfuse with sipi.bot?","acceptedAnswer":{"@type":"Answer","text":"Use both. Langfuse traces every LLM call and gives you observability — prompts, responses, cost, latency, evaluation scoring. sipi.bot enforces spend before money moves. Langfuse is for understanding your LLM calls, sipi.bot is for governing your agent's spending."}},{"@type":"Question","name":"Does Langfuse have spend limits?","acceptedAnswer":{"@type":"Answer","text":"Langfuse has cost tracking and you can layer evaluation and alerting on top, but it is observability infrastructure — it reports what happened. sipi.bot is a pre-spend firewall: it blocks or flags a transaction before a dollar moves, with velocity limits, merchant allowlists, and a human approval queue."}},{"@type":"Question","name":"Is Langfuse or sipi.bot better for stopping a runaway agent?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot. Langfuse will give you a detailed trace of exactly how your runaway agent spent $12,400. sipi.bot will have blocked it on the second retry."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.verdict{background:#0a0a0a;color:#fff;padding:1.25rem 1.5rem;border-radius:.5rem;margin:1.5rem 0}
+.verdict h3{margin-top:0;color:#fff}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+</style>
+</head>
+<body>
+<article>
+<header>
+<p class="lede">sipi.bot vs Langfuse</p>
+<h1>sipi.bot vs Langfuse</h1>
+<p class="lede">An honest comparison. <strong>Langfuse</strong> is open-source LLM tracing and observability — prompts, responses, cost, latency, and evaluation scoring for every call. <strong>sipi.bot</strong> is a pre-spend firewall — it enforces spend limits before money moves. They answer different questions and most teams run both.</p>
+</header>
+
+<div class="callout">
+<strong>Bottom line:</strong> Langfuse traces what your LLM did. sipi.bot stops what your agent should not have done. Langfuse will give you a beautiful trace of exactly how your runaway agent spent $12,400. sipi.bot will have blocked it on the second retry. Observability vs enforcement — complementary layers.
+</div>
+
+<h2>Quick comparison</h2>
+<table>
+<thead><tr><th>Dimension</th><th>Langfuse</th><th>sipi.bot</th></tr></thead>
+<tbody>
+<tr><td>What it is</td><td>Open-source LLM tracing &amp; observability</td><td>Pre-spend firewall for AI agents</td></tr>
+<tr><td>Core question it answers</td><td>"What did my LLM call do and how well?"</td><td>"Should my agent be allowed to make this spend?"</td></tr>
+<tr><td>Timing</td><td>After the call (reactive observation)</td><td>Before the transaction (pre-spend, &lt;5ms)</td></tr>
+<tr><td>Decision outcomes</td><td>Trace / score / alert</td><td>APPROVED / BLOCKED / FLAGGED</td></tr>
+<tr><td>Per-transaction caps</td><td>Cost tracking (not enforcement)</td><td>Hard block before spend</td></tr>
+<tr><td>Velocity / runaway-loop kill</td><td>No</td><td>Yes</td></tr>
+<tr><td>Merchant allowlist</td><td>No</td><td>Yes</td></tr>
+<tr><td>Human approval queue</td><td>No</td><td>Yes (FLAG path)</td></tr>
+<tr><td>Prompt &amp; response tracing</td><td>Yes (core feature)</td><td>No (not the job)</td></tr>
+<tr><td>LLM evaluation scoring</td><td>Yes (core feature)</td><td>No</td></tr>
+<tr><td>License</td><td>MIT (self-hostable)</td><td>MIT core (self-hostable)</td></tr>
+<tr><td>Pricing</td><td>Free self-host / Cloud tiers</td><td>$99/$499/mo, OSS core free</td></tr>
+</tbody>
+</table>
+
+<h2>What Langfuse does well</h2>
+<p>Langfuse is the leading open-source LLM observability platform. If you want to trace every LLM call, score its quality, and understand cost and latency across your application, Langfuse is excellent. Its strengths:</p>
+<ul class="check">
+<li><strong>End-to-end tracing</strong> — every prompt, every response, every nested call, tracked.</li>
+<li><strong>LLM evaluation scoring</strong> — score outputs for quality, helpfulness, safety.</li>
+<li><strong>Cost analytics</strong> — per-model, per-user, per-session cost breakdowns.</li>
+<li><strong>Latency tracking</strong> — performance bottlenecks alongside cost.</li>
+<li><strong>Open source (MIT)</strong> — self-host or use the cloud tier.</li>
+<li><strong>SDK integrations</strong> — OpenAI, LangChain, LlamaIndex, and more.</li>
+</ul>
+
+<h2>Where sipi.bot wins</h2>
+<p>Langfuse observes. sipi.bot enforces. The difference matters when your agent can spend money autonomously — a trace of a runaway spend is a post-mortem, not a guardrail. sipi.bot's strengths:</p>
+<ul class="check">
+<li><strong>Pre-spend enforcement</strong> — every transaction evaluated and returned APPROVED, BLOCKED, or FLAGGED before it fires.</li>
+<li><strong>Velocity limits</strong> — kill runaway retry loops on the second repeat.</li>
+<li><strong>Merchant allowlist</strong> — your agent cannot spend at an unapproved vendor.</li>
+<li><strong>Layered caps</strong> — per-transaction, daily, weekly, monthly, category-specific.</li>
+<li><strong>Human-in-the-loop approval queue</strong> — large or ambiguous spend is FLAGGED for a human.</li>
+<li><strong>Tamper-evident audit log</strong> — every decision, immutable, compliance-grade.</li>
+<li><strong>Native MCP surface</strong> — Claude Code, Cursor, Hermes call it directly.</li>
+</ul>
+
+<h2>Where Langfuse falls short for spend control</h2>
+<p>Langfuse is not trying to be a firewall, and it shows when you need enforcement:</p>
+<ul class="cross">
+<li><strong>Observation, not blocking.</strong> Langfuse records what happened. It does not stop a transaction from firing.</li>
+<li><strong>No velocity protection.</strong> A retry loop shows up as a cluster of traces — after the damage.</li>
+<li><strong>No merchant allowlist.</strong> Langfuse cannot prevent spend at an unknown vendor.</li>
+<li><strong>No approval queue.</strong> There is no "flag and ask a human" path.</li>
+<li><strong>LLM-call scoped.</strong> Langfuse traces LLM calls. sipi.bot governs any spend an agent can make — LLM, compute, tools, real payments.</li>
+</ul>
+
+<div class="callout warn">
+<strong>Use both.</strong> Langfuse for tracing and evaluation. sipi.bot for spend enforcement. They plug into different points of your stack.
+</div>
+
+<h2>When to pick Langfuse vs sipi.bot</h2>
+<h3>Pick Langfuse if…</h3>
+<ul class="check">
+<li>You want to trace and score every LLM call for quality and cost.</li>
+<li>Your spend problem is "I need to understand and optimize my LLM bill."</li>
+<li>You are OK with observation after the fact.</li>
+<li>You do not have an autonomous agent that can trigger real payments.</li>
+</ul>
+<h3>Pick sipi.bot if…</h3>
+<ul class="check">
+<li>You have an autonomous AI agent that can spend money.</li>
+<li>You need to <em>stop</em> a runaway spend before it happens.</li>
+<li>You need merchant allowlists, velocity limits, or an approval queue.</li>
+<li>You need a compliance-grade audit trail of spend decisions.</li>
+</ul>
+<h3>Run both if…</h3>
+<p>Langfuse traces the LLM calls; sipi.bot governs the spend. Composition:</p>
+<pre><code># trace the call through Langfuse
+with langfuse.start_observation():
+    # but gate any spend through sipi.bot first
+    decision = sipibot.evaluate(amount=0.05, merchant="anthropic", category="llm")
+    if decision == "APPROVED":
+        response = anthropic.messages.create(...)</code></pre>
+
+<h2>Pricing comparison</h2>
+<table>
+<thead><tr><th></th><th>Langfuse</th><th>sipi.bot</th></tr></thead>
+<tbody>
+<tr><td>Free / OSS</td><td>Yes (MIT, self-host)</td><td>Yes (MIT core, self-host)</td></tr>
+<tr><td>Cloud entry</td><td>Hobby free / Pro tiers</td><td>$99/mo Team</td></tr>
+<tr><td>Business</td><td>Custom</td><td>$499/mo Business</td></tr>
+<tr><td>Metering</td><td>Per-event on cloud</td><td>Flat, unlimited evaluations</td></tr>
+</tbody>
+</table>
+
+<div class="verdict">
+<h3>Our honest verdict</h3>
+<p>Langfuse is excellent at tracing and observability. sipi.bot is excellent at enforcement. If your agent can spend money, you want Langfuse to understand what happened and sipi.bot to stop what should not. Run both.</p>
+</div>
+
+<h2>Frequently asked questions</h2>
+<h3>Can I replace Langfuse with sipi.bot?</h3>
+<p>Use both. Langfuse traces LLM calls for quality and cost. sipi.bot enforces spend before money moves. Different questions, different tools.</p>
+<h3>Does Langfuse have spend limits?</h3>
+<p>Langfuse has cost tracking and alerting, but it is observability — it reports what happened. sipi.bot blocks or flags a transaction before a dollar moves.</p>
+<h3>Which is better for stopping a runaway agent?</h3>
+<p>sipi.bot. Langfuse will give you a detailed trace of how your runaway agent spent $12,400. sipi.bot will have blocked it on the second retry.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Protect your agent with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related comparisons</h3><ul>
+<li><a href="/vs/litellm">vs LiteLLM</a></li>
+<li><a href="/vs/helicone">vs Helicone</a></li>
+<li><a href="/vs/openrouter">vs OpenRouter</a></li>
+<li><a href="/vs/portkey">vs Portkey</a></li>
+<li><a href="/vs/openmeter">vs OpenMeter</a></li>
+<li><a href="/vs/openai-billing">vs OpenAI Billing</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a> &middot; <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
 </body>
 </html>

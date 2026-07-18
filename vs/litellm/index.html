@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SpendFirewall vs LiteLLM: which is right for you?</title>
-<meta name="description" content="An honest comparison of SpendFirewall and LiteLLM. Pricing, strengths, weaknesses, and when to pick each.">
+<title>sipi.bot vs LiteLLM: Pre-Spend Firewall vs LLM Proxy Gateway</title>
+<meta name="description" content="sipi.bot and LiteLLM solve different problems. LiteLLM is an LLM proxy gateway that routes calls to 200+ providers. sipi.bot is a pre-spend firewall that decides whether your AI agent is allowed to spend at all. They compose, not compete.">
 <link rel="canonical" href="https://sipi.bot/vs/litellm">
-<meta property="og:title" content="SpendFirewall vs LiteLLM: which is right for you?">
-<meta property="og:description" content="An honest comparison of SpendFirewall and LiteLLM. Pricing, strengths, weaknesses, and when to pick each.">
+<meta property="og:title" content="sipi.bot vs LiteLLM: Pre-Spend Firewall vs LLM Proxy Gateway">
+<meta property="og:description" content="sipi.bot and LiteLLM solve different problems. LiteLLM routes LLM calls; sipi.bot enforces whether your agent can spend. They compose.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/vs/litellm">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"SpendFirewall vs LiteLLM: which is right for you?","description":"An honest comparison of SpendFirewall and LiteLLM. Pricing, strengths, weaknesses, and when to pick each.","author":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/vs/litellm"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"SpendFirewall","item":"https://sipi.bot/vs/litellm"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does SpendFirewall replace LiteLLM?","acceptedAnswer":{"@type":"Answer","text":"No, it sits in front of it. SpendFirewall approves the spend intent, LiteLLM routes the call."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot vs LiteLLM: Pre-Spend Firewall vs LLM Proxy Gateway","description":"sipi.bot is a pre-spend firewall for AI agents; LiteLLM is an LLM proxy gateway. They compose, not compete.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/vs/litellm"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot vs LiteLLM","item":"https://sipi.bot/vs/litellm"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does sipi.bot replace LiteLLM?","acceptedAnswer":{"@type":"Answer","text":"No. sipi.bot sits in front of LiteLLM. sipi.bot evaluates the spend intent and returns APPROVED, BLOCKED, or FLAGGED; LiteLLM then routes the actual LLM call to whichever provider you configured. Most teams run both."}},{"@type":"Question","name":"Can LiteLLM do what sipi.bot does?","acceptedAnswer":{"@type":"Answer","text":"Partially. LiteLLM has budget controls, but they are reactive — they trigger after tokens are consumed or after a daily limit is crossed. sipi.bot is a pre-spend firewall: it evaluates every transaction before a single dollar moves, with per-transaction caps, velocity (runaway-loop) limits, and merchant allowlists that LiteLLM does not enforce."}},{"@type":"Question","name":"Should I use LiteLLM or sipi.bot for spend control?","acceptedAnswer":{"@type":"Answer","text":"Use LiteLLM if you need a multi-provider LLM gateway with routing, caching, and fallback. Use sipi.bot if you have an autonomous AI agent that can spend money (API calls, compute, tools, payments) and you need guardrails that stop a runaway loop before it drains your card. Run both if you have both problems."}}]}</script>
 
 <style>
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
@@ -39,59 +39,142 @@ th{background:#f9fafb;font-weight:600}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
 ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
 ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
 </style>
-<!-- isenberg-round15 -->
 </head>
 <body>
 <article>
 <header>
-<p class="lede">SpendFirewall vs LiteLLM</p>
-<h1>SpendFirewall vs LiteLLM</h1>
-<p class="lede">An honest, side-by-side comparison. LiteLLM is llm proxy gateway. SpendFirewall is spend firewall for ai agents. Different tools for different jobs.</p>
+<p class="lede">sipi.bot vs LiteLLM</p>
+<h1>sipi.bot vs LiteLLM</h1>
+<p class="lede">An honest, side-by-side comparison. <strong>sipi.bot</strong> is a pre-spend firewall for autonomous AI agents. <strong>LiteLLM</strong> is an LLM proxy gateway that routes calls to 200+ providers. They solve different problems and most teams run both — here is exactly when to pick each.</p>
 </header>
+
+<div class="callout">
+<strong>Bottom line:</strong> LiteLLM routes your LLM calls. sipi.bot decides whether your agent is even allowed to spend. If your agent can trigger a Stripe charge, a compute purchase, or an infinite retry loop, LiteLLM's budget caps fire <em>after</em> the damage; sipi.bot's pre-spend guardrail blocks it before a dollar moves. They compose: <code>sipi.bot &rarr; LiteLLM &rarr; provider</code>.
+</div>
 
 <h2>Quick comparison</h2>
 <table>
-<thead><tr><th>Dimension</th><th>LiteLLM</th><th>SpendFirewall</th></tr></thead>
+<thead><tr><th>Dimension</th><th>LiteLLM</th><th>sipi.bot</th></tr></thead>
 <tbody>
-<tr><td>Positioning</td><td>LLM proxy gateway</td><td>Spend firewall for AI agents</td></tr>
-<tr><td>Pricing</td><td>Free OSS / $200+/mo Enterprise</td><td>See <a href="https://sipi.bot/pricing">pricing</a></td></tr>
-<tr><td>Best for</td><td>LLM proxy gateway</td><td>Spend firewall for AI agents</td></tr>
+<tr><td>What it is</td><td>LLM proxy gateway (routing, caching, fallback)</td><td>Pre-spend firewall for autonomous AI agents</td></tr>
+<tr><td>Core job</td><td>Route a call to the right provider at the right price</td><td>Approve / block / flag a spend before money moves</td></tr>
+<tr><td>Decision timing</td><td>Reactive (after tokens consumed, after limit crossed)</td><td>Pre-spend (under 5ms, before any transaction fires)</td></tr>
+<tr><td>Per-transaction caps</td><td>Limited (budget hooks exist but fire post-call)</td><td>Native (amount, merchant, category rules)</td></tr>
+<tr><td>Velocity / runaway-loop protection</td><td>No</td><td>Yes (kills infinite-retry spend loops instantly)</td></tr>
+<tr><td>Merchant allowlist / blocklist</td><td>No</td><td>Yes</td></tr>
+<tr><td>Human-in-the-loop approval queue</td><td>No</td><td>Yes (FLAG route for high-value or unknown spend)</td></tr>
+<tr><td>Tamper-evident audit log</td><td>Logging (analytics-grade)</td><td>Yes (compliance-grade, every decision)</td></tr>
+<tr><td>Surfaces</td><td>Python/JS SDK, proxy server</td><td>MCP server, HTTP API, CLI, A2A agent card</td></tr>
+<tr><td>Pricing</td><td>Free OSS / Enterprise from ~$200/mo</td><td>$99/mo Team, $499/mo Business, OSS core free</td></tr>
+<tr><td>Open source</td><td>Yes (MIT)</td><td>Yes (MIT core)</td></tr>
 </tbody>
 </table>
 
 <h2>What LiteLLM does well</h2>
+<p>LiteLLM is the standard open-source LLM gateway. If you want one SDK that talks to OpenAI, Anthropic, Google, Mistral, Cohere, and 200+ other providers through a single OpenAI-compatible interface, LiteLLM is the right tool. Its strengths:</p>
 <ul class="check">
-<li>OpenAI-compatible proxy</li><li>200+ provider support</li><li>Self-hostable</li>
+<li><strong>Universal provider routing</strong> — one call, any provider, automatic failover.</li>
+<li><strong>Load balancing and fallback</strong> across multiple API keys and providers.</li>
+<li><strong>Caching</strong> to cut redundant spend on identical prompts.</li>
+<li><strong>Cost tracking</strong> per model, per key, per team — useful dashboards.</li>
+<li><strong>Budget hooks</strong> that can reject a call when a project exceeds a token or dollar cap.</li>
+<li><strong>Mature OSS ecosystem</strong> — widely deployed, actively maintained, large community.</li>
 </ul>
 
-<h2>Where SpendFirewall wins</h2>
+<h2>Where sipi.bot wins</h2>
+<p>sipi.bot is purpose-built for a narrower and more dangerous problem: <strong>an autonomous agent that can spend money</strong>. When your agent can call a tool that triggers a real payment — an API bill, a compute purchase, an ad buy, a Stripe charge — a reactive budget cap that fires after the call has already completed is too late. A runaway retry loop can spend $12,400 in the 90 seconds before LiteLLM's daily budget threshold trips. sipi.bot's strengths:</p>
 <ul class="check">
-<li>Spend firewall for AI agents</li>
-<li>Built specifically for the spend firewall use case</li>
-<li>Tighter scope, faster workflow</li>
+<li><strong>Pre-spend enforcement</strong> — every transaction is evaluated and returned APPROVED, BLOCKED, or FLAGGED before it fires, in under 5ms.</li>
+<li><strong>Velocity limits</strong> — kills runaway retry loops on the second repeat, not after the daily cap.</li>
+<li><strong>Merchant allowlist</strong> — unknown merchants are blocked by default; your agent literally cannot spend at a vendor you have not approved.</li>
+<li><strong>Per-transaction, daily, weekly, and monthly caps</strong> — layered limits, not a single blunt budget.</li>
+<li><strong>Category limits</strong> — cap "compute" differently from "advertising" differently from "data enrichment."</li>
+<li><strong>Time windows</strong> — block all agent spend outside business hours.</li>
+<li><strong>Human-in-the-loop approval queue</strong> — high-value or ambiguous transactions are FLAGGED and routed to a human before they complete.</li>
+<li><strong>Tamper-evident audit log</strong> — every decision, immutable, for compliance and post-mortems.</li>
+<li><strong>Native MCP surface</strong> — Claude Code, Cursor, and Hermes call it directly as a tool; also HTTP API and CLI.</li>
 </ul>
 
-<h2>Where LiteLLM falls short</h2>
+<h2>Where LiteLLM falls short for agent spend control</h2>
+<p>LiteLLM is an excellent gateway, but it is not a spend firewall. The gaps that matter when your agent can spend:</p>
 <ul class="cross">
-<li>Cost controls are reactive</li><li>No per-agent velocity cap</li><li>No merchant allowlist by default</li>
-<li>Not purpose-built for spend firewall workflows</li>
+<li><strong>Budget caps are reactive.</strong> They reject the <em>next</em> call after a limit is crossed — the call that crossed it already completed and already cost you money.</li>
+<li><strong>No velocity / runaway-loop protection.</strong> A bug that retries a paid tool 1,000 times in a minute will not be stopped by a daily budget until the daily budget is gone.</li>
+<li><strong>No merchant allowlist.</strong> LiteLLM cannot block your agent from spending at a vendor you have never approved.</li>
+<li><strong>No human approval queue.</strong> There is no "flag this and ask a human" path — only allow or reject.</li>
+<li><strong>Token-centric, not transaction-centric.</strong> LiteLLM thinks in tokens and model costs. sipi.bot thinks in dollars, merchants, categories, and policy — the vocabulary of spend governance.</li>
 </ul>
+
+<div class="callout warn">
+<strong>Not a replacement.</strong> LiteLLM still does the routing better than anyone. The point is that routing and spend governance are different problems. Running sipi.bot in front of LiteLLM gives you both.
+</div>
+
+<h2>When to pick LiteLLM vs sipi.bot</h2>
+<h3>Pick LiteLLM if…</h3>
+<ul class="check">
+<li>You need one SDK for many LLM providers with failover and caching.</li>
+<li>Your spend problem is "which model is cheapest for this prompt" — routing optimization.</li>
+<li>You are OK with budget caps that fire after a call completes.</li>
+<li>You have no autonomous agent that can trigger real payments on its own.</li>
+</ul>
+<h3>Pick sipi.bot if…</h3>
+<ul class="check">
+<li>You have an autonomous AI agent (LangChain, CrewAI, OpenAI Agents SDK, Claude Agent SDK) that can call paid tools or trigger transactions.</li>
+<li>You want to stop a runaway retry loop <em>before</em> it spends, not after.</li>
+<li>You need per-transaction, per-merchant, or per-category guardrails, not just a monthly budget.</li>
+<li>You need a human-in-the-loop approval path for large or ambiguous spend.</li>
+<li>You need a compliance-grade audit trail of every spend decision.</li>
+</ul>
+<h3>Run both if…</h3>
+<p>Most production agent stacks do. sipi.bot evaluates the spend intent and returns a decision; LiteLLM then routes the actual call. This is the canonical composition:</p>
+<pre><code># agent wants to make a paid call
+decision = sipibot.evaluate(amount=6200, merchant="unknown-gpu.ru", category="compute")
+if decision == "APPROVED":
+    response = litellm.completion(model="gpt-4o", messages=...)  # gateway routes
+elif decision == "FLAGGED":
+    notify_human(transaction)  # approval queue</code></pre>
+
+<h2>Pricing comparison</h2>
+<table>
+<thead><tr><th></th><th>LiteLLM</th><th>sipi.bot</th></tr></thead>
+<tbody>
+<tr><td>Free / OSS</td><td>Yes (MIT, self-host)</td><td>Yes (MIT core, self-host)</td></tr>
+<tr><td>Hosted entry</td><td>~$200/mo Enterprise</td><td>$99/mo Team (unlimited evaluations)</td></tr>
+<tr><td>Hosted business</td><td>Custom</td><td>$499/mo Business</td></tr>
+<tr><td>Per-call metering</td><td>Depends on plan</td><td>None — flat rate, unlimited evaluations</td></tr>
+</tbody>
+</table>
 
 <div class="verdict">
 <h3>Our honest verdict</h3>
-<p>LiteLLM proxies your calls. SpendFirewall decides whether your agent is even allowed to spend.</p>
+<p>LiteLLM is the best LLM proxy gateway. sipi.bot is the best pre-spend firewall for AI agents. They are different layers of the stack. If your agent can spend money, run sipi.bot in front of LiteLLM and you have both problems solved.</p>
 </div>
 
 <h2>Frequently asked questions</h2>
-<h3>Does SpendFirewall replace LiteLLM?</h3><p>No, it sits in front of it. SpendFirewall approves the spend intent, LiteLLM routes the call.</p>
+<h3>Does sipi.bot replace LiteLLM?</h3>
+<p>No. sipi.bot sits in front of LiteLLM. sipi.bot evaluates the spend intent and returns APPROVED, BLOCKED, or FLAGGED; LiteLLM then routes the actual LLM call to whichever provider you configured. Most teams run both.</p>
+<h3>Can LiteLLM do what sipi.bot does?</h3>
+<p>Partially, and that is the trap. LiteLLM has budget controls, but they are reactive — they trigger after tokens are consumed or after a daily limit is crossed. sipi.bot is a pre-spend firewall: it evaluates every transaction before a single dollar moves, with per-transaction caps, velocity limits, and merchant allowlists that LiteLLM does not enforce.</p>
+<h3>What if I only want LLM cost analytics, not enforcement?</h3>
+<p>Then LiteLLM (or <a href="/vs/helicone">Helicone</a> or <a href="/vs/langfuse">Langfuse</a>) is the right tool. sipi.bot is for teams that need to <em>stop</em> spend, not just observe it.</p>
 
-<div class="cta"><a href="https://sipi.bot/">Try SpendFirewall &rarr;</a></div>
+<div class="cta"><a href="https://sipi.bot/">Protect your agent with sipi.bot &rarr;</a></div>
 
-<section class="related-links"><h3>Related pages</h3><ul><li><a href="/vs/openai-billing">OpenAI Billing</a></li><li><a href="/vs/langsmith">LangSmith</a></li><li><a href="/vs/helicone">Helicone</a></li></ul></section>
+<section class="related-links"><h3>Related comparisons</h3><ul>
+<li><a href="/vs/helicone">vs Helicone</a></li>
+<li><a href="/vs/portkey">vs Portkey</a></li>
+<li><a href="/vs/openrouter">vs OpenRouter</a></li>
+<li><a href="/vs/langfuse">vs Langfuse</a></li>
+<li><a href="/vs/openmeter">vs OpenMeter</a></li>
+<li><a href="/vs/openai-billing">vs OpenAI Billing</a></li>
+</ul></section>
 </article>
 <footer>
-<p><strong>SpendFirewall</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
+<p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a> &middot; <a href="https://sipi.bot/pricing">Pricing</a></p>
 </footer>
 </body>
 </html>

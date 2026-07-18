@@ -1,41 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sipi.bot vs Portkey — AI Agent Spend Management</title>
-    <meta name="description" content="sipi.bot vs Portkey: Portkey is an AI gateway with observability — without per-transaction spend blocking rules. sipi.bot sits in front of every dollar and">
-    <link rel="canonical" href="https://sipi.bot/vs/portkey">
-    <meta property="og:title" content="sipi.bot vs Portkey — AI Agent Spend Management">
-    <meta property="og:description" content="sipi.bot vs Portkey: Portkey is an AI gateway with observability — without per-transaction spend blocking rules. sipi.bot sits in front of every dollar and">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://sipi.bot/vs/portkey">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="robots" content="index, follow">
-    <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "sipi.bot vs Portkey — AI Agent Spend Management",
-    "description": "sipi.bot vs Portkey: Portkey is an AI gateway with observability — without per-transaction spend blocking rules. sipi.bot sits in front of every dollar and",
-    "url": "https://sipi.bot/vs/portkey",
-    "isPartOf": {"@type": "WebSite", "name": "sipi.bot", "url": "https://sipi.bot"},
-    "about": {"@type": "Thing", "name": "sipi.bot"}
-}
-</script>
-<script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head>
-<body style="font-family:-apple-system,system-ui,sans-serif;max-width:760px;margin:60px auto;padding:0 20px;line-height:1.7;color:#1a1a1a;background:#fff">
-    <header style="margin-bottom:40px">
-        <a href="https://sipi.bot" style="text-decoration:none;color:#555;font-size:.9em">← Back to sipi.bot</a>
-    </header>
-    <main>
-        <h1 style="font-size:2em;font-weight:800;margin-bottom:.5em;line-height:1.2">sipi.bot vs Portkey</h1>
-        <p style="font-size:1.1em;color:#555;margin-bottom:2em">Portkey observes API calls. We block unauthorized agent spend.</p>
-        <p>sipi.bot vs Portkey: Portkey is an AI gateway with observability — without per-transaction spend blocking rules. sipi.bot sits in front of every dollar and returns approve/block/flag in 5ms.</p><p><a href="https://sipi.bot" style="color:#0066cc;font-weight:600">Try sipi.bot →</a></p>
-    </main>
-    <footer style="margin-top:60px;padding-top:20px;border-top:1px solid #e0e0e0;color:#888;font-size:.85em">
-        <p><strong>sipi.bot</strong> — The spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.</p>
-        <p><a href="https://sipi.bot" style="color:#555">Home</a></p>
-    </footer>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sipi.bot vs Portkey: Pre-Spend Firewall vs AI Gateway with Guardrails</title>
+<meta name="description" content="sipi.bot and Portkey overlap on guardrails but solve different core problems. Portkey is an AI gateway with request-time guardrails. sipi.bot is a pre-spend firewall that governs whether your agent can spend at all, before any call fires.">
+<link rel="canonical" href="https://sipi.bot/vs/portkey">
+<meta property="og:title" content="sipi.bot vs Portkey: Pre-Spend Firewall vs AI Gateway with Guardrails">
+<meta property="og:description" content="Portkey is an AI gateway with request-time guardrails. sipi.bot is a pre-spend firewall governing whether your agent can spend at all.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/vs/portkey">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot vs Portkey: Pre-Spend Firewall vs AI Gateway with Guardrails","description":"sipi.bot is a pre-spend firewall for AI agents; Portkey is an AI gateway with request-time guardrails. Closest cousin, different core problem.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/vs/portkey"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot vs Portkey","item":"https://sipi.bot/vs/portkey"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Portkey the same as sipi.bot?","acceptedAnswer":{"@type":"Answer","text":"They overlap on the word 'guardrails' but solve different core problems. Portkey is an AI gateway — it routes LLM calls and applies request-time guardrails like prompt conditioning and response filtering. sipi.bot is a pre-spend firewall — it governs whether an autonomous agent is allowed to spend money at all, with per-transaction caps, velocity limits, merchant allowlists, and a human approval queue. Portkey guards what the LLM says; sipi.bot guards what the agent buys."}},{"@type":"Question","name":"Does Portkey have spend limits?","acceptedAnswer":{"@type":"Answer","text":"Portkey has budget controls that can trigger after a request or a threshold is crossed, as part of its gateway. These are reactive. sipi.bot enforces limits pre-spend — the transaction is blocked or flagged before any money moves."}},{"@type":"Question","name":"Which should I use for autonomous agent spend control?","acceptedAnswer":{"@type":"Answer","text":"If your agent can trigger real payments (compute, tools, Stripe charges, API spend), sipi.bot is purpose-built for that. Portkey is purpose-built for LLM gateway concerns — routing, prompt guardrails, response validation. Run both if you need LLM routing plus payment governance."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.verdict{background:#0a0a0a;color:#fff;padding:1.25rem 1.5rem;border-radius:.5rem;margin:1.5rem 0}
+.verdict h3{margin-top:0;color:#fff}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+</style>
+</head>
+<body>
+<article>
+<header>
+<p class="lede">sipi.bot vs Portkey</p>
+<h1>sipi.bot vs Portkey</h1>
+<p class="lede">An honest comparison of the two products in this list that both use the word <em>guardrails</em>. <strong>Portkey</strong> is an AI gateway with request-time guardrails — prompt conditioning, response validation, routing. <strong>sipi.bot</strong> is a pre-spend firewall — it governs whether your autonomous agent is allowed to spend money at all. Closest cousin, different core job.</p>
+</header>
+
+<div class="callout">
+<strong>Bottom line:</strong> Portkey guards what your LLM <em>says</em>. sipi.bot guards what your agent <em>buys</em>. Portkey's guardrails run at request time on the LLM call — conditioning prompts, filtering outputs. sipi.bot's guardrails run pre-spend — blocking a transaction before a dollar moves. If you need both prompt safety and payment safety, run both.
+</div>
+
+<h2>Quick comparison</h2>
+<table>
+<thead><tr><th>Dimension</th><th>Portkey</th><th>sipi.bot</th></tr></thead>
+<tbody>
+<tr><td>What it is</td><td>AI gateway with request-time guardrails</td><td>Pre-spend firewall for autonomous AI agents</td></tr>
+<tr><td>Core job</td><td>Route LLM calls + guard prompts and responses</td><td>Approve / block / flag spend before money moves</td></tr>
+<tr><td>What it guards</td><td>What the LLM says (prompt injection, PII, toxicity)</td><td>What the agent spends (dollars, merchants, transactions)</td></tr>
+<tr><td>Decision timing</td><td>Request-time (on the LLM call)</td><td>Pre-spend (&lt;5ms, before any transaction)</td></tr>
+<tr><td>Per-transaction dollar caps</td><td>No (token/request focused)</td><td>Yes (native)</td></tr>
+<tr><td>Velocity / runaway-loop kill</td><td>No</td><td>Yes</td></tr>
+<tr><td>Merchant allowlist</td><td>No</td><td>Yes</td></tr>
+<tr><td>Human approval queue for spend</td><td>No</td><td>Yes (FLAG path)</td></tr>
+<tr><td>Prompt guardrails (injection, PII, output filtering)</td><td>Yes (core feature)</td><td>No (not the job)</td></tr>
+<tr><td>Multi-provider routing</td><td>Yes</td><td>No (composes with Portkey / LiteLLM)</td></tr>
+<tr><td>Pricing</td><td>Free / Pro / Enterprise</td><td>$99/$499/mo, OSS core free</td></tr>
+</tbody>
+</table>
+
+<h2>What Portkey does well</h2>
+<p>Portkey is a serious AI gateway. If you are running production LLM workloads and need prompt-level safety — stopping prompt injection, redacting PII, filtering toxic outputs, enforcing response format — Portkey is built for it. Its strengths:</p>
+<ul class="check">
+<li><strong>Request-time guardrails</strong> — condition prompts and filter responses before they reach the user.</li>
+<li><strong>Prompt injection defense</strong> — detect and block adversarial prompts.</li>
+<li><strong>PII redaction</strong> — strip sensitive data from prompts and responses.</li>
+<li><strong>Multi-provider routing</strong> — gateway across OpenAI, Anthropic, Google, and others.</li>
+<li><strong>Response caching and fallback</strong> — reliability and cost optimization on LLM calls.</li>
+<li><strong>Observability</strong> — request logs, latency, and prompt analytics.</li>
+</ul>
+
+<h2>Where sipi.bot wins</h2>
+<p>Portkey guards the LLM call. sipi.bot guards the wallet. The gap matters when your agent is autonomous and can trigger real payments — a prompt guardrail does not stop a runaway retry loop from draining your card, and a response filter does not block an unknown merchant. sipi.bot's strengths:</p>
+<ul class="check">
+<li><strong>Pre-spend enforcement</strong> — every transaction evaluated and returned APPROVED, BLOCKED, or FLAGGED before it fires.</li>
+<li><strong>Per-transaction dollar caps</strong> — cap each spend, not just total tokens.</li>
+<li><strong>Velocity limits</strong> — kill runaway retry loops on the second repeat.</li>
+<li><strong>Merchant allowlist</strong> — block unknown vendors by default.</li>
+<li><strong>Category limits</strong> — cap compute differently from advertising, advertising differently from data enrichment.</li>
+<li><strong>Human-in-the-loop approval queue</strong> — large or ambiguous spend is FLAGGED for a human before it completes.</li>
+<li><strong>Tamper-evident audit log</strong> — every spend decision, immutable, compliance-grade.</li>
+<li><strong>Native MCP surface</strong> — Claude Code, Cursor, Hermes call it directly.</li>
+</ul>
+
+<h2>Where Portkey falls short for agent spend control</h2>
+<p>Portkey is an LLM gateway, not a payment governance layer:</p>
+<ul class="cross">
+<li><strong>Token-centric, not transaction-centric.</strong> Portkey thinks in prompts and tokens. It does not have a concept of "this transaction at this merchant for this dollar amount."</li>
+<li><strong>No merchant allowlist.</strong> Portkey cannot prevent your agent from spending at an unapproved vendor.</li>
+<li><strong>No velocity protection.</strong> Portkey's guardrails run per-request, not as a spend-velocity detector across transactions.</li>
+<li><strong>No human approval queue for spend.</strong> There is no "flag this transaction and ask a human" path.</li>
+<li><strong>Budget controls are reactive.</strong> Portkey's budget features trigger after a threshold, not pre-spend.</li>
+</ul>
+
+<div class="callout warn">
+<strong>Run both if you need both kinds of safety.</strong> Portkey for prompt and response safety at the LLM layer. sipi.bot for payment safety at the spend layer. They plug into different points of the stack.
+</div>
+
+<h2>When to pick Portkey vs sipi.bot</h2>
+<h3>Pick Portkey if…</h3>
+<ul class="check">
+<li>Your problem is prompt safety — injection, PII, toxicity, response format.</li>
+<li>You need multi-provider LLM routing with guardrails on the calls.</li>
+<li>Your agent does not trigger real payments, only LLM calls.</li>
+</ul>
+<h3>Pick sipi.bot if…</h3>
+<ul class="check">
+<li>Your autonomous agent can spend money (API, compute, tools, real payments).</li>
+<li>You need per-transaction, per-merchant, or velocity guardrails on spend.</li>
+<li>You need a human approval queue for large or ambiguous transactions.</li>
+<li>You need a compliance-grade audit trail of spend decisions.</li>
+</ul>
+<h3>Run both if…</h3>
+<p>If your agent both talks to users and spends money, you want Portkey guarding the prompt and sipi.bot guarding the wallet:</p>
+<pre><code># LLM call goes through Portkey for prompt safety
+response = portkey.chat.completions.create(...)
+
+# any spend intent goes through sipi.bot first
+decision = sipibot.evaluate(amount=6200, merchant="gpu-vendor", category="compute")
+if decision != "APPROVED":
+    block_agent_action(reason=decision.reason)</code></pre>
+
+<h2>Pricing comparison</h2>
+<table>
+<thead><tr><th></th><th>Portkey</th><th>sipi.bot</th></tr></thead>
+<tbody>
+<tr><td>Free / OSS</td><td>Free tier</td><td>Yes (MIT core, self-host)</td></tr>
+<tr><td>Entry paid</td><td>Pro plan</td><td>$99/mo Team</td></tr>
+<tr><td>Business</td><td>Enterprise</td><td>$499/mo Business</td></tr>
+<tr><td>Metering</td><td>Per-request</td><td>Flat, unlimited evaluations</td></tr>
+</tbody>
+</table>
+
+<div class="verdict">
+<h3>Our honest verdict</h3>
+<p>Portkey is the right tool for prompt-level guardrails at the LLM gateway layer. sipi.bot is the right tool for payment-level guardrails at the spend layer. If your autonomous agent can spend money, Portkey will not stop a runaway wallet — sipi.bot will. Run both if you need both.</p>
+</div>
+
+<h2>Frequently asked questions</h2>
+<h3>Is Portkey the same as sipi.bot?</h3>
+<p>They overlap on the word "guardrails" but solve different problems. Portkey guards what the LLM says (prompts, responses). sipi.bot guards what the agent spends (dollars, merchants, transactions).</p>
+<h3>Does Portkey have spend limits?</h3>
+<p>Portkey has budget controls that trigger after a threshold is crossed, as part of its gateway. These are reactive. sipi.bot enforces limits pre-spend.</p>
+<h3>Which should I use for autonomous agent spend control?</h3>
+<p>If your agent can trigger real payments, sipi.bot is purpose-built for that. Portkey is purpose-built for LLM gateway concerns.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Protect your agent with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related comparisons</h3><ul>
+<li><a href="/vs/litellm">vs LiteLLM</a></li>
+<li><a href="/vs/helicone">vs Helicone</a></li>
+<li><a href="/vs/openrouter">vs OpenRouter</a></li>
+<li><a href="/vs/langfuse">vs Langfuse</a></li>
+<li><a href="/vs/openmeter">vs OpenMeter</a></li>
+<li><a href="/vs/openai-billing">vs OpenAI Billing</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a> &middot; <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
 </body>
 </html>

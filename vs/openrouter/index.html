@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sipi.bot vs OpenRouter: Spend Firewall vs LLM Routing Marketplace</title>
+<meta name="description" content="sipi.bot and OpenRouter are different layers. OpenRouter is an LLM routing marketplace that aggregates providers. sipi.bot is a pre-spend firewall that governs whether your agent can spend at all. They compose.">
+<link rel="canonical" href="https://sipi.bot/vs/openrouter">
+<meta property="og:title" content="sipi.bot vs OpenRouter: Spend Firewall vs LLM Routing Marketplace">
+<meta property="og:description" content="OpenRouter aggregates LLM providers; sipi.bot enforces whether your agent can spend. Different layers, they compose.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/vs/openrouter">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot vs OpenRouter: Spend Firewall vs LLM Routing Marketplace","description":"sipi.bot is a pre-spend firewall for AI agents; OpenRouter is an LLM routing marketplace. Different layers, they compose.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/vs/openrouter"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot vs OpenRouter","item":"https://sipi.bot/vs/openrouter"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does sipi.bot replace OpenRouter?","acceptedAnswer":{"@type":"Answer","text":"No. OpenRouter routes your LLM call to the cheapest or best provider. sipi.bot decides whether your agent is allowed to make that spend at all. Run sipi.bot in front of OpenRouter for pre-spend governance plus multi-provider routing."}},{"@type":"Question","name":"Does OpenRouter have spend limits?","acceptedAnswer":{"@type":"Answer","text":"OpenRouter has credit limits and usage caps on its platform, but these are billing controls on your OpenRouter account balance, not per-agent spend guardrails. sipi.bot adds per-transaction caps, velocity limits, merchant allowlists, and a human approval queue that OpenRouter does not provide."}},{"@type":"Question","name":"Can I use sipi.bot with OpenRouter?","acceptedAnswer":{"@type":"Answer","text":"Yes. Evaluate the spend intent through sipi.bot first; if APPROVED, route the call through OpenRouter. This gives you pre-spend enforcement plus OpenRouter's multi-provider routing and pay-per-call billing."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.verdict{background:#0a0a0a;color:#fff;padding:1.25rem 1.5rem;border-radius:.5rem;margin:1.5rem 0}
+.verdict h3{margin-top:0;color:#fff}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+</style>
+</head>
+<body>
+<article>
+<header>
+<p class="lede">sipi.bot vs OpenRouter</p>
+<h1>sipi.bot vs OpenRouter</h1>
+<p class="lede">An honest comparison. <strong>OpenRouter</strong> is an LLM routing marketplace — one API key, access to hundreds of models across providers, pay-per-call billing. <strong>sipi.bot</strong> is a pre-spend firewall that governs whether your autonomous agent is allowed to spend at all. Different layers of the stack.</p>
+</header>
+
+<div class="callout">
+<strong>Bottom line:</strong> OpenRouter makes it easy to call any LLM and pay per call. sipi.bot makes it impossible for your agent to spend money you did not authorize. Run sipi.bot in front of OpenRouter and you get multi-provider routing <em>plus</em> pre-spend enforcement.
+</div>
+
+<h2>Quick comparison</h2>
+<table>
+<thead><tr><th>Dimension</th><th>OpenRouter</th><th>sipi.bot</th></tr></thead>
+<tbody>
+<tr><td>What it is</td><td>LLM routing marketplace</td><td>Pre-spend firewall for AI agents</td></tr>
+<tr><td>Core job</td><td>Route a call to any model, bill per call</td><td>Approve / block / flag a spend before it fires</td></tr>
+<tr><td>Decision timing</td><td>N/A (routing, not governance)</td><td>Pre-spend (&lt;5ms)</td></tr>
+<tr><td>Per-transaction caps</td><td>Account credit limits only</td><td>Per-transaction, daily, velocity, category</td></tr>
+<tr><td>Velocity / runaway-loop kill</td><td>No</td><td>Yes</td></tr>
+<tr><td>Merchant allowlist</td><td>No</td><td>Yes</td></tr>
+<tr><td>Human approval queue</td><td>No</td><td>Yes (FLAG path)</td></tr>
+<tr><td>Multi-provider routing</td><td>Yes (core feature)</td><td>No (composes with OpenRouter / LiteLLM)</td></tr>
+<tr><td>Billing model</td><td>Pay-per-call (credits)</td><td>Flat $99/$499/mo, unlimited evaluations</td></tr>
+<tr><td>Surfaces</td><td>OpenAI-compatible API</td><td>MCP, HTTP API, CLI, A2A agent card</td></tr>
+</tbody>
+</table>
+
+<h2>What OpenRouter does well</h2>
+<p>OpenRouter solves a real problem: you want one API key that talks to GPT-4o, Claude, Gemini, Mistral, Llama, and hundreds of other models without signing up for each provider separately. Its strengths:</p>
+<ul class="check">
+<li><strong>Universal model access</strong> — hundreds of models, one API, one bill.</li>
+<li><strong>Pay-per-call billing</strong> — load credits, spend as you go, no monthly commitment.</li>
+<li><strong>Price comparison</strong> — see per-model pricing and pick the cheapest option for each call.</li>
+<li><strong>OpenAI-compatible API</strong> — drop-in replacement for the OpenAI SDK.</li>
+<li><strong>Provider failover</strong> — if one provider is down, OpenRouter routes to another.</li>
+<li><strong>Usage dashboards</strong> — see spend by model and by application.</li>
+</ul>
+
+<h2>Where sipi.bot wins</h2>
+<p>OpenRouter makes spending easy. sipi.bot makes unauthorized spending impossible. The gap matters when your agent is autonomous — OpenRouter's credit limit is a billing control on your account balance, not a per-agent guardrail. A runaway loop will happily drain your entire OpenRouter credit balance before you notice. sipi.bot's strengths:</p>
+<ul class="check">
+<li><strong>Pre-spend enforcement</strong> — every transaction evaluated and returned APPROVED, BLOCKED, or FLAGGED before it fires.</li>
+<li><strong>Velocity limits</strong> — a retry loop is killed on the second repeat, not after your credit balance hits zero.</li>
+<li><strong>Merchant allowlist</strong> — your agent cannot spend at any vendor (including any LLM provider) you have not approved.</li>
+<li><strong>Per-transaction, daily, and category caps</strong> — layered limits, not just a total balance.</li>
+<li><strong>Human-in-the-loop approval queue</strong> — large or ambiguous spend is FLAGGED for a human.</li>
+<li><strong>Tamper-evident audit log</strong> — every decision, immutable.</li>
+<li><strong>Agent-native surfaces</strong> — MCP tool, HTTP API, CLI, A2A agent card.</li>
+</ul>
+
+<h2>Where OpenRouter falls short for agent spend control</h2>
+<p>OpenRouter is a routing marketplace, not a governance layer:</p>
+<ul class="cross">
+<li><strong>Account-balance caps only.</strong> Your "limit" is your credit balance — when it is gone, calls stop. That is a billing control, not a spend guardrail.</li>
+<li><strong>No per-agent enforcement.</strong> OpenRouter cannot apply different rules to different agents or different transaction types.</li>
+<li><strong>No velocity protection.</strong> A retry loop drains your balance at full speed.</li>
+<li><strong>No merchant allowlist.</strong> OpenRouter cannot block specific providers or vendors.</li>
+<li><strong>No approval queue.</strong> No "pause and ask a human" path.</li>
+<li><strong>LLM-call scoped.</strong> OpenRouter governs LLM API calls routed through its marketplace. It does not govern other spend an agent can make — compute, tools, real payments.</li>
+</ul>
+
+<div class="callout warn">
+<strong>They compose.</strong> OpenRouter routes the call; sipi.bot decides whether the call is allowed. <code>sipi.bot &rarr; OpenRouter &rarr; model</code>.
+</div>
+
+<h2>When to pick OpenRouter vs sipi.bot</h2>
+<h3>Pick OpenRouter if…</h3>
+<ul class="check">
+<li>You want one API key for hundreds of LLM models with pay-per-call billing.</li>
+<li>Your spend problem is "I want the cheapest model for each call" — routing optimization.</li>
+<li>You do not have an autonomous agent that can trigger real payments on its own.</li>
+</ul>
+<h3>Pick sipi.bot if…</h3>
+<ul class="check">
+<li>You have an autonomous AI agent that can spend money.</li>
+<li>You want per-transaction, per-merchant, or velocity guardrails — not just a credit balance.</li>
+<li>You need to stop runaway spend before it happens.</li>
+<li>You need a compliance-grade audit trail.</li>
+</ul>
+<h3>Run both if…</h3>
+<p>If you use OpenRouter for multi-provider routing and your agent is autonomous, run sipi.bot in front:</p>
+<pre><code># agent wants to make a paid LLM call
+decision = sipibot.evaluate(amount=0.03, merchant="openrouter", category="llm")
+if decision == "APPROVED":
+    response = openrouter.chat.completions.create(
+        model="openai/gpt-4o", messages=...)  # routed</code></pre>
+
+<h2>Pricing comparison</h2>
+<table>
+<thead><tr><th></th><th>OpenRouter</th><th>sipi.bot</th></tr></thead>
+<tbody>
+<tr><td>Free / OSS</td><td>Free tier (limited)</td><td>Yes (MIT core, self-host)</td></tr>
+<tr><td>Model</td><td>Pay-per-call (credits)</td><td>Flat monthly, unlimited evaluations</td></tr>
+<tr><td>Entry paid</td><td>Pay as you go</td><td>$99/mo Team</td></tr>
+<tr><td>Business</td><td>Pay as you go</td><td>$499/mo Business</td></tr>
+</tbody>
+</table>
+
+<div class="verdict">
+<h3>Our honest verdict</h3>
+<p>OpenRouter is the easiest way to call any LLM and pay per call. sipi.bot is the easiest way to make sure your agent does not spend money you did not authorize. Run sipi.bot in front of OpenRouter and you have both.</p>
+</div>
+
+<h2>Frequently asked questions</h2>
+<h3>Does sipi.bot replace OpenRouter?</h3>
+<p>No. OpenRouter routes your LLM call to the right provider. sipi.bot decides whether your agent is allowed to make that spend. Run sipi.bot in front of OpenRouter.</p>
+<h3>Does OpenRouter have spend limits?</h3>
+<p>OpenRouter has credit limits on your account balance, but these are billing controls, not per-agent guardrails. sipi.bot adds per-transaction caps, velocity limits, merchant allowlists, and an approval queue.</p>
+<h3>Can I use sipi.bot with OpenRouter?</h3>
+<p>Yes. Evaluate the spend through sipi.bot first; if APPROVED, route the call through OpenRouter.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Protect your agent with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related comparisons</h3><ul>
+<li><a href="/vs/litellm">vs LiteLLM</a></li>
+<li><a href="/vs/helicone">vs Helicone</a></li>
+<li><a href="/vs/portkey">vs Portkey</a></li>
+<li><a href="/vs/langfuse">vs Langfuse</a></li>
+<li><a href="/vs/openmeter">vs OpenMeter</a></li>
+<li><a href="/vs/openai-billing">vs OpenAI Billing</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a> &middot; <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
+</body>
+</html>
