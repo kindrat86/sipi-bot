@@ -45,7 +45,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <h2>Detailed explanation</h2>
 <p>Set a per-agent budget by configuring a spend cap in your firewall. The agent will be halted automatically when the cap is reached, preventing cost overruns. This is a common question from users evaluating spend firewall solutions, and the answer depends on your specific use case.</p>
 <h2>How sipi.bot addresses this</h2>
-<p>Spend firewall for AI agents. The platform is designed to make this question straightforward — you configure once and the system handles the rest.</p>
+<p>sipi.bot implements a 5-layer budget model for every agent: (1) a daily total ceiling, (2) per-transaction caps at 10-25% of the daily total, (3) velocity limits that kill retry loops on the Nth attempt, (4) category limits so no single category eats the entire budget, and (5) an approval threshold that routes large transactions to a human. Each agent can have its own budget — a research agent might get $50/day while a procurement agent gets $2,000/day. Full guide at <a href="/how-to/set-ai-budget-limits">how to set AI budget limits</a>.</p>
 
 
 

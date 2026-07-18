@@ -45,7 +45,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <h2>Detailed explanation</h2>
 <p>Token cost is the dollar amount charged by LLM providers (OpenAI, Anthropic) for processing text. Each API call consumes tokens, and costs accumulate based on usage. This is a common question from users evaluating spend firewall solutions, and the answer depends on your specific use case.</p>
 <h2>How sipi.bot addresses this</h2>
-<p>Spend firewall for AI agents. The platform is designed to make this question straightforward — you configure once and the system handles the rest.</p>
+<p>sipi.bot sits in front of every LLM call your agent makes and evaluates the transaction before it fires — including the token cost. A velocity rule caps the number of calls per hour (killing retry loops, the #1 source of wasted token spend), a per-transaction cap catches the catastrophic single call, and the audit log records exactly how many tokens each agent consumed and what it cost. For optimizing the price per-token, compose sipi.bot with an LLM gateway like <a href="/vs/litellm">LiteLLM</a>. For understanding your per-model spend, see the <a href="/benchmarks/token-cost-by-provider">token cost benchmark</a>.</p>
 
 
 
