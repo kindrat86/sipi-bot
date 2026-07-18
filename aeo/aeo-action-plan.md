@@ -73,6 +73,8 @@ Eight gaps logged in [`brand-gap-analysis.csv`](./brand-gap-analysis.csv). Ranke
 
 ### §3 · Weeks 1–12 — earn mentions (Influence) — **THE #1 LEVER**
 
+**PR submitted:** https://github.com/punkpeye/awesome-mcp-servers/pull/10386 (OPEN, MERGEABLE)
+
 This is where AI visibility actually comes from. Branded web mentions had the **strongest correlation (r=0.664)** with AI Overviews in the 75,000-brand study. Currently at zero. Three tiers:
 
 **Tier 1 — Third-party editorial / listicles (highest value, hardest)**
