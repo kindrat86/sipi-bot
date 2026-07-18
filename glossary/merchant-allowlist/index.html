@@ -64,7 +64,7 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <h3>What is merchant allowlist?</h3>
 <p>A merchant allowlist is a list of approved merchants an AI agent is permitted to transact with. sipi.bot enforces these per agent.</p>
 <h3>How does sipi.bot handle merchant allowlist?</h3>
-<p>sipi.bot treats merchant allowlist as a first-class concept in its spend firewall workflow.</p>
+<p>sipi.bot enforces the allowlist at the firewall level: when an agent proposes a transaction, the engine checks the merchant against the allowlist before evaluating any other rule. Unknown merchants are blocked by default — the agent cannot spend at a vendor you have not explicitly approved. This is the single most effective defense against prompt-injection attacks that route spend to attacker-controlled destinations, and against agents that discover novel vendors during tool use.</p>
 
 <div class="cta"><a href="https://sipi.bot/">Try sipi.bot &rarr;</a></div>
 
