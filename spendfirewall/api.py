@@ -417,6 +417,22 @@ class Handler(BaseHTTPRequestHandler):
         # pages written by the growth engine). Served last, before 404.
         if self._serve_static(path):
             return
+
+        # Drip cron endpoint — also accept GET for cron triggers (no body needed)
+        if path == "/cron/drip":
+            secret = os.environ.get("DRIP_CRON_SECRET", "")
+            tok = ""
+            if "?" in self.path:
+                q = urlparse(self.path).query
+                tok = q.split("secret=")[-1] if "secret=" in q else ""
+            if secret and tok == secret:
+                try:
+                    result = drip.send_soap_operas()
+                    return self._json(200, {"ok": True, "fired": True, "result": result})
+                except Exception as e:
+                    return self._json(500, {"ok": False, "error": str(e)})
+            return self._json(403, {"ok": False, "error": "forbidden"})
+
         return self._json(404, {"error": "not_found"})
 
     def _serve_static(self, path: str) -> bool:
