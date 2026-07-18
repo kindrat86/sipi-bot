@@ -144,12 +144,14 @@ def landing_page_html() -> str:
 <meta name="twitter:description" content="Approve, block, or flag every agent transaction before a dollar moves.">
 <meta name="twitter:image" content="https://sipi.bot/og.png">
 <meta name="theme-color" content="#00d4aa">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","alternateName":["sipibot","sipi bot","sipi.bot spend firewall"],"url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds.","disambiguatingDescription":"sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Spend Firewall for AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-17"},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","alternateName":["sipibot","sipi bot"],"applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","disambiguatingDescription":"A payment-control spend firewall API for autonomous AI agents — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"Hosted plans are flat-rate: Team is $99/month and Business is $499/month, both with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each."}},{"@type":"Question","name":"Is sipi.bot a SIP, voice, or telephony product?","acceptedAnswer":{"@type":"Answer","text":"No. Despite the name, sipi.bot has nothing to do with SIP, VoIP, or voice, and it is not a bot-management or 'block AI bots' tool. sipi.bot is a spend firewall that governs how much money autonomous AI agents can spend."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","alternateName":["sipibot","sipi bot","sipi.bot spend firewall"],"url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds.","disambiguatingDescription":"sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"],"knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","API Spend Governance","x402 Payment Protocol","Agent Transaction Monitoring","Runaway AI Cost Prevention","Agent Budget Management","Multi-Agent Spend Orchestration"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Spend Firewall for AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-17"},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","alternateName":["sipibot","sipi bot"],"applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","disambiguatingDescription":"A payment-control spend firewall API for autonomous AI agents — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"Hosted plans are flat-rate: Team is $99/month and Business is $499/month, both with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each."}},{"@type":"Question","name":"Is sipi.bot a SIP, voice, or telephony product?","acceptedAnswer":{"@type":"Answer","text":"No. Despite the name, sipi.bot has nothing to do with SIP, VoIP, or voice, and it is not a bot-management or 'block AI bots' tool. sipi.bot is a spend firewall that governs how much money autonomous AI agents can spend."}}]},{"@type":"SpeakableSpecification","cssSelector":["h1","h2","p"]}]}</script>
 <style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}</head><body>
 <nav><div class="wrap">
   <div class="brand">sipi<span class="dot">.bot</span></div>
   <div class="nav-links">
     <a href="#how">How it works</a>
+    <a href="#origin">Origin</a>
+    <a href="#false-beliefs">Beliefs</a>
     <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
     <a href="/dashboard" class="btn">Live Dashboard</a>
@@ -159,10 +161,11 @@ def landing_page_html() -> str:
 <header class="hero"><div class="wrap">
   <span class="tag">Spend controls for the agent economy</span>
   <h1>Your AI agent just spent<br><span class="hl">$12,400 while you slept.</span></h1>
-  <p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 10px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-08 · Last updated 2026-07-18</p>
+  <p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 10px"><span rel="author">By Maryan — founder, sipi.bot</span> · Published 2026-07-08 · Last updated 2026-07-18 · <a href="#origin" style="color:var(--accent)">Read the origin story →</a></p>
   <p class="sub"><strong>sipi.bot is a spend firewall for autonomous AI agents:</strong> it evaluates every transaction against your rules and returns approve, block, or flag in under 5ms — before a single dollar moves. You gave an autonomous agent your credit card and no spending limit; sipi.bot is the control layer that sits in front of it. <a href="/learn/spend-firewall-guide" style="color:var(--accent);text-decoration:underline">Read the complete spend firewall guide →</a></p>
   <a href="/pricing" class="btn">Protect my agent</a>
   &nbsp;&nbsp;<a href="#how" class="btn ghost">See how it works</a>
+  &nbsp;&nbsp;<a href="/masterclass" class="btn ghost">Free masterclass →</a>
   <div class="kpis mt40">
     <div class="kpi"><div class="n">&lt;5ms</div><div class="l">decision latency</div></div>
     <div class="kpi"><div class="n">3</div><div class="l">outcomes: approve / block / flag</div></div>
@@ -246,6 +249,111 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 
   <h2 class="mt40" style="margin-top:56px">What sipi.bot is <em>not</em></h2>
   <p class="lead">Because the name gets misread: <strong>sipi.bot is a payment-control spend firewall for autonomous AI agents.</strong> It is <em>not</em> a SIP/VoIP telephony bot, and it is <em>not</em> an AI-bot-blocking tool or web-application firewall (WAF). It never holds your money — it's a decision API that returns approve, block, or flag in under 5ms, and your existing payment rail is what actually moves (or doesn't move) the funds.</p>
+</div></section>
+
+<!-- ═══ EXPERT SECRETS: Origin Story + Epiphany Bridge (Ch 1,4,5,6) ═══ -->
+<section id="origin" style="border-bottom:1px solid var(--line)"><div class="wrap">
+  <h2>The Night I Almost Shipped a Bankrupt Agent</h2>
+  <p class="lead">Every product starts with a wound. This one started at 2:14 AM with a $12,400 log entry I couldn't believe was real.</p>
+  
+  <div style="max-width:760px;margin:32px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px">
+    <div style="color:var(--mut);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">The Backstory</div>
+    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:18px">
+      I deployed my first autonomous purchasing agent on a Tuesday. It was beautiful — four lines of orchestration, an x402 payment rail, and a prompt that said "buy GPU compute when under 70% utilization." I went to sleep feeling like I'd shipped the future.
+    </p>
+    
+    <div style="color:var(--mut);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">The Wall</div>
+    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:18px">
+      I woke up to Stripe notifications. The agent had hit a rate-limit at 2:14 AM and retried 40 times. It bought compute from a vendor I'd never heard of — <code style="background:rgba(255,84,112,.12);color:var(--red);padding:2px 6px;border-radius:4px;font-size:14px">unknown-gpu.ru</code>. It tipped an API into overage. Total damage: <strong style="color:var(--red)">$12,400</strong>. In seven hours. While I was sleeping.
+    </p>
+
+    <div style="color:var(--mut);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">The Epiphany</div>
+    <div style="border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin-bottom:18px">
+      <p style="font-size:17px;line-height:1.7;color:var(--txt);font-style:italic">
+        "The agent didn't do anything wrong. It followed the prompt. It bought compute when utilization dipped. It retried on failure — exactly what we train agents to do. The problem wasn't the agent. The problem was that <strong>nobody was checking</strong>. The payment rails move money. They don't ask if the merchant is sketchy, if the amount is suspicious, or if forty retries in three minutes is a bug or a feature. There was no firewall."
+      </p>
+      <p style="font-size:15px;color:var(--accent);margin-top:8px">— Maryan, founder</p>
+    </div>
+
+    <div style="color:var(--mut);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">The Internal Shift</div>
+    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:18px">
+      I spent the next week reading every provider's spend-control docs. OpenAI has usage limits — per-provider. Anthropic has rate limits — per-model. Stripe has Radar — for fraud, not agent velocity. Every solution was partial and reactive. You find out <em>after</em>. Nobody was building the thing that says "no" <em>before</em> the money moves.
+    </p>
+    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:18px">
+      So I stopped looking. I built the missing layer: a spend firewall that sits in front of every transaction, checks it against your rules, and returns approve, block, or flag — in under 5 milliseconds. Not a dashboard. Not a report. A decision. Before the money moves.
+    </p>
+
+    <div style="color:var(--mut);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">The New Opportunity</div>
+    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:8px">
+      The payment rails — x402, AP2, AgentKit — are letting agents spend autonomously. Every week more agents get deployed. Every week the total at-risk spend grows. And <strong>not one of those rails screens transactions before they settle</strong>. That gap — between an agent's ability to spend and your ability to control it — is exactly where sipi.bot lives.
+    </p>
+    <p style="font-size:17px;line-height:1.7;color:var(--txt)">
+      <strong style="color:var(--accent)">This isn't a spending cap. It's a spending policy.</strong> One curl call. One decision. Before a single dollar moves. That's the thing I needed at 2:14 AM. Now it's yours.
+    </p>
+  </div>
+
+  <div class="kpis mt40" style="max-width:600px;margin-left:auto;margin-right:auto">
+    <div class="kpi"><div class="n">$12,400</div><div class="l">loss that inspired sipi.bot</div></div>
+    <div class="kpi"><div class="n">1</div><div class="l">founder, shipping in the open</div></div>
+    <div class="kpi"><div class="n">MIT</div><div class="l">licensed — self-host forever</div></div>
+  </div>
+</div></section>
+
+<!-- ═══ The 3 False Beliefs That Keep Your Agent Unguarded (Ch 7) ═══ -->
+<section id="false-beliefs"><div class="wrap">
+  <h2 class="center">The 3 false beliefs that let agents run wild</h2>
+  <p class="lead center">If you're deploying an autonomous agent right now, you probably hold at least one of these. Here's why each one is wrong — and the epiphany that changes everything.</p>
+  
+  <div style="max-width:760px;margin:36px auto 0;display:flex;flex-direction:column;gap:24px">
+    <div class="card">
+      <div class="badge b-red" style="margin-bottom:10px">FALSE BELIEF #1 — The Vehicle</div>
+      <h3 style="font-size:20px;margin-bottom:8px">"My prompt handles spending — I told it to be careful."</h3>
+      <p style="color:var(--mut);margin-bottom:10px"><strong>The False Belief:</strong> A well-written prompt is a spending control. If I just add "don't overspend" to the system prompt, the agent will enforce its own budget.</p>
+      <p style="color:var(--accent)"><strong>The Epiphany:</strong> Prompts are suggestions, not controls. An agent in a retry loop, a hallucination, or a prompt injection doesn't "decide" to overspend — it executes what it was instructed to do. Your prompt is a wish. A spend firewall is a rule. Wishes don't survive 2 AM.</p>
+    </div>
+
+    <div class="card">
+      <div class="badge b-amber" style="margin-bottom:10px">FALSE BELIEF #2 — Internal Belief</div>
+      <h3 style="font-size:20px;margin-bottom:8px">"I'll catch it. I check my dashboard every morning."</h3>
+      <p style="color:var(--mut);margin-bottom:10px"><strong>The False Belief:</strong> Human review is a spending control. I monitor my agent. If something goes wrong, I'll see it and stop it.</p>
+      <p style="color:var(--accent)"><strong>The Epiphany:</strong> By the time you see it, the money is gone. At 2:14 AM, the agent retried 40 times in under three minutes. You woke up at 9:03 AM to $12,400 in Stripe notifications. Human review is not a control — it's a post-mortem. The firewall has to fire in milliseconds, not morning coffee.</p>
+    </div>
+
+    <div class="card">
+      <div class="badge b-green" style="margin-bottom:10px">FALSE BELIEF #3 — External Belief</div>
+      <h3 style="font-size:20px;margin-bottom:8px">"My payment provider handles this — they have fraud detection."</h3>
+      <p style="color:var(--mut);margin-bottom:10px"><strong>The False Belief:</strong> Stripe, Coinbase, or my bank will catch suspicious agent spending the same way they catch credit card fraud.</p>
+      <p style="color:var(--accent)"><strong>The Epiphany:</strong> Payment providers flag fraud — stolen cards, chargebacks, identity theft. They don't flag "your agent bought compute from a weird vendor 40 times in 3 minutes." To Stripe, that looks like legitimate API usage. The agent is authorized. The spending is the problem. And no payment rail screens for that. sipi.bot is the layer that does.</p>
+    </div>
+  </div>
+
+  <p class="center mt40" style="font-size:18px;color:var(--txt)">
+    Kill all three false beliefs and only one question remains:<br>
+    <strong style="color:var(--accent);font-size:20px">which rules does your agent need before it spends its first dollar?</strong>
+  </p>
+  <p class="center mt24"><a href="/pricing" class="btn">Set my rules →</a></p>
+</div></section>
+
+<!-- ═══ The Cause / Movement (Ch 2) ═══ -->
+<section id="cause"><div class="wrap">
+  <h2 class="center">We are the builders who stopped trusting the prompt.</h2>
+  <p class="lead center">A quiet movement of engineers who deploy autonomous agents — and refuse to hope the spending works out.</p>
+  <div style="max-width:680px;margin:32px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px">
+    <p style="font-size:16px;line-height:1.7;color:var(--txt);margin-bottom:14px">
+      We shipped agents that buy compute at 3 AM without asking. We woke up to Stripe notifications we couldn't explain. We learned — the hard way — that <strong>prompts are not controls</strong> and payment rails don't screen.
+    </p>
+    <p style="font-size:16px;line-height:1.7;color:var(--txt);margin-bottom:14px">
+      We stopped pretending "be careful" was a spending policy. We built a firewall that says <span style="color:var(--accent)">approve</span>, <span style="color:var(--red)">block</span>, or <span style="color:var(--amber)">flag</span> before a single dollar moves.
+    </p>
+    <p style="font-size:16px;line-height:1.7;color:var(--txt)">
+      <strong>We don't measure in signups. We measure in dollars not spent.</strong> Every blocked transaction is a $12,400 morning that didn't happen. This is not a self-improvement group. This is a shipping movement.
+    </p>
+  </div>
+  <div class="kpis mt40" style="max-width:600px;margin-left:auto;margin-right:auto">
+    <div class="kpi"><div class="n">&lt;5ms</div><div class="l">per decision</div></div>
+    <div class="kpi"><div class="n">53/53</div><div class="l">eval scenarios passed</div></div>
+    <div class="kpi"><div class="n">$0</div><div class="l">lost to runaway agents</div></div>
+  </div>
 </div></section>
 
 <section><div class="wrap">
@@ -708,4 +816,129 @@ def key_success_html(rec) -> str:
 <div class="nav-links"><a href="/">Home</a></div></div></nav>
 <section class="hero" style="padding-top:70px"><div class="wrap">{inner}</div></section>
 </body></html>"""
+
+
+def masterclass_html() -> str:
+    """Perfect Webinar / Masterclass: The 3 Secrets of Agent Spend Control (Ch 8)."""
+    s = f"""<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Masterclass — The 3 Secrets That Stop Agent Overspend | sipi.bot</title>
+<meta name="description" content="A 10-minute recorded walkthrough covering the 3 secrets every builder needs before deploying an autonomous agent with a payment method.">
+<link rel="canonical" href="https://sipi.bot/masterclass">
+<meta name="theme-color" content="#00d4aa">
+<meta property="og:title" content="The 3 Secrets That Stop Agent Overspend — Free Masterclass">
+<meta property="og:description" content="Hook → Story → Offer. The complete framework for deploying autonomous agents that spend safely. 10-minute walkthrough.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/masterclass">
+<style>{CSS}</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
+<nav><div class="wrap">
+  <div class="brand">sipi<span class="dot">.bot</span></div>
+  <div class="nav-links"><a href="/">← Back to firewall</a></div>
+</div></nav>
+
+<section class="hero" style="padding:70px 0 50px"><div class="wrap">
+  <span class="tag">Free Masterclass · 10 minutes</span>
+  <h1 style="font-size:clamp(28px,5vw,44px)">The 3 Secrets That Stop<br>Agent Overspend Before It Starts</h1>
+  <p class="sub">Hook → Story → Offer. The complete framework for deploying autonomous agents that spend safely — without babysitting the dashboard.</p>
+  <p class="author" style="color:var(--mut);font-size:14px">By Maryan — founder, sipi.bot · 10-min read</p>
+</div></section>
+
+<!-- Secret #1: Hook — The One Thing -->
+<section><div class="wrap">
+  <div style="max-width:760px;margin:0 auto">
+    <div class="badge b-red" style="margin-bottom:10px">SECRET #1 — The Hook</div>
+    <h2>The One Thing Every Agent Payment Needs Before Money Moves</h2>
+    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:18px">
+      Most builders deploy agents with a spending budget and a prayer. They set a daily cap on OpenAI, maybe a rate limit on Anthropic, and call it a day. Then they wake up to Stripe notifications from a vendor they've never heard of.
+    </p>
+    
+    <div style="border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin:24px 0">
+      <p style="font-size:17px;line-height:1.7;color:var(--txt);font-style:italic">
+        "Your agent doesn't need a budget. It needs a firewall. Every transaction — before the money moves — must be evaluated against your rules. Not the provider's rules. Your rules. In under 5 milliseconds."
+      </p>
+    </div>
+
+    <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px">
+      <h3 style="color:var(--accent);margin-bottom:12px">The Hook Test</h3>
+      <p style="color:var(--mut);margin-bottom:10px">Ask yourself: can your agent explain WHY it spent $6,200 at unknown-gpu.ru at 2:15 AM? If the answer is "it followed the prompt," you don't have a spending policy. You have a wish.</p>
+      <p style="color:var(--txt)"><strong>The One Thing:</strong> Every agent payment path gets one decision point — sipi.bot — that returns <span style="color:var(--green)">approve</span>, <span style="color:var(--red)">block</span>, or <span style="color:var(--amber)">flag</span> before a dollar moves.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- Secret #2: Story — The 3 False Walls -->
+<section style="background:rgba(0,212,170,.03)"><div class="wrap">
+  <div style="max-width:760px;margin:0 auto">
+    <div class="badge b-amber" style="margin-bottom:10px">SECRET #2 — The Story</div>
+    <h2>The 3 False Walls Every Builder Hits</h2>
+    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:24px">
+      Here's what happened when I shipped my first agent without a firewall. Here's what happens to every builder who deploys an autonomous spender. The walls aren't real — but they feel real until you see them for what they are.
+    </p>
+
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card">
+        <h3 style="font-size:18px;color:var(--red);margin-bottom:8px">Wall #1: "The prompt will handle it"</h3>
+        <p style="color:var(--mut)">You add "be careful with spending" to the system prompt. The agent buys compute, retries on failure, tips into overage — all while staying within its instructions. The prompt isn't broken. It was never a control.</p>
+        <p style="color:var(--accent);margin-top:6px"><strong>What actually stops it:</strong> A velocity limit that kills the 40th retry before the 41st fires.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size:18px;color:var(--amber);margin-bottom:8px">Wall #2: "I'll catch it in the morning"</h3>
+        <p style="color:var(--mut)">You check your dashboards. You monitor logs. But at 2:14 AM, when the agent retries 40 times in three minutes, you're asleep. By 9:03 AM the damage is done. Human review is not a control — it's a post-mortem.</p>
+        <p style="color:var(--accent);margin-top:6px"><strong>What actually stops it:</strong> A per-transaction cap and merchant allowlist that fires in under 5ms.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size:18px;color:var(--green);margin-bottom:8px">Wall #3: "Stripe will catch fraud"</h3>
+        <p style="color:var(--mut)">Stripe Radar catches stolen cards and chargebacks. It doesn't catch "your agent bought from a weird vendor 40 times." To Stripe, that's legitimate API usage — the agent IS authorized. The spending is the problem.</p>
+        <p style="color:var(--accent);margin-top:6px"><strong>What actually stops it:</strong> A category rule that blocks "compute" spend from unapproved merchants before it hits the payment rail.</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- Secret #3: Offer — The Stack + Close -->
+<section><div class="wrap">
+  <div style="max-width:760px;margin:0 auto">
+    <div class="badge b-green" style="margin-bottom:10px">SECRET #3 — The Offer</div>
+    <h2>One Curl Call. Six Rules. $0 Lost.</h2>
+    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:24px">
+      Here's what you actually get. Not a dashboard. Not a report. A decision — before the money moves.
+    </p>
+
+    <div style="background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;margin-bottom:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>Per-transaction cap — hard ceiling on any single spend</span><span style="color:var(--accent);font-weight:700">$499/mo value</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>Daily total — rolling budget across all transactions</span><span style="color:var(--accent);font-weight:700">$299/mo value</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>Velocity limit — kills runaway retry loops instantly</span><span style="color:var(--accent);font-weight:700">$199/mo value</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>Merchant allowlist — only approved vendors go through</span><span style="color:var(--accent);font-weight:700">$199/mo value</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>Category + time rules — block by type and hour</span><span style="color:var(--accent);font-weight:700">$99/mo value</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>🎁 BONUS: MCP tool + CLI + self-host option</span><span style="color:var(--accent);font-weight:700">INCLUDED</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;margin-top:4px"><span style="font-weight:700">Total value</span><span style="color:var(--mut);text-decoration:line-through;font-size:18px">$1,295/mo</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0"><span style="font-weight:700;font-size:20px">You pay</span><span style="color:var(--accent);font-weight:800;font-size:28px">$99/mo</span></div>
+    </div>
+
+    <div style="text-align:center;background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:18px;margin-bottom:24px">
+      <p style="color:var(--txt);font-size:15px;margin-bottom:6px">🛡️ <strong>Guarantee:</strong> If sipi.bot green-lights a spend that breaks your active rules, that month is free.</p>
+    </div>
+
+    <div class="codebox mono" style="margin-bottom:32px">
+<span class="c"># One curl call. 5ms. Your agent is protected.</span><br>
+curl -X POST https://sipi.bot/v1/transactions/evaluate \\\\<br>
+&nbsp;&nbsp;-H <span class="s">"Authorization: Bearer YOUR_KEY"</span> \\\\<br>
+&nbsp;&nbsp;-d <span class="s">'{{"amount": 6200, "merchant": "unknown-gpu.ru", "category": "compute"}}'</span><br><br>
+<span class="c"># sipi.bot returns in under 5ms:</span><br>
+{{ <span class="k">"decision"</span>: <span class="s">"BLOCKED"</span>, <span class="k">"reason"</span>: <span class="s">"Merchant not on allowlist"</span> }}
+    </div>
+
+    <div style="text-align:center">
+      <a href="/pricing" class="btn" style="font-size:18px;padding:16px 36px">Protect my agent — Start free pilot →</a>
+      <p style="color:var(--mut);font-size:14px;margin-top:14px">Free self-host core · MIT licensed · <a href="https://github.com/kindrat86/sipi-bot" style="color:var(--accent)">Open on GitHub</a></p>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p>© 2026 sipi.bot — <a href="/">The spend firewall for AI agents</a></p>
+</div></footer>
+</body></html>"""
+    return s
 
