@@ -156,15 +156,15 @@ def landing_page_html() -> str:
 <header class="hero"><div class="wrap">
   <span class="tag">Spend controls for the agent economy</span>
   <h1>Your AI agent just spent<br><span class="hl">$12,400 while you slept.</span></h1>
-  <p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 10px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-08 · Last updated 2026-07-17</p>
-  <p class="sub"><strong>sipi.bot is a spend firewall for autonomous AI agents:</strong> it evaluates every transaction against your rules and returns approve, block, or flag in under 5ms — before a single dollar moves. You gave an autonomous agent your credit card and no spending limit; sipi.bot is the control layer that sits in front of it.</p>
+  <p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 10px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-08 · Last updated 2026-07-18</p>
+  <p class="sub"><strong>sipi.bot is a spend firewall for autonomous AI agents:</strong> it evaluates every transaction against your rules and returns approve, block, or flag in under 5ms — before a single dollar moves. You gave an autonomous agent your credit card and no spending limit; sipi.bot is the control layer that sits in front of it. <a href="/learn/spend-firewall-guide" style="color:var(--accent);text-decoration:underline">Read the complete spend firewall guide →</a></p>
   <a href="/pricing" class="btn">Protect my agent</a>
   &nbsp;&nbsp;<a href="#how" class="btn ghost">See how it works</a>
   <div class="kpis mt40">
     <div class="kpi"><div class="n">&lt;5ms</div><div class="l">decision latency</div></div>
     <div class="kpi"><div class="n">3</div><div class="l">outcomes: approve / block / flag</div></div>
-    <div class="kpi"><div class="n">53/53</div><div class="l">eval scenarios passing</div></div>
-    <div class="kpi"><div class="n">MCP</div><div class="l">+ HTTP + CLI native</div></div>
+    <div class="kpi"><div class="n">53/53</div><div class="l">sipi.bot Eval Gym scenarios</div></div>
+    <div class="kpi"><div class="n">6</div><div class="l">rule types enforced</div></div>
   </div>
 </div></header>
 
