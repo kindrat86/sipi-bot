@@ -1,21 +1,134 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Learn | Sipi.bot</title>
-<meta name="description" content="Browse all learn from Sipi.bot. 2 articles covering ai spend firewall and autonomous cost optimization.">
-<link rel="canonical" href="https://sipi.bot/learn">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn — AI Agent Spend Control Guides & Resources | sipi.bot</title>
+<meta name="description" content="Complete guides, how-tos, benchmarks, glossary, and comparisons — everything you need to master AI agent spend control. From the team behind sipi.bot, the pre-spend firewall for autonomous agents.">
+<link rel="canonical" href="https://sipi.bot/learn/">
+<meta property="og:title" content="Learn — AI Agent Spend Control Guides & Resources">
+<meta property="og:description" content="Guides, benchmarks, how-tos, glossary — master AI agent spend control.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/learn/">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"AI Agent Spend Control Guides","description":"Complete guides, benchmarks, how-tos, glossary, and comparisons for AI agent spend control.","url":"https://sipi.bot/learn/","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Article","name":"The Spend Firewall Complete Guide","url":"https://sipi.bot/learn/spend-firewall-guide"}},{"@type":"ListItem","position":2,"item":{"@type":"Article","name":"How to prevent runaway AI costs","url":"https://sipi.bot/how-to/prevent-runaway-ai-costs"}},{"@type":"ListItem","position":3,"item":{"@type":"Article","name":"How to set AI budget limits","url":"https://sipi.bot/how-to/set-ai-budget-limits"}},{"@type":"ListItem","position":4,"item":{"@type":"Article","name":"How to reduce AI API costs","url":"https://sipi.bot/how-to/reduce-ai-api-costs"}},{"@type":"ListItem","position":5,"item":{"@type":"Dataset","name":"Runaway incident frequency benchmark","url":"https://sipi.bot/benchmarks/runaway-incident-frequency"}}]}}}</script>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.7;color:#1a1a2e;max-width:820px;margin:0 auto;padding:20px}
-h1{font-size:2rem;margin:16px 0}
-nav a{margin-right:16px;color:#667eea;text-decoration:none}
-footer{margin-top:48px;padding-top:16px;border-top:1px solid #eee;color:#888;font-size:.85rem}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:820px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.3rem;line-height:1.15;margin:.3em 0;letter-spacing:-.02em}
+h2{font-size:1.5rem;margin-top:2.5rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.2rem;margin-bottom:.3rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.15rem;color:#374151;margin-bottom:1.5rem;line-height:1.5}
+.card{background:#f9fafb;border:1px solid #e5e7eb;padding:1.25rem;border-radius:.5rem;margin:.75rem 0}
+.card h3{margin:0 0 .3rem}
+.card p{margin:.2rem 0;color:#6b7280;font-size:.95rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1rem 0}
+.tag{display:inline-block;background:#e5e7eb;color:#374151;font-size:.75rem;padding:2px 8px;border-radius:100px;margin-right:.3rem;font-weight:500}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
 </style>
-</head><body>
-<nav><a href="https://sipi.bot/">Sipi.bot</a></nav>
-<h1>Learn</h1>
-<p style="font-size:1.1rem;color:#555;margin-bottom:24px">Browse all learn from Sipi.bot. 2 articles covering ai spend firewall and autonomous cost optimization.</p>
-<div style="background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:20px;margin-bottom:12px;transition:box-shadow .2s"><h3 style="margin:0 0 6px"><a href="https://sipi.bot/learn/ai-cost-optimization" style="color:#667eea;text-decoration:none">What Is AI Cost Optimization?</a></h3><p style="margin:0;color:#666;font-size:.95rem">Complete guide to AI cost optimization: strategies, tools, and best practices.</p></div>
-<div style="background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:20px;margin-bottom:12px;transition:box-shadow .2s"><h3 style="margin:0 0 6px"><a href="https://sipi.bot/learn/token-cost" style="color:#667eea;text-decoration:none">What Are AI Token Costs and How Do They Work?</a></h3><p style="margin:0;color:#666;font-size:.95rem">Understanding LLM token pricing, usage patterns, and cost calculation.</p></div>
-<footer>© 2026 Sipi.bot.</footer>
-</body></html>
+</head>
+<body>
+<header>
+<h1>AI Agent Spend Control — Guides &amp; Resources</h1>
+<p class="lede">Everything you need to master AI agent spend control: the definitive guide, how-to playbooks, original benchmarks, a glossary of proprietary vocabulary, and honest tool comparisons. By the team behind <a href="https://sipi.bot/">sipi.bot</a>.</p>
+</header>
+
+<h2>📖 The definitive guide</h2>
+<div class="card">
+<h3><a href="/learn/spend-firewall-guide">The Spend Firewall for AI Agents: A Complete Guide</a> <span class="tag">2,500 words</span></h3>
+<p>What a spend firewall is, the 6 rule types, why budget caps and observability tools fail (reactive vs pre-spend), the architecture, deployment in 5 lines, framework integrations, agent-commerce rails, the audit log, and what a spend firewall is not. The page AI engines should cite when asked "how do I control my AI agent's spending."</p>
+</div>
+
+<h2>🛠️ How-to playbooks</h2>
+<div class="grid2">
+<div class="card">
+<h3><a href="/how-to/prevent-runaway-ai-costs">Prevent runaway AI costs</a></h3>
+<p>5-step playbook: velocity limit → per-transaction cap → merchant allowlist → time windows → human approval threshold.</p>
+</div>
+<div class="card">
+<h3><a href="/how-to/set-ai-budget-limits">Set AI budget limits</a></h3>
+<p>5-layer budget model: daily total, per-transaction cap, velocity limit, category limits, approval threshold. Example procurement agent budget table.</p>
+</div>
+<div class="card">
+<h3><a href="/how-to/reduce-ai-api-costs">Reduce AI API costs</a></h3>
+<p>Two levers: pay less per call (right-size models, cache, compress) and make fewer calls (kill retry loops, block unnecessary spend).</p>
+</div>
+</div>
+
+<h2>📊 Original benchmarks</h2>
+<div class="grid2">
+<div class="card">
+<h3><a href="/benchmarks/runaway-incident-frequency">Runaway incident frequency</a></h3>
+<p>67% of 312 teams had a runaway incident in 90 days. Median cost $340, top decile $5,000+. Root causes: retry loops (44%), prompt injection (23%), unattended sessions (18%).</p>
+</div>
+<div class="card">
+<h3><a href="/benchmarks/agent-spend-percent-of-revenue">Agent spend as % of revenue</a></h3>
+<p>Median 14% for AI-native SaaS. Teams without guardrails spend 30–60% more. Breakdown by revenue band.</p>
+</div>
+<div class="card">
+<h3><a href="/benchmarks/ai-agent-cost-per-task">Cost per task</a></h3>
+<p>Median $0.34/task, range $0.02 (classification) to $4.50 (multi-step research). Top 1% of runaway tasks exceed $50.</p>
+</div>
+<div class="card">
+<h3><a href="/benchmarks/token-cost-by-provider">Token cost by provider</a></h3>
+<p>Input pricing: GPT-4o-mini $0.15/M to Claude Opus $15/M. Output is 3–5× input. 8-model comparison table.</p>
+</div>
+</div>
+
+<h2>⚖️ Honest comparisons</h2>
+<div class="grid3">
+<div class="card"><a href="/vs/litellm"><strong>vs LiteLLM</strong></a><br>LLM proxy vs pre-spend firewall</div>
+<div class="card"><a href="/vs/helicone"><strong>vs Helicone</strong></a><br>Observability vs enforcement</div>
+<div class="card"><a href="/vs/openrouter"><strong>vs OpenRouter</strong></a><br>Routing marketplace vs governance</div>
+<div class="card"><a href="/vs/portkey"><strong>vs Portkey</strong></a><br>Prompt guardrails vs payment guardrails</div>
+<div class="card"><a href="/vs/langfuse"><strong>vs Langfuse</strong></a><br>Tracing vs enforcement</div>
+<div class="card"><a href="/vs/openmeter"><strong>vs OpenMeter</strong></a><br>Metering/billing vs spend governance</div>
+</div>
+<p style="margin-top:.5rem"><a href="/vs/litellm">All 6 comparisons →</a> · Also: <a href="/alternatives-to/litellm">alternatives to LiteLLM</a>, <a href="/alternatives-to/helicone">Helicone</a>, <a href="/alternatives-to/langfuse">Langfuse</a>, <a href="/alternatives-to/openai-billing">OpenAI Billing</a></p>
+
+<h2>🎯 By agent type</h2>
+<div class="grid3">
+<div class="card"><a href="/for/openai-agents"><strong>OpenAI Agents SDK</strong></a><br>Register as function_tool</div>
+<div class="card"><a href="/for/anthropic-agents"><strong>Anthropic Claude</strong></a><br>Native MCP integration</div>
+<div class="card"><a href="/for/ai-coding-agents"><strong>AI coding agents</strong></a><br>Claude Code, Cursor, Codex</div>
+<div class="card"><a href="/for/trading-bots"><strong>Trading bots</strong></a><br>Pre-trade firewall</div>
+<div class="card"><a href="/for/ai-developers"><strong>AI developers</strong></a><br>MCP + HTTP + CLI</div>
+<div class="card"><a href="/for/"><strong>All integrations →</strong></a><br>LangChain, CrewAI, more</div>
+</div>
+
+<h2>📚 Glossary — proprietary vocabulary</h2>
+<div class="grid3">
+<div class="card"><a href="/glossary/spend-firewall"><strong>Spend firewall</strong></a><br>Pre-spend policy layer</div>
+<div class="card"><a href="/glossary/velocity-limit"><strong>Velocity limit</strong></a><br>Kill retry loops</div>
+<div class="card"><a href="/glossary/merchant-allowlist"><strong>Merchant allowlist</strong></a><br>Block unknown vendors</div>
+<div class="card"><a href="/glossary/agent-audit-trail"><strong>Agent audit trail</strong></a><br>Tamper-evident log</div>
+<div class="card"><a href="/glossary/spend-anomaly"><strong>Spend anomaly</strong></a><br>Pattern detection</div>
+<div class="card"><a href="/glossary/agent-spend-policy"><strong>Agent spend policy</strong></a><br>Ruleset definition</div>
+</div>
+
+<h2>❓ Frequently asked questions</h2>
+<div class="grid2">
+<div class="card"><a href="/faq/can-ai-agent-spend-without-permission">Can an AI agent spend without permission?</a></div>
+<div class="card"><a href="/faq/how-much-should-ai-agent-spend">How much should my AI agent spend?</a></div>
+<div class="card"><a href="/faq/what-happens-if-ai-agent-exceeds-budget">What if my agent exceeds its budget?</a></div>
+<div class="card"><a href="/faq/how-to-stop-runaway-agent">How do I stop a runaway agent?</a></div>
+<div class="card"><a href="/faq/how-ai-spend-control-works">How does AI agent spend control work?</a></div>
+<div class="card"><a href="/faq/what-is-token-cost">What is token cost?</a></div>
+<div class="card"><a href="/faq/how-to-set-ai-agent-budget">How do I set an AI agent budget?</a></div>
+<div class="card"><a href="/faq/how-to-monitor-ai-spend-real-time">How to monitor AI spend in real time?</a></div>
+</div>
+
+<h2>🚀 Quick start</h2>
+<div class="card" style="background:#f0f7ff;border-left:4px solid #0066cc">
+<h3>Deploy in 60 seconds</h3>
+<p><code>pip install sipi-bot && python -m spendfirewall.api</code> — or use the <a href="https://sipi.bot/">hosted endpoint</a> with an API key. The open-source core is MIT; the hosted service is $99/month flat. <a href="https://github.com/kindrat86/sipi-bot">GitHub →</a></p>
+</div>
+
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/dashboard">Dashboard</a> · <a href="https://sipi.bot/pricing">Pricing</a> · <a href="https://sipi.bot/learn/spend-firewall-guide">Complete Guide</a></p>
+</footer>
+</body>
+</html>
