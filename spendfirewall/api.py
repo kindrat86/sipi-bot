@@ -650,6 +650,26 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(200, {"ok": True, "message": "You're on the list. We'll email your pilot access."})
             return self._json(400, {"ok": False, "message": "Enter a valid email."})
 
+        # Unsubscribe POST handler
+        if path == "/unsubscribe":
+            email = (body.get("email") or "").strip()
+            removed = False
+            if email and "@" in email:
+                try:
+                    subs_path = _SUBSCRIBERS_FILE
+                    if os.path.exists(subs_path):
+                        with open(subs_path) as f:
+                            lines = f.readlines()
+                        with open(subs_path, "w") as f:
+                            for line in lines:
+                                if not line.startswith(email + "|"):
+                                    f.write(line)
+                                else:
+                                    removed = True
+                except Exception:
+                    pass
+            return self._json(200, {"ok": True, "removed": removed})
+
         # Drip cron - protected endpoint to fire Soap Opera sequence
         # (Brunson Traffic Secrets Secret #6: Follow-Up Funnels)
         if path == "/cron/drip":
