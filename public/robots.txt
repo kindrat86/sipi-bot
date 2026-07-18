@@ -4,6 +4,10 @@ Disallow: /checkout/
 Disallow: /keys/
 Disallow: /api/
 Disallow: /v1/
+# Google Discover + Visual Search directives (2026-07-18)
+max-image-preview:large
+max-video-preview:-1
+max-snippet:-1
 
 # AI crawlers explicitly welcome on content
 User-agent: GPTBot
@@ -49,3 +53,6 @@ Allow: /
 Sitemap: https://sipi.bot/sitemap.xml
 
 Sitemap: https://sipi.bot/sitemap-index.xml
+
+# Image sitemap for Google Images indexing
+Sitemap: https://sipi.bot/image-sitemap.xml
