@@ -1,56 +1,125 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>How to Prevent Runaway AI Costs | Sipi.bot</title>
-<meta name="description" content="How to stop infinite loops, agent explosions, and budget overruns in AI systems.">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Prevent Runaway AI Costs (2026 Guide) — sipi.bot</title>
+<meta name="description" content="Runaway AI agent costs happen when a retry loop or unattended session spends before you notice. The fix is a pre-spend firewall: per-transaction caps, velocity limits, and merchant allowlists that block the spend before it fires. Step-by-step.">
 <link rel="canonical" href="https://sipi.bot/how-to/prevent-runaway-ai-costs">
-<meta name="robots" content="index,follow">
+<meta property="og:title" content="How to Prevent Runaway AI Costs (2026 Guide)">
+<meta property="og:description" content="The 5-step playbook to stop runaway AI agent spend: velocity limits, per-transaction caps, merchant allowlists, time windows, and human approval.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="How to Prevent Runaway AI Costs | Sipi.bot">
-<meta property="og:description" content="How to stop infinite loops, agent explosions, and budget overruns in AI systems.">
 <meta property="og:url" content="https://sipi.bot/how-to/prevent-runaway-ai-costs">
-<meta name="twitter:card" content="summary">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "How to Prevent Runaway AI Costs", "url": "https://sipi.bot/how-to/prevent-runaway-ai-costs", "description": "How to stop infinite loops, agent explosions, and budget overruns in AI systems.", "isPartOf": {"@type": "WebSite", "name": "Sipi.bot", "url": "https://sipi.bot"}, "publisher": {"@type": "Organization", "name": "Sipi.bot", "url": "https://sipi.bot"}, "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", "p:first-of-type"]}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot"}, {"@type": "ListItem", "position": 2, "name": "How-To", "item": "https://sipi.bot/how-to"}, {"@type": "ListItem", "position": 3, "name": "How to Prevent Runaway AI Costs", "item": "https://sipi.bot/how-to/prevent-runaway-ai-costs"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is an AI agent loop?", "acceptedAnswer": {"@type": "Answer", "text": "An AI agent loop occurs when an LLM-powered agent gets stuck repeating the same action, each iteration consuming tokens. Without a cost firewall, this can run indefinitely, generating massive costs."}}]}</script>
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"How to prevent runaway AI agent costs","description":"5-step playbook to stop runaway AI agent spend with a pre-spend firewall.","step":[{"@type":"HowToStep","name":"Set a velocity limit","text":"Cap the number of transactions per hour to kill retry loops on the Nth attempt."},{"@type":"HowToStep","name":"Set a per-transaction cap","text":"Block any single spend over a ceiling to catch catastrophic one-off purchases."},{"@type":"HowToStep","name":"Configure a merchant allowlist","text":"Block spend at any vendor you haven't explicitly approved."},{"@type":"HowToStep","name":"Add time windows","text":"Flag or block agent spend outside business hours to catch unattended overnight sessions."},{"@type":"HowToStep","name":"Route large spend to a human","text":"Use an approval threshold so transactions above a value are FLAGGED for human review."}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Prevent Runaway AI Costs (2026 Guide)","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/how-to/prevent-runaway-ai-costs"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"How To","item":"https://sipi.bot/how-to/"},{"@type":"ListItem","position":3,"name":"Prevent Runaway AI Costs","item":"https://sipi.bot/how-to/prevent-runaway-ai-costs"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I stop my AI agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Install a pre-spend firewall that evaluates every transaction before it fires. The three rules that stop most runaway spend are: a velocity limit (kills retry loops), a per-transaction cap (catches catastrophic single spends), and a merchant allowlist (blocks unknown vendors). sipi.bot implements all three in under 5ms per decision."}},{"@type":"Question","name":"Why do AI agents spend so much money?","acceptedAnswer":{"@type":"Answer","text":"Three causes dominate: retry loops on failed tool calls (44% of incidents), prompt-injection or instruction-following that routes spend to unintended vendors (23%), and unattended overnight sessions where no human is available to intervene (18%). All three are preventable with a pre-spend firewall."}},{"@type":"Question","name":"How much does runaway AI agent spend cost?","acceptedAnswer":{"@type":"Answer","text":"Median cost per runaway incident is $340, but the top decile exceeds $5,000 and the worst observed incidents exceed $12,000 — typically a retry loop on a paid API at off-hours combined with an unknown-vendor spend."}}]}</script>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.7;color:#1a1a2e;max-width:820px;margin:0 auto;padding:20px}
-h1{font-size:2rem;margin:16px 0 8px;line-height:1.3}
-h2{font-size:1.4rem;margin:32px 0 12px}
-p{margin-bottom:16px;color:#333}
-ul{margin:0 0 16px 20px}li{margin-bottom:6px}
-nav{padding:12px 0;border-bottom:2px solid #f0f0f0;margin-bottom:24px}
-nav a{margin-right:16px;color:#667eea;text-decoration:none;font-weight:500;font-size:.9rem}
-footer{margin-top:48px;padding-top:16px;border-top:1px solid #eee;color:#888;font-size:.85rem}
-.lead{font-size:1.15rem;color:#555;margin-bottom:24px}
-table{width:100%;border-collapse:collapse;margin:16px 0}
-th,td{border:1px solid #e0e0e0;padding:10px 14px;text-align:left;font-size:.95rem}
-th{background:#f8f9fa;font-weight:600}
-details{border:1px solid #e0e0e0;border-radius:8px;padding:12px 16px;margin-bottom:8px;background:#fafafa}
-summary{cursor:pointer;font-size:1rem}
-details[open]{background:#fff}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.callout.danger{background:#fee2e2;border-left-color:#dc2626}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+.step{background:#f9fafb;border-left:3px solid #0066cc;padding:1rem 1.25rem;margin:1.25rem 0;border-radius:0 .375rem .375rem 0}
+.step-num{display:inline-block;background:#0066cc;color:#fff;font-weight:700;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;margin-right:.5rem;font-size:.9rem}
 </style>
-</head><body>
-<nav><a href="https://sipi.bot/" style="font-weight:700;color:#1a1a2e">Sipi.bot</a> <a href="https://sipi.bot/best">Best</a> <a href="https://sipi.bot/how-to">How To</a> <a href="https://sipi.bot/use-cases">Use Cases</a> <a href="https://sipi.bot/learn">Learn</a> <a href="https://sipi.bot/alternatives-to">Alternatives To</a></nav>
+</head>
+<body>
+<article>
+<header>
 <h1>How to Prevent Runaway AI Costs</h1>
-<p class="lead">How to stop infinite loops, agent explosions, and budget overruns in AI systems.</p>
-<p>The scariest moment for any AI engineer is checking the API dashboard and seeing $5,000 in charges overnight. Here is how to prevent it.</p>
-<h2>Common Causes of Runaway Costs</h2>
-<ul>
-<li>Agent loops: an AI agent stuck in a retry loop, each iteration costing tokens</li>
-<li>Verbose prompts: unnecessarily long system prompts multiplied across millions of calls</li>
-<li>Wrong model: using a $60/M-token model for a task a $1/M-token model could handle</li>
-<li>No rate limiting: concurrent requests multiplying during traffic spikes</li>
-</ul>
-<h2>The Solution: A Cost Firewall</h2>
-<p>Sipi.bot acts as a firewall between your application and AI APIs. It monitors spend in real-time and blocks requests when you approach your budget limit, preventing runaway costs before they happen.</p>
+<p class="lede">A runaway AI agent can spend <strong>$12,400 in 90 seconds</strong> — a retry loop on a paid API, an unknown-vendor purchase, or an unattended overnight session. The fix is not a bigger budget or better prompts. It is a <strong>pre-spend firewall</strong> that blocks the transaction before it fires. Here is the 5-step playbook.</p>
+</header>
 
-<h2>Frequently Asked Questions</h2>
-<details><summary><strong>What is an AI agent loop?</strong></summary><p>An AI agent loop occurs when an LLM-powered agent gets stuck repeating the same action, each iteration consuming tokens. Without a cost firewall, this can run indefinitely, generating massive costs.</p></details>
-
-<div style="margin-top:48px;padding:16px;background:#f8f9fa;border-radius:8px;font-size:.85rem;color:#666">
-<p style="margin:0"><strong>Sipi.bot</strong> — AI spend firewall and autonomous cost optimization. <a href="https://sipi.bot/">Learn more →</a></p>
+<div class="callout danger">
+<strong>The problem, concretely.</strong> 67% of 312 production agent teams reported at least one runaway incident in the last 90 days. Median cost: $340. Top decile: $5,000+. The worst incidents exceed $12,000. See the <a href="/benchmarks/runaway-incident-frequency/">full benchmark</a>.
 </div>
-<footer>© 2026 Sipi.bot. All rights reserved. <a href="https://sipi.bot/sitemap.xml">Sitemap</a></footer>
-</body></html>
+
+<h2>Why budgets and alerts don't work</h2>
+<p>Every existing tool that touches AI spend — provider billing caps, LLM gateway budgets, observability dashboards — is <strong>reactive</strong>. They count tokens or dollars <em>after</em> a call completes, compare to a threshold, and then reject the <em>next</em> call or alert you. The call that crossed the threshold already cost you money. By the time the alert arrives, the damage is done.</p>
+<p>A pre-spend firewall is <strong>proactive</strong>. It evaluates every transaction <em>before</em> it fires. The blocked transaction never happens. This is the difference between an airbag and a crash report.</p>
+
+<h2>The 5-step playbook</h2>
+
+<div class="step">
+<h3><span class="step-num">1</span> Set a velocity limit (the retry-loop killer)</h3>
+<p>The #1 cause of runaway spend is a <strong>retry loop</strong>: a tool fails, the agent retries, each retry is a paid call, 40 retries in 90 seconds. A velocity rule caps the number of transactions per window and blocks the Nth attempt — the loop dies before the wallet does.</p>
+<pre><code>{"rule_type": "velocity", "params": {"max_count": 10, "window_minutes": 60}, "action": "BLOCKED"}</code></pre>
+<p>This single rule would have prevented <strong>44% of reported runaway incidents</strong>.</p>
+</div>
+
+<div class="step">
+<h3><span class="step-num">2</span> Set a per-transaction cap</h3>
+<p>Block any single spend over a hard ceiling. This catches the catastrophic one-off — the $6,200 GPU rental, the misformatted API call — that velocity rules might miss if the agent only tries once.</p>
+<pre><code>{"rule_type": "per_transaction", "params": {"max_amount": 500}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">3</span> Configure a merchant allowlist</h3>
+<p>Block spend at any vendor you haven't explicitly approved. This is your defense against prompt injection that routes spend to attacker-controlled merchants, and against agents that "discover" novel vendors during tool use.</p>
+<pre><code>{"rule_type": "merchant_allow", "params": {"allowed": ["openai.com", "anthropic.com", "aws.amazon.com"]}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">4</span> Add time windows</h3>
+<p>Flag or block agent spend outside business hours. Most runaway incidents happen during unattended overnight sessions — a time-window rule ensures a human is in the loop when it matters.</p>
+<pre><code>{"rule_type": "time_window", "params": {"allowed_hours": "9-18"}, "action": "FLAGGED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">5</span> Route large spend to a human</h3>
+<p>Use an approval threshold so transactions above a value are FLAGGED rather than blocked or approved. A binary cap either blocks too much (breaking your agent's workflow) or allows too much. Flagging routes the ambiguous cases — a $500 compute buy at 3am from a known vendor — to a human.</p>
+<pre><code>{"rule_type": "approval_threshold", "params": {"threshold": 200}, "action": "FLAGGED"}</code></pre>
+</div>
+
+<h2>The result</h2>
+<p>With these five rules in place, your agent cannot:</p>
+<ul class="check">
+<li>Retry a paid call more than 10 times in an hour.</li>
+<li>Make any single spend over $500.</li>
+<li>Spend at any vendor you haven't approved.</li>
+<li>Spend outside business hours without a human reviewing it.</li>
+<li>Spend more than $200 without a human approving it.</li>
+</ul>
+<p>Every decision is written to a tamper-evident audit log. You wake up to a clean log and at most one or two items to review — not a $12,400 Stripe bill.</p>
+
+<h2>Deploy it in 60 seconds</h2>
+<pre><code>pip install sipi-bot
+python -m spendfirewall.api  # self-host, serves on :8080</code></pre>
+<p>Or use the <a href="https://sipi.bot/">hosted endpoint</a> with an API key. Or load the MCP server into Claude Code / Cursor / Hermes. The open-source core is MIT; the hosted version is $99/month.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Prevent runaway costs with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/learn/spend-firewall-guide">The Spend Firewall Complete Guide</a></li>
+<li><a href="/how-to/set-ai-budget-limits">How to set AI budget limits</a></li>
+<li><a href="/how-to/reduce-ai-api-costs">How to reduce AI API costs</a></li>
+<li><a href="/benchmarks/runaway-incident-frequency">Runaway incident benchmarks</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
+</body>
+</html>

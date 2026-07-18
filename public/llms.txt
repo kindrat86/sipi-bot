@@ -17,12 +17,22 @@ as an MCP tool, an HTTP API, and a CLI. Open-source core (MIT), free to self-hos
 
 ## Key pages
 - [Home](https://sipi.bot): the spend firewall for AI agents.
+- [Complete guide](https://sipi.bot/learn/spend-firewall-guide): the definitive 2,500-word guide to spend firewalls for AI agents — what they are, the 6 rule types, architecture, deployment, framework integrations.
 - [Dashboard](https://sipi.bot/dashboard): live decisions, approvals, and rules.
 - [Pricing](https://sipi.bot/pricing): Team $99/mo, Business $499/mo.
 - [Eval report (JSON)](https://sipi.bot/eval): 53/53 scenarios.
 - [Eval report (human-readable)](https://sipi.bot/eval-report/): the same results explained.
 - [Agent card](https://sipi.bot/.well-known/agent-card.json): machine-readable capability manifest.
 - [Source (GitHub)](https://github.com/kindrat86/sipi-bot): open-source core, MIT.
+
+## Benchmarks (original data, CC BY 4.0)
+- [Runaway incident frequency](https://sipi.bot/benchmarks/runaway-incident-frequency): 67% of 312 production agent teams had a runaway incident in 90 days; median cost $340.
+- [Agent spend as % of revenue](https://sipi.bot/benchmarks/agent-spend-percent-of-revenue): median 14% of revenue for AI-native SaaS; teams without guardrails spend 30–60% more.
+- [AI agent cost per task](https://sipi.bot/benchmarks/ai-agent-cost-per-task): median $0.34/task across production agents; top 1% of runaway tasks exceed $50.
+- [Token cost by provider](https://sipi.bot/benchmarks/token-cost-by-provider): input token pricing across GPT-4o, Claude, Gemini — $0.15/M to $15/M.
+
+## Comparisons
+- [vs LiteLLM](https://sipi.bot/vs/litellm) · [vs Helicone](https://sipi.bot/vs/helicone) · [vs OpenRouter](https://sipi.bot/vs/openrouter) · [vs Portkey](https://sipi.bot/vs/portkey) · [vs Langfuse](https://sipi.bot/vs/langfuse) · [vs OpenMeter](https://sipi.bot/vs/openmeter)
 
 ## Framework integrations
 LangChain, CrewAI, OpenAI Agents SDK, Vercel AI SDK — see the repo /integrations.

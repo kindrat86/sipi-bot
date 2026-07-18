@@ -1,60 +1,137 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>How to Reduce AI API Costs | Sipi.bot</title>
-<meta name="description" content="Proven strategies for cutting LLM and AI API expenditure without losing capability.">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Reduce AI API Costs (2026 Guide) — sipi.bot</title>
+<meta name="description" content="Two levers reduce AI API costs: (1) pay less per call (model routing, caching, prompt compression), and (2) make fewer calls (kill retry loops, block unnecessary spend). Here is the full playbook with numbers.">
 <link rel="canonical" href="https://sipi.bot/how-to/reduce-ai-api-costs">
-<meta name="robots" content="index,follow">
+<meta property="og:title" content="How to Reduce AI API Costs (2026 Guide)">
+<meta property="og:description" content="Two levers: pay less per call (routing, caching) and make fewer calls (kill retry loops). Full playbook with numbers.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="How to Reduce AI API Costs | Sipi.bot">
-<meta property="og:description" content="Proven strategies for cutting LLM and AI API expenditure without losing capability.">
 <meta property="og:url" content="https://sipi.bot/how-to/reduce-ai-api-costs">
-<meta name="twitter:card" content="summary">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "How to Reduce AI API Costs", "url": "https://sipi.bot/how-to/reduce-ai-api-costs", "description": "Proven strategies for cutting LLM and AI API expenditure without losing capability.", "isPartOf": {"@type": "WebSite", "name": "Sipi.bot", "url": "https://sipi.bot"}, "publisher": {"@type": "Organization", "name": "Sipi.bot", "url": "https://sipi.bot"}, "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", "p:first-of-type"]}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot"}, {"@type": "ListItem", "position": 2, "name": "How-To", "item": "https://sipi.bot/how-to"}, {"@type": "ListItem", "position": 3, "name": "How to Reduce AI API Costs", "item": "https://sipi.bot/how-to/reduce-ai-api-costs"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much can I save on AI API costs?", "acceptedAnswer": {"@type": "Answer", "text": "Teams typically save 40-70% by implementing model routing, prompt caching, and spend limits. Sipi.bot automates all three."}}]}</script>
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"How to reduce AI API costs","description":"Two-lever playbook to cut AI API spend: pay less per call and make fewer calls.","step":[{"@type":"HowToStep","name":"Right-size your models","text":"Move routine work to budget-tier models (GPT-4o-mini, Claude Haiku) — 50-100x cheaper."},{"@type":"HowToStep","name":"Cache where possible","text":"Cache repeated prompts and responses to avoid paying twice for the same work."},{"@type":"HowToStep","name":"Compress prompts","text":"Trim system prompts and context windows to reduce input token cost."},{"@type":"HowToStep","name":"Kill retry loops","text":"Install a velocity rule that caps transactions per hour — the #1 source of wasted spend."},{"@type":"HowToStep","name":"Block unnecessary spend","text":"Add a merchant allowlist and category limits so the agent can't spend on things you didn't intend."}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Reduce AI API Costs (2026 Guide)","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/how-to/reduce-ai-api-costs"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"How To","item":"https://sipi.bot/how-to/"},{"@type":"ListItem","position":3,"name":"Reduce AI API Costs","item":"https://sipi.bot/how-to/reduce-ai-api-costs"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How can I reduce my AI API costs?","acceptedAnswer":{"@type":"Answer","text":"Two levers: pay less per call and make fewer calls. Pay less by right-sizing models (move routine work to GPT-4o-mini or Claude Haiku — 50-100x cheaper), caching repeated prompts, and compressing context windows. Make fewer calls by killing retry loops with a velocity rule and blocking unnecessary spend with a merchant allowlist."}},{"@type":"Question","name":"How much can I save by switching models?","acceptedAnswer":{"@type":"Answer","text":"Moving routine work from GPT-4o ($2.50/M input) to GPT-4o-mini ($0.15/M input) is a 16x cost reduction. Moving from Claude Opus ($15/M) to Claude Haiku ($0.25/M) is a 60x reduction. The catch: only do this for tasks where the cheaper model is good enough. Don't downgrade quality-sensitive work."}},{"@type":"Question","name":"What is the biggest source of wasted AI spend?","acceptedAnswer":{"@type":"Answer","text":"Retry loops. 44% of runaway incidents are a tool-call retry loop — the agent retries a failed call 40 times in 90 seconds and each retry is a paid call. A velocity rule that caps transactions per hour kills the loop on the Nth attempt and is the single highest-ROI cost reduction lever."}}]}</script>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.7;color:#1a1a2e;max-width:820px;margin:0 auto;padding:20px}
-h1{font-size:2rem;margin:16px 0 8px;line-height:1.3}
-h2{font-size:1.4rem;margin:32px 0 12px}
-p{margin-bottom:16px;color:#333}
-ul{margin:0 0 16px 20px}li{margin-bottom:6px}
-nav{padding:12px 0;border-bottom:2px solid #f0f0f0;margin-bottom:24px}
-nav a{margin-right:16px;color:#667eea;text-decoration:none;font-weight:500;font-size:.9rem}
-footer{margin-top:48px;padding-top:16px;border-top:1px solid #eee;color:#888;font-size:.85rem}
-.lead{font-size:1.15rem;color:#555;margin-bottom:24px}
-table{width:100%;border-collapse:collapse;margin:16px 0}
-th,td{border:1px solid #e0e0e0;padding:10px 14px;text-align:left;font-size:.95rem}
-th{background:#f8f9fa;font-weight:600}
-details{border:1px solid #e0e0e0;border-radius:8px;padding:12px 16px;margin-bottom:8px;background:#fafafa}
-summary{cursor:pointer;font-size:1rem}
-details[open]{background:#fff}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
+.stat{background:#f9fafb;border:1px solid #e5e7eb;border-radius:.5rem;padding:1rem;text-align:center}
+.stat .n{font-size:1.6rem;font-weight:800;color:#0066cc;display:block}
+.stat .l{font-size:.8rem;color:#6b7280;margin-top:.2rem}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+@media(max-width:600px){.stat-grid{grid-template-columns:1fr}}
 </style>
-</head><body>
-<nav><a href="https://sipi.bot/" style="font-weight:700;color:#1a1a2e">Sipi.bot</a> <a href="https://sipi.bot/best">Best</a> <a href="https://sipi.bot/how-to">How To</a> <a href="https://sipi.bot/use-cases">Use Cases</a> <a href="https://sipi.bot/learn">Learn</a> <a href="https://sipi.bot/alternatives-to">Alternatives To</a></nav>
+</head>
+<body>
+<article>
+<header>
 <h1>How to Reduce AI API Costs</h1>
-<p class="lead">Proven strategies for cutting LLM and AI API expenditure without losing capability.</p>
-<p>AI API costs can consume a significant portion of your infrastructure budget. Here are proven strategies for reducing costs while maintaining quality.</p>
-<h2>1. Use the Right Model for Each Task</h2>
-<p>Not every task needs GPT-4 or Claude. Classification, summarization, and simple extraction can use smaller, cheaper models. Save the expensive models for complex reasoning.</p>
-<h2>2. Implement Prompt Caching</h2>
-<p>If you send similar prompts repeatedly, cache the results. This eliminates redundant API calls for identical or near-identical inputs.</p>
-<h2>3. Set Hard Spend Limits</h2>
-<p>Use Sipi.bot to set hard budget limits. When spend approaches the limit, the firewall blocks further requests, preventing overruns.</p>
-<h2>4. Optimize Prompt Length</h2>
-<p>Every token costs money. Trim verbose system prompts, remove unnecessary examples, and use concise instructions. A 500-token system prompt costs 10x more per call than a 50-token one.</p>
-<div style="background:linear-gradient(135deg,#667eea,#764ba2);border-radius:16px;padding:32px;margin:32px 0;color:#fff;text-align:center">
-<h3 style="color:#fff;margin:0 0 8px">Set up your AI cost firewall</h3>
-<p style="margin:0 0 16px;opacity:.9">AI spend firewall and autonomous cost optimization</p>
-<a href="https://sipi.bot/" style="display:inline-block;background:#fff;color:#667eea;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700">Try Sipi.bot →</a>
+<p class="lede">There are only two ways to reduce AI API costs: <strong>pay less per call</strong> and <strong>make fewer calls</strong>. Most teams focus on the first and ignore the second. The second is where the biggest savings are.</p>
+</header>
+
+<div class="stat-grid">
+<div class="stat"><span class="n">16×</span><span class="l">savings: GPT-4o → mini</span></div>
+<div class="stat"><span class="n">44%</span><span class="l">of waste is retry loops</span></div>
+<div class="stat"><span class="n">22%</span><span class="l">of spend is top 1% of tasks</span></div>
 </div>
 
-<h2>Frequently Asked Questions</h2>
-<details><summary><strong>How much can I save on AI API costs?</strong></summary><p>Teams typically save 40-70% by implementing model routing, prompt caching, and spend limits. Sipi.bot automates all three.</p></details>
+<h2>Lever 1 — Pay less per call</h2>
 
-<div style="margin-top:48px;padding:16px;background:#f8f9fa;border-radius:8px;font-size:.85rem;color:#666">
-<p style="margin:0"><strong>Sipi.bot</strong> — AI spend firewall and autonomous cost optimization. <a href="https://sipi.bot/">Learn more →</a></p>
+<h3>Right-size your models</h3>
+<p>The single biggest per-call cost reduction available. Most teams run everything on one model (usually GPT-4o or Claude Sonnet) when most of their work could run on a budget-tier model at 16–60× lower cost.</p>
+<table>
+<thead><tr><th>Move from</th><th>Move to</th><th>Savings</th><th>When</th></tr></thead>
+<tbody>
+<tr><td>GPT-4o ($2.50/M)</td><td>GPT-4o-mini ($0.15/M)</td><td>16×</td><td>Classification, routing, simple extraction</td></tr>
+<tr><td>Claude Sonnet ($3/M)</td><td>Claude Haiku ($0.25/M)</td><td>12×</td><td>Summarization, formatting, basic Q&amp;A</td></tr>
+<tr><td>Claude Opus ($15/M)</td><td>Claude Sonnet ($3/M)</td><td>5×</td><td>Most coding and research tasks</td></tr>
+<tr><td>GPT-4 ($10/M)</td><td>GPT-4o ($2.50/M)</td><td>4×</td><td>Most tasks that don't need GPT-4's specific strengths</td></tr>
+</tbody>
+</table>
+<p>Full pricing in the <a href="/benchmarks/token-cost-by-provider/">token cost benchmark</a>.</p>
+
+<h3>Cache repeated prompts</h3>
+<p>If your agent sends the same (or similar) prompts repeatedly — system prompts, few-shot examples, common queries — cache them. Most LLM gateways (<a href="/vs/litellm">LiteLLM</a>, <a href="/vs/portkey">Portkey</a>) support prompt caching. Anthropic and Google also offer native prompt caching for repeated context.</p>
+
+<h3>Compress your context</h3>
+<p>Long system prompts and large context windows are a hidden tax. A 4,000-token system prompt on GPT-4o costs $0.01 <em>per call</em> before the agent does anything. Trim it. Move boilerplate to cached context. Use prompt compression tools for long documents.</p>
+
+<h2>Lever 2 — Make fewer calls (the bigger savings)</h2>
+
+<div class="callout warn">
+<strong>This is where most teams leave money on the table.</strong> You can optimize model choice and caching all day, but if your agent retries failed calls 40 times in a loop, you are paying 40× for every failure. The top 1% of tasks account for <strong>22% of total spend</strong> — almost all of it retry-loop waste.
 </div>
-<footer>© 2026 Sipi.bot. All rights reserved. <a href="https://sipi.bot/sitemap.xml">Sitemap</a></footer>
-</body></html>
+
+<h3>Kill retry loops with a velocity rule</h3>
+<p>A velocity rule caps the number of transactions per time window. When the agent hits the cap, further calls are blocked. The retry loop dies on the Nth attempt instead of running for 90 seconds.</p>
+<pre><code>{"rule_type": "velocity", "params": {"max_count": 10, "window_minutes": 60}, "action": "BLOCKED"}</code></pre>
+<p>This is the single highest-ROI cost-reduction lever. One rule prevents 44% of runaway incidents.</p>
+
+<h3>Block unnecessary spend with a merchant allowlist</h3>
+<p>If your agent is spending at vendors you didn't intend to approve — novel vendors it discovered, prompt-injection-driven routing — a merchant allowlist stops that spend entirely.</p>
+<pre><code>{"rule_type": "merchant_allow", "params": {"allowed": ["openai.com", "anthropic.com"]}, "action": "BLOCKED"}</code></pre>
+
+<h3>Cap categories independently</h3>
+<p>Don't let one category eat the budget. If your agent is supposed to spend on LLM calls but is also buying compute or ads, cap those categories separately.</p>
+<pre><code>{"rule_type": "category_limit", "params": {"category": "ads", "max_amount": 50}, "action": "BLOCKED"}</code></pre>
+
+<h2>The combined savings</h2>
+<p>A typical team that implements both levers sees:</p>
+<ul class="check">
+<li><strong>40–60% reduction</strong> from right-sizing models (move routine work to budget tier).</li>
+<li><strong>20–30% additional reduction</strong> from killing retry loops with a velocity rule.</li>
+<li><strong>5–10% additional reduction</strong> from blocking unnecessary spend with allowlists and category caps.</li>
+<li>Total: <strong>65–90% cost reduction</strong> without changing what the agent does, only how it spends.</li>
+</ul>
+
+<h2>The tools</h2>
+<table>
+<thead><tr><th>Lever</th><th>Tool</th></tr></thead>
+<tbody>
+<tr><td>Right-size models (routing)</td><td><a href="/vs/litellm">LiteLLM</a>, <a href="/vs/portkey">Portkey</a>, <a href="/vs/openrouter">OpenRouter</a></td></tr>
+<tr><td>Cache prompts</td><td>LLM gateway (LiteLLM, Portkey)</td></tr>
+<tr><td>Observe spend</td><td><a href="/vs/helicone">Helicone</a>, <a href="/vs/langfuse">Langfuse</a></td></tr>
+<tr><td>Kill retry loops + enforce budget</td><td><strong>sipi.bot</strong> (pre-spend firewall)</td></tr>
+</tbody>
+</table>
+<p>Most production stacks run all four. They are complementary layers, not alternatives.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Reduce your AI spend with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/learn/spend-firewall-guide">The Spend Firewall Complete Guide</a></li>
+<li><a href="/how-to/prevent-runaway-ai-costs">How to prevent runaway AI costs</a></li>
+<li><a href="/how-to/set-ai-budget-limits">How to set AI budget limits</a></li>
+<li><a href="/benchmarks/ai-agent-cost-per-task">Cost per task benchmark</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
+</body>
+</html>

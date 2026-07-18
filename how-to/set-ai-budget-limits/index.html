@@ -1,54 +1,127 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>How to Set AI Budget Limits That Work | Sipi.bot</title>
-<meta name="description" content="Framework for setting effective spend limits on AI and LLM API usage.">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Set AI Budget Limits (2026 Guide) — sipi.bot</title>
+<meta name="description" content="Setting an AI budget limit is not enough — you need per-transaction caps, daily totals, velocity limits, and category rules. Here is how to build a real AI agent spend budget that actually enforces itself.">
 <link rel="canonical" href="https://sipi.bot/how-to/set-ai-budget-limits">
-<meta name="robots" content="index,follow">
+<meta property="og:title" content="How to Set AI Budget Limits (2026 Guide)">
+<meta property="og:description" content="Build a real AI agent spend budget: per-transaction caps, daily totals, velocity limits, category rules, and human approval thresholds.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="How to Set AI Budget Limits That Work | Sipi.bot">
-<meta property="og:description" content="Framework for setting effective spend limits on AI and LLM API usage.">
 <meta property="og:url" content="https://sipi.bot/how-to/set-ai-budget-limits">
-<meta name="twitter:card" content="summary">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "How to Set AI Budget Limits That Work", "url": "https://sipi.bot/how-to/set-ai-budget-limits", "description": "Framework for setting effective spend limits on AI and LLM API usage.", "isPartOf": {"@type": "WebSite", "name": "Sipi.bot", "url": "https://sipi.bot"}, "publisher": {"@type": "Organization", "name": "Sipi.bot", "url": "https://sipi.bot"}, "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", "p:first-of-type"]}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot"}, {"@type": "ListItem", "position": 2, "name": "How-To", "item": "https://sipi.bot/how-to"}, {"@type": "ListItem", "position": 3, "name": "How to Set AI Budget Limits That Work", "item": "https://sipi.bot/how-to/set-ai-budget-limits"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What happens when AI spend hits the hard limit?", "acceptedAnswer": {"@type": "Answer", "text": "With Sipi.bot, requests are blocked and your application receives a budget-exceeded response. This prevents overruns while allowing you to implement graceful degradation (like falling back to cached responses)."}}]}</script>
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"How to set AI agent budget limits","description":"Build a real, enforceable AI agent spend budget with layered rules.","step":[{"@type":"HowToStep","name":"Pick a daily total","text":"Decide the max your agent can spend in a day across all transactions."},{"@type":"HowToStep","name":"Set a per-transaction cap","text":"Set a ceiling on any single spend — typically 10–25% of the daily total."},{"@type":"HowToStep","name":"Add velocity limits","text":"Cap the number of transactions per hour to kill retry loops."},{"@type":"HowToStep","name":"Configure category limits","text":"Cap spend by category — compute, ads, data — so one category can't eat the whole budget."},{"@type":"HowToStep","name":"Set an approval threshold","text":"Route transactions above a value to a human for approval."}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Set AI Budget Limits (2026 Guide)","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/how-to/set-ai-budget-limits"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"How To","item":"https://sipi.bot/how-to/"},{"@type":"ListItem","position":3,"name":"Set AI Budget Limits","item":"https://sipi.bot/how-to/set-ai-budget-limits"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I set a spending limit on my AI agent?","acceptedAnswer":{"@type":"Answer","text":"Use a pre-spend firewall like sipi.bot. Set a daily_total rule for the overall budget, a per_transaction rule for any single spend, and a velocity rule to cap transactions per hour. The firewall evaluates every transaction before it fires and blocks anything that violates your rules."}},{"@type":"Question","name":"What is a good daily budget for an AI agent?","acceptedAnswer":{"@type":"Answer","text":"It depends on what the agent does. For a coding agent, $20–$100/day is typical. For a procurement agent, $200–$2,000/day. For a trading bot, much higher. The right budget is the one where, if the agent spent it all in the first hour, you would not be panicked. Start low and raise as trust builds."}},{"@type":"Question","name":"Can I set different budgets for different agents?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot supports per-agent rules — each registered agent can have its own set of caps, velocity limits, and allowlists. A research agent might get $50/day; a procurement agent might get $2,000/day."}}]}</script>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.7;color:#1a1a2e;max-width:820px;margin:0 auto;padding:20px}
-h1{font-size:2rem;margin:16px 0 8px;line-height:1.3}
-h2{font-size:1.4rem;margin:32px 0 12px}
-p{margin-bottom:16px;color:#333}
-ul{margin:0 0 16px 20px}li{margin-bottom:6px}
-nav{padding:12px 0;border-bottom:2px solid #f0f0f0;margin-bottom:24px}
-nav a{margin-right:16px;color:#667eea;text-decoration:none;font-weight:500;font-size:.9rem}
-footer{margin-top:48px;padding-top:16px;border-top:1px solid #eee;color:#888;font-size:.85rem}
-.lead{font-size:1.15rem;color:#555;margin-bottom:24px}
-table{width:100%;border-collapse:collapse;margin:16px 0}
-th,td{border:1px solid #e0e0e0;padding:10px 14px;text-align:left;font-size:.95rem}
-th{background:#f8f9fa;font-weight:600}
-details{border:1px solid #e0e0e0;border-radius:8px;padding:12px 16px;margin-bottom:8px;background:#fafafa}
-summary{cursor:pointer;font-size:1rem}
-details[open]{background:#fff}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+.step{background:#f9fafb;border-left:3px solid #0066cc;padding:1rem 1.25rem;margin:1.25rem 0;border-radius:0 .375rem .375rem 0}
+.step-num{display:inline-block;background:#0066cc;color:#fff;font-weight:700;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;margin-right:.5rem;font-size:.9rem}
 </style>
-</head><body>
-<nav><a href="https://sipi.bot/" style="font-weight:700;color:#1a1a2e">Sipi.bot</a> <a href="https://sipi.bot/best">Best</a> <a href="https://sipi.bot/how-to">How To</a> <a href="https://sipi.bot/use-cases">Use Cases</a> <a href="https://sipi.bot/learn">Learn</a> <a href="https://sipi.bot/alternatives-to">Alternatives To</a></nav>
-<h1>How to Set AI Budget Limits That Work</h1>
-<p class="lead">Framework for setting effective spend limits on AI and LLM API usage.</p>
-<p>Budget limits only work if they are enforced. Most teams set limits in a spreadsheet but never implement hard enforcement. Here is how to do it properly.</p>
-<h2>The 3-Layer Budget Framework</h2>
-<ul>
-<li>Layer 1: Alert threshold (50% of budget) - get notified</li>
-<li>Layer 2: Warning threshold (80% of budget) - switch to cheaper models</li>
-<li>Layer 3: Hard limit (100% of budget) - block all requests</li>
-</ul>
-<p>Sipi.bot implements all three layers automatically. You set the monthly budget and it handles the enforcement.</p>
+</head>
+<body>
+<article>
+<header>
+<h1>How to Set AI Budget Limits</h1>
+<p class="lede">A single number — "my AI agent can spend $500/day" — is not a budget. It is a wish. A real AI agent budget is a <strong>layered set of rules</strong> that enforces itself: per-transaction caps, daily totals, velocity limits, category limits, and approval thresholds. Here is how to build one.</p>
+</header>
 
-<h2>Frequently Asked Questions</h2>
-<details><summary><strong>What happens when AI spend hits the hard limit?</strong></summary><p>With Sipi.bot, requests are blocked and your application receives a budget-exceeded response. This prevents overruns while allowing you to implement graceful degradation (like falling back to cached responses).</p></details>
-
-<div style="margin-top:48px;padding:16px;background:#f8f9fa;border-radius:8px;font-size:.85rem;color:#666">
-<p style="margin:0"><strong>Sipi.bot</strong> — AI spend firewall and autonomous cost optimization. <a href="https://sipi.bot/">Learn more →</a></p>
+<div class="callout warn">
+<strong>Why a single budget number fails.</strong> A daily cap of $500 does not stop the agent from spending $499 in the first 30 seconds on a retry loop. It does not stop the agent from spending at a vendor you've never approved. It does not route the $200 ambiguous purchase to a human. A real budget is layered.
 </div>
-<footer>© 2026 Sipi.bot. All rights reserved. <a href="https://sipi.bot/sitemap.xml">Sitemap</a></footer>
-</body></html>
+
+<h2>The 5 layers of a real AI agent budget</h2>
+
+<div class="step">
+<h3><span class="step-num">1</span> Pick a daily total</h3>
+<p>This is your overall ceiling — the max the agent can spend across all transactions in a 24-hour window. It is the budget number you already have in mind, now made enforceable.</p>
+<pre><code>{"rule_type": "daily_total", "params": {"max_amount": 500}, "action": "BLOCKED"}</code></pre>
+<p><strong>How to pick:</strong> the right daily total is the number where, if the agent spent it all in the first hour, you would not be panicked. For a coding agent, $20–$100/day. For a procurement agent, $200–$2,000/day. Start low and raise as trust builds.</p>
+</div>
+
+<div class="step">
+<h3><span class="step-num">2</span> Set a per-transaction cap</h3>
+<p>A ceiling on any single spend. Typically 10–25% of your daily total — so a $500 daily budget means a $50–$125 per-transaction cap. This catches the catastrophic one-off (the $6,200 GPU rental) that a daily total alone would allow.</p>
+<pre><code>{"rule_type": "per_transaction", "params": {"max_amount": 100}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">3</span> Add velocity limits</h3>
+<p>A cap on the number of transactions per hour. This is what kills the retry loop — the #1 cause of runaway spend. If your agent can only make 10 transactions per hour, a retry loop dies on the 11th attempt.</p>
+<pre><code>{"rule_type": "velocity", "params": {"max_count": 10, "window_minutes": 60}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">4</span> Configure category limits</h3>
+<p>Cap spend by category — compute, ads, data enrichment, payments. This prevents one category from eating the entire daily budget. Your agent might be allowed $400/day on compute but only $50/day on advertising.</p>
+<pre><code>{"rule_type": "category_limit", "params": {"category": "ads", "max_amount": 50}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">5</span> Set an approval threshold</h3>
+<p>Transactions above a value are FLAGGED rather than blocked or approved — they route to a human-in-the-loop queue. This is the layer that makes the budget usable in production. A binary cap either blocks too much or allows too much; flagging handles the ambiguous middle.</p>
+<pre><code>{"rule_type": "approval_threshold", "params": {"threshold": 75}, "action": "FLAGGED"}</code></pre>
+</div>
+
+<h2>Example: a budget for a procurement agent</h2>
+<table>
+<thead><tr><th>Layer</th><th>Rule</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>Daily total</td><td>daily_total</td><td>$2,000/day</td></tr>
+<tr><td>Per-transaction</td><td>per_transaction</td><td>$500 max</td></tr>
+<tr><td>Velocity</td><td>velocity</td><td>20 transactions/hour</td></tr>
+<tr><td>Category: compute</td><td>category_limit</td><td>$1,000/day</td></tr>
+<tr><td>Category: ads</td><td>category_limit</td><td>$200/day</td></tr>
+<tr><td>Approval threshold</td><td>approval_threshold</td><td>Flag anything &gt; $200</td></tr>
+<tr><td>Merchant allowlist</td><td>merchant_allow</td><td>AWS, GCP, Stripe, approved vendors</td></tr>
+</tbody>
+</table>
+<p>With this budget, the agent can spend up to $2,000/day, but no more than $500 in a single transaction, no more than 20 transactions per hour, only at approved vendors, and anything over $200 waits for a human to approve. That is a <em>real</em> budget.</p>
+
+<h2>Per-agent budgets</h2>
+<p>If you run multiple agents, each can have its own budget. A research agent might get $50/day; a procurement agent $2,000/day; a trading bot much higher. sipi.bot supports per-agent rule sets — register each agent, configure its rules, and every decision is logged with the agent ID.</p>
+
+<h2>Deploy it</h2>
+<pre><code>pip install sipi-bot
+python -m spendfirewall.api  # self-host</code></pre>
+<p>Or use the <a href="https://sipi.bot/">hosted endpoint</a>. Configure your rules in the dashboard or via the API, and every transaction your agent attempts is evaluated against them in under 5ms.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Set your AI budget with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/learn/spend-firewall-guide">The Spend Firewall Complete Guide</a></li>
+<li><a href="/how-to/prevent-runaway-ai-costs">How to prevent runaway AI costs</a></li>
+<li><a href="/how-to/reduce-ai-api-costs">How to reduce AI API costs</a></li>
+<li><a href="/glossary/agent-spend-policy">Agent spend policy (glossary)</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
+</body>
+</html>
