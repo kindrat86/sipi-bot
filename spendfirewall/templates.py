@@ -175,6 +175,19 @@ def landing_page_html() -> str:
     <div class="kpi"><div class="n">53/53</div><div class="l">sipi.bot Eval Gym scenarios</div></div>
     <div class="kpi"><div class="n">6</div><div class="l">rule types enforced</div></div>
   </div>
+  <!-- DREAM 100 / AUTHORITY BAR (Brunson Traffic Secrets Secret #2: surface the congregation) -->
+  <div style="margin-top:36px;padding:18px 16px;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);background:rgba(0,212,170,.03)">
+    <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 28px;font-size:14px;color:#8a8d96">
+      <span style="color:var(--accent);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:11px">In the conversation with</span>
+      <span>◆ x402 payment protocol</span>
+      <span>◆ Anthropic agent SDK</span>
+      <span>◆ OpenAI agents</span>
+      <span>◆ LangChain / CrewAI</span>
+      <span>◆ Model Context Protocol</span>
+      <span>◆ Stripe agent tooling</span>
+    </div>
+    <p style="text-align:center;margin:10px 0 0;font-size:12.5px;color:#6b6f78">sipi.bot is the spend layer for the same agent protocols that move money autonomously. We plug in before the transaction, not after the incident.</p>
+  </div>
 </div></header>
 
 <section id="how"><div class="wrap">
