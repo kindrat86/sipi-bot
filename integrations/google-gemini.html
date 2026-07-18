@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SpendFirewall + Google Gemini API integration guide</title>
-<meta name="description" content="Integrate SpendFirewall with the Google Gemini API. SpendFirewall enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend lim">
+<title>sipi.bot + Google Gemini API integration guide</title>
+<meta name="description" content="Integrate sipi.bot with the Google Gemini API. sipi.bot enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend lim">
 <link rel="canonical" href="https://sipi.bot/integrations/google-gemini">
-<meta property="og:title" content="SpendFirewall + Google Gemini API integration guide">
-<meta property="og:description" content="Integrate SpendFirewall with the Google Gemini API. SpendFirewall enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend lim">
+<meta property="og:title" content="sipi.bot + Google Gemini API integration guide">
+<meta property="og:description" content="Integrate sipi.bot with the Google Gemini API. sipi.bot enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend lim">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/integrations/google-gemini">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"SpendFirewall + Google Gemini API integration guide","description":"Integrate SpendFirewall with the Google Gemini API. SpendFirewall enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend lim","author":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/google-gemini"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"SpendFirewall","item":"https://sipi.bot/integrations/google-gemini"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + Google Gemini API integration guide","description":"Integrate sipi.bot with the Google Gemini API. sipi.bot enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend lim","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/google-gemini"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/integrations/google-gemini"}]}</script>
 
 
 <style>
@@ -45,18 +45,18 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <body>
 <article>
 <header>
-<p class="lede">SpendFirewall integration</p>
-<h1>SpendFirewall + Google Gemini API</h1>
-<p class="lede">Integrate SpendFirewall with the Google Gemini API. SpendFirewall enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend limits on Gemini calls.</p>
+<p class="lede">sipi.bot integration</p>
+<h1>sipi.bot + Google Gemini API</h1>
+<p class="lede">Integrate sipi.bot with the Google Gemini API. sipi.bot enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend limits on Gemini calls.</p>
 </header>
 
 <h2>How the integration works</h2>
-<p>Integrate SpendFirewall with the Google Gemini API. SpendFirewall enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend limits on Gemini calls. The integration is a 5ms policy check inserted between your agent's spend intent and the actual google gemini api call.</p>
+<p>Integrate sipi.bot with the Google Gemini API. sipi.bot enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend limits on Gemini calls. The integration is a 5ms policy check inserted between your agent's spend intent and the actual google gemini api call.</p>
 
 <h2>Setup</h2>
 <ol>
-<li>Create a SpendFirewall account and get your API key</li>
-<li>Add the SpendFirewall SDK to your Google Gemini API integration</li>
+<li>Create a sipi.bot account and get your API key</li>
+<li>Add the sipi.bot SDK to your Google Gemini API integration</li>
 <li>Configure your spend policy: per-transaction limit, daily ceiling, merchant allowlist</li>
 <li>Every Google Gemini API call now passes through the policy check</li>
 </ol>
@@ -76,12 +76,20 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <h3>Can I disable the policy mid-run?</h3>
 <p>Only with admin override. Disabling is logged and alerted on.</p>
 
-<div class="cta"><a href="https://sipi.bot/">Get started with SpendFirewall &rarr;</a></div>
+<div class="cta"><a href="https://sipi.bot/">Get started with sipi.bot &rarr;</a></div>
 
 
+
+<!-- mesh-round19 -->
+<section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
+<h3 style="margin-top:0">Related resources</h3>
+<ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
+<li><a href="/integrations/anthropic">sipi.bot + Anthropic Claude API integration guide</a></li><li><a href="/integrations/stripe">sipi.bot + Stripe integration guide</a></li><li><a href="/integrations/autogen">sipi.bot + Microsoft AutoGen integration guide</a></li><li><a href="/vs/clerk-cell">sipi.bot vs Clerk Cell [2026 Comparison]</a></li><li><a href="/benchmarks/ai-agent-cost-per-task">AI agent cost per task benchmarks</a></li><li><a href="/vs/anthropic-rate-limits">sipi.bot vs Anthropic Rate Limits — Which Is Better in 2026?</a></li>
+</ul>
+</section>
 </article>
 <footer>
-<p><strong>SpendFirewall</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
+<p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
 </footer>
 </body>
 </html>

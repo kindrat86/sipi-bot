@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SpendFirewall + Anthropic Claude API integration guide</title>
-<meta name="description" content="Integrate SpendFirewall with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-">
+<title>sipi.bot + Anthropic Claude API integration guide</title>
+<meta name="description" content="Integrate sipi.bot with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-">
 <link rel="canonical" href="https://sipi.bot/integrations/anthropic">
-<meta property="og:title" content="SpendFirewall + Anthropic Claude API integration guide">
-<meta property="og:description" content="Integrate SpendFirewall with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-">
+<meta property="og:title" content="sipi.bot + Anthropic Claude API integration guide">
+<meta property="og:description" content="Integrate sipi.bot with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/integrations/anthropic">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"SpendFirewall + Anthropic Claude API integration guide","description":"Integrate SpendFirewall with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-","author":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/anthropic"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"SpendFirewall","item":"https://sipi.bot/integrations/anthropic"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + Anthropic Claude API integration guide","description":"Integrate sipi.bot with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/anthropic"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/integrations/anthropic"}]}</script>
 
 
 <style>
@@ -45,18 +45,18 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <body>
 <article>
 <header>
-<p class="lede">SpendFirewall integration</p>
-<h1>SpendFirewall + Anthropic Claude API</h1>
-<p class="lede">Integrate SpendFirewall with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-conversation velocity caps, and tool-use transaction limits before the request is sent.</p>
+<p class="lede">sipi.bot integration</p>
+<h1>sipi.bot + Anthropic Claude API</h1>
+<p class="lede">Integrate sipi.bot with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-conversation velocity caps, and tool-use transaction limits before the request is sent.</p>
 </header>
 
 <h2>How the integration works</h2>
-<p>Integrate SpendFirewall with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-conversation velocity caps, and tool-use transaction limits before the request is sent. The integration is a 5ms policy check inserted between your agent's spend intent and the actual anthropic claude api call.</p>
+<p>Integrate sipi.bot with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-conversation velocity caps, and tool-use transaction limits before the request is sent. The integration is a 5ms policy check inserted between your agent's spend intent and the actual anthropic claude api call.</p>
 
 <h2>Setup</h2>
 <ol>
-<li>Create a SpendFirewall account and get your API key</li>
-<li>Add the SpendFirewall SDK to your Anthropic Claude API integration</li>
+<li>Create a sipi.bot account and get your API key</li>
+<li>Add the sipi.bot SDK to your Anthropic Claude API integration</li>
 <li>Configure your spend policy: per-transaction limit, daily ceiling, merchant allowlist</li>
 <li>Every Anthropic Claude API call now passes through the policy check</li>
 </ol>
@@ -76,12 +76,20 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <h3>Can I disable the policy mid-run?</h3>
 <p>Only with admin override. Disabling is logged and alerted on.</p>
 
-<div class="cta"><a href="https://sipi.bot/">Get started with SpendFirewall &rarr;</a></div>
+<div class="cta"><a href="https://sipi.bot/">Get started with sipi.bot &rarr;</a></div>
 
 
+
+<!-- mesh-round19 -->
+<section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
+<h3 style="margin-top:0">Related resources</h3>
+<ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
+<li><a href="/integrations/langchain">sipi.bot + LangChain integration guide</a></li><li><a href="/integrations/crewai">sipi.bot + CrewAI integration guide</a></li><li><a href="/integrations/stripe">sipi.bot + Stripe integration guide</a></li><li><a href="/templates/agent-runbook-template">AI Agent Runbook Template [Free Template 2026]</a></li><li><a href="/vs/anthropic-rate-limits">sipi.bot vs Anthropic Rate Limits — Which Is Better in 2026?</a></li><li><a href="/glossary/spend-circuit-breaker">Spend Circuit Breaker — Definition &amp; Explanation</a></li>
+</ul>
+</section>
 </article>
 <footer>
-<p><strong>SpendFirewall</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
+<p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
 </footer>
 </body>
 </html>

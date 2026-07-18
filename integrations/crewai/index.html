@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SpendFirewall + CrewAI integration guide</title>
-<meta name="description" content="CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. SpendFirewall enforces them per crew member.">
+<title>sipi.bot + CrewAI integration guide</title>
+<meta name="description" content="CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. sipi.bot enforces them per crew member.">
 <link rel="canonical" href="https://sipi.bot/integrations/crewai">
-<meta property="og:title" content="SpendFirewall + CrewAI integration guide">
-<meta property="og:description" content="CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. SpendFirewall enforces them per crew member.">
+<meta property="og:title" content="sipi.bot + CrewAI integration guide">
+<meta property="og:description" content="CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. sipi.bot enforces them per crew member.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/integrations/crewai">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"SpendFirewall + CrewAI integration guide","description":"CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. SpendFirewall enforces them per crew member.","author":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"SpendFirewall","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/crewai"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"SpendFirewall","item":"https://sipi.bot/integrations/crewai"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + CrewAI integration guide","description":"CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. sipi.bot enforces them per crew member.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/crewai"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/integrations/crewai"}]}</script>
 
 
 <style>
@@ -45,18 +45,18 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <body>
 <article>
 <header>
-<p class="lede">SpendFirewall integration</p>
-<h1>SpendFirewall + CrewAI</h1>
-<p class="lede">CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. SpendFirewall enforces them per crew member.</p>
+<p class="lede">sipi.bot integration</p>
+<h1>sipi.bot + CrewAI</h1>
+<p class="lede">CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. sipi.bot enforces them per crew member.</p>
 </header>
 
 <h2>How the integration works</h2>
-<p>CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. SpendFirewall enforces them per crew member. The integration is a 5ms policy check inserted between your agent's spend intent and the actual crewai call.</p>
+<p>CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. sipi.bot enforces them per crew member. The integration is a 5ms policy check inserted between your agent's spend intent and the actual crewai call.</p>
 
 <h2>Setup</h2>
 <ol>
-<li>Create a SpendFirewall account and get your API key</li>
-<li>Add the SpendFirewall SDK to your CrewAI integration</li>
+<li>Create a sipi.bot account and get your API key</li>
+<li>Add the sipi.bot SDK to your CrewAI integration</li>
 <li>Configure your spend policy: per-transaction limit, daily ceiling, merchant allowlist</li>
 <li>Every CrewAI call now passes through the policy check</li>
 </ol>
@@ -76,12 +76,22 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <h3>Can I disable the policy mid-run?</h3>
 <p>Only with admin override. Disabling is logged and alerted on.</p>
 
-<div class="cta"><a href="https://sipi.bot/">Get started with SpendFirewall &rarr;</a></div>
+<div class="cta"><a href="https://sipi.bot/">Get started with sipi.bot &rarr;</a></div>
 
 
-</article>
+
+
+
+
+<!-- mesh-round19 -->
+<section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
+<h3 style="margin-top:0">Related resources</h3>
+<ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
+<li><a href="/integrations/anthropic">sipi.bot + Anthropic Claude API integration guide</a></li><li><a href="/integrations/vercel-ai-sdk">sipi.bot + Vercel AI SDK integration guide</a></li><li><a href="/integrations/google-gemini">sipi.bot + Google Gemini API integration guide</a></li><li><a href="/for/content-bots">sipi.bot for Spend controls for content generation bots: Spend firewall for</a></li><li><a href="/glossary/agent-budget">Agent Budget</a></li><li><a href="/for/data-pipelines">sipi.bot for Cost ceilings for LLM data pipelines: Spend firewall for AI ag</a></li>
+</ul>
+</section></article>
 <footer>
-<p><strong>SpendFirewall</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
+<p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
 </footer>
 </body>
 </html>
