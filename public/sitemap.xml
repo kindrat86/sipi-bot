@@ -8,6 +8,18 @@
   <url><loc>https://sipi.bot/benchmarks/ai-agent-cost-per-task</loc><lastmod>2026-07-18</lastmod></url>
   <url><loc>https://sipi.bot/benchmarks/runaway-incident-frequency</loc><lastmod>2026-07-18</lastmod></url>
   <url><loc>https://sipi.bot/benchmarks/token-cost-by-provider</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/tutorials/configure-merchant-allowlist</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/tutorials/debug-a-blocked-transaction</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/tutorials/integrate-with-claude-code</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/tutorials/set-up-alerts</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/tutorials/set-up-per-agent-limits</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/policies/daily-ceiling-policy</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/policies/merchant-allowlist-policy</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/policies/per-transaction-limit-policy</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/policies/velocity-cap-policy</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/limits/anthropic-agent-limits</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/limits/openai-agent-limits</loc><lastmod>2026-07-18</lastmod></url>
+  <url><loc>https://sipi.bot/limits/recommended-limits-by-use-case</loc><lastmod>2026-07-18</lastmod></url>
   <url><loc>https://sipi.bot/faq/can-ai-agent-spend-without-permission</loc><lastmod>2026-07-18</lastmod></url>
   <url><loc>https://sipi.bot/faq/how-ai-spend-control-works</loc><lastmod>2026-07-18</lastmod></url>
   <url><loc>https://sipi.bot/faq/how-much-ai-agent-spend</loc><lastmod>2026-07-18</lastmod></url>
