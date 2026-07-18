@@ -384,7 +384,7 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
 <meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot{canonical_path}">
 <meta name="theme-color" content="#00d4aa">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebPage","name":"{title}","url":"https://sipi.bot{canonical_path}","description":"{description}","isPartOf":{{"@type":"WebSite","name":"sipi.bot","url":"https://sipi.bot/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}}}}</script>
-<style>{CSS}</style>{POSTHOG_SNIPPET}</head><body>
+<style>{CSS}</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
 <nav><div class="wrap">
   <div class="brand"><a href="/" style="color:var(--txt)">sipi<span class="dot">.bot</span></a></div>
   <div class="nav-links">
@@ -687,7 +687,7 @@ def key_success_html(rec) -> str:
 <meta name="description" content="Your sipi.bot API key. Use it as a Bearer token to authenticate transaction evaluation calls from your AI agents.">
 <link rel="canonical" href="https://sipi.bot/keys/">
 <meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#00d4aa">
-<style>{CSS}</style>{POSTHOG_SNIPPET}</head><body>
+<style>{CSS}</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span></div>
 <div class="nav-links"><a href="/">Home</a></div></div></nav>
 <section class="hero" style="padding-top:70px"><div class="wrap">{inner}</div></section>
