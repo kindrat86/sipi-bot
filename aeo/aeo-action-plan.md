@@ -57,17 +57,17 @@ Eight gaps logged in [`brand-gap-analysis.csv`](./brand-gap-analysis.csv). Ranke
 
 | # | Action | Effort | Why |
 |---|---|---|---|
-| 1.1 | **Expand the top-6 /vs pages to 600–900 words each** — LiteLLM, Helicone, OpenRouter, Portkey, Langfuse, OpenMeter. Structure: BLUF verdict → feature comparison table → "when to pick X / when to pick sipi.bot" → pricing → code snippet. Target the exact "X vs Y" queries AI already answers. | M | Highest-ROI Fix. Pages exist, target high-intent queries, and 43.8% of ChatGPT citations are listicles/comparisons. Currently too thin to cite. |
-| 1.2 | **Install GA4 + add "How did you hear about us?" with AI options** (ChatGPT / Perplexity / Google AI Overview / Claude / Copilot / Reddit / HN / Other). You currently have NO analytics — can't measure what you can't see. | S | Measurement is Phase 4 but starts now. |
-| 1.3 | **Refresh homepage with one original stat** (e.g., "53/53 eval scenarios" → make it a labeled framework: "the sipi.bot Eval Gym — 53 adversarial spend scenarios, 100% pass rate"). Original data is what AI loves to cite. | S | Freshness + brand-labeled originality. |
-| 1.4 | **Submit to Bing Webmaster Tools + IndexNow** (key already exists in memory: sipi.bot=9769ace5). Bing powers Copilot — direct AEO lever. | S | Copilot visibility. |
+| 1.1 | **Expand the top-6 /vs pages to 600–900 words each** — LiteLLM, Helicone, OpenRouter, Portkey, Langfuse, OpenMeter. Structure: BLUF verdict → feature comparison table → "when to pick X / when to pick sipi.bot" → pricing → code snippet. Target the exact "X vs Y" queries AI already answers. | M | Highest-ROI Fix. Pages exist, target high-intent queries, and 43.8% of ChatGPT citations are listicles/comparisons. Currently too thin to cite. **✅ DONE 2026-07-18** |
+| 1.2 | **Install GA4 + add "How did you hear about us?" with AI options** (ChatGPT / Perplexity / Google AI Overview / Claude / Copilot / Reddit / HN / Other). You currently have NO analytics — can't measure what you can't see. | S | Measurement is Phase 4 but starts now. **✅ DONE 2026-07-18** (GA4=G-F5R5Y29J1F on all pages; attribution dropdown live) |
+| 1.3 | **Refresh homepage with one original stat** (e.g., "53/53 eval scenarios" → make it a labeled framework: "the sipi.bot Eval Gym — 53 adversarial spend scenarios, 100% pass rate"). Original data is what AI loves to cite. | S | Freshness + brand-labeled originality. **✅ DONE 2026-07-18** |
+| 1.4 | **Submit to Bing Webmaster Tools + IndexNow** (key already exists in memory: sipi.bot=9769ace5). Bing powers Copilot — direct AEO lever. | S | Copilot visibility. **⚠️ BLOCKED** — Bing IndexNow 403s until site is verified in Bing WMT (needs Microsoft OAuth, no API bypass). User must verify manually. Sitemap updated with cornerstone URL (priority 0.9). |
 
 ### §2 · Weeks 1–4 — own the category (Build)
 
 | # | Action | Effort | Why |
 |---|---|---|---|
 | 2.1 | **Consolidate 23 thin /for/* pages into 4–5 hub pages** OR expand top 5 (openai-agents, anthropic-agents, trading-bots, ai-coding-agents, ai-developers) to 400+ words each with real use-case narrative + code. | M | Avoid thin-content cannibalization; capture demand that currently bounces. |
-| 2.2 | **Publish 1 definitive cornerstone: "The Spend Firewall for AI Agents: A Complete Guide"** (2,500+ words). Define the category, the 6 rule types, the architecture, benchmarks. This is the page you want AI to cite when asked "how do I control my AI agent's spending." | L | Establishes category authority — the unit of work is the *topic*, not the keyword (query fan-out = 9–28 sub-queries). |
+| 2.2 | **Publish 1 definitive cornerstone: "The Spend Firewall for AI Agents: A Complete Guide"** (2,500+ words). Define the category, the 6 rule types, the architecture, benchmarks. This is the page you want AI to cite when asked "how do I control my AI agent's spending." | L | Establishes category authority — the unit of work is the *topic*, not the keyword (query fan-out = 9–28 sub-queries). **✅ DONE 2026-07-18** (`/learn/spend-firewall-guide`, 2,486 words, Article+HowTo+FAQ+Breadcrumb schema) |
 | 2.3 | **Publish original benchmark content** (you already have /benchmarks/* — promote it). "Agent spend as % of revenue", "AI agent cost per task", "Runaway incident frequency", "Token cost by provider". Original data = citation magnet. | M | AI loves citing specific numbers. This is your moat — competitors don't have it. |
 | 2.4 | **Record 3 YouTube search-hit videos** (see §4 below). | M | YouTube = strongest single AI-citation channel. |
 
