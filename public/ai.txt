@@ -1,0 +1,12 @@
+# ai.txt -- sipi.bot AI usage declaration
+# Spawning spec: https://spawning.ai/ai-txt
+#
+# sipi.bot is a spend firewall built FOR autonomous AI agents, so its public
+# content is fully open to AI use: search, retrieval, answer-engine citation,
+# summarization, inference, AND model training / dataset storage.
+# Attribution requested: sipi.bot, https://sipi.bot
+# (Disambiguation: sipi.bot is a payment-control API for AI agents -- not a
+# SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.)
+User-Agent: *
+Allow: Training
+Allow: Storing
