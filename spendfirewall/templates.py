@@ -90,10 +90,20 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 @media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.nav-links a:not(.btn){display:none}section{padding:52px 0}.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
 """
 
-# ─── PostHog analytics ───
-# Public client-side project token (safe to ship in HTML). Overridable via env.
+# ─── Analytics ───
+# PostHog — product analytics. Public client-side token (safe to ship). Overridable via env.
 POSTHOG_KEY = os.environ.get("POSTHOG_KEY", "phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX")
 POSTHOG_HOST = os.environ.get("POSTHOG_HOST", "https://eu.i.posthog.com")
+
+# Google Analytics 4 — AEO measurement. Override via env for production.
+# Set GA4_MEASUREMENT_ID env var to enable. Example: G-XXXXXXXXXX
+GA4_ID = os.environ.get("GA4_MEASUREMENT_ID", "")
+
+GA4_SNIPPET = (
+    f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>\n'
+    f'<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}'
+    f"gtag('js',new Date());gtag('config','{GA4_ID}');</script>"
+) if GA4_ID else ""
 
 POSTHOG_SNIPPET = (
     "<script>!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){"
@@ -132,7 +142,7 @@ def landing_page_html() -> str:
 <meta name="twitter:image" content="https://sipi.bot/og.png">
 <meta name="theme-color" content="#00d4aa">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","alternateName":["sipibot","sipi bot","sipi.bot spend firewall"],"url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds.","disambiguatingDescription":"sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Spend Firewall for AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-17"},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","alternateName":["sipibot","sipi bot"],"applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","disambiguatingDescription":"A payment-control spend firewall API for autonomous AI agents — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"Hosted plans are flat-rate: Team is $99/month and Business is $499/month, both with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each."}},{"@type":"Question","name":"Is sipi.bot a SIP, voice, or telephony product?","acceptedAnswer":{"@type":"Answer","text":"No. Despite the name, sipi.bot has nothing to do with SIP, VoIP, or voice, and it is not a bot-management or 'block AI bots' tool. sipi.bot is a spend firewall that governs how much money autonomous AI agents can spend."}}]}]}</script>
-<style>{CSS}</style>{POSTHOG}</head><body>
+<style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}</head><body>
 <nav><div class="wrap">
   <div class="brand">sipi<span class="dot">.bot</span></div>
   <div class="nav-links">
@@ -275,9 +285,25 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     </ul>
     <a href="/checkout/team" class="btn" style="width:100%">Start the free pilot</a>
     <p class="mono" style="color:var(--mut);font-size:13px;margin-top:14px">Free self-host core &nbsp;•&nbsp; open on GitHub</p>
-    <form class="form" onsubmit="return sub(event)">
-      <input type="email" id="em" placeholder="you@company.com" required>
-      <button class="btn" type="submit">Get access</button>
+    <form class="form" style="flex-direction:column" onsubmit="return sub(event)">
+      <div style="display:flex;gap:8px;width:100%">
+        <input type="email" id="em" placeholder="you@company.com" required>
+        <button class="btn" type="submit">Get access</button>
+      </div>
+      <label style="color:var(--mut);font-size:13px;margin-top:8px;text-align:left;width:100%">
+        How did you hear about us?
+        <select id="ref" style="background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:6px 10px;border-radius:8px;font-size:13px;margin-left:6px;width:auto">
+          <option value="">— select —</option>
+          <option value="chatgpt">ChatGPT / AI search</option>
+          <option value="google">Google Search</option>
+          <option value="hn">Hacker News</option>
+          <option value="github">GitHub</option>
+          <option value="reddit">Reddit</option>
+          <option value="x">X / Twitter</option>
+          <option value="friend">Friend / Colleague</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
     </form>
     <p id="msg" style="color:var(--accent);font-size:14px;margin-top:10px"></p>
   </div>
@@ -333,9 +359,10 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 </div></footer>
 <script>
 function sub(e){e.preventDefault();var m=document.getElementById('msg');
+var ref=document.getElementById('ref')?document.getElementById('ref').value:'';
 fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
-body:JSON.stringify({email:document.getElementById('em').value})})
-.then(r=>r.json()).then(d=>{m.textContent=d.message||'You are on the list.';document.getElementById('em').value='';})
+body:JSON.stringify({email:document.getElementById('em').value,ref:ref})})
+.then(r=>r.json()).then(d=>{m.textContent=d.message||'You are on the list.';document.getElementById('em').value='';document.getElementById('ref').value='';})
 .catch(()=>{m.textContent='You are on the list.';});return false;}
 </script>
 </body></html>"""
@@ -447,7 +474,7 @@ th,td{{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}}
 th{{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}}
 input,select{{background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:9px 11px;border-radius:8px;font-size:14px}}
 .mini{{padding:7px 13px;font-size:13px}}
-</style>{POSTHOG_SNIPPET}</head><body>
+</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span> <span style="color:var(--mut);font-size:13px;font-weight:400">/ control room</span></div>
 <div class="nav-links"><a href="/">← Landing</a></div></div></nav>
 <div class="wrap" style="padding-top:28px;padding-bottom:60px">
@@ -553,7 +580,7 @@ def pricing_html() -> str:
 <meta property="og:title" content="sipi.bot Pricing — Flat, no metered surprises">
 <meta property="og:description" content="Flat $99/month for unlimited transaction evaluations, or $499/month for a managed spend policy. No per-call fees.">
 <meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/pricing"><meta property="og:image" content="https://sipi.bot/og.png"><meta name="theme-color" content="#00d4aa">
-<style>{CSS}</style>{POSTHOG_SNIPPET}</head><body>
+<style>{CSS}</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span></div>
 <div class="nav-links"><a href="/">Home</a><a href="/dashboard" class="btn">Dashboard</a></div></div></nav>
 <section class="hero" style="padding-top:70px">

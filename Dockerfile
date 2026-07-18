@@ -25,6 +25,9 @@ COPY limits/ ./limits/
 # Round 15 Isenberg pSEO
 COPY best/ ./best/
 COPY how-to/ ./how-to/
+# Round 19 Isenberg pSEO (templates, cost-of)
+COPY templates/ ./templates/
+COPY cost-of/ ./cost-of/
 
 # Persist SQLite + subscribers on a Fly volume mounted at /data.
 ENV SPENDFIREWALL_DB=/data/spendfirewall.db \

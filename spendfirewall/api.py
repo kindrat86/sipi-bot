@@ -151,7 +151,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "DENY")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
+        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com https://www.googletagmanager.com https://*.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot https://*.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
         self.end_headers()
         if getattr(self, "_head_only", False):
@@ -446,7 +446,7 @@ class Handler(BaseHTTPRequestHandler):
         result directly or do_GET falls through and appends a second 404
         response to the body (the 82-page corruption bug)."""
         import os
-        for prefix in ("/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/"):
+        for prefix in ("/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/"):
             if path.startswith(prefix):
                 base = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
                 filepath = os.path.join(base, path.lstrip("/"), "index.html")
@@ -551,10 +551,11 @@ class Handler(BaseHTTPRequestHandler):
 
         if path == "/subscribe":
             email = (body.get("email") or "").strip()
+            ref = (body.get("ref") or "").strip()
             if email and "@" in email:
                 try:
                     with open(_SUBSCRIBERS_FILE, "a") as f:
-                        f.write(email + "\n")
+                        f.write(f"{email}|{ref}\n")
                 except Exception:
                     pass
                 return self._json(200, {"ok": True, "message": "You're on the list. We'll email your pilot access."})
