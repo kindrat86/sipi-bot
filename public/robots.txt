@@ -19,4 +19,15 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+# AI discovery files
+# llms.txt:            https://sipi.bot/llms.txt
+# llms-full.txt:       https://sipi.bot/llms-full.txt
+# agents.md:           https://sipi.bot/agents.md
+# agents.txt (policy): https://sipi.bot/agents.txt
+# qa.jsonl:            https://sipi.bot/qa.jsonl
+# knowledge-graph:     https://sipi.bot/knowledge-graph.json
+# OpenAPI:             https://sipi.bot/openapi.json
+# Agent card (A2A):    https://sipi.bot/.well-known/agent-card.json
+# MCP manifest:        https://sipi.bot/.well-known/mcp.json
+
 Sitemap: https://sipi.bot/sitemap.xml

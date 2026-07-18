@@ -15,6 +15,8 @@ Env:
 """
 from __future__ import annotations
 
+import hashlib
+import hmac
 import json
 import os
 import secrets
@@ -132,22 +134,73 @@ def _issue_key(plan: str, email: Optional[str], customer: Optional[str],
     return api_key
 
 
+_QUARANTINE_FILE = os.environ.get(
+    "WEBHOOK_QUARANTINE_FILE",
+    os.path.join(os.path.dirname(_DB) or os.getcwd(), "webhook_quarantine.log"),
+)
+
+
+def _quarantine(raw_body: bytes, sig_header: str, reason: str) -> None:
+    """Append an unverifiable webhook to a local log. Zero state changes."""
+    try:
+        entry = {
+            "ts": _now(),
+            "reason": reason,
+            "sig_header": (sig_header or "")[:256],
+            "body": raw_body.decode("utf-8", "replace")[:10000],
+        }
+        with open(_QUARANTINE_FILE, "a") as f:
+            f.write(json.dumps(entry) + "\n")
+    except Exception:
+        pass
+
+
+def verify_stripe_signature(raw_body: bytes, sig_header: str, secret: str,
+                            tolerance: int = 300) -> bool:
+    """Manual Stripe-Signature verification — no SDK required.
+
+    Parses t= and v1= from the header, computes HMAC-SHA256 over
+    b"{t}.{raw_payload}" with the webhook secret, compares in constant
+    time, and rejects timestamps outside `tolerance` seconds (replay
+    protection). Returns False on any parse/shape problem."""
+    try:
+        ts = None
+        v1s = []
+        for part in (sig_header or "").split(","):
+            k, _, v = part.strip().partition("=")
+            if k == "t":
+                ts = int(v)
+            elif k == "v1":
+                v1s.append(v.strip())
+        if ts is None or not v1s:
+            return False
+        if abs(time.time() - ts) > tolerance:
+            return False
+        expected = hmac.new(secret.encode(), f"{ts}.".encode() + raw_body,
+                            hashlib.sha256).hexdigest()
+        return any(hmac.compare_digest(expected, v1) for v1 in v1s)
+    except Exception:
+        return False
+
+
 def handle_webhook(raw_body: bytes, sig_header: str) -> dict:
-    """Process a Stripe webhook. Verifies signature if the SDK is available;
-    otherwise trusts the parsed body (set STRIPE_WEBHOOK_SECRET + install stripe
-    for production-grade verification)."""
-    event = None
-    secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
-    if secret:
-        try:
-            import stripe  # optional
-            event = stripe.Webhook.construct_event(raw_body, sig_header, secret)
-        except ImportError:
-            event = json.loads(raw_body.decode())
-        except Exception as e:
-            return {"error": f"signature_verification_failed: {e}"}
-    else:
-        event = json.loads(raw_body.decode())
+    """Process a Stripe webhook. The signature is ALWAYS verified manually
+    (pure-Python HMAC-SHA256; the unsigned-body fallbacks are gone).
+
+    Fail-closed behavior:
+      * secret set, signature bad/missing -> raise (caller returns 400,
+        zero state changes; Stripe retries genuine events)
+      * STRIPE_WEBHOOK_SECRET not configured -> QUARANTINE the event to a
+        local log, make zero state changes, return 200 so Stripe does not
+        retry-storm. The operator must set the secret to resume processing.
+    """
+    secret = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
+    if not secret:
+        _quarantine(raw_body, sig_header, "webhook_secret_not_configured")
+        return {"quarantined": True, "reason": "webhook_secret_not_configured"}
+    if not verify_stripe_signature(raw_body, sig_header, secret):
+        raise ValueError("signature_verification_failed")
+    event = json.loads(raw_body.decode())
 
     etype = event.get("type")
     obj = event.get("data", {}).get("object", {})

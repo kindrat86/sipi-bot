@@ -1,6 +1,6 @@
 # sipi.bot — Agent Reference
 
-> The spend firewall for autonomous AI agents. One call before an agent spends money returns APPROVED, BLOCKED, or FLAGGED against your rules.
+> sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing your per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds. (Disambiguation: sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.)
 
 ## What this product does
 

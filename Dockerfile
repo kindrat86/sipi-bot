@@ -16,6 +16,12 @@ COPY integrations/ ./integrations/
 COPY faq/ ./faq/
 COPY use-cases/ ./use-cases/
 COPY glossary/ ./glossary/
+COPY alternatives-to/ ./alternatives-to/
+COPY benchmarks/ ./benchmarks/
+# Round 16 new page types
+COPY tutorials/ ./tutorials/
+COPY policies/ ./policies/
+COPY limits/ ./limits/
 
 # Persist SQLite + subscribers on a Fly volume mounted at /data.
 ENV SPENDFIREWALL_DB=/data/spendfirewall.db \

@@ -6,6 +6,7 @@ primary_region = "iad"
 [env]
   PORT = "8080"
   SPENDFIREWALL_DB = "/data/spendfirewall.db"
+  BILLING_DB = "/data/billing.db"
   SUBS_FILE = "/data/subscribers.txt"
   EVAL_REPORT = "/app/eval_report.json"
 

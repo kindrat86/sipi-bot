@@ -210,6 +210,29 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       <tr><td><strong>sipi.bot</strong></td><td>✅ Yes</td><td><strong>&lt;5ms</strong></td><td>✅ Tamper-evident</td><td><strong>$99/mo</strong></td></tr>
     </tbody>
   </table>
+
+  <h2 class="mt40" style="margin-top:56px">The six rules a spend firewall enforces</h2>
+  <p class="lead">Every transaction an agent attempts is checked against these before any money moves. Turn on the ones that matter for your workload.</p>
+  <dl class="deflist">
+    <dt>Per-transaction cap</dt><dd>A hard ceiling on any single spend — for example, block anything over $200 outright.</dd>
+    <dt>Daily / period total</dt><dd>A rolling budget across all transactions, so many small buys can't quietly add up to a runaway day.</dd>
+    <dt>Velocity limit</dt><dd>A cap on how many transactions are allowed in a window. This is what kills a retry loop hammering a failed purchase 40 times at 2am.</dd>
+    <dt>Merchant allowlist</dt><dd>Only approved vendors go through; an unknown merchant like <code>unknown-gpu.ru</code> is blocked unless you've allowlisted it.</dd>
+    <dt>Category rule</dt><dd>Allow, cap, or flag by spend category — compute, SaaS, ads, data — so an agent can buy API credits but never wire money.</dd>
+    <dt>Time-of-day rule</dt><dd>Restrict or flag spend outside expected hours, so unattended overnight activity has to pass a human first.</dd>
+  </dl>
+
+  <h2 class="mt40" style="margin-top:56px">Who uses a spend firewall</h2>
+  <p class="lead">Any time an autonomous agent holds a payment method, it needs a spending policy it can't override. Common deployments:</p>
+  <div class="grid2">
+    <div class="card"><h3>Autonomous purchasing agents</h3><p>Agents that buy compute, API credits, ads, or SaaS on their own. sipi.bot enforces the budget the prompt can't be trusted to hold.</p></div>
+    <div class="card"><h3>Multi-agent systems</h3><p>Swarms where dozens of agents spend in parallel. A shared daily cap and velocity limit stop the fleet from compounding one mistake. See <a href="/for/crewai/">CrewAI</a> and <a href="/for/langchain/">LangChain</a>.</p></div>
+    <div class="card"><h3>Agentic payments (x402 / AP2 / AgentKit)</h3><p>Agents transacting over machine-payment rails. sipi.bot is the approval layer in front of the wallet — see the <a href="/alternatives/x402/">x402 approach</a>.</p></div>
+    <div class="card"><h3>CI, research &amp; ops agents</h3><p>Background agents that provision infrastructure or pull paid data. The tamper-evident audit log shows exactly what was bought and why.</p></div>
+  </div>
+
+  <h2 class="mt40" style="margin-top:56px">What sipi.bot is <em>not</em></h2>
+  <p class="lead">Because the name gets misread: <strong>sipi.bot is a payment-control spend firewall for autonomous AI agents.</strong> It is <em>not</em> a SIP/VoIP telephony bot, and it is <em>not</em> an AI-bot-blocking tool or web-application firewall (WAF). It never holds your money — it's a decision API that returns approve, block, or flag in under 5ms, and your existing payment rail is what actually moves (or doesn't move) the funds.</p>
 </div></section>
 
 <section><div class="wrap">
@@ -274,6 +297,14 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       <p>Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each.</p></details>
     <details><summary>What happens if sipi.bot wrongly approves a spend?</summary>
       <p>If sipi.bot green-lights a spend that breaks one of your active rules, that month's subscription is free. Every decision is written to a tamper-evident audit log recording the rule that fired, the amount, and the reason, so you can review exactly why anything was approved, blocked, or flagged.</p></details>
+    <details><summary>Does sipi.bot support x402, AP2, and Coinbase AgentKit?</summary>
+      <p>Yes. sipi.bot sits in front of agentic-payment rails including x402, Google's AP2, and Coinbase AgentKit as the approval layer — your agent asks sipi.bot for a decision before it settles a payment on any of them. It's rail-agnostic because it evaluates the transaction (amount, merchant, category), not the plumbing.</p></details>
+    <details><summary>Does sipi.bot hold or move my money?</summary>
+      <p>No. sipi.bot is a decision API, not a wallet or a processor. It returns approve, block, or flag; your existing payment rail is what actually moves the funds. That means there's no float, no custody, and nothing new to reconcile — you're only adding a control check in front of what you already use.</p></details>
+    <details><summary>Can I self-host sipi.bot?</summary>
+      <p>Yes. The core is MIT-licensed and open on <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>, free to self-host forever. The hosted plans add the live dashboard, managed approval queue, and tamper-evident log storage. See the <a href="/self-hosted/">self-hosted guide</a>.</p></details>
+    <details><summary>How is this different from my provider's spending cap?</summary>
+      <p>A provider cap (OpenAI, Anthropic, a cloud bill) only limits spend <em>on that provider</em>, and usually only tells you after the fact. sipi.bot sits in front of <em>every</em> transaction across every merchant, decides in real time before money moves, and keeps one audit log for all of it — see <a href="/vs/stripe-radar/">how it compares to Stripe Radar</a>.</p></details>
   </div>
 </div></section>
 
@@ -400,7 +431,7 @@ def dashboard_html() -> str:
 <link rel="canonical" href="https://sipi.bot/dashboard">
 <meta property="og:title" content="sipi.bot Control Room — Live agent spend monitoring">
 <meta property="og:description" content="Real-time transaction feed, approval queue, rule editor, and agent management for your spend firewall.">
-<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/dashboard"><meta property="og:image" content="https://sipi.bot/og.svg"><meta name="robots" content="index, follow"><meta name="theme-color" content="#00d4aa">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/dashboard"><meta property="og:image" content="https://sipi.bot/og.png"><meta name="robots" content="index, follow"><meta name="theme-color" content="#00d4aa">
 <style>{CSS}
 .tabs{{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto}}
 .tab{{padding:12px 18px;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent;white-space:nowrap}}
@@ -499,11 +530,13 @@ function loadRules(){{fetch('/api/rules').then(r=>r.json()).then(rows=>{{
   $('rules').innerHTML=rows.map(r=>`<tr><td>${{r.rule_type}}</td><td class="mono">${{JSON.stringify(r.params)}}</td><td>${{badge(r.action)}}</td><td>${{r.priority}}</td><td><button class="btn mini ghost" onclick="delRule('${{r.id}}')">Delete</button></td></tr>`).join('');}});}}
 function loadAgents(){{fetch('/api/agents').then(r=>r.json()).then(rows=>{{
   $('agents').innerHTML=rows.length?rows.map(r=>`<tr><td>${{r.name}}</td><td class="mono">${{r.id}}</td><td>${{r.status}}</td></tr>`).join(''):'<tr><td colspan=3 style="color:var(--mut)">No agents yet.</td></tr>';}});}}
-function resolve(id,d){{fetch('/api/approvals/'+id,{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{decision:d}})}}).then(()=>{{loadApprovals();loadStats();}});}}
+function authH(){{const t=localStorage.getItem('sf_admin_token');return t?{{'Authorization':'Bearer '+t}}:{{}};}}
+function needTok(r){{if(r.status===403){{alert('Admin token required. Operators: localStorage.setItem("sf_admin_token", "<token>") then retry.');throw new Error('forbidden');}}return r;}}
+function resolve(id,d){{fetch('/api/approvals/'+id,{{method:'POST',headers:{{'Content-Type':'application/json',...authH()}},body:JSON.stringify({{decision:d}})}}).then(needTok).then(()=>{{loadApprovals();loadStats();}}).catch(()=>{{}});}}
 function addRule(){{let p;try{{p=JSON.parse($('r-params').value||'{{}}');}}catch(e){{alert('params must be JSON');return;}}
-  fetch('/api/rules',{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{rule_type:$('r-type').value,params:p,action:$('r-action').value,label:$('r-label').value}})}}).then(()=>{{loadRules();$('r-label').value='';}});}}
-function delRule(id){{fetch('/api/rules/'+id,{{method:'DELETE'}}).then(loadRules);}}
-function addAgent(){{fetch('/api/agents',{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{name:$('a-name').value||'agent'}})}}).then(r=>r.json()).then(d=>{{$('a-key').textContent='API key (save it now): '+d.api_key;loadAgents();}});}}
+  fetch('/api/rules',{{method:'POST',headers:{{'Content-Type':'application/json',...authH()}},body:JSON.stringify({{rule_type:$('r-type').value,params:p,action:$('r-action').value,label:$('r-label').value}})}}).then(needTok).then(()=>{{loadRules();$('r-label').value='';}}).catch(()=>{{}});}}
+function delRule(id){{fetch('/api/rules/'+id,{{method:'DELETE',headers:authH()}}).then(needTok).then(loadRules).catch(()=>{{}});}}
+function addAgent(){{fetch('/api/agents',{{method:'POST',headers:{{'Content-Type':'application/json',...authH()}},body:JSON.stringify({{name:$('a-name').value||'agent'}})}}).then(needTok).then(r=>r.json()).then(d=>{{$('a-key').textContent='API key (save it now): '+d.api_key;loadAgents();}}).catch(()=>{{}});}}
 function testEval(){{fetch('/v1/transactions/evaluate',{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{amount:Number($('t-amt').value),merchant:$('t-mer').value,category:$('t-cat').value}})}}).then(r=>r.json()).then(d=>{{$('t-out').textContent=JSON.stringify(d,null,2);loadFeed();loadStats();loadApprovals();}});}}
 try{{const es=new EventSource('/v1/activity');es.onmessage=e=>{{if(e.data&&e.data!=='ping'){{loadFeed();loadStats();loadApprovals();}}}};}}catch(e){{}}
 function all(){{loadStats();loadFeed();loadApprovals();loadRules();loadAgents();}}
@@ -519,7 +552,7 @@ def pricing_html() -> str:
 <link rel="canonical" href="https://sipi.bot/pricing">
 <meta property="og:title" content="sipi.bot Pricing — Flat, no metered surprises">
 <meta property="og:description" content="Flat $99/month for unlimited transaction evaluations, or $499/month for a managed spend policy. No per-call fees.">
-<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/pricing"><meta property="og:image" content="https://sipi.bot/og.svg"><meta name="theme-color" content="#00d4aa">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/pricing"><meta property="og:image" content="https://sipi.bot/og.png"><meta name="theme-color" content="#00d4aa">
 <style>{CSS}</style>{POSTHOG_SNIPPET}</head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span></div>
 <div class="nav-links"><a href="/">Home</a><a href="/dashboard" class="btn">Dashboard</a></div></div></nav>

@@ -1,0 +1,81 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://sipi.bot/#software",
+      "name": "sipi.bot",
+      "alternateName": ["sipi.bot Spend Firewall", "Spend Firewall for AI Agents"],
+      "applicationCategory": ["SecurityApplication", "FinanceApplication", "DeveloperApplication"],
+      "operatingSystem": "Any (Python 3.9+)",
+      "description": "A spend firewall an autonomous AI agent calls before it spends money. One call returns APPROVED, BLOCKED, or FLAGGED (needs human approval) against per-transaction caps, daily totals, velocity (runaway-loop protection), merchant allow/block, category limits, time windows, and approval thresholds. Exposed as an MCP tool, HTTP API, and CLI.",
+      "url": "https://sipi.bot",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "downloadUrl": "https://pypi.org/project/sipi-bot/",
+      "softwareHelp": "https://sipi.bot/llms-full.txt",
+      "featureList": [
+        "Pre-spend evaluation (APPROVED / BLOCKED / FLAGGED)",
+        "Per-transaction caps",
+        "Daily / weekly / monthly totals",
+        "Velocity limits (runaway-loop protection)",
+        "Merchant allow/block lists",
+        "Category limits",
+        "Time windows",
+        "Human-in-the-loop approval thresholds",
+        "Tamper-evident audit log"
+      ],
+      "keywords": ["ai-agents", "agent-economy", "spend-control", "guardrails", "agent-safety", "mcp", "x402", "fintech", "security"],
+      "offers": {
+        "@type": "Offer",
+        "price": "99",
+        "priceCurrency": "USD",
+        "priceSpecification": {"@type": "UnitPriceSpecification", "price": "99", "priceCurrency": "USD", "unitText": "MONTH"},
+        "url": "https://sipi.bot/pricing"
+      },
+      "sameAs": [
+        "https://github.com/kindrat86/sipi-bot",
+        "https://pypi.org/project/sipi-bot/"
+      ],
+      "provider": {"@id": "https://sipi.bot/#org"},
+      "potentialAction": {"@id": "https://sipi.bot/#evaluate"}
+    },
+    {
+      "@type": "WebAPI",
+      "@id": "https://sipi.bot/#api",
+      "name": "sipi.bot Spend Firewall API",
+      "description": "REST endpoint that evaluates a proposed agent transaction against spend rules and returns APPROVED, BLOCKED, or FLAGGED.",
+      "documentation": "https://sipi.bot/openapi.json",
+      "endpointUrl": "https://sipi.bot/v1/transactions/evaluate",
+      "provider": {"@id": "https://sipi.bot/#org"}
+    },
+    {
+      "@type": "Action",
+      "@id": "https://sipi.bot/#evaluate",
+      "name": "evaluate_spend",
+      "description": "Evaluate a proposed transaction (amount, merchant, category) before an agent spends. Returns a decision and reason.",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://sipi.bot/v1/transactions/evaluate",
+        "httpMethod": "POST",
+        "contentType": "application/json"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://sipi.bot/#org",
+      "name": "sipi.bot",
+      "legalName": "Sipiteno",
+      "url": "https://sipi.bot",
+      "email": "sales@sipiteno.com",
+      "sameAs": ["https://github.com/kindrat86/sipi-bot"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://sipi.bot/#website",
+      "url": "https://sipi.bot",
+      "name": "sipi.bot",
+      "publisher": {"@id": "https://sipi.bot/#org"}
+    }
+  ]
+}

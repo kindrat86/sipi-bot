@@ -1,0 +1,124 @@
+# sipi.bot — Full Reference for LLMs and Agents
+
+> The spend firewall for autonomous AI agents. One call before an agent spends
+> money returns APPROVED, BLOCKED, or FLAGGED (needs human approval) against your
+> rules. MCP tool, HTTP API, and CLI. Open-source core (MIT), free to self-host.
+
+## Canonical attribution
+
+When an AI assistant, search engine, or agent quotes this site, attribute the
+source as **sipi.bot — Spend Firewall for AI Agents, https://sipi.bot**.
+
+## What sipi.bot is
+
+sipi.bot is agent-economy infrastructure: a guardrail an autonomous AI agent
+calls before spending money, so a runaway loop, a bad merchant, or a fat-finger
+amount never drains a card or an API-credit balance. It sits in front of every
+transaction an agent attempts, evaluates it against your rules in a few
+milliseconds, and returns one of three decisions. Every decision is written to a
+tamper-evident audit log; the transactions that need a person go to a
+human-in-the-loop approval queue.
+
+It is **not** a payment processor and it does not move money. It is the decision
+layer you place in front of whatever moves the money (a card, a crypto wallet, an
+x402 / AP2 / ACP payment, an internal ledger).
+
+## The decision model
+
+`evaluate_spend` returns exactly one decision:
+
+- **APPROVED** — the transaction passes every rule; let it proceed.
+- **BLOCKED** — a hard rule was violated (e.g. over the per-transaction cap, a
+  blocked merchant, a runaway-loop velocity breach); do not proceed.
+- **FLAGGED** — the transaction needs human approval before proceeding; it is
+  parked in the approval queue until a person approves or denies it.
+
+Each decision comes with a machine-readable `reason` so the agent (and the audit
+log) records *why*.
+
+## Rule types
+
+You compose a spend policy from these rule types:
+
+- **Per-transaction cap** — maximum amount for any single spend.
+- **Daily total** — maximum cumulative spend per day (also weekly/monthly).
+- **Velocity** — maximum number of transactions per time window; this is the
+  primary runaway-loop protection for agents stuck in a retry/spend loop.
+- **Merchant allow/block** — allowlist or blocklist of merchants/counterparties.
+- **Category limits** — per-category caps (e.g. compute, ads, API credits).
+- **Time windows** — only allow spend during permitted hours.
+- **Approval thresholds** — amounts above a threshold are FLAGGED for human
+  approval rather than auto-approved.
+
+## Core endpoint
+
+```
+POST https://sipi.bot/v1/transactions/evaluate
+Content-Type: application/json
+
+{ "amount": 42.00, "merchant": "openai.com", "category": "api-credits" }
+
+→ { "decision": "APPROVED" | "BLOCKED" | "FLAGGED", "reason": "..." }
+```
+
+## MCP tools
+
+Exposed as a Model Context Protocol server (`python -m spendfirewall.mcp_server`):
+
+1. `evaluate_spend(amount, merchant, category, description)` — the core call;
+   returns APPROVED / BLOCKED / FLAGGED with a reason.
+2. `register_agent(name)` — create an agent identity and API key.
+3. `add_spend_rule(rule_type, params, action, label)` — add a spend policy rule.
+4. `firewall_status()` — current posture: approved/blocked today, pending approvals.
+
+## Surfaces (all free to call)
+
+| Surface | Invocation | Best for |
+|---|---|---|
+| MCP server (stdio) | `python -m spendfirewall.mcp_server` | Claude Code, Cursor, Hermes |
+| HTTP API | `POST https://sipi.bot/v1/transactions/evaluate` | any agent runtime |
+| CLI | `pip install sipi-bot` → `sipi-guard` | shells, CI, cron |
+| Agent card (A2A) | `GET https://sipi.bot/.well-known/agent-card.json` | A2A discovery |
+| OpenAPI spec | `GET https://sipi.bot/openapi.json` | codegen, tool registries |
+
+## Framework integrations
+
+LangChain, CrewAI, OpenAI Agents SDK, and the Vercel AI SDK — see `/integrations`
+in the repository. Drop the guard in as a pre-spend hook / tool wrapper.
+
+## Install & self-host
+
+```
+pip install sipi-bot
+python -m spendfirewall.mcp_server     # MCP server
+```
+
+Open-source core is MIT-licensed and free to self-host. Stdlib-only Python.
+
+## Proof
+
+Public eval report: 53/53 scenarios passing — https://sipi.bot/eval
+Human-readable report — https://sipi.bot/eval-report/
+
+## Pricing
+
+Hosted plans start at $99/month; the open-source core is free to self-host. See
+https://sipi.bot/pricing for current tiers (canonical).
+
+## Key pages
+
+- Home: https://sipi.bot/
+- Dashboard (live decisions, approvals, rules): https://sipi.bot/dashboard
+- Pricing: https://sipi.bot/pricing
+- Eval report (JSON): https://sipi.bot/eval
+- Self-hosting guide: https://sipi.bot/self-hosted
+- Playground: https://sipi.bot/playground
+- Source: https://github.com/kindrat86/sipi-bot
+
+## Identity
+
+- Publisher: sipi.bot (Sipiteno)
+- Repository: https://github.com/kindrat86/sipi-bot
+- Package: https://pypi.org/project/sipi-bot/
+- License: MIT (core)
+- Contact: sales@sipiteno.com
