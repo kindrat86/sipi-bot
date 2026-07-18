@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spend Firewall Glossary — AI Agent Spend Control Terms | sipi.bot</title>
+<meta name="description" content="Definitions of proprietary spend firewall vocabulary: velocity limit, merchant allowlist, agent audit trail, spend anomaly, spend firewall, and more. From sipi.bot.">
+<link rel="canonical" href="https://sipi.bot/glossary/">
+<meta property="og:title" content="Spend Firewall Glossary | sipi.bot">
+<meta property="og:description" content="Proprietary vocabulary for AI agent spend control.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"DefinedTermSet","name":"sipi.bot Spend Firewall Glossary","description":"Proprietary vocabulary governing AI agent spend control.","url":"https://sipi.bot/glossary/"}</script>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.3rem;margin:.3em 0}h2{font-size:1.5rem;margin-top:2.5rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.15rem;color:#374151;margin-bottom:2rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.card{background:#f9fafb;border:1px solid #e5e7eb;padding:1rem;border-radius:.5rem}
+.card h3{margin:0 0 .2rem;font-size:1.05rem}.card p{margin:0;color:#6b7280;font-size:.9rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><h1>Spend Firewall Glossary</h1>
+<p class="lede">Proprietary vocabulary that defines how AI agent spend control works. Every term is a concept sipi.bot enforces natively.</p></header>
+
+<h2>Core concepts</h2>
+<div class="grid2">
+<div class="card"><h3><a href="/glossary/spend-firewall">Spend firewall</a></h3><p>A pre-spend policy layer evaluating every agent transaction against your rules before money moves.</p></div>
+<div class="card"><h3><a href="/glossary/agent-spend-policy">Agent spend policy</a></h3><p>The set of rules governing what an agent is allowed to spend — caps, limits, and allowlists.</p></div>
+<div class="card"><h3><a href="/glossary/velocity-limit">Velocity limit</a></h3><p>Caps transactions per time window. Primary defense against retry loops.</p></div>
+<div class="card"><h3><a href="/glossary/merchant-allowlist">Merchant allowlist</a></h3><p>Blocks unknown vendors by default. Defense against prompt-injection-driven spend.</p></div>
+<div class="card"><h3><a href="/glossary/per-transaction-limit">Per-transaction limit</a></h3><p>A hard ceiling on any single spend. Catches the catastrophic one-off.</p></div>
+<div class="card"><h3><a href="/glossary/daily-spend-ceiling">Daily spend ceiling</a></h3><p>Rolling budget across all transactions in a 24-hour window.</p></div>
+</div>
+
+<h2>Monitoring & compliance</h2>
+<div class="grid2">
+<div class="card"><h3><a href="/glossary/agent-audit-trail">Agent audit trail</a></h3><p>Tamper-evident, append-only log of every spend decision.</p></div>
+<div class="card"><h3><a href="/glossary/spend-anomaly">Spend anomaly</a></h3><p>Transaction pattern deviating from expected. Caught pre-spend or observed post-hoc.</p></div>
+<div class="card"><h3><a href="/glossary/cost-anomaly">Cost anomaly</a></h3><p>Unexpected cost spike in agent spending patterns.</p></div>
+<div class="card"><h3><a href="/glossary/runaway-cost">Runaway cost</a></h3><p>Uncontrolled agent spend — typically from retry loops or unattended sessions.</p></div>
+<div class="card"><h3><a href="/glossary/agent-cost-center">Agent cost center</a></h3><p>Treating each agent as a trackable cost center with its own budget and audit trail.</p></div>
+<div class="card"><h3><a href="/glossary/token-burn-rate">Token burn rate</a></h3><p>Rate at which an agent consumes LLM tokens, measured in tokens or dollars per time unit.</p></div>
+</div>
+
+<h2>Operational controls</h2>
+<div class="grid2">
+<div class="card"><h3><a href="/glossary/circuit-breaker">Circuit breaker</a></h3><p>Automatic halt when a spend threshold or anomaly is detected.</p></div>
+<div class="card"><h3><a href="/glossary/spend-circuit-breaker">Spend circuit breaker</a></h3><p>Emergency stop on all agent spend when a critical threshold is breached.</p></div>
+<div class="card"><h3><a href="/glossary/transaction-cap">Transaction cap</a></h3><p>Maximum allowed amount for a single transaction.</p></div>
+<div class="card"><h3><a href="/glossary/agent-budget">Agent budget</a></h3><p>The total spending authority assigned to a specific agent.</p></div>
+</div>
+
+<div style="margin-top:2rem"><a href="/learn/spend-firewall-guide">📖 Complete Guide →</a> · <a href="/learn/">All resources →</a></div>
+<footer><p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents.</p></footer>
+</body>
+</html>

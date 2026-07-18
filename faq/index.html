@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent Spend Control — Frequently Asked Questions | sipi.bot</title>
+<meta name="description" content="Answers to the most common questions about AI agent spend control: how it works, how much to budget, how to stop runaway agents, and more. From sipi.bot.">
+<link rel="canonical" href="https://sipi.bot/faq/">
+<meta property="og:title" content="AI Agent Spend Control FAQ | sipi.bot">
+<meta property="og:description" content="Answers to common questions about AI agent spend control.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can an AI agent spend money without permission?","acceptedAnswer":{"@type":"Answer","text":"Yes, if it has access to a payment method and no pre-spend guardrail."}},{"@type":"Question","name":"How much should my AI agent spend?","acceptedAnswer":{"@type":"Answer","text":"The right budget is the number where, if the agent spent it all in the first hour, you would not be panicked."}},{"@type":"Question","name":"How do I stop a runaway AI agent?","acceptedAnswer":{"@type":"Answer","text":"Install a pre-spend firewall with a velocity limit that caps transactions per hour."}}]}</script>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.3rem;margin:.3em 0}h2{font-size:1.5rem;margin-top:2.5rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.15rem;color:#374151;margin-bottom:2rem}
+.faq-list{display:flex;flex-direction:column;gap:.5rem}
+.faq-item{background:#f9fafb;border:1px solid #e5e7eb;padding:1rem 1.25rem;border-radius:.5rem}
+.faq-item h3{margin:0 0 .3rem;font-size:1.05rem}.faq-item p{margin:.2rem 0;color:#6b7280}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+</style>
+</head>
+<body>
+<header><h1>AI Agent Spend Control — FAQ</h1>
+<p class="lede">Answers to the most common questions about controlling what your autonomous AI agent spends — before the money moves.</p></header>
+
+<div class="faq-list">
+<div class="faq-item"><h3><a href="/faq/can-ai-agent-spend-without-permission">Can an AI agent spend without permission?</a></h3><p>Yes — if it has access to a payment method and no pre-spend guardrail. Here is how it happens and how to stop it.</p></div>
+<div class="faq-item"><h3><a href="/faq/how-much-should-ai-agent-spend">How much should my AI agent spend?</a></h3><p>The panic-test framework: pick a number you can lose without worry. With benchmarks from 312 production teams.</p></div>
+<div class="faq-item"><h3><a href="/faq/how-to-stop-runaway-agent">How do I stop a runaway AI agent?</a></h3><p>Three rules: velocity limit (kills retry loops), per-transaction cap (catches big spends), merchant allowlist (blocks unknowns).</p></div>
+<div class="faq-item"><h3><a href="/faq/how-ai-spend-control-works">How does AI agent spend control work?</a></h3><p>Pre-spend vs reactive: the single most important distinction in agent spend control.</p></div>
+<div class="faq-item"><h3><a href="/faq/what-happens-if-ai-agent-exceeds-budget">What happens if my agent exceeds its budget?</a></h3><p>With a reactive cap, damage is done. With a pre-spend firewall, it never crosses the threshold.</p></div>
+<div class="faq-item"><h3><a href="/faq/how-to-set-ai-agent-budget">How do I set a budget for my AI agent?</a></h3><p>5-layer model: daily total, per-transaction cap, velocity limit, category limits, approval threshold.</p></div>
+<div class="faq-item"><h3><a href="/faq/what-is-token-cost">What is token cost?</a></h3><p>Per-unit pricing from LLM providers. Input $0.15–$15/M. Output is 3–5× input.</p></div>
+<div class="faq-item"><h3><a href="/faq/how-to-monitor-ai-spend-real-time">How to monitor AI agent spend in real time?</a></h3><p>Observability tools vs pre-spend firewall — one tells you what happened, the other shows live decisions.</p></div>
+<div class="faq-item"><h3><a href="/faq/how-to-set-ai-spend-limit">How do I set a spend limit on my AI agent?</a></h3><p>More than picking a number — layered approach with caps, velocity, and approval thresholds.</p></div>
+<div class="faq-item"><h3><a href="/faq/how-to-prevent-runaway-ai-costs">How to prevent runaway AI costs?</a></h3><p>5-step playbook. Velocity limit first — it kills the #1 cause (retry loops at 44% of incidents).</p></div>
+<div class="faq-item"><h3><a href="/faq/what-is-ai-spend-anomaly">What is an AI spend anomaly?</a></h3><p>A transaction pattern that deviates from expected. Caught by velocity, merchant, and time rules.</p></div>
+<div class="faq-item"><h3><a href="/faq/can-ai-agents-make-purchases">Can AI agents make purchases autonomously?</a></h3><p>Yes — 67% of teams have been surprised by at least one unintended spend.</p></div>
+<div class="faq-item"><h3><a href="/faq/how-much-should-my-ai-agent-spend">How much should my AI agent spend per task?</a></h3><p>$0.02 to $4.50 depending on task type. Median across all agents: $0.34.</p></div>
+</div>
+
+<div style="margin-top:2rem"><a href="/learn/spend-firewall-guide">📖 Complete Guide →</a> · <a href="/learn/">All resources →</a></div>
+<footer><p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents.</p></footer>
+</body>
+</html>
