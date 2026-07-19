@@ -1,0 +1,18 @@
+AI Model,Provider,Input Price ($/1M tokens),Output Price ($/1M tokens),Context Window,Latency Category,Best For,Daily Cost (10K requests)
+GPT-4o,OpenAI,$2.50,$10.00,128K,Medium,General purpose,$75
+GPT-4o-mini,OpenAI,$0.15,$0.60,128K,Fast,Cost-sensitive tasks,$4.50
+Claude 3.5 Sonnet,Anthropic,$3.00,$15.00,200K,Medium,Long context,$90
+Claude 3 Haiku,Anthropic,$0.25,$1.25,200K,Fast,Quick tasks,$7.50
+Gemini 1.5 Pro,Google,$1.25,$5.00,2M,Medium,Massive context,$37.50
+Gemini 1.5 Flash,Google,$0.075,$0.30,1M,Fast,Cheapest option,$2.25
+GPT-4 Turbo,OpenAI,$10.00,$30.00,128K,Slow,Complex reasoning,$225
+o1,OpenAI,$15.00,$60.00,200K,Slow,Deep reasoning,$450
+Llama 3.1 70B,Meta (via Groq),$0.59,$0.79,128K,Very Fast,Open source,$14.40
+Llama 3.1 405B,Meta,$3.00,$3.00,128K,Medium,Open source power,$30
+Mistral Large,Mistral,$2.00,$6.00,128K,Medium,European option,$45
+DeepSeek V3,DeepSeek,$0.27,$1.10,128K,Fast,Cost-effective,$8.20
+Command R+,Cohere,$2.50,$10.00,128K,Medium,RAG applications,$75
+AI21 Jamba,Intel,$1.00,$2.00,256K,Medium,Long form,$20
+Nova Pro,Amazon,$0.80,$3.20,300K,Medium,AWS integrated,$24
+Nova Lite,Amazon,$0.06,$0.24,300K,Fast,Cost-sensitive,$1.80
+Source: Provider pricing pages, July 2026. Costs are estimates for 10K daily requests averaging 500 input + 200 output tokens each. CC BY 4.0. Cite as: sipi.bot (sipi.bot), "AI Model Cost Comparison Database", 2026.
