@@ -23,6 +23,7 @@ Stdlib only (http.server). Serves:
 from __future__ import annotations
 
 import hmac
+import html as _html
 import json
 import os
 import queue
@@ -153,6 +154,8 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
         self.send_header("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'")
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
+        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+        self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
         self.close_connection = True
         self.end_headers()
         if getattr(self, "_head_only", False):
@@ -202,8 +205,10 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "DENY")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com https://www.googletagmanager.com https://*.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot https://*.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com")
+        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com https://www.googletagmanager.com https://*.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot https://*.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com; require-trusted-types-for 'script'")
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
+        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+        self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
         self.end_headers()
         if getattr(self, "_head_only", False):
             return
@@ -242,6 +247,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_header("X-Content-Type-Options", "nosniff")
                 self.send_header("X-Frame-Options", "DENY")
                 self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+                self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+                self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
                 self.send_header("Content-Length", "0")
                 self.end_headers()
                 return
@@ -392,11 +399,23 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, {"@context": "https://schema.org", "@type": "ItemList", "name": "sipi.bot Knowledge Base", "numberOfItems": len(_nlweb_items), "itemListElement": _nlweb_items})
         if path == "/pricing":
             return self._html(templates.pricing_html())
+        if path == "/masterclass":
+            return self._html(templates.masterclass_html())
         if path == "/about":
             return self._html(templates.doc_page_html(
                 "About", "/about",
                 "sipi.bot is the spend firewall for autonomous AI agents — evaluate every transaction against your rules and get approve, block, or flag in under 5ms.",
                 templates.ABOUT_BODY))
+        if path == "/dream100":
+            return self._html(templates.doc_page_html(
+                "Dream 100", "/dream100",
+                "The communities, protocols, and platforms where agent-builders already gather — and how sipi.bot serves them first.",
+                templates.DREAM100_BODY))
+        if path == "/content-calendar":
+            return self._html(templates.doc_page_html(
+                "Content Calendar", "/content-calendar",
+                "sipi.bot's publishing schedule: weekly eval reports, monthly integration guides, quarterly agent-spend benchmarks, and ongoing distribution across GitHub, PyPI, and MCP.",
+                templates.CALENDAR_BODY))
         if path == "/privacy":
             return self._html(templates.doc_page_html(
                 "Privacy Policy", "/privacy",
@@ -445,10 +464,16 @@ class Handler(BaseHTTPRequestHandler):
             html += "<style>body{background:#0a0a0a;color:#ccc;font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px}.card{background:#111;border:1px solid #1a1a1a;border-radius:16px;padding:40px;max-width:400px;text-align:center}h1{color:#fff;margin:0 0 8px;font-size:22px}p{color:#888;margin:0 0 24px;font-size:14px;line-height:1.6}.btn{background:#00d4aa;color:#0a0a0a;border:none;padding:12px 32px;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer}.btn:hover{opacity:.9}</style></head><body>"
             html += "<div class='card'>"
             if email:
+                # Email is HTML-escaped for display and read client-side from
+                # location.search for the unsubscribe call (not server-
+                # interpolated into inline JS) to avoid reflected XSS — a raw
+                # query-param value can otherwise break out of the HTML
+                # attribute/JS string and inject arbitrary script.
                 html += "<h1>Unsubscribe</h1>"
-                html += "<p>We'll stop sending emails to <strong style='color:#fff'>" + email + "</strong>.</p>"
-                html += "<button class='btn' id='ubtn' onclick=\"fetch('/unsubscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:'" + email + "'})}).then(function(r){return r.json()}).then(function(d){if(d.ok){document.getElementById('ustatus').style.display='block';document.getElementById('ustatus').textContent='Unsubscribed.';document.getElementById('ubtn').style.display='none';}})\">Confirm unsubscribe</button>"
+                html += "<p>We'll stop sending emails to <strong style='color:#fff'>" + _html.escape(email) + "</strong>.</p>"
+                html += "<button class='btn' id='ubtn'>Confirm unsubscribe</button>"
                 html += "<p id='ustatus' style='display:none;color:#00d4aa;margin-top:16px'></p>"
+                html += "<script>document.getElementById('ubtn').addEventListener('click',function(){var email=new URLSearchParams(location.search).get('email')||'';fetch('/unsubscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email})}).then(function(r){return r.json()}).then(function(d){if(d.ok){document.getElementById('ustatus').style.display='block';document.getElementById('ustatus').textContent='Unsubscribed.';document.getElementById('ubtn').style.display='none';}})});</script>"
             else:
                 html += "<h1>Unsubscribe</h1>"
                 html += "<p>Use the link from any email to unsubscribe.</p>"

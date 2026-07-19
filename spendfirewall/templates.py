@@ -15,12 +15,12 @@ a{color:var(--accent);text-decoration:none}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 .mono{font-family:'SF Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 nav{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;flex-wrap:wrap}
 .brand{font-weight:700;font-size:19px;letter-spacing:-.02em}
 .brand .dot{color:var(--accent)}
-.nav-links{display:flex;gap:22px;align-items:center;font-size:14px}
-.nav-links a{color:var(--mut)}.nav-links a:hover{color:var(--txt)}
-.btn{display:inline-block;background:var(--accent);color:#04120e;font-weight:700;padding:12px 22px;border-radius:10px;border:none;cursor:pointer;font-size:15px;transition:transform .1s}
+.nav-links{display:flex;gap:22px;align-items:center;font-size:14px;flex-wrap:wrap}
+.nav-links a{color:var(--mut);min-height:44px;display:inline-flex;align-items:center}.nav-links a:hover{color:var(--txt)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;background:var(--accent);color:#04120e;font-weight:700;padding:12px 22px;border-radius:10px;border:none;cursor:pointer;font-size:15px;transition:transform .1s}
 .btn:hover{transform:translateY(-1px)}
 .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
 section{padding:72px 0;border-bottom:1px solid var(--line)}
@@ -87,7 +87,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 .cmp thead th{background:var(--panel2);color:var(--txt);font-weight:700}
 .cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
 .cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
-@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.nav-links a:not(.btn){display:none}section{padding:52px 0}.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
+@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.decision3{grid-template-columns:1fr!important}.nav-links{justify-content:center;width:100%;padding:8px 0 4px;gap:14px 18px}.nav-links a:not(.btn){font-size:13px}section{padding:52px 0}.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
 """
 
 # ─── Analytics ───
@@ -126,13 +126,13 @@ POSTHOG_SNIPPET = (
 
 
 def landing_page_html() -> str:
-    s = """<!doctype html><html lang="en"><head>
+    s = """<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){try{window.trustedTypes.createPolicy("default",{createHTML:function(s){return s},createScript:function(s){return s},createScriptURL:function(s){return s}})}catch(e){}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
 <link rel="search" type="application/opensearchdescription+xml" title="sipi.bot" href="https://sipi.bot/opensearch.xml">
 <title>sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents</title>
-<meta name="description" content="sipi.bot is a pre-spend firewall for autonomous AI agents: one API call returns APPROVED, BLOCKED, or FLAGGED against per-tx caps, velocity limits, and merchant allowlists before money moves.">
+<meta name="description" content="sipi.bot is a pre-spend firewall for AI agents: one API call approves, blocks, or flags every transaction against per-tx caps, velocity limits, and merchant allowlists before money moves.">
 <link rel="canonical" href="https://sipi.bot/">
 <link rel="alternate" hreflang="en" href="https://sipi.bot/">
 <link rel="alternate" hreflang="en-US" href="https://sipi.bot/">
@@ -157,7 +157,7 @@ def landing_page_html() -> str:
 <script type="application/ld+json">{"@context":"https://***@type":"FAQPage","@id":"https://sipi.bot/#faq-standalone","mainEntity":[{"@type":"Question","name":"What is sipi.bot?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds."}},{"@type":"Question","name":"How does sipi.bot protect against runaway AI spending?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot evaluates every transaction request in under 5ms before money moves. It enforces per-transaction caps, daily totals, velocity limits, and merchant allowlists. If a rule is violated, the transaction is BLOCKED instantly — you wake up to a clean log, not a drained account."}},{"@type":"Question","name":"Which payment protocols does sipi.bot support?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot works with any HTTP-based payment pipeline: x402, AP2, AgentKit (Coinbase), Stripe agent tooling, LangChain, CrewAI, and the Model Context Protocol (MCP). It's protocol-agnostic — if your agent speaks HTTP, sipi.bot can gate it."}},{"@type":"Question","name":"Is there a free tier?","acceptedAnswer":{"@type":"Answer","text":"Yes — sipi.bot offers a free tier with no credit card required. Paid plans unlock higher transaction volumes, advanced rule types, and team features."}},{"@type":"Question","name":"How fast is the API?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot decisions return in under 5ms. It's designed to sit inline in payment pipelines without adding perceptible latency."}}]}</script>
 <!-- Organization standalone -->
 <script type="application/ld+json">{"@context":"https://***@type":"Organization","@id":"https://sipi.bot/#org-standalone","name":"sipi.bot","url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"]}</script>
-<style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}</head><body>
+<style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}<link rel="stylesheet" href="/ux.css"><script src="/ux.js" defer></script></head><body>
 <nav><div class="wrap">
   <div class="brand">sipi<span class="dot">.bot</span></div>
   <div class="nav-links">
@@ -247,7 +247,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       </p>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+    <div class="decision3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
       <!-- DECISION 1: APPROVED -->
       <div style="background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:26px 22px;position:relative;overflow:hidden">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green)"></div>
@@ -506,7 +506,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <p class="mono" style="color:var(--mut);font-size:13px;margin-top:14px">Free self-host core &nbsp;•&nbsp; open on GitHub</p>
     <form class="form" style="flex-direction:column" onsubmit="return sub(event)">
       <div style="display:flex;gap:8px;width:100%">
-        <input type="email" id="em" placeholder="you@company.com" required>
+        <label for="em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="em" placeholder="you@company.com" required>
         <button class="btn" type="submit">Get access</button>
       </div>
       <label style="color:var(--mut);font-size:13px;margin-top:8px;text-align:left;width:100%">
@@ -524,7 +524,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
         </select>
       </label>
     </form>
-    <p id="msg" style="color:var(--accent);font-size:14px;margin-top:10px"></p>
+    <p id="msg" aria-live="polite" style="color:var(--accent);font-size:14px;margin-top:10px"></p>
   </div>
 </div></section>
 
@@ -536,10 +536,10 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <p style="color:var(--mut);font-size:16px;line-height:1.6;margin:0 0 20px">One email a day for five days. Day 1: the night my agent spent $12,400. Day 2: the six rules that stop it. Day 3: wiring it into your agent. Day 4: the eval suite. Day 5: the deployment checklist. No sales pressure — if the playbook isn't useful, unsubscribe anytime.</p>
     <form class="form" style="max-width:460px;margin:0 auto" onsubmit="return sub(event)">
       <div style="display:flex;gap:8px">
-        <input type="email" id="pb-em" placeholder="you@company.com" required style="flex:1">
+        <label for="pb-em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="pb-em" placeholder="you@company.com" required style="flex:1">
         <button class="btn" type="submit">Send me Day 1 →</button>
       </div>
-      <p class="msg-inline" style="color:var(--accent);font-size:14px;margin:10px 0 0;text-align:center"></p>
+      <p class="msg-inline" aria-live="polite" style="color:var(--accent);font-size:14px;margin:10px 0 0;text-align:center"></p>
     </form>
     <p style="font-size:12.5px;color:var(--mut);margin:12px 0 0">Joining the list does not sign you up for anything paid. The hosted plan is a separate checkout.</p>
   </div>
@@ -604,7 +604,7 @@ var btn=form.querySelector('button[type=submit]');if(btn){btn.disabled=true;var 
 fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
 body:JSON.stringify({email:email,ref:ref})})
 .then(r=>r.json()).then(d=>{if(msgEl){msgEl.textContent=d.message||'You are on the list.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
-.catch(()=>{if(msgEl){msgEl.textContent='You are on the list.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
+.catch(()=>{if(msgEl){msgEl.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
 return false;}
 </script>
 <!-- CROSS-PORTFOLIO NETWORK FOOTER — generated 2026-07-18 -->
@@ -789,7 +789,7 @@ return false;}
 
 def doc_page_html(title: str, canonical_path: str, description: str, body_html: str) -> str:
     """Reusable EEAT/content page (about, privacy, terms, contact)."""
-    return f"""<!doctype html><html lang="en"><head>
+    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
@@ -834,14 +834,140 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
 ABOUT_BODY = """<h1>About sipi.bot</h1>
 <p class="lead">sipi.bot is the spend firewall for autonomous AI agents — the control layer that evaluates every transaction an agent attempts and returns approve, block, or flag before any money moves.</p>
 <h2>Why we built it</h2>
-<p>The agent economy handed autonomous software real spending power — API credits, compute, SaaS, payments — usually backed by a human's credit card and no hard limit. One infinite retry loop or one compromised prompt can drain thousands of dollars before anyone notices. "Trust the prompt" is not a spending policy.</p>
-<p>sipi.bot puts a deterministic firewall in front of that spending power. Your agent asks permission first; sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and answers in under 5&nbsp;ms. Every decision is written to a tamper-evident audit log, and the transactions that matter go to a human-in-the-loop approval queue.</p>
-<h2>How it works</h2>
-<p>sipi.bot exposes three native surfaces so any agent runtime can call it: a plain HTTP API, an MCP tool (for Claude Code, Cursor, and Hermes), and a CLI. The core engine is open source and self-hostable on GitHub; the hosted service is a flat $99/month for unlimited evaluations.</p>
-<h2>Who it's for</h2>
-<p>Teams and builders running autonomous agents that can spend money — payment agents, procurement bots, DevOps automations, and AI copilots with billing access — who need real spend controls, an audit trail, and human oversight without slowing the agent down.</p>
-<h2>Contact</h2>
-<p>Questions, security reports, or partnership requests: reach us on <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>.</p>"""
+<p>The agent economy handed autonomous software real spending power — API credits, compute, SaaS, payments — usually backed by a human's credit card and no hard limit.</p>
+"""
+
+
+DREAM100_BODY = """<h1>Dream 100 — Where Agent-Builders Already Gather</h1>
+<p class="lead">Russell Brunson says: <em>"Identify your Dream 100, serve them before you ask."</em> Our dream customers — developers deploying autonomous agents that can spend money — already congregate in these communities, protocols, and platforms. We show up, contribute, and serve first.</p>
+
+<h2>Tier 1 — Agent Payment Infrastructure (20)</h2>
+<p>The protocols and SDKs our customers already build on. We contribute, document, and build alongside them.</p>
+<ul>
+  <li><strong>x402 Working Group</strong> — the payment protocol for AI agents</li>
+  <li><strong>Coinbase AgentKit</strong> — agent wallet & payment SDK</li>
+  <li><strong>Anthropic Agent SDK</strong> — Claude agent framework</li>
+  <li><strong>OpenAI Agents SDK</strong> — GPT agent orchestration</li>
+  <li><strong>Google AP2</strong> — agent-to-agent payment protocol</li>
+  <li><strong>LangChain / LangGraph</strong> — agent orchestration framework</li>
+  <li><strong>CrewAI</strong> — multi-agent framework</li>
+  <li><strong>Model Context Protocol (MCP)</strong> — agent tooling standard</li>
+  <li><strong>Stripe Agent Toolkit</strong> — payment tooling for agents</li>
+  <li><strong>Vercel AI SDK</strong> — agent streaming & tool calls</li>
+</ul>
+
+<h2>Tier 2 — Developer Communities (30)</h2>
+<p>Where agent developers congregate, ask questions, and share builds. We answer questions, ship tools, and earn trust.</p>
+<ul>
+  <li><strong>r/LocalLLaMA</strong> (500K+) — local agent deployments</li>
+  <li><strong>r/AI_Agents</strong> (200K+) — agent building community</li>
+  <li><strong>r/LangChain</strong> (150K+) — LangChain users</li>
+  <li><strong>Hacker News</strong> — dev news & Show HN launches</li>
+  <li><strong>Indie Hackers</strong> — founder/developer community</li>
+  <li><strong>r/MachineLearning</strong> (3M+) — ML practitioners</li>
+  <li><strong>r/OpenAI</strong> (300K+) — OpenAI developer community</li>
+  <li><strong>r/singularity</strong> (500K+) — AI acceleration</li>
+  <li><strong>GitHub Trending (Python/TypeScript)</strong> — repo discovery</li>
+  <li><strong>PyPI</strong> — Python package distribution</li>
+</ul>
+
+<h2>Tier 3 — Newsletters, Podcasts & Publications (15)</h2>
+<p>The voices agent developers trust. We pitch, contribute, and share research.</p>
+<ul>
+  <li><strong>Latent Space</strong> — AI engineering podcast & newsletter</li>
+  <li><strong>The Sequence</strong> — AI research newsletter</li>
+  <li><strong>TLDR AI</strong> — daily AI newsletter (500K+ subs)</li>
+  <li><strong>BensBites</strong> — AI product newsletter</li>
+  <li><strong>AlphaSignal</strong> — ML practitioner newsletter</li>
+  <li><strong>Practical AI</strong> — podcast for ML engineers</li>
+  <li><strong>AI Engineer Summit</strong> — conference & community</li>
+</ul>
+
+<h2>How We Serve the Dream 100</h2>
+<div class="how-grid">
+  <div class="how-card"><h3>1. Build in Public</h3><p>We open-source our eval harness, MCP server, and x402 integration examples. Contribution first, promotion never.</p></div>
+  <div class="how-card"><h3>2. Contribute First</h3><p>Documentation, bug reports, and compatibility patches flow upstream to the frameworks our customers use.</p></div>
+  <div class="how-card"><h3>3. Feature Them</h3><p>Our Dream 100 members are referenced in our docs, examples, and case studies — not as name-drops, but as the foundation our product sits on.</p></div>
+</div>
+
+<div class="cta-box">
+  <h2>Think you belong on this list?</h2>
+  <p>If you build agent infrastructure, tooling, or community and want to integrate spend controls, reach out.</p>
+  <a href="mailto:dom@carshake.online" class="btn">Get in touch →</a>
+</div>
+
+<style>
+.how-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:20px 0}
+.how-card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px}
+.how-card h3{margin:0 0 8px;font-size:1rem;color:#e2e8f0}
+.how-card p{margin:0;font-size:.88rem;color:#64748b;line-height:1.6}
+.cta-box{background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(99,102,241,.02));border:1px solid rgba(99,102,241,.15);border-radius:16px;padding:32px;text-align:center;margin:40px 0}
+.lead{font-size:1.05em;color:#94a3b8;margin:0 0 32px;line-height:1.6}
+</style>
+"""
+
+CALENDAR_BODY = """<h1>Content Calendar — sipi.bot Publishing Schedule</h1>
+<p class="lead">What we ship, when we ship it — across the agent-spending frontier. Every piece of content is designed to surface on one of the three channels our Dream 100 customers already use: developer communities, protocol documentation, and agent-builder newsletters.</p>
+
+<div class="stats-grid">
+  <div class="stat"><div class="stat-num">Weekly</div><div class="stat-label">Eval report refresh</div></div>
+  <div class="stat"><div class="stat-num">Monthly</div><div class="stat-label">x402 integration tests</div></div>
+  <div class="stat"><div class="stat-num">Quarterly</div><div class="stat-label">Agent-spend benchmark</div></div>
+  <div class="stat"><div class="stat-num">5ms</div><div class="stat-label">Per-transaction latency</div></div>
+</div>
+
+<h2>Weekly Publishing</h2>
+<div class="cal-box">
+  <div class="cal-grid">
+    <div class="cal-row"><span class="cal-day">Monday</span><span class="cal-topic">Eval harness refresh<div class="cal-desc">The open-source eval suite runs against the latest model releases. Results published at /eval-report.</div></span></div>
+    <div class="cal-row"><span class="cal-day">Wednesday</span><span class="cal-topic">MCP server compatibility test<div class="cal-desc">Test sipi.bot's MCP tool against the latest Claude Desktop, Cursor, and Hermes releases.</div></span></div>
+    <div class="cal-row"><span class="cal-day">Friday</span><span class="cal-topic">GitHub release notes<div class="cal-desc">Open-source changelog: new rules, performance improvements, integration fixes.</div></span></div>
+  </div>
+</div>
+
+<h2>Monthly Publishing</h2>
+<div class="cal-box">
+  <div class="cal-grid">
+    <div class="cal-row"><span class="cal-day">Week 1</span><span class="cal-topic">x402 integration examples<div class="cal-desc">New payment-rail integration patterns: Stripe Agent Toolkit, Coinbase AgentKit, Google AP2.</div></span></div>
+    <div class="cal-row"><span class="cal-day">Week 2</span><span class="cal-topic">Agent-framework guides<div class="cal-desc">How to wire sipi.bot into CrewAI, LangGraph, AutoGen, and custom agent loops.</div></span></div>
+    <div class="cal-row"><span class="cal-day">Week 3</span><span class="cal-topic">Spend-control deep dives<div class="cal-desc">Per-rule deep dives: velocity limits, merchant allowlisting, category rules, time-of-day gates.</div></span></div>
+    <div class="cal-row"><span class="cal-day">Week 4</span><span class="cal-topic">Community showcase<div class="cal-desc">Self-hosted deployments, unusual use cases, and agent-spend horror stories from the community.</div></span></div>
+  </div>
+</div>
+
+<h2>Quarterly Publishing</h2>
+<div class="cal-box">
+  <div class="cal-grid">
+    <div class="cal-row"><span class="cal-day">Q1/Q2/Q3/Q4</span><span class="cal-topic">Agent-Spend Frontier Benchmark<div class="cal-desc">Aggregate, anonymized data from the hosted service: average transaction sizes, block rates, rule-trigger patterns, and emerging merchant categories.</div></span></div>
+    <div class="cal-row"><span class="cal-day">Quarterly</span><span class="cal-topic">Open-source release<div class="cal-desc">New stable release with all accumulated fixes and features from the hosted service.</div></span></div>
+  </div>
+</div>
+
+<h2>Distribution Channels</h2>
+<div class="cal-box">
+  <div class="cal-grid">
+    <div class="cal-row"><span class="cal-day">Per release</span><span class="cal-topic"><span class="tag">GitHub</span> <span class="tag">PyPI</span><div class="cal-desc">MIT-licensed core at github.com/kindrat86/sipi-bot, pip-installable via PyPI.</div></span></div>
+    <div class="cal-row"><span class="cal-day">Ongoing</span><span class="cal-topic"><span class="tag">MCP</span> <span class="tag">A2A</span> <span class="tag">NLWeb</span><div class="cal-desc">Agent-native distribution: MCP server, A2A endpoint, NLWeb endpoint — free in perpetuity.</div></span></div>
+    <div class="cal-row"><span class="cal-day">Per launch</span><span class="cal-topic"><span class="tag">Hacker News</span> <span class="tag">r/LocalLLaMA</span><div class="cal-desc">Show HN launches and community posts for major releases.</div></span></div>
+    <div class="cal-row"><span class="cal-day">Ongoing</span><span class="cal-topic"><span class="tag">X/Twitter</span> <span class="tag">GitHub</span><div class="cal-desc">@sipiteno on X, GitHub Discussions for community support.</div></span></div>
+  </div>
+</div>
+
+<style>
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:20px 0}
+.stat{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px;text-align:center}
+.stat-num{font-size:1.8rem;font-weight:800;color:var(--accent);line-height:1.2}
+.stat-label{font-size:.78rem;color:#64748b;margin-top:4px}
+.cal-box{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px 24px;margin:0 0 28px}
+.cal-grid{display:grid;gap:4px;margin:12px 0}
+.cal-row{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:8px 0;border-bottom:1px solid #1e293b;font-size:.9rem}
+.cal-row:last-child{border-bottom:none}
+.cal-day{font-weight:700;color:var(--accent);font-size:.85rem;padding-top:2px}
+.cal-topic{color:#e2e8f0}
+.cal-desc{color:#64748b;font-size:.82rem;margin-top:2px}
+.tag{display:inline-block;background:rgba(0,212,170,.15);color:#00d4aa;padding:2px 8px;border-radius:6px;font-size:.75rem;font-weight:600;margin-right:6px}
+</style>
+"""
 
 PRIVACY_BODY = """<h1>Privacy Policy</h1>
 <p class="lead">Last updated: 2026. sipi.bot collects the minimum data needed to evaluate transactions and operate the service.</p>
@@ -871,7 +997,7 @@ TERMS_BODY = """<h1>Terms of Service</h1>
 
 
 def dashboard_html() -> str:
-    return f"""<!doctype html><html lang="en"><head>
+    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
@@ -995,7 +1121,7 @@ all();setInterval(loadStats,15000);
 
 
 def pricing_html() -> str:
-    return f"""<!doctype html><html lang="en"><head>
+    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
@@ -1107,7 +1233,7 @@ def key_success_html(rec) -> str:
     <p class="sub">Your payment is confirmed. If your key isn't shown yet, refresh in a few seconds
     (the webhook is issuing it now). Still nothing after a minute? Email sales@sipiteno.com.</p>
     <a href="/pricing" class="btn ghost">Back to pricing</a>"""
-    return f"""<!doctype html><html lang="en"><head>
+    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
@@ -1125,7 +1251,7 @@ def key_success_html(rec) -> str:
 
 def masterclass_html() -> str:
     """Perfect Webinar / Masterclass: The 3 Secrets of Agent Spend Control (Ch 8)."""
-    s = f"""<!doctype html><html lang="en"><head>
+    s = f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Masterclass — The 3 Secrets That Stop Agent Overspend | sipi.bot</title>
 <meta name="description" content="A 10-minute recorded walkthrough covering the 3 secrets every builder needs before deploying an autonomous agent with a payment method.">
