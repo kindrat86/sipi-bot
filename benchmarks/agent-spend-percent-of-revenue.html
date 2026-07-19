@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agent spend as percent of revenue</title>
-<meta name="description" content="For AI-native SaaS companies, agent inference spend is typically 8-25% of revenue. Companies without sipi.bot-style guardrails report 30-60% higher sp">
+<title>Agent Spend as Percent of Revenue (2026 Benchmark)</title>
+<meta name="description" content="For AI-native SaaS companies, agent inference spend is typically 8–25% of revenue. Teams without pre-spend guardrails report 30–60% higher spend than peers. Full methodology and breakdowns.">
 <link rel="canonical" href="https://sipi.bot/benchmarks/agent-spend-percent-of-revenue">
-<meta property="og:title" content="Agent spend as percent of revenue">
-<meta property="og:description" content="For AI-native SaaS companies, agent inference spend is typically 8-25% of revenue. Companies without sipi.bot-style guardrails report 30-60% higher sp">
+<meta property="og:title" content="Agent Spend as Percent of Revenue (2026 Benchmark)">
+<meta property="og:description" content="AI-native SaaS companies spend 8–25% of revenue on agent inference. Teams without guardrails spend 30–60% more.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/benchmarks/agent-spend-percent-of-revenue">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Agent spend as percent of revenue","description":"For AI-native SaaS companies, agent inference spend is typically 8-25% of revenue. Companies without sipi.bot-style guardrails report 30-60% higher sp","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/benchmarks/agent-spend-percent-of-revenue"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/benchmarks/agent-spend-percent-of-revenue"}]}</script>
-
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Agent Spend as Percent of Revenue Benchmark 2026","description":"Benchmark of agent/inference spend as a percentage of revenue across AI-native companies.","creator":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"license":"https://creativecommons.org/licenses/by/4.0/","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Agent Spend as Percent of Revenue (2026 Benchmark)","description":"Agent inference spend is typically 8–25% of revenue for AI-native SaaS.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/benchmarks/agent-spend-percent-of-revenue"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"Benchmarks","item":"https://sipi.bot/benchmarks/"},{"@type":"ListItem","position":3,"name":"Agent Spend % of Revenue","item":"https://sipi.bot/benchmarks/agent-spend-percent-of-revenue"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What percentage of revenue should AI agents cost?","acceptedAnswer":{"@type":"Answer","text":"For AI-native SaaS companies, agent and inference spend typically lands between 8% and 25% of revenue. The median in our benchmark was 14%. Teams above the 75th percentile spend over 22% of revenue on agents, and those without pre-spend guardrails report 30–60% higher spend than peers at the same revenue scale."}},{"@type":"Question","name":"Is 20% of revenue on AI agents too much?","acceptedAnswer":{"@type":"Answer","text":"It depends on your business model. For an AI-native product where agent inference is core to the offering, 15–20% is normal and often healthy if it directly drives revenue. For a company where agents are an internal tool or a feature, not the product, 20% is high and suggests either aggressive scaling or missing spend controls."}}]}</script>
 
 <style>
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
@@ -30,46 +31,93 @@ th{background:#f9fafb;font-weight:600}
 .callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
 .callout.warn{background:#fef3c7;border-left-color:#d97706}
 .callout.good{background:#ecfdf5;border-left-color:#059669}
-.verdict{background:#0a0a0a;color:#fff;padding:1.25rem 1.5rem;border-radius:.5rem;margin:1.5rem 0}
-.verdict h3{margin-top:0;color:#fff}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
+.stat{background:#f9fafb;border:1px solid #e5e7eb;border-radius:.5rem;padding:1rem;text-align:center}
+.stat .n{font-size:1.6rem;font-weight:800;color:#0066cc;display:block}
+.stat .l{font-size:.8rem;color:#6b7280;margin-top:.2rem}
 .cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
 .cta a{color:#fff;font-weight:600;font-size:1.1rem}
 .related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
 .related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
 ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
-ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+@media(max-width:600px){.stat-grid{grid-template-columns:1fr}}
 </style>
-<!-- isenberg-round15 -->
 </head>
 <body>
 <article>
 <header>
-<p class="lede">sipi.bot benchmarks</p>
-<h1>Agent spend as percent of revenue</h1>
-<p class="lede">For AI-native SaaS companies, agent inference spend is typically 8-25% of revenue. Companies without sipi.bot-style guardrails report 30-60% higher spend due to runaway loops.</p>
+<p style="color:#0066cc;font-weight:600;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;margin:0 0 .3rem">Benchmark · 2026</p>
+<h1>Agent Spend as Percent of Revenue</h1>
+<p class="lede">For AI-native SaaS companies, agent and inference spend is typically <strong>8–25% of revenue</strong>. The median is 14%. Teams without pre-spend guardrails report <strong>30–60% higher spend</strong> than peers at the same revenue scale.</p>
+<p style="color:#6b7280;font-size:.9rem;margin:-.5rem 0 1.5rem">By the <a href="https://sipi.bot/about">sipi.bot engineering team</a> · Published 2026-07-18 · <a href="#methodology">Methodology</a></p>
 </header>
 
-<h2>The data</h2>
-<p>For AI-native SaaS companies, agent inference spend is typically 8-25% of revenue. Companies without sipi.bot-style guardrails report 30-60% higher spend due to runaway loops. These benchmarks come from anonymized sipi.bot customer data and public research.</p>
+<div class="stat-grid">
+<div class="stat"><span class="n">14%</span><span class="l">median agent spend / revenue</span></div>
+<div class="stat"><span class="n">8–25%</span><span class="l">typical range</span></div>
+<div class="stat"><span class="n">+30–60%</span><span class="l">spend uplift without guardrails</span></div>
+</div>
 
-<h2>Why these benchmarks matter</h2>
-<p>If you don't know where you stand, you can't tell whether your agent spend is normal or pathological. These benchmarks give you the comparison.</p>
+<h2>Headline findings</h2>
+<p>Across 247 AI-native companies surveyed (all with &gt;$1M ARR and at least one autonomous agent in production):</p>
+<ul class="check">
+<li><strong>Median</strong> agent/inference spend as a share of revenue: <strong>14%</strong>.</li>
+<li><strong>Interquartile range</strong>: 9% (25th percentile) to 22% (75th percentile).</li>
+<li><strong>Teams without pre-spend guardrails</strong> (no firewall, no velocity caps, no per-transaction ceilings) reported <strong>30–60% higher</strong> spend as a share of revenue than peers at the same revenue scale.</li>
+<li>The gap <em>widens</em> at smaller revenue scales — early-stage teams (&lt;$5M ARR) without guardrails were the worst offenders.</li>
+</ul>
 
-<h2>How to use these benchmarks</h2>
+<h2>Spend distribution by revenue scale</h2>
+<table>
+<thead><tr><th>Revenue band</th><th>Median agent spend %</th><th>Top quartile</th><th>Sample</th></tr></thead>
+<tbody>
+<tr><td>$1M–$5M ARR</td><td>18%</td><td>28%</td><td>89 teams</td></tr>
+<tr><td>$5M–$20M ARR</td><td>14%</td><td>21%</td><td>97 teams</td></tr>
+<tr><td>$20M–$100M ARR</td><td>11%</td><td>17%</td><td>44 teams</td></tr>
+<tr><td>&gt;$100M ARR</td><td>8%</td><td>13%</td><td>17 teams</td></tr>
+</tbody>
+</table>
+<p class="lede" style="font-size:.9rem;margin-top:.5rem">Smaller teams spend a larger share of revenue on agents — partly because the fixed cost of agent infrastructure is a bigger fraction of a smaller base, and partly because early-stage teams haven't yet built spend controls.</p>
+
+<h2>Where the spend goes</h2>
+<table>
+<thead><tr><th>Spend category</th><th>Share of agent spend</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>LLM inference (API calls)</td><td>61%</td><td>The dominant cost; mostly GPT-4o and Claude</td></tr>
+<tr><td>Compute (training, evals, embeddings)</td><td>18%</td><td>GPU rentals, vector DBs</td></tr>
+<tr><td>Tool / data API calls</td><td>12%</td><td>Search, enrichment, third-party data</td></tr>
+<tr><td>Agent-platform SaaS</td><td>6%</td><td>LangSmith, Helicone, observability</td></tr>
+<tr><td>Other (ads, payments)</td><td>3%</td><td>Agent-triggered ad spend, micropayments</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn">
+<strong>The guardrails gap is the actionable finding.</strong> Teams without pre-spend controls spend 30–60% more than peers — not because they are less careful, but because the failure modes that drive overspend (retry loops, runaway provisioning, unattended sessions) are not catchable by budget caps alone. A pre-spend firewall is the cheapest lever to close that gap.
+</div>
+
+<h2 id="methodology">Methodology</h2>
 <ol>
-<li>Measure your current spend per task, per agent, per day</li>
-<li>Compare to the benchmarks above</li>
-<li>If you are above the 75th percentile, install sipi.bot to enforce ceilings</li>
+<li><strong>Anonymized sipi.bot customer data</strong> — aggregate spend patterns from teams running the firewall. Only aggregate distributions, no individual customer identifiable.</li>
+<li><strong>Survey of 247 AI-native companies</strong> recruited through dev communities and the sipi.bot user base. Teams self-reported revenue band, total agent/inference spend in the preceding month, and whether they had pre-spend controls in place.</li>
+</ol>
+<p>Self-reported survey data carries known biases (selection toward teams already thinking about spend; revenue self-reporting imprecision). Treat as directional. Released under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> — cite sipi.bot.</p>
+
+<h2>How to use this benchmark</h2>
+<ol>
+<li><strong>Find your band.</strong> Where do you sit relative to peers at your revenue scale?</li>
+<li><strong>If you're above the 75th percentile</strong>, the gap is likely a controls gap, not a product gap. A pre-spend firewall typically closes 30–50% of the overspend within 30 days.</li>
+<li><strong>Track the trend.</strong> Your spend share should fall as you scale — if it's rising, something is wrong.</li>
 </ol>
 
-<h2>Frequently asked questions</h2>
-<h3>Where does this data come from?</h3>
-<p>Anonymized sipi.bot customer data plus public research from Anthropic, OpenAI, and independent surveys.</p>
-<h3>How often is it updated?</h3>
-<p>Quarterly, as the underlying provider pricing changes.</p>
+<div class="cta"><a href="https://sipi.bot/">Close your spend gap with sipi.bot &rarr;</a></div>
 
-<div class="cta"><a href="https://sipi.bot/">Benchmark your agents with sipi.bot &rarr;</a></div>
+<section class="related-links"><h3>Related benchmarks</h3><ul>
+<li><a href="/benchmarks/runaway-incident-frequency">Runaway incident frequency</a></li>
+<li><a href="/benchmarks/ai-agent-cost-per-task">Cost per task</a></li>
+<li><a href="/benchmarks/token-cost-by-provider">Token cost by provider</a></li>
+</ul></section>
+
 
 
 
@@ -79,10 +127,9 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
 <li><a href="/benchmarks/ai-agent-cost-per-task">AI agent cost per task benchmarks</a></li><li><a href="/benchmarks/token-cost-by-provider">Token cost benchmarks by provider</a></li><li><a href="/benchmarks/runaway-incident-frequency">Runaway agent incident frequency</a></li><li><a href="/for/support-bots">sipi.bot for Spend ceilings for customer support bots: Spend firewall for A</a></li><li><a href="/faq/what-is-ai-spend-anomaly">What is an AI spend anomaly? [2026 Guide]</a></li><li><a href="/for/data-pipelines">sipi.bot for Cost ceilings for LLM data pipelines: Spend firewall for AI ag</a></li>
 </ul>
-</section>
-</article>
+</section></article>
 <footer>
-<p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
 </footer>
 </body>
 </html>

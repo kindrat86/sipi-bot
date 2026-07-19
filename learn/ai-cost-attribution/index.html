@@ -53,15 +53,36 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <p>Spend firewall for AI agents. This is directly relevant to ai cost attribution: a complete guide because it removes the manual work and lets you focus on outcomes.</p>
 
 
-
-
 <!-- mesh-round19 -->
+
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>Why this matters</h2>
+<p>Autonomous AI agents are useful precisely because they can act without a human in the loop on every decision. The moment an agent can initiate a transaction — a paid API call, a purchase, a charge, a provisioning step — it can also overspend. The question is not whether to give agents spending power, but how to bound that power so a bug, a loop, or an adversarial input cannot drain a budget.</p>
+<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+</section>
+
+<section><h2>How to apply this</h2><ol><li>Identify every place your agent can cause money to move. Include indirect paths (tool calls that wrap paid APIs, functions that provision metered resources).</li><li>Put a policy check in front of each one. The check should be the only path between spend intent and the actual transaction.</li><li>Define limits that match the agent's job: per-transaction cap, daily ceiling, velocity cap, merchant allowlist.</li><li>Log every decision with agent id, merchant, amount, intent, and policy version. The log is your audit trail and your debugging tool.</li><li>Set up real-time alerts on flagged and blocked transactions. A blocked transaction is information — use it to improve the agent or the policy.</li><li>Review the audit log weekly during early deployment, then monthly once the patterns stabilize.</li></ol></section>
+
+<section>
+<h2>Common mistakes</h2>
+<p><strong>Setting limits too high</strong> because you are worried about interrupting the agent. Start low and raise based on what you observe. A blocked transaction is a teaching signal; an unblocked overspend is a bill.</p>
+<p><strong>Skipping the audit log</strong>. Without a tamper-evident record, you cannot debug blocked transactions, cannot prove compliance, and cannot answer the question 'what did the agent spend last week?'</p>
+<p><strong>Trusting the LLM provider's monthly cap</strong>. Provider caps are account-level and monthly. They will not stop a loop that runs for six hours on a Saturday and they will not cap a non-LLM transaction.</p>
+</section>
+
+<section>
+<h2>Measuring success</h2>
+<p>Track three numbers: blocked-transaction rate (should be low — under 1% — and stable), flagged-transaction rate (should be near zero in steady state), and total spend per agent per day (should match your policy ceiling, never exceed it). If blocked rate spikes, your policy is too tight or your agent is misbehaving; investigate before loosening.</p>
+</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
 <li><a href="/learn/agent-spend-compliance">Agent spend compliance: a complete guide</a></li><li><a href="/learn/agent-spend-governance">Agent Spend Governance: Best Practices — Complete Guide 2026</a></li><li><a href="/learn/ai-billing-audit-trail">Building an AI billing audit trail</a></li><li><a href="/vs/openai-usage">sipi.bot vs OpenAI Usage API [2026 Comparison]</a></li><li><a href="/for/llm-apps">sipi.bot for LLM Application Teams — Built for Your Workflow</a></li><li><a href="/vs/openai-spending-limits">sipi.bot vs OpenAI Spending Limits — Which Is Better in 2026?</a></li>
 </ul>
-</section></article>
+</section>
+</article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started →</a></section>
 <footer><p>© 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>
 </body>

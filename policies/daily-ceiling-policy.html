@@ -76,6 +76,32 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <section class="related-links"><h3>Related pages</h3><ul><li><a href="/policies/per-transaction-limit-policy">Per-transaction limit policy</a></li><li><a href="/policies/velocity-cap-policy">Velocity cap policy</a></li><li><a href="/policies/merchant-allowlist-policy">Merchant allowlist policy</a></li></ul></section>
 
 <!-- mesh-round19 -->
+
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>What this policy does</h2>
+<p>Daily spend ceiling policy is one of the core policy levers sipi.bot evaluates on every agent transaction. The policy is enforced in under 5 milliseconds and produces a structured decision — approve, block, or flag — that the agent acts on before any money moves.</p>
+<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+</section>
+
+<section>
+<h2>When this policy fires</h2>
+<p>The policy is evaluated on every transaction that matches its scope. A match produces one of three outcomes: approve (the transaction is within policy and proceeds), block (the transaction violates the policy and is rejected with a reason code), or flag (the transaction is held for human review). The agent receives the decision as structured JSON and can choose an alternative path on block.</p>
+</section>
+
+<section>
+<h2>How to configure it</h2>
+<p>Start from the recommended default for your agent's use case, then tune based on observed traffic. During the first week of deployment, review every blocked and flagged transaction in the audit log — these are the transactions that tell you whether your limits are too tight, too loose, or correctly calibrated.</p>
+<p>Every policy decision is logged with the policy version that produced it. When you change a limit, the version increments, so you can always reconstruct which policy was in effect for any historical transaction.</p>
+</section>
+
+<section>
+<h2>Common configuration mistakes</h2>
+<p><strong>Setting the limit too high</strong> because you do not want to interrupt the agent. A blocked transaction is information; an unblocked overspend is a bill. Start conservative.</p>
+<p><strong>Forgetting the velocity dimension</strong>. A per-transaction limit will not catch a loop that makes thousands of small in-policy calls. Pair every dollar limit with a velocity cap.</p>
+<p><strong>No audit trail</strong>. Without a tamper-evident log of every decision, you cannot debug blocks, prove compliance, or tune the policy intelligently.</p>
+</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">

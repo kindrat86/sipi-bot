@@ -88,6 +88,30 @@ ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";colo
 <li><a href="/alternatives-to/litellm">LiteLLM alternative</a></li>
 </ul></section>
 </article>
+
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>Observation vs enforcement</h2>
+<p>Most tools in this category are observability platforms. They trace requests, aggregate cost, and show you dashboards of what happened. That is useful. It is also, by definition, after the fact — the money has already moved by the time the dashboard updates.</p>
+<p>sipi.bot is an enforcement layer. It sits in the path of every transaction and returns approve, block, or flag in under 5 milliseconds, before the transaction executes. The difference, on a runaway loop, is the difference between a $2 anomaly and a $2,000 incident.</p>
+</section>
+
+<section>
+<h2>Where sipi.bot is the stronger choice</h2>
+<p>If your agent can cause money to move and you need to bound that risk in real time, enforcement beats observation. Langfuse will tell you, on the next dashboard refresh, that your agent spent $400 in six minutes. sipi.bot will have blocked the loop at transaction number three.</p>
+<p>The two categories also compose. Many teams run an observability tool for analytics and attribution alongside sipi.bot for real-time enforcement. Use observation to understand your spend; use enforcement to bound it.</p>
+</section>
+
+<section>
+<h2>Feature comparison</h2>
+<p>Compared to Langfuse, sipi.bot adds: per-transaction dollar limits, daily ceilings, velocity caps, merchant allowlists, human-in-the-loop escalation on flagged transactions, a tamper-evident audit trail, and a 5ms decision API. None of these are features of a pure observability tool — they require sitting in the transaction path, which is a fundamentally different architectural commitment.</p>
+</section>
+
+<section>
+<h2>Pricing</h2>
+<p>sipi.bot starts at $99 per month. For teams that have experienced a runaway incident (67% of production agent teams in a recent 90-day window, median cost $340), the payback period is measured in a single prevented incident.</p>
+</section>
 <footer>
 <p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a></p>
 </footer>

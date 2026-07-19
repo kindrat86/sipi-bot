@@ -76,6 +76,30 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <section class="related-links"><h3>Related pages</h3><ul><li><a href="/limits/recommended-limits-by-use-case">Recommended spend limits by AI agent use case</a></li><li><a href="/limits/openai-agent-limits">Spend limits for OpenAI agents</a></li></ul></section>
 
 <!-- mesh-round19 -->
+
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>Why explicit limits matter</h2>
+<p>Autonomous agents need explicit spend limits because the alternative — trusting the agent, the LLM provider's monthly cap, or a human in the loop on every transaction — does not actually bound the risk. Provider caps are monthly and account-level. Human review does not scale. And agents themselves have no native concept of a budget.</p>
+<p>Spend limits for Anthropic Claude agents gives you a concrete, enforceable ceiling that is evaluated on every transaction in under 5ms. sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+</section>
+
+<section>
+<h2>How to choose a value</h2>
+<p>Start with the recommended default for your agent type, observe actual traffic for a week, then tune. The right limit is the smallest value that does not interrupt legitimate work. If you are blocking more than 1% of transactions in steady state, the limit is probably too tight. If you are not blocking anything, it may be too loose.</p>
+<p>Pair every dollar limit with a velocity cap (transactions per minute). Dollar limits catch the single large transaction; velocity caps catch the loop. You need both.</p>
+</section>
+
+<section>
+<h2>What happens when a limit is hit</h2>
+<p>When a transaction would exceed the limit, sipi.bot returns block with a reason code identifying which limit fired. The agent receives the decision as structured JSON and can choose an alternative path — retry with a smaller scope, ask for human approval, or abandon the task. The blocked transaction is logged with the policy version, so you can always see exactly why it was denied.</p>
+</section>
+
+<section>
+<h2>Reviewing and tuning</h2>
+<p>Review the audit log weekly during early deployment. Look at the blocked and flagged transactions: are they genuine policy violations (good, the limit is working) or legitimate work the agent could not complete (raise the limit)? After a month, most policies stabilize and monthly review is enough.</p>
+</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">

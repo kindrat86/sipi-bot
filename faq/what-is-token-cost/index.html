@@ -43,20 +43,43 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <p class="lede">Token cost is the dollar amount charged by LLM providers (OpenAI, Anthropic) for processing text. Each API call consumes tokens, and costs accumulate based on usage.</p>
 <div class="callout"><strong>Answer:</strong> Token cost is the dollar amount charged by LLM providers (OpenAI, Anthropic) for processing text. Each API call consumes tokens, and costs accumulate based on usage.</div>
 <h2>Detailed explanation</h2>
-<p>Token cost is the per-unit price LLM providers charge for text processing — measured in dollars per million tokens ($/M). Input tokens (your prompt) cost less than output tokens (the model's response) at a ratio of roughly 3-5x. See the <a href="/benchmarks/token-cost-by-provider">token cost benchmark</a> for current pricing across GPT-4o, Claude, and Gemini. For controlling total token spend (not just the per-unit price), a pre-spend firewall caps the number of calls and the amount per call — the per-unit price is only half the equation.</p>
+<p>Token cost is the dollar amount charged by LLM providers (OpenAI, Anthropic) for processing text. Each API call consumes tokens, and costs accumulate based on usage. This is a common question from users evaluating spend firewall solutions, and the answer depends on your specific use case.</p>
 <h2>How sipi.bot addresses this</h2>
-<p>sipi.bot sits in front of every LLM call your agent makes and evaluates the transaction before it fires — including the token cost. A velocity rule caps the number of calls per hour (killing retry loops, the #1 source of wasted token spend), a per-transaction cap catches the catastrophic single call, and the audit log records exactly how many tokens each agent consumed and what it cost. For optimizing the price per-token, compose sipi.bot with an LLM gateway like <a href="/vs/litellm">LiteLLM</a>. For understanding your per-model spend, see the <a href="/benchmarks/token-cost-by-provider">token cost benchmark</a>.</p>
-
-
+<p>Spend firewall for AI agents. The platform is designed to make this question straightforward — you configure once and the system handles the rest.</p>
 
 
 <!-- mesh-round19 -->
+
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>The short answer hides the real risk</h2>
+<p>The headline answer to this question is usually 'yes, but with controls'. The part that matters — and the part most teams skip — is what those controls actually look like in production. A monthly provider cap is not a control in any meaningful sense: it will not stop a six-hour loop on a Saturday and it will not bound a non-LLM transaction.</p>
+<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+</section>
+
+<section>
+<h2>What a real control looks like</h2>
+<p>A real spend control is evaluated on every transaction, returns in milliseconds, and produces a structured decision the agent can act on. It combines four levers: a per-transaction dollar limit, a daily ceiling, a velocity cap (transactions per minute), and a merchant allowlist. Without all four, there is a failure mode the control does not cover.</p>
+<p>Per-transaction limits catch the single catastrophic call. Daily ceilings catch the slow accumulation. Velocity caps catch the loop. Merchant allowlists catch the wrong destination. Together they bound the agent's financial blast radius to something a human can absorb.</p>
+</section>
+
+<section>
+<h2>Why this question keeps coming up</h2>
+<p>Teams ask what is token cost in ai applications because the answer is genuinely unclear from the LLM provider's documentation. Provider billing caps are coarse (monthly, account-level) and provider rate limits are about throughput, not dollars. Neither is designed to stop an agent from overspending in real time. The gap is real, and it is exactly the gap a spend firewall fills.</p>
+</section>
+
+<section>
+<h2>What to do next</h2>
+<p>If you are running an agent that can transact, the right next step is to list every path by which it can move money, then put a policy check in front of each one. Start with conservative limits, watch the audit log for a week, and tune. The whole exercise takes an afternoon and costs less than a single runaway incident.</p>
+</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
 <li><a href="/faq/what-happens-if-ai-agent-exceeds-budget">What happens if my AI agent exceeds its budget? [2026 Guide]</a></li><li><a href="/faq/how-much-ai-agent-spend">How much should my AI agent spend?</a></li><li><a href="/faq/how-much-should-my-ai-agent-spend">How much should my AI agent spend per task? [2026 Guide]</a></li><li><a href="/vs/openrouter">sipi.bot vs OpenRouter [2026 Comparison]</a></li><li><a href="/for/content-bots">sipi.bot for Spend controls for content generation bots: Spend firewall for</a></li><li><a href="/benchmarks/ai-agent-cost-per-task">AI agent cost per task benchmarks</a></li>
 </ul>
-</section></article>
+</section>
+</article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started →</a></section>
 <footer><p>© 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>
 </body>

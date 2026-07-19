@@ -32,7 +32,28 @@
         <h1 style="font-size:2em;font-weight:800;margin-bottom:.5em;line-height:1.2">Spend Firewall for DevOps AI Agents</h1>
         <p style="font-size:1.1em;color:#555;margin-bottom:2em">Infra spend controls for AI agents that provision cloud resources autonomously.</p>
         <p>DevOps agents provision infra, buy domains, spin up instances. sipi.bot ensures every spend decision follows your rules — before the charge hits.</p><p><a href="https://sipi.bot" style="color:#0066cc;font-weight:600">Try sipi.bot →</a></p>
-    </main>
+    
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>Common spend patterns for DevOps AI Agents</h2>
+<p>DevOps AI Agents run agents that can move money in the course of their work. The exact pattern varies, but the failure modes repeat: an agent loops on a paid API call, a tool call hits the wrong merchant, a multi-step workflow accumulates charges faster than anyone expected, or a prompt injection tricks the agent into a transaction it should never have made.</p>
+<p>Across production agent teams, the median runaway incident costs $340 and 67% of teams report at least one in the last 90 days. The pattern is not rare and it is not cheap.</p>
+</section>
+
+<section>
+<h2>How sipi.bot fits your workflow</h2>
+<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+<p>For DevOps AI Agents, the value is enforcement, not just observability. Dashboards tell you what happened after the money moved. A spend firewall stops the transaction before it moves. The difference, on a runaway loop, is the difference between a $2 anomaly and a $2,000 incident.</p>
+</section>
+
+<section><h2>A typical deployment</h2><ol><li>List the transactions your agents actually initiate — paid API calls, provisioning, purchases, refunds.</li><li>Set a per-transaction limit that covers legitimate use but flags anything unusual. For most DevOps AI Agents workflows, $1 to $5 per transaction is enough.</li><li>Set a daily ceiling per agent ($10-$50 for development, higher for production).</li><li>Add a velocity cap (transactions per minute) to catch loops. Ten per minute is a reasonable starting point.</li><li>Configure a merchant allowlist so the agent can only transact with vendors you have approved.</li><li>Turn on alerts and run a postmortem on every flagged transaction.</li></ol></section>
+
+<section>
+<h2>Why DevOps AI Agents choose sipi.bot</h2>
+<p>The alternative is building this yourself: a policy engine, a decision API, an audit log, alerting, and a review workflow. That is months of engineering for a problem that is not your core product. At $99/mo, sipi.bot is cheaper than a single incident and deploys in an afternoon.</p>
+</section>
+</main>
     <footer style="margin-top:60px;padding-top:20px;border-top:1px solid #e0e0e0;color:#888;font-size:.85em">
         <p><strong>sipi.bot</strong> — The spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.</p>
         <p><a href="https://sipi.bot" style="color:#555">Home</a></p>

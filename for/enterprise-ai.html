@@ -64,6 +64,27 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 
 
 <!-- mesh-round19 -->
+
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>Common spend patterns for Enterprise AI Teams</h2>
+<p>Enterprise AI Teams run agents that can move money in the course of their work. The exact pattern varies, but the failure modes repeat: an agent loops on a paid API call, a tool call hits the wrong merchant, a multi-step workflow accumulates charges faster than anyone expected, or a prompt injection tricks the agent into a transaction it should never have made.</p>
+<p>Across production agent teams, the median runaway incident costs $340 and 67% of teams report at least one in the last 90 days. The pattern is not rare and it is not cheap.</p>
+</section>
+
+<section>
+<h2>How sipi.bot fits your workflow</h2>
+<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+<p>For Enterprise AI Teams, the value is enforcement, not just observability. Dashboards tell you what happened after the money moved. A spend firewall stops the transaction before it moves. The difference, on a runaway loop, is the difference between a $2 anomaly and a $2,000 incident.</p>
+</section>
+
+<section><h2>A typical deployment</h2><ol><li>List the transactions your agents actually initiate — paid API calls, provisioning, purchases, refunds.</li><li>Set a per-transaction limit that covers legitimate use but flags anything unusual. For most Enterprise AI Teams workflows, $1 to $5 per transaction is enough.</li><li>Set a daily ceiling per agent ($10-$50 for development, higher for production).</li><li>Add a velocity cap (transactions per minute) to catch loops. Ten per minute is a reasonable starting point.</li><li>Configure a merchant allowlist so the agent can only transact with vendors you have approved.</li><li>Turn on alerts and run a postmortem on every flagged transaction.</li></ol></section>
+
+<section>
+<h2>Why Enterprise AI Teams choose sipi.bot</h2>
+<p>The alternative is building this yourself: a policy engine, a decision API, an audit log, alerting, and a review workflow. That is months of engineering for a problem that is not your core product. At $99/mo, sipi.bot is cheaper than a single incident and deploys in an afternoon.</p>
+</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">

@@ -75,14 +75,36 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 
 <section class="related-links"><h3>Related pages</h3><ul><li><a href="/tutorials/set-up-per-agent-limits">Set up per-agent spend limits</a></li><li><a href="/tutorials/configure-merchant-allowlist">Configure a merchant allowlist for your agent</a></li><li><a href="/tutorials/debug-a-blocked-transaction">Debug a blocked transaction in sipi.bot</a></li><li><a href="/tutorials/set-up-alerts">Set up spend alerts for your agents</a></li></ul></section>
 
-
 <!-- mesh-round19 -->
+
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>What you will accomplish</h2>
+<p>By the end of this walkthrough you will have a working sipi.bot policy enforced on your agent, with a tested block path and an audit trail you can inspect. The whole exercise typically takes under an hour.</p>
+<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+</section>
+
+<section><h2>Step-by-step</h2><ol><li>Create a sipi.bot account and open the policy editor. Start from the recommended defaults for your agent type.</li><li>Identify the function or tool call in your agent that triggers a transaction. This is the call you will wrap with a policy check.</li><li>Add the sipi.bot policy check immediately before the transaction call. The check takes agent id, merchant, amount, and intent, and returns a structured decision.</li><li>Handle all three decision paths: approve (proceed with the transaction), block (log, notify, and choose an alternative path), flag (hold for human review). Most bugs come from handling only the approve path.</li><li>Run a test transaction that should be approved. Verify the decision returns in under 5ms and the audit log captures the transaction.</li><li>Run a test transaction that should be blocked. Verify the block path works and the agent handles the denial gracefully.</li><li>Turn on real-time alerts (Slack, email, webhook) on flagged and blocked transactions.</li></ol></section>
+
+<section>
+<h2>Verifying your work</h2>
+<p>After deployment, watch the audit log for the first 24 hours. You should see approved transactions for legitimate work and, depending on your policy, a small number of blocked transactions for attempts that violated your limits. Investigate every block — each one is either a policy that is too tight or an agent behavior you did not expect, and either way you want to know.</p>
+</section>
+
+<section>
+<h2>Common pitfalls</h2>
+<p><strong>Forgetting the block path</strong>. If your agent does not handle the block decision, it will hang or crash. Handle all three outcomes before going to production.</p>
+<p><strong>Logging without alerting</strong>. An audit log nobody reads is just a compliance artifact. Wire up real-time alerts on flagged transactions so a human actually sees them.</p>
+<p><strong>One policy for all agents</strong>. Different agents have different spend profiles. Use per-agent policies, not a single global policy.</p>
+</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
 <li><a href="/tutorials/set-up-per-agent-limits">Set up per-agent spend limits</a></li><li><a href="/tutorials/debug-a-blocked-transaction">Debug a blocked transaction in sipi.bot</a></li><li><a href="/tutorials/set-up-alerts">Set up spend alerts for your agents</a></li><li><a href="/best/best-token-cost-trackers">Best Token Cost Tracking Tools in 2026 [2026]</a></li><li><a href="/templates/incident-response-plan-template">AI Agent Incident Response Plan Template [Free Template 2026]</a></li><li><a href="/integrations/google-gemini">sipi.bot + Google Gemini API integration guide</a></li>
 </ul>
-</section></article>
+</section>
+</article>
 <footer>
 <p><strong>sipi.bot</strong> &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a></p>
 </footer>

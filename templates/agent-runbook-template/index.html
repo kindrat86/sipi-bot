@@ -67,15 +67,37 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <div class="callout"><strong>sipi.bot automates this:</strong> Spend firewall for AI agents. The platform fills in most template fields automatically.</div>
 
 
-
-
 <!-- mesh-round19 -->
+
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>How to use this template</h2>
+<p>This template is a starting point, not a finished policy. Copy it into your team's documents, adapt the specifics to your agents and your risk tolerance, and pair it with a spend firewall that actually enforces it. A policy on paper does not stop a runaway loop; an enforced policy does.</p>
+<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+</section>
+
+<section>
+<h2>What every template should cover</h2>
+<p>Regardless of the specific template, every agent spend policy needs to address five things: who (which agents the policy applies to), what (which transactions are in scope), when (the time windows and velocity limits), how much (per-transaction and daily dollar ceilings), and what-else (merchant allowlist and human-in-the-loop thresholds). If any of these five is missing, the policy has a gap a runaway incident can exploit.</p>
+</section>
+
+<section>
+<h2>Pairing the template with enforcement</h2>
+<p>Once you have adapted the template, encode it as a sipi.bot policy. Each section of the template maps to a policy lever: per-transaction limit, daily ceiling, velocity cap, merchant allowlist, escalation threshold. The mapping is direct — if the template says 'agents may not transact above $5 without human approval', that becomes a $5 per-transaction limit with a flag outcome that triggers a human-review workflow.</p>
+</section>
+
+<section>
+<h2>Reviewing and updating</h2>
+<p>Policies go stale. Agents change, merchants change, pricing changes. Schedule a quarterly review of every policy derived from this template. The audit log is the input: look at blocked and flagged transactions, look at near-misses, and tune. A policy that has not been updated in a year is almost certainly miscalibrated.</p>
+</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
 <li><a href="/templates/agent-purchase-policy">Agent Purchase Authorization Policy [Free Template 2026]</a></li><li><a href="/templates/cost-allocation-template">AI Cost Allocation Template [Free Template 2026]</a></li><li><a href="/templates/agent-spend-policy-template">AI Agent Spend Policy Template [Free Template 2026]</a></li><li><a href="/benchmarks/token-cost-by-provider">Token cost benchmarks by provider</a></li><li><a href="/vs/aws-budgets">sipi.bot vs AWS Budgets — Which Is Better in 2026?</a></li><li><a href="/vs/anthropic-console">sipi.bot vs Anthropic Console [2026 Comparison]</a></li>
 </ul>
-</section></article>
+</section>
+</article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started &rarr;</a></section>
 <footer><p>&copy; 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>
 </body>

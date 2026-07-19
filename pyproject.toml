@@ -36,3 +36,6 @@ Repository = "https://github.com/kindrat86/sipi-bot"
 
 [tool.setuptools.packages.find]
 include = ["spendfirewall*"]
+
+[tool.vercel]
+entrypoint = "spendfirewall.api:Handler"

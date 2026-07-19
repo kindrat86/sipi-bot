@@ -17,7 +17,34 @@
         <p style="font-size:1.1em;color:#555;margin-bottom:2em">Modal provisions compute. We firewall agent transactions.</p>
         <p>Modal gives your AI agent cloud compute. sipi.bot makes sure it only spends what you allow — per-transaction limits, velocity caps, and merchant allowlists. Different tools for different parts of the autonomous agent stack.</p>
         <p><a href="https://sipi.bot" style="color:#0066cc;font-weight:600">Set up your spend firewall →</a></p>
-    </main>
+    
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>What Modal Labs actually does</h2>
+<p>Modal Labs is cloud compute platform. It is built to provision and scale compute for AI workloads and data jobs. That is a real and important job, and teams running autonomous agents often rely on it for compute provisioning and workload execution.</p>
+<p>None of that touches money. Modal Labs does not inspect the dollar value of a transaction, enforce a per-agent daily ceiling, or block a charge to a merchant that is not on your allowlist. It is not designed to.</p>
+</section>
+
+<section>
+<h2>What sipi.bot does</h2>
+<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+<p>Where Modal Labs operates on code, prompts, or compute, sipi.bot operates on spend intent. The agent proposes a transaction (a charge, a tool call with a cost, a function that moves money); sipi.bot evaluates that intent against your policy and returns a decision before the transaction is allowed to proceed.</p>
+</section>
+
+<section><h2>When to use each</h2><p>These tools are complements, not substitutes. Most production agent stacks need both:</p><ul><li><strong>Use Modal Labs</strong> for compute provisioning and workload execution — the thing it is actually built to do.</li><li><strong>Use sipi.bot</strong> when an agent can cause money to move — a charge, a paid API call, a tool that buys something, a function that provisions a metered resource. Anywhere dollars can flow, a spend firewall belongs in the path.</li><li><strong>Use both together</strong> when your agent both writes/executes code and can transact. Modal Labs handles the work; sipi.bot guards the wallet.</li></ul></section>
+
+<section>
+<h2>How they fit together</h2>
+<p>A typical integration takes under an hour. Wrap the function or tool call that triggers spend with a single sipi.bot policy check. If the check returns approve, the call proceeds and Modal Labs does its work. If it returns block, the agent receives a structured JSON denial and can choose an alternative path. If it returns flag, the transaction is held for human review.</p>
+<p>This pattern keeps Modal Labs fully in charge of its domain while guaranteeing that no unauthorized transaction can escape the agent and hit your payment method.</p>
+</section>
+
+<section>
+<h2>Bottom line</h2>
+<p>Modal Labs and sipi.bot solve different problems. Comparing them directly is a category error: one generates or runs code, the other enforces financial guardrails. If your agent can spend money, you need a spend firewall regardless of which code-generation or compute tool you use. At $99/mo, sipi.bot is cheaper than a single runaway transaction.</p>
+</section>
+</main>
     <footer style="margin-top:60px;padding-top:20px;border-top:1px solid #e0e0e0;color:#888;font-size:.85em">
         <p><strong>sipi.bot</strong> — The spend firewall for AI agents. $99/mo.</p>
     </footer>

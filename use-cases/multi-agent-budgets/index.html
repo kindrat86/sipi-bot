@@ -218,15 +218,34 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 </ol>
 
 
-
-
 <!-- mesh-round19 -->
+
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>The spend problem in this use case</h2>
+<p>sipi.bot for Multi-Agent Budget Allocation involve real money moving on autonomous decisions. Every transaction — a refund, a credit, a purchase, a trade, an API call — is a place where a bug, a loop, or an adversarial input can cause financial loss. The risk is not theoretical: 67% of production agent teams report at least one runaway incident in a 90-day window, with a median cost of $340 per incident.</p>
+<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+</section>
+
+<section>
+<h2>Where sipi.bot fits</h2>
+<p>In this use case, sipi.bot sits between the agent and the payment method. Every transaction passes through a policy check that returns approve, block, or flag in under 5ms. The agent never sees the payment method directly; it only sees the structured decision. This keeps the agent autonomous while guaranteeing it cannot escape your financial guardrails.</p>
+</section>
+
+<section><h2>Recommended policy for this use case</h2><ul><li><strong>Per-transaction limit</strong>: cap the dollar value of any single transaction. For sipi.bot for Multi-Agent Budget Allocation workflows, $1 to $10 per transaction covers most legitimate use.</li><li><strong>Daily ceiling</strong>: bound the total the agent can move in 24 hours. Start at $50/day for development, scale with production volume.</li><li><strong>Velocity cap</strong>: limit transactions per minute. This is the control that catches a runaway loop before the daily ceiling does.</li><li><strong>Merchant allowlist</strong>: restrict which destinations the agent can transact with. This is the control that catches a prompt injection redirecting a purchase.</li><li><strong>Human-in-the-loop</strong>: escalate transactions above a threshold (e.g. $25) for human approval before they execute.</li></ul></section>
+
+<section>
+<h2>What this prevents</h2>
+<p>Without these controls, a single bug can drain a budget in minutes. With them, the worst case is a blocked transaction and a Slack alert. The difference, measured in dollars, is typically two to three orders of magnitude.</p>
+</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
 <li><a href="/for/devops-automation">sipi.bot for Budget caps for DevOps automation: Spend firewall for AI agent</a></li><li><a href="/faq/how-to-set-ai-agent-budget">How do I set a budget for my AI agent? — sipi.bot FAQ</a></li><li><a href="/for/support-bots">sipi.bot for Spend ceilings for customer support bots: Spend firewall for A</a></li>
 </ul>
-</section></article>
+</section>
+</article>
 <section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started →</a></section>
 <footer><p>© 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>
 </body>

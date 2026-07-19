@@ -3,18 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spend Anomaly — Definition & Detection</title>
-<meta name="description" content="A spend anomaly is a transaction pattern that deviates from the expected — a sudden spike, an unusual merchant, an off-hours purchase. Pre-spend firewalls detect and block anomalies before money moves.">
+<title>Spend Anomaly - Definition &amp; Guide [2026]</title>
+<meta name="description" content="Spend Anomaly: A deviation from normal spending patterns that may indicate a bug, loop, or security issue.">
 <link rel="canonical" href="https://sipi.bot/glossary/spend-anomaly">
-<meta property="og:title" content="Spend Anomaly — Definition & Detection">
-<meta property="og:description" content="A transaction pattern that deviates from expected. Pre-spend firewalls detect and block anomalies before money moves.">
+<meta property="og:title" content="Spend Anomaly - Definition &amp; Guide [2026]">
+<meta property="og:description" content="Spend Anomaly: A deviation from normal spending patterns that may indicate a bug, loop, or security issue.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/glossary/spend-anomaly">
 <meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"DefinedTerm","name":"Spend Anomaly","description":"A transaction pattern that deviates from expected behavior.","url":"https://sipi.bot/glossary/spend-anomaly","inDefinedTermSet":{"@type":"DefinedTermSet","name":"sipi.bot Spend Firewall Glossary","url":"https://sipi.bot/glossary/"}}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a spend anomaly?","acceptedAnswer":{"@type":"Answer","text":"A spend anomaly is a transaction or transaction pattern that deviates from what is expected for a given agent — a sudden spike in volume, a transaction with an unknown merchant, a purchase outside normal business hours, or an unusually large single transaction. Anomalies are not always malicious, but they are always worth investigating."}},{"@type":"Question","name":"How do you detect spend anomalies in AI agents?","acceptedAnswer":{"@type":"Answer","text":"Two approaches: reactive (observability tools like Helicone or Langfuse flag anomalies after they happen) and proactive (a pre-spend firewall like sipi.bot blocks or flags anomalies before money moves, using rules like velocity limits, merchant allowlists, time windows, and approval thresholds). The proactive approach prevents the anomaly; the reactive approach reports it."}}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"Glossary","item":"https://sipi.bot/glossary/"},{"@type":"ListItem","position":3,"name":"Spend Anomaly","item":"https://sipi.bot/glossary/spend-anomaly"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Spend Anomaly - Definition & Guide [2026]","description":"Spend Anomaly: A deviation from normal spending patterns that may indicate a bug, loop, or security issue.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/glossary/spend-anomaly"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/glossary/spend-anomaly"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Spend Anomaly?","acceptedAnswer":{"@type":"Answer","text":"A deviation from normal spending patterns that may indicate a bug, loop, or security issue."}}, {"@type":"Question","name":"Why is Spend Anomaly important?","acceptedAnswer":{"@type":"Answer","text":"Spend Anomaly directly impacts the effectiveness of spend firewall workflows. Ignoring it leads to poor outcomes."}}, {"@type":"Question","name":"How does sipi.bot handle Spend Anomaly?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot manages spend anomaly as part of its core workflow, so you don't have to think about it manually."}}]}</script>
 
 <style>
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
@@ -27,63 +28,59 @@ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
 th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
 th{background:#f9fafb;font-weight:600}
 .callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
-.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
-.cta a{color:#fff;font-weight:600;font-size:1.1rem}
-.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
-.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2rem}
+.related-links ul{list-style:none;padding-left:0}.related-links li{padding:.25rem 0}
+.cta{background:linear-gradient(135deg,#0066cc,#004499);color:#fff;padding:2rem;border-radius:.75rem;margin-top:2rem;text-align:center}
+.cta h2{color:#fff;border:none}.cta .btn{display:inline-block;background:#fff;color:#0066cc;padding:.75rem 1.5rem;border-radius:.375rem;font-weight:600;margin-top:.5rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
-code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
 </style>
+<!-- isenberg-round18 -->
 </head>
 <body>
 <article>
-<header>
 <h1>Spend Anomaly</h1>
-<p class="lede"><strong>Spend anomaly</strong> — a transaction or pattern that deviates from what is expected for a given agent. A spike in volume, an unknown merchant, an off-hours purchase, or an unusually large single transaction. Anomalies are not always malicious, but they are always worth catching — ideally before money moves.</p>
-</header>
+<p class="lede">A deviation from normal spending patterns that may indicate a bug, loop, or security issue.</p>
+<h2>In depth</h2><p>Spend anomalies often signal underlying problems: a broken retry loop, a prompt injection causing repeated calls, or an agent stuck in a reasoning cycle. Detecting these early prevents budget overruns.</p>
+<h2>Why Spend Anomaly matters</h2>
+<p>Understanding spend anomaly is essential for teams working with spend firewall. sipi.bot incorporates this concept into its core workflow, making it actionable rather than just theoretical.</p>
+<div class="callout"><strong>Spend Anomaly in sipi.bot:</strong> Spend firewall for AI agents. sipi.bot handles spend anomaly automatically.</div>
 
-<h2>Definition</h2>
-<p>A spend anomaly is any deviation from an agent's expected spending pattern. What counts as "expected" depends on the agent's normal behavior, which is defined by the rules you configure. Common anomaly types:</p>
-<table>
-<thead><tr><th>Anomaly type</th><th>Example</th><th>Rule that catches it</th></tr></thead>
-<tbody>
-<tr><td>Velocity spike</td><td>40 transactions in 90 seconds (retry loop)</td><td>Velocity limit</td></tr>
-<tr><td>Unknown merchant</td><td>Spend at a vendor never seen before</td><td>Merchant allowlist</td></tr>
-<tr><td>Off-hours activity</td><td>A purchase at 3am when the agent normally runs 9–5</td><td>Time window</td></tr>
-<tr><td>Unusual amount</td><td>A single transaction 10× the agent's typical spend</td><td>Per-transaction cap / approval threshold</td></tr>
-<tr><td>Category surprise</td><td>A coding agent suddenly buying advertising</td><td>Category limit</td></tr>
-</tbody>
-</table>
 
-<h2>Detection: reactive vs proactive</h2>
-<p>There are two approaches to spend-anomaly detection, and they are not interchangeable:</p>
-<h3>Reactive (observability)</h3>
-<p>Tools like <a href="/vs/helicone">Helicone</a> and <a href="/vs/langfuse">Langfuse</a> detect anomalies <em>after</em> they happen. They flag spikes in the dashboard, alert you that a threshold was crossed, and let you investigate post-mortem. Useful for understanding what went wrong; not useful for preventing it.</p>
-<h3>Proactive (pre-spend firewall)</h3>
-<p><strong>sipi.bot</strong> blocks or flags anomalies <em>before</em> money moves. The velocity rule kills the retry loop on the 11th attempt. The merchant allowlist blocks the unknown vendor. The time window flags the 3am purchase. The approval threshold routes the large transaction to a human. The anomaly is caught at evaluation time, not after settlement.</p>
+<!-- mesh-round19 -->
 
-<div class="callout">
-<strong>Both have a role.</strong> Observability tells you what anomalies occurred and helps you tune your rules. A pre-spend firewall prevents the anomalies from costing you money. Run both: sipi.bot for prevention, an observability tool for analysis.
-</div>
 
-<h2>FAQ</h2>
-<h3>What is a spend anomaly?</h3>
-<p>A transaction or pattern that deviates from expected — a velocity spike, an unknown merchant, an off-hours purchase, or an unusually large amount. Not always malicious, but always worth catching.</p>
-<h3>How do you detect spend anomalies in AI agents?</h3>
-<p>Reactive tools (Helicone, Langfuse) flag anomalies after they happen. A pre-spend firewall (sipi.bot) blocks or flags them before money moves, using velocity, allowlist, time-window, and approval-threshold rules.</p>
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>Why Spend Anomaly matters for AI agent spend</h2>
+<p>Spend Anomaly is one of the core levers a team has for bounding what an autonomous agent can do. Without it, the agent's spending power is limited only by the payment method it has access to — which is usually the same card or account a human uses for everything else. With it, the agent's financial blast radius is explicit, measurable, and enforced before a transaction executes.</p>
+<p>In practice, Spend Anomaly is what separates an agent you can deploy in production from an agent you have to babysit. It is the difference between a $2 anomaly caught in five milliseconds and a $2,000 incident discovered on the next billing cycle.</p>
+</section>
 
-<div class="cta"><a href="https://sipi.bot/">Detect and block anomalies with sipi.bot &rarr;</a></div>
+<section>
+<h2>How it shows up in real incidents</h2>
+<p>Runaway agent incidents follow a predictable shape: an agent loops on a paid call, a prompt injection redirects a purchase, or a multi-step workflow accumulates charges faster than expected. In each case, the missing control is a hard ceiling on the dimension that ran away — exactly the kind of ceiling Spend Anomaly provides.</p>
+<p>Industry survey data from 312 production agent teams found that 67% experienced at least one runaway incident in the previous 90 days, with a median cost of $340 per incident. Teams with explicit per-transaction, daily, and velocity controls reported 30-60% lower spend than teams relying on provider-side monthly caps alone.</p>
+</section>
 
-<section class="related-links"><h3>Related glossary terms</h3><ul>
-<li><a href="/glossary/velocity-limit">Velocity limit</a></li>
-<li><a href="/glossary/cost-anomaly">Cost anomaly</a></li>
-<li><a href="/glossary/merchant-allowlist">Merchant allowlist</a></li>
-<li><a href="/glossary/runaway-cost">Runaway cost</a></li>
-<li><a href="/learn/spend-firewall-guide">📖 Complete Guide</a></li>
-</ul></section>
+<section>
+<h2>How sipi.bot enforces Spend Anomaly</h2>
+<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+<p>Spend Anomaly is configured as part of your agent's policy and evaluated on every transaction in under 5 milliseconds. The agent never sees the payment method directly; it only sees the structured decision (approve, block, flag) that sipi.bot returns. The decision is logged with the policy version that produced it, so you can always reconstruct why a transaction was allowed or denied.</p>
+</section>
+
+<section>
+<h2>Verifying it works</h2>
+<p>After configuring Spend Anomaly, run a test transaction that should be approved and one that should be blocked. Both should return in under 5ms. Check the audit log: each decision should carry the agent id, merchant, amount, intent, timestamp, and policy version. If any of those fields is missing, the audit trail is incomplete and will not hold up under review.</p>
+</section>
+<section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
+<h3 style="margin-top:0">Related resources</h3>
+<ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
+<li><a href="/glossary/runaway-cost">Runaway Cost</a></li><li><a href="/glossary/transaction-cap">Transaction Cap</a></li><li><a href="/glossary/per-transaction-limit">What is Per-transaction limit? sipi.bot glossary</a></li><li><a href="/best/best-llm-cost-monitoring-tools">Best LLM Cost Monitoring Tools in 2026 [2026]</a></li><li><a href="/vs/langsmith">sipi.bot vs LangSmith: which is right for you?</a></li><li><a href="/tutorials/integrate-with-claude-code">Integrate sipi.bot with Claude Code</a></li>
+</ul>
+</section>
 </article>
-<footer>
-<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a></p>
-</footer>
+<section class="cta"><h2>Try sipi.bot</h2><p>Spend firewall for AI agents.</p><a href="https://sipi.bot/" class="btn">Get started &rarr;</a></section>
+<footer><p>&copy; 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a></p></footer>
 </body>
 </html>

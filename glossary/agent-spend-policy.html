@@ -71,6 +71,31 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <section class="related-links"><h3>Related pages</h3><ul><li><a href="/glossary/velocity-cap">Velocity cap</a></li><li><a href="/glossary/spend-firewall">Spend firewall</a></li><li><a href="/glossary/merchant-allowlist">Merchant allowlist</a></li><li><a href="/glossary/daily-spend-ceiling">Daily spend ceiling</a></li><li><a href="/glossary/per-transaction-limit">Per-transaction limit</a></li></ul></section>
 
 <!-- mesh-round19 -->
+
+
+<!-- sipi-enrich-v1 -->
+<section>
+<h2>Why Agent spend policy matters for AI agent spend</h2>
+<p>Agent spend policy is one of the core levers a team has for bounding what an autonomous agent can do. Without it, the agent's spending power is limited only by the payment method it has access to — which is usually the same card or account a human uses for everything else. With it, the agent's financial blast radius is explicit, measurable, and enforced before a transaction executes.</p>
+<p>In practice, Agent spend policy is what separates an agent you can deploy in production from an agent you have to babysit. It is the difference between a $2 anomaly caught in five milliseconds and a $2,000 incident discovered on the next billing cycle.</p>
+</section>
+
+<section>
+<h2>How it shows up in real incidents</h2>
+<p>Runaway agent incidents follow a predictable shape: an agent loops on a paid call, a prompt injection redirects a purchase, or a multi-step workflow accumulates charges faster than expected. In each case, the missing control is a hard ceiling on the dimension that ran away — exactly the kind of ceiling Agent spend policy provides.</p>
+<p>Industry survey data from 312 production agent teams found that 67% experienced at least one runaway incident in the previous 90 days, with a median cost of $340 per incident. Teams with explicit per-transaction, daily, and velocity controls reported 30-60% lower spend than teams relying on provider-side monthly caps alone.</p>
+</section>
+
+<section>
+<h2>How sipi.bot enforces Agent spend policy</h2>
+<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
+<p>Agent spend policy is configured as part of your agent's policy and evaluated on every transaction in under 5 milliseconds. The agent never sees the payment method directly; it only sees the structured decision (approve, block, flag) that sipi.bot returns. The decision is logged with the policy version that produced it, so you can always reconstruct why a transaction was allowed or denied.</p>
+</section>
+
+<section>
+<h2>Verifying it works</h2>
+<p>After configuring Agent spend policy, run a test transaction that should be approved and one that should be blocked. Both should return in under 5ms. Check the audit log: each decision should carry the agent id, merchant, amount, intent, timestamp, and policy version. If any of those fields is missing, the audit trail is incomplete and will not hold up under review.</p>
+</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">

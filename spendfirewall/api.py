@@ -476,6 +476,38 @@ class Handler(BaseHTTPRequestHandler):
 
         return self._json(404, {"error": "not_found"})
 
+    def _send_embed(self, body: bytes, ctype: str = "text/html"):
+        """Send a response with embed-safe framing headers.
+
+        Mirrors _send() but allows cross-origin iframing. Used for
+        /embed/* widget farm pages (portfolio-network, calculators)."""
+        self.send_response(200)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Connection", "close")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "ALLOWALL")
+        self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+        self.send_header("Strict-Transport-Security",
+                         "max-age=63072000; includeSubDomains; preload")
+        self.send_header("Content-Security-Policy",
+                         "frame-ancestors *; default-src 'self'; "
+                         "script-src 'self' 'unsafe-inline'; "
+                         "style-src 'self' 'unsafe-inline'; "
+                         "img-src 'self' data: https:; connect-src 'self'; "
+                         "font-src 'self'")
+        self.send_header("Permissions-Policy",
+                         "camera=(), microphone=(), geolocation=(), "
+                         "payment=(), usb=(), browsing-topics=(), "
+                         "interest-cohort=()")
+        self.close_connection = True
+        self.end_headers()
+        if getattr(self, "_head_only", False):
+            return
+        self.wfile.write(body)
+        self.wfile.flush()
+
     def _serve_static(self, path: str) -> bool:
         """Serve a file from the public/ dir if it exists. Path-traversal safe."""
         import mimetypes
@@ -500,7 +532,11 @@ class Handler(BaseHTTPRequestHandler):
                 data = f.read()
         except OSError:
             return False
-        self._send(200, data, ctype)
+        # Embed widget farm — cross-origin iframing allowed
+        if path.startswith("/embed/"):
+            self._send_embed(data, ctype)
+        else:
+            self._send(200, data, ctype)
         return True
 
     def _sse(self):
