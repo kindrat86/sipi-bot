@@ -140,7 +140,7 @@ def render_page(title, desc, paragraphs, faqs, path):
 <section class="faq">{faq_html}</section>
 <section class="cta"><a href="/">Start monitoring agent spend</a></section>
 </main>
-<footer>&copy; {TODAY[:4]} Sipi Bot</footer>
+<footer>&copy; {TODAY[:4]} Sipi Bot · <a href="https://x.com/sipiteno" style="color:inherit">X / Twitter</a></footer>
 </body></html>'''
 
 def build():

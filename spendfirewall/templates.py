@@ -581,6 +581,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
   <div style="margin-top:14px;color:var(--mut);font-size:13px">Find us where builders are:
     <a href="https://github.com/kindrat86/sipi-bot" rel="me noopener">GitHub</a> ·
     <a href="https://pypi.org/project/sipi-bot/" rel="me noopener">PyPI</a> ·
+    <a href="https://x.com/sipiteno" rel="me noopener">X / Twitter</a> ·
     <a href="/.well-known/mcp.json">MCP manifest</a> ·
     <a href="/agents.md">Agent guide</a>
   </div>
@@ -785,6 +786,7 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
   <div style="margin-top:14px;color:var(--mut);font-size:13px">Find us where builders are:
     <a href="https://github.com/kindrat86/sipi-bot" rel="me noopener">GitHub</a> ·
     <a href="https://pypi.org/project/sipi-bot/" rel="me noopener">PyPI</a> ·
+    <a href="https://x.com/sipiteno" rel="me noopener">X / Twitter</a> ·
     <a href="/.well-known/mcp.json">MCP manifest</a> ·
     <a href="/agents.md">Agent guide</a>
   </div>
