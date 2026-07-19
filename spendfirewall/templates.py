@@ -138,6 +138,7 @@ def landing_page_html() -> str:
 <link rel="alternate" hreflang="en-US" href="https://sipi.bot/">
 <link rel="alternate" hreflang="x-default" href="https://sipi.bot/">
 <meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="msvalidate.01" content="FA4E122745948F0CAD16959F59DDCB85">
 <meta property="og:title" content="sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents">
 <meta property="og:description" content="sipi.bot is a pre-spend firewall (payment-control API) for autonomous AI agents: approve, block, or flag every agent transaction before a dollar moves.">
 <meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/">
