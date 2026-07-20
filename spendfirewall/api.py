@@ -271,6 +271,27 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(200, xml.encode(), "application/xml")
         if path == "/.well-known/agent-card.json":
             return self._json(200, agent_card())
+        if path == "/.well-known/security.txt":
+            sec = (
+                "Contact: mailto:security@sipi.bot\n"
+                "Expires: 2027-07-20T00:00:00Z\n"
+                "Preferred-Languages: en\n"
+                "Canonical: https://sipi.bot/.well-known/security.txt\n"
+                "Policy: https://sipi.bot/privacy\n"
+            )
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.send_header("Cache-Control", "public, max-age=86400")
+            self.send_header("Content-Length", str(len(sec)))
+            self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("X-Frame-Options", "DENY")
+            self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+            self.end_headers()
+            if not getattr(self, "_head_only", False):
+                self.wfile.write(sec.encode())
+                self.wfile.flush()
+            return
         if path == "/openapi.json":
             # AI-agent discoverability: OpenAPI 3.0 spec describing the public API.
             from . import openapi_spec
