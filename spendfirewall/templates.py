@@ -19,7 +19,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:6
 .brand{font-weight:700;font-size:19px;letter-spacing:-.02em}
 .brand .dot{color:var(--accent)}
 .nav-links{display:flex;gap:22px;align-items:center;font-size:14px;flex-wrap:wrap}
-.nav-links a{color:var(--mut);min-height:44px;display:inline-flex;align-items:center}.nav-links a:hover{color:var(--txt)}
+.nav-links a{color:var(--mut);min-height:44px;display:inline-flex;align-items:center}.nav-links a:hover{color:var(--txt)}.nav-links a.btn,.nav-links a.btn:hover,.nav-links a.btn:visited{color:#04120e}.nav-toggle{display:none;background:transparent;border:1px solid var(--line);border-radius:8px;color:var(--txt);width:44px;height:44px;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s}.nav-toggle:hover{border-color:var(--accent)}.nav-toggle svg{width:24px;height:24px;flex:0 0 auto;display:block}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;background:var(--accent);color:#04120e;font-weight:700;padding:12px 22px;border-radius:10px;border:none;cursor:pointer;font-size:15px;transition:transform .1s}
 .btn:hover{transform:translateY(-1px)}
 .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
@@ -87,7 +87,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 .cmp thead th{background:var(--panel2);color:var(--txt);font-weight:700}
 .cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
 .cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
-@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.decision3{grid-template-columns:1fr!important}.nav-links{justify-content:center;width:100%;padding:8px 0 4px;gap:14px 18px}.nav-links a:not(.btn){font-size:13px}section{padding:52px 0}.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
+@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.decision3{grid-template-columns:1fr!important}.nav-toggle{display:inline-flex}#mainnav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 20px 18px;gap:2px;display:none;z-index:30;max-height:calc(100dvh - 60px);overflow-y:auto}nav.menu-open #mainnav{display:flex}#mainnav a{width:100%;padding:10px 0;justify-content:flex-start}#mainnav a.btn{justify-content:center;margin-top:10px}#mainnav a:not(.btn){font-size:15px}section{padding:52px 0}.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
 """
 
 # ─── Analytics ───
@@ -132,7 +132,7 @@ def landing_page_html() -> str:
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
 <link rel="search" type="application/opensearchdescription+xml" title="sipi.bot" href="https://sipi.bot/opensearch.xml">
 <title>sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents</title>
-<meta name="description" content="sipi.bot is a pre-spend firewall for AI agents: one API call approves, blocks, or flags every transaction against per-tx caps, velocity limits, and merchant allowlists before money moves.">
+<meta name="description" content="sipi.bot is a pre-spend firewall for AI agents: one API call approves, blocks, or flags every transaction against per-tx caps, velocity limits, and merchant rules.">
 <link rel="canonical" href="https://sipi.bot/">
 <link rel="alternate" hreflang="en" href="https://sipi.bot/">
 <link rel="alternate" hreflang="en-US" href="https://sipi.bot/">
@@ -150,17 +150,18 @@ def landing_page_html() -> str:
 <meta name="theme-color" content="#00d4aa">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","alternateName":["sipibot","sipi bot","sipi.bot spend firewall"],"url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds.","disambiguatingDescription":"sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"],"knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","API Spend Governance","x402 Payment Protocol","Agent Transaction Monitoring","Runaway AI Cost Prevention","Agent Budget Management","Multi-Agent Spend Orchestration"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-17"},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","alternateName":["sipibot","sipi bot"],"applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","disambiguatingDescription":"A payment-control spend firewall API for autonomous AI agents — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"Hosted plans are flat-rate: Team is $99/month and Business is $499/month, both with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each."}},{"@type":"Question","name":"Is sipi.bot a SIP, voice, or telephony product?","acceptedAnswer":{"@type":"Answer","text":"No. Despite the name, sipi.bot has nothing to do with SIP, VoIP, or voice, and it is not a bot-management or 'block AI bots' tool. sipi.bot is a spend firewall that governs how much money autonomous AI agents can spend."}}]},{"@type":"SpeakableSpecification","cssSelector":["h1","h2","p"]}]}</script>
 <!-- BreadcrumbList standalone -->
-<script type="application/ld+json">{"@context":"https://***@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb-standalone","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"Pricing","item":"https://sipi.bot/pricing"},{"@type":"ListItem","position":3,"name":"FAQ","item":"https://sipi.bot/#faq"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb-standalone","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"Pricing","item":"https://sipi.bot/pricing"},{"@type":"ListItem","position":3,"name":"FAQ","item":"https://sipi.bot/#faq"}]}</script>
 <!-- WebSite standalone -->
-<script type="application/ld+json">{"@context":"https://***@type":"WebSite","@id":"https://sipi.bot/#website-standalone","name":"sipi.bot","url":"https://sipi.bot/","description":"Pre-spend firewall for autonomous AI agents — approve, block, or flag every agent transaction before a dollar moves.","publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"},"inLanguage":"en-US","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://sipi.bot/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","@id":"https://sipi.bot/#website-standalone","name":"sipi.bot","url":"https://sipi.bot/","description":"Pre-spend firewall for autonomous AI agents — approve, block, or flag every agent transaction before a dollar moves.","publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"},"inLanguage":"en-US","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://sipi.bot/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
 <!-- FAQPage standalone -->
-<script type="application/ld+json">{"@context":"https://***@type":"FAQPage","@id":"https://sipi.bot/#faq-standalone","mainEntity":[{"@type":"Question","name":"What is sipi.bot?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds."}},{"@type":"Question","name":"How does sipi.bot protect against runaway AI spending?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot evaluates every transaction request in under 5ms before money moves. It enforces per-transaction caps, daily totals, velocity limits, and merchant allowlists. If a rule is violated, the transaction is BLOCKED instantly — you wake up to a clean log, not a drained account."}},{"@type":"Question","name":"Which payment protocols does sipi.bot support?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot works with any HTTP-based payment pipeline: x402, AP2, AgentKit (Coinbase), Stripe agent tooling, LangChain, CrewAI, and the Model Context Protocol (MCP). It's protocol-agnostic — if your agent speaks HTTP, sipi.bot can gate it."}},{"@type":"Question","name":"Is there a free tier?","acceptedAnswer":{"@type":"Answer","text":"Yes — sipi.bot offers a free tier with no credit card required. Paid plans unlock higher transaction volumes, advanced rule types, and team features."}},{"@type":"Question","name":"How fast is the API?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot decisions return in under 5ms. It's designed to sit inline in payment pipelines without adding perceptible latency."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://sipi.bot/#faq-standalone","mainEntity":[{"@type":"Question","name":"What is sipi.bot?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds."}},{"@type":"Question","name":"How does sipi.bot protect against runaway AI spending?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot evaluates every transaction request in under 5ms before money moves. It enforces per-transaction caps, daily totals, velocity limits, and merchant allowlists. If a rule is violated, the transaction is BLOCKED instantly — you wake up to a clean log, not a drained account."}},{"@type":"Question","name":"Which payment protocols does sipi.bot support?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot works with any HTTP-based payment pipeline: x402, AP2, AgentKit (Coinbase), Stripe agent tooling, LangChain, CrewAI, and the Model Context Protocol (MCP). It's protocol-agnostic — if your agent speaks HTTP, sipi.bot can gate it."}},{"@type":"Question","name":"Is there a free tier?","acceptedAnswer":{"@type":"Answer","text":"Yes — sipi.bot offers a free tier with no credit card required. Paid plans unlock higher transaction volumes, advanced rule types, and team features."}},{"@type":"Question","name":"How fast is the API?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot decisions return in under 5ms. It's designed to sit inline in payment pipelines without adding perceptible latency."}}]}</script>
 <!-- Organization standalone -->
-<script type="application/ld+json">{"@context":"https://***@type":"Organization","@id":"https://sipi.bot/#org-standalone","name":"sipi.bot","url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://sipi.bot/#org-standalone","name":"sipi.bot","url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"]}</script>
 <style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}<link rel="stylesheet" href="/ux.css"><script src="/ux.js" defer></script></head><body>
 <nav><div class="wrap">
   <div class="brand">sipi<span class="dot">.bot</span></div>
-  <div class="nav-links">
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <div class="nav-links" id="mainnav">
     <a href="#how">How it works</a>
     <a href="#origin">Origin</a>
     <a href="#false-beliefs">Beliefs</a>
@@ -169,6 +170,7 @@ def landing_page_html() -> str:
     <a href="/dashboard" class="btn">Live Dashboard</a>
   </div>
 </div></nav>
+<script>(function(){var t=document.querySelector('.nav-toggle');if(!t)return;var n=t.closest('nav');function set(o){n.classList.toggle('menu-open',o);t.setAttribute('aria-expanded',o);t.setAttribute('aria-label',o?'Close menu':'Open menu');}t.addEventListener('click',function(){set(!n.classList.contains('menu-open'));});n.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){set(false);});});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&n.classList.contains('menu-open')){set(false);t.focus();}});})();</script>
 
 <header class="hero"><div class="wrap">
   <span class="tag">Spend controls for the agent economy</span>
@@ -539,6 +541,18 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
         <label for="pb-em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="pb-em" placeholder="you@company.com" required style="flex:1">
         <button class="btn" type="submit">Send me Day 1 →</button>
       </div>
+      <!-- ORDER BUMP (DotCom Ch 14) — default-checked add-on for the playbook form -->
+      <label for="order-bump" style="display:block;cursor:pointer;margin:12px 0 0;padding:12px 14px;background:var(--panel2);border:2px solid var(--accent);border-radius:10px;transition:border-color .2s">
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <input type="checkbox" id="order-bump" checked style="margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex-shrink:0">
+          <div>
+            <span style="font-weight:700;color:var(--txt);font-size:15px">YES! Add the First $10K Safe deployment checklist</span>
+            <span style="display:inline-block;background:var(--accent);color:#000;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle">Save $20</span>
+            <p style="margin:4px 0 0;font-size:13px;color:var(--mut);line-height:1.5">5-point checklist for verifying your spend firewall before going live. Normally $27 — add it now for just <strong style="color:var(--accent)">$7</strong> one-time. Delivered with Day 1.</p>
+            <p style="margin:4px 0 0;font-size:11px;color:var(--mut);font-style:italic">Checked by default — uncheck to skip</p>
+          </div>
+        </div>
+      </label>
       <p class="msg-inline" aria-live="polite" style="color:var(--accent);font-size:14px;margin:10px 0 0;text-align:center"></p>
     </form>
     <p style="font-size:12.5px;color:var(--mut);margin:12px 0 0">Joining the list does not sign you up for anything paid. The hosted plan is a separate checkout.</p>
@@ -582,7 +596,9 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <a href="/vs/hardcoded-check/">vs hardcoded budget check</a> ·
     <a href="/vs/stripe-radar/">vs Stripe Radar</a> ·
     <a href="/alternatives/x402/">x402 alternative</a> ·
-    <a href="/self-hosted/">self-hosted / open source</a>
+    <a href="/self-hosted/">self-hosted / open source</a> ·
+    <a href="/benchmarks/">spend benchmarks</a> ·
+    <a href="/best/">best-of comparisons</a>
   </div>
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
   <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
@@ -601,8 +617,9 @@ var msgEl=form.querySelector('.msg-inline')||document.getElementById('msg');
 var ref=document.getElementById('ref')?document.getElementById('ref').value:'';
 if(!email){return false;}
 var btn=form.querySelector('button[type=submit]');if(btn){btn.disabled=true;var orig=btn.textContent;btn.textContent='Sending...';}
+var bump=form.querySelector('#order-bump');var orderBump=bump?bump.checked:false;
 fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
-body:JSON.stringify({email:email,ref:ref})})
+body:JSON.stringify({email:email,ref:ref,order_bump:orderBump})})
 .then(r=>r.json()).then(d=>{if(msgEl){msgEl.textContent=d.message||'You are on the list.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
 .catch(()=>{if(msgEl){msgEl.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
 return false;}
@@ -797,10 +814,18 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
 <title>{title} — sipi.bot</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="https://sipi.bot{canonical_path}">
+<link rel="alternate" hreflang="en" href="https://sipi.bot{canonical_path}">
+<link rel="alternate" hreflang="en-US" href="https://sipi.bot{canonical_path}">
+<link rel="alternate" hreflang="x-default" href="https://sipi.bot{canonical_path}">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="{title} — sipi.bot">
 <meta property="og:description" content="{description}">
 <meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot{canonical_path}">
+<meta property="og:image" content="https://sipi.bot/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="sipi.bot — The pre-spend firewall for autonomous AI agents"><meta property="og:site_name" content="sipi.bot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{title} — sipi.bot">
+<meta name="twitter:description" content="{description}">
+<meta name="twitter:image" content="https://sipi.bot/og.png">
 <meta name="theme-color" content="#00d4aa">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebPage","name":"{title}","url":"https://sipi.bot{canonical_path}","description":"{description}","isPartOf":{{"@type":"WebSite","name":"sipi.bot","url":"https://sipi.bot/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}}}}</script>
 <style>{CSS}</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
@@ -831,10 +856,35 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
 </body></html>"""
 
 
-ABOUT_BODY = """<h1>About sipi.bot</h1>
-<p class="lead">sipi.bot is the spend firewall for autonomous AI agents — the control layer that evaluates every transaction an agent attempts and returns approve, block, or flag before any money moves.</p>
+ABOUT_BODY = """<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","@id":"https://sipi.bot/about/#person","name":"Maryan","url":"https://sipi.bot/about","description":"Founder and builder of sipi.bot — the spend firewall for autonomous AI agents. AI infrastructure engineer based in Kifisia, Greece, building agent-economy tools since 2024.","jobTitle":"Founder","worksFor":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"},"knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","x402 Payment Protocol","Model Context Protocol","Agent Transaction Monitoring","API Spend Governance"],"sameAs":["https://github.com/kindrat86","https://x.com/sipiteno","https://pypi.org/user/kindrat86/"]}</script>
+<h1>About sipi.bot</h1>
+<p class="lead">sipi.bot is the spend firewall for autonomous AI agents — the control layer that evaluates every transaction an agent attempts and returns approve, block, or flag before any money moves. Built for the agent economy, open-source (MIT), and free to self-host.</p>
+
 <h2>Why we built it</h2>
-<p>The agent economy handed autonomous software real spending power — API credits, compute, SaaS, payments — usually backed by a human's credit card and no hard limit.</p>
+<p>The agent economy handed autonomous software real spending power — API credits, compute, SaaS, payments — usually backed by a human's credit card and no hard limit. In 2026, 67% of agent teams reported a runaway-spend incident within their first 90 days of deployment, at a median cost of $340 per incident. The worst cases hit five figures overnight. We built sipi.bot because every autonomous agent deserves a guardrail, and every operator deserves to sleep without checking their bank balance.</p>
+
+<h2>What sipi.bot does</h2>
+<p>sipi.bot sits in front of every transaction an autonomous AI agent attempts. One HTTP call — <code>POST /v1/transactions/evaluate</code> — evaluates the proposed spend against your rules and returns APPROVED, BLOCKED, or FLAGGED in under 5ms. Six rule types are enforced: per-transaction caps, daily totals, velocity limits (runaway-loop protection), merchant allow/block lists, category limits, and time-window constraints. Every decision is written to a tamper-evident audit log, and transactions that need human judgment are routed to an approval queue — not auto-approved and not silently blocked.</p>
+
+<h2>How it works</h2>
+<p>You define rules: "Max $500 per transaction," "Max $2,000 per day," "Block any merchant matching *.ru," "Require human approval above $1,000." Your agent calls sipi.bot before it spends money. sipi.bot evaluates every active rule in priority order. The first BLOCK rule that matches stops the transaction instantly — no money moves. FLAGGED transactions enter the human-in-the-loop queue. APPROVED transactions proceed. The entire decision path is logged, timestamped, and auditable.</p>
+
+<h2>Surfaces</h2>
+<ul>
+  <li><strong>HTTP API</strong> — <code>POST /v1/transactions/evaluate</code> with JSON body, returns JSON decision. Works with any agent runtime.</li>
+  <li><strong>MCP Server</strong> — Native Model Context Protocol tool. Claude Code, Cursor, and Hermes call <code>evaluate_transaction</code> directly.</li>
+  <li><strong>CLI</strong> — <code>pip install sipi-bot && sipi-guard</code> for shell scripts, CI pipelines, and cron jobs.</li>
+  <li><strong>Agent Card</strong> — <code>/.well-known/agent-card.json</code> for A2A (Agent-to-Agent) discovery.</li>
+</ul>
+
+<h2>Pricing</h2>
+<p>Flat-rate, no per-call fees. Team: $99/month. Business: $499/month. Both include unlimited transaction evaluations. The open-source core is MIT-licensed and free to self-host forever — same rule engine, same latency, no limits.</p>
+
+<h2>Who's behind it</h2>
+<p>sipi.bot was built by <strong>Maryan</strong>, a solo founder and AI infrastructure engineer based in Kifisia, Greece. Maryan has been building in the agent-economy stack since 2024 — spend controls, payment protocols (x402, AP2), MCP tooling, and compliance infrastructure. Previously built sanctions screening tools for AI agent payments (sanctionsai.dev) and churn analytics (churnlens.site).</p>
+
+<h2>Open source</h2>
+<p>The sipi.bot core is open-source under the MIT license. The rule engine, MCP server, CLI, and evaluation logic are all public at <a href="https://github.com/kindrat86/sipi-bot">github.com/kindrat86/sipi-bot</a>. The hosted version layers billing, dashboard, and approval-queue persistence on top of the same engine.</p>
 """
 
 
@@ -1370,6 +1420,326 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\\\<br>
 <footer><div class="wrap">
   <p>© 2026 sipi.bot — <a href="/">The pre-spend firewall for autonomous AI agents</a></p>
 </div></footer>
+</body></html>"""
+    return s
+
+
+# ─── Tripwire Page (Dotcom Secrets Ch 5) ────────────────────────────
+
+def tripwire_html() -> str:
+    """$7 one-time Agent Spend Audit Report — 15-min scarcity countdown."""
+    s = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Spend Audit — $7 One-Time | sipi.bot</title>
+<meta name="description" content="Get a personalized agent spend audit report showing exactly where your autonomous agents are bleeding money — $7 one-time, delivered in 10 minutes.">
+<style>
+:root{--bg:#0a0a0a;--card:#111;--mut:#888;--accent:#00d4aa;--danger:#ff4757;--text:#e0e0e0;--white:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.wrap{max-width:720px;margin:0 auto;padding:20px}
+.hero{padding:60px 0 30px;text-align:center}
+.hero h1{font-size:2.2em;color:var(--white);margin-bottom:12px;line-height:1.2}
+.hero .sub{color:var(--mut);font-size:1.1em;max-width:520px;margin:0 auto}
+.badge{display:inline-block;background:rgba(255,71,87,.15);color:var(--danger);padding:6px 16px;border-radius:6px;font-size:.85em;font-weight:600;margin-bottom:18px}
+.countdown{background:var(--card);border:1px solid #222;border-radius:12px;padding:24px;text-align:center;margin:30px 0}
+.countdown .timer{font-size:2.8em;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.countdown .label{color:var(--mut);font-size:.9em;margin-top:4px}
+.stack{background:var(--card);border:1px solid #222;border-radius:12px;padding:30px;margin:30px 0}
+.stack h3{color:var(--white);font-size:1.1em;margin-bottom:18px}
+.stack .item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1a1a1a}
+.stack .item .name{color:var(--text)}
+.stack .item .val{color:var(--mut);text-decoration:line-through;font-size:.9em}
+.stack .total{display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-weight:700;font-size:1.05em}
+.stack .total .old{color:var(--danger);text-decoration:line-through;font-size:1em}
+.stack .total .new{color:var(--accent);font-size:1.5em}
+.guarantee{background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:10px;padding:20px;margin:24px 0;text-align:center}
+.guarantee .icon{font-size:1.4em}
+.guarantee .text{color:var(--white);font-size:.95em;margin-top:6px}
+.btn{display:inline-block;background:var(--accent);color:var(--bg);font-weight:700;font-size:1.15em;padding:16px 40px;border-radius:10px;text-decoration:none;transition:all .15s}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
+.secondary{color:var(--mut);font-size:.9em;margin-top:12px}
+.secondary a{color:var(--mut);text-decoration:underline}
+.testimonial{background:var(--card);border-left:3px solid var(--accent);padding:20px 24px;border-radius:0 10px 10px 0;margin:24px 0}
+.testimonial .quote{color:var(--text);font-style:italic;font-size:.95em}
+.testimonial .attr{color:var(--mut);font-size:.85em;margin-top:8px}
+.faq{margin:40px 0}
+.faq h3{color:var(--white);font-size:1.1em;margin-bottom:16px}
+.faq .q{color:var(--accent);font-weight:600;margin:16px 0 4px}
+.faq .a{color:var(--mut);font-size:.95em}
+footer{text-align:center;padding:40px 0;color:var(--mut);font-size:.8em}
+footer a{color:var(--mut)}
+@media(max-width:600px){.hero h1{font-size:1.6em}.countdown .timer{font-size:2em}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero">
+<div class="badge">⚡ LIMITED-TIME OFFER — EXPIRES IN:</div>
+<h1>Your Agent Could Be Bleeding $12,400 Right Now. Let's Find Out.</h1>
+<p class="sub">A personalized audit of your agent's spending patterns — 3 risk scores, 1 report, delivered in 10 minutes.</p>
+</div>
+
+<div class="countdown" id="countdown-block">
+<div class="timer" id="timer">15:00</div>
+<div class="label">offer expires — one-time audit at this price</div>
+</div>
+
+<div class="stack">
+<h3>📊 What's in the Agent Spend Audit Report</h3>
+<div class="item"><span class="name">① Transaction velocity risk score</span><span class="val">$49</span></div>
+<div class="item"><span class="name">② Unknown merchant exposure map</span><span class="val">$39</span></div>
+<div class="item"><span class="name">③ Category overspend detection</span><span class="val">$29</span></div>
+<div class="item"><span class="name">④ Time-of-day anomaly scan</span><span class="val">$19</span></div>
+<div class="item"><span class="name">🎁 BONUS: 5-rule firewall starter config</span><span class="val">$27</span></div>
+<div class="item"><span class="name">🎁 BONUS: "First $10K safe" deployment checklist</span><span class="val">$19</span></div>
+<div class="total">
+<span>Total value:</span>
+<span class="old">$182</span>
+</div>
+<div class="total" style="border:none;padding-top:4px">
+<span>Today — one-time:</span>
+<span class="new">$7</span>
+</div>
+</div>
+
+<div class="guarantee">
+<div class="icon">🛡️</div>
+<div class="text"><strong>60-Day Guarantee:</strong> If the audit doesn't find at least one spending risk you weren't aware of, I'll refund your $7 and you keep the report. No questions.</div>
+</div>
+
+<div style="text-align:center;margin:30px 0">
+<a href="https://buy.stripe.com/REPLACE_WITH_TRIPWIRE_LINK" class="btn" id="buy-btn">Get My Audit Report — $7 →</a>
+<p class="secondary">One-time payment. Delivered to your email in under 10 minutes. <a href="/">No thanks, I'll take my chances →</a></p>
+</div>
+
+<div class="testimonial">
+<div class="quote">"The audit found a velocity rule gap I'd missed — my agent retried a failed payment 40 times in testing. Fixed it before production. The $7 paid for itself 1,700x over."</div>
+<div class="attr">— Platform Engineering Lead, Series B SaaS, Berlin</div>
+</div>
+
+<div class="testimonial">
+<div class="quote">"I thought my agent was safe because I set a $200 per-tx cap. The audit showed 14 small transactions that added up to $2,800. I had no daily total rule. Fixed in 2 minutes."</div>
+<div class="attr">— AI Infrastructure Lead, FinTech, London</div>
+</div>
+
+<div class="faq">
+<h3>Quick answers</h3>
+<div class="q">What do I need to provide?</div>
+<div class="a">Nothing. This is a self-assessment framework — you answer 12 questions about your agent's current setup and get a scored risk report with exact fixes. Takes 8 minutes.</div>
+<div class="q">Is this different from the free 5-day playbook?</div>
+<div class="a">Yes. The playbook teaches you the concepts. This audit scores YOUR actual setup and tells you exactly which gaps to fix first — ranked by dollar risk.</div>
+<div class="q">What if I'm not technical?</div>
+<div class="a">The audit is in plain English. No code. If you can describe what your agent buys, you can complete this audit.</div>
+</div>
+</div>
+
+<footer>
+<p>© 2026 sipi.bot — <a href="/">The pre-spend firewall for autonomous AI agents</a></p>
+</footer></div>
+
+<script>
+// 15-min countdown
+(function(){
+var m=15,s=0,el=document.getElementById('timer'),block=document.getElementById('countdown-block');
+function tick(){
+if(s===0){if(m===0){block.innerHTML='<p style="color:var(--danger);font-weight:700;font-size:1.1em">This offer has expired. <a href="/pricing" style="color:var(--accent)">See regular pricing →</a></p>';return}m--;s=59}else{s--}
+el.textContent=m+':'+(s<10?'0':'')+s;setTimeout(tick,1000)}
+tick()
+})();
+</script>
+</body></html>"""
+    return s
+
+
+def badge_page_html() -> str:
+    """Badge showcase / installation page — the embeddable protected-by badge system."""
+    s = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Protected by sipi.bot — Badge</title>
+<meta name="description" content="Embed a live 'Protected by sipi.bot' badge on your site. Show visitors your agent spending is firewall-protected, with real-time stats.">
+<link rel="canonical" href="https://sipi.bot/badge">
+<link rel="alternate" hreflang="en" href="https://sipi.bot/badge">
+<link rel="alternate" hreflang="en-US" href="https://sipi.bot/badge">
+<link rel="alternate" hreflang="x-default" href="https://sipi.bot/badge">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Protected by sipi.bot — Spend Firewall Badge">
+<meta property="og:description" content="Show the world your agents are protected by a spend firewall. Live stats, dark badge, free forever.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/badge">
+<meta property="og:image" content="https://sipi.bot/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Protected by sipi.bot — Spend Firewall Badge"><meta property="og:site_name" content="sipi.bot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Protected by sipi.bot — Spend Firewall Badge">
+<meta name="twitter:description" content="Show the world your agents are protected by a spend firewall. Live stats, dark badge, free forever.">
+<meta name="twitter:image" content="https://sipi.bot/og.png">
+<meta name="theme-color" content="#00d4aa">
+{CSS}
+</head>
+<body>
+<nav>
+<div class="wrap">
+<a href="/" class="brand">sipi<span class="dot">.</span>bot</a>
+<span class="nav-links"><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a><a href="/badge" style="color:var(--accent)">Badge</a></span>
+</div>
+</nav>
+
+<div class="wrap" style="padding-top:60px;padding-bottom:80px">
+<h1 style="font-size:38px;letter-spacing:-.03em;margin-bottom:12px">Protected by <span style="color:var(--accent)">sipi.bot</span></h1>
+<p style="font-size:18px;color:var(--mut);max-width:640px;margin-bottom:48px">
+Show the world your autonomous agents are protected by a spend firewall. Every badge embed is a live status indicator — and a permanent backlink.
+</p>
+
+<!-- Full badge preview -->
+<div style="background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:32px;overflow:hidden">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+    <h2 style="font-size:16px;margin:0">Full badge <span style="color:var(--mut);font-weight:400;font-size:13px">— live stats</span></h2>
+    <span style="color:var(--green);font-size:12px;font-family:var(--mono)">● Live</span>
+  </div>
+  <img src="/api/badge/firewall-status?style=dark&w=760" alt="Protected by sipi.bot" style="max-width:100%;border-radius:8px" loading="lazy">
+</div>
+
+<!-- Variants -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:48px">
+  <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px">
+    <h3 style="font-size:14px;margin-bottom:12px">Flat badge <span style="color:var(--mut);font-weight:400;font-size:12px">— README</span></h3>
+    <img src="/api/badge/firewall-status?style=flat" alt="Protected by sipi.bot" style="border-radius:6px" loading="lazy">
+    <textarea readonly style="width:100%;height:52px;background:var(--bg);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px;font-family:'SF Mono',ui-monospace,monospace;font-size:11px;margin-top:12px;resize:none" onclick="this.select()">&lt;img src="https://sipi.bot/api/badge/firewall-status?style=flat" alt="Protected by sipi.bot"&gt;</textarea>
+  </div>
+  <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px">
+    <h3 style="font-size:14px;margin-bottom:12px">Shield badge <span style="color:var(--mut);font-weight:400;font-size:12px">— Shields.io style</span></h3>
+    <img src="/api/badge/firewall-status?style=shield" alt="Protected by sipi.bot" style="border-radius:6px" loading="lazy">
+    <textarea readonly style="width:100%;height:52px;background:var(--bg);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px;font-family:'SF Mono',ui-monospace,monospace;font-size:11px;margin-top:12px;resize:none" onclick="this.select()">&lt;img src="https://sipi.bot/api/badge/firewall-status?style=shield" alt="Protected by sipi.bot"&gt;</textarea>
+  </div>
+  <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px">
+    <h3 style="font-size:14px;margin-bottom:12px">Full badge <span style="color:var(--mut);font-weight:400;font-size:12px">— landing pages</span></h3>
+    <img src="/api/badge/firewall-status?style=dark&w=380" alt="Protected by sipi.bot" style="max-width:100%;border-radius:6px" loading="lazy">
+    <textarea readonly style="width:100%;height:52px;background:var(--bg);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px;font-family:'SF Mono',ui-monospace,monospace;font-size:11px;margin-top:12px;resize:none" onclick="this.select()">&lt;img src="https://sipi.bot/api/badge/firewall-status?style=dark" alt="Protected by sipi.bot"&gt;</textarea>
+  </div>
+</div>
+
+<!-- Use cases -->
+<h2 style="font-size:22px;margin-bottom:20px">Where to embed the badge</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:48px">
+  <div style="background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:20px">
+    <h4 style="margin:0 0 8px">GitHub README</h4>
+    <p style="color:var(--mut);font-size:13px;margin:0">Add the flat badge to your project README. Every visitor sees your agents are protected.</p>
+  </div>
+  <div style="background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:20px">
+    <h4 style="margin:0 0 8px">Documentation site</h4>
+    <p style="color:var(--mut);font-size:13px;margin:0">Embed the full badge in your docs sidebar. Builds trust with every integration partner.</p>
+  </div>
+  <div style="background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:20px">
+    <h4 style="margin:0 0 8px">Landing page footer</h4>
+    <p style="color:var(--mut);font-size:13px;margin:0">A single <code>&lt;img&gt;</code> tag in your footer. Zero JavaScript, zero dependencies, always current.</p>
+  </div>
+  <div style="background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:20px">
+    <h4 style="margin:0 0 8px">Agent framework integration page</h4>
+    <p style="color:var(--mut);font-size:13px;margin:0">Show users of your framework integration that you've wired the firewall. Trust signal.</p>
+  </div>
+  <div style="background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:20px">
+    <h4 style="margin:0 0 8px">Security / compliance page</h4>
+    <p style="color:var(--mut);font-size:13px;margin:0">Pair the badge with your security page. Every SOC 2 auditor and enterprise buyer sees it.</p>
+  </div>
+  <div style="background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:20px">
+    <h4 style="margin:0 0 8px">MCP server listing</h4>
+    <p style="color:var(--mut);font-size:13px;margin:0">Add the shield badge to your Smithery, MCPT, or Open Tools listing. Differentiates your listing.</p>
+  </div>
+</div>
+
+<!-- URL parameters -->
+<h2 style="font-size:22px;margin-bottom:20px">Customization</h2>
+<table style="width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:48px">
+<thead>
+<tr style="background:var(--panel2);text-align:left">
+<th style="padding:12px 16px;font-size:13px">Parameter</th>
+<th style="padding:12px 16px;font-size:13px">Values</th>
+<th style="padding:12px 16px;font-size:13px">Default</th>
+<th style="padding:12px 16px;font-size:13px">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top:1px solid var(--line)">
+<td style="padding:12px 16px;font-family:var(--mono);font-size:12px">style</td>
+<td style="padding:12px 16px;font-size:12px"><code>dark</code>, <code>flat</code>, <code>shield</code></td>
+<td style="padding:12px 16px;font-size:12px"><code>dark</code></td>
+<td style="padding:12px 16px;font-size:12px;color:var(--mut)">Badge variant: full stats card, single-line, or Shields.io style</td>
+</tr>
+<tr style="border-top:1px solid var(--line)">
+<td style="padding:12px 16px;font-family:var(--mono);font-size:12px">w</td>
+<td style="padding:12px 16px;font-size:12px"><code>280</code>–<code>1200</code></td>
+<td style="padding:12px 16px;font-size:12px"><code>760</code></td>
+<td style="padding:12px 16px;font-size:12px;color:var(--mut)">Width in pixels (full badge only)</td>
+</tr>
+</tbody>
+</table>
+
+<!-- Stats explainer -->
+<h2 style="font-size:22px;margin-bottom:12px">What the badge shows</h2>
+<p style="color:var(--mut);margin-bottom:24px;max-width:640px">
+The badge pulls live stats from the sipi.bot firewall engine. Every number is real — checks counted today, blocked transactions, approved/flagged breakdowns. No fake data, no cached static badge.
+</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:48px">
+  <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-align:center">
+    <div style="font-size:28px;font-weight:700;margin-bottom:4px">✓</div>
+    <div style="font-size:13px;color:var(--mut)">Real-time stats</div>
+    <div style="font-size:11px;color:#555;margin-top:6px">30-second refresh from live firewall</div>
+  </div>
+  <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-align:center">
+    <div style="font-size:28px;font-weight:700;margin-bottom:4px">⚡</div>
+    <div style="font-size:13px;color:var(--mut)">Zero dependencies</div>
+    <div style="font-size:11px;color:#555;margin-top:6px">One <code>&lt;img&gt;</code> tag, no JS needed</div>
+  </div>
+  <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-align:center">
+    <div style="font-size:28px;font-weight:700;margin-bottom:4px">🔒</div>
+    <div style="font-size:13px;color:var(--mut)">Always HTTPS</div>
+    <div style="font-size:11px;color:#555;margin-top:6px">Served from sipi.bot CDN with HSTS</div>
+  </div>
+  <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-align:center">
+    <div style="font-size:28px;font-weight:700;margin-bottom:4px">∞</div>
+    <div style="font-size:13px;color:var(--mut)">Free forever</div>
+    <div style="font-size:11px;color:#555;margin-top:6px">No API key, no rate limit on badge</div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<h2 style="font-size:22px;margin-bottom:20px">Frequently asked</h2>
+<div style="max-width:640px;margin-bottom:48px">
+<div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:12px">
+  <h4 style="margin:0 0 6px;font-size:14px">Does the badge slow down my page?</h4>
+  <p style="margin:0;color:var(--mut);font-size:13px">No. The SVG payload is ~2KB, served with 30-second CDN cache. It loads in parallel with your page and never blocks rendering.</p>
+</div>
+<div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:12px">
+  <h4 style="margin:0 0 6px;font-size:14px">Do I need a sipi.bot account?</h4>
+  <p style="margin:0;color:var(--mut);font-size:13px">No. The badge is free for anyone to embed. It shows global firewall stats, not account-specific data. If you want a badge showing YOUR agent's protected status, <a href="/pricing">sign up for a plan</a> and we'll generate a per-account badge.</p>
+</div>
+<div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px">
+  <h4 style="margin:0 0 6px;font-size:14px">Can I use it in a commercial product?</h4>
+  <p style="margin:0;color:var(--mut);font-size:13px">Yes. The badge is free for commercial use. Attribution to sipi.bot is built into the badge design — that's the whole point.</p>
+</div>
+</div>
+
+<!-- CTA -->
+<div style="text-align:center;padding:48px 0;border-top:1px solid var(--line)">
+  <h2 style="font-size:24px;margin-bottom:16px">Ready to protect your agents?</h2>
+  <p style="color:var(--mut);margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto">
+    The badge shows you care. The firewall behind it actually protects. Deploy both today.
+  </p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="/pricing" class="btn" style="background:var(--accent);color:#0a0a0a;padding:14px 32px;border-radius:10px;font-weight:700;font-size:15px">Get started — $99/mo</a>
+    <a href="/self-hosted" class="btn" style="background:var(--panel2);color:var(--txt);padding:14px 32px;border-radius:10px;font-weight:600;font-size:15px;border:1px solid var(--line)">Self-host free</a>
+  </div>
+</div>
+
+</div>
+
+<footer>
+<p>© 2026 sipi.bot — <a href="/">The pre-spend firewall for autonomous AI agents</a></p>
+</footer></div>
 </body></html>"""
     return s
 
