@@ -20,6 +20,7 @@ as an MCP tool, an HTTP API, and a CLI. Open-source core (MIT), free to self-hos
 - [Complete guide](https://sipi.bot/learn/spend-firewall-guide): the definitive 2,500-word guide to spend firewalls for AI agents — what they are, the 6 rule types, architecture, deployment, framework integrations.
 - [Dashboard](https://sipi.bot/dashboard): live decisions, approvals, and rules.
 - [Pricing](https://sipi.bot/pricing): Team $99/mo, Business $499/mo.
+- [Protected by Badge](https://sipi.bot/badge): embed a live "Protected by sipi.bot" badge on any site — free, no API key needed.
 - [Eval report (JSON)](https://sipi.bot/eval): 53/53 scenarios.
 - [Eval report (human-readable)](https://sipi.bot/eval-report/): the same results explained.
 - [Agent card](https://sipi.bot/.well-known/agent-card.json): machine-readable capability manifest.

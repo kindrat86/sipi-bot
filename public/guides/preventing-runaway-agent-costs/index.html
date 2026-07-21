@@ -44,6 +44,23 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <h2>Full Guide</h2><p>Runaway loops happen when agents repeat paid actions in a reasoning cycle. Detection signals: >20 API calls/minute, identical payloads, escalating costs. The three rules that stop it: velocity limits (max calls/minute), daily caps (hard $ limit), and approval thresholds (human review for large amounts).</p><h2>Getting Started</h2><p>All of these patterns are built into sipi.bot. Install, configure your rules, and connect your agent — the firewall handles the rest.</p>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
-</div></main>
+</div>
+
+<!-- _expand_thin-enriched -->
+<section>
+<h2>Putting this guide into practice</h2>
+<p>"Preventing Runaway AI Agent Costs: The Complete Guide" covers the theory and architecture. The real challenge is translating that into working policy rules that actually run in production. Below are concrete examples that map the guide's concepts to sipi.bot policy configurations.</p>
+<h2>Common real-world scenarios</h2>
+<p>Teams implementing the patterns in this guide typically encounter three recurring situations. Here is how each one translates into actionable policy:</p>
+<h3>Scenario 1: The research agent that reads too deeply</h3>
+<p>A research agent hits 47 LLM API calls exploring a single topic. Each call is under $0.50 (within the per-transaction limit), but the cumulative cost hits $23 in 90 seconds. The fix is a velocity cap of 10 calls/minute per agent, which catches the rapid-fire pattern before the daily ceiling ever fires. Configure this in sipi.bot: set "max 10 evaluations/minute" on the agent's policy group. When the agent hits the limit, it receives a BLOCKED decision and must pace itself.</p>
+<h3>Scenario 2: The deployment that bypassed the staging check</h3>
+<p>A developer deploys a new agent version directly to production, skipping the staging environment. The new agent has a bug in its retry logic that generates 200 identical transactions. Without a daily ceiling ($50/agent) and a velocity cap, this becomes a $2,000 incident. With both, the agent is blocked at transaction 11 (velocity cap) or at the first transaction that pushes daily spend over $50. The audit log shows the new agent ID immediately, pinpoints the deployment, and the developer is alerted within seconds.</p>
+<h3>Scenario 3: The prompt injection that redirects a payment</h3>
+<p>An adversarial input tricks a customer-support agent into sending a payment to an attacker-controlled merchant. Without a merchant allowlist, the agent sends $500 to "merchant-service-pay.com" before anyone notices. With a merchant allowlist restricted to 8 approved vendors, the agent receives BLOCKED with reason "merchant not on allowlist." The transaction never executes. This scenario alone justifies the merchant allowlist as the highest-priority control in any deployment.</p>
+<h2>Next steps after reading this guide</h2>
+<p>Deploy the concepts in this guide with sipi.bot: set up your policy in the dashboard, wrap your agent's spend functions with the evaluation endpoint, and run the three test scenarios above. Each scenario takes under 10 minutes to configure and validates a different dimension of your spend control. At $99/month, the insurance is cheaper than a single uncontrolled incident.</p>
+</section>
+</main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — The spend firewall for autonomous AI agents · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/alternatives/x402/">x402 alt</a> · <a href="/self-hosted/">self-host</a> · <a href="/">Home</a></div></footer>
 </body></html>

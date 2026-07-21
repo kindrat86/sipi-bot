@@ -44,6 +44,22 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <h2>Benchmark Data</h2><p>Code generation tasks average $0.15-0.80 per task depending on model. Research agents average $1.20-4.50 per query. Data processing agents: $0.30-2.00. Customer support: $0.05-0.25 per interaction. These are medians — poorly-optimized agents can 10x these numbers.</p><h2>What This Means for Your Agents</h2><p>These benchmarks show that agent costs are predictable with proper controls. The variance between well-managed and unmanaged agents is 10-50x — making a spend firewall one of the highest-ROI infrastructure investments for agent deployments.</p>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
-</div></main>
+</div>
+
+<!-- _expand_thin-enriched -->
+<section>
+<h2>Making this benchmark actionable</h2>
+<p>Benchmark data is only useful when it drives decisions. The numbers in "Agent Cost Per Task: Benchmarks Across Use Cases" represent medians across many deployments — your actual costs may be higher or lower depending on your agent architecture, model choices, and workload patterns. The critical question is not "am I above or below the median?" but "what would an uncontrolled deviation from the median cost my team?"</p>
+<p>Production agent teams typically see a 10-50x spread between well-managed costs (within the benchmark range) and uncontrolled costs (a single runaway incident). The benchmark tells you what "good" looks like. A spend firewall is what keeps you there by enforcing the ceiling before the deviation becomes an incident.</p>
+<h2>How to use this data with sipi.bot</h2>
+<ol>
+<li><strong>Set your per-transaction limit at 3x the benchmark median</strong> for your use case. If the median task costs $0.30, set the limit at $0.90. This covers legitimate variance without leaving the blast radius wide open.</li>
+<li><strong>Set your daily ceiling at 50x the benchmark median</strong> — roughly a day's worth of normal operation. If the per-task median is $0.30 and you expect 100 tasks/day, set the ceiling at $15.00.</li>
+<li><strong>Configure velocity at 20x the benchmark rate</strong> — if a normal agent executes one task per minute, set velocity to 20 tasks/minute. This catches the loop pattern (100 calls in 90 seconds) without blocking legitimate burst traffic.</li>
+</ol>
+<h2>What to monitor</h2>
+<p>After deploying sipi.bot with these baseline limits, watch three metrics in the first week: blocked transaction rate (should be under 1%), flagged transaction rate (should be near zero), and cost per agent per day (should track your daily ceiling). If blocked rate is high, your limits are too tight. If flagged rate is high, your agents are operating near the edge of normal and you may have a behavioral pattern to investigate. In either case, the audit log shows you exactly which policy rule fired and why.</p>
+</section>
+</main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — The spend firewall for autonomous AI agents · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/alternatives/x402/">x402 alt</a> · <a href="/self-hosted/">self-host</a> · <a href="/">Home</a></div></footer>
 </body></html>

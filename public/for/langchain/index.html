@@ -32,18 +32,10 @@ code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
 .hub-links p{font-size:14px;color:#8a8d96;margin:6px 0 0}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 @media(max-width:640px){.hub-links{grid-template-columns:1fr}}
-</style><script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head><body>
+</style></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap"><span class="tag">LangChain integration</span>
 <h1>Stop your LangChain agent from overspending</h1>
-<p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 20px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-08 · Last updated 2026-07-17</p>
-<section class="definition">
-  <h2>What is a spend firewall for LangChain?</h2>
-  <p>A spend firewall for LangChain is a guard call inside your agent’s tools that checks every transaction against your rules before the spend happens. Your LangChain agent calls sipi.bot, gets back approve, block, or flag in under 5&nbsp;ms, and only proceeds if the decision is clear — no rewritten prompts, no SDK lock-in.</p>
-</section>
-
-<div class="tldr"><p><strong>TL;DR:</strong> Add a spend firewall to your LangChain agent in 5 lines. Approve, block, or flag every tool-driven purchase before a dollar moves.</p></div>
-
 <p class="lead">A LangChain agent with a money-spending tool is one retry loop away from a runaway bill. Wrap that tool with sipi.bot and every purchase is checked against your rules before it fires.</p>
 <p>The pattern: call <code>guard()</code> inside your <code>@tool</code>, before the real spend. It raises on a blocked or flagged decision, so the agent physically cannot spend past your policy — and it gets a readable message back so it stops retrying instead of hammering the endpoint.</p>
 <pre>from langchain_core.tools import tool
@@ -63,10 +55,10 @@ def buy(amount: float, merchant: str, category: str = "") -> str:
 <h2>Why not a hardcoded check inside the tool?</h2>
 <p>A single <code>if amount &gt; 500</code> misses the runaway loop (40 small retries), the cumulative daily cap across many tool calls, the flag-for-human path, and the audit trail of why each spend was allowed. sipi.bot centralizes all of that in one call.</p>
 <h2>Frequently asked</h2>
-<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does sipi.bot work with LangGraph?</h3><p>Yes. The guard call lives inside the tool or node function your LangGraph graph invokes, so every agent in the graph gets the same spend protection. LangGraph’s state machine and checkpointing are unaffected — sipi.bot is a single HTTP call that returns before the tool executes, transparent to the graph’s control flow.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Do I need the LangChain SDK to call sipi.bot?</h3><p>No. sipi_guard.py is a zero-dependency stdlib client — it uses only urllib and json from the Python standard library. LangChain is only used for the <code>@tool</code> decorator wrapper. You can call the same HTTP endpoint from a raw Python function, a Celery task, or any other framework with no SDK installed.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">What happens when a spend is blocked mid-run?</h3><p>The tool returns a readable “BLOCKED: reason” string. The LangChain agent reads it as the tool output and can explain to the user why the spend was stopped, retry with a different approach, or ask for human approval. The block is also written to the audit log instantly, so you see it on the dashboard in real time.</p></div>
+<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does sipi.bot work with LangGraph?</h3><p>Yes. The guard call lives inside the tool or node function, so LangGraph agents get the same protection as LangChain ReAct agents — no extra wiring.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Do I need the LangChain SDK to call sipi.bot?</h3><p>No. sipi_guard.py is a zero-dependency stdlib client. LangChain is only used for the @tool decorator in this example; the guard itself is a plain HTTP call.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">What happens when a spend is blocked mid-run?</h3><p>The tool returns a readable &#x27;BLOCKED: reason&#x27; string. The LangChain agent reads it as the tool result and stops retrying, explaining the block to the user instead of looping.</p></div>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="https://github.com/kindrat86/sipi-bot" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">View source</a></p>
 </div></main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents ·
-<a href="/for/">All integrations</a> · <a href="/">Home</a></div></footer>
+<a href="/for/">All integrations</a> · <a href="/benchmarks/">Benchmarks</a> · <a href="/best/">Best-of</a> · <a href="/">Home</a></div></footer>
 </body></html>

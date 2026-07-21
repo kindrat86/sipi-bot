@@ -32,31 +32,21 @@ code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
 .hub-links p{font-size:14px;color:#8a8d96;margin:6px 0 0}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 @media(max-width:640px){.hub-links{grid-template-columns:1fr}}
-</style><script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head><body>
+</style></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap"><span class="tag">Integrations</span>
 <h1>Add a spend firewall to your AI agent framework</h1>
-<div class="tldr"><p><strong>TL;DR:</strong> Add a spend firewall to LangChain, CrewAI, OpenAI Agents SDK, or Vercel AI SDK. One call approves, blocks, or flags every agent purchase.</p></div>
-<p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 14px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-08 · Last updated 2026-07-17</p>
 <p class="lead">sipi.bot drops into every major agent framework with one call before a spend: approve, block, or flag against your rules. Pick your stack.</p>
 <ul class="hub-links"><li><a href="/for/langchain/">LangChain agents</a><p>Add a spend firewall to your LangChain agent in 5 lines. Approve, block, or flag every tool-driven purchase be…</p></li>
 <li><a href="/for/crewai/">CrewAI</a><p>Give your CrewAI crew a spend firewall as a BaseTool. Every agent purchase is approved, blocked, or flagged ag…</p></li>
 <li><a href="/for/openai-agents/">the OpenAI Agents SDK</a><p>Wrap your OpenAI Agents SDK function tools with a spend firewall. Approve, block, or flag every purchase befor…</p></li>
 <li><a href="/for/vercel-ai-sdk/">the Vercel AI SDK</a><p>Add a spend firewall to your Vercel AI SDK tools in TypeScript. Approve, block, or flag every agent purchase b…</p></li></ul>
 <p>Every integration uses the same core call — <code>evaluate(amount, merchant, category)</code> returning APPROVED, BLOCKED, or FLAGGED — over a zero-dependency client. Open-source core (MIT), free to self-host, or $99/mo hosted with a live dashboard and tamper-evident audit log.</p>
-<h2>How every integration works under the hood</h2>
-<p>No matter which framework you use, the wire protocol is identical: your agent sends one <code>POST /v1/transactions/evaluate</code> request with the amount, merchant, and category of the spend it is about to make, and sipi.bot answers with a decision object — <code>APPROVED</code>, <code>BLOCKED</code>, or <code>FLAGGED</code> — plus a human-readable reason.</p>
-<p>The Python client (<code>sipi_guard.py</code>) and the TypeScript client (<code>sipiGuard.ts</code>) are thin wrappers around that single call, so there is no SDK lock-in and nothing to keep in sync when a framework updates.</p>
-<p>Behind the endpoint, the firewall evaluates six rule families — per-transaction caps, daily totals, velocity limits, merchant allow/block lists, category limits, and time windows — plus an approval threshold for human review. The decision engine is deterministic (no ML inference) and its behaviour is verified by a public eval suite of 53 labeled scenarios, all 53 passing.</p>
-<h2>Not using one of these frameworks?</h2>
-<p>You still have three native surfaces. Any runtime that can make an HTTP call can use the API directly. Agents running inside Claude Code, Cursor, or Hermes can call sipi.bot as a native MCP tool. And the CLI covers scripts and cron-driven automations. If you want to kick the tires first, the <a href="/playground/">live playground</a> evaluates real transactions against the production endpoint with no API key, and the <a href="/tools/risk-calculator/">risk calculator</a> estimates your worst-case agent spend before you wire anything up.</p>
 <h2>Frequently asked</h2>
-<div class="card"><p style="color:#e8e8ea;font-weight:600">Which agent frameworks does sipi.bot support?</p><p>sipi.bot works with LangChain, LangGraph, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK today, plus any runtime that can make an HTTP call or use an MCP tool.</p></div><div class="card"><p style="color:#e8e8ea;font-weight:600">Is there one client for all frameworks?</p><p>Yes. Python frameworks use the zero-dependency sipi_guard.py; TypeScript frameworks use sipiGuard.ts. Both wrap the same /v1/transactions/evaluate endpoint.</p></div>
+<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Which agent frameworks does sipi.bot support?</h3><p>sipi.bot works with LangChain, LangGraph, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK today, plus any runtime that can make an HTTP call or use an MCP tool.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Is there one client for all frameworks?</h3><p>Yes. Python frameworks use the zero-dependency sipi_guard.py; TypeScript frameworks use sipiGuard.ts. Both wrap the same /v1/transactions/evaluate endpoint.</p></div>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="https://github.com/kindrat86/sipi-bot" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">View source</a></p>
 </div></main>
-<footer><div class="wrap">
-<div style="margin-bottom:16px"><strong style="color:#e8e8ea">Comparisons:</strong> <a href="/vs/hardcoded-check/">vs hardcoded check</a> · <a href="/vs/stripe-radar/">vs Stripe Radar</a> · <a href="/alternatives/x402/">x402 alternative</a> · <a href="/self-hosted/">self-hosted</a></div>
-sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents ·
-<a href="/for/">All integrations</a> · <a href="/">Home</a></div></footer>
+<footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents ·
+<a href="/for/">All integrations</a> · <a href="/benchmarks/">Benchmarks</a> · <a href="/best/">Best-of</a> · <a href="/">Home</a></div></footer>
 </body></html>

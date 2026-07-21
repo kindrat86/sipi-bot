@@ -32,18 +32,10 @@ code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
 .hub-links p{font-size:14px;color:#8a8d96;margin:6px 0 0}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 @media(max-width:640px){.hub-links{grid-template-columns:1fr}}
-</style><script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head><body>
+</style></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap"><span class="tag">OpenAI Agents SDK integration</span>
 <h1>Spend limits for OpenAI Agents SDK function tools</h1>
-<p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 20px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-08 · Last updated 2026-07-17</p>
-<section class="definition">
-  <h2>What is a spend firewall for the OpenAI Agents SDK?</h2>
-  <p>A spend firewall for the OpenAI Agents SDK is a guard inside your agent’s function tools that checks every transaction against your rules before the spend happens. Your agent calls sipi.bot; the firewall returns approve, block, or flag in under 5&nbsp;ms; and the tool only executes the payment if the decision is approve — no prompt rewriting required.</p>
-</section>
-
-<div class="tldr"><p><strong>TL;DR:</strong> Wrap your OpenAI Agents SDK function tools with a spend firewall. Approve, block, or flag every purchase before it happens.</p></div>
-
 <p class="lead">The moment an OpenAI Agents SDK function tool can spend money, the prompt is the only thing between the model and your card. sipi.bot adds a real limit.</p>
 <p>Guard the spend inside a <code>@function_tool</code>. Return a string decision so the model can reason about a block instead of retrying it.</p>
 <pre>from agents import Agent, Runner, function_tool
@@ -67,10 +59,10 @@ result = Runner.run_sync(agent, "Buy $6,200 of GPU time from unknown-gpu.ru")</p
 <h2>Returning a string beats raising</h2>
 <p>The Agents SDK feeds the tool return value back to the model. A "BLOCKED: reason" string lets the model reason and stop; raising aborts the run and teaches the model nothing.</p>
 <h2>Frequently asked</h2>
-<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Should I use a function tool or an SDK guardrail?</h3><p>Use a function tool. The SDK’s built-in guardrails run on the model’s output, which is probabilistic. A spend firewall must be deterministic — the same transaction must always get the same decision. Putting the guard inside the function tool means the rule engine, not the LLM, decides whether the payment API is called.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does sipi.bot support the Runner streaming loop?</h3><p>Yes. The guard call is a synchronous HTTP request inside your function tool. Whether the Runner streams tokens or runs to completion, the tool is invoked the same way — the firewall check happens when the tool executes, not during streaming. The 5&nbsp;ms latency is negligible relative to any payment API call that follows.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Is an API key required?</h3><p>An API key is required for the hosted endpoint so we can attribute transactions to your account and enforce your rules. Self-hosting needs no key — the open-source core runs on your infrastructure with no authentication overhead. Both paths use the same rule engine and return the same decision shape.</p></div>
+<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Should I use a function tool or an SDK guardrail?</h3><p>Start with the function-tool guard — it is the simplest and covers most cases. Add an output guardrail that calls evaluate() as a second layer if you want a hard tripwire independent of tool wiring.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does sipi.bot support the Runner streaming loop?</h3><p>Yes. The guard is a synchronous HTTP call inside the tool, so it works with both Runner.run_sync and the async streaming runner.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Is an API key required?</h3><p>No key is needed for the open free tier. Set SIPI_API_KEY for hosted tiers with a persistent audit log and dashboard.</p></div>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="https://github.com/kindrat86/sipi-bot" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">View source</a></p>
 </div></main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents ·
-<a href="/for/">All integrations</a> · <a href="/">Home</a></div></footer>
+<a href="/for/">All integrations</a> · <a href="/benchmarks/">Benchmarks</a> · <a href="/best/">Best-of</a> · <a href="/">Home</a></div></footer>
 </body></html>

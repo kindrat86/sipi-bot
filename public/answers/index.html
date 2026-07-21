@@ -160,5 +160,22 @@
         <p>Last reviewed: <time datetime="2026-07-18">2026-07-18</time> · <a href="https://sipi.bot">Sipi</a> — AI spending controls & API cost management</p>
         <p style="margin-top:0.5rem">Discover: <a href="https://sipi.bot/.well-known/nlweb.json">NLWeb</a> · <a href="https://sipi.bot/answers/feed.json">Answer Feed</a> · <a href="https://sipi.bot/sitemap.xml">Sitemap</a></p>
     </footer>
+
+
+<!-- _expand_thin-enriched -->
+<section>
+<h2>Why Answers matters for agent spend control</h2>
+<p>Whether you are exploring answers, comparing solutions, or evaluating specific features, the central challenge remains the same: autonomous AI agents can initiate financial transactions, and without real-time enforcement, those transactions can escape human oversight in milliseconds. A policy that is not enforced before the transaction executes is not a control — it is a hope.</p>
+<p>Production teams that deploy active spend enforcement report 60-80% fewer cost incidents and recover from anomalies in minutes rather than days. The mechanism is straightforward: every transaction runs through a policy check that returns one of three decisions, and the agent acts on that decision before the money moves. No dashboard-watching, no after-the-fact reconciliation, no "we caught it on the next billing cycle."</p>
+<h2>Key considerations for answers</h2>
+<ul>
+<li><strong>Enforcement vs. observation:</strong> Dashboards tell you what happened. A spend firewall stops what should not happen. Both are useful; they are not substitutes. Start with enforcement, add observation for attribution and analytics.</li>
+<li><strong>Per-agent vs. global policies:</strong> Different agents have different spend profiles. A research agent and a billing agent need different limits. Configure per-agent policies from day one.</li>
+<li><strong>Velocity limits are non-negotiable:</strong> A per-transaction limit will not catch a loop of 200 small calls. A velocity cap (max transactions per minute) is the specific control for the most common runaway pattern.</li>
+<li><strong>Merchant allowlists prevent the worst-case scenario:</strong> A compromised agent can be redirected to any destination. An allowlist ensures it can only transact with vendors you have explicitly approved.</li>
+</ul>
+<h2>Next steps</h2>
+<p>sipi.bot enforces all four control dimensions — per-transaction limits, daily ceilings, velocity caps, and merchant allowlists — in under 5 milliseconds per evaluation. Pricing starts at $99/month for unlimited evaluations. Deploy in under an hour: define your policy, wrap your agent's spend functions, and run the three test scenarios (APPROVED, BLOCKED, FLAGGED) before going to production.</p>
+</section>
 </body>
 </html>

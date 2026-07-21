@@ -212,6 +212,32 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         if getattr(self, "_head_only", False):
             return
+        # Inject hreflang + OG image + twitter tags for any HTML page missing them
+        if 'hreflang' not in html.lower() and '<link rel="canonical"' in html:
+            import re as _reh
+            cm = _reh.search(r'<link rel="canonical" href="([^"]+)"', html)
+            if cm:
+                cu = cm.group(1)
+                hb = ('<link rel="alternate" hreflang="en" href="' + cu + '">\n'
+                      '<link rel="alternate" hreflang="en-US" href="' + cu + '">\n'
+                      '<link rel="alternate" hreflang="x-default" href="' + cu + '">\n')
+                html = html.replace('<link rel="canonical"', hb + '<link rel="canonical"', 1)
+        if 'og:image' not in html and '<meta property="og:title"' in html:
+            import re as _reo
+            tm = _reo.search(r'<meta property="og:title" content="([^"]+)"', html)
+            dm = _reo.search(r'<meta property="og:description" content="([^"]+)"', html)
+            ot = tm.group(1) if tm else ''
+            od = dm.group(1) if dm else ''
+            ob = ('<meta property="og:image" content="https://sipi.bot/og.png">'
+                  '<meta property="og:image:width" content="1200">'
+                  '<meta property="og:image:height" content="630">'
+                  '<meta property="og:image:alt" content="sipi.bot — The pre-spend firewall for autonomous AI agents">'
+                  '<meta property="og:site_name" content="sipi.bot">\n'
+                  '<meta name="twitter:card" content="summary_large_image">\n'
+                  '<meta name="twitter:title" content="' + ot + '">\n'
+                  '<meta name="twitter:description" content="' + od + '">\n'
+                  '<meta name="twitter:image" content="https://sipi.bot/og.png">\n')
+            html = html.replace('<meta property="og:title"', ob + '<meta property="og:title"', 1)
         self.wfile.write(html.encode())
 
     def _body(self) -> dict:
@@ -258,6 +284,25 @@ class Handler(BaseHTTPRequestHandler):
         try_pseo = self._serve_pseo(path)
         if try_pseo:
             return
+        # Research Data hub (Dataset Search)
+        if path == "/data":
+            try:
+                import os as _os
+                base = _os.path.abspath(_os.path.dirname(__file__))
+                fp = _os.path.join(base, "data/index.html")
+                with open(fp, encoding="utf-8") as fh:
+                    return self._html(fh.read())
+            except Exception:
+                pass
+        if path == "/data/feed.json":
+            try:
+                import os as _os
+                base = _os.path.abspath(_os.path.dirname(__file__))
+                fp = _os.path.join(base, "data/feed.json")
+                with open(fp, encoding="utf-8") as fh:
+                    return self._send(200, fh.read().encode(), "application/json")
+            except Exception:
+                pass
         if path == "/" or path == "/index.html":
             return self._html(templates.landing_page_html())
         if path == "/dashboard":
@@ -265,6 +310,13 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/health":
             return self._json(200, {"ok": True, "service": "sipi.bot", "version": __version__},
                               noindex=True)
+        # IndexNow key file (instant re-crawling) — content must be just the key,
+        # not the filename. IndexNow reads the body of the .txt file and expects
+        # the raw key string (e.g. "9769ace59182381fe1af49982d9b58a9").
+        if path in ("/9769ace59182381fe1af49982d9b58a9.txt", "/9769ace5.txt"):
+            key = path.split("/")[-1].rsplit(".", 1)[0]
+            return self._send(200, key.encode(), "text/plain")
+
         if path == "/BingSiteAuth.xml":
             xml = ('<?xml version="1.0"?>\n<users>\n\t<user>'
                    'FA4E122745948F0CAD16959F59DDCB85</user>\n</users>')
@@ -303,6 +355,12 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, {"status": "not_run_yet",
                                     "hint": "run: python -m spendfirewall.eval.run_eval"},
                               noindex=True)
+        # ── Embeddable SVG badge endpoint ──
+        if path == "/api/badge/firewall-status":
+            return self._badge_svg()
+        # ── Badge showcase page ──
+        if path == "/badge":
+            return self._html(templates.badge_page_html())
         if path == "/api/stats":
             return self._json(200, core.status())
         if path == "/api/transactions":
@@ -554,6 +612,130 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
         self.wfile.flush()
 
+    def _badge_svg(self):
+        """Return a dynamic SVG badge showing live firewall stats.
+        
+        Embeddable as <img src="https://sipi.bot/api/badge/firewall-status">
+        on any site — READMEs, docs, landing pages. Each embed is a permanent
+        backlink to sipi.bot. The Codecov/WakaTime distribution model.
+        """
+        try:
+            stats = core.status()
+        except Exception:
+            stats = {}
+        checked = stats.get("checked_today", 0)
+        blocked = stats.get("blocked_today", 0)
+        approved = stats.get("approved_today", 0)
+        flagged = stats.get("flagged_today", 0)
+        total_checked = stats.get("checked_total", checked)
+        
+        # Read query params for variant
+        from urllib.parse import parse_qs
+        qs = parse_qs(urlparse(self.path).query)
+        variant = (qs.get("style", ["dark"])[0] or "dark").lower()
+        width = min(int(qs.get("w", ["760"])[0] or 760), 1200)
+        
+        # Format numbers compactly
+        def fmt(n):
+            if n >= 1_000_000:
+                return f"{n/1_000_000:.1f}M"
+            if n >= 10_000:
+                return f"{n/1000:.0f}k"
+            if n >= 1_000:
+                return f"{n/1000:.1f}k"
+            return str(n)
+        
+        checked_str = fmt(checked)
+        blocked_str = fmt(blocked)
+        total_str = fmt(total_checked)
+        
+        if variant == "flat":
+            # Minimal flat badge for README (single line)
+            svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="280" height="20" role="img" aria-label="Protected by sipi.bot — {checked_str} checks today">
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#0a0a0a"/>
+    <stop offset="100%" stop-color="#121316"/>
+  </linearGradient>
+  <rect width="280" height="20" rx="10" fill="url(#bg)"/>
+  <rect x="150" width="130" height="20" rx="10" fill="#00d4aa" fill-opacity="0.12"/>
+  <text x="10" y="14" fill="#8a8d96" font-family="SF Mono,ui-monospace,monospace" font-size="11">Protected by sipi.bot</text>
+  <text x="215" y="14" fill="#00d4aa" font-family="SF Mono,ui-monospace,monospace" font-size="10" text-anchor="middle">{checked_str} today</text>
+</svg>'''
+        elif variant == "shield":
+            # Shields.io-style badge
+            svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="280" height="20">
+  <linearGradient id="left" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#121316"/>
+    <stop offset="100%" stop-color="#0a0a0a"/>
+  </linearGradient>
+  <rect width="180" height="20" rx="4" fill="url(#left)"/>
+  <rect x="180" width="100" height="20" rx="4" fill="#00d4aa" fill-opacity="0.15"/>
+  <text x="10" y="14" fill="#8a8d96" font-family="SF Mono,ui-monospace,monospace" font-size="10">Protected by sipi.bot</text>
+  <text x="230" y="14" fill="#00d4aa" font-family="SF Mono,ui-monospace,monospace" font-size="10" text-anchor="middle">€0 lost</text>
+</svg>'''
+        else:
+            # Full dark badge with live stats
+            # Calculate dynamic heights based on width
+            h = 140
+            svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{h}" role="img" aria-label="Protected by sipi.bot — {checked_str} checks today, {blocked_str} blocked">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#121316"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00d4aa"/>
+      <stop offset="100%" stop-color="#00b894"/>
+    </linearGradient>
+  </defs>
+  <rect width="{width}" height="{h}" rx="12" fill="url(#bgGrad)" stroke="#1a1c20" stroke-width="1"/>
+  <!-- Shield icon -->
+  <path d="M24,24 L24,42 L60,58 L96,42 L96,24 L60,14 Z" fill="none" stroke="#00d4aa" stroke-width="2" opacity="0.7"/>
+  <path d="M60,14 L96,24 L96,42 L60,58 L24,42 L24,24 Z" fill="#00d4aa" fill-opacity="0.08"/>
+  <text x="72" y="40" fill="#00d4aa" font-family="SF Mono,ui-monospace,monospace" font-size="16" font-weight="700" text-anchor="middle">SPEND</text>
+  <text x="72" y="54" fill="#00d4aa" font-family="SF Mono,ui-monospace,monospace" font-size="9" text-anchor="middle">FIREWALL</text>
+  <!-- Main label -->
+  <text x="120" y="28" fill="#e8e8ea" font-family="-apple-system,BlinkMacSystemFont,Inter,sans-serif" font-size="14" font-weight="700">sipi.bot</text>
+  <text x="120" y="42" fill="#8a8d96" font-family="-apple-system,Inter,sans-serif" font-size="11">Agent spend firewall — active and enforcing</text>
+  <!-- Stats row -->
+  <rect x="120" y="56" width="{width-140}" height="1" fill="#23242a"/>
+  <!-- Stat: Checks today -->
+  <text x="120" y="76" fill="#8a8d96" font-family="SF Mono,ui-monospace,monospace" font-size="10">Checks today</text>
+  <text x="120" y="92" fill="#e8e8ea" font-family="SF Mono,ui-monospace,monospace" font-size="18" font-weight="700">{checked_str}</text>
+  <!-- Stat: Blocked -->
+  <text x="260" y="76" fill="#8a8d96" font-family="SF Mono,ui-monospace,monospace" font-size="10">Blocked</text>
+  <text x="260" y="92" fill="#ff5470" font-family="SF Mono,ui-monospace,monospace" font-size="18" font-weight="700">{blocked_str}</text>
+  <!-- Stat: Approved -->
+  <text x="400" y="76" fill="#8a8d96" font-family="SF Mono,ui-monospace,monospace" font-size="10">Approved</text>
+  <text x="400" y="92" fill="#00d4aa" font-family="SF Mono,ui-monospace,monospace" font-size="18" font-weight="700">{fmt(approved)}</text>
+  <!-- Stat: Flagged -->
+  <text x="540" y="76" fill="#8a8d96" font-family="SF Mono,ui-monospace,monospace" font-size="10">Flagged</text>
+  <text x="540" y="92" fill="#ffb020" font-family="SF Mono,ui-monospace,monospace" font-size="18" font-weight="700">{fmt(flagged)}</text>
+  <!-- Total -->
+  <text x="680" y="76" fill="#8a8d96" font-family="SF Mono,ui-monospace,monospace" font-size="10">Total all-time</text>
+  <text x="680" y="92" fill="#e8e8ea" font-family="SF Mono,ui-monospace,monospace" font-size="18" font-weight="700">{total_str}</text>
+  <!-- Verdict line -->
+  <text x="120" y="118" fill="#00d4aa" font-family="SF Mono,ui-monospace,monospace" font-size="9">DECISION: APPROVED · BLOCKED · FLAGGED — every transaction, &lt;5ms</text>
+  <!-- CTA -->
+  <text x="{width-16}" y="118" fill="#8a8d96" font-family="SF Mono,ui-monospace,monospace" font-size="8" text-anchor="end">sipi.bot/badge</text>
+</svg>'''
+        
+        body = svg.encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "image/svg+xml; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        # Short cache — badge shows live stats (30s CDN, 60s browser)
+        self.send_header("Cache-Control", "public, max-age=30, s-maxage=60")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Connection", "close")
+        self.close_connection = True
+        self.end_headers()
+        if getattr(self, "_head_only", False):
+            return
+        self.wfile.write(body)
+        self.wfile.flush()
+
     def _serve_static(self, path: str) -> bool:
         """Serve a file from the public/ dir if it exists. Path-traversal safe."""
         import mimetypes
@@ -581,6 +763,8 @@ class Handler(BaseHTTPRequestHandler):
         # Embed widget farm — cross-origin iframing allowed
         if path.startswith("/embed/"):
             self._send_embed(data, ctype)
+        elif ctype.startswith("text/html"):
+            self._html(data.decode("utf-8"))
         else:
             self._send(200, data, ctype)
         return True
@@ -637,9 +821,13 @@ class Handler(BaseHTTPRequestHandler):
         result directly or do_GET falls through and appends a second 404
         response to the body (the 82-page corruption bug)."""
         import os
-        for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/", "/scenarios/", "/redflags/", "/calculators/", "/guides/"):
+        for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/"):
             if path.startswith(prefix):
-                base = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+                # /data/ files live inside the spendfirewall package; others at project root
+                if prefix == "/data/":
+                    base = os.path.abspath(os.path.dirname(__file__))
+                else:
+                    base = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
                 filepath = os.path.join(base, path.lstrip("/"), "index.html")
                 filepath = os.path.abspath(os.path.normpath(filepath))
                 # containment: never follow a traversal outside the app root
@@ -648,7 +836,45 @@ class Handler(BaseHTTPRequestHandler):
                 if os.path.isfile(filepath):
                     try:
                         with open(filepath, encoding="utf-8") as fh:
-                            self._html(fh.read())
+                            html = fh.read()
+                            # Inject hreflang + OG image + twitter tags for pSEO pages missing them
+                            if 'hreflang' not in html.lower() and '<link rel="canonical"' in html:
+                                canonical_url = ''
+                                import re as _re
+                                cm = _re.search(r'<link rel="canonical" href="([^"]+)"', html)
+                                if cm:
+                                    canonical_url = cm.group(1)
+                                hreflang_block = (
+                                    '<link rel="alternate" hreflang="en" href="' + canonical_url + '">\n'
+                                    '<link rel="alternate" hreflang="en-US" href="' + canonical_url + '">\n'
+                                    '<link rel="alternate" hreflang="x-default" href="' + canonical_url + '">\n'
+                                )
+                                html = html.replace('<link rel="canonical"', hreflang_block + '<link rel="canonical"')
+                            if 'og:image' not in html and '<meta property="og:title"' in html:
+                                og_title = ''
+                                og_desc = ''
+                                import re as _re2
+                                tm = _re2.search(r'<meta property="og:title" content="([^"]+)"', html)
+                                dm = _re2.search(r'<meta property="og:description" content="([^"]+)"', html)
+                                if tm: og_title = tm.group(1)
+                                if dm: og_desc = dm.group(1)
+                                og_image_block = (
+                                    '<meta property="og:image" content="https://sipi.bot/og.png">'
+                                    '<meta property="og:image:width" content="1200">'
+                                    '<meta property="og:image:height" content="630">'
+                                    '<meta property="og:image:alt" content="sipi.bot — The pre-spend firewall for autonomous AI agents">'
+                                    '<meta property="og:site_name" content="sipi.bot">\n'
+                                    '<meta name="twitter:card" content="summary_large_image">\n'
+                                    '<meta name="twitter:title" content="' + og_title + '">\n'
+                                    '<meta name="twitter:description" content="' + og_desc + '">\n'
+                                    '<meta name="twitter:image" content="https://sipi.bot/og.png">\n'
+                                )
+                                html = html.replace('<meta property="og:title"', og_image_block + '<meta property="og:title"')
+                            if 'twitter:image' not in html and 'twitter:card' not in html:
+                                # Twitter card was already added above with og:image; 
+                                # if somehow missing entirely, inject before </head>
+                                pass
+                            self._html(html)
                             return True
                     except Exception:
                         pass

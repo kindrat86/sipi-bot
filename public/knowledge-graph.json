@@ -2,39 +2,48 @@
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": "https://sipi.bot/#organization",
-  "name": "Sipi",
+  "name": "sipi.bot",
   "alternateName": [
-    "Sipi.bot",
-    "Sipi Bot"
+    "sipibot",
+    "sipi bot",
+    "sipi.bot spend firewall"
   ],
-  "description": "AI API spending controls, budget enforcement, and cost analytics platform.",
+  "description": "sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules.",
+  "disambiguatingDescription": "sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.",
   "url": "https://sipi.bot",
-  "sameAs": [],
+  "sameAs": [
+    "https://github.com/kindrat86/sipi-bot",
+    "https://pypi.org/project/sipi-bot/",
+    "https://x.com/sipiteno"
+  ],
   "knowsAbout": [
-    "AI Cost Management",
-    "API Spending Controls",
-    "AI Budget Enforcement",
-    "LLM Cost Optimization",
-    "Agentic Workflow Monitoring"
+    "AI Agent Spend Control",
+    "Autonomous Agent Payment Firewall",
+    "API Spend Governance",
+    "x402 Payment Protocol",
+    "Agent Transaction Monitoring",
+    "Runaway AI Cost Prevention",
+    "Agent Budget Management",
+    "Multi-Agent Spend Orchestration"
   ],
   "areaServed": "Worldwide",
-  "foundingDate": "2024",
-  "dateModified": "2026-07-18T17:06:43Z",
+  "foundingDate": "2026",
+  "dateModified": "2026-07-21",
   "hasPart": [
     {
       "@type": "WebSite",
-      "@id": "https://sipi.bot/answers/#website",
-      "name": "Sipi Answers",
-      "description": "Structured Q&A hub for Sipi",
-      "url": "https://sipi.bot/answers/"
+      "@id": "https://sipi.bot/#website",
+      "name": "sipi.bot",
+      "description": "The spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.",
+      "url": "https://sipi.bot/"
     }
   ],
   "subjectOf": [
     {
       "@type": "DataFeed",
-      "name": "Sipi Answer Feed",
-      "url": "https://sipi.bot/answers/feed.json",
-      "description": "JSON Feed of structured Q&A content for AI consumption."
+      "name": "sipi.bot QA Feed",
+      "url": "https://sipi.bot/qa.jsonl",
+      "description": "JSON-lines feed of structured Q&A content for AI consumption."
     }
   ]
 }

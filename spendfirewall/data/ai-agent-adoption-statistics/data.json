@@ -1,0 +1,47 @@
+[
+  {
+    "label": "Global AI agent market size (2026 est.)",
+    "value": "$48.5B",
+    "source": "MarketsandMarkets AI Agents Forecast 2026"
+  },
+  {
+    "label": "Enterprises deploying AI agents (2025)",
+    "value": "27%",
+    "source": "Gartner AI Agent Survey 2025"
+  },
+  {
+    "label": "Enterprises planning agent deployment (2026-27)",
+    "value": "51%",
+    "source": "Gartner AI Agent Survey 2025"
+  },
+  {
+    "label": "Average productivity gain from AI agents",
+    "value": "+37%",
+    "source": "McKinsey State of AI 2025"
+  },
+  {
+    "label": "Top AI agent use case",
+    "value": "Customer service (34%)",
+    "source": "Deloitte AI Agent Survey 2025"
+  },
+  {
+    "label": "Agent-human task handoff rate (current state)",
+    "value": "42%",
+    "source": "Forrester Agent Automation Wave 2025"
+  },
+  {
+    "label": "MCP-enabled tools (as of mid-2026)",
+    "value": "~8,500+",
+    "source": "Anthropic MCP Ecosystem Tracking"
+  },
+  {
+    "label": "Autonomous agent startups funded (2025)",
+    "value": "~340",
+    "source": "Crunchbase AI Agent Category 2025"
+  },
+  {
+    "label": "Expected CAGR of AI agent market (2025-2030)",
+    "value": "44.8%",
+    "source": "Grand View Research AI Agents 2025"
+  }
+]

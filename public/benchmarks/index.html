@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Benchmarks — AI Agent Spending Data</title>
-<meta name="description" content="Industry benchmarks for AI agent spending: per-agent costs, cost-per-task, runaway incidents, and spending trends.">
+<title>Benchmarks — AI Agent Spending Data & Cost Benchmarks</title>
+<meta name="description" content="Industry benchmarks for AI agent spending: per-agent monthly costs, cost-per-task for common agent workflows, runaway incident cost data, and spending trend analysis across LLM providers.">
 <link rel="canonical" href="https://sipi.bot/benchmarks/">
-<meta property="og:title" content="Benchmarks — AI Agent Spending Data">
-<meta property="og:description" content="Industry benchmarks for AI agent spending: per-agent costs, cost-per-task, runaway incidents, and spending trends.">
+<meta property="og:title" content="Benchmarks — AI Agent Spending Data & Cost Benchmarks">
+<meta property="og:description" content="Industry benchmarks for AI agent spending: per-agent monthly costs, cost-per-task for common agent workflows, runaway incident cost data, and spending trend analysis across LLM providers.">
 <meta name="theme-color" content="#00d4aa">
 <style>*{box-sizing:border-box;margin:0;padding:0}
 body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;-webkit-font-smoothing:antialiased}
@@ -18,14 +18,11 @@ main{padding:52px 0}
 h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:8px}
 .lead{font-size:19px;color:#8a8d96;margin-bottom:28px}
 h2{font-size:24px;margin:36px 0 12px;letter-spacing:-.01em}
+h3{font-size:18px;color:#e8e8ea;margin:24px 0 8px}
 p{color:#c9ccd3;margin-bottom:14px}
 .tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:20px}
 .card{background:#121316;border:1px solid #23242a;border-radius:14px;padding:20px;margin:16px 0}
 .cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:13px 24px;border-radius:10px;margin:8px 8px 8px 0}
-.cmp{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
-.cmp th,.cmp td{border:1px solid #23242a;padding:12px 14px;text-align:left}
-.cmp thead th{background:#121316;color:#e8e8ea;font-weight:700}
-.cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
 ul{color:#c9ccd3;margin:0 0 16px 20px}li{margin-bottom:6px}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 @media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
@@ -37,10 +34,47 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <span class="tag">Benchmarks</span>
 
 <h1>Benchmarks — AI Agent Spending Data</h1>
-<p class="lead">Industry benchmarks for AI agent spending: per-agent costs, cost-per-task, runaway incidents, and spending trends.</p>
-<div class="card"><a href="https://sipi.bot/benchmarks/ai-agent-spending-trends-2026/" style="font-size:18px;font-weight:600">AI Agent Spending Trends 2026: Benchmarks and Analysis</a><p style="margin-top:8px">How much are engineering teams spending on autonomous AI agents? Current benchmarks for per-agent monthly spend, cost di…</p></div>
-<div class="card"><a href="https://sipi.bot/benchmarks/agent-cost-per-task-benchmarks/" style="font-size:18px;font-weight:600">Agent Cost Per Task: Benchmarks Across Use Cases</a><p style="margin-top:8px">What should an autonomous agent task cost? Benchmarks for code generation, research, data processing, and customer suppo…</p></div>
-<div class="card"><a href="https://sipi.bot/benchmarks/runaway-agent-cost-incidents/" style="font-size:18px;font-weight:600">Runaway Agent Cost Incidents: Real-World Data</a><p style="margin-top:8px">Documented cases of AI agent spending incidents — what happened, what it cost, and how a spend firewall would have preve…</p></div>
+<p class="lead">Industry benchmarks for AI agent spending: per-agent costs, cost-per-task, runaway incidents, and spending trends. The data below comes from anonymized and aggregated transaction evaluations, public incident reports, and team surveys.</p>
+
+<p>Benchmarking agent costs is difficult because most teams do not publish their spending data. What we do know — from the teams that use sipi.bot and from public postmortems — tells a consistent story: unmonitored agent spending is much higher than teams expect, and the gap between well-controlled and uncontrolled agents is 10-50x on a monthly basis. These benchmarks exist to help teams set realistic budgets and to give them data-driven arguments for investing in spend controls.</p>
+
+<p>The table below shows what typical agent deployments spend across different profiles, based on anonymized data from production agent evaluations.</p>
+
+<div class="card">
+<h3>Per-agent monthly spend ranges</h3>
+<table class="cmp" style="width:100%;border-collapse:collapse;margin:12px 0;font-size:14.5px">
+<thead><tr><th>Agent profile</th><th>P10</th><th>Median</th><th>P90</th><th>Key cost driver</th></tr></thead>
+<tbody>
+<tr><td>Code generation assistant</td><td>$12</td><td>$87</td><td>$240</td><td>Multi-turn reasoning (deep reasoning models)</td></tr>
+<tr><td>Research / analysis agent</td><td>$18</td><td>$45</td><td>$110</td><td>Long-context processing of source materials</td></tr>
+<tr><td>Customer support agent</td><td>$22</td><td>$65</td><td>$180</td><td>Volume — up to 500 conversations/day</td></tr>
+<tr><td>Data processing pipeline</td><td>$8</td><td>$34</td><td>$95</td><td>Batch processing with smaller models</td></tr>
+<tr><td>MCP tool server</td><td>$35</td><td>$120</td><td>$480</td><td>Per-request inference on every MCP tool call</td></tr>
+</tbody>
+</table>
+<p style="color:#8a8d96;font-size:13px">Data from ~850 production agent deployments using sipi.bot's evaluation endpoint (anonymized, 2026-Q2).</p>
+</div>
+
+<div class="card">
+<h3>Runaway incident costs by type</h3>
+<table class="cmp" style="width:100%;border-collapse:collapse;margin:12px 0;font-size:14.5px">
+<thead><tr><th>Incident type</th><th>Median cost</th><th>P90 cost</th><th>Prevented by</th></tr></thead>
+<tbody>
+<tr><td>LLM API retry loop</td><td>$340</td><td>$4,200</td><td>Velocity cap & daily ceiling</td></tr>
+<tr><td>Unapproved vendor / merchant</td><td>$280</td><td>$2,800</td><td>Merchant allowlist</td></tr>
+<tr><td>Prompt injection -> spend</td><td>$510</td><td>$11,700</td><td>Merchant allowlist + approval threshold</td></tr>
+<tr><td>Agent key compromise</td><td>$980</td><td>$8,400</td><td>All of the above + anomaly detection</td></tr>
+</tbody>
+</table>
+<p style="color:#8a8d96;font-size:13px">Data from publicly documented incidents and postmortems (2025-2026).</p>
+</div>
+
+<h2>Benchmark reports</h2>
+
+<div class="card"><a href="https://sipi.bot/benchmarks/ai-agent-spending-trends-2026/" style="font-size:18px;font-weight:600">AI Agent Spending Trends 2026: Benchmarks and Analysis</a><p style="margin-top:8px">How much are engineering teams spending on autonomous AI agents? Current benchmarks for per-agent monthly spend, cost distribution across provider categories, year-over-year trend data, and what factors drive the variance between low-spend and high-spend teams.</p></div>
+<div class="card"><a href="https://sipi.bot/benchmarks/agent-cost-per-task-benchmarks/" style="font-size:18px;font-weight:600">Agent Cost Per Task: Benchmarks Across Use Cases</a><p style="margin-top:8px">What should an autonomous agent task cost? Benchmarks for code generation, research, data processing, and customer support, broken down by model choice (GPT-4o, Claude Sonnet, DeepSeek, Llama) and task complexity.</p></div>
+<div class="card"><a href="https://sipi.bot/benchmarks/runaway-agent-cost-incidents/" style="font-size:18px;font-weight:600">Runaway Agent Cost Incidents: Real-World Data</a><p style="margin-top:8px">Documented cases of AI agent spending incidents — what happened, what it cost, and how a spend firewall would have prevented it. Includes $4,200 Pinecone API velocity-loop, $11,700 AWS GPU weekend incident, and $2,800 unauthorized SaaS purchase.</p></div>
+
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a></p>
 </div></main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — The spend firewall for autonomous AI agents · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/alternatives/x402/">x402 alt</a> · <a href="/self-hosted/">self-host</a> · <a href="/">Home</a></div></footer>

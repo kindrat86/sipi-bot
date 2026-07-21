@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Audit AI Agent Spending (2026 Guide) — sipi.bot</title>
+<meta name="description" content="How to audit AI agent spending: tamper-evident logs, per-transaction attribution, policy-version tracking, and compliance-grade review. Turn agent spend into an auditable record.">
+<link rel="canonical" href="https://sipi.bot/how-to/how-to-audit-agent-spending">
+<meta property="og:title" content="How to Audit AI Agent Spending (2026 Guide)">
+<meta property="og:description" content="Audit AI agent spending with tamper-evident logs, per-transaction attribution, and policy-version tracking. Compliance-grade review.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/how-to/how-to-audit-agent-spending">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://***@type":"HowTo","name":"How to audit AI agent spending","description":"5-step playbook to audit AI agent spending with tamper-evident logs and policy-version tracking.","step":[{"@type":"HowToStep","name":"Capture every transaction","text":"Log every spend decision with agent id, merchant, amount, intent, timestamp, and policy version."},{"@type":"HowToStep","name":"Make logs tamper-evident","text":"Append-only, hash-chained logs so any modification is detectable."},{"@type":"HowToStep","name":"Track policy versions","text":"Every decision records which policy version produced it so you can reconstruct why a transaction was allowed or denied."},{"@type":"HowToStep","name":"Define a review cadence","text":"Daily anomaly review, weekly spend review, monthly compliance review."},{"@type":"HowToStep","name":"Automate exception reports","text":"Generate reports of blocked, flagged, and out-of-policy transactions automatically."}]}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"Article","headline":"How to Audit AI Agent Spending (2026 Guide)","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/how-to/how-to-audit-agent-spending"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"How To","item":"https://sipi.bot/how-to/"},{"@type":"ListItem","position":3,"name":"Audit Agent Spending","item":"https://sipi.bot/how-to/how-to-audit-agent-spending"}]}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I audit my AI agent's spending?","acceptedAnswer":{"@type":"Answer","text":"Capture every transaction with agent id, merchant, amount, intent, timestamp, and policy version; make the log append-only and hash-chained so it is tamper-evident; track policy versions so you can reconstruct why each transaction was allowed or denied; define a review cadence (daily, weekly, monthly)."}},{"@type":"Question","name":"What makes an agent spend log tamper-evident?","acceptedAnswer":{"@type":"Answer","text":"Append-only storage and hash chaining — each log entry includes the hash of the previous entry, so any modification or deletion breaks the chain and is immediately detectable. This is the same technique used for financial audit trails."}},{"@type":"Question","name":"What fields should an agent spend audit log contain?","acceptedAnswer":{"@type":"Answer","text":"At minimum: agent id, session id, merchant, amount, category, intent, timestamp, decision (approved/blocked/flagged), and the policy version that produced the decision. Without policy version, you cannot reconstruct why a transaction was allowed or denied."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+.step{background:#f9fafb;border-left:3px solid #0066cc;padding:1rem 1.25rem;margin:1.25rem 0;border-radius:0 .375rem .375rem 0}
+.step-num{display:inline-block;background:#0066cc;color:#fff;font-weight:700;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;margin-right:.5rem;font-size:.9rem}
+</style>
+</head>
+<body>
+<article>
+<header>
+<h1>How to Audit AI Agent Spending</h1>
+<p class="lede">When a stakeholder asks "why did the agent spend $2,000 last week?", you need an answer in minutes, not a week of log archaeology. The fix is a <strong>tamper-evident audit trail</strong> that captures every spend decision, ties it to a policy version, and survives review. Here is the 5-step playbook.</p>
+</header>
+
+<div class="callout">
+<strong>Why auditability matters.</strong> Agents that can spend money are agents that need financial controls. Regulators, finance teams, and security reviewers all need to reconstruct what happened and why. Without an audit trail, every incident becomes a forensic investigation; with one, it becomes a five-minute query.
+</div>
+
+<h2>The minimum audit fields per transaction</h2>
+<table>
+<thead><tr><th>Field</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td>agent_id</td><td>Which agent made the spend</td></tr>
+<tr><td>session_id</td><td>Which session/task context</td></tr>
+<tr><td>merchant</td><td>Where the money went</td></tr>
+<tr><td>amount</td><td>How much (in USD)</td></tr>
+<tr><td>category</td><td>LLM, compute, tools, payment</td></tr>
+<tr><td>intent</td><td>What the agent was trying to do</td></tr>
+<tr><td>timestamp</td><td>When (UTC, precise to ms)</td></tr>
+<tr><td>decision</td><td>APPROVED / BLOCKED / FLAGGED</td></tr>
+<tr><td>policy_version</td><td>Which ruleset produced the decision</td></tr>
+</tbody>
+</table>
+<p>If any of these fields is missing, the audit trail is incomplete and will not hold up under review.</p>
+
+<h2>The 5-step playbook</h2>
+
+<div class="step">
+<h3><span class="step-num">1</span> Capture every transaction</h3>
+<p>Log every spend decision — approved, blocked, and flagged — with all the fields in the table above. Blocked transactions matter as much as approved ones: they show where your controls fired. A log that only records approved spend hides the controls that are working.</p>
+<pre><code>{
+  "agent_id": "research-bot-01",
+  "merchant": "anthropic.com",
+  "amount": 0.05,
+  "category": "llm",
+  "decision": "APPROVED",
+  "policy_version": "v2026-07-18",
+  "timestamp": "2026-07-18T14:23:01.442Z"
+}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">2</span> Make logs tamper-evident</h3>
+<p>Append-only storage and hash chaining — each log entry includes the hash of the previous entry, so any modification or deletion breaks the chain and is immediately detectable. This is the same technique used for financial audit trails and blockchain ledgers. A database you can edit is not an audit trail.</p>
+</div>
+
+<div class="step">
+<h3><span class="step-num">3</span> Track policy versions</h3>
+<p>Every decision records which policy version produced it. When you change a rule (e.g., raise the per-transaction cap from $50 to $100), the version increments. Without version tracking, you cannot answer "was this spend allowed under the rules in effect at the time?" — which is the first question any reviewer asks.</p>
+</div>
+
+<div class="step">
+<h3><span class="step-num">4</span> Define a review cadence</h3>
+<p>Three cadences: daily anomaly review (were there any blocked or flagged transactions?), weekly spend review (is spend within budget, trending up, or anomalous?), monthly compliance review (does the policy match the team's intent, and are there exceptions to investigate?). Without a cadence, the log exists but is never read.</p>
+</div>
+
+<div class="step">
+<h3><span class="step-num">5</span> Automate exception reports</h3>
+<p>Generate reports of blocked, flagged, and out-of-policy transactions automatically. The report should surface: the top merchants by spend, the agents with the most blocked transactions, any FLAGGED items still awaiting human review, and any policy-version changes in the period. <a href="https://sipi.bot/">sipi.bot</a> produces this report from the audit log.</p>
+</div>
+
+<h2>What a good audit trail lets you answer</h2>
+<ul class="check">
+<li>"Why was this $500 transaction approved?" → the policy version and the rule that matched.</li>
+<li>"Which agent spent the most last week?" → aggregate by agent_id.</li>
+<li>"Did any spend happen outside the allowlist?" → filter blocked transactions.</li>
+<li>"Has the policy changed since the incident?" → policy version history.</li>
+<li>"Is the log complete and unmodified?" → hash-chain verification.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+<h3>How do I audit my AI agent's spending?</h3>
+<p>Capture every transaction with agent id, merchant, amount, intent, timestamp, and policy version; make the log append-only and hash-chained; track policy versions; define a review cadence (daily, weekly, monthly).</p>
+<h3>What makes an agent spend log tamper-evident?</h3>
+<p>Append-only storage and hash chaining — each entry includes the hash of the previous entry, so any modification breaks the chain and is detectable.</p>
+<h3>What fields should an agent spend audit log contain?</h3>
+<p>Agent id, session id, merchant, amount, category, intent, timestamp, decision, and policy version. Without policy version, you cannot reconstruct why a transaction was allowed or denied.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Audit agent spend with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/how-to/how-to-monitor-ai-costs">How to monitor AI costs</a></li>
+<li><a href="/how-to/how-to-implement-spend-controls">How to implement spend controls</a></li>
+<li><a href="/learn/agent-billing-audit-trail">Agent billing audit trail (learn)</a></li>
+<li><a href="/learn/agent-spend-compliance">Agent spend compliance (learn)</a></li>
+<li><a href="/glossary/agent-audit-trail">Agent audit trail (glossary)</a></li>
+<li><a href="/templates/incident-response-plan-template">Incident response plan template</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
+</body>
+</html>

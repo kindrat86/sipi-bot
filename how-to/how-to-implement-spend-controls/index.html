@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Implement AI Agent Spend Controls (2026 Guide) — sipi.bot</title>
+<meta name="description" content="How to implement AI agent spend controls: from policy design to enforcement. Per-transaction caps, velocity limits, allowlists, and approval queues deployed as a pre-spend firewall.">
+<link rel="canonical" href="https://sipi.bot/how-to/how-to-implement-spend-controls">
+<meta property="og:title" content="How to Implement AI Agent Spend Controls (2026 Guide)">
+<meta property="og:description" content="Implement AI agent spend controls: policy design, rule configuration, and enforcement via a pre-spend firewall.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/how-to/how-to-implement-spend-controls">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://***@type":"HowTo","name":"How to implement AI agent spend controls","description":"5-step playbook to implement AI agent spend controls from policy design to enforcement.","step":[{"@type":"HowToStep","name":"Define your spend policy","text":"Document which agents can spend, on what, up to how much, and with what approval requirements."},{"@type":"HowToStep","name":"Translate policy into rules","text":"Convert each policy clause into a machine-readable rule (per-transaction cap, velocity limit, allowlist)."},{"@type":"HowToStep","name":"Deploy a pre-spend firewall","text":"Install sipi.bot between your agent code and your payment methods so every transaction is evaluated before it fires."},{"@type":"HowToStep","name":"Test with boundary cases","text":"Run transactions that should be approved, blocked, and flagged to verify the rules behave correctly."},{"@type":"HowToStep","name":"Ship and monitor","text":"Deploy to production, monitor the audit log, and tune rules based on real blocked/flagged transactions."}]}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"Article","headline":"How to Implement AI Agent Spend Controls (2026 Guide)","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/how-to/how-to-implement-spend-controls"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"How To","item":"https://sipi.bot/how-to/"},{"@type":"ListItem","position":3,"name":"Implement Spend Controls","item":"https://sipi.bot/how-to/how-to-implement-spend-controls"}]}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I implement AI agent spend controls?","acceptedAnswer":{"@type":"Answer","text":"Define a spend policy (which agents, what merchants, how much, what approval), translate it into machine-readable rules (caps, velocity limits, allowlists), deploy a pre-spend firewall that enforces the rules before money moves, test with boundary cases, and ship with audit logging."}},{"@type":"Question","name":"What are the core spend controls for AI agents?","acceptedAnswer":{"@type":"Answer","text":"Five: per-transaction caps, daily/weekly ceilings, velocity limits (retry-loop killer), merchant allowlists, and an approval threshold for large or ambiguous spend. Together they bound the agent's financial blast radius on every dimension."}},{"@type":"Question","name":"Where should spend controls sit in my stack?","acceptedAnswer":{"@type":"Answer","text":"Between your agent code and your payment methods. The agent never sees the card or API key directly; it calls the spend firewall, which returns APPROVED, BLOCKED, or FLAGGED. This is the only position from which you can enforce before money moves."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+.step{background:#f9fafb;border-left:3px solid #0066cc;padding:1rem 1.25rem;margin:1.25rem 0;border-radius:0 .375rem .375rem 0}
+.step-num{display:inline-block;background:#0066cc;color:#fff;font-weight:700;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;margin-right:.5rem;font-size:.9rem}
+</style>
+</head>
+<body>
+<article>
+<header>
+<h1>How to Implement AI Agent Spend Controls</h1>
+<p class="lede">Spend controls are the difference between an agent you can deploy in production and an agent you have to babysit. But "controls" is vague — this guide turns it into a <strong>concrete implementation</strong>: policy design, rule translation, firewall deployment, testing, and shipping. Here is the 5-step playbook.</p>
+</header>
+
+<div class="callout">
+<strong>The implementation gap.</strong> Most teams have a spend policy ("agents should not spend more than $200/day") but no enforcement. The policy lives in a doc; the agent has unrestricted access to the payment method. The fix is to translate the policy into rules and enforce them at the point of spend.
+</div>
+
+<h2>The five core spend controls</h2>
+<table>
+<thead><tr><th>Control</th><th>What it bounds</th><th>Failure mode it catches</th></tr></thead>
+<tbody>
+<tr><td>Per-transaction cap</td><td>Single spend amount</td><td>Catastrophic one-off ($6,200 GPU)</td></tr>
+<tr><td>Daily / weekly ceiling</td><td>Aggregate spend</td><td>Slow accumulation ($50/day × 30)</td></tr>
+<tr><td>Velocity limit</td><td>Transactions per window</td><td>Retry loop (40 calls/90s)</td></tr>
+<tr><td>Merchant allowlist</td><td>Approved vendors</td><td>Prompt-injection routing</td></tr>
+<tr><td>Approval threshold</td><td>Human-in-the-loop</td><td>Ambiguous large spend</td></tr>
+</tbody>
+</table>
+
+<h2>The 5-step playbook</h2>
+
+<div class="step">
+<h3><span class="step-num">1</span> Define your spend policy</h3>
+<p>Document, in plain language, four things: <strong>which agents</strong> can spend, <strong>on what</strong> (which merchants/categories), <strong>up to how much</strong> (per-transaction, daily, weekly), and <strong>with what approval</strong> (auto, flagged, or required). This becomes the source of truth that the rules implement.</p>
+<p>Start from the <a href="/templates/agent-spend-policy-template">agent spend policy template</a> and adapt it.</p>
+</div>
+
+<div class="step">
+<h3><span class="step-num">2</span> Translate policy into rules</h3>
+<p>Convert each policy clause into a machine-readable rule. "Agents should not spend more than $200/day" becomes a daily ceiling rule. "Only OpenAI, Anthropic, and AWS" becomes a merchant allowlist. "Large spend needs approval" becomes an approval threshold.</p>
+<pre><code>[
+  {"rule_type": "per_transaction", "params": {"max_amount": 50}, "action": "BLOCKED"},
+  {"rule_type": "daily_ceiling", "params": {"max_amount": 200}, "action": "BLOCKED"},
+  {"rule_type": "velocity", "params": {"max_count": 10, "window_minutes": 60}, "action": "BLOCKED"},
+  {"rule_type": "merchant_allow", "params": {"allowed": ["openai.com", "anthropic.com"]}, "action": "BLOCKED"},
+  {"rule_type": "approval_threshold", "params": {"threshold": 100}, "action": "FLAGGED"}
+]</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">3</span> Deploy a pre-spend firewall</h3>
+<p>Install <a href="https://sipi.bot/">sipi.bot</a> between your agent code and your payment methods. The agent never sees the card or API key directly; it calls the firewall, which evaluates the transaction against all rules in under 5ms and returns APPROVED, BLOCKED, or FLAGGED.</p>
+<pre><code>pip install sipi-bot
+python -m spendfirewall.api  # self-host, serves on :8080</code></pre>
+<p>Or use the hosted endpoint, or load the MCP server into Claude Code / Cursor / Hermes.</p>
+</div>
+
+<div class="step">
+<h3><span class="step-num">4</span> Test with boundary cases</h3>
+<p>Run transactions that should be approved, blocked, and flagged:</p>
+<ul class="check">
+<li>A $5 call to an approved vendor → APPROVED.</li>
+<li>A $500 call → BLOCKED by per-transaction cap.</li>
+<li>A 12th call in an hour → BLOCKED by velocity limit.</li>
+<li>A call to an unapproved vendor → BLOCKED by allowlist.</li>
+<li>A $150 call to an approved vendor → FLAGGED by approval threshold.</li>
+</ul>
+<p>Each test should return in under 5ms and produce an audit-log entry with the rule that fired.</p>
+</div>
+
+<div class="step">
+<h3><span class="step-num">5</span> Ship and monitor</h3>
+<p>Deploy to production. Monitor the audit log daily for the first week: are blocks and flags firing as expected? Are legitimate transactions getting through? Tune the rules based on real data — raise caps that are too tight, lower ones that are too loose, add merchants to the allowlist as needed.</p>
+</div>
+
+<h2>Where the controls sit in your stack</h2>
+<p>The firewall must sit <strong>between your agent code and your payment methods</strong>. Anywhere else and you cannot enforce before money moves. The agent calls the firewall; the firewall calls the payment method (or not). This is the only position from which pre-spend enforcement is possible.</p>
+
+<h2>Frequently asked questions</h2>
+<h3>How do I implement AI agent spend controls?</h3>
+<p>Define a policy, translate it into rules (caps, velocity limits, allowlists), deploy a pre-spend firewall, test with boundary cases, and ship with audit logging.</p>
+<h3>What are the core spend controls for AI agents?</h3>
+<p>Five: per-transaction caps, daily/weekly ceilings, velocity limits, merchant allowlists, and an approval threshold. Together they bound the agent's financial blast radius on every dimension.</p>
+<h3>Where should spend controls sit in my stack?</h3>
+<p>Between your agent code and your payment methods. The agent calls the firewall, which returns APPROVED, BLOCKED, or FLAGGED before money moves.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Implement controls with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/how-to/how-to-set-spend-limits">How to set spend limits</a></li>
+<li><a href="/how-to/how-to-block-agent-overspend">How to block agent overspend</a></li>
+<li><a href="/how-to/how-to-audit-agent-spending">How to audit agent spending</a></li>
+<li><a href="/templates/agent-spend-policy-template">Agent spend policy template</a></li>
+<li><a href="/learn/agent-spend-control-best-practices">Agent spend control best practices</a></li>
+<li><a href="/learn/what-is-a-spend-firewall">What is a spend firewall?</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
+</body>
+</html>

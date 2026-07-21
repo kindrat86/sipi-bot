@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Monitor AI Costs in Real Time (2026 Guide) — sipi.bot</title>
+<meta name="description" content="How to monitor AI costs in real time: per-token attribution, per-agent dashboards, anomaly detection, and webhook alerts. Move from monthly bill shock to sub-second spend visibility.">
+<link rel="canonical" href="https://sipi.bot/how-to/how-to-monitor-ai-costs">
+<meta property="og:title" content="How to Monitor AI Costs in Real Time (2026 Guide)">
+<meta property="og:description" content="Monitor AI costs in real time: per-token attribution, per-agent dashboards, anomaly detection, and webhook alerts.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/how-to/how-to-monitor-ai-costs">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://***@type":"HowTo","name":"How to monitor AI costs in real time","description":"5-step playbook to monitor AI costs with per-token attribution, dashboards, anomaly detection, and alerts.","step":[{"@type":"HowToStep","name":"Instrument every LLM call","text":"Tag every call with agent id, session id, model, token count, and cost so spend is attributable."},{"@type":"HowToStep","name":"Build a per-agent dashboard","text":"Aggregate spend by agent, session, model, and category so you can see where money is going."},{"@type":"HowToStep","name":"Set anomaly detection rules","text":"Flag spend that deviates from baseline (e.g., 3x normal hourly rate) so anomalies surface automatically."},{"@type":"HowToStep","name":"Configure webhook alerts","text":"Send alerts to Slack, PagerDuty, or email when thresholds are crossed so a human can intervene."},{"@type":"HowToStep","name":"Pair monitoring with enforcement","text":"Monitoring shows what happened; a pre-spend firewall stops what should not. Run both."}]}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"Article","headline":"How to Monitor AI Costs in Real Time (2026 Guide)","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/how-to/how-to-monitor-ai-costs"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"How To","item":"https://sipi.bot/how-to/"},{"@type":"ListItem","position":3,"name":"Monitor AI Costs","item":"https://sipi.bot/how-to/how-to-monitor-ai-costs"}]}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I monitor my AI costs?","acceptedAnswer":{"@type":"Answer","text":"Instrument every LLM call with agent id, session id, model, and token count; aggregate into a per-agent dashboard; set anomaly detection rules; configure webhook alerts to Slack or PagerDuty. The goal is sub-second visibility, not monthly bill shock."}},{"@type":"Question","name":"Is monitoring enough to control AI spend?","acceptedAnswer":{"@type":"Answer","text":"No. Monitoring is reactive — it shows what happened after the call completes. Pair it with a pre-spend firewall (sipi.bot) that blocks or flags transactions before money moves. Monitoring tells you what your agent did; enforcement stops what it should not have done."}},{"@type":"Question","name":"What is per-token cost attribution?","acceptedAnswer":{"@type":"Answer","text":"Tagging every LLM call with the exact input and output token counts and multiplying by the model's per-token price, so you know the cost of each call, each session, and each agent — not just the monthly provider bill."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+.step{background:#f9fafb;border-left:3px solid #0066cc;padding:1rem 1.25rem;margin:1.25rem 0;border-radius:0 .375rem .375rem 0}
+.step-num{display:inline-block;background:#0066cc;color:#fff;font-weight:700;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;margin-right:.5rem;font-size:.9rem}
+</style>
+</head>
+<body>
+<article>
+<header>
+<h1>How to Monitor AI Costs in Real Time</h1>
+<p class="lede">Most teams discover their AI bill on the monthly invoice — too late, too aggregated, and with no way to attribute spend to a specific agent or session. The fix is <strong>real-time cost monitoring</strong>: per-token attribution, per-agent dashboards, anomaly detection, and webhook alerts. Here is the 5-step playbook.</p>
+</header>
+
+<div class="callout warn">
+<strong>The default state.</strong> You get a $4,200 OpenAI bill on the 1st of the month. You cannot tell which agent, which session, or which call generated it. The bill is already paid. This is bill shock — and it is entirely preventable.
+</div>
+
+<h2>The problem with provider-side reporting</h2>
+<p>OpenAI, Anthropic, and other providers show you aggregate usage on a dashboard, updated hourly or daily. That is useful for capacity planning but useless for incident response. By the time a retry loop shows up on the provider dashboard, it has been running for hours. You need <strong>sub-second visibility at the call site</strong>.</p>
+
+<h2>The 5-step playbook</h2>
+
+<div class="step">
+<h3><span class="step-num">1</span> Instrument every LLM call</h3>
+<p>Tag every call with agent id, session id, model, input token count, output token count, and computed cost. This is the atomic unit of cost attribution. Without it, every downstream metric is an aggregate guess.</p>
+<pre><code>{
+  "agent_id": "research-bot-01",
+  "session_id": "sess_abc123",
+  "model": "gpt-4o",
+  "input_tokens": 1240,
+  "output_tokens": 380,
+  "cost_usd": 0.0069
+}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">2</span> Build a per-agent dashboard</h3>
+<p>Aggregate the instrumented calls by agent, session, model, and category. The dashboard should answer: which agent is spending the most? Which model? Which session? Is spend trending up or flat? A good dashboard lets you drill from total spend down to the single call that caused it.</p>
+</div>
+
+<div class="step">
+<h3><span class="step-num">3</span> Set anomaly detection rules</h3>
+<p>Flag spend that deviates from baseline. The simplest rule: alert when hourly spend exceeds 3x the trailing 7-day median. More sophisticated rules use per-agent baselines — a research agent spending $20/hour is normal; a chat agent spending $20/hour is an anomaly.</p>
+<pre><code>{"rule": "spend_anomaly", "params": {"multiplier": 3, "baseline_window_hours": 168}}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">4</span> Configure webhook alerts</h3>
+<p>Send alerts to Slack, PagerDuty, or email when thresholds are crossed. Latency matters — an alert that arrives 6 hours after the anomaly is useless. Aim for sub-minute alert latency. Route critical alerts (circuit-breaker trips, daily ceiling crossed) to PagerDuty; route informational alerts (anomaly detected, threshold approached) to Slack.</p>
+</div>
+
+<div class="step">
+<h3><span class="step-num">5</span> Pair monitoring with enforcement</h3>
+<p>Monitoring shows what happened. A pre-spend firewall stops what should not. Run both: <a href="https://sipi.bot/">sipi.bot</a> to block or flag before money moves, and an observability layer (Langfuse, Helicone, OpenMeter) to trace and understand. Monitoring without enforcement gives you a beautiful dashboard of your runaway spend.</p>
+</div>
+
+<h2>What good monitoring looks like</h2>
+<ul class="check">
+<li><strong>Sub-second latency</strong> — you see a call's cost within milliseconds of it completing.</li>
+<li><strong>Full attribution</strong> — every dollar is tied to an agent, session, model, and category.</li>
+<li><strong>Anomaly surfacing</strong> — the system tells you something is wrong before you look.</li>
+<li><strong>Drill-down</strong> — from total spend to the single anomalous call in three clicks.</li>
+<li><strong>Alert routing</strong> — critical alerts wake a human; informational alerts go to a channel.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+<h3>How do I monitor my AI costs?</h3>
+<p>Instrument every LLM call with agent id, session id, model, and token count; aggregate into a per-agent dashboard; set anomaly detection rules; configure webhook alerts. Aim for sub-second visibility, not monthly bill shock.</p>
+<h3>Is monitoring enough to control AI spend?</h3>
+<p>No. Monitoring is reactive. Pair it with a pre-spend firewall (sipi.bot) that blocks or flags transactions before money moves.</p>
+<h3>What is per-token cost attribution?</h3>
+<p>Tagging every LLM call with exact input/output token counts and multiplying by the model's per-token price, so you know the cost of each call — not just the monthly provider bill.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Monitor and enforce with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/how-to/how-to-track-ai-spend">How to track AI spend</a></li>
+<li><a href="/how-to/prevent-runaway-ai-costs">How to prevent runaway AI costs</a></li>
+<li><a href="/how-to/how-to-block-agent-overspend">How to block agent overspend</a></li>
+<li><a href="/learn/ai-cost-attribution">AI cost attribution (learn)</a></li>
+<li><a href="/vs/helicone">sipi.bot vs Helicone</a></li>
+<li><a href="/vs/openmeter">sipi.bot vs OpenMeter</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
+</body>
+</html>

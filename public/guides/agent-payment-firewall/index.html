@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent Payment Firewall: Stop Your Agent From Spending $12,400 at 3 AM (2026)</title>
+<meta name="description" content="An AI agent payment firewall intercepts every transaction before it executes, enforcing spend limits, allowlists, and sanity checks. Without one, your agent has an unlimited credit card. Updated 2026.">
+<link rel="canonical" href="https://sipi.bot/guides/agent-payment-firewall/">
+<meta name="robots" content="index, follow">
+<style>
+  :root{--bg:#0a0a0f;--card:#141420;--border:#1e1e30;--text:#e4e4ec;--muted:#8888a0;--accent:#14B8A6}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;max-width:800px;margin:0 auto;padding:2rem 1.5rem}
+  h1{font-size:1.8rem;font-weight:800;margin-bottom:.75rem;color:#fff}
+  h2{font-size:1.25rem;font-weight:700;margin:1.5rem 0 .5rem;color:#f1f5f9}
+  p{color:var(--muted);margin-bottom:1rem}
+  .rule{background:var(--card);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:1.25rem;margin-bottom:1rem}
+  .rule h3{color:#fff;font-size:1rem;margin-bottom:.25rem}
+  .code-block{background:#0d0d1a;border:1px solid var(--border);border-radius:8px;padding:1rem;font-family:monospace;font-size:.8rem;overflow-x:auto;margin:1rem 0}
+  .cta{background:linear-gradient(135deg,rgba(20,184,166,.1),rgba(20,184,166,.05));border:2px solid rgba(20,184,166,.25);border-radius:16px;padding:2rem;text-align:center;margin:2rem 0}
+  .btn{display:inline-block;padding:.85rem 2rem;background:var(--accent);color:#0a0a0f;border-radius:10px;font-weight:700;text-decoration:none}
+  nav{margin-bottom:1.5rem;font-size:.85rem}
+  nav a{color:var(--accent);text-decoration:none}
+  footer{text-align:center;color:#475569;font-size:.8rem;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+  .stat-row{display:flex;gap:1rem;margin:1.5rem 0;flex-wrap:wrap}
+  .stat{flex:1;min-width:140px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center}
+  .stat .num{font-size:1.5rem;font-weight:800;color:var(--accent)}
+  .stat .label{font-size:.8rem;color:var(--muted);margin-top:.25rem}
+</style>
+</head>
+<body>
+<nav><a href="/">sipi.bot</a> &rsaquo; <span>Agent Payment Firewall</span></nav>
+
+<h1>AI Agent Payment Firewall: Stop Your Agent From Spending $12,400 at 3 AM</h1>
+<p>You give an autonomous AI agent access to your Stripe account or crypto wallet. It finds a task, executes it, and pays for API calls, cloud compute, and third-party services. At 3 AM, it spends $12,400 on a misconfigured training run. You wake up to the bill. This is not hypothetical — it is the default behavior of any unguarded agent with payment credentials.</p>
+
+<div class="stat-row">
+  <div class="stat"><div class="num">$12,400</div><div class="label">Real overnight agent spend</div></div>
+  <div class="stat"><div class="num">100ms</div><div class="label">Firewall latency per check</div></div>
+  <div class="stat"><div class="num">6</div><div class="label">Rules to stop runaway spend</div></div>
+</div>
+
+<h2>The 6 rules every agent payment firewall needs</h2>
+
+<div class="rule"><h3>1. Per-transaction max amount</h3><p>No single payment exceeds a configured ceiling. Set it at $100 for a dev agent, $1,000 for production. The agent cannot override this — it is enforced at the firewall, not in the agent's prompt.</p></div>
+
+<div class="rule"><h3>2. Daily spend cap</h3><p>The firewall tracks cumulative spend per 24-hour window. If the agent burns through its daily budget, all subsequent payments are blocked until the window resets. This stops loop-spend: an agent that keeps retrying a failing task, paying each time.</p></div>
+
+<div class="rule"><h3>3. Vendor allowlist</h3><p>Only pre-approved vendors can receive payments. OpenAI API? Allowed. Random third-party API the agent discovered? Blocked. The allowlist is maintained by a human, not by the agent — because an agent can be socially engineered to add a malicious vendor to its own allowlist.</p></div>
+
+<div class="rule"><h3>4. Time-of-day restrictions</h3><p>No payments between midnight and 6 AM without explicit override. Most legitimate agent tasks run during business hours. A payment at 3:17 AM is either a bug, a loop, or an attack.</p></div>
+
+<div class="rule"><h3>5. Velocity limit</h3><p>If the agent submits more than N payments per minute, the firewall throttles. An agent making 47 payments in 60 seconds is not optimizing — it is malfunctioning. The firewall rate-limits before the payment processor does.</p></div>
+
+<div class="rule"><h3>6. Human approval for outliers</h3><p>Any payment above the max threshold, outside the allowlist, or outside business hours goes to a human for approval. The agent waits. The human reviews. No silent bypasses.</p></div>
+
+<h2>What happens without a firewall</h2>
+<p>Without a payment firewall, your agent has the same spending authority you do. It can:</p>
+<ul>
+  <li>Run a $5,000 GPU training job on a misconfigured loop</li>
+  <li>Subscribe to 14 SaaS tools it "needs" at $29/mo each</li>
+  <li>Pay a phishing API that impersonated a legitimate vendor</li>
+  <li>Exhaust your monthly cloud budget by Tuesday morning</li>
+</ul>
+<p>Each of these has happened to real teams deploying autonomous agents. The fix is not a better prompt — it is a payment middleware layer that the agent cannot bypass.</p>
+
+<div class="cta">
+  <h2>Deploy a payment firewall for your AI agents</h2>
+  <p>sipi.bot intercepts every agent payment, enforcing spend limits, allowlists, and sanity checks in under 100ms.</p>
+  <a href="/checkout/team" class="btn">Get sipi.bot — from $99/mo →</a>
+</div>
+
+<footer><p><a href="/">sipi.bot</a> · AI agent payment firewall</p></footer>
+</body>
+</html>

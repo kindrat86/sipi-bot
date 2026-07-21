@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Block AI Agent Overspend (2026 Guide) — sipi.bot</title>
+<meta name="description" content="How to block AI agent overspend: a 6-step playbook using a pre-spend firewall. Per-transaction caps, velocity limits, merchant allowlists, and circuit breakers stop runaway spend before money moves.">
+<link rel="canonical" href="https://sipi.bot/how-to/how-to-block-agent-overspend">
+<meta property="og:title" content="How to Block AI Agent Overspend (2026 Guide)">
+<meta property="og:description" content="The 6-step playbook to block AI agent overspend with a pre-spend firewall — caps, velocity limits, allowlists, and circuit breakers.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/how-to/how-to-block-agent-overspend">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://***@type":"HowTo","name":"How to block AI agent overspend","description":"6-step playbook to block AI agent overspend with a pre-spend firewall.","step":[{"@type":"HowToStep","name":"Install a pre-spend firewall","text":"Deploy sipi.bot between your agent code and your payment methods so every transaction is evaluated before it fires."},{"@type":"HowToStep","name":"Set a per-transaction cap","text":"Block any single spend over a hard ceiling (e.g., $500) to catch catastrophic one-off purchases."},{"@type":"HowToStep","name":"Set a velocity limit","text":"Cap transactions per time window (e.g., 10/hour) to kill retry loops on the Nth attempt."},{"@type":"HowToStep","name":"Configure a merchant allowlist","text":"Block spend at any vendor you have not explicitly approved to stop prompt-injection routed purchases."},{"@type":"HowToStep","name":"Add a circuit breaker","text":"Trip a hard stop that pauses the agent when a threshold is crossed so it cannot keep spending."},{"@type":"HowToStep","name":"Route large spend to a human","text":"Use an approval threshold so transactions above a value are FLAGGED for human review rather than auto-approved."}]}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"Article","headline":"How to Block AI Agent Overspend (2026 Guide)","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/how-to/how-to-block-agent-overspend"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"How To","item":"https://sipi.bot/how-to/"},{"@type":"ListItem","position":3,"name":"Block Agent Overspend","item":"https://sipi.bot/how-to/how-to-block-agent-overspend"}]}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I block my AI agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Install a pre-spend firewall that evaluates every transaction before it fires. The controls that block most overspend are: a per-transaction cap, a velocity limit that kills retry loops, and a merchant allowlist that blocks unknown vendors. sipi.bot implements all three in under 5ms per decision."}},{"@type":"Question","name":"What is the fastest way to stop a runaway agent?","acceptedAnswer":{"@type":"Answer","text":"A circuit breaker. When a spend threshold is crossed, the circuit breaker trips and pauses the agent so it cannot issue further transactions until a human resets it. This converts a multi-thousand-dollar incident into a five-minute review."}},{"@type":"Question","name":"How much does it cost to block agent overspend?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot starts at $99/month for unlimited evaluations. The open-source MIT core is free to self-host. The cost of not blocking overspend — the median runaway incident is $340, top decile $5,000+ — is almost always higher."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.callout.danger{background:#fee2e2;border-left-color:#dc2626}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+.step{background:#f9fafb;border-left:3px solid #0066cc;padding:1rem 1.25rem;margin:1.25rem 0;border-radius:0 .375rem .375rem 0}
+.step-num{display:inline-block;background:#0066cc;color:#fff;font-weight:700;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;margin-right:.5rem;font-size:.9rem}
+</style>
+</head>
+<body>
+<article>
+<header>
+<h1>How to Block AI Agent Overspend</h1>
+<p class="lede">Agent overspend is the single most common production incident for autonomous AI agents — 67% of teams reported at least one in the last 90 days. The fix is not a bigger budget or a better prompt. It is a <strong>pre-spend firewall</strong> that blocks the transaction before money moves. Here is the 6-step playbook.</p>
+</header>
+
+<div class="callout danger">
+<strong>The problem, concretely.</strong> A retry loop on a paid API, a prompt injection that redirects a purchase, or an unattended overnight session can spend thousands in minutes. The median runaway incident costs $340; the top decile exceeds $5,000. Provider-side monthly caps do not help — they count tokens after the call completes. You need to block <em>before</em> the spend fires.
+</div>
+
+<h2>Why reactive monitoring fails</h2>
+<p>Every existing tool that touches AI spend — provider billing caps, LLM gateway budgets, observability dashboards — is <strong>reactive</strong>. They count tokens or dollars after a call completes, compare to a threshold, and then reject the <em>next</em> call. The call that crossed the threshold already cost you money. By the time the alert arrives, the damage is done.</p>
+<p>A pre-spend firewall is <strong>proactive</strong>. It evaluates every transaction before it fires, in under 5 milliseconds, and returns one of three structured decisions: APPROVED, BLOCKED, or FLAGGED. The blocked transaction never happens.</p>
+
+<h2>The 6-step playbook</h2>
+
+<div class="step">
+<h3><span class="step-num">1</span> Install a pre-spend firewall</h3>
+<p>Deploy <a href="https://sipi.bot/">sipi.bot</a> between your agent code and your payment methods. The agent never sees the card or API key directly — it calls sipi.bot, which evaluates the transaction and returns a decision.</p>
+<pre><code>pip install sipi-bot
+python -m spendfirewall.api  # serves on :8080</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">2</span> Set a per-transaction cap</h3>
+<p>Block any single spend over a hard ceiling. This catches the catastrophic one-off — the $6,200 GPU rental, the misformatted API call — that velocity rules miss if the agent only tries once.</p>
+<pre><code>{"rule_type": "per_transaction", "params": {"max_amount": 500}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">3</span> Set a velocity limit (retry-loop killer)</h3>
+<p>The #1 cause of overspend is a <strong>retry loop</strong>: a tool fails, the agent retries, each retry is a paid call, 40 retries in 90 seconds. A velocity rule caps transactions per window and blocks the Nth attempt.</p>
+<pre><code>{"rule_type": "velocity", "params": {"max_count": 10, "window_minutes": 60}, "action": "BLOCKED"}</code></pre>
+<p>This single rule prevents <strong>44% of reported overspend incidents</strong>.</p>
+</div>
+
+<div class="step">
+<h3><span class="step-num">4</span> Configure a merchant allowlist</h3>
+<p>Block spend at any vendor you have not explicitly approved. This is your defense against prompt injection that routes spend to attacker-controlled merchants, and against agents that "discover" novel vendors during tool use.</p>
+<pre><code>{"rule_type": "merchant_allow", "params": {"allowed": ["openai.com", "anthropic.com", "aws.amazon.com"]}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">5</span> Add a circuit breaker</h3>
+<p>A circuit breaker is a hard stop: when a daily or weekly threshold is crossed, the breaker trips and the agent is paused until a human resets it. Unlike a per-call cap, it stops <em>all</em> future transactions in the window — converting a runaway incident into a five-minute review.</p>
+<pre><code>{"rule_type": "circuit_breaker", "params": {"daily_ceiling": 200}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">6</span> Route large spend to a human</h3>
+<p>Use an approval threshold so transactions above a value are FLAGGED rather than blocked or approved. A binary cap either blocks too much (breaking your agent's workflow) or allows too much. Flagging routes the ambiguous cases to a human in the loop.</p>
+<pre><code>{"rule_type": "approval_threshold", "params": {"threshold": 200}, "action": "FLAGGED"}</code></pre>
+</div>
+
+<h2>What you get</h2>
+<p>With these six controls in place, your agent cannot:</p>
+<ul class="check">
+<li>Make any single spend over $500.</li>
+<li>Retry a paid call more than 10 times in an hour.</li>
+<li>Spend at any vendor you have not approved.</li>
+<li>Keep spending after crossing the daily ceiling.</li>
+<li>Spend more than $200 without a human approving it.</li>
+</ul>
+<p>Every decision is written to a tamper-evident audit log — agent id, merchant, amount, intent, timestamp, and policy version — so you can always reconstruct why a transaction was allowed or denied.</p>
+
+<h2>Frequently asked questions</h2>
+<h3>How do I block my AI agent from overspending?</h3>
+<p>Install a pre-spend firewall with a per-transaction cap, a velocity limit, and a merchant allowlist. sipi.bot evaluates every transaction in under 5ms and blocks before money moves.</p>
+<h3>What is the fastest way to stop a runaway agent?</h3>
+<p>A circuit breaker. When a threshold is crossed, the breaker trips and pauses the agent so it cannot issue further transactions until a human resets it.</p>
+<h3>How much does it cost to block agent overspend?</h3>
+<p>sipi.bot starts at $99/month for unlimited evaluations; the open-source MIT core is free to self-host. The median unblocked runaway incident costs $340; the top decile exceeds $5,000.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Block overspend with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/how-to/prevent-runaway-ai-costs">How to prevent runaway AI costs</a></li>
+<li><a href="/how-to/how-to-set-spend-limits">How to set spend limits</a></li>
+<li><a href="/how-to/how-to-prevent-runaway-agents">How to prevent runaway agents</a></li>
+<li><a href="/learn/spend-firewall-guide">The Spend Firewall Complete Guide</a></li>
+<li><a href="/benchmarks/runaway-incident-frequency">Runaway incident benchmarks</a></li>
+<li><a href="/glossary/circuit-breaker">Circuit breaker (glossary)</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "SipiBot Research Datasets",
+  "home_page_url": "https://sipi.bot/data/",
+  "feed_url": "https://sipi.bot/data/feed.json",
+  "description": "Free, downloadable industry datasets from SipiBot. CC BY 4.0.",
+  "icon": "https://sipi.bot/favicon.ico",
+  "items": [
+    {
+      "id": "https://sipi.bot/data/ai-agent-adoption-statistics/",
+      "url": "https://sipi.bot/data/ai-agent-adoption-statistics/",
+      "title": "AI Agent Adoption & Market Statistics 2026",
+      "content_text": "Key statistics on AI agent adoption, market size, enterprise deployment rates, and productivity impact. Sourced from industry analyst reports and enterprise surveys.",
+      "date_published": "2026-07-20T00:00:00Z",
+      "date_modified": "2026-07-20T00:00:00Z"
+    }
+  ]
+}

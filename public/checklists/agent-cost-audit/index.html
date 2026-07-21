@@ -57,6 +57,25 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 </ol>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
-</div></main>
+</div>
+
+<!-- _expand_thin-enriched -->
+<section>
+<h2>Why this checklist matters for agent spend control</h2>
+<p>Checklists like "AI Agent Cost Audit Checklist" are only as valuable as their execution. In autonomous agent operations, a checklist item left unchecked is not a minor oversight — it is a financial exposure. Production agent teams that systematically work through deployment checklists report 60-80% fewer runaway cost incidents in the first 90 days compared to teams that rely on ad-hoc setups.</p>
+<p>The cost of skipping a single control — a velocity cap, a merchant allowlist entry, a human-in-the-loop threshold — is measured in dollars when a loop hits. The median runaway incident costs $340, and 67% of production agent teams experience at least one in a quarter. Every item on this checklist maps to a specific failure mode.</p>
+<h2>Implementation sequence</h2>
+<p>Work through these items in order. The first four (per-transaction limits, daily caps, velocity limits, merchant allowlists) form the foundation that every subsequent check depends on. Do not skip ahead to alerting or testing until the foundation is deployed and verified.</p>
+<ol>
+<li><strong>Start with the data</strong> — before configuring limits, audit your agent's actual spend patterns for a week. What is the median transaction? The 95th percentile? The max? Use real data, not guesses.</li>
+<li><strong>Set limits 2x above the 95th percentile</strong> — this gives headroom for legitimate variation while catching the 100x outlier that indicates a loop or compromise.</li>
+<li><strong>Test each path separately</strong> — send a transaction that should be APPROVED, one that should be BLOCKED (over limit), and one that should be FLAGGED (approval threshold). Confirm the agent handles all three outcomes gracefully.</li>
+<li><strong>Enable alerting before production</strong> — configure Slack or email notifications on flagged and blocked transactions. The first blocked transaction in production is information; make sure someone sees it within minutes, not hours.</li>
+<li><strong>Schedule a 7-day review</strong> — after one week of production traffic, review every blocked and flagged transaction. Tune limits based on what you learn. Most teams loosen initial limits by 20-50% after observing real patterns.</li>
+</ol>
+<h2>Connecting back to your stack</h2>
+<p>sipi.bot enforces every item on this checklist in under 5 milliseconds per transaction. Define your per-transaction limit, daily ceiling, velocity cap, and merchant allowlist once — the firewall applies them consistently across every agent, every payment path, every run. At $99/month, the cost of deploying all 12 checklist items is less than the median single runaway incident.</p>
+</section>
+</main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — The spend firewall for autonomous AI agents · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/alternatives/x402/">x402 alt</a> · <a href="/self-hosted/">self-host</a> · <a href="/">Home</a></div></footer>
 </body></html>

@@ -1,13 +1,13 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Agent Spend Firewall Deployment Checklist</title>
-<meta name="description" content="Complete checklist for deploying an agent spend firewall: rules, integrations, monitoring, and testing.">
+<title>Agent Spend Firewall Deployment Checklist — Complete Guide</title>
+<meta name="description" content="Complete 12-step checklist for deploying an agent spend firewall: rules, integrations, monitoring, testing. Verify every control before going live with autonomous agent spending.">
 <link rel="canonical" href="https://sipi.bot/checklists/agent-spend-firewall-deployment/">
-<meta property="og:title" content="Agent Spend Firewall Deployment Checklist">
-<meta property="og:description" content="Complete checklist for deploying an agent spend firewall: rules, integrations, monitoring, and testing.">
+<meta property="og:title" content="Agent Spend Firewall Deployment Checklist — Complete Guide">
+<meta property="og:description" content="Complete 12-step checklist for deploying an agent spend firewall: rules, integrations, monitoring, testing. Verify every control before going live with autonomous agent spending.">
 <meta property="og:type" content="article">
 <meta name="theme-color" content="#00d4aa">
-
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Agent Spend Firewall Deployment Checklist","description":"Complete 12-step checklist for deploying an agent spend firewall.","author":{"@type":"Organization","name":"sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"datePublished":"2026-07-19"}</script>
 <style>*{box-sizing:border-box;margin:0;padding:0}
 body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:#00d4aa;text-decoration:none}a:hover{text-decoration:underline}
@@ -20,15 +20,12 @@ main{padding:52px 0}
 h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:8px}
 .lead{font-size:19px;color:#8a8d96;margin-bottom:28px}
 h2{font-size:24px;margin:36px 0 12px;letter-spacing:-.01em}
+h3{font-size:18px;color:#e8e8ea;margin:24px 0 8px}
 p{color:#c9ccd3;margin-bottom:14px}
 .tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:20px}
 .card{background:#121316;border:1px solid #23242a;border-radius:14px;padding:20px;margin:16px 0}
 .cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:13px 24px;border-radius:10px;margin:8px 8px 8px 0}
-.cmp{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
-.cmp th,.cmp td{border:1px solid #23242a;padding:12px 14px;text-align:left}
-.cmp thead th{background:#121316;color:#e8e8ea;font-weight:700}
-.cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
-ul{color:#c9ccd3;margin:0 0 16px 20px}li{margin-bottom:6px}
+ul,ol{color:#c9ccd3;margin:0 0 16px 22px}li{margin-bottom:8px}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 @media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
 </style>
@@ -39,22 +36,59 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <span class="tag">Checklist</span>
 
 <h1>Agent Spend Firewall Deployment Checklist</h1>
-<p class="lead">Complete checklist for deploying an agent spend firewall: rules, integrations, monitoring, and testing.</p>
+<p class="lead">Complete checklist for deploying an agent spend firewall: from defining per-transaction limits through configuring velocity caps, building merchant allowlists, setting approval thresholds, wiring the evaluation endpoint, testing all three decision paths (approve, block, flag), and enabling production mode with monitoring.</p>
 <p style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot team</span> · Published 2026-07-19</p>
-<h2>Complete Checklist</h2><ol style="color:#c9ccd3;margin:0 0 16px 20px">
-<li style="margin-bottom:8px">Define per-transaction maximum amount</li>
-<li style="margin-bottom:8px">Set daily spending cap per agent</li>
-<li style="margin-bottom:8px">Configure velocity limits (max calls/minute)</li>
-<li style="margin-bottom:8px">Build merchant allowlist (approved vendors only)</li>
-<li style="margin-bottom:8px">Set approval threshold for human review</li>
-<li style="margin-bottom:8px">Configure notification channels (Slack, email)</li>
-<li style="margin-bottom:8px">Wire evaluation endpoint into agent payment path</li>
-<li style="margin-bottom:8px">Test with a $1 transaction — verify APPROVED in dashboard</li>
-<li style="margin-bottom:8px">Test with a blocked merchant — verify BLOCKED</li>
-<li style="margin-bottom:8px">Test with a large transaction — verify FLAGGED and notification received</li>
-<li style="margin-bottom:8px">Enable production mode</li>
-<li style="margin-bottom:8px">Schedule weekly spend review</li>
-</ol>
+
+<p>This checklist takes you from zero to production deployment with a working spend firewall. Each step includes a concrete verification action so you can confirm the control is actually working — not just configured. Most teams complete steps 1-7 in under an hour and spend the remaining time on testing (steps 8-12) which should not be rushed.</p>
+
+<h2>Step 1: Define per-transaction maximum amount</h2>
+<p>The most basic rule: a hard ceiling on any single transaction your agent can make. Set this to the maximum legitimate transaction your agent would ever make in normal operation — $5 for an API call, $50 for a SaaS subscription, $500 for compute provisioning. Everything above this ceiling must be either pre-approved or routed to a human.</p>
+<p><strong>Verification:</strong> Submit a transaction $1 over the limit. Confirm the firewall returns BLOCKED with the correct reason, and that your agent's spend tool returns a readable BLOCKED message instead of throwing an unhandled error.</p>
+
+<h2>Step 2: Set daily spending cap per agent</h2>
+<p>A daily ceiling prevents a single agent from exhausting the day's budget in one run. Start at 10x your per-transaction limit — enough for normal operation but tight enough that a loop will hit the ceiling fast. Adjust up after observing real usage in week 1.</p>
+<p><strong>Verification:</strong> Simulate enough transactions to exceed the daily cap. Confirm the firewall returns BLOCKED on the first transaction that pushes cumulative spend over the ceiling, and that the daily counter resets correctly at the configured boundary.</p>
+
+<h2>Step 3: Configure velocity limits (max calls/minute)</h2>
+<p>A velocity cap is the specific defense against retry-loop bugs. The most common agent spending incident — an LLM API call in a loop — is invisible to a per-transaction limit because each call is small. A velocity cap catches the pattern: 40 small calls in 30 seconds is not normal usage for any well-behaved agent.</p>
+<p><strong>Verification:</strong> Send transactions faster than the velocity limit. Confirm the firewall blocks the transaction that exceeds the limit and that the agent does not silently retry.</p>
+
+<h2>Step 4: Build merchant allowlist (approved vendors only)</h2>
+<p>By default, block all merchants. Then explicitly add the vendors your agent is allowed to pay: LLM providers, cloud compute services, SaaS tools, API gateways. This is the single most effective control — even a compromised agent cannot spend on an endpoint not on the list.</p>
+<p><strong>Verification:</strong> Try a transaction to a merchant not on the allowlist. Confirm the firewall returns BLOCKED. Then try an allowed merchant — confirm APPROVED.</p>
+
+<h2>Step 5: Set approval threshold for human review</h2>
+<p>Not every over-limit transaction should be blocked; some should be flagged for a human to decide. The approval threshold creates a middle zone: transactions below the threshold but above normal range get FLAGGED instead of BLOCKED, and appear in the dashboard's pending approval queue.</p>
+<p><strong>Verification:</strong> Submit a transaction at the approval threshold. Confirm the firewall returns FLAGGED, the transaction appears in the pending queue, and the approval notification fires correctly.</p>
+
+<h2>Step 6: Configure notification channels</h2>
+<p>Configure where flagged and blocked transaction alerts go: Slack, email, webhook. At minimum, set up a Slack or email channel where the on-call engineer will see flagged transactions within minutes — not hours.</p>
+<p><strong>Verification:</strong> Trigger a flagged transaction. Confirm the notification arrives in the expected channel with the correct transaction details (amount, merchant, agent ID, reason).</p>
+
+<h2>Step 7: Wire evaluation endpoint into agent payment path</h2>
+<p>This is the integration step: add the sipi.bot policy check into every code path where your agent can spend money. The check must be before the spend — not after. If your agent has multiple payment paths (LLM API, cloud compute, SaaS, ads), each one gets its own check.</p>
+<p><strong>Verification:</strong> After wiring, inspect every code path that can initiate a payment. Verify there is no path that bypasses the policy check.</p>
+
+<h2>Step 8: Test with a $1 transaction</h2>
+<p>The smoke test: a small approved transaction that confirms the full integration — policy check, decision, audit log — works end to end.</p>
+<p><strong>Verification:</strong> Submit a $1 transaction to an allowed merchant. Confirm firewall returns APPROVED and the transaction appears in the audit log with correct agent ID, merchant, amount, timestamp, and policy version.</p>
+
+<h2>Step 9: Test with a blocked merchant</h2>
+<p>Confirm the BLOCKED path works: the firewall returns BLOCKED, the agent handles the decision gracefully (no crash, no silent retry), and the block is logged with a reason.</p>
+<p><strong>Verification:</strong> Submit a transaction to a blocked merchant. Confirm APPROVED is never returned, BLOCKED is logged, and the agent explains the block to the user instead of retrying.</p>
+
+<h2>Step 10: Test with a large transaction — verify FLAGGED + notification</h2>
+<p>Confirm the FLAGGED path: the human-in-the-loop workflow fires correctly, the transaction reaches the approval queue, and the notification arrives.</p>
+<p><strong>Verification:</strong> Submit a transaction above the approval threshold. Confirm FLAGGED is returned, the transaction appears in the dashboard approval queue, and the notification fires.</p>
+
+<h2>Step 11: Enable production mode</h2>
+<p>Once all tests pass, switch from test mode to production mode. This may mean: removing a test API key, changing from a staging policy to a production policy, enabling the evaluation endpoint in the production environment, or removing a feature flag.</p>
+<p><strong>Verification:</strong> Run the smoke test (step 8) one more time in production. Confirm the end-to-end path still works with production credentials.</p>
+
+<h2>Step 12: Schedule weekly spend review</h2>
+<p>The firewall is deployed — now maintain it. Review the audit log weekly to identify patterns: false positives (transactions blocked that should have been allowed), false negatives (transactions approved that should have been blocked), and opportunities to tighten or loosen rules based on observed behavior.</p>
+<p><strong>Verification:</strong> Set a recurring calendar reminder. After week 1, review the audit log and adjust at least one rule based on what you learned.</p>
+
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
 </div></main>

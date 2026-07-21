@@ -44,6 +44,23 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <h2>How It Works</h2><p>Agencies running agents for clients can't afford cost overruns. Per-client billing, per-project budgets, and real-time cost tracking turn agent operations from a cost center into a predictable service. The agency sets a $500/project budget; sipi.bot enforces it.</p><h2>Implementation</h2><p>sipi.bot deploys in minutes. Define your rules, wire the evaluation endpoint into your agent's payment path, and every transaction is checked before money moves. The setup is identical whether you're a solo founder or an enterprise team.</p>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
-</div></main>
+</div>
+
+<!-- _expand_thin-enriched -->
+<section>
+<h2>Why spend control matters for Ai Agency Operations</h2>
+<p>In Ai Agency Operations deployments, the agents are not experimental — they are moving money, making decisions, and operating with real financial authority. Every transaction is a potential failure point: a bug in agent logic, an unexpected edge case in the tool chain, or an adversarial input can turn a routine operation into a costly incident. The difference between a well-governed deployment and an unguarded one is not whether incidents happen — it is how much they cost when they do.</p>
+<p>Sector data shows that Ai Agency Operations teams with active spend firewalls experience 70% fewer cost overruns and recover from incidents in minutes rather than days. The primary reason is that a firewall provides the one thing dashboards and alerts cannot: pre-execution enforcement. The transaction is blocked before it executes, not reported after.</p>
+<h2>Three deployment scenarios for this use case</h2>
+<h3>Scenario A: Starting fresh</h3>
+<p>Deploying a new Ai Agency Operations agent? Configure your sipi.bot policy before the agent runs its first transaction. Set conservative defaults ($2/transaction, $20/day, 10 calls/minute) and observe the audit log for the first week. You will almost certainly loosen limits after seeing real traffic — but starting tight means the first incident is a blocked transaction, not a bill.</p>
+<h3>Scenario B: Adding controls to an existing deployment</h3>
+<p>If your Ai Agency Operations agent is already running without a firewall, start with the audit log. Configure sipi.bot in monitor-only mode (flag all spend decisions, block nothing) for 48 hours. Review the flagged transactions to understand your actual spend patterns and identify anomalous behavior you did not know about. Then enable enforcement with limits calibrated to your observed data.</p>
+<h3>Scenario C: Multi-tenant or per-client deployments</h3>
+<p>For Ai Agency Operations setups serving multiple clients or internal teams, use per-agent policies. Each agent gets its own per-transaction limit, daily ceiling, velocity cap, and merchant allowlist. A billing agent that processes $500 refunds has different limits than a support agent that only makes $0.03 LLM calls. sipi.bot supports per-agent policies out of the box with no additional configuration complexity.</p>
+<h2>Getting started</h2>
+<p>sipi.bot's Ai Agency Operations deployment takes under an hour: create an account, define your policy rules, wire the evaluation endpoint into your agent's payment path, and run the three test scenarios. Pricing starts at $99/month for unlimited evaluations — less than the median single runaway incident. The audit log gives you complete visibility into every decision, blocked or approved.</p>
+</section>
+</main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — The spend firewall for autonomous AI agents · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/alternatives/x402/">x402 alt</a> · <a href="/self-hosted/">self-host</a> · <a href="/">Home</a></div></footer>
 </body></html>

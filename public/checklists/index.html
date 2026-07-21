@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Checklists — Agent Spend Firewall Deployment</title>
-<meta name="description" content="Free checklists for deploying agent spending controls, auditing costs, and production readiness.">
+<title>Checklists — Agent Spend Firewall Deployment & Cost Auditing</title>
+<meta name="description" content="Free checklists for deploying agent spending controls, auditing AI agent costs, and production readiness for autonomous agents. Practical step-by-step guides for teams deploying spend firewalls.">
 <link rel="canonical" href="https://sipi.bot/checklists/">
-<meta property="og:title" content="Checklists — Agent Spend Firewall Deployment">
-<meta property="og:description" content="Free checklists for deploying agent spending controls, auditing costs, and production readiness.">
+<meta property="og:title" content="Checklists — Agent Spend Firewall Deployment & Cost Auditing">
+<meta property="og:description" content="Free checklists for deploying agent spending controls, auditing AI agent costs, and production readiness for autonomous agents. Practical step-by-step guides for teams deploying spend firewalls.">
 <meta name="theme-color" content="#00d4aa">
 <style>*{box-sizing:border-box;margin:0;padding:0}
 body{background:#0a0a0a;color:#e8e8ea;font:16px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;-webkit-font-smoothing:antialiased}
@@ -18,14 +18,11 @@ main{padding:52px 0}
 h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:8px}
 .lead{font-size:19px;color:#8a8d96;margin-bottom:28px}
 h2{font-size:24px;margin:36px 0 12px;letter-spacing:-.01em}
+h3{font-size:18px;color:#e8e8ea;margin:24px 0 8px}
 p{color:#c9ccd3;margin-bottom:14px}
 .tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#00d4aa;border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 13px;margin-bottom:20px}
 .card{background:#121316;border:1px solid #23242a;border-radius:14px;padding:20px;margin:16px 0}
 .cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:13px 24px;border-radius:10px;margin:8px 8px 8px 0}
-.cmp{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
-.cmp th,.cmp td{border:1px solid #23242a;padding:12px 14px;text-align:left}
-.cmp thead th{background:#121316;color:#e8e8ea;font-weight:700}
-.cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
 ul{color:#c9ccd3;margin:0 0 16px 20px}li{margin-bottom:6px}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 @media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
@@ -37,10 +34,19 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <span class="tag">Checklists</span>
 
 <h1>Checklists — Agent Spend Firewall Deployment</h1>
-<p class="lead">Free checklists for deploying agent spending controls, auditing costs, and production readiness.</p>
-<div class="card"><a href="https://sipi.bot/checklists/agent-spend-firewall-deployment/" style="font-size:18px;font-weight:600">Agent Spend Firewall Deployment Checklist</a><p style="margin-top:8px">Complete checklist for deploying an agent spend firewall: rules, integrations, monitoring, and testing.…</p></div>
-<div class="card"><a href="https://sipi.bot/checklists/agent-cost-audit/" style="font-size:18px;font-weight:600">AI Agent Cost Audit Checklist</a><p style="margin-top:8px">Audit your existing AI agents for spending risks: identify unprotected payment paths, estimate exposure, and prioritize.…</p></div>
-<div class="card"><a href="https://sipi.bot/checklists/agent-production-readiness/" style="font-size:18px;font-weight:600">AI Agent Production Readiness: Spend Controls Checklist</a><p style="margin-top:8px">Before deploying an AI agent to production, verify these spending controls are in place.…</p></div>
+<p class="lead">Free checklists for deploying agent spending controls, auditing costs, and production readiness. Each checklist below walks you through a specific deployment phase — from auditing existing exposure to configuring rules to verifying enforcement in production.</p>
+
+<p>Deploying a spend firewall for AI agents is not a one-step process. Teams that skip the audit phase miss unprotected payment paths. Teams that skip verification find out about misconfigurations after an incident. These checklists are designed to be used in order: start with the audit, then the deployment checklist, then the production readiness check before going live.</p>
+
+<p>Each checklist includes concrete verification steps — not just "configure a rule" but how to test that the rule actually fires correctly for approve, block, and flag paths. We use these same checklists internally when deploying sipi.bot for new teams.</p>
+
+<div class="card"><a href="https://sipi.bot/checklists/agent-spend-firewall-deployment/" style="font-size:18px;font-weight:600">Agent Spend Firewall Deployment Checklist</a><p style="margin-top:8px">Complete 12-step checklist for deploying an agent spend firewall: from defining per-transaction limits through configuring velocity caps, building merchant allowlists, setting approval thresholds, wiring the evaluation endpoint, testing all three decision paths (approve, block, flag), and enabling production mode with monitoring.</p></div>
+<div class="card"><a href="https://sipi.bot/checklists/agent-cost-audit/" style="font-size:18px;font-weight:600">AI Agent Cost Audit Checklist</a><p style="margin-top:8px">Audit your existing AI agents for spending risks: identify every function or tool call that can initiate a payment, estimate monthly exposure per agent, identify unprotected payment paths (direct API keys, saved payment methods, approval-free tool calls), and prioritize which agents need a firewall first.</p></div>
+<div class="card"><a href="https://sipi.bot/checklists/agent-production-readiness/" style="font-size:18px;font-weight:600">AI Agent Production Readiness: Spend Controls Checklist</a><p style="margin-top:8px">Before deploying an AI agent to production, verify these spending controls are in place: per-transaction limit active, daily ceiling configured, velocity cap set, merchant allowlist populated, approval threshold set, notification channels tested, blocked transaction fallback works, flagged transaction queue is monitored, and audit log is being written.</p></div>
+
+<h2>Why checklists matter for agent spend</h2>
+<p>The median team deploys their first spend-capable agent with a single rule (per-transaction limit) and adds the rest reactively — after the first incident. The problem is that a per-transaction limit alone misses velocity loops, cumulative daily totals, merchant-based attacks, and off-hours anomalies. A structured checklist ensures you cover all attack vectors before deployment, not after, and that each rule is actually tested — not just configured.</p>
+
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a></p>
 </div></main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — The spend firewall for autonomous AI agents · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/alternatives/x402/">x402 alt</a> · <a href="/self-hosted/">self-host</a> · <a href="/">Home</a></div></footer>

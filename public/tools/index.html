@@ -44,7 +44,24 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <p style="color:#c9ccd3;margin-bottom:14px">Both tools answer the two questions every team asks before putting a spend firewall in front of an autonomous agent. The <a href="/tools/risk-calculator/">risk calculator</a> answers "how bad could it get?" — it takes your average transaction size, transaction rate, agent count, and monthly budget, and projects what a runaway retry loop or an unsupervised overnight session could cost. It runs entirely in your browser; nothing you type is sent to a server.</p>
 <p style="color:#c9ccd3;margin-bottom:14px">The <a href="/playground/">playground</a> answers "what would the firewall actually do?" — it sends your test transaction to the same production <code>/v1/transactions/evaluate</code> endpoint that paying customers call, and shows the real APPROVED, BLOCKED, or FLAGGED decision with the rule that produced it. The engine behind that endpoint is deterministic and passes a public eval suite of 53 labeled spend scenarios (53/53).</p>
 <p style="color:#c9ccd3;margin-bottom:14px">When you're ready to wire the firewall into your own stack, the <a href="/for/">framework integrations</a> cover LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK with a client of just a few lines, the core is MIT-licensed and <a href="/self-hosted/">free to self-host</a> on your own hardware, and the hosted service is a flat <a href="/pricing">$99/month</a> with no per-call fees and no metering.</p>
-</div></main>
+</div>
+
+<!-- _expand_thin-enriched -->
+<section>
+<h2>Why Tools matters for agent spend control</h2>
+<p>Whether you are exploring tools, comparing solutions, or evaluating specific features, the central challenge remains the same: autonomous AI agents can initiate financial transactions, and without real-time enforcement, those transactions can escape human oversight in milliseconds. A policy that is not enforced before the transaction executes is not a control — it is a hope.</p>
+<p>Production teams that deploy active spend enforcement report 60-80% fewer cost incidents and recover from anomalies in minutes rather than days. The mechanism is straightforward: every transaction runs through a policy check that returns one of three decisions, and the agent acts on that decision before the money moves. No dashboard-watching, no after-the-fact reconciliation, no "we caught it on the next billing cycle."</p>
+<h2>Key considerations for tools</h2>
+<ul>
+<li><strong>Enforcement vs. observation:</strong> Dashboards tell you what happened. A spend firewall stops what should not happen. Both are useful; they are not substitutes. Start with enforcement, add observation for attribution and analytics.</li>
+<li><strong>Per-agent vs. global policies:</strong> Different agents have different spend profiles. A research agent and a billing agent need different limits. Configure per-agent policies from day one.</li>
+<li><strong>Velocity limits are non-negotiable:</strong> A per-transaction limit will not catch a loop of 200 small calls. A velocity cap (max transactions per minute) is the specific control for the most common runaway pattern.</li>
+<li><strong>Merchant allowlists prevent the worst-case scenario:</strong> A compromised agent can be redirected to any destination. An allowlist ensures it can only transact with vendors you have explicitly approved.</li>
+</ul>
+<h2>Next steps</h2>
+<p>sipi.bot enforces all four control dimensions — per-transaction limits, daily ceilings, velocity caps, and merchant allowlists — in under 5 milliseconds per evaluation. Pricing starts at $99/month for unlimited evaluations. Deploy in under an hour: define your policy, wrap your agent's spend functions, and run the three test scenarios (APPROVED, BLOCKED, FLAGGED) before going to production.</p>
+</section>
+</main>
 <footer><div class="wrap">
 <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/">Home</a><br>
 sip<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents

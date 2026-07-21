@@ -44,6 +44,22 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <h2>Definition</h2><p>An agent spend firewall is not a payment fraud detector. It doesn't look for stolen cards. It looks for unwanted purchases — an agent that loops and buys the same API call 47 times, an agent that tries a $10,000 cloud instance when the budget is $500, an agent that buys from a vendor you've explicitly blocked. The firewall evaluates intent and policy, not payment risk.</p><h2>Why It Matters</h2><p>Without proper agent spend firewall controls, autonomous agents can accumulate significant unexpected costs. sipi.bot automates agent spend firewall enforcement so you deploy agents with confidence.</p>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
-</div></main>
+</div>
+
+<!-- _expand_thin-enriched -->
+<section>
+<h2>How an Agent Spend Firewall works in practice</h2>
+<p>Understanding the definition of an Agent Spend Firewall is the first step; knowing how it behaves in a production agent environment is what actually protects your budget. In practice, an Agent Spend Firewall manifests differently depending on your agent architecture, the payment methods your agent has access to, and whether the control is enforced before or after the transaction executes.</p>
+<p>Consider a real example: a research agent with access to a $500/month LLM API budget. Without an Agent Spend Firewall, a single retry loop on a complex query can burn through 40% of the monthly budget in 20 minutes — 237 API calls at $0.84 each = $199.08. With an Agent Spend Firewall enforced as a velocity cap (10 calls/minute), the agent is blocked at call 11, the total spend is $9.24, and the audit log immediately surfaces the abnormal pattern. The team is alerted within seconds and investigates the retry bug before it recurs.</p>
+<h2>Common configuration mistakes</h2>
+<ul>
+<li><strong>Setting an Agent Spend Firewall too high</strong> because you are worried about interrupting legitimate agent work. Start conservative and raise based on observed data. A blocked transaction is a signal; an unblocked overspend is a cost.</li>
+<li><strong>Applying an Agent Spend Firewall globally instead of per-agent</strong>. Different agents have different spend profiles. A research agent that makes 200 LLM calls/day is not the same as a billing agent that makes 5. Use per-agent policies.</li>
+<li><strong>Forgetting to test the block path</strong>. Configure an Agent Spend Firewall, then deliberately trigger it to confirm your agent handles the BLOCKED response gracefully — no crash, no silent retry, and a clear explanation to the user.</li>
+</ul>
+<h2>How sipi.bot enforces an Agent Spend Firewall</h2>
+<p>sipi.bot evaluates an Agent Spend Firewall on every transaction in under 5 milliseconds. The agent never sees the payment method directly; it receives a structured JSON decision (APPROVED, BLOCKED, or FLAGGED) and acts accordingly. Every decision is logged with agent ID, merchant, amount, timestamp, and the policy version that produced it — so you can always reconstruct why a transaction was allowed or denied. At $99/month, the enforcement costs less than a single uncontrolled incident.</p>
+</section>
+</main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — The spend firewall for autonomous AI agents · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/alternatives/x402/">x402 alt</a> · <a href="/self-hosted/">self-host</a> · <a href="/">Home</a></div></footer>
 </body></html>

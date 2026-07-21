@@ -32,18 +32,10 @@ code{font-family:'SF Mono',ui-monospace,Menlo,monospace}
 .hub-links p{font-size:14px;color:#8a8d96;margin:6px 0 0}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 @media(max-width:640px){.hub-links{grid-template-columns:1fr}}
-</style><script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head><body>
+</style></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap"><span class="tag">CrewAI integration</span>
 <h1>A spend firewall for your CrewAI crew</h1>
-<p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 20px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-08 · Last updated 2026-07-17</p>
-<section class="definition">
-  <h2>What is a spend firewall for CrewAI?</h2>
-  <p>A spend firewall for CrewAI is a guard that sits inside your agents’ tools and checks every transaction against your rules before money moves. Each agent in the crew calls sipi.bot before it spends; the firewall returns approve, block, or flag in under 5&nbsp;ms, and the crew continues only on a clean decision.</p>
-</section>
-
-<div class="tldr"><p><strong>TL;DR:</strong> Give your CrewAI crew a spend firewall as a BaseTool. Every agent purchase is approved, blocked, or flagged against your rules.</p></div>
-
 <p class="lead">When one agent in your crew holds the purse, a bad merchant or a runaway task can drain it. sipi.bot becomes a BaseTool the crew must consult before spending.</p>
 <p>Expose the firewall as a typed <code>BaseTool</code> with a Pydantic <code>args_schema</code>. The crew calls it before any purchase, and you put the obligation in the agent's backstory.</p>
 <pre>from crewai.tools import BaseTool
@@ -71,10 +63,10 @@ class SpendGuardTool(BaseTool):
 <h2>Crew-wide spend policy</h2>
 <p>Because every agent hits the same firewall, your daily cap and velocity limits apply across the whole crew, not per agent. One runaway member can't blow the shared budget.</p>
 <h2>Frequently asked</h2>
-<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">How do I enforce the firewall across a whole crew?</h3><p>Wrap the spending tool every agent can invoke with the sipi_guard call. Because the guard lives inside the tool itself — not in the agent’s prompt — every crew member that calls that tool hits the same rules. You set the policy once at the tool level; no agent can bypass it by re-prompting or role-switching.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can I make spend_guard mandatory, not just suggested?</h3><p>Yes. Put the guard call at the top of the tool function, before any external API is reached. If the guard returns BLOCKED, the tool returns immediately with the reason string — the spend never reaches the payment API. The agent cannot skip the guard because it is embedded in the tool’s execution path, not in the prompt.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does this need CrewAI Enterprise?</h3><p>No. sipi.bot works with the open-source CrewAI package. The guard is a plain Python function call inside your tool definition — it does not require CrewAI’s hosted platform, enterprise features, or any specific CrewAI version. If your crew runs Python tools, you can add the firewall today on the free tier.</p></div>
+<div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">How do I enforce the firewall across a whole crew?</h3><p>sipi.bot tracks daily totals and velocity globally, so a shared budget and runaway-loop protection apply across every agent in the crew, not per individual agent.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can I make spend_guard mandatory, not just suggested?</h3><p>Yes. Put the obligation in the agent backstory for soft enforcement, and for hard enforcement wrap the real purchase tool so it calls the firewall internally and refuses on a blocked decision.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does this need CrewAI Enterprise?</h3><p>No. It works with open-source CrewAI. sipi_guard.py is a zero-dependency client; only the BaseTool wrapper uses CrewAI.</p></div>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="https://github.com/kindrat86/sipi-bot" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">View source</a></p>
 </div></main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents ·
-<a href="/for/">All integrations</a> · <a href="/">Home</a></div></footer>
+<a href="/for/">All integrations</a> · <a href="/benchmarks/">Benchmarks</a> · <a href="/best/">Best-of</a> · <a href="/">Home</a></div></footer>
 </body></html>

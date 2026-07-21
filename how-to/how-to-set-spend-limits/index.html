@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Set AI Agent Spend Limits (2026 Guide) — sipi.bot</title>
+<meta name="description" content="How to set AI agent spend limits: per-transaction caps, daily ceilings, weekly rolling caps, and category-specific budgets. Layered limits enforced before money moves.">
+<link rel="canonical" href="https://sipi.bot/how-to/how-to-set-spend-limits">
+<meta property="og:title" content="How to Set AI Agent Spend Limits (2026 Guide)">
+<meta property="og:description" content="Set per-transaction, daily, weekly, and category spend limits for AI agents. Layered caps enforced before money moves.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/how-to/how-to-set-spend-limits">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://***@type":"HowTo","name":"How to set AI agent spend limits","description":"5-step playbook to set layered spend limits (per-transaction, daily, weekly, category) for AI agents.","step":[{"@type":"HowToStep","name":"Set a per-transaction cap","text":"Cap the maximum amount of any single transaction to catch catastrophic one-offs."},{"@type":"HowToStep","name":"Set a daily ceiling","text":"Cap the total spend per agent per day to bound daily blast radius."},{"@type":"HowToStep","name":"Set a weekly rolling cap","text":"Cap the total spend per project per week to catch slow accumulation."},{"@type":"HowToStep","name":"Set category-specific budgets","text":"Cap spend per category (LLM, compute, tools, payments) so one bucket cannot consume another."},{"@type":"HowToStep","name":"Set an approval threshold","text":"Route transactions above a value to a human rather than auto-approving or blocking."}]}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"Article","headline":"How to Set AI Agent Spend Limits (2026 Guide)","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/how-to/how-to-set-spend-limits"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"How To","item":"https://sipi.bot/how-to/"},{"@type":"ListItem","position":3,"name":"Set Spend Limits","item":"https://sipi.bot/how-to/how-to-set-spend-limits"}]}</script>
+<script type="application/ld+json">{"@context":"https://***@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What spend limits should I set for my AI agent?","acceptedAnswer":{"@type":"Answer","text":"Layer them: a per-transaction cap ($5-$500 depending on use case), a daily ceiling ($50-$200), a weekly rolling cap ($200-$1000), and category-specific budgets so LLM spend cannot crowd out compute or tools. Add an approval threshold above which a human reviews."}},{"@type":"Question","name":"How are spend limits enforced?","acceptedAnswer":{"@type":"Answer","text":"A pre-spend firewall evaluates every transaction before it fires and returns APPROVED, BLOCKED, or FLAGGED in under 5ms. The agent never sees the payment method directly — it only sees the structured decision. Limits are versioned and logged so you can reconstruct why a transaction was allowed or denied."}},{"@type":"Question","name":"What is the difference between a cap and a limit?","acceptedAnswer":{"@type":"Answer","text":"They are used interchangeably. A per-transaction cap bounds a single spend; a daily ceiling bounds the daily total; a velocity limit bounds the count of transactions per window; a circuit breaker is a hard stop that pauses the agent when a threshold is crossed."}}]}</script>
+
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:#0066cc;color:#fff;padding:1rem 1.5rem;border-radius:.5rem;text-align:center;margin:2rem 0}
+.cta a{color:#fff;font-weight:600;font-size:1.1rem}
+.related-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+.step{background:#f9fafb;border-left:3px solid #0066cc;padding:1rem 1.25rem;margin:1.25rem 0;border-radius:0 .375rem .375rem 0}
+.step-num{display:inline-block;background:#0066cc;color:#fff;font-weight:700;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;margin-right:.5rem;font-size:.9rem}
+</style>
+</head>
+<body>
+<article>
+<header>
+<h1>How to Set AI Agent Spend Limits</h1>
+<p class="lede">A single spend limit is not enough. Autonomous agents spend across <strong>four dimensions</strong> — per-transaction, per-day, per-week, and per-category — and a limit on only one leaves the others unprotected. The fix is <strong>layered limits</strong>, enforced by a pre-spend firewall before money moves. Here is the 5-step playbook.</p>
+</header>
+
+<div class="callout">
+<strong>Why layering matters.</strong> A per-transaction cap of $500 does not stop an agent from making 1,000 calls at $5 each. A daily ceiling does not stop a single $4,000 GPU rental. Each limit catches a different failure mode. You need all of them.
+</div>
+
+<h2>The failure modes each limit catches</h2>
+<table>
+<thead><tr><th>Failure mode</th><th>Which limit catches it</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Catastrophic one-off</td><td>Per-transaction cap</td><td>$6,200 GPU rental</td></tr>
+<tr><td>Retry loop</td><td>Velocity limit</td><td>40 retries in 90 seconds</td></tr>
+<tr><td>Slow accumulation</td><td>Daily ceiling</td><td>1,000 × $5 calls</td></tr>
+<tr><td>Weekly drift</td><td>Weekly rolling cap</td><td>$50/day × 14 days</td></tr>
+<tr><td>Cross-category bleed</td><td>Category budget</td><td>LLM spend eats compute budget</td></tr>
+<tr><td>Ambiguous large spend</td><td>Approval threshold</td><td>$300 from known vendor at 3am</td></tr>
+</tbody>
+</table>
+
+<h2>The 5-step playbook</h2>
+
+<div class="step">
+<h3><span class="step-num">1</span> Set a per-transaction cap</h3>
+<p>Cap the maximum amount of any single transaction. For most agents this is $5-$50; for agents that can trigger real payments or compute purchases, $100-$500. This catches the catastrophic one-off that other limits miss.</p>
+<pre><code>{"rule_type": "per_transaction", "params": {"max_amount": 50}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">2</span> Set a daily ceiling</h3>
+<p>Cap the total spend per agent per day. This bounds the daily blast radius — even if a per-transaction cap is $50, a daily ceiling of $200 means the agent cannot exceed that in a 24-hour window.</p>
+<pre><code>{"rule_type": "daily_ceiling", "params": {"max_amount": 200}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">3</span> Set a weekly rolling cap</h3>
+<p>Cap the total spend per project per week. Slow accumulation is the hardest failure to notice — $50/day is under most daily ceilings but is $1,500/month if unchecked. A weekly rolling cap catches it.</p>
+<pre><code>{"rule_type": "weekly_cap", "params": {"max_amount": 800}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">4</span> Set category-specific budgets</h3>
+<p>Cap spend per category — LLM calls, compute, tools, real payments — so one bucket cannot consume another. Without category budgets, a runaway LLM loop can spend the entire week's compute budget before anyone notices.</p>
+<pre><code>{"rule_type": "category_budget", "params": {"category": "llm", "max_daily": 100}, "action": "BLOCKED"}</code></pre>
+</div>
+
+<div class="step">
+<h3><span class="step-num">5</span> Set an approval threshold</h3>
+<p>Route transactions above a value to a human rather than auto-approving or blocking. This handles the ambiguous cases — a legitimate $300 compute buy at 3am from a known vendor — that a hard cap would break.</p>
+<pre><code>{"rule_type": "approval_threshold", "params": {"threshold": 100}, "action": "FLAGGED"}</code></pre>
+</div>
+
+<h2>Recommended limits by use case</h2>
+<table>
+<thead><tr><th>Use case</th><th>Per-txn</th><th>Daily</th><th>Weekly</th></tr></thead>
+<tbody>
+<tr><td>Chat / Q&amp;A agent</td><td>$5</td><td>$50</td><td>$200</td></tr>
+<tr><td>Research agent (multi-call)</td><td>$20</td><td>$150</td><td>$600</td></tr>
+<tr><td>Coding agent (tool use)</td><td>$50</td><td>$200</td><td>$800</td></tr>
+<tr><td>Agent with payment capability</td><td>$100-$500</td><td>$500</td><td>$2,000</td></tr>
+</tbody>
+</table>
+
+<h2>How limits are enforced</h2>
+<p>A pre-spend firewall like <a href="https://sipi.bot/">sipi.bot</a> evaluates every transaction against all configured limits in under 5 milliseconds and returns APPROVED, BLOCKED, or FLAGGED. The agent never sees the payment method directly — it only sees the structured decision. Every decision is logged with the policy version that produced it, so you can always reconstruct why a transaction was allowed or denied.</p>
+
+<h2>Frequently asked questions</h2>
+<h3>What spend limits should I set for my AI agent?</h3>
+<p>Layer them: per-transaction ($5-$500), daily ($50-$200), weekly ($200-$1000), plus category budgets and an approval threshold. See the table above for recommended values by use case.</p>
+<h3>How are spend limits enforced?</h3>
+<p>A pre-spend firewall evaluates every transaction before it fires and returns APPROVED, BLOCKED, or FLAGGED in under 5ms. Limits are versioned and logged.</p>
+<h3>What is the difference between a cap and a limit?</h3>
+<p>Used interchangeably. A per-transaction cap bounds a single spend; a daily ceiling bounds the daily total; a velocity limit bounds the count per window; a circuit breaker is a hard stop that pauses the agent.</p>
+
+<div class="cta"><a href="https://sipi.bot/">Set spend limits with sipi.bot &rarr;</a></div>
+
+<section class="related-links"><h3>Related</h3><ul>
+<li><a href="/how-to/prevent-runaway-ai-costs">How to prevent runaway AI costs</a></li>
+<li><a href="/how-to/how-to-block-agent-overspend">How to block agent overspend</a></li>
+<li><a href="/how-to/how-to-implement-spend-controls">How to implement spend controls</a></li>
+<li><a href="/limits/recommended-limits-by-use-case">Recommended limits by use case</a></li>
+<li><a href="/policies/daily-ceiling-policy">Daily ceiling policy</a></li>
+<li><a href="/policies/per-transaction-limit-policy">Per-transaction limit policy</a></li>
+</ul></section>
+</article>
+<footer>
+<p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents. <a href="https://sipi.bot/">Home</a> · <a href="https://sipi.bot/pricing">Pricing</a></p>
+</footer>
+</body>
+</html>
