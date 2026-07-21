@@ -1,0 +1,23 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": ["kindrat86"],
+  "name": "sipi-bot-spend-firewall",
+  "description": "Spend firewall for autonomous AI agents — approve, block, or flag every transaction against your policy rules before a single dollar moves. MCP server with 3 tools: evaluate_spend, add_spend_rule, firewall_status. 53/53 eval passing. Agents call this before spending on compute, APIs, or SaaS.",
+  "type": "mcp_server",
+  "status": "production",
+  "framework": "Python 3.11+",
+  "tools": 3,
+  "transport": ["http", "stdio"],
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "spend-firewall",
+    "ai-agents",
+    "spend-governance",
+    "autonomous-agents",
+    "budget-control",
+    "runaway-prevention",
+    "transaction-evaluation",
+    "agent-security"
+  ]
+}
