@@ -73,7 +73,7 @@ def page(title, desc, canonical, body, faq):
 <a class="cta" href="https://github.com/kindrat86/sipi-bot" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">View source</a></p>
 </div></main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents ·
-<a href="/for/">All integrations</a> · <a href="/">Home</a></div></footer>
+<a href="/for/">All integrations</a> · <a href="/benchmarks/">Benchmarks</a> · <a href="/best/">Best-of</a> · <a href="/">Home</a></div></footer>
 </body></html>"""
 
 
