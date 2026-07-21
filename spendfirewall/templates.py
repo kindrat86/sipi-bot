@@ -688,35 +688,7 @@ return false;}
     .network-tagline { color: #6b7280; }
 }
 </style>
-<!-- WHAT BUILDERS SAY — idempotency:builders-say-v1 -->
-<section style="padding:72px 24px;border-bottom:1px solid var(--line);text-align:center">
-  <h2 style="margin-bottom:8px">What Builders Say</h2>
-  <p class="lead center" style="margin-bottom:48px">Early users. Real results. No invented quotes.</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;max-width:1080px;margin:0 auto">
-    <div class="card" style="text-align:left">
-      <p style="font-size:15px;color:var(--mut);margin-bottom:16px;line-height:1.6">"Deployed a multi-agent purchasing system. sipi.bot caught a retry loop at 2am — 40 blocked transactions before a dollar moved. That single catch paid for 3 years of the Pro plan."</p>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="width:36px;height:36px;border-radius:50%;background:rgba(0,212,170,.15);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);font-size:14px">AG</div>
-        <div><strong style="font-size:14px">AI Infrastructure Lead</strong><br><span style="font-size:12px;color:var(--mut)">Series B SaaS, Berlin</span></div>
-      </div>
-    </div>
-    <div class="card" style="text-align:left">
-      <p style="font-size:15px;color:var(--mut);margin-bottom:16px;line-height:1.6">"We run 12 autonomous agents across 3 clouds. The daily cap rule caught a $2,200 overage before it compounded into a $15K month-end surprise. The audit log alone replaced 3 internal tools."</p>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,176,32,.15);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--amber);font-size:14px">MS</div>
-        <div><strong style="font-size:14px">Platform Engineering Lead</strong><br><span style="font-size:12px;color:var(--mut)">FinTech, London</span></div>
-      </div>
-    </div>
-    <div class="card" style="text-align:left">
-      <p style="font-size:15px;color:var(--mut);margin-bottom:16px;line-height:1.6">"5ms latency. MCP-native. One curl call before every x402 payment. That's it. No dashboard I have to check, no budget I have to remember. The firewall is just there — the way it should be."</p>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="width:36px;height:36px;border-radius:50%;background:rgba(99,102,241,.15);display:flex;align-items:center;justify-content:center;font-weight:700;color:#6366f1;font-size:14px">RK</div>
-        <div><strong style="font-size:14px">Agent Framework Author</strong><br><span style="font-size:12px;color:var(--mut)">Open-source, San Francisco</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- /WHAT BUILDERS SAY -->
+<!-- WHAT BUILDERS SAY — REMOVED 2026-07-21: synthetic quotes with no real attribution. Restore only with verified named testimonials. -->
 <section class="portfolio-network">
     <h3>🚀 Explore Our Network</h3>
     <nav class="network-grid" aria-label="Portfolio network">
