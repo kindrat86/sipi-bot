@@ -845,7 +845,10 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
 <footer><div class="wrap">
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
   <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
-  <div style="margin-top:14px;color:var(--mut);font-size:13px">Find us where builders are:
+  <div style="margin-top:14px;color:var(--mut);font-size:13px">
+    <a href="/benchmarks/">Benchmarks</a> ·
+    <a href="/best/">Best-of comparisons</a> ·
+    Find us where builders are:
     <a href="https://github.com/kindrat86/sipi-bot" rel="me noopener">GitHub</a> ·
     <a href="https://pypi.org/project/sipi-bot/" rel="me noopener">PyPI</a> ·
     <a href="https://x.com/sipiteno" rel="me noopener">X / Twitter</a> ·
