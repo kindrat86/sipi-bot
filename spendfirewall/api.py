@@ -480,6 +480,8 @@ class Handler(BaseHTTPRequestHandler):
             return self._html(templates.pricing_html())
         if path == "/masterclass":
             return self._html(templates.masterclass_html())
+        if path in ("/blog", "/blog/"):
+            return self._html(templates.blog_page_html())
         if path == "/about":
             return self._html(templates.doc_page_html(
                 "About", "/about",

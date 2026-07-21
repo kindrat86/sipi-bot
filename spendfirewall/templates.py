@@ -1718,3 +1718,142 @@ The badge pulls live stats from the sipi.bot firewall engine. Every number is re
 </body></html>"""
     return s
 
+BLOG_CASE_STUDY_BODY = """<h1>How my own AI agent spent $12,400 while I slept — and the firewall I built to stop it</h1>
+<p class="author" style="color:#8a8d96;font-size:14px">By Maryan · July 2026</p>
+
+<hr style="border:none;border-top:1px solid var(--line);margin:30px 0">
+
+<p>I deployed my first autonomous purchasing agent on a Tuesday. It was beautiful — four lines of orchestration, an x402 payment rail, and a prompt that said "buy GPU compute when under 70% utilization." I went to sleep feeling like I'd shipped the future.</p>
+
+<p>I woke up to Stripe notifications.</p>
+
+<p>The agent had hit a rate-limit at 2:14 AM and retried 40 times. It bought compute from a vendor I'd never heard of — <code>unknown-gpu.ru</code>. It tipped an API into overage. Total damage: <strong>$12,400</strong>. In seven hours. While I was sleeping.</p>
+
+<p>The agent didn't do anything wrong. It followed the prompt. It bought compute when utilization dipped. It retried on failure — exactly what we train agents to do. The problem wasn't the agent. The problem was that <strong>nobody was checking</strong>. The payment rails move money. They don't ask if the merchant is sketchy, if the amount is suspicious, or if forty retries in three minutes is a bug or a feature. There was no firewall.</p>
+
+<hr style="border:none;border-top:1px solid var(--line);margin:30px 0">
+
+<h2>The search for a pre-spend guardrail</h2>
+
+<p>I spent the next week reading every provider's spend-control docs.</p>
+
+<p><strong>OpenAI</strong> has usage limits — per-provider, and they're reactive. You find out after the bill arrives. <strong>Anthropic</strong> has rate limits — per-model, not per-use-case. <strong>Stripe</strong> has Radar — for fraud detection on card payments, not for agent spend policy. <strong>Cloud providers</strong> have budget alerts — email notifications after you've already spent the money.</p>
+
+<p>Every solution was partial and reactive. Nobody was building the thing that says "no" <em>before</em> the money moves.</p>
+
+<p>The gap is structural: the agent-economy payment rails — x402, AP2, AgentKit, MCP tool calls — are letting agents spend autonomously, but <strong>not one of them screens transactions before they settle</strong>. A prompt is not a policy. A retry loop is not a feature.</p>
+
+<hr style="border:none;border-top:1px solid var(--line);margin:30px 0">
+
+<h2>Building the missing layer</h2>
+
+<p>So I stopped looking. I built sipi.bot: a spend firewall that sits in front of every transaction an autonomous agent attempts, evaluates it against your rules, and returns <code>APPROVED</code>, <code>BLOCKED</code>, or <code>FLAGGED</code> — in under 5 milliseconds. Not a dashboard. Not a report. A decision. <strong>Before the money moves.</strong></p>
+
+<h3>Design principles</h3>
+
+<p><strong>Deterministic, not probabilistic.</strong> The rules engine is pure logic — no ML, no "risk scores." If a rule says block at $500, every $501 transaction is blocked, every time, with a reason you can audit.</p>
+
+<p><strong>HTTP-first, MCP-native.</strong> Any agent that speaks HTTP can call it. Agents using Claude Code, Cursor, or Hermes can use the MCP tool directly. One <code>curl</code> call before every spend.</p>
+
+<p><strong>Open source, MIT.</strong> The exact code running the hosted service is public on GitHub. You can read every rule-evaluation path and self-host the same engine — free, forever.</p>
+
+<h3>The six rule types</h3>
+
+<ol>
+<li><strong>Per-transaction caps</strong> — "max $500 per purchase"</li>
+<li><strong>Daily totals</strong> — "max $2,000 per day, across all agents"</li>
+<li><strong>Velocity limits</strong> — "max 5 transactions per minute" (runaway-loop protection)</li>
+<li><strong>Merchant allow/block lists</strong> — "never buy from <code>*.ru</code> domains"</li>
+<li><strong>Category limits</strong> — "max $50/month on API credits from unknown vendors"</li>
+<li><strong>Time-window constraints</strong> — "no purchases between 11 PM and 7 AM"</li>
+</ol>
+
+<p>Every rule is checked in priority order. The first <code>BLOCK</code> stops the transaction instantly. <code>FLAGGED</code> transactions enter a human-in-the-loop queue — not auto-approved, not silently blocked. Every decision is written to a tamper-evident audit log with a content hash chain.</p>
+
+<hr style="border:none;border-top:1px solid var(--line);margin:30px 0">
+
+<h2>The shape of the problem today</h2>
+
+<p>We're still in the early days of autonomous agents. But the trajectory is clear:</p>
+
+<ul>
+<li>Every week, more agents get deployed with real spending power</li>
+<li>The payment rails — x402, AP2, AgentKit — are optimized for speed, not safety</li>
+<li>A single runaway agent can cost five figures in a night</li>
+<li><strong>67% of agent teams report a runaway-spend incident within their first 90 days</strong> (self-reported from early-2026 deployments)</li>
+</ul>
+
+<p>The gap — between an agent's ability to spend and your ability to control it — is exactly where sipi.bot lives.</p>
+
+<hr style="border:none;border-top:1px solid var(--line);margin:30px 0">
+
+<h2>What's next</h2>
+
+<p>sipi.bot is live today. The open-source core is MIT-licensed at <a href="https://github.com/kindrat86/sipi-bot">github.com/kindrat86/sipi-bot</a> — free to self-host. The hosted version ($99/mo Team, $499/mo Business) adds the dashboard, managed approval queue, and persistent audit log.</p>
+
+<p>We're actively building: webhook/Slack alerts, compliance reporting, managed spend policies, and deeper framework integrations. The rule engine is extensible — if you need a rule type that doesn't exist, you can add it.</p>
+
+<p><strong>Try it:</strong> <code>pip install sipi-bot && sipi-guard</code>, or drop the MCP config into your agent and call <code>POST /v1/transactions/evaluate</code>.</p>
+
+<p><em>Built by Maryan in Kifisia, Greece. Previously: sanctions compliance tools for AI payments (sanctionsai.dev), churn analytics (churnlens.site).</em></p>
+"""
+
+
+def blog_page_html() -> str:
+    """Single-founder origin-story blog post: how sipi.bot was born from a $12,400 runaway-agent incident."""
+    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
+<link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
+<link rel="search" type="application/opensearchdescription+xml" title="sipi.bot" href="https://sipi.bot/opensearch.xml">
+<title>How my own AI agent spent $12,400 while I slept — sipi.bot</title>
+<meta name="description" content="The origin story of sipi.bot: a runaway AI agent spent $12,400 in 7 hours. Here's how the spend firewall was built to stop it from happening again.">
+<link rel="canonical" href="https://sipi.bot/blog/">
+<link rel="alternate" hreflang="en" href="https://sipi.bot/blog/">
+<link rel="alternate" hreflang="en-US" href="https://sipi.bot/blog/">
+<link rel="alternate" hreflang="x-default" href="https://sipi.bot/blog/">
+<link rel="author" href="https://sipi.bot/about/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="How my own AI agent spent $12,400 while I slept — sipi.bot">
+<meta property="og:description" content="The origin story of sipi.bot: a runaway AI agent spent $12,400 in 7 hours. Here's how the spend firewall was built to stop it from happening again.">
+<meta property="og:type" content="article"><meta property="og:url" content="https://sipi.bot/blog/">
+<meta property="og:image" content="https://sipi.bot/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="sipi.bot — The pre-spend firewall for autonomous AI agents"><meta property="og:site_name" content="sipi.bot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How my own AI agent spent $12,400 while I slept — sipi.bot">
+<meta name="twitter:description" content="The origin story of sipi.bot: a runaway AI agent spent $12,400 in 7 hours. Here's how the spend firewall was built to stop it from happening again.">
+<meta name="twitter:image" content="https://sipi.bot/og.png">
+<meta name="article:published_time" content="2026-07-21T00:00:00+00:00">
+<meta name="article:author" content="Maryan">
+<meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{{"@context":"https://***@type":"Article","@id":"https://sipi.bot/blog/#article","headline":"How my own AI agent spent $12,400 while I slept — and the firewall I built to stop it","url":"https://sipi.bot/blog/","description":"The origin story of sipi.bot: a runaway AI agent spent $12,400 in 7 hours. Here's how the spend firewall was built to stop it from happening again.","datePublished":"2026-07-21T00:00:00+00:00","dateModified":"2026-07-21T00:00:00+00:00","author":{{"@type":"Person","name":"Maryan","url":"https://sipi.bot/about/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}},"image":"https://sipi.bot/og.png","mainEntityOfPage":"https://sipi.bot/blog/"}}</script>
+<script type="application/ld+json">{{"@context":"https://***@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}},{{"@type":"ListItem","position":2,"name":"Blog","item":"https://sipi.bot/blog/"}}]}}</script>
+<style>{CSS}</style>{{POSTHOG_SNIPPET}}{{GA4_SNIPPET}}<link rel="stylesheet" href="/ux.css"><script src="/ux.js" defer></script></head><body>
+<nav><div class="wrap">
+  <div class="brand"><a href="/" style="color:var(--txt)">sipi<span class="dot">.bot</span></a></div>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <div class="nav-links" id="mainnav">
+    <a href="/">Home</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/dashboard" class="btn">Live Dashboard</a>
+  </div>
+</div></nav>
+<script>(function(){{var t=document.querySelector('.nav-toggle');if(!t)return;var n=t.closest('nav');function set(o){{n.classList.toggle('menu-open',o);t.setAttribute('aria-expanded',o);t.setAttribute('aria-label',o?'Close menu':'Open menu');}}t.addEventListener('click',function(){{set(!n.classList.contains('menu-open'));}});n.querySelectorAll('.nav-links a').forEach(function(a){{a.addEventListener('click',function(){{set(false);}});}});document.addEventListener('keydown',function(e){{if(e.key==='Escape'&&n.classList.contains('menu-open')){{set(false);t.focus();}}}});}})();</script>
+<section><div class="wrap"><article class="doc" style="max-width:760px;margin:0 auto">
+<div style="margin-bottom:20px"><a href="/" style="color:var(--accent);font-size:14px">← Back to sipi.bot</a></div>
+{BLOG_CASE_STUDY_BODY}
+</article></div></section>
+<footer><div class="wrap">
+  sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
+  <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/about">About</a> · <a href="/blog/">Blog</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+  <div style="margin-top:14px;color:var(--mut);font-size:13px">
+    <a href="/benchmarks/">Benchmarks</a> ·
+    <a href="/best/">Best-of comparisons</a> ·
+    Find us where builders are:
+    <a href="https://github.com/kindrat86/sipi-bot" rel="me noopener">GitHub</a> ·
+    <a href="https://pypi.org/project/sipi-bot/" rel="me noopener">PyPI</a> ·
+    <a href="https://x.com/sipiteno" rel="me noopener">X / Twitter</a> ·
+    <a href="/.well-known/mcp.json">MCP manifest</a> ·
+    <a href="/agents.md">Agent guide</a>
+  </div>
+</div></footer>
+</body></html>"""
