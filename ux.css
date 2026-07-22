@@ -64,7 +64,7 @@ input[type="button"], select {
 :focus:not(:focus-visible) { outline: none; }
 
 /* ── 6. LINKS ──────────────────────────────────────── */
-a {
+a:not([class*="bg-"]):not([role="button"]) {
   color: #0066cc;
   text-underline-offset: 0.2em;
   text-decoration-thickness: 0.08em;
@@ -72,8 +72,8 @@ a {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
-a:hover { color: #004499; }
-a:active { color: #002266; }
+a:not([class*="bg-"]):not([role="button"]):hover { color: #004499; }
+a:not([class*="bg-"]):not([role="button"]):active { color: #002266; }
 
 /* ── 7. IMAGES — CLS PREVENTION ────────────────────── */
 img, video, iframe, embed { max-width: 100%; height: auto; display: block; }
@@ -113,8 +113,8 @@ p { margin-bottom: 1.25em; }
 /* ── 11. DARK MODE ──────────────────────────────────── */
 @media (prefers-color-scheme: dark) {
   body { background-color: #0d1117; color: #e6edf3; }
-  a { color: #58a6ff; }
-  a:hover { color: #79c0ff; }
+  a:not([class*="bg-"]):not([role="button"]) { color: #58a6ff; }
+  a:not([class*="bg-"]):not([role="button"]):hover { color: #79c0ff; }
   input, textarea, select { background: #161b22; border-color: #30363d; color: #e6edf3; }
   input:focus, textarea:focus, select:focus { border-color: #58a6ff; box-shadow: 0 0 0 3px rgba(88,166,255,0.15); }
 }
@@ -128,5 +128,15 @@ p { margin-bottom: 1.25em; }
 @media print {
   body { font-size: 12pt; line-height: 1.5; color: #000; }
   nav, .no-print { display: none !important; }
-  a { color: #000; text-decoration: underline; }
+  a:not([class*="bg-"]):not([role="button"]) { color: #000; text-decoration: underline; }
 }
+
+/* ── CONVERSION REPAIR 2026-07-22 ──────────────────────────────
+   Tailwind v4 emits utilities inside @layer utilities. Unlayered
+   rules in this file beat ANY layered rule regardless of specificity,
+   which silently overrode button text colours (measured 1.13:1 on
+   signals.gitdealflow.com). Link-buttons paint their own background
+   and must keep their own text colour. Do not reintroduce a bare
+   `a { color: ... }` rule in this file. */
+a[class*="bg-"], a[role="button"], a.btn, button a { color: revert-layer; }
+
