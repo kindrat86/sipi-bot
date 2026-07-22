@@ -16,7 +16,7 @@ import urllib.error
 import re
 
 BASE = "https://sipi.bot"
-INDEXNOW_KEY = "9769ace59182381fe1af49982d9b58a9"
+INDEXNOW_KEY = "3ea55b60b71bc8554f229069503163f4"
 INDEXNOW_KEY_LOCATION = f"{BASE}/{INDEXNOW_KEY}.txt"
 
 

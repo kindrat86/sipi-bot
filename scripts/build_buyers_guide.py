@@ -67,17 +67,24 @@ howto = {"@context":"https://schema.org","@type":"HowTo","name":"How to control 
     {"@type":"HowToStep","name":"Audit everything","text":"Log every decision so you can prove what was approved, blocked, or flagged."}]}
 pillar_body = (f'<p style="font-size:.85rem"><a href="/">sipi.bot</a> › <a href="/learn">Learn</a> › How to control AI agent spending</p>'
     f'<h1>How to Control AI Agent Spending: 5 Approaches Compared ({e(D["updated"])})</h1>'
+    f'<p style="padding:10px 16px;background:#f0f4ff;border-left:3px solid #7c3aed;border-radius:0 8px 8px 0;margin:0 0 1.5rem 0;font-size:.95rem;color:#374151"><strong>TL;DR:</strong> Five approaches to controlling autonomous AI agent spending — from prompt limits (free but unenforced) to dedicated spend firewalls (enforced, granular, cross-framework). The right choice depends on your risk: if an agent holds a real payment method, prompt limits and framework caps aren&apos;t enough.</p>'
     f'<p>You gave an autonomous agent a way to pay — now how do you stop it spending on the wrong thing? '
     f'Here are the five real approaches, honestly compared on what actually matters.</p>'
     f'<table>{head}{rows}</table>'
     f'<p>No single approach is right for everyone: prompt limits are trivial but unenforced; framework caps stop runaway loops but not money; '
     f'virtual cards give a hard but blunt cap; a dedicated firewall gives enforced, granular, cross-framework control at the cost of one call in the path.</p>'
     f'{cards}{sipi_block}'
+    f'<div style="margin:1.5rem 0;padding:1rem 1.25rem;background:#f0f4ff;border-left:3px solid #7c3aed;border-radius:0 .5rem .5rem 0">'
+    f'<strong>Definition:</strong> A <dfn>pre-spend firewall</dfn> is a control layer that approves, blocks, or flags each AI-agent transaction before money moves, using per-transaction caps, velocity limits, and merchant rules. It returns a deterministic decision in under 5ms.'
+    f'</div>'
+    f'<p>See also: <a href="/answers/">AI spending answers hub</a> &mdash; quick answers to common agent-spend questions.</p>'
     f'<div class="cta"><strong>Put a firewall in front of every agent payment.</strong> sipi.bot approves, blocks, or flags each transaction against your rules — before a dollar moves. Free to start: <a href="/docs">read the docs →</a></div>')
+import json as _json
+defined_term = _json.loads("""{"@context":"https://schema.org","@type":"DefinedTerm","@id":"https://sipi.bot/#pre-spend-firewall","name":"Pre-spend firewall","termCode":"pre-spend-firewall","description":"A control layer that approves, blocks, or flags each AI-agent transaction before money moves, using per-transaction caps, velocity limits, and merchant rules. It returns a deterministic decision in under 5ms.","inDefinedTermSet":{"@type":"DefinedTermSet","name":"AI Agent Spend Control Terminology","url":"https://sipi.bot/learn/how-to-control-ai-agent-spending"}}""")
 write("how-to-control-ai-agent-spending", shell(
     f"How to Control AI Agent Spending: 5 Approaches Compared ({D['updated']}) | sipi.bot",
     "Prompt limits vs framework caps vs virtual cards vs build-your-own vs a dedicated spend firewall — an honest, side-by-side guide to controlling autonomous AI agent spending.",
-    f"{BASE}/learn/how-to-control-ai-agent-spending", [faq_pillar, howto], pillar_body))
+    f"{BASE}/learn/how-to-control-ai-agent-spending", [faq_pillar, howto, defined_term], pillar_body))
 
 # ---- SPOKES ----
 for s in D["spokes"]:

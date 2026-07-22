@@ -1,171 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
-  <channel>
-    <title>sipi.bot</title>
-    <link>https://sipi.bot</link>
-    <description>The Spend Firewall for AI Agents</description>
-    <language>en</language>
-    <lastBuildDate>Sat, 18 Jul 2026 17:12:17 GMT</lastBuildDate>
-    <generator>Hermes WebSub Feed Generator</generator>
-    <ttl>60</ttl>
-    <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
-    <atom:link href="https://sipi.bot/rss.xml" rel="alternate" type="application/rss+xml"/>
-    <atom:link href="https://sipi.bot/feed.json" rel="alternate" type="application/json"/>
-    <atom:link href="https://pubsubhubbub.appspot.com/" rel="hub"/>
-    <atom:link href="https://pubsubhubbub.superfeedr.com/" rel="hub"/>
-    <atom:link href="https://websubhub.com/" rel="hub"/>
-    <item>
-      <title>sipi.bot — The Spend Firewall for AI Agents</title>
-      <link>https://sipi.bot</link>
-      <guid isPermaLink="true">https://sipi.bot</guid>
-      <description>sipi.bot is a spend firewall for autonomous AI agents: one API call returns APPROVED, BLOCKED, or FLAGGED against your caps, velocity, and merchant rules before an agent spends. Not a SIP/VoIP telephony bot.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Tue, 07 Jul 2026 21:00:00 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
-    </item>
-    <item>
-      <title>The Spend Firewall for AI Agents: A Complete Guide (2026)</title>
-      <link>https://sipi.bot/learn/spend-firewall-guide</link>
-      <guid isPermaLink="true">https://sipi.bot/learn/spend-firewall-guide</guid>
-      <description>The complete guide to AI agent spend control: what a spend firewall is, the 6 rule types every autonomous agent needs, how it differs from LLM budgets and observability tools, and how to deploy one in 5 lines of code. By sipi.bot.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
-    </item>
-    <item>
-      <title>Runaway AI Agent Incident Frequency (2026 Benchmark)</title>
-      <link>https://sipi.bot/benchmarks/runaway-incident-frequency</link>
-      <guid isPermaLink="true">https://sipi.bot/benchmarks/runaway-incident-frequency</guid>
-      <description>How often do autonomous AI agents runaway and overspend? Our benchmark of 312 production agent teams: 67% reported at least one runaway incident in 90 days, median cost $340, top decile over $5,000. Full methodology and breakdowns.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
-    </item>
-    <item>
-      <title>How to Prevent Runaway AI Costs (2026 Guide) — sipi.bot</title>
-      <link>https://sipi.bot/how-to/prevent-runaway-ai-costs</link>
-      <guid isPermaLink="true">https://sipi.bot/how-to/prevent-runaway-ai-costs</guid>
-      <description>Runaway AI agent costs happen when a retry loop or unattended session spends before you notice. The fix is a pre-spend firewall: per-transaction caps, velocity limits, and merchant allowlists that block the spend before it fires. Step-by-step.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
-    </item>
-    <item>
-      <title>sipi.bot vs LiteLLM: which is right for you?</title>
-      <link>https://sipi.bot/vs/litellm</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/litellm</guid>
-      <description>An honest comparison of sipi.bot and LiteLLM. Pricing, strengths, weaknesses, and when to pick each.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
-    </item>
-    <item>
-      <title>sipi.bot vs Helicone: which is right for you?</title>
-      <link>https://sipi.bot/vs/helicone</link>
-      <guid isPermaLink="true">https://sipi.bot/vs/helicone</guid>
-      <description>An honest comparison of sipi.bot and Helicone. Pricing, strengths, weaknesses, and when to pick each.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
-    </item>
-    <item>
-      <title>Can an AI Agent Spend Money Without Permission?</title>
-      <link>https://sipi.bot/faq/can-ai-agent-spend-without-permission</link>
-      <guid isPermaLink="true">https://sipi.bot/faq/can-ai-agent-spend-without-permission</guid>
-      <description>Yes — if your AI agent has access to a payment method and no pre-spend guardrail, it can spend money without per-transaction approval. Here is how it happens and how to stop it.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Mon, 06 Jul 2026 17:12:17 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
-    </item>
-    <item>
-      <title>What is Spend firewall? sipi.bot glossary</title>
-      <link>https://sipi.bot/glossary/spend-firewall</link>
-      <guid isPermaLink="true">https://sipi.bot/glossary/spend-firewall</guid>
-      <description>A spend firewall is a policy layer that approves or rejects each spend intent from an autonomous AI agent before the transaction executes.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
-    </item>
-    <item>
-      <title>/learn</title>
-      <link>https://sipi.bot/learn</link>
-      <guid isPermaLink="true">https://sipi.bot/learn</guid>
-      <description>The Spend Firewall for AI Agents</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Thu, 02 Jul 2026 17:12:17 GMT</pubDate>
-    </item>
-    <item>
-      <title>/vs</title>
-      <link>https://sipi.bot/vs</link>
-      <guid isPermaLink="true">https://sipi.bot/vs</guid>
-      <description>The Spend Firewall for AI Agents</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Tue, 30 Jun 2026 17:12:17 GMT</pubDate>
-    </item>
-    <item>
-      <title>/faq</title>
-      <link>https://sipi.bot/faq</link>
-      <guid isPermaLink="true">https://sipi.bot/faq</guid>
-      <description>The Spend Firewall for AI Agents</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Sun, 28 Jun 2026 17:12:17 GMT</pubDate>
-    </item>
-    <item>
-      <title>/glossary</title>
-      <link>https://sipi.bot/glossary</link>
-      <guid isPermaLink="true">https://sipi.bot/glossary</guid>
-      <description>The Spend Firewall for AI Agents</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Fri, 26 Jun 2026 17:12:17 GMT</pubDate>
-    </item>
-    <item>
-      <title>AI agent framework integrations — sipi.bot</title>
-      <link>https://sipi.bot/for</link>
-      <guid isPermaLink="true">https://sipi.bot/for</guid>
-      <description>Add a spend firewall to LangChain, CrewAI, OpenAI Agents SDK, or Vercel AI SDK. One call approves, blocks, or flags every agent purchase.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Wed, 24 Jun 2026 17:12:17 GMT</pubDate>
-    </item>
-    <item>
-      <title>/best</title>
-      <link>https://sipi.bot/best</link>
-      <guid isPermaLink="true">https://sipi.bot/best</guid>
-      <description>The Spend Firewall for AI Agents</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Mon, 22 Jun 2026 17:12:17 GMT</pubDate>
-    </item>
-    <item>
-      <title>Free Tools — sipi.bot</title>
-      <link>https://sipi.bot/tools</link>
-      <guid isPermaLink="true">https://sipi.bot/tools</guid>
-      <description>Free tools for the agent economy: spend risk calculator, live firewall playground. No signup required.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Sat, 20 Jun 2026 17:12:17 GMT</pubDate>
-    </item>
-    <item>
-      <title>Open source agent spend firewall — self-host sipi.bot</title>
-      <link>https://sipi.bot/self-hosted</link>
-      <guid isPermaLink="true">https://sipi.bot/self-hosted</guid>
-      <description>Self-host the sipi.bot spend firewall for free. Stdlib Python, zero framework dependencies, 37MB Docker image, MIT licensed. Full policy engine, dashboard, and audit trail on your own infrastructure.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Thu, 18 Jun 2026 17:12:17 GMT</pubDate>
-    </item>
-    <item>
-      <title>sipi.bot — Pricing</title>
-      <link>https://sipi.bot/pricing</link>
-      <guid isPermaLink="true">https://sipi.bot/pricing</guid>
-      <description>Flat $99/month for unlimited transaction evaluations, or $499/month for a managed spend policy. No per-call fees. Free self-hostable core. Rule-integrity guarantee.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Tue, 16 Jun 2026 17:12:17 GMT</pubDate>
-      <media:content url="https://sipi.bot/og.png" medium="image"/>
-    </item>
-    <item>
-      <title>sipi.bot Firewall Playground — Try it live, no signup</title>
-      <link>https://sipi.bot/playground</link>
-      <guid isPermaLink="true">https://sipi.bot/playground</guid>
-      <description>Test the sipi.bot spend firewall in your browser right now. Enter a transaction and see APPROVED, BLOCKED, or FLAGGED instantly. No signup, no install.</description>
-      <dc:creator>sipi.bot</dc:creator>
-      <pubDate>Sun, 14 Jun 2026 17:12:17 GMT</pubDate>
-    </item>
-  </channel>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>sipi.bot — AI Answer Hub</title>
+<link>https://sipi.bot/answers/</link>
+<description>Expert answers about AI agent spending controls, API cost management, and spend benchmarks</description>
+<atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
+<language>en-us</language>
+<lastBuildDate>Thu, 23 Jul 2026 00:00:00 GMT</lastBuildDate>
+<item>
+<title>How do you control and monitor AI API spending?</title>
+<link>https://sipi.bot/answers/how-to-control-ai-api-costs/</link>
+<description>Controlling AI API costs requires setting per-user and per-project spending limits, monitoring usage in real-time, implementing cost-aware routing, and detecting anomalies before they compound.</description>
+<pubDate>Wed, 22 Jul 2026 23:36:46 -0000</pubDate>
+<guid>https://sipi.bot/answers/how-to-control-ai-api-costs/</guid>
+</item>
+<item>
+<title>How much are companies spending on AI APIs in 2026?</title>
+<link>https://sipi.bot/answers/ai-spending-benchmarks-2026/</link>
+<description>AI API spending benchmarks for 2026: startups $500-5,000/month, mid-market $5,000-50,000/month, enterprises $50,000-500,000+/month, growing 15-25% month-over-month.</description>
+<pubDate>Wed, 22 Jul 2026 23:36:46 -0000</pubDate>
+<guid>https://sipi.bot/answers/ai-spending-benchmarks-2026/</guid>
+</item>
+</channel>
 </rss>

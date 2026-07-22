@@ -40,6 +40,7 @@ ol li,ul li{margin-bottom:8px;line-height:1.6}
 <p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-17 · Last updated 2026-07-17</p>
 <span class="tag">Alternative</span>
 <h1>Guardrails AI alternative: spend control for autonomous agents</h1>
+<p style="font-size:15px;color:#8a8d96;margin:10px 0 24px;padding:10px 16px;background:rgba(0,212,170,.04);border-left:3px solid #00d4aa;border-radius:0 8px 8px 0;line-height:1.55"><strong>TL;DR:</strong> Guardrails AI validates LLM outputs against safety and structural rules. sipi.bot validates agent *spending* against financial rules. Both are guardrails, but for different layers: Guardrails AI is output-structure; sipi.bot is payment-control. They can coexist — one guards content, one guards money.</p>
 <p class="lead">Guardrails AI is excellent at validating LLM output — structured JSON, regex patterns, toxicity checks. It doesn't validate whether your agent should spend $500 on GPU time. sipi.bot fills that gap.</p>
 
 <h2>Output validation vs spend validation</h2>
@@ -50,6 +51,7 @@ ol li,ul li{margin-bottom:8px;line-height:1.6}
 <p>The recommended stack: Guardrails AI validates the agent's output format and content safety. sipi.bot validates the agent's spend decisions against your financial policy. One keeps your agent's behavior safe; the other keeps your bank account safe.</p>
 <h2>Frequently asked</h2>
 <div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can Guardrails AI validate spend decisions?</h3><p>Guardrails AI can validate the structure of a spend action (is the amount a number? is the merchant a string?) but not the policy question (is this vendor allowed? is the amount over the daily cap?). sipi.bot handles the policy layer.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Do sipi.bot and Guardrails AI conflict?</h3><p>No. They operate at different stages. Guardrails AI checks the output format; sipi.bot checks the spend decision. A typical flow: agent generates output → Guardrails validates format → agent proposes spend → sipi.bot approves or blocks.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Which should I implement first?</h3><p>If your agent can spend money, implement sipi.bot first — the financial risk is immediate and irreversible. Add Guardrails AI for output quality once the spend guardrail is in place.</p></div>
+<p style="margin:20px 0;font-size:14px;color:#8a8d96">📊 <a href="/learn/how-to-control-ai-agent-spending" style="color:#00d4aa;text-decoration:underline">Compare all 5 approaches to controlling AI agent spending →</a></p>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
 </div></main>
