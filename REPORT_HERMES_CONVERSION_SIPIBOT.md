@@ -1,7 +1,9 @@
 # REPORT — sipi.bot Conversion Repair Runbook
 
 **Date:** 2026-07-23  
-**Branch:** `main`  
+**Commit:** `73f531e` — `conversion: fix free-pilot CTA honesty, un-dead-end pillar, add playground rung, instrument PostHog events`  
+**Fly release:** `deployment-01KY73VDTJK1TZYMBPG2PDHJ6V`  
+**Branch:** `buyers-guide-hub`  
 **Trigger:** Full-portfolio conversion audit — "Start the free pilot" → $99/mo checkout (highest-impact CTA/label mismatch found)
 
 ---
@@ -164,16 +166,23 @@ learn/ai-agent-budget-controls-best-practices/index.html — T2
 
 | Gate | Expected | Actual |
 |------|----------|--------|
-| No "free" CTA → /checkout/* | Empty grep | TBD |
-| Homepage "Try it free" → /playground/ | 200 | TBD |
-| /pricing playground rung visible | "Playground — $0" | TBD |
-| Pillar has playground/pricing/course paths | All 3 present | TBD |
-| Pillar course form test submit | 2xx + success | TBD |
-| sitemap.xml contains pillar URL | 200, 90 URLs | TBD |
-| Schemas validate (FAQ/HowTo/DefinedTerm) | 3 blocks | ✅ (pre-deploy check) |
-| /checkout/team → 302 to Stripe | Redirect | TBD |
+| No "free" CTA → /checkout/* | Empty grep | ✅ PASS |
+| Homepage "Try it free" → /playground/ | 200 | ✅ 1 match |
+| Homepage "Start Team — $99/mo" → /checkout/team | Visible | ✅ 1 match |
+| Masterclass playground CTA | 200 | ✅ 1 match |
+| /pricing playground rung visible | "Playground — $0" | ✅ 2 matches |
+| /pricing ladder: playground→self-host→Team→Business | Coherent | ✅ |
+| Pillar has playground/pricing/course paths | All 3 present | ✅ 3/3 |
+| Pillar course form test submit | 2xx + success | ✅ 200, `{"ok":true}` |
+| sitemap.xml contains pillar URL | 200, 90 URLs | ✅ 200, 90 URLs |
+| Schemas validate (FAQ/HowTo/DefinedTerm) | 3 blocks | ✅ Valid |
+| /checkout/team → 302 to Stripe | Redirect | ✅ 302 |
+| /checkout/business → 302 to Stripe | Redirect | ✅ 302 |
+| All pages serve 200 | /, /pricing, /masterclass, /playground/, /dashboard, pillar | ✅ All 200 |
 | templates.py compiles | Clean | ✅ |
+| api.py compiles | Clean | ✅ (not touched) |
 | fly.toml diff | Empty | ✅ |
+| IndexNow ping | 200 from both | ✅ 200 (indexnow.org), 200 (Bing) |
 
 ---
 
