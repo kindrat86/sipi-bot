@@ -121,6 +121,7 @@ sip<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous
 </div></footer>
 <script>
 function pgEval(){
+if(window.posthog)posthog.capture('playground_opened',{source:'playground_page'});
 const amt=parseFloat(document.getElementById('pg-amt').value)||0;
 const mer=document.getElementById('pg-mer').value||'';
 const cat=document.getElementById('pg-cat').value||'';

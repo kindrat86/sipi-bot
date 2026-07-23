@@ -516,8 +516,10 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       <li><span class="c">✓</span> MCP tool + HTTP API + CLI</li>
       <li><span class="c">✓</span> <strong>Guarantee:</strong> if we green-light a spend that breaks your rule, that month is free</li>
     </ul>
-    <a href="/checkout/team" class="btn" style="width:100%">Start the free pilot</a>
-    <p class="mono" style="color:var(--mut);font-size:13px;margin-top:14px">Free self-host core &nbsp;•&nbsp; open on GitHub</p>
+    <a href="/playground/" class="btn" style="width:100%">Try it free in the playground</a>
+    <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{tier:'team',location:'homepage_pricing'})" class="btn ghost" style="width:100%;margin-top:10px">Start Team — $99/mo</a>
+    <p style="color:var(--accent);font-size:12px;margin-top:10px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
+    <p class="mono" style="color:var(--mut);font-size:13px;margin-top:10px">Free self-host core &nbsp;•&nbsp; open on GitHub</p>
     <form class="form" style="flex-direction:column" onsubmit="return sub(event)">
       <div style="display:flex;gap:8px;width:100%">
         <label for="em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="em" placeholder="you@company.com" required>
@@ -633,7 +635,7 @@ var btn=form.querySelector('button[type=submit]');if(btn){btn.disabled=true;var 
 var bump=form.querySelector('#order-bump');var orderBump=bump?bump.checked:false;
 fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
 body:JSON.stringify({email:email,ref:ref,order_bump:orderBump})})
-.then(r=>r.json()).then(d=>{if(msgEl){msgEl.textContent=d.message||'You are on the list.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
+.then(r=>r.json()).then(d=>{if(window.posthog)posthog.capture('course_subscribed',{source:'homepage'});if(msgEl){msgEl.textContent=d.message||'You are on the list.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
 .catch(()=>{if(msgEl){msgEl.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
 return false;}
 </script>
@@ -1181,6 +1183,15 @@ def pricing_html() -> str:
   <h1 style="font-size:clamp(28px,5vw,44px)">Flat price. No metered surprises.</h1>
   <p class="sub">You're not paying per API call. You're paying for the peace of mind that no
   agent ever spends a dollar you didn't authorize.</p>
+  <!-- Playground — $0 — the first rung -->
+  <div style="max-width:440px;margin:18px auto 0;text-align:center">
+    <div class="price" style="margin:0 auto;border-color:rgba(0,212,170,.15)">
+      <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)">Playground</div>
+      <div class="amt">$0</div>
+      <p style="color:var(--mut);font-size:15px;margin:8px 0 14px">Try rules against sample spend — no signup, no install</p>
+      <a href="/playground/" onclick="if(window.posthog)posthog.capture('playground_opened',{{source:'pricing'}})" class="btn" style="width:100%">Open playground →</a>
+    </div>
+  </div>
   <div class="grid2" style="max-width:820px;margin:30px auto 0;text-align:left">
     <div class="price" style="margin:0">
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Team</div>
@@ -1192,7 +1203,8 @@ def pricing_html() -> str:
         <li><span class="c">✓</span> MCP + HTTP + CLI</li>
         <li><span class="c">✓</span> Guarantee: green-light a rule violation, month is free</li>
       </ul>
-      <a href="/checkout/team" class="btn" style="width:100%">Start Team →</a>
+      <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{{tier:'team',location:'pricing_page'}})" class="btn" style="width:100%">Start Team →</a>
+      <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
     </div>
     <div class="price" style="margin:0;border-color:var(--line)">
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Business</div>
@@ -1204,7 +1216,8 @@ def pricing_html() -> str:
         <li><span class="c">✓</span> Priority support + SLA</li>
         <li><span class="c">✓</span> Webhook + Slack alerts</li>
       </ul>
-      <a href="/checkout/business" class="btn ghost" style="width:100%">Start Business →</a>
+      <a href="/checkout/business" onclick="if(window.posthog)posthog.capture('checkout_clicked',{{tier:'business',location:'pricing_page'}})" class="btn ghost" style="width:100%">Start Business →</a>
+      <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
     </div>
   </div>
   <p class="mono" style="color:var(--mut);font-size:13px;margin-top:26px">
@@ -1401,7 +1414,9 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\\\<br>
     </div>
 
     <div style="text-align:center">
-      <a href="/pricing" class="btn" style="font-size:18px;padding:16px 36px">Protect my agent — Start free pilot →</a>
+      <a href="/playground/" class="btn" style="font-size:18px;padding:16px 36px">Try it free in the playground</a>
+      <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{{tier:'team',location:'masterclass'}})" class="btn ghost" style="font-size:16px;padding:14px 30px;margin-left:12px">Start Team — $99/mo</a>
+      <p style="color:var(--accent);font-size:13px;margin-top:12px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
       <p style="color:var(--mut);font-size:14px;margin-top:14px">Free self-host core · MIT licensed · <a href="https://github.com/kindrat86/sipi-bot" style="color:var(--accent)">Open on GitHub</a></p>
     </div>
   </div>
