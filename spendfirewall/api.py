@@ -981,7 +981,11 @@ class Handler(BaseHTTPRequestHandler):
                         f.write(f"{email}|{ref}\n")
                 except Exception:
                     pass
-                return self._json(200, {"ok": True, "message": "You're on the list. We'll email your pilot access."})
+                # 2026-07-24: was "We'll email your pilot access" — sipi.bot
+                # has no "pilot" product; every form posting here promises
+                # the 5-day Spend Firewall Playbook, so the confirmation
+                # should say that instead. See conversion-audit-scored-2026-07-24.
+                return self._json(200, {"ok": True, "message": "You're on the list. Day 1 is on its way — check your inbox."})
             return self._json(400, {"ok": False, "message": "Enter a valid email."})
 
         # Unsubscribe POST handler

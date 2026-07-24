@@ -487,7 +487,10 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     </ul>
     <div style="border-top:1px dashed var(--line);padding-top:14px;display:flex;justify-content:space-between;align-items:baseline">
       <span style="font-size:14px;color:var(--mut)">Total value</span>
-      <strong style="color:var(--mut);text-decoration:line-through;font-size:18px">$1,295/mo</strong>
+      <!-- 2026-07-24: was $1,295/mo — copy-pasted from a different value
+      stack elsewhere on this page. This stack's own 6 line items
+      (1,200+400+300+250+150+200) sum to $2,500/mo. -->
+      <strong style="color:var(--mut);text-decoration:line-through;font-size:18px">$2,500/mo</strong>
     </div>
     <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:6px">
       <span style="font-size:18px;color:var(--txt);font-weight:600">Your price</span>
@@ -546,18 +549,12 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
         <label for="pb-em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="pb-em" placeholder="you@company.com" required style="flex:1">
         <button class="btn" type="submit">Send me Day 1 →</button>
       </div>
-      <!-- ORDER BUMP (DotCom Ch 14) — default-checked add-on for the playbook form -->
-      <label for="order-bump" style="display:block;cursor:pointer;margin:12px 0 0;padding:12px 14px;background:var(--panel2);border:2px solid var(--accent);border-radius:10px;transition:border-color .2s">
-        <div style="display:flex;align-items:flex-start;gap:10px">
-          <input type="checkbox" id="order-bump" style="margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex-shrink:0">
-          <div>
-            <span style="font-weight:700;color:var(--txt);font-size:15px">YES! Add the First $10K Safe deployment checklist</span>
-            <span style="display:inline-block;background:var(--accent);color:#000;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle">Save $20</span>
-            <p style="margin:4px 0 0;font-size:13px;color:var(--mut);line-height:1.5">5-point checklist for verifying your spend firewall before going live. Normally $27 — add it now for just <strong style="color:var(--accent)">$7</strong> one-time. Delivered with Day 1.</p>
-            <p style="margin:4px 0 0;font-size:11px;color:var(--mut);font-style:italic">Checked by default — uncheck to skip</p>
-          </div>
-        </div>
-      </label>
+      <!-- 2026-07-24: removed the "$7 order bump" checkbox here — it posted
+      order_bump:true to /subscribe, but the backend never read that field:
+      no charge was ever collected and no bump-specific deliverable was ever
+      sent. Checked-by-default + silently-dropped is the single worst
+      trust/honesty defect on this page. Re-add only once a real $7 Stripe
+      price + fulfillment path exists. See conversion-audit-scored-2026-07-24. -->
       <p class="msg-inline" aria-live="polite" style="color:var(--accent);font-size:14px;margin:10px 0 0;text-align:center"></p>
     </form>
     <p style="font-size:12.5px;color:var(--mut);margin:12px 0 0">Joining the list does not sign you up for anything paid. The hosted plan is a separate checkout.</p>
@@ -623,9 +620,8 @@ var msgEl=form.querySelector('.msg-inline')||document.getElementById('msg');
 var ref=document.getElementById('ref')?document.getElementById('ref').value:'';
 if(!email){return false;}
 var btn=form.querySelector('button[type=submit]');if(btn){btn.disabled=true;var orig=btn.textContent;btn.textContent='Sending...';}
-var bump=form.querySelector('#order-bump');var orderBump=bump?bump.checked:false;
 fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
-body:JSON.stringify({email:email,ref:ref,order_bump:orderBump})})
+body:JSON.stringify({email:email,ref:ref})})
 .then(r=>r.json()).then(d=>{if(window.posthog)posthog.capture('course_subscribed',{source:'homepage'});if(msgEl){msgEl.textContent=d.message||'You are on the list.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
 .catch(()=>{if(msgEl){msgEl.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
 return false;}
@@ -770,7 +766,7 @@ return false;}
       <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">Free</span><br><span style="font-size:.82rem;color:#94a3b8">To Start</span></div>
     </div>
     <p style="font-size:1.05rem;margin-bottom:24px;color:#cbd5e1">Your AI agent should not have unlimited spending power. Put a firewall between it and your wallet.</p>
-    <a href="#try-free" style="display:inline-block;background:linear-gradient(135deg,#00d4aa,#2deec0);color:#04130e;padding:14px 32px;border-radius:12px;font-weight:700;text-decoration:none;font-size:.95rem;box-shadow:0 8px 24px -10px rgba(0,212,170,.5)">Try it free — no signup</a>
+    <a href="/playground/" style="display:inline-block;background:linear-gradient(135deg,#00d4aa,#2deec0);color:#04130e;padding:14px 32px;border-radius:12px;font-weight:700;text-decoration:none;font-size:.95rem;box-shadow:0 8px 24px -10px rgba(0,212,170,.5)">Try it free — no signup</a>
     <p style="margin-top:18px;font-size:.78rem;color:#6b7178">Call the API right now — 100 checks/min per IP, no key, no credit card. See the curl example below.</p>
   </div>
 </section>
