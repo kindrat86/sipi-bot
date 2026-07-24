@@ -534,7 +534,7 @@ class Handler(BaseHTTPRequestHandler):
             return self._sse()
         # Static files from public/ (sitemap.xml, robots.txt, llms.txt, pSEO
         # pages written by the growth engine). Served last, before 404.
-        if path == "/unsubscribe":
+        if path == "/unsubscribe" or path == "/api/unsubscribe":
             email = ""
             parts = urlparse(self.path)
             if parts.query:
@@ -989,7 +989,7 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(400, {"ok": False, "message": "Enter a valid email."})
 
         # Unsubscribe POST handler
-        if path == "/unsubscribe":
+        if path == "/unsubscribe" or path == "/api/unsubscribe":
             email = (body.get("email") or "").strip()
             removed = False
             if email and "@" in email:
