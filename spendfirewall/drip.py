@@ -47,9 +47,14 @@ def _send_resend(to_email: str, subject: str, html_body: str) -> dict:
     req = urllib.request.Request(
         "https://api.resend.com/emails",
         data=payload,
+        # Explicit User-Agent: Cloudflare (fronting Resend's API) 403s
+        # urllib's default UA with a plaintext "error code: 1010" body,
+        # before Resend itself ever sees the request. Same root cause
+        # already found and fixed in sanctionsai's api.py (2026-07-24).
         headers={
             "Authorization": f"Bearer {_RESEND_API_KEY}",
             "Content-Type": "application/json",
+            "User-Agent": "sipi-bot-drip/1.0 (+curl-compatible)",
         },
         method="POST",
     )
