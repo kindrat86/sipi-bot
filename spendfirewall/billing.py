@@ -32,6 +32,33 @@ _LOCK = threading.RLock()
 _DB = os.environ.get("BILLING_DB", os.path.join(os.getcwd(), "billing.db"))
 _STRIPE_API = "https://api.stripe.com/v1"
 
+_POSTHOG_KEY = os.environ.get("POSTHOG_API_KEY", "phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX")
+
+
+def _capture(event: str, distinct_id: str, properties: Optional[dict] = None) -> None:
+    """Server-side PostHog capture for webhook events. Best-effort: never
+    raises, never blocks webhook processing. checkout.session.completed and
+    subscription cancellations were previously silent here — the only place
+    a real purchase/churn signal could be recorded server-side."""
+    try:
+        props = {"$host": "sipi.bot", "product": "sipi-bot"}
+        props.update(properties or {})
+        body = json.dumps({
+            "api_key": _POSTHOG_KEY,
+            "event": event,
+            "distinct_id": distinct_id,
+            "properties": props,
+        }).encode()
+        req = urllib.request.Request(
+            "https://eu.i.posthog.com/capture/",
+            data=body,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        urllib.request.urlopen(req, timeout=3)
+    except Exception:
+        pass
+
 TIERS = {
     "team": {"price_id_env": "STRIPE_PRICE_TEAM", "monthly_limit": 0, "label": "Team", "price": "$99/mo"},
     "business": {"price_id_env": "STRIPE_PRICE_BUSINESS", "monthly_limit": 0, "label": "Business", "price": "$499/mo"},
@@ -214,12 +241,23 @@ def handle_webhook(raw_body: bytes, sig_header: str) -> dict:
                 plan = row["plan"] if row else "team"
         email = (obj.get("customer_details") or {}).get("email") or obj.get("customer_email")
         api_key = _issue_key(plan, email, obj.get("customer"), obj.get("subscription"), cs_id)
+        distinct_id = (obj.get("client_reference_id") or f"stripe:{obj.get('customer')}" or "anonymous")
+        _capture("subscription_started", distinct_id, {
+            "tier": plan,
+            "stripe_customer_id": obj.get("customer"),
+            "stripe_checkout_session": cs_id,
+            "amount_total": obj.get("amount_total"),
+            "currency": obj.get("currency"),
+        })
         return {"issued": True, "tier": plan, "key_prefix": api_key[:16]}
 
     if etype == "customer.subscription.deleted":
         sub = obj.get("id")
         with _LOCK, _conn() as c:
             c.execute("UPDATE api_keys SET active=0 WHERE stripe_subscription_id=?", (sub,))
+        _capture("subscription_canceled", f"stripe:{obj.get('customer')}", {
+            "stripe_subscription_id": sub,
+        })
         return {"deactivated": sub}
 
     if etype == "customer.subscription.updated":
