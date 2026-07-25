@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agent Spend as Percent of Revenue (2026 Benchmark)</title>
-<meta name="description" content="For AI-native SaaS companies, agent inference spend is typically 8–25% of revenue. Teams without pre-spend guardrails report 30–60% higher spend than peers. Full methodology and breakdowns.">
+<meta name="description" content="How to calculate what share of revenue your AI agents should consume, and what actually moves the ratio. No invented medians.">
 <link rel="canonical" href="https://sipi.bot/benchmarks/agent-spend-percent-of-revenue">
 <meta property="og:title" content="Agent Spend as Percent of Revenue (2026 Benchmark)">
-<meta property="og:description" content="AI-native SaaS companies spend 8–25% of revenue on agent inference. Teams without guardrails spend 30–60% more.">
+<meta property="og:description" content="How to calculate what share of revenue your AI agents should consume, and what actually moves the ratio. No invented medians.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/benchmarks/agent-spend-percent-of-revenue">
 <meta property="og:image" content="https://sipi.bot/og.png">
@@ -47,68 +47,42 @@ ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";colo
 <body>
 <article>
 <header>
-<p style="color:#0066cc;font-weight:600;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;margin:0 0 .3rem">Benchmark · 2026</p>
+<p style="color:#0066cc;font-weight:600;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;margin:0 0 .3rem">Reference · 2026</p>
 <h1>Agent Spend as Percent of Revenue</h1>
-<p class="lede">For AI-native SaaS companies, agent and inference spend is typically <strong>8–25% of revenue</strong>. The median is 14%. Teams without pre-spend guardrails report <strong>30–60% higher spend</strong> than peers at the same revenue scale.</p>
-<p style="color:#6b7280;font-size:.9rem;margin:-.5rem 0 1.5rem">By the <a href="https://sipi.bot/about">sipi.bot engineering team</a> · Published 2026-07-18 · <a href="#methodology">Methodology</a></p>
+<p class="lede">How to work out what share of revenue your agents should consume — and why the honest answer is a calculation you run on your own numbers, not a benchmark someone hands you.</p>
+<p style="color:#6b7280;font-size:.9rem;margin:-.5rem 0 1.5rem">By the <a href="https://sipi.bot/about">sipi.bot engineering team</a> · Published 2026-07-18 · Last updated 2026-07-25 · <a href="#methodology">Methodology</a></p>
 </header>
 
-<div class="stat-grid">
-<div class="stat"><span class="n">14%</span><span class="l">median agent spend / revenue</span></div>
-<div class="stat"><span class="n">8–25%</span><span class="l">typical range</span></div>
-<div class="stat"><span class="n">+30–60%</span><span class="l">spend uplift without guardrails</span></div>
+<div class="callout danger">
+<strong>Correction (2026-07-25).</strong> An earlier version of this page reported a median agent-spend-to-revenue ratio, an interquartile range, and a spend uplift for teams without guardrails, all attributed to a survey of AI-native companies and to aggregated customer records. That survey was never run, and there are no customer records to aggregate — the firewall is MIT-licensed, self-hostable, and collects nothing by design. Those figures were fabricated and have been removed rather than restated.
 </div>
 
-<h2>Headline findings</h2>
-<p>Across 247 AI-native companies surveyed (all with &gt;$1M ARR and at least one autonomous agent in production):</p>
-<ul class="check">
-<li><strong>Median</strong> agent/inference spend as a share of revenue: <strong>14%</strong>.</li>
-<li><strong>Interquartile range</strong>: 9% (25th percentile) to 22% (75th percentile).</li>
-<li><strong>Teams without pre-spend guardrails</strong> (no firewall, no velocity caps, no per-transaction ceilings) reported <strong>30–60% higher</strong> spend as a share of revenue than peers at the same revenue scale.</li>
-<li>The gap <em>widens</em> at smaller revenue scales — early-stage teams (&lt;$5M ARR) without guardrails were the worst offenders.</li>
+<h2>Why there is no honest benchmark here yet</h2>
+<p>A credible agent-spend-to-revenue ratio needs two numbers per company — inference spend and revenue — for a defined population. That data is not public, and sipi.bot has no telemetry from which to derive it. Any site quoting a precise median for this ratio should be asked where the revenue figures came from.</p>
+<p>What you can do instead is calculate your own, which is the number that actually governs your decisions.</p>
+
+<h2>Working out your own ratio</h2>
+<ol>
+<li><strong>Total agent spend.</strong> Sum inference and tool-call spend across providers for a full month. Published per-model rates are in <a href="/ai-model-costs-2026.csv">ai-model-costs-2026.csv</a>.</li>
+<li><strong>Divide by revenue for the same month.</strong> Use recognised revenue, not bookings, or the ratio will flatter you.</li>
+<li><strong>Separate build from run.</strong> Development and evaluation spend behaves differently from production serving; a ratio that mixes them will move for reasons unrelated to your product.</li>
+<li><strong>Track the trend, not the level.</strong> The useful signal is direction against revenue growth. A ratio rising while revenue is flat is the thing to act on, whatever the absolute number.</li>
+</ol>
+
+<h2>What actually moves the ratio</h2>
+<p>These are mechanisms, not measurements — each is something you can verify against your own bill:</p>
+<ul>
+<li><strong>Model tier.</strong> Running a frontier model where a smaller one suffices is usually the single largest line. Compare published rates before optimising anything else.</li>
+<li><strong>Retry behaviour.</strong> Unbounded retries multiply cost without changing output. A task costing $0.34 retried 40 times costs $13.60.</li>
+<li><strong>Context size.</strong> Re-sending long context on every turn is billed on every turn.</li>
+<li><strong>Unattended sessions.</strong> Spend that continues when nobody is watching is bounded only by rate limits and your balance.</li>
 </ul>
-
-<h2>Spend distribution by revenue scale</h2>
-<table>
-<thead><tr><th>Revenue band</th><th>Median agent spend %</th><th>Top quartile</th><th>Sample</th></tr></thead>
-<tbody>
-<tr><td>$1M–$5M ARR</td><td>18%</td><td>28%</td><td>89 teams</td></tr>
-<tr><td>$5M–$20M ARR</td><td>14%</td><td>21%</td><td>97 teams</td></tr>
-<tr><td>$20M–$100M ARR</td><td>11%</td><td>17%</td><td>44 teams</td></tr>
-<tr><td>&gt;$100M ARR</td><td>8%</td><td>13%</td><td>17 teams</td></tr>
-</tbody>
-</table>
-<p class="lede" style="font-size:.9rem;margin-top:.5rem">Smaller teams spend a larger share of revenue on agents — partly because the fixed cost of agent infrastructure is a bigger fraction of a smaller base, and partly because early-stage teams haven't yet built spend controls.</p>
-
-<h2>Where the spend goes</h2>
-<table>
-<thead><tr><th>Spend category</th><th>Share of agent spend</th><th>Notes</th></tr></thead>
-<tbody>
-<tr><td>LLM inference (API calls)</td><td>61%</td><td>The dominant cost; mostly GPT-4o and Claude</td></tr>
-<tr><td>Compute (training, evals, embeddings)</td><td>18%</td><td>GPU rentals, vector DBs</td></tr>
-<tr><td>Tool / data API calls</td><td>12%</td><td>Search, enrichment, third-party data</td></tr>
-<tr><td>Agent-platform SaaS</td><td>6%</td><td>LangSmith, Helicone, observability</td></tr>
-<tr><td>Other (ads, payments)</td><td>3%</td><td>Agent-triggered ad spend, micropayments</td></tr>
-</tbody>
-</table>
-
-<div class="callout warn">
-<strong>The guardrails gap is the actionable finding.</strong> Teams without pre-spend controls spend 30–60% more than peers — not because they are less careful, but because the failure modes that drive overspend (retry loops, runaway provisioning, unattended sessions) are not catchable by budget caps alone. A pre-spend firewall is the cheapest lever to close that gap.
-</div>
+<p>A pre-spend firewall addresses the last two directly: a velocity cap bounds retry loops, and a daily total cap bounds unattended sessions.</p>
 
 <h2 id="methodology">Methodology</h2>
-<ol>
-<li><strong>Anonymized sipi.bot customer data</strong> — aggregate spend patterns from teams running the firewall. Only aggregate distributions, no individual customer identifiable.</li>
-<li><strong>Survey of 247 AI-native companies</strong> recruited through dev communities and the sipi.bot user base. Teams self-reported revenue band, total agent/inference spend in the preceding month, and whether they had pre-spend controls in place.</li>
-</ol>
-<p>Self-reported survey data carries known biases (selection toward teams already thinking about spend; revenue self-reporting imprecision). Treat as directional. Released under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> — cite sipi.bot.</p>
+<p><strong>What this page is based on:</strong> published provider pricing (<a href="/ai-model-costs-2026.csv">ai-model-costs-2026.csv</a>) and the failure modes exercised by the open-source evaluation suite — 53 scenarios you can run yourself with <code>pip install sipi-bot</code>.</p>
+<p><strong>What it is not based on:</strong> any survey of companies, and any customer or deployment telemetry. sipi.bot collects none — that is a design property of the product — so it publishes no medians, ranges or percentiles for this ratio.</p>
 
-<h2>How to use this benchmark</h2>
-<ol>
-<li><strong>Find your band.</strong> Where do you sit relative to peers at your revenue scale?</li>
-<li><strong>If you're above the 75th percentile</strong>, the gap is likely a controls gap, not a product gap. A pre-spend firewall typically closes 30–50% of the overspend within 30 days.</li>
-<li><strong>Track the trend.</strong> Your spend share should fall as you scale — if it's rising, something is wrong.</li>
-</ol>
 
 <div class="cta"><a href="https://sipi.bot/">Close your spend gap with sipi.bot &rarr;</a></div>
 

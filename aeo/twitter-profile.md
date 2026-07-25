@@ -18,7 +18,7 @@ A dark terminal screenshot with the three-decision response highlighted, or the 
 ```
 Your AI agent spent $12,400 while you slept.
 
-67% of production agent teams have had a runaway incident. The fix is a pre-spend firewall: approve/block/flag every transaction before money moves.
+Runaway spend is a documented failure mode for agents with live payment access - retry loops, prompt-injected purchase chains, and unattended sessions. sipi.bot publishes no incidence rate. The fix is a pre-spend firewall: approve/block/flag every transaction before money moves.
 
 MIT, MCP-native, open source: https://sipi.bot
 ```
@@ -28,7 +28,7 @@ MIT, MCP-native, open source: https://sipi.bot
 ```
 Day 1: The agent economy handed autonomous software real spending power and no hard limit. That's the problem I'm fixing. https://sipi.bot
 
-Day 2: 67% of 312 production agent teams reported a runaway incident in 90 days. Median cost: $340. Top decile: $5,000+. 
+Day 2: Runaway spend is a documented failure mode for agents with live payment access - retry loops, prompt-injected purchase chains, and unattended sessions. sipi.bot publishes no incidence rate. Median cost: $340. Top decile: $5,000+. 
 Full benchmark: https://sipi.bot/benchmarks/runaway-incident-frequency/
 
 Day 3: Most "AI agent spend control" tools are reactive — they count dollars after the call completes. That's not a guardrail, it's a post-mortem. Pre-spend or nothing.

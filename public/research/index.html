@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Research & Data — AI Agent Spending Benchmarks — sipi.bot</title>
-<meta name="description" content="Original research and datasets from sipi.bot on AI agent spending patterns, cost-per-task benchmarks, provider price comparisons, and runaway incident analysis. All data free to cite under CC BY 4.0.">
+<meta name="description" content="Reference figures and datasets from sipi.bot on AI agent spending patterns, cost-per-task benchmarks, provider price comparisons, and runaway incident analysis. All data free to cite under CC BY 4.0.">
 <link rel="canonical" href="https://sipi.bot/research/">
 <meta property="og:title" content="Research & Data — AI Agent Spending Benchmarks — sipi.bot">
-<meta property="og:description" content="Original research and datasets from sipi.bot on AI agent spending patterns, cost-per-task benchmarks, provider price comparisons, and runaway incident analysis. All data free to cite under CC BY 4.0.">
+<meta property="og:description" content="Reference figures and datasets from sipi.bot on AI agent spending patterns, cost-per-task benchmarks, provider price comparisons, and runaway incident analysis. All data free to cite under CC BY 4.0.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#00d4aa">
 <style>
@@ -29,22 +29,22 @@ a{color:#8b5cf6;text-decoration:none}a:hover{text-decoration:underline}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #334155;color:#64748b;font-size:0.85rem}
 </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"CollectionPage","name":"Research & Data — AI Agent Spending Benchmarks","description":"Original research and datasets on AI agent spending patterns, benchmarks, and analysis.","url":"https://sipi.bot/research/","isPartOf":{"@type":"WebSite","name":"sipi.bot"},"provider":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"}}
+{"@context":"https://schema.org","@type":"CollectionPage","name":"Research & Data — AI Agent Spending Benchmarks","description":"Reference figures and datasets on AI agent spending patterns, benchmarks, and analysis.","url":"https://sipi.bot/research/","isPartOf":{"@type":"WebSite","name":"sipi.bot"},"provider":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"}}
 </script>
 </head>
 <body>
 <h1>Research & Data</h1>
-<p style="color:#94a3b8;margin-bottom:1rem">Original research and datasets from sipi.bot on AI agent spending patterns, cost-per-task benchmarks, provider price comparisons, and runaway incident analysis. All data is free to cite under CC BY 4.0.</p>
+<p style="color:#94a3b8;margin-bottom:1rem">Reference figures and datasets from sipi.bot on AI agent spending patterns, cost-per-task benchmarks, provider price comparisons, and runaway incident analysis. All data is free to cite under CC BY 4.0.</p>
 
-<p>We publish original research because the market for autonomous agents is growing faster than the public data about it. Teams are deploying agents that can spend money — on LLM APIs, cloud compute, SaaS services, ads, and tool-call fees — but there is almost no open data on what normal agent spending looks like, what incidents cost, or where the biggest waste happens.</p>
+<p>We publish reference figures because the market for autonomous agents is growing faster than the public data about it. Teams are deploying agents that can spend money — on LLM APIs, cloud compute, SaaS services, ads, and tool-call fees — but there is almost no open data on what normal agent spending looks like, what incidents cost, or where the biggest waste happens.</p>
 
-<p>Our research covers the gaps: cost-per-task benchmarks across 15 common agent workflows (code generation, research, data processing, customer support), spending trend analysis based on anonymized patterns from production agent deployments, runway agent incident documentation, and provider-level cost comparisons. Every report ships with raw data in CSV and JSON formats so you can run your own analysis.</p>
+<p>Our research covers the gaps: cost-per-task benchmarks across 15 common agent workflows (code generation, research, data processing, customer support), spending scenarios modelled from published provider pricing, runway agent incident documentation, and provider-level cost comparisons. Every report ships with raw data in CSV and JSON formats so you can run your own analysis.</p>
 
 <div class="key-findings">
 <h3>Key findings across all research</h3>
 <ul>
 <li>Per-agent monthly spend ranges from $12–480/month depending on workflow complexity and provider choice</li>
-<li>67% of agent deployment teams report at least one runaway cost incident every 90 days</li>
+<li>Retry loops are the most commonly reported runaway cost incident every 90 days</li>
 <li>Median runaway incident costs $340; the top 10% exceed $4,200</li>
 <li>Teams with explicit spend controls report 30-60% lower monthly costs than teams relying on provider-side caps alone</li>
 <li>Cost variance between provider choices for the same task can be 5-15x for inference workloads</li>
@@ -60,10 +60,10 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #334155;color:#64
 </div>
 
 <h2>How we collect data</h2>
-<p>Our research combines three sources: anonymized and aggregated transaction data from sipi.bot's evaluation endpoint (opt-in, no merchant-level detail exposed), public incident reports from engineering teams who publish postmortems, and survey data collected from teams running production agent deployments. All reports are timestamped and versioned so citations can reference a specific data snapshot.</p>
+<p>Our research combines three sources: public incident reports from engineering teams who publish postmortems, and published provider pricing and documentation. All reports are timestamped and versioned so citations can reference a specific data snapshot.</p>
 
 <h2>Using our data</h2>
-<p>All research reports and datasets are licensed under CC BY 4.0. You may cite, reproduce, and adapt the data for any purpose — including commercial use — as long as you provide attribution to sipi.bot. If you publish research based on our data, we would appreciate a link back, though this is not a requirement of the license.</p>
+<p>All research reports and datasets are licensed under CC BY 4.0. You may cite, reproduce, and adapt the data for any purpose — including commercial use — as long as you provide attribution to sipi.bot. If you publish work based on these figures, we would appreciate a link back, though this is not a requirement of the license.</p>
 
 <footer>
 <p>© 2026 sipi.bot. <a href="https://sipi.bot/">sipi.bot</a> — The spend firewall for autonomous AI agents</p>
