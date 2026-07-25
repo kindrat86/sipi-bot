@@ -760,7 +760,7 @@ return false;}
 <section style="background:linear-gradient(135deg, #0f172a, #1e293b);color:#e8eaed;padding:40px 24px;margin:60px 0 0;border-top:3px solid #00d4aa;text-align:center;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">
   <div style="max-width:900px;margin:0 auto">
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:28px;margin-bottom:28px">
-      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">$12.4K</span><br><span style="font-size:.82rem;color:#94a3b8">Prevented Per Incident</span></div>
+      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">$12.4K</span><br><span style="font-size:.82rem;color:#94a3b8">Loss That Inspired This</span></div>
       <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">Real-time</span><br><span style="font-size:.82rem;color:#94a3b8">Spend Monitoring</span></div>
       <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">MCP</span><br><span style="font-size:.82rem;color:#94a3b8">Native Integration</span></div>
       <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">Free</span><br><span style="font-size:.82rem;color:#94a3b8">To Start</span></div>
