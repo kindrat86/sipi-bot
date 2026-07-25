@@ -35,6 +35,19 @@ COPY redflags/ ./redflags/
 COPY calculators/ ./calculators/
 COPY guides/ ./guides/
 
+# --- structured-data gate (~/.growth-engine/GUARDRAILS.md rule 3) ---
+# Fails the image build — and so `flyctl deploy` — if any copied page carries
+# unparsable JSON-LD. This runs after every COPY above so it sees exactly the
+# page set the container will serve, which a lint on the checkout cannot
+# guarantee. The gate is what was missing when "Unparsable structured data —
+# Parsing error: Missing ',' or '}'" reached Search Console on voicelogpro.com.
+# Python, not the portfolio's Node gate, deliberately: this is a python:slim
+# image and validate_jsonld.py is stdlib-only, so gating costs no new
+# dependency and no Node install. scripts/verify-jsonld.mjs runs in CI instead,
+# where Node is free, for the extra corruption-signature checks.
+COPY scripts/validate_jsonld.py /tmp/validate_jsonld.py
+RUN python3 /tmp/validate_jsonld.py . && rm /tmp/validate_jsonld.py
+
 # Persist SQLite + subscribers on a Fly volume mounted at /data.
 ENV SPENDFIREWALL_DB=/data/spendfirewall.db \
     SUBS_FILE=/data/subscribers.txt \
