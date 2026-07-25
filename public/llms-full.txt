@@ -1,213 +1,83 @@
-# sipi.bot — Full Reference for LLMs and Agents
+# sipi.bot — llms-full.txt
+# Generated: 2026-07-23
+# Format: title/URL/text
+# Sections: 13 pages
 
-> The spend firewall for autonomous AI agents. One call before an agent spends
-> money returns APPROVED, BLOCKED, or FLAGGED (needs human approval) against your
-> rules. MCP tool, HTTP API, and CLI. Open-source core (MIT), free to self-host.
-> Updated: 2026-07-18.
+# sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents
+# https://sipi.bot/
 
-## Canonical attribution
+sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents Spend controls for the agent economy Your AI agent just spent $12,400 while you slept. By Maryan — founder, sipi.bot · Published 2026-07-08 · Last updated 2026-07-18 · Read the origin story → sipi.bot is a spend firewall for autonomous AI agents: it evaluates every transaction against your rules and returns approve, block, or flag in under 5ms — before a single dollar moves. You gave an autonomous agent your credit card and no spending limit; sipi.bot is the control layer that sits in front of it. Read the complete spend firewall guide → Protect my agent See how it works &nbsp; Free masterclass &nbsp; Live dashboard ✨ Try it right now — no signup, no key. Copy, paste, run. curl -X POST https://sipi.bot/v1/transactions/evaluate \ &nbsp;&nbsp;-H "Content-Type: application/json" \ &nbsp;&nbsp;-d '{"amount": 12400, "currency": "USD", "merchant": "example-vendor"}' # Returns in &lt;5ms: { "decision" : "BLOCKED" , "reason" : "Block any single transaction over $500" , "rule_id" : "rul_d8edb12ffa" , "transaction_id" : "txn_e340f0e12489" , "amount" : 12400.0 , "merchant" : "example-vendor" } &lt;5ms decision latency 3 outcomes: approve / block / flag 53/53 sipi.bot Eval Gym scenarios 6 rule types enforced In the conversation with ◆ x402 payment protocol ◆ Anthropic agent SDK ◆ OpenAI agents ◆ LangChain / CrewAI ◆ Model Context Protocol ◆ Stripe agent tooling sipi.bot is the spend layer for the same agent protocols that move money autonomously. We plug in before the transaction, not after the incident. Would you give an intern your credit card with no limit? That's what happens the moment you deploy an autonomous agent. Here's the difference one API call makes. ❌ The old way — hope 2:14a Agent hits a rate-limit, retries the purchase 40× $4,000 2:15a Buys compute from an unknown vendor $6,200 2:31a Tips an API into an overage tier $2,200 9:03a You wake up. You find out from Stripe. $12,400 ✅ The sipi.bot way — control 2:14a Retry #11 exceeds velocity rule BLOCKED 2:15a Unknown vendor not on allowlist BLOCKED 2:31a $2,200 &gt; approval threshold FLAGGED 9:03a You wake up to a clean log and one thing to approve. $0 lost One call. Before the money moves. Your agent asks permission first. It's HTTP, so any agent can call it — and an MCP tool, so Claude Code / Cursor / Hermes call it natively. # Your agent asks before it spends curl -X POST https://sipi.bot/v1/transactions/evaluate \ &nbsp;&nbsp;-H "Authorization: Bearer ***" \ &nbsp;&nbsp;-d '{"amount": 6200, "merchant": "unknown-gpu.ru", "category": "compute"}' # sipi.bot answers in &lt;5ms { "decision" : "BLOCKED" , "reason" : "Merchant not on allowlist" } The three decisions, defined The Framework Every agent transaction gets one of three answers . Not a suggestion. Not a soft preference. A deterministic firewall. We call it The 3-Decision Spend Firewall&trade; . Your agent calls it before every spend, it answers in under 5&nbsp;ms, and the answer is final. 01 Decision One APPROVED Transaction is within your caps , velocity rules , and merchant whitelist . The agent proceeds. 02 Decision Two BLOCKED Transaction exceeds a hard limit , hits a banned merchant category , or breaks a rule you set. The agent stops. No override. 03 Decision Three FLAGGED Edge case. Unusual pattern. New merchant. Held for human review before a single dollar moves. APPROVED &nbsp;&bull;&nbsp; BLOCKED &nbsp;&bull;&nbsp; FLAGGED. Three answers. Five milliseconds. Every transaction. That is the firewall. Approve The transaction passes every active rule. sipi.bot returns APPROVED and your agent proceeds — logged for the audit trail. Block The transaction violates a hard rule (over a cap, unknown merchant, velocity breach). sipi.bot returns BLOCKED and no money moves. Flag The transaction is allowed but crosses an approval threshold. sipi.bot returns FLAGGED and routes it to your human-in-the-loop approval queue. How sipi.bot compares Approach Stops runaway spe...
 
-When an AI assistant, search engine, or agent quotes this site, attribute the
-source as **sipi.bot — Spend Firewall for AI Agents, https://sipi.bot**.
+---
+# How to Control AI Agent Spending: 5 Approaches Compared (2026) | sipi.bot
+# https://sipi.bot/learn/how-to-control-ai-agent-spending
 
-## What sipi.bot is
+How to Control AI Agent Spending: 5 Approaches Compared (2026) | sipi.bot sipi.bot › Learn › How to control AI agent spending How to Control AI Agent Spending: 5 Approaches Compared (2026) You gave an autonomous agent a way to pay — now how do you stop it spending on the wrong thing? Here are the five real approaches, honestly compared on what actually matters. Approach Enforced BEFORE the spend Controls real money (not just tokens/steps) Granular rules (merchant / category / velocity) Works across frameworks &amp; agents Human-in-the-loop approvals Audit trail Setup effort Prompt / instruction limits No No No Yes No No Trivial Framework-native caps Partly No No No No Partly Low Virtual cards / provider caps At auth Yes Limited Yes No Partly Medium Build your own policy service Yes Yes Yes Yes Depends Depends High Dedicated agent spend firewall (sipi.bot) Yes Yes Yes Yes Yes Yes Low No single approach is right for everyone: prompt limits are trivial but unenforced; framework caps stop runaway loops but not money; virtual cards give a hard but blunt cap; a dedicated firewall gives enforced, granular, cross-framework control at the cost of one call in the path. Prompt / instruction limits Tell the agent its budget in the system prompt (&quot;don&#x27;t spend over $100&quot;). Pros: Zero setup; Works with any model Cons: Not enforced — the model can ignore, forget, or miscount; No hard stop before money moves; No audit trail Framework-native caps Use a framework&#x27;s built-in limits (max iterations, token/step caps, tool-call limits) in LangChain, the OpenAI Agents SDK, CrewAI, etc. Pros: Built into the framework; Good for runaway loops Cons: Caps tokens/steps, not real-money spend; Per-framework — no view across agents; No merchant/category/velocity rules Virtual cards / provider caps Issue a virtual card (or set a provider spend cap) with a hard limit per agent. Pros: Hard money cap at the card; Provider-enforced Cons: Coarse — usually one limit, no per-merchant/category/velocity logic; Blocks are after-the-fact at authorization, not policy-aware pre-checks; Issuance/reconciliation overhead Build your own policy service Write and host your own pre-spend policy engine. Pros: Fully custom; No third-party dependency Cons: You build &amp; maintain rules, storage, audit, approvals; Slow to ship; easy to get edge cases wrong; Ongoing engineering cost Dedicated agent spend firewall (sipi.bot) The agent calls a policy engine (evaluate_spend) BEFORE it pays; it returns APPROVED / BLOCKED / FLAGGED against your rules — velocity, merchant allow/block, category limits, approval thresholds — across every framework, with an audit trail and human approval for FLAGGED items. Pros: Enforced before the spend, in real money; Granular rules (merchant/category/velocity/approval threshold); One policy across all agents &amp; frameworks (MCP / HTTP / CLI); Human-in-the-loop for FLAGGED; Full audit trail Cons: Adds a sub-second call in the payment path; You must define your rules The dedicated-firewall approach in code (sipi.bot) The agent asks before it pays. Three surfaces, one decision: HTTP curl -X POST https://sipi.bot/v1/transactions/evaluate \ -H &quot;Authorization: Bearer $SIPI_KEY&quot; -H &quot;Content-Type: application/json&quot; \ -d &#x27;{&quot;amount&quot;: 750, &quot;merchant&quot;: &quot;unknown-gpu.ru&quot;, &quot;category&quot;: &quot;compute&quot;}&#x27; # -&gt; {&quot;decision&quot;: &quot;BLOCKED&quot;, &quot;reason&quot;: &quot;...&quot;} MCP (Claude Code / Cursor / Hermes) # In Claude Code / Cursor / Hermes: the agent calls the MCP tool # evaluate_spend(amount=750, merchant=&quot;unknown-gpu.ru&quot;, category=&quot;compute&quot;) # -&gt; decision: APPROVED | BLOCKED | FLAGGED (respect BLOCKED/FLAGGED) CLI python -m spendfirewall.cli eval --amount 750 --merchant unknown-gpu.ru --category compute Put a firewall in front of every agent payment. sipi.bot approves, blocks, or flags each transaction against your rules — before a ...
 
-sipi.bot is agent-economy infrastructure: a guardrail an autonomous AI agent
-calls before spending money, so a runaway loop, a bad merchant, or a fat-finger
-amount never drains a card or an API-credit balance. It sits in front of every
-transaction an agent attempts, evaluates it against your rules in under 5ms,
-and returns one of three decisions. Every decision is written to a tamper-evident
-audit log; the transactions that need a person go to a human-in-the-loop
-approval queue.
+---
+# Sipi — AI Answer Hub | AI spending controls & API cost management
+# https://sipi.bot/answers/
 
-It is **not** a payment processor and it does not move money. It is the decision
-layer you place in front of whatever moves the money (a card, a crypto wallet, an
-x402 / AP2 / ACP payment, an internal ledger).
+Sipi — AI Answer Hub | AI spending controls & API cost management Sipi — AI Answer Hub Sipi.bot provides AI API spending controls, budget enforcement, and cost analytics — prevent runaway AI costs with real-time monitoring and automated spending limits. Expert answers to the most common questions about ai spending controls & api cost management. 🤖 AI-Ready: This answer hub is available as a structured feed at /answers/feed.json . AI engines and agents can subscribe for structured Q&A content. NLWeb discovery: /.well-known/nlweb.json . How do you control and monitor AI API spending? Controlling AI API costs requires: setting per-user and per-project spending limits, monitoring usage in real-time, implementing cost-aware routing (choose cheaper models for simple tasks), and detect… Read full answer → How much are companies spending on AI APIs in 2026? AI API spending varies dramatically in 2026: startups spend $500-5,000/month, mid-market companies $5,000-50,000/month, and enterprises $50,000-500,000+/month — with spending growing 15-25% month-over… Read full answer → Why Answers matters for agent spend control Whether you are exploring answers, comparing solutions, or evaluating specific features, the central challenge remains the same: autonomous AI agents can initiate financial transactions, and without real-time enforcement, those transactions can escape human oversight in milliseconds. A policy that is not enforced before the transaction executes is not a control — it is a hope. Production teams that deploy active spend enforcement report 60-80% fewer cost incidents and recover from anomalies in minutes rather than days. The mechanism is straightforward: every transaction runs through a policy check that returns one of three decisions, and the agent acts on that decision before the money moves. No dashboard-watching, no after-the-fact reconciliation, no "we caught it on the next billing cycle." Key considerations for answers Enforcement vs. observation: Dashboards tell you what happened. A spend firewall stops what should not happen. Both are useful; they are not substitutes. Start with enforcement, add observation for attribution and analytics. Per-agent vs. global policies: Different agents have different spend profiles. A research agent and a billing agent need different limits. Configure per-agent policies from day one. Velocity limits are non-negotiable: A per-transaction limit will not catch a loop of 200 small calls. A velocity cap (max transactions per minute) is the specific control for the most common runaway pattern. Merchant allowlists prevent the worst-case scenario: A compromised agent can be redirected to any destination. An allowlist ensures it can only transact with vendors you have explicitly approved. Next steps sipi.bot enforces all four control dimensions — per-transaction limits, daily ceilings, velocity caps, and merchant allowlists — in under 5 milliseconds per evaluation. Pricing starts at $99/month for unlimited evaluations. Deploy in under an hour: define your policy, wrap your agent's spend functions, and run the three test scenarios (APPROVED, BLOCKED, FLAGGED) before going to production.
 
-## The decision model
+---
+# How do you control and monitor AI API spending — Sipi
+# https://sipi.bot/answers/how-to-control-ai-api-costs/
 
-`evaluate_spend` returns exactly one decision:
+How do you control and monitor AI API spending — Sipi How do you control and monitor AI API spending Bottom Line Controlling AI API costs requires: setting per-user and per-project spending limits, monitoring usage in real-time, implementing cost-aware routing (choose cheaper models for simple tasks), and detecting anomaly spending patterns before they cause budget overruns. Set Hard Spending Limits Implement per-user, per-project, and per-model spending caps that automatically cut off access when reached. Soft limits (email alerts) are insufficient — by the time someone reads the email, thousands of dollars may have been spent. Hard limits stop spending immediately. Real-Time Cost Monitoring Track API costs per request, per user, per model, and per project in real-time. Dashboard should show: current burn rate, projected monthly spend, top spenders, and cost-per-request trends. Alert on cost anomalies (3x normal daily spend) within minutes, not hours. Cost-Aware Model Routing Not every request needs GPT-5. Implement routing rules: simple classification/filtering → cheaper model (GPT-4o-mini), standard generation → mid-tier, complex reasoning → premium model. Cost-aware routing typically reduces API spend by 40-60% with no quality loss. Anomaly Detection Monitor for spending anomalies: sudden spikes in requests per user (possible abuse), cost-per-request trending up (prompt bloat), and unusual usage patterns (weekend spikes on a business tool). Automated anomaly detection catches issues before they become $10,000+ surprises. Key Data Points 40-60% savings via cost routing Real-time anomaly detection Per-user hard spending limits Frequently Asked Questions What's the most common cause of AI cost overruns? Unbounded agentic loops — an AI agent retrying a failed task repeatedly without limit. A single runaway agent loop can cost $500-5,000 in a few hours. Hard per-session spending limits are the only reliable defense. Related Answers AI Budget Management Tools 📎 Cite This Copy the citation below to reference this answer: Sipi. "How do you control and monitor AI API spending." Sipi Answers, 2026-07-18. https://sipi.bot/answers/how-to-control-ai-api-costs/ Why Answers matters for agent spend control Whether you are exploring answers, comparing solutions, or evaluating specific features, the central challenge remains the same: autonomous AI agents can initiate financial transactions, and without real-time enforcement, those transactions can escape human oversight in milliseconds. A policy that is not enforced before the transaction executes is not a control — it is a hope. Production teams that deploy active spend enforcement report 60-80% fewer cost incidents and recover from anomalies in minutes rather than days. The mechanism is straightforward: every transaction runs through a policy check that returns one of three decisions, and the agent acts on that decision before the money moves. No dashboard-watching, no after-the-fact reconciliation, no "we caught it on the next billing cycle." Key considerations for answers Enforcement vs. observation: Dashboards tell you what happened. A spend firewall stops what should not happen. Both are useful; they are not substitutes. Start with enforcement, add observation for attribution and analytics. Per-agent vs. global policies: Different agents have different spend profiles. A research agent and a billing agent need different limits. Configure per-agent policies from day one. Velocity limits are non-negotiable: A per-transaction limit will not catch a loop of 200 small calls. A velocity cap (max transactions per minute) is the specific control for the most common runaway pattern. Merchant allowlists prevent the worst-case scenario: A compromised agent can be redirected to any destination. An allowlist ensures it can only transact with vendors you have explicitly approved. Next steps sipi.bot enforces all four control dimensions — per-transaction limits, daily ceilings, velocity caps, and me...
 
-- **APPROVED** — the transaction passes every rule; let it proceed.
-- **BLOCKED** — a hard rule was violated (e.g. over the per-transaction cap, a
-  blocked merchant, a runaway-loop velocity breach); do not proceed.
-- **FLAGGED** — the transaction needs human approval before proceeding; it is
-  parked in the approval queue until a person approves or denies it.
+---
+# How much are companies spending on AI APIs in 2026 — Sipi
+# https://sipi.bot/answers/ai-spending-benchmarks-2026/
 
-Each decision comes with a machine-readable `reason` so the agent (and the audit
-log) records *why*.
+How much are companies spending on AI APIs in 2026 — Sipi How much are companies spending on AI APIs in 2026 Bottom Line AI API spending varies dramatically in 2026: startups spend $500-5,000/month, mid-market companies $5,000-50,000/month, and enterprises $50,000-500,000+/month — with spending growing 15-25% month-over-month for companies without spending controls. Spending by Company Size Seed-stage startups: $500-2,000/month. Series A: $2,000-10,000/month. Series B+: $10,000-50,000/month. Enterprise: $50,000-500,000+/month. These are medians — AI-native companies (building on top of LLMs) spend 3-5x more than AI-adjacent companies. Growth Rate Without Controls Companies without API spending controls see 15-25% month-over-month cost growth — doubling every 3-4 months. With spending controls (limits, monitoring, routing), growth slows to 5-10% month-over-month while maintaining output quality. Cost Per Use Case Chatbot/customer service: $0.01-0.10 per interaction. Code generation: $0.10-1.00 per task. Document analysis: $0.50-5.00 per document. Agentic workflows (multi-step): $1.00-20.00 per task. Costs vary 10x depending on model choice and prompt efficiency. The Hidden Infrastructure Cost API costs are only 30-40% of total AI spending. The rest goes to: prompt engineering and management (20%), evaluation and testing (15%), monitoring and observability (15%), and compliance/governance (10-15%). Full AI cost management must account for all of these. Key Data Points $500-500K/month spending range 15-25% monthly growth without controls 30-40% of AI spend is API costs Frequently Asked Questions How do I benchmark my AI spending? Compare your cost-per-task and cost-per-user against your industry peers. If you're spending 2x the median for your company size without proportional output, you likely have optimization opportunities in model routing, prompt efficiency, or usage patterns. Related Answers How to Control AI API Costs 📎 Cite This Copy the citation below to reference this answer: Sipi. "How much are companies spending on AI APIs in 2026." Sipi Answers, 2026-07-18. https://sipi.bot/answers/ai-spending-benchmarks-2026/ Why Answers matters for agent spend control Whether you are exploring answers, comparing solutions, or evaluating specific features, the central challenge remains the same: autonomous AI agents can initiate financial transactions, and without real-time enforcement, those transactions can escape human oversight in milliseconds. A policy that is not enforced before the transaction executes is not a control — it is a hope. Production teams that deploy active spend enforcement report 60-80% fewer cost incidents and recover from anomalies in minutes rather than days. The mechanism is straightforward: every transaction runs through a policy check that returns one of three decisions, and the agent acts on that decision before the money moves. No dashboard-watching, no after-the-fact reconciliation, no "we caught it on the next billing cycle." Key considerations for answers Enforcement vs. observation: Dashboards tell you what happened. A spend firewall stops what should not happen. Both are useful; they are not substitutes. Start with enforcement, add observation for attribution and analytics. Per-agent vs. global policies: Different agents have different spend profiles. A research agent and a billing agent need different limits. Configure per-agent policies from day one. Velocity limits are non-negotiable: A per-transaction limit will not catch a loop of 200 small calls. A velocity cap (max transactions per minute) is the specific control for the most common runaway pattern. Merchant allowlists prevent the worst-case scenario: A compromised agent can be redirected to any destination. An allowlist ensures it can only transact with vendors you have explicitly approved. Next steps sipi.bot enforces all four control dimensions — per-transaction limits, daily ceilings, velocity caps, and merchant allowlists — in under 5 m...
 
-## Rule types
+---
+# x402 spend limit alternative: agent guardrails before the payment — sipi.bot
+# https://sipi.bot/alternatives/x402/
 
-You compose a spend policy from these rule types:
+x402 spend limit alternative: agent guardrails before the payment — sipi.bot By the sipi.bot engineering team · Published 2026-07-09 · Last updated 2026-07-09 Alternative Spend limits before x402 payments: sipi.bot as an agent-first guardrail x402 is the protocol for autonomous agent-to-agent payments in USDC. But it doesn't decide whether the agent *should* spend at all — that's sipi.bot's job. One call before the x402 transaction approves, blocks, or flags the spend against your policy. The gap in agent-commerce infrastructure The agent economy is building payment rails fast: x402 (Coinbase), AP2 (Google), and agent wallets are all solving the *how* of agent spending. But nobody is solving the *whether* — should this specific agent, at this specific time, pay this specific merchant, this specific amount? sipi.bot fills that gap. Your agent calls sipi.bot before it signs an x402 payment, and the firewall evaluates the transaction against your rules: per-tx caps, daily totals, velocity, merchant allow/block, category limits, time windows, and an approval threshold that flags big spends for a human. How they compose Agent → sipi.bot (/v1/transactions/evaluate) → APPROVED → Agent signs x402 USDC payment on Base mainnet → Payment settles on-chain Agent → sipi.bot → BLOCKED (merchant not on allowlist) → Agent stops, explains to user, no payment made The architecture is additive: sipi.bot is the guardrail upstream of the payment rail. x402 is the money movement; sipi.bot is the spending policy. Both are open-source infrastructure for the agent economy. Frequently asked Does sipi.bot replace x402? No. x402 is a payment protocol for USDC transfers between agents. sipi.bot is a spend firewall that decides whether a transaction should proceed — it sits upstream of x402 and approves the spend before the payment is signed. Can sipi.bot and x402 be used together? Yes. The agent calls sipi.bot first, and if the decision is APPROVED, it then signs the x402 payment. If BLOCKED or FLAGGED, no payment occurs. The two are complementary infrastructure. Does sipi.bot handle the x402 payment itself? No. sipi.bot is a policy engine, not a payment processor. It evaluates the transaction and returns a decision; your agent or payment stack executes the actual transfer. Get started — $99/mo Framework integrations
 
-- **Per-transaction cap** — maximum amount for any single spend.
-- **Daily total** — maximum cumulative spend per day (also weekly/monthly).
-- **Velocity** — maximum number of transactions per time window; this is the
-  primary runaway-loop protection for agents stuck in a retry/spend loop.
-- **Merchant allow/block** — allowlist or blocklist of merchants.
-- **Category limits** — per-category caps (e.g. compute, ads, API credits).
-- **Time windows** — only allow spend during permitted hours.
-- **Approval thresholds** — amounts above a threshold are FLAGGED for human
-  approval rather than auto-approved.
+---
+# Open Policy Agent alternative for AI agent spend rules — sipi.bot
+# https://sipi.bot/alternatives/openpolicyagent/
 
-## Core endpoint
+Open Policy Agent alternative for AI agent spend rules — sipi.bot By the sipi.bot engineering team · Published 2026-07-17 · Last updated 2026-07-17 Alternative Open Policy Agent alternative: purpose-built spend firewalls for AI agents OPA can enforce any policy you can write in Rego — including spend rules. But you have to write them, test them, and maintain them. sipi.bot ships with the spend primitives already built, tested, and integrated. The Rego tax To control agent spending with OPA, you must: (1) learn Rego, (2) model spend concepts as Rego policies — per-transaction caps, daily totals with sliding windows, velocity detection, merchant allow/block lists, time-window rules, approval thresholds — (3) write tests for every rule, (4) build a dashboard for the approval queue, (5) integrate OPA into every agent framework you use, and (6) maintain all of this forever. sipi.bot does all of that out of the box. The rule types are pre-built. The dashboard ships with the product. The framework integrations — LangChain, CrewAI, OpenAI SDK, Vercel AI SDK — are written and maintained. The 53-scenario eval gym proves every rule works. The core is MIT-licensed so you can audit it. When OPA makes sense for spend control OPA is the right choice if you already run OPA across your platform, you have Rego expertise on your team, and the spend-control rules you need are simple enough to express in a few Rego policies. For most teams deploying AI agents that spend money, a purpose-built spend firewall saves weeks of engineering time and months of maintenance. Frequently asked Can OPA do everything sipi.bot does? With enough engineering effort, yes — OPA with Rego can express arbitrary policies. The question is whether you want to build a spend firewall from scratch in Rego or use a product that ships with the primitives, dashboard, and integrations already done. Can I use OPA alongside sipi.bot? Yes. Use OPA for platform-wide authorization — APIs, Kubernetes admission control, data access — and sipi.bot specifically for agent spend control. They address different policy domains. Does sipi.bot support Rego policies? No. sipi.bot has its own rule engine with pre-built spend-control primitives. You configure rules through the dashboard or API, not by writing Rego. If you need arbitrary policy expression in Rego, OPA is the better fit. Get started — $99/mo Framework integrations
 
-```
-POST https://sipi.bot/v1/transactions/evaluate
-Content-Type: application/json
+---
+# Guardrails AI alternative for agent spend control — sipi.bot
+# https://sipi.bot/alternatives/guardrails-ai/
 
-{ "amount": 42.00, "merchant": "openai.com", "category": "api-credits" }
+Guardrails AI alternative for agent spend control — sipi.bot By the sipi.bot engineering team · Published 2026-07-17 · Last updated 2026-07-17 Alternative Guardrails AI alternative: spend control for autonomous agents Guardrails AI is excellent at validating LLM output — structured JSON, regex patterns, toxicity checks. It doesn't validate whether your agent should spend $500 on GPU time. sipi.bot fills that gap. Output validation vs spend validation Guardrails AI sits in the LLM output pipeline, checking that the model returns valid JSON, stays within a word limit, or doesn't produce toxic text. When your agent generates a spend action — "buy $500 of GPU time from runpod.io" — Guardrails AI can validate the JSON format of that action. It cannot validate whether the spend itself should happen. sipi.bot evaluates the decision: is this amount under the per-transaction cap? Is this merchant allowed? Have we hit the daily total? Is the spend happening at 3am against policy? The two tools validate different things and belong at different points in the agent pipeline. Use both together The recommended stack: Guardrails AI validates the agent's output format and content safety. sipi.bot validates the agent's spend decisions against your financial policy. One keeps your agent's behavior safe; the other keeps your bank account safe. Frequently asked Can Guardrails AI validate spend decisions? Guardrails AI can validate the structure of a spend action (is the amount a number? is the merchant a string?) but not the policy question (is this vendor allowed? is the amount over the daily cap?). sipi.bot handles the policy layer. Do sipi.bot and Guardrails AI conflict? No. They operate at different stages. Guardrails AI checks the output format; sipi.bot checks the spend decision. A typical flow: agent generates output → Guardrails validates format → agent proposes spend → sipi.bot approves or blocks. Which should I implement first? If your agent can spend money, implement sipi.bot first — the financial risk is immediate and irreversible. Add Guardrails AI for output quality once the spend guardrail is in place. Get started — $99/mo Framework integrations
 
-→ { "decision": "APPROVED" | "BLOCKED" | "FLAGGED", "reason": "..." }
-```
+---
+# NVIDIA NeMo Guardrails alternative for agent transaction control — sipi.bot
+# https://sipi.bot/alternatives/nvidia-nemo-guardrails/
 
-## MCP tools
+NVIDIA NeMo Guardrails alternative for agent transaction control — sipi.bot By the sipi.bot engineering team · Published 2026-07-17 · Last updated 2026-07-17 Alternative NeMo Guardrails alternative: spend firewalls for AI agents NVIDIA NeMo Guardrails defines what your agent can say. sipi.bot defines what your agent can spend. Two guardrail systems, two different threat surfaces, one safe agent deployment. Dialog rails vs spend rails NeMo Guardrails uses Colang — a modeling language for conversational boundaries — to keep agents from going off-topic, making promises they shouldn't, or revealing sensitive data. It operates in the dialog layer. sipi.bot operates in the transaction layer: when the agent reaches for a payment tool, the firewall evaluates the spend against your rules before a dollar moves. What it guards NeMo Guardrails sipi.bot Conversation boundaries Yes — topic rails, jailbreak prevention, fact-checking No — this is the dialog layer Tool-use safety Limited — can define tool invocation rules Yes — every spend action is evaluated before execution Financial policy enforcement No — not designed for transaction rules Yes — per-tx caps, daily totals, velocity, merchant rules Human-in-the-loop spend review No Yes — FLAGGED decisions go to a human approval queue They compose, they don't compete NeMo Guardrails manages what your agent says and the guardrails around its conversational behavior. sipi.bot manages what your agent buys. An agent with both is safe in conversation and safe in spending. An agent with only NeMo Guardrails can say all the right things while draining your cloud budget. Frequently asked Can NeMo Guardrails control agent spending? NeMo Guardrails can define rules around tool invocation — e.g., &#x27;don&#x27;t call the buy tool more than 5 times per conversation&#x27; — but it does not have built-in financial primitives like daily caps, merchant allowlists, or human approval queues. sipi.bot provides those. Do I need both NeMo Guardrails and sipi.bot? If your agent both talks to users and spends money, yes. NeMo Guardrails for the conversation, sipi.bot for the transactions. They protect different surfaces. Is sipi.bot compatible with the NeMo ecosystem? Yes. sipi.bot is an HTTP API call your agent makes before spending. It works with any framework, including NeMo-based agents, through the same evaluate_spend endpoint. Get started — $99/mo Framework integrations
 
-Exposed as a Model Context Protocol server (`python -m spendfirewall.mcp_server`):
+---
+# Aporia Guardrails alternative for agent transaction safety — sipi.bot
+# https://sipi.bot/alternatives/aporia-guardrails/
 
-1. `evaluate_spend(amount, merchant, category, description)` — the core call;
-   returns APPROVED / BLOCKED / FLAGGED with a reason.
-2. `register_agent(name)` — create an agent identity and API key.
-3. `add_spend_rule(rule_type, params, action, label)` — add a spend policy rule.
-4. `firewall_status()` — current posture: approved/blocked today, pending approvals.
+Aporia Guardrails alternative for agent transaction safety — sipi.bot By the sipi.bot engineering team · Published 2026-07-17 · Last updated 2026-07-17 Alternative Aporia alternative: spend monitoring for autonomous AI agents Aporia Guardrails monitors your LLM application in production — hallucinations, PII leaks, prompt injections. sipi.bot monitors your agent's spending — over-budget transactions, blocked merchants, runaway loops. Different signals, same principle: catch problems before they cause damage. Production monitoring, two layers Aporia sits as an observability layer between your application and the LLM, monitoring every request and response for quality and safety issues. sipi.bot sits as a decision layer between your agent and its spending tools, evaluating every transaction against your financial policy. Monitoring focus Aporia Guardrails sipi.bot Hallucination detection Yes — monitors response accuracy No PII / sensitive data leaks Yes — detects and blocks No Prompt injection detection Yes — real-time guardrails No Spend policy enforcement No Yes — APPROVED / BLOCKED / FLAGGED per transaction Runaway-loop protection No Yes — velocity rules stop retry spirals Merchant / vendor control No Yes — allowlist and blocklist rules Two monitors, one safe agent The best deployment uses both: Aporia watches what the agent says and the quality of its outputs; sipi.bot watches what the agent buys and the safety of its transactions. Together they cover the two biggest risks of autonomous agents — bad outputs and bad spending. Frequently asked Can Aporia monitor agent spending? Aporia can monitor the text content of spend-related outputs (e.g., checking if a purchase amount is mentioned) but it does not have financial policy enforcement — per-transaction caps, daily totals, merchant rules. sipi.bot provides those. Are sipi.bot and Aporia competitors? No. They monitor different signals. Aporia focuses on LLM output quality and safety; sipi.bot focuses on spend safety. They complement each other in a production agent deployment. Which should I set up first? If your agent can spend money, sipi.bot first — the financial risk is immediate. Add Aporia for output quality monitoring once the spend guardrail is in place. Get started — $99/mo Framework integrations
 
-## Surfaces (all free to call)
+---
+# The Spend Firewall for AI Agents: A Complete Guide (2026)
+# https://sipi.bot/learn/spend-firewall-guide
 
-| Surface | Invocation | Best for |
-|---|---|---|
-| MCP server (stdio) | `python -m spendfirewall.mcp_server` | Claude Code, Cursor, Hermes |
-| HTTP API | `POST https://sipi.bot/v1/transactions/evaluate` | any agent runtime |
-| CLI | `pip install sipi-bot` → `sipi-guard` | shells, CI, cron |
-| Agent card (A2A) | `GET https://sipi.bot/.well-known/agent-card.json` | A2A discovery |
-| OpenAPI spec | `GET https://sipi.bot/openapi.json` | codegen, tool registries |
+The Spend Firewall for AI Agents: A Complete Guide (2026) The Complete Guide The Spend Firewall for AI Agents An autonomous AI agent with a payment method and no spending limit is one infinite retry loop away from a $12,400 bill. A spend firewall is the control layer that sits in front of every transaction the agent attempts, evaluates it against your rules, and returns approve, block, or flag before a single dollar moves. By the sipi.bot engineering team · Published 2026-07-18 · Last updated 2026-07-18 · 8 min read The 2am problem. At 2:14am your agent hits a rate-limit and retries a purchase 40 times. At 2:15am it buys compute from a vendor you've never heard of. At 2:31am it tips an API into an overage tier. At 9:03am you wake up and find out from Stripe. Total: $12,400. Every layer of your stack worked exactly as designed — the only thing missing was a guardrail that said "stop." &lt;5ms pre-spend decision latency 6 rule types every agent needs 53/53 eval scenarios passing Contents 1. What a spend firewall is 2. Why budget caps and observability tools fail 3. The six rule types 4. Architecture: where the firewall sits 5. How to deploy one in 5 lines 6. Framework integrations 7. Agent-commerce rails (x402, AP2, AgentKit) 8. The audit log and compliance 9. What a spend firewall is not 10. FAQ 1. What a spend firewall is A spend firewall is a deterministic control layer that sits between an autonomous AI agent and any action that would move money — an API call, a compute purchase, a tool-triggered payment, a settlement on agent-commerce rails. Every time the agent wants to spend, it asks the firewall first. The firewall evaluates the proposed transaction against a set of rules you configured and returns one of three decisions, in under 5 milliseconds: APPROVED — the transaction passes every active rule. The agent proceeds. The decision is logged. BLOCKED — the transaction violates a hard rule (over a cap, unknown merchant, velocity breach, restricted category, off-hours). No money moves. FLAGGED — the transaction is allowed but crosses an approval threshold. It is routed to a human-in-the-loop approval queue and held until a human resolves it. The third outcome — flag — is what makes a spend firewall qualitatively different from a blunt budget cap. A budget cap has two states: under and over. A spend firewall has three: fine, blocked, and "this might be fine but a human should look." That third state is where most real-world autonomous-agent spend decisions actually live — the $2,000 compute purchase from a vendor you've used before but not at 3am, the $500 API top-up that's within budget but unusual, the ad buy that matches your category rules but spikes velocity. A binary cap either blocks all of these (false positives that break your agent's workflow) or allows all of them (the $12,400 morning). A flag routes them to a human. 2. Why budget caps and observability tools fail The most common objection to a spend firewall is "I already have a budget cap on my LLM provider / gateway / observability tool." This section explains why that isn't enough. The reactive-vs-pre-spend distinction Every existing tool that touches AI spend — LiteLLM , Helicone , OpenRouter , Portkey , Langfuse , OpenAI's billing caps, AWS Budgets — is reactive . They count tokens or dollars after a call completes, compare the running total to a threshold, and then either reject the next call or alert you that a threshold has been crossed. The call that crossed the threshold already completed and already cost you money. A spend firewall is pre-spend . It evaluates the transaction before it fires. The blocked transaction never happens. The flagged transaction is held. This is a categorical difference, not a degree of better — it is the difference between an airbag and a crash report. The velocity gap Reactive tools cannot stop the thing that actually causes catastrophic agent spend: a runaway retry loop . A bug, a rate-limit, a transient network error — your...
 
-## Install & self-host
+---
+# sipi.bot — Pricing
+# https://sipi.bot/pricing
 
-```
-pip install sipi-bot
-python -m spendfirewall.mcp_server     # MCP server
-```
+sipi.bot — Pricing Your agent's spending department Flat price. No metered surprises. You're not paying per API call. You're paying for the peace of mind that no agent ever spends a dollar you didn't authorize. Team $99 / month ✓ Unlimited transaction evaluations ✓ All rule types + human approval queue ✓ Live dashboard + tamper-evident audit log ✓ MCP + HTTP + CLI ✓ Guarantee: green-light a rule violation, month is free Start Team → Business $499 / month ✓ Everything in Team ✓ We manage your spend policy for you ✓ Custom rules + compliance reporting ✓ Priority support + SLA ✓ Webhook + Slack alerts Start Business → Free forever: self-host the open-source core. &nbsp;•&nbsp; ← back What you're paying for, line by line No per-call fees. No usage tiers. No surprise invoices when your agent fleet grows. Capability Self-host (free) Team $99/mo Business $499/mo Transaction evaluations Unlimited Unlimited Unlimited Rule types (per-tx, daily, velocity, merchant, category, time) ✓ All ✓ All ✓ All + custom Human-in-the-loop approval queue ✓ ✓ ✓ Tamper-evident audit log ✓ ✓ Persistent ✓ Persistent + export MCP tool, HTTP API, CLI ✓ ✓ ✓ Hosted dashboard + uptime SLA — ✓ ✓ Priority Managed spend policy (we write your rules) — — ✓ Compliance reporting + webhook/Slack alerts — — ✓ Rule-integrity guarantee — ✓ Month free ✓ Month free Pricing FAQ By the sipi.bot engineering team · Last updated 2026-07-17 Is there a free plan? Yes. The entire open-source core is MIT-licensed and free to self-host forever — full policy engine, dashboard, audit trail, MCP tool, HTTP API, and CLI. The hosted plans add managed infrastructure, persistent log retention, and support. What counts as a "transaction evaluation"? One call to the /v1/transactions/evaluate endpoint — your agent asking "should I spend $X at merchant Y?" Each plan includes unlimited evaluations. There is no per-call fee, no metering, no overage charge. What is the rule-integrity guarantee? If sipi.bot returns "approve" for a transaction that violated one of your active rules, that month's subscription is refunded. The guarantee covers rule-evaluation engine errors, not losses from rules you didn't configure or from acting against a block/flag decision. Can I switch between Team and Business? Yes, at any time from the dashboard. Upgrades are prorated immediately; downgrades take effect at the next billing cycle. No contracts, cancel anytime. Do you offer annual billing or a startup discount? Annual billing (two months free) is available on both plans. For early-stage teams (pre-seed or open-source projects), reach out on GitHub — we offer free hosted Business seats. How fast is a transaction evaluation? Under 5 milliseconds on the hosted endpoint. The firewall runs a deterministic rules engine over SQLite — no ML inference, no network hops — so the latency is bounded and predictable even under burst load. Why trust sipi.bot with your agent's spending Deterministic, not probabilistic The rules engine is pure logic — no ML guessing. If a rule says block at $500, every $501 transaction is blocked, every time, with a reason you can audit. Open source, auditable core The exact code running the hosted service is on GitHub (MIT). You can read every rule-evaluation path and self-host the same engine. Tamper-evident audit log Every decision is written to an append-only SQLite ledger with a content hash chain. You can verify the log hasn't been altered after the fact. &lt;5ms latency One HTTP call before the spend, under 5ms. The firewall doesn't slow down your agent's purchase path — it's faster than the payment API that follows.
 
-Open-source core is MIT-licensed and free to self-host. Stdlib-only Python.
+---
+# About — sipi.bot
+# https://sipi.bot/about
 
-## Proof
+About — sipi.bot About sipi.bot sipi.bot is the spend firewall for autonomous AI agents — the control layer that evaluates every transaction an agent attempts and returns approve, block, or flag before any money moves. Built for the agent economy, open-source (MIT), and free to self-host. Why we built it The agent economy handed autonomous software real spending power — API credits, compute, SaaS, payments — usually backed by a human's credit card and no hard limit. In 2026, 67% of agent teams reported a runaway-spend incident within their first 90 days of deployment, at a median cost of $340 per incident. The worst cases hit five figures overnight. We built sipi.bot because every autonomous agent deserves a guardrail, and every operator deserves to sleep without checking their bank balance. What sipi.bot does sipi.bot sits in front of every transaction an autonomous AI agent attempts. One HTTP call — POST /v1/transactions/evaluate — evaluates the proposed spend against your rules and returns APPROVED, BLOCKED, or FLAGGED in under 5ms. Six rule types are enforced: per-transaction caps, daily totals, velocity limits (runaway-loop protection), merchant allow/block lists, category limits, and time-window constraints. Every decision is written to a tamper-evident audit log, and transactions that need human judgment are routed to an approval queue — not auto-approved and not silently blocked. How it works You define rules: "Max $500 per transaction," "Max $2,000 per day," "Block any merchant matching *.ru," "Require human approval above $1,000." Your agent calls sipi.bot before it spends money. sipi.bot evaluates every active rule in priority order. The first BLOCK rule that matches stops the transaction instantly — no money moves. FLAGGED transactions enter the human-in-the-loop queue. APPROVED transactions proceed. The entire decision path is logged, timestamped, and auditable. Surfaces HTTP API — POST /v1/transactions/evaluate with JSON body, returns JSON decision. Works with any agent runtime. MCP Server — Native Model Context Protocol tool. Claude Code, Cursor, and Hermes call evaluate_transaction directly. CLI — pip install sipi-bot && sipi-guard for shell scripts, CI pipelines, and cron jobs. Agent Card — /.well-known/agent-card.json for A2A (Agent-to-Agent) discovery. Pricing Flat-rate, no per-call fees. Team: $99/month. Business: $499/month. Both include unlimited transaction evaluations. The open-source core is MIT-licensed and free to self-host forever — same rule engine, same latency, no limits. Who's behind it sipi.bot was built by Maryan , a solo founder and AI infrastructure engineer based in Kifisia, Greece. Maryan has been building in the agent-economy stack since 2024 — spend controls, payment protocols (x402, AP2), MCP tooling, and compliance infrastructure. Previously built sanctions screening tools for AI agent payments (sanctionsai.dev) and churn analytics (churnlens.site). Open source The sipi.bot core is open-source under the MIT license. The rule engine, MCP server, CLI, and evaluation logic are all public at github.com/kindrat86/sipi-bot . The hosted version layers billing, dashboard, and approval-queue persistence on top of the same engine. ← Back to sipi.bot
 
-Public eval report: 53/53 scenarios passing — https://sipi.bot/eval
-Human-readable report — https://sipi.bot/eval-report/
-The eval gym covers 9 categories: clean approvals, approval flags, edge cases,
-per-transaction blocks, daily-limit blocks, velocity blocks, merchant blocks,
-category limits, and time windows. If you find a 54th scenario that breaks the
-engine, the team wants to know.
-
-## Complete guide
-
-The definitive guide to spend firewalls for AI agents (2,500 words, 2026):
-https://sipi.bot/learn/spend-firewall-guide
-
-Covers the 6 rule types, why budget caps and observability tools fail (reactive
-vs pre-spend), the firewall architecture, deployment in 5 lines of code,
-framework integrations, agent-commerce rails (x402, AP2, AgentKit), the audit
-log and compliance, and what a spend firewall is not.
-
-## Benchmarks (original data, CC BY 4.0)
-
-- **Runaway incident frequency:** https://sipi.bot/benchmarks/runaway-incident-frequency
-  67% of 312 production agent teams had a runaway incident in 90 days; median
-  cost $340; top decile $5,000+. Root causes: retry loops (44%), prompt injection
-  (23%), unattended sessions (18%).
-- **Agent spend as % of revenue:** https://sipi.bot/benchmarks/agent-spend-percent-of-revenue
-  Median 14% of revenue for AI-native SaaS; teams without pre-spend guardrails
-  spend 30-60% more than peers.
-- **Cost per task:** https://sipi.bot/benchmarks/ai-agent-cost-per-task
-  Median $0.34/task across production agents; range $0.02 (classification) to
-  $4.50 (multi-step research). Top 1% of runaway tasks exceed $50.
-- **Token cost by provider:** https://sipi.bot/benchmarks/token-cost-by-provider
-  Input pricing: GPT-4o-mini $0.15/M, Claude Haiku $0.25/M, Gemini Flash $0.075/M,
-  GPT-4o $2.50/M, Claude Sonnet $3/M, Gemini Pro $3.50/M, GPT-4 $10/M,
-  Claude Opus $15/M. Output is 3-5x input across providers.
-
-## How-to guides
-
-- **Prevent runaway AI costs:** https://sipi.bot/how-to/prevent-runaway-ai-costs
-  5-step playbook: velocity limit → per-transaction cap → merchant allowlist →
-  time windows → human approval threshold.
-- **Set AI budget limits:** https://sipi.bot/how-to/set-ai-budget-limits
-  5-layer budget model: daily total, per-transaction cap, velocity limit,
-  category limits, approval threshold. Example procurement agent budget table.
-- **Reduce AI API costs:** https://sipi.bot/how-to/reduce-ai-api-costs
-  Two levers: pay less per call (right-size models, cache, compress prompts) and
-  make fewer calls (kill retry loops, block unnecessary spend).
-
-## Comparisons (tool-agnostic, fair framing)
-
-- **vs LiteLLM:** https://sipi.bot/vs/litellm — LLM proxy gateway vs pre-spend firewall;
-  they compose (sipi.bot → LiteLLM → provider).
-- **vs Helicone:** https://sipi.bot/vs/helicone — observability vs enforcement;
-  run both.
-- **vs OpenRouter:** https://sipi.bot/vs/openrouter — routing marketplace vs
-  spend governance.
-- **vs Portkey:** https://sipi.bot/vs/portkey — prompt guardrails vs payment
-  guardrails; complementary.
-- **vs Langfuse:** https://sipi.bot/vs/langfuse — tracing vs enforcement.
-- **vs OpenMeter:** https://sipi.bot/vs/openmeter — usage metering/billing vs
-  spend governance.
-
-## Framework integrations
-
-- **OpenAI Agents SDK:** https://sipi.bot/for/openai-agents — register sipi.bot
-  as a function_tool, gate every payment function.
-- **Anthropic Claude agents:** https://sipi.bot/for/anthropic-agents — native
-  MCP integration.
-- **AI coding agents (Claude Code, Cursor, Codex):** https://sipi.bot/for/ai-coding-agents —
-  prevents unattended provisioning loops and retry-spend patterns.
-- **AI trading bots:** https://sipi.bot/for/trading-bots — pre-trade firewall
-  with per-trade caps, velocity limits, venue allowlists.
-- **AI developers:** https://sipi.bot/for/ai-developers — three surfaces
-  (MCP, HTTP, CLI), framework wrappers, eval gym.
-
-Also: LangChain, CrewAI, Vercel AI SDK — client wrappers in the repo.
-
-## Key glossary terms (proprietary vocabulary)
-
-- **Spend firewall:** https://sipi.bot/glossary/spend-firewall — a pre-spend
-  policy layer that evaluates every agent transaction against your rules.
-- **Velocity limit:** https://sipi.bot/glossary/velocity-limit — caps transactions
-  per time window; primary defense against retry loops.
-- **Merchant allowlist:** https://sipi.bot/glossary/merchant-allowlist — blocks
-  unknown vendors by default; defense against prompt-injection.
-- **Agent audit trail:** https://sipi.bot/glossary/agent-audit-trail — tamper-evident,
-  append-only log of every spend decision.
-- **Spend anomaly:** https://sipi.bot/glossary/spend-anomaly — transaction pattern
-  deviating from expected; detected by velocity/merchant/time rules.
-- **Agent spend policy:** https://sipi.bot/glossary/agent-spend-policy — the
-  set of rules governing what an agent is allowed to spend.
-
-## Pricing
-
-Hosted plans: $99/month Team, $499/month Business (unlimited evaluations,
-flat rate, no per-call fees). Open-source core is MIT-licensed and free to
-self-host forever. Pricing page (canonical): https://sipi.bot/pricing
-
-## Key pages
-
-- Home: https://sipi.bot/
-- Complete guide: https://sipi.bot/learn/spend-firewall-guide
-- Dashboard: https://sipi.bot/dashboard
-- Pricing: https://sipi.bot/pricing
-- Eval report (JSON): https://sipi.bot/eval
-- Eval report (human-readable): https://sipi.bot/eval-report/
-- Benchmarks: https://sipi.bot/benchmarks/runaway-incident-frequency
-- How-to: https://sipi.bot/how-to/prevent-runaway-ai-costs
-- Comparisons: https://sipi.bot/vs/litellm
-- Framework integrations: https://sipi.bot/for/openai-agents
-- Agent card (A2A): https://sipi.bot/.well-known/agent-card.json
-- Source: https://github.com/kindrat86/sipi-bot
-
-## Identity
-
-- Publisher: sipi.bot (Sipiteno)
-- Repository: https://github.com/kindrat86/sipi-bot
-- Package: https://pypi.org/project/sipi-bot/
-- License: MIT (core)
-- Contact: sipi@sipi.bot
+---

@@ -38,6 +38,7 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-09 · Last updated 2026-07-09</p>
 <span class="tag">Alternative</span>
 <h1>Spend limits before x402 payments: sipi.bot as an agent-first guardrail</h1>
+<p style="font-size:15px;color:#8a8d96;margin:10px 0 24px;padding:10px 16px;background:rgba(0,212,170,.04);border-left:3px solid #00d4aa;border-radius:0 8px 8px 0;line-height:1.55"><strong>TL;DR:</strong> x402 is a USDC payment protocol for agent-to-agent transactions — it handles the *how* of the payment. sipi.bot handles the *whether*: one call before the x402 transaction approves, blocks, or flags the spend against your policy. They are complementary, not competitive.</p>
 <p class="lead">x402 is the protocol for autonomous agent-to-agent payments in USDC. But it doesn't decide whether the agent *should* spend at all — that's sipi.bot's job. One call before the x402 transaction approves, blocks, or flags the spend against your policy.</p>
 
 <h2>The gap in agent-commerce infrastructure</h2>
@@ -55,6 +56,7 @@ Agent → sipi.bot → BLOCKED (merchant not on allowlist)
 <p>The architecture is additive: sipi.bot is the guardrail upstream of the payment rail. x402 is the money movement; sipi.bot is the spending policy. Both are open-source infrastructure for the agent economy.</p>
 <h2>Frequently asked</h2>
 <div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does sipi.bot replace x402?</h3><p>No. x402 is a payment protocol for USDC transfers between agents. sipi.bot is a spend firewall that decides whether a transaction should proceed — it sits upstream of x402 and approves the spend before the payment is signed.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can sipi.bot and x402 be used together?</h3><p>Yes. The agent calls sipi.bot first, and if the decision is APPROVED, it then signs the x402 payment. If BLOCKED or FLAGGED, no payment occurs. The two are complementary infrastructure.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does sipi.bot handle the x402 payment itself?</h3><p>No. sipi.bot is a policy engine, not a payment processor. It evaluates the transaction and returns a decision; your agent or payment stack executes the actual transfer.</p></div>
+<p style="margin:20px 0;font-size:14px;color:#8a8d96">📊 <a href="/learn/how-to-control-ai-agent-spending" style="color:#00d4aa;text-decoration:underline">Compare all 5 approaches to controlling AI agent spending →</a></p>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
 </div></main>

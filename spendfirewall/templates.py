@@ -148,16 +148,7 @@ def landing_page_html() -> str:
 <meta name="twitter:description" content="Pre-spend firewall for autonomous AI agents: approve, block, or flag every agent transaction before a dollar moves.">
 <meta name="twitter:image" content="https://sipi.bot/og.png">
 <meta name="theme-color" content="#00d4aa">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","alternateName":["sipibot","sipi bot","sipi.bot spend firewall"],"url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents \u2014 a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds.","disambiguatingDescription":"sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) \u2014 not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/","https://x.com/MaryanK499484","https://www.linkedin.com/in/maryan-k/"],"knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","API Spend Governance","x402 Payment Protocol","Agent Transaction Monitoring","Runaway AI Cost Prevention","Agent Budget Management","Multi-Agent Spend Orchestration"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot \u2014 The Pre-Spend Firewall for Autonomous AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-17","author":{"@id":"https://sipi.bot/#person"}},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","alternateName":["sipibot","sipi bot"],"applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","disambiguatingDescription":"A payment-control spend firewall API for autonomous AI agents \u2014 not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules \u2014 approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"Hosted plans are flat-rate: Team is $99/month and Business is $499/month, both with unlimited transaction evaluations \u2014 no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each."}},{"@type":"Question","name":"Is sipi.bot a SIP, voice, or telephony product?","acceptedAnswer":{"@type":"Answer","text":"No. Despite the name, sipi.bot has nothing to do with SIP, VoIP, or voice, and it is not a bot-management or 'block AI bots' tool. sipi.bot is a spend firewall that governs how much money autonomous AI agents can spend."}}]},{"@type":"SpeakableSpecification","cssSelector":["h1","h2","p"]},{"@type":"Person","@id":"https://sipi.bot/#person","name":"Maryan","givenName":"Maryan","description":"Solo founder and AI infrastructure engineer. Building in the agent-economy stack since 2024 \u2014 spend controls, payment protocols (x402, AP2), MCP tooling, and compliance infrastructure.","knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","x402 Payment Protocol","MCP Tooling","Agent Infrastructure"],"sameAs":["https://github.com/kindrat86","https://x.com/MaryanK499484"],"jobTitle":"Founder","worksFor":{"@id":"https://sipi.bot/#org"},"nationality":{"@type":"Country","name":"Greece"}},{"@type":"Review","@id":"https://sipi.bot/#review-1","itemReviewed":{"@id":"https://sipi.bot/#app"},"author":{"@type":"Person","name":"AI Infrastructure Lead"},"reviewBody":"Deployed a multi-agent purchasing system. sipi.bot caught a retry loop at 2am \u2014 40 blocked transactions before a dollar moved. That single catch paid for 3 years of the Pro plan.","reviewRating":{"@type":"Rating","ratingValue":5,"bestRating":5}},{"@type":"Review","@id":"https://sipi.bot/#review-2","itemReviewed":{"@id":"https://sipi.bot/#app"},"author":{"@type":"Person","name":"Platform Engineering Lead"},"reviewBody":"We run 12 autonomous agents across 3 clouds. The daily cap rule caught a $2,200 overage before it compounded into a $15K month-end surprise. The audit log alone replaced 3 internal tools.","reviewRating":{"@type":"Rating","ratingValue":5,"bestRating":5}},{"@type":"Review","@id":"https://sipi.bot/#review-3","itemReviewed":{"@id":"https://sipi.bot/#app"},"author":{"@type":"Person","name":"Agent Framework Author"},"reviewBody":"5ms latency. MCP-native. One curl call before every x402 payment. That's it. No dashboard I have to check, no budget I have to remember. The firewall is just there \u2014 the way it should be.","reviewRating":{"@type":"Rating","ratingValue":5,"bestRating":5}}]}</script>
-<!-- BreadcrumbList standalone -->
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb-standalone","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"Pricing","item":"https://sipi.bot/pricing"},{"@type":"ListItem","position":3,"name":"FAQ","item":"https://sipi.bot/#faq"}]}</script>
-<!-- WebSite standalone -->
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","@id":"https://sipi.bot/#website-standalone","name":"sipi.bot","url":"https://sipi.bot/","description":"Pre-spend firewall for autonomous AI agents — approve, block, or flag every agent transaction before a dollar moves.","publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"},"inLanguage":"en-US","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://sipi.bot/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
-<!-- FAQPage standalone -->
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://sipi.bot/#faq-standalone","mainEntity":[{"@type":"Question","name":"What is sipi.bot?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds."}},{"@type":"Question","name":"How does sipi.bot protect against runaway AI spending?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot evaluates every transaction request in under 5ms before money moves. It enforces per-transaction caps, daily totals, velocity limits, and merchant allowlists. If a rule is violated, the transaction is BLOCKED instantly — you wake up to a clean log, not a drained account."}},{"@type":"Question","name":"Which payment protocols does sipi.bot support?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot works with any HTTP-based payment pipeline: x402, AP2, AgentKit (Coinbase), Stripe agent tooling, LangChain, CrewAI, and the Model Context Protocol (MCP). It's protocol-agnostic — if your agent speaks HTTP, sipi.bot can gate it."}},{"@type":"Question","name":"Is there a free tier?","acceptedAnswer":{"@type":"Answer","text":"Yes — sipi.bot offers a free tier with no credit card required. Paid plans unlock higher transaction volumes, advanced rule types, and team features."}},{"@type":"Question","name":"How fast is the API?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot decisions return in under 5ms. It's designed to sit inline in payment pipelines without adding perceptible latency."}}]}</script>
-<!-- Organization standalone -->
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://sipi.bot/#org-standalone","name":"sipi.bot","url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/"]}</script>
-<style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}<link rel="stylesheet" href="/ux.css"><script src="/ux.js" defer></script></head><body>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","alternateName":["sipibot","sipi bot","sipi.bot spend firewall"],"url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds.","disambiguatingDescription":"sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/","https://x.com/MaryanK499484","https://www.linkedin.com/in/maryan-k/"],"knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","API Spend Governance","x402 Payment Protocol","Agent Transaction Monitoring","Runaway AI Cost Prevention","Agent Budget Management","Multi-Agent Spend Orchestration"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-17","author":{"@id":"https://sipi.bot/#person"}},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","alternateName":["sipibot","sipi bot"],"applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","disambiguatingDescription":"A payment-control spend firewall API for autonomous AI agents — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"Hosted plans are flat-rate: Team is $99/month and Business is $499/month, both with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each."}},{"@type":"Question","name":"Is sipi.bot a SIP, voice, or telephony product?","acceptedAnswer":{"@type":"Answer","text":"No. Despite the name, sipi.bot has nothing to do with SIP, VoIP, or voice, and it is not a bot-management or 'block AI bots' tool. sipi.bot is a spend firewall that governs how much money autonomous AI agents can spend."}},{"@type":"Question","name":"How does sipi.bot protect against runaway AI spending?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot evaluates every transaction request in under 5ms before money moves. It enforces per-transaction caps, daily totals, velocity limits, and merchant allowlists. If a rule is violated, the transaction is BLOCKED instantly — you wake up to a clean log, not a drained account."}},{"@type":"Question","name":"Which payment protocols does sipi.bot support?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot works with any HTTP-based payment pipeline: x402, AP2, AgentKit (Coinbase), Stripe agent tooling, LangChain, CrewAI, and the Model Context Protocol (MCP). It's protocol-agnostic — if your agent speaks HTTP, sipi.bot can gate it."}},{"@type":"Question","name":"Can I try sipi.bot for free?","acceptedAnswer":{"@type":"Answer","text":"Yes — you can call the evaluate API right now, free, with no signup and no credit card. Send a POST to /v1/transactions/evaluate and get a decision in under 5ms — 100 calls per minute per IP with no account required. Paid plans unlock advanced rule types, team features, and dedicated support."}},{"@type":"Question","name":"How fast is the API?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot decisions return in under 5ms. It's designed to sit inline in payment pipelines without adding perceptible latency."}}]},{"@type":"SpeakableSpecification","cssSelector":["h1","h2","p"]},{"@type":"Person","@id":"https://sipi.bot/#person","name":"Maryan","givenName":"Maryan","description":"Solo founder and AI infrastructure engineer. Building in the agent-economy stack since 2024 — spend controls, payment protocols (x402, AP2), MCP tooling, and compliance infrastructure.","knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","x402 Payment Protocol","MCP Tooling","Agent Infrastructure"],"sameAs":["https://github.com/kindrat86","https://x.com/MaryanK499484"],"jobTitle":"Founder","worksFor":{"@id":"https://sipi.bot/#org"},"nationality":{"@type":"Country","name":"Greece"}}]}</script><style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}<link rel="stylesheet" href="/ux.css"><script src="/ux.js" defer></script></head><body>
 <nav><div class="wrap">
   <div class="brand">sipi<span class="dot">.bot</span></div>
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
@@ -167,6 +158,7 @@ def landing_page_html() -> str:
     <a href="#false-beliefs">Beliefs</a>
     <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
+    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>
     <a href="/dashboard" class="btn">Live Dashboard</a>
   </div>
 </div></nav>
@@ -176,10 +168,21 @@ def landing_page_html() -> str:
   <span class="tag">Spend controls for the agent economy</span>
   <h1>Your AI agent just spent<br><span class="hl">$12,400 while you slept.</span></h1>
   <p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 10px"><span rel="author">By Maryan — founder, sipi.bot</span> · Published 2026-07-08 · Last updated 2026-07-18 · <a href="#origin" style="color:var(--accent)">Read the origin story →</a></p>
+  <p style="font-size:15px;color:#8a8d96;margin:6px 0 14px;padding:10px 16px;background:rgba(0,212,170,.04);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;text-align:left;max-width:680px;margin-left:auto;margin-right:auto"><strong>TL;DR:</strong> sipi.bot is a pre-spend firewall for autonomous AI agents — one HTTP call evaluates every transaction against per-tx caps, velocity limits, and merchant rules, returning approve, block, or flag in under 5ms before any money moves. Flat $99/month, MIT open-source core, MCP-native.</p>
   <p class="sub"><strong>sipi.bot is a spend firewall for autonomous AI agents:</strong> it evaluates every transaction against your rules and returns approve, block, or flag in under 5ms — before a single dollar moves. You gave an autonomous agent your credit card and no spending limit; sipi.bot is the control layer that sits in front of it. <a href="/learn/spend-firewall-guide" style="color:var(--accent);text-decoration:underline">Read the complete spend firewall guide →</a></p>
   <a href="/pricing" class="btn">Protect my agent</a>
-  &nbsp;&nbsp;<a href="#how" class="btn ghost">See how it works</a>
-  &nbsp;&nbsp;<a href="/masterclass" class="btn ghost">Free masterclass →</a>
+  <span style="margin-left:16px"><a href="#how" style="color:var(--mut);font-size:14px;text-decoration:underline">See how it works</a>
+  &nbsp;<a href="/masterclass" style="color:var(--mut);font-size:14px;text-decoration:underline">Free masterclass</a>
+  &nbsp;<a href="/dashboard" style="color:var(--mut);font-size:14px;text-decoration:underline">Live dashboard</a></span>
+  <!-- TRY IT NOW -->
+  <div class="codebox mono" style="max-width:620px;margin:24px auto 0;text-align:left">
+<p style="color:var(--accent);font-weight:700;margin-bottom:8px;font-size:14px">✨ Try it right now — no signup, no key. Copy, paste, run.</p>
+curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
+&nbsp;&nbsp;-H <span class="s">"Content-Type: application/json"</span> \\<br>
+&nbsp;&nbsp;-d <span class="s">'{"amount": 12400, "currency": "USD", "merchant": "example-vendor"}'</span><br><br>
+<span class="c"># Returns in &lt;5ms:</span><br>
+{ <span class="k">"decision"</span>: <span class="s">"BLOCKED"</span>, <span class="k">"reason"</span>: <span class="s">"Block any single transaction over $500"</span>, <span class="k">"rule_id"</span>: <span class="s">"rul_d8edb12ffa"</span>, <span class="k">"transaction_id"</span>: <span class="s">"txn_e340f0e12489"</span>, <span class="k">"amount"</span>: <span class="k">12400.0</span>, <span class="k">"merchant"</span>: <span class="s">"example-vendor"</span> }
+  </div>
   <div class="kpis mt40">
     <div class="kpi"><div class="n">&lt;5ms</div><div class="l">decision latency</div></div>
     <div class="kpi"><div class="n">3</div><div class="l">outcomes: approve / block / flag</div></div>
@@ -484,6 +487,9 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     </ul>
     <div style="border-top:1px dashed var(--line);padding-top:14px;display:flex;justify-content:space-between;align-items:baseline">
       <span style="font-size:14px;color:var(--mut)">Total value</span>
+      <!-- 2026-07-24: was $1,295/mo — copy-pasted from a different value
+      stack elsewhere on this page. This stack's own 6 line items
+      (1,200+400+300+250+150+200) sum to $2,500/mo. -->
       <strong style="color:var(--mut);text-decoration:line-through;font-size:18px">$2,500/mo</strong>
     </div>
     <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:6px">
@@ -504,8 +510,10 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       <li><span class="c">✓</span> MCP tool + HTTP API + CLI</li>
       <li><span class="c">✓</span> <strong>Guarantee:</strong> if we green-light a spend that breaks your rule, that month is free</li>
     </ul>
-    <a href="/checkout/team" class="btn" style="width:100%">Start the free pilot</a>
-    <p class="mono" style="color:var(--mut);font-size:13px;margin-top:14px">Free self-host core &nbsp;•&nbsp; open on GitHub</p>
+    <a href="/playground/" class="btn" style="width:100%">Try it free in the playground</a>
+    <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{tier:'team',location:'homepage_pricing'})" class="btn ghost" style="width:100%;margin-top:10px">Start Team — $99/mo</a>
+    <p style="color:var(--accent);font-size:12px;margin-top:10px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
+    <p class="mono" style="color:var(--mut);font-size:13px;margin-top:10px">Free self-host core &nbsp;•&nbsp; open on GitHub</p>
     <form class="form" style="flex-direction:column" onsubmit="return sub(event)">
       <div style="display:flex;gap:8px;width:100%">
         <label for="em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="em" placeholder="you@company.com" required>
@@ -541,18 +549,12 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
         <label for="pb-em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="pb-em" placeholder="you@company.com" required style="flex:1">
         <button class="btn" type="submit">Send me Day 1 →</button>
       </div>
-      <!-- ORDER BUMP (DotCom Ch 14) — default-checked add-on for the playbook form -->
-      <label for="order-bump" style="display:block;cursor:pointer;margin:12px 0 0;padding:12px 14px;background:var(--panel2);border:2px solid var(--accent);border-radius:10px;transition:border-color .2s">
-        <div style="display:flex;align-items:flex-start;gap:10px">
-          <input type="checkbox" id="order-bump" checked style="margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex-shrink:0">
-          <div>
-            <span style="font-weight:700;color:var(--txt);font-size:15px">YES! Add the First $10K Safe deployment checklist</span>
-            <span style="display:inline-block;background:var(--accent);color:#000;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle">Save $20</span>
-            <p style="margin:4px 0 0;font-size:13px;color:var(--mut);line-height:1.5">5-point checklist for verifying your spend firewall before going live. Normally $27 — add it now for just <strong style="color:var(--accent)">$7</strong> one-time. Delivered with Day 1.</p>
-            <p style="margin:4px 0 0;font-size:11px;color:var(--mut);font-style:italic">Checked by default — uncheck to skip</p>
-          </div>
-        </div>
-      </label>
+      <!-- 2026-07-24: removed the "$7 order bump" checkbox here — it posted
+      order_bump:true to /subscribe, but the backend never read that field:
+      no charge was ever collected and no bump-specific deliverable was ever
+      sent. Checked-by-default + silently-dropped is the single worst
+      trust/honesty defect on this page. Re-add only once a real $7 Stripe
+      price + fulfillment path exists. See conversion-audit-scored-2026-07-24. -->
       <p class="msg-inline" aria-live="polite" style="color:var(--accent);font-size:14px;margin:10px 0 0;text-align:center"></p>
     </form>
     <p style="font-size:12.5px;color:var(--mut);margin:12px 0 0">Joining the list does not sign you up for anything paid. The hosted plan is a separate checkout.</p>
@@ -598,6 +600,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <a href="/alternatives/x402/">x402 alternative</a> ·
     <a href="/self-hosted/">self-hosted / open source</a> ·
     <a href="/benchmarks/">spend benchmarks</a> ·
+    <a href="/learn/how-to-control-ai-agent-spending">5 approaches compared</a> ·
     <a href="/best/">best-of comparisons</a>
   </div>
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
@@ -617,10 +620,9 @@ var msgEl=form.querySelector('.msg-inline')||document.getElementById('msg');
 var ref=document.getElementById('ref')?document.getElementById('ref').value:'';
 if(!email){return false;}
 var btn=form.querySelector('button[type=submit]');if(btn){btn.disabled=true;var orig=btn.textContent;btn.textContent='Sending...';}
-var bump=form.querySelector('#order-bump');var orderBump=bump?bump.checked:false;
 fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
-body:JSON.stringify({email:email,ref:ref,order_bump:orderBump})})
-.then(r=>r.json()).then(d=>{if(msgEl){msgEl.textContent=d.message||'You are on the list.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
+body:JSON.stringify({email:email,ref:ref})})
+.then(r=>r.json()).then(d=>{if(window.posthog)posthog.capture('course_subscribed',{source:'homepage'});if(msgEl){msgEl.textContent=d.message||'You are on the list.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
 .catch(()=>{if(msgEl){msgEl.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
 return false;}
 </script>
@@ -758,14 +760,14 @@ return false;}
 <section style="background:linear-gradient(135deg, #0f172a, #1e293b);color:#e8eaed;padding:40px 24px;margin:60px 0 0;border-top:3px solid #00d4aa;text-align:center;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">
   <div style="max-width:900px;margin:0 auto">
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:28px;margin-bottom:28px">
-      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">$12.4K</span><br><span style="font-size:.82rem;color:#94a3b8">Prevented Per Incident</span></div>
+      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">$12.4K</span><br><span style="font-size:.82rem;color:#94a3b8">Loss That Inspired This</span></div>
       <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">Real-time</span><br><span style="font-size:.82rem;color:#94a3b8">Spend Monitoring</span></div>
       <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">MCP</span><br><span style="font-size:.82rem;color:#94a3b8">Native Integration</span></div>
       <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">Free</span><br><span style="font-size:.82rem;color:#94a3b8">To Start</span></div>
     </div>
     <p style="font-size:1.05rem;margin-bottom:24px;color:#cbd5e1">Your AI agent should not have unlimited spending power. Put a firewall between it and your wallet.</p>
-    <a href="https://sipi.bot/#try-free" style="display:inline-block;background:linear-gradient(135deg,#00d4aa,#2deec0);color:#04130e;padding:14px 32px;border-radius:12px;font-weight:700;text-decoration:none;font-size:.95rem;box-shadow:0 8px 24px -10px rgba(0,212,170,.5)">Start Free</a>
-    <p style="margin-top:18px;font-size:.78rem;color:#6b7178">Free tier includes 5,000 checks/mo. No credit card. Pay only when you scale.</p>
+    <a href="/playground/" style="display:inline-block;background:linear-gradient(135deg,#00d4aa,#2deec0);color:#04130e;padding:14px 32px;border-radius:12px;font-weight:700;text-decoration:none;font-size:.95rem;box-shadow:0 8px 24px -10px rgba(0,212,170,.5)">Try it free — no signup</a>
+    <p style="margin-top:18px;font-size:.78rem;color:#6b7178">Call the API right now — 100 checks/min per IP, no key, no credit card. See the curl example below.</p>
   </div>
 </section>
 <!-- /BRUNSON TRUST BAR -->
@@ -807,6 +809,7 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
     <a href="/#how">How it works</a>
     <a href="/#faq">FAQ</a>
     <a href="/pricing">Pricing</a>
+    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>
     <a href="/dashboard" class="btn">Live Dashboard</a>
   </div>
 </div></nav>
@@ -1058,6 +1061,7 @@ input,select{{background:var(--panel2);border:1px solid var(--line);color:var(--
     <div class="kpi"><div class="n" id="k-pending">0</div><div class="l">pending approvals</div></div>
     <div class="kpi"><div class="n" id="k-agents">0</div><div class="l">active agents</div></div>
   </div>
+  <div style="background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.3);border-radius:10px;padding:10px 16px;margin-bottom:16px;text-align:center;font-size:13px;color:var(--accent);font-weight:600">Demo data — sample traffic, not live customer transactions.</div>
   <div class="tabs mt24">
     <div class="tab on" data-t="live">Live activity</div>
     <div class="tab" data-t="approvals">Approvals</div>
@@ -1166,6 +1170,15 @@ def pricing_html() -> str:
   <h1 style="font-size:clamp(28px,5vw,44px)">Flat price. No metered surprises.</h1>
   <p class="sub">You're not paying per API call. You're paying for the peace of mind that no
   agent ever spends a dollar you didn't authorize.</p>
+  <!-- Playground — $0 — the first rung -->
+  <div style="max-width:440px;margin:18px auto 0;text-align:center">
+    <div class="price" style="margin:0 auto;border-color:rgba(0,212,170,.15)">
+      <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)">Playground</div>
+      <div class="amt">$0</div>
+      <p style="color:var(--mut);font-size:15px;margin:8px 0 14px">Try rules against sample spend — no signup, no install</p>
+      <a href="/playground/" onclick="if(window.posthog)posthog.capture('playground_opened',{{source:'pricing'}})" class="btn" style="width:100%">Open playground →</a>
+    </div>
+  </div>
   <div class="grid2" style="max-width:820px;margin:30px auto 0;text-align:left">
     <div class="price" style="margin:0">
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Team</div>
@@ -1177,7 +1190,8 @@ def pricing_html() -> str:
         <li><span class="c">✓</span> MCP + HTTP + CLI</li>
         <li><span class="c">✓</span> Guarantee: green-light a rule violation, month is free</li>
       </ul>
-      <a href="/checkout/team" class="btn" style="width:100%">Start Team →</a>
+      <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{{tier:'team',location:'pricing_page'}})" class="btn" style="width:100%">Start Team →</a>
+      <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
     </div>
     <div class="price" style="margin:0;border-color:var(--line)">
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Business</div>
@@ -1189,7 +1203,8 @@ def pricing_html() -> str:
         <li><span class="c">✓</span> Priority support + SLA</li>
         <li><span class="c">✓</span> Webhook + Slack alerts</li>
       </ul>
-      <a href="/checkout/business" class="btn ghost" style="width:100%">Start Business →</a>
+      <a href="/checkout/business" onclick="if(window.posthog)posthog.capture('checkout_clicked',{{tier:'business',location:'pricing_page'}})" class="btn ghost" style="width:100%">Start Business →</a>
+      <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
     </div>
   </div>
   <p class="mono" style="color:var(--mut);font-size:13px;margin-top:26px">
@@ -1386,7 +1401,9 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\\\<br>
     </div>
 
     <div style="text-align:center">
-      <a href="/pricing" class="btn" style="font-size:18px;padding:16px 36px">Protect my agent — Start free pilot →</a>
+      <a href="/playground/" class="btn" style="font-size:18px;padding:16px 36px">Try it free in the playground</a>
+      <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{{tier:'team',location:'masterclass'}})" class="btn ghost" style="font-size:16px;padding:14px 30px;margin-left:12px">Start Team — $99/mo</a>
+      <p style="color:var(--accent);font-size:13px;margin-top:12px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
       <p style="color:var(--mut);font-size:14px;margin-top:14px">Free self-host core · MIT licensed · <a href="https://github.com/kindrat86/sipi-bot" style="color:var(--accent)">Open on GitHub</a></p>
     </div>
   </div>
@@ -1437,9 +1454,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 .btn:hover{opacity:.9;transform:translateY(-1px)}
 .secondary{color:var(--mut);font-size:.9em;margin-top:12px}
 .secondary a{color:var(--mut);text-decoration:underline}
-.testimonial{background:var(--card);border-left:3px solid var(--accent);padding:20px 24px;border-radius:0 10px 10px 0;margin:24px 0}
-.testimonial .quote{color:var(--text);font-style:italic;font-size:.95em}
-.testimonial .attr{color:var(--mut);font-size:.85em;margin-top:8px}
+
 .faq{margin:40px 0}
 .faq h3{color:var(--white);font-size:1.1em;margin-bottom:16px}
 .faq .q{color:var(--accent);font-weight:600;margin:16px 0 4px}
@@ -1490,15 +1505,7 @@ footer a{color:var(--mut)}
 <p class="secondary">One-time payment. Delivered to your email in under 10 minutes. <a href="/">No thanks, I'll take my chances →</a></p>
 </div>
 
-<div class="testimonial">
-<div class="quote">"The audit found a velocity rule gap I'd missed — my agent retried a failed payment 40 times in testing. Fixed it before production. The $7 paid for itself 1,700x over."</div>
-<div class="attr">— Platform Engineering Lead, Series B SaaS, Berlin</div>
-</div>
-
-<div class="testimonial">
-<div class="quote">"I thought my agent was safe because I set a $200 per-tx cap. The audit showed 14 small transactions that added up to $2,800. I had no daily total rule. Fixed in 2 minutes."</div>
-<div class="attr">— AI Infrastructure Lead, FinTech, London</div>
-</div>
+<!-- TESTIMONIALS REMOVED 2026-07-23: no verified named attribution. Restore only with real users. -->
 
 <div class="faq">
 <h3>Quick answers</h3>
@@ -1825,8 +1832,8 @@ def blog_page_html() -> str:
 <meta name="article:published_time" content="2026-07-21T00:00:00+00:00">
 <meta name="article:author" content="Maryan">
 <meta name="theme-color" content="#00d4aa">
-<script type="application/ld+json">{{"@context":"https://***@type":"Article","@id":"https://sipi.bot/blog/#article","headline":"How my own AI agent spent $12,400 while I slept — and the firewall I built to stop it","url":"https://sipi.bot/blog/","description":"The origin story of sipi.bot: a runaway AI agent spent $12,400 in 7 hours. Here's how the spend firewall was built to stop it from happening again.","datePublished":"2026-07-21T00:00:00+00:00","dateModified":"2026-07-21T00:00:00+00:00","author":{{"@type":"Person","name":"Maryan","url":"https://sipi.bot/about/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}},"image":"https://sipi.bot/og.png","mainEntityOfPage":"https://sipi.bot/blog/"}}</script>
-<script type="application/ld+json">{{"@context":"https://***@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}},{{"@type":"ListItem","position":2,"name":"Blog","item":"https://sipi.bot/blog/"}}]}}</script>
+<script type="application/ld+json">{{"@context":"https://schema.org","@type":"Article","@id":"https://sipi.bot/blog/#article","headline":"How my own AI agent spent $12,400 while I slept — and the firewall I built to stop it","url":"https://sipi.bot/blog/","description":"The origin story of sipi.bot: a runaway AI agent spent $12,400 in 7 hours. Here's how the spend firewall was built to stop it from happening again.","datePublished":"2026-07-21T00:00:00+00:00","dateModified":"2026-07-21T00:00:00+00:00","author":{{"@type":"Person","name":"Maryan","url":"https://sipi.bot/about/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}},"image":"https://sipi.bot/og.png","mainEntityOfPage":"https://sipi.bot/blog/"}}</script>
+<script type="application/ld+json">{{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}},{{"@type":"ListItem","position":2,"name":"Blog","item":"https://sipi.bot/blog/"}}]}}</script>
 <style>{CSS}</style>{{POSTHOG_SNIPPET}}{{GA4_SNIPPET}}<link rel="stylesheet" href="/ux.css"><script src="/ux.js" defer></script></head><body>
 <nav><div class="wrap">
   <div class="brand"><a href="/" style="color:var(--txt)">sipi<span class="dot">.bot</span></a></div>
@@ -1834,6 +1841,7 @@ def blog_page_html() -> str:
   <div class="nav-links" id="mainnav">
     <a href="/">Home</a>
     <a href="/pricing">Pricing</a>
+    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>
     <a href="/dashboard" class="btn">Live Dashboard</a>
   </div>
 </div></nav>

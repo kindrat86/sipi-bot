@@ -40,6 +40,7 @@ ol li,ul li{margin-bottom:8px;line-height:1.6}
 <p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-17 · Last updated 2026-07-17</p>
 <span class="tag">Alternative</span>
 <h1>Prompt Security alternative: spend firewalls for the agent economy</h1>
+<p style="font-size:15px;color:#8a8d96;margin:10px 0 24px;padding:10px 16px;background:rgba(0,212,170,.04);border-left:3px solid #00d4aa;border-radius:0 8px 8px 0;line-height:1.55"><strong>TL;DR:</strong> Prompt Security protects against prompt injection and jailbreak attacks. sipi.bot protects against runaway agent spending. Different threats, same real-time enforcement pattern — the agent checks before it acts, whether the action is a model response or a financial transaction.</p>
 <p class="lead">Prompt Security protects your LLM from injection attacks and data leaks. sipi.bot protects your wallet from runaway agent spending. Both are guardrails — one for security, one for finance — and both belong in a production agent stack.</p>
 
 <h2>Input security vs output security vs spend security</h2>
@@ -55,6 +56,7 @@ ol li,ul li{margin-bottom:8px;line-height:1.6}
 <p>Skip any layer and you have a gap. Prompt Security catches the injection attack that tries to trick the agent into revealing secrets; sipi.bot catches the transaction the agent makes after a successful prompt injection convinces it to buy from a malicious vendor.</p>
 <h2>Frequently asked</h2>
 <div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does Prompt Security prevent agent overspending?</h3><p>Prompt Security prevents prompt-level attacks but does not enforce financial policy — per-transaction caps, daily totals, or merchant rules. A legitimate agent with no injection can still overspend; sipi.bot catches that.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can a prompt injection bypass sipi.bot?</h3><p>No, because sipi.bot evaluates the transaction itself — the amount, the merchant, the category — not the prompt that generated it. Even if an injection convinces the agent to spend, the firewall blocks the transaction if it violates your rules.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">How do sipi.bot and Prompt Security work together?</h3><p>They&#x27;re complementary security layers. Prompt Security = protect the LLM from attacks. sipi.bot = protect your money from overspend. Both are necessary for production agents that handle sensitive data and spend real money.</p></div>
+<p style="margin:20px 0;font-size:14px;color:#8a8d96">📊 <a href="/learn/how-to-control-ai-agent-spending" style="color:#00d4aa;text-decoration:underline">Compare all 5 approaches to controlling AI agent spending →</a></p>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
 </div></main>

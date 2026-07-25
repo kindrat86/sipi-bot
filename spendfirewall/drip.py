@@ -47,9 +47,14 @@ def _send_resend(to_email: str, subject: str, html_body: str) -> dict:
     req = urllib.request.Request(
         "https://api.resend.com/emails",
         data=payload,
+        # Explicit User-Agent: Cloudflare (fronting Resend's API) 403s
+        # urllib's default UA with a plaintext "error code: 1010" body,
+        # before Resend itself ever sees the request. Same root cause
+        # already found and fixed in sanctionsai's api.py (2026-07-24).
         headers={
             "Authorization": f"Bearer {_RESEND_API_KEY}",
             "Content-Type": "application/json",
+            "User-Agent": "sipi-bot-drip/1.0 (+curl-compatible)",
         },
         method="POST",
     )
@@ -399,7 +404,7 @@ _SEINFELD_CONTENT = [
     # Day 22
     """<p>sipi.bot integrates with Stripe for payment processing. Here's a quick tip to make the integration smoother:</p>
 <p><strong>Use webhook-based API key provisioning:</strong> When a customer completes a Stripe checkout, sipi.bot's webhook handler automatically issues their API key and sends it via email. No manual key generation, no support ticket, no waiting.</p>
-<p><strong>Test mode first:</strong> Use Stripe test mode with sipi.bot's free tier. Verify the integration end-to-end before switching to live mode. The webhook handler works identically in both environments.</p>
+<p><strong>Test mode first:</strong> Use Stripe test mode with sipi.bot. The evaluate API is free with no signup — verify the integration end-to-end before switching to live mode. The webhook handler works identically in both environments.</p>
 <p><strong>Idempotency:</strong> The webhook handler is idempotent — if Stripe retries a webhook, the same customer doesn't get multiple API keys. Safe for production.</p>
 <p>The integration is documented at <a href="/docs">sipi.bot/docs</a>. But honestly, in most cases you don't need to touch it — the default behavior (Stripe checkout → webhook → API key emailed → ready) works out of the box.</p>""",
     # Day 23
@@ -439,7 +444,7 @@ _SEINFELD_CONTENT = [
     # Day 28
     """<p>Every agent that can spend money needs a firewall — not next quarter, not after the compliance notice. Before you deploy. Here's how to think about this:</p>
 <p><strong>If your agent has a payment method,</strong> it needs sipi.bot between it and the money. No exceptions. The question isn't "will it make a mistake?" It's "when it makes a mistake, how much will it cost?"</p>
-<p><strong>If your agent is in development,</strong> add sipi.bot now. The free tier covers 5,000 checks/month. You'll catch bugs in testing before they become production incidents. The eval scenarios become your test suite.</p>
+<p><strong>If your agent is in development,</strong> add sipi.bot now. You can call the evaluate API right now — free, no signup, no credit card, 100 checks/min per IP. You'll catch bugs in testing before they become production incidents. The eval scenarios become your test suite.</p>
 <p><strong>If your agent is in production without a firewall,</strong> add one today. The most expensive time to add safety is after the incident. The second-most expensive is never.</p>
 <p>Agent autonomy isn't about trusting the prompt. It's about building systems that make trust unnecessary. The firewall is that system. One curl call, under 5ms, before every dollar moves.</p>""",
     # Day 29
@@ -450,8 +455,8 @@ _SEINFELD_CONTENT = [
 <p>At enterprise scale, the firewall isn't just about stopping disasters. It's about making agent spend visible, auditable, and controllable — the same way you manage any other procurement channel.</p>""",
     # Day 30
     """<p>You made it. 30 days of agent spend governance tips. Here's what to do next:</p>
-<p><strong>1. If you haven't deployed sipi.bot yet:</strong> Start with the free tier. 5,000 checks/month, no credit card. <a href="/">sipi.bot → Start Free</a></p>
-<p><strong>2. If you're on the free tier:</strong> Review your first month's audit log. If you caught even one issue, you know the value. Team plan is $99/mo — unlimited checks.</p>
+<p><strong>1. If you haven't deployed sipi.bot yet:</strong> Call the API right now — free, no signup, no credit card. 100 checks/min per IP. <a href="/#try-free">sipi.bot → Try it free</a></p>
+<p><strong>2. If you're testing the API:</strong> Review your first month's audit log. If you caught even one issue, you know the value. Team plan is $99/mo — unlimited checks.</p>
 <p><strong>3. If you're on a paid plan:</strong> Check the new rule templates (Day 21). Tune your time-of-day rules (Day 18). Set up category rules if you haven't yet (Day 16).</p>
 <p><strong>4. Whatever stage you're at:</strong> Share this with one other person building autonomous agents. The more people who deploy spend firewalls BEFORE the first disaster, the faster this becomes standard practice.</p>
 <p>The agent economy is coming. The payment rails are being built. The spend firewall is the missing piece that makes it safe. Thanks for reading — and for building responsibly.</p>

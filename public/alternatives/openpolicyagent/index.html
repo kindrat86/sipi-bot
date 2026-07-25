@@ -40,6 +40,7 @@ ol li,ul li{margin-bottom:8px;line-height:1.6}
 <p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-17 · Last updated 2026-07-17</p>
 <span class="tag">Alternative</span>
 <h1>Open Policy Agent alternative: purpose-built spend firewalls for AI agents</h1>
+<p style="font-size:15px;color:#8a8d96;margin:10px 0 24px;padding:10px 16px;background:rgba(0,212,170,.04);border-left:3px solid #00d4aa;border-radius:0 8px 8px 0;line-height:1.55"><strong>TL;DR:</strong> Open Policy Agent (OPA) is a general-purpose policy engine. sipi.bot is a purpose-built spend firewall for AI agents — same policy-as-code philosophy, but pre-configured for transaction evaluation (per-tx caps, velocity, merchant rules) rather than requiring you to write Rego policies from scratch.</p>
 <p class="lead">OPA can enforce any policy you can write in Rego — including spend rules. But you have to write them, test them, and maintain them. sipi.bot ships with the spend primitives already built, tested, and integrated.</p>
 
 <h2>The Rego tax</h2>
@@ -50,6 +51,7 @@ ol li,ul li{margin-bottom:8px;line-height:1.6}
 <p>OPA is the right choice if you already run OPA across your platform, you have Rego expertise on your team, and the spend-control rules you need are simple enough to express in a few Rego policies. For most teams deploying AI agents that spend money, a purpose-built spend firewall saves weeks of engineering time and months of maintenance.</p>
 <h2>Frequently asked</h2>
 <div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can OPA do everything sipi.bot does?</h3><p>With enough engineering effort, yes — OPA with Rego can express arbitrary policies. The question is whether you want to build a spend firewall from scratch in Rego or use a product that ships with the primitives, dashboard, and integrations already done.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can I use OPA alongside sipi.bot?</h3><p>Yes. Use OPA for platform-wide authorization — APIs, Kubernetes admission control, data access — and sipi.bot specifically for agent spend control. They address different policy domains.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Does sipi.bot support Rego policies?</h3><p>No. sipi.bot has its own rule engine with pre-built spend-control primitives. You configure rules through the dashboard or API, not by writing Rego. If you need arbitrary policy expression in Rego, OPA is the better fit.</p></div>
+<p style="margin:20px 0;font-size:14px;color:#8a8d96">📊 <a href="/learn/how-to-control-ai-agent-spending" style="color:#00d4aa;text-decoration:underline">Compare all 5 approaches to controlling AI agent spending →</a></p>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
 </div></main>

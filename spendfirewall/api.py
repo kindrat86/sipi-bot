@@ -534,7 +534,7 @@ class Handler(BaseHTTPRequestHandler):
             return self._sse()
         # Static files from public/ (sitemap.xml, robots.txt, llms.txt, pSEO
         # pages written by the growth engine). Served last, before 404.
-        if path == "/unsubscribe":
+        if path == "/unsubscribe" or path == "/api/unsubscribe":
             email = ""
             parts = urlparse(self.path)
             if parts.query:
@@ -981,11 +981,15 @@ class Handler(BaseHTTPRequestHandler):
                         f.write(f"{email}|{ref}\n")
                 except Exception:
                     pass
-                return self._json(200, {"ok": True, "message": "You're on the list. We'll email your pilot access."})
+                # 2026-07-24: was "We'll email your pilot access" — sipi.bot
+                # has no "pilot" product; every form posting here promises
+                # the 5-day Spend Firewall Playbook, so the confirmation
+                # should say that instead. See conversion-audit-scored-2026-07-24.
+                return self._json(200, {"ok": True, "message": "You're on the list. Day 1 is on its way — check your inbox."})
             return self._json(400, {"ok": False, "message": "Enter a valid email."})
 
         # Unsubscribe POST handler
-        if path == "/unsubscribe":
+        if path == "/unsubscribe" or path == "/api/unsubscribe":
             email = (body.get("email") or "").strip()
             removed = False
             if email and "@" in email:

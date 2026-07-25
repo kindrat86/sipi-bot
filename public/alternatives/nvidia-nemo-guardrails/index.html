@@ -40,6 +40,7 @@ ol li,ul li{margin-bottom:8px;line-height:1.6}
 <p class="author" style="color:#8a8d96;font-size:14px;margin:0 0 18px"><span rel="author">By the sipi.bot engineering team</span> · Published 2026-07-17 · Last updated 2026-07-17</p>
 <span class="tag">Alternative</span>
 <h1>NeMo Guardrails alternative: spend firewalls for AI agents</h1>
+<p style="font-size:15px;color:#8a8d96;margin:10px 0 24px;padding:10px 16px;background:rgba(0,212,170,.04);border-left:3px solid #00d4aa;border-radius:0 8px 8px 0;line-height:1.55"><strong>TL;DR:</strong> NeMo Guardrails enforces topical and safety boundaries on LLM conversations. sipi.bot enforces spending boundaries on agent transactions. Different guardrail layers — NeMo is conversational, sipi.bot is transactional — and they compose well: an agent can run NeMo for dialog safety and sipi.bot for spend safety.</p>
 <p class="lead">NVIDIA NeMo Guardrails defines what your agent can say. sipi.bot defines what your agent can spend. Two guardrail systems, two different threat surfaces, one safe agent deployment.</p>
 
 <h2>Dialog rails vs spend rails</h2>
@@ -56,6 +57,7 @@ ol li,ul li{margin-bottom:8px;line-height:1.6}
 <p>NeMo Guardrails manages what your agent says and the guardrails around its conversational behavior. sipi.bot manages what your agent buys. An agent with both is safe in conversation and safe in spending. An agent with only NeMo Guardrails can say all the right things while draining your cloud budget.</p>
 <h2>Frequently asked</h2>
 <div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Can NeMo Guardrails control agent spending?</h3><p>NeMo Guardrails can define rules around tool invocation — e.g., &#x27;don&#x27;t call the buy tool more than 5 times per conversation&#x27; — but it does not have built-in financial primitives like daily caps, merchant allowlists, or human approval queues. sipi.bot provides those.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Do I need both NeMo Guardrails and sipi.bot?</h3><p>If your agent both talks to users and spends money, yes. NeMo Guardrails for the conversation, sipi.bot for the transactions. They protect different surfaces.</p></div><div class="card"><h3 style="color:#e8e8ea;font-size:17px;margin-bottom:8px">Is sipi.bot compatible with the NeMo ecosystem?</h3><p>Yes. sipi.bot is an HTTP API call your agent makes before spending. It works with any framework, including NeMo-based agents, through the same evaluate_spend endpoint.</p></div>
+<p style="margin:20px 0;font-size:14px;color:#8a8d96">📊 <a href="/learn/how-to-control-ai-agent-spending" style="color:#00d4aa;text-decoration:underline">Compare all 5 approaches to controlling AI agent spending →</a></p>
 <p style="margin-top:30px"><a class="cta" href="/pricing">Get started — $99/mo</a>
 <a class="cta" href="/for/" style="background:transparent;border:1px solid #23242a;color:#e8e8ea">Framework integrations</a></p>
 </div></main>
