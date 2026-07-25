@@ -1004,11 +1004,38 @@ PRIVACY_BODY = """<h1>Privacy Policy</h1>
 <h2>Account data</h2>
 <p>If you subscribe, we store your email and billing status (via Stripe). Stripe processes payment details under its own privacy policy; we never see full card data.</p>
 <h2>Analytics</h2>
-<p>We use privacy-respecting product analytics (PostHog, EU region) to understand aggregate usage. You can block it with any standard tracker blocker.</p>
+__ANALYTICS_DISCLOSURE__
 <h2>Data retention & deletion</h2>
 <p>Audit logs are retained for your account's configured window. To request export or deletion of your data, contact us via <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>.</p>
 <h2>Self-hosting</h2>
 <p>If you self-host the open-source core, your transaction data never leaves your infrastructure and this policy does not apply to that deployment.</p>"""
+
+# The analytics disclosure has to track the deployment's actual configuration, not a
+# hardcoded claim. GA4 is enabled by the GA4_MEASUREMENT_ID env var, so production can
+# be running Google Analytics while the source default (no GA4) says otherwise — which
+# is exactly what happened: the policy advertised "privacy-respecting analytics
+# (PostHog, EU region)" while production also set _ga / _ga_<id> cookies via gtag.
+# Deriving the text from GA4_ID keeps it honest in both configurations.
+_POSTHOG_DISCLOSURE = (
+    "<p>We use <a href=\"https://posthog.com/privacy\" rel=\"noopener\" target=\"_blank\">PostHog</a> "
+    "(EU region) for product analytics, to understand aggregate usage. It stores an identifier in "
+    "your browser and is configured not to build a profile for anonymous visitors. We do not use it "
+    "to track you across other websites.</p>"
+)
+_GA4_DISCLOSURE = (
+    "<p>This deployment also runs <strong>Google Analytics 4</strong>, which sets its own cookies "
+    "(<code>_ga</code> and <code>_ga_&lt;id&gt;</code>) and processes your data under "
+    "<a href=\"https://policies.google.com/privacy\" rel=\"noopener\" target=\"_blank\">Google's privacy policy</a>. "
+    "We use it for measurement only — there are no advertising or retargeting pixels on this site, "
+    "and we do not build or share advertising audiences.</p>"
+)
+_NO_ADS_DISCLOSURE = (
+    "<p>We run no advertising or retargeting pixels of any kind — no Meta, Reddit, LinkedIn, "
+    "TikTok or Google Ads tags. You can block all of the above with any standard tracker blocker "
+    "without affecting how the site works.</p>"
+)
+ANALYTICS_DISCLOSURE = _POSTHOG_DISCLOSURE + (_GA4_DISCLOSURE if GA4_ID else "") + _NO_ADS_DISCLOSURE
+PRIVACY_BODY = PRIVACY_BODY.replace("__ANALYTICS_DISCLOSURE__", ANALYTICS_DISCLOSURE)
 
 TERMS_BODY = """<h1>Terms of Service</h1>
 <p class="lead">Last updated: 2026. By using sipi.bot you agree to these terms.</p>
