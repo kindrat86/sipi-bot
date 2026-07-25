@@ -824,7 +824,14 @@ class Handler(BaseHTTPRequestHandler):
         response to the body (the 82-page corruption bug)."""
         import os
         for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/"):
-            if path.startswith(prefix):
+            # Match "/learn/foo" and also the bare section root "/learn". The bare
+            # form used to fall through to a 404 because it does not start with
+            # "/learn/", so /learn 404'd while /learn/ served learn/index.html —
+            # and a breadcrumb on every /learn/* page pointed at the bare form.
+            # Sections with no index.html (e.g. /compare) still 404, unchanged.
+            if path.startswith(prefix) or path == prefix.rstrip("/"):
+                if path == prefix.rstrip("/"):
+                    path = prefix
                 # /data/ files live inside the spendfirewall package; others at project root
                 if prefix == "/data/":
                     base = os.path.abspath(os.path.dirname(__file__))
