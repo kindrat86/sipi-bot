@@ -874,3 +874,48 @@ a[aria-label] > svg:only-child {
   width: 24px;
   height: 24px;
 }
+
+
+/* ── CENTERED TEXT BOX REPAIR (MK UI/UX 2026-07-25) ────────────────
+   `p { max-width: 65ch }` above caps every paragraph's BOX. Inside a
+   centre-aligned parent that narrow box hugs the LEFT edge, so
+   `text-align: center` faithfully centres the text inside a box that is
+   itself off-centre, and the copy drifts left of its container.
+   Centring text does nothing while the box is off-centre.
+
+   Measured live on sipi.bot before this fix: 7 paragraphs
+   off-centre. After: 0.
+
+   Selector notes, each one learned from a measured failure:
+   · Descendant match, not `> p` — containers routinely wrap copy in an
+     unstyled <div>, and direct-child matching missed most paragraphs.
+   · The `:not(...text-left...)` guard is REQUIRED. A centred container
+     often holds a `text-left` card; without the guard those left-aligned
+     paragraphs get centred too and go ragged against their headings
+     (measured: 17 wrongly centred on gitdealflow, 4 on invisibleexit).
+   · The two `:not()` chains must NOT be separated by whitespace —
+     whitespace is a descendant combinator and changes the meaning.
+   · `!important` is required: the site's build CSS resets paragraph
+     margins and otherwise wins the cascade.
+   · `.brunson-trust-bar` is named explicitly — the injected trust band
+     centres via its own class, not a `text-center` utility.
+   · This site needed one extra scoped rule, below.
+   Marker: CENTERED TEXT BOX REPAIR */
+:is([class*="text-center"], .center, .brunson-trust-bar,
+    [style*="text-align:center"], [style*="text-align: center"])
+  p:not(:is([class*="text-left"], [class*="text-right"], [class*="text-justify"], [style*="text-align:left"], [style*="text-align: left"]) p):not(:is([class*="text-left"], [class*="text-right"], [class*="text-justify"], [style*="text-align:left"], [style*="text-align: left"])),
+p[class*="text-center"],
+p.center,
+p[style*="text-align:center"],
+p[style*="text-align: center"] {
+  margin-inline: auto !important;
+}
+
+/* sipi.bot only — the hero centres via `.hero` in the site's own CSS, and
+   its lede/byline sit two levels down. Scoped to those two paragraphs on
+   purpose: a broad `.hero p` also caught 2 deliberately left-aligned
+   paragraphs (the TL;DR and a code box) and pushed them off-axis. */
+.hero p.sub,
+.hero p.author {
+  margin-inline: auto !important;
+}
