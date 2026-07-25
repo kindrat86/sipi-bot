@@ -514,14 +514,14 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{tier:'team',location:'homepage_pricing'})" class="btn ghost" style="width:100%;margin-top:10px">Start Team — $99/mo</a>
     <p style="color:var(--accent);font-size:12px;margin-top:10px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
     <p class="mono" style="color:var(--mut);font-size:13px;margin-top:10px">Free self-host core &nbsp;•&nbsp; open on GitHub</p>
-    <form class="form" style="flex-direction:column" onsubmit="return sub(event)">
+    <form class="form" method="post" style="flex-direction:column" onsubmit="return sub(event)">
       <div style="display:flex;gap:8px;width:100%">
-        <label for="em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="em" placeholder="you@company.com" required>
+        <label for="em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" name="email" id="em" autocomplete="email" placeholder="you@company.com" required>
         <button class="btn" type="submit">Get access</button>
       </div>
       <label style="color:var(--mut);font-size:13px;margin-top:8px;text-align:left;width:100%">
         How did you hear about us?
-        <select id="ref" style="background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:6px 10px;border-radius:8px;font-size:13px;margin-left:6px;width:auto">
+        <select name="ref" id="ref" style="background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:6px 10px;border-radius:8px;font-size:13px;margin-left:6px;width:auto">
           <option value="">— select —</option>
           <option value="chatgpt">ChatGPT / AI search</option>
           <option value="google">Google Search</option>
@@ -544,9 +544,9 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <span style="display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600;padding:4px 12px;border:1px solid rgba(0,212,170,.3);border-radius:999px;margin-bottom:14px">Free · 5-day email playbook</span>
     <h2 style="margin:0 0 8px">The Spend Firewall Playbook</h2>
     <p style="color:var(--mut);font-size:16px;line-height:1.6;margin:0 0 20px">One email a day for five days. Day 1: the night my agent spent $12,400. Day 2: the six rules that stop it. Day 3: wiring it into your agent. Day 4: the eval suite. Day 5: the deployment checklist. No sales pressure — if the playbook isn't useful, unsubscribe anytime.</p>
-    <form class="form" style="max-width:460px;margin:0 auto" onsubmit="return sub(event)">
+    <form class="form" method="post" style="max-width:460px;margin:0 auto" onsubmit="return sub(event)">
       <div style="display:flex;gap:8px">
-        <label for="pb-em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="pb-em" placeholder="you@company.com" required style="flex:1">
+        <label for="pb-em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" name="email" id="pb-em" autocomplete="email" placeholder="you@company.com" required style="flex:1">
         <button class="btn" type="submit">Send me Day 1 →</button>
       </div>
       <!-- 2026-07-24: removed the "$7 order bump" checkbox here — it posted
