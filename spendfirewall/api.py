@@ -303,7 +303,23 @@ class Handler(BaseHTTPRequestHandler):
                     return self._send(200, fh.read().encode(), "application/json")
             except Exception:
                 pass
-        if path == "/" or path == "/index.html":
+        # /index.html served the homepage byte-for-byte, so the site had two URLs
+        # for one page. Redirect it instead — same treatment /learn got when its
+        # bare root 404'd. Mirrors the www->apex hop above, including the baseline
+        # security headers so the hardening survives the redirect.
+        if path == "/index.html":
+            self.send_response(301)
+            self.send_header("Location", "/")
+            self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("X-Frame-Options", "DENY")
+            self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+            self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+            self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+        if path == "/":
             return self._html(templates.landing_page_html())
         if path == "/dashboard":
             return self._html(templates.dashboard_html())
