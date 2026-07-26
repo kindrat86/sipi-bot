@@ -7,6 +7,14 @@
 
 ---
 
+
+> **Integrity constraint (added 2026-07-25).** "Original" here means *originally framed*, never
+> *originally measured*. sipi.bot runs no surveys and collects no telemetry (the firewall is
+> self-hostable and collects nothing by design), so it cannot publish incidence rates, medians or
+> sample sizes. A previous pass on /benchmarks/* invented a team survey
+> and a median incident cost; both were removed on 2026-07-25. Build original *framings* of
+> public provider pricing and the open-source eval suite instead. Gate:
+> `python3 ~/churnlens/scripts/check_provenance_claims.py --root ~/projects/sipi-bot`
 ## Executive summary — the one-paragraph version
 
 sipi.bot's **technical AEO is best-in-class** (AI bots fully allowed at robots.txt AND edge, rich JSON-LD schema, llms.txt + agents.md + agent-card.json + knowledge-graph.json, FAQPage + SoftwareApplication + Organization markup, disambiguatingDescription for name collisions, fresh content updated 2026-07-17, sitemap with 108 URLs). You've nailed every technical lever the AEO course names. **But AI visibility is still ~zero** because the *single strongest signal* — **branded web mentions on third-party pages (r=0.664 with AI Overviews)** — is at zero. No listicle, Reddit thread, blog, review, or publication mentions sipi.bot. AI engines don't yet have a source to cite. The fix is not more on-site content — it's **earning mentions off-site** so AI has something to retrieve and consensus to form around. This plan sequences that work.
@@ -59,7 +67,7 @@ Eight gaps logged in [`brand-gap-analysis.csv`](./brand-gap-analysis.csv). Ranke
 |---|---|---|---|
 | 1.1 | **Expand the top-6 /vs pages to 600–900 words each** — LiteLLM, Helicone, OpenRouter, Portkey, Langfuse, OpenMeter. Structure: BLUF verdict → feature comparison table → "when to pick X / when to pick sipi.bot" → pricing → code snippet. Target the exact "X vs Y" queries AI already answers. | M | Highest-ROI Fix. Pages exist, target high-intent queries, and 43.8% of ChatGPT citations are listicles/comparisons. Currently too thin to cite. **✅ DONE 2026-07-18** |
 | 1.2 | **Install GA4 + add "How did you hear about us?" with AI options** (ChatGPT / Perplexity / Google AI Overview / Claude / Copilot / Reddit / HN / Other). You currently have NO analytics — can't measure what you can't see. | S | Measurement is Phase 4 but starts now. **✅ DONE 2026-07-18** (GA4=G-F5R5Y29J1F on all pages; attribution dropdown live) |
-| 1.3 | **Refresh homepage with one original stat** (e.g., "53/53 eval scenarios" → make it a labeled framework: "the sipi.bot Eval Gym — 53 adversarial spend scenarios, 100% pass rate"). Original data is what AI loves to cite. | S | Freshness + brand-labeled originality. **✅ DONE 2026-07-18** |
+| 1.3 | **Refresh homepage with one original stat** (e.g., "53/53 eval scenarios" → make it a labeled framework: "the sipi.bot Eval Gym — 53 adversarial spend scenarios, 100% pass rate"). Originally-framed figures are what AI cites — frame public data, never invent measurements. | S | Freshness + brand-labeled originality. **✅ DONE 2026-07-18** |
 | 1.4 | **Submit to Bing Webmaster Tools + IndexNow** (key already exists in memory: sipi.bot=9769ace5). Bing powers Copilot — direct AEO lever. | S | Copilot visibility. **⚠️ BLOCKED** — Bing IndexNow 403s until site is verified in Bing WMT (needs Microsoft OAuth, no API bypass). User must verify manually. Sitemap updated with cornerstone URL (priority 0.9). |
 
 ### §2 · Weeks 1–4 — own the category (Build)
@@ -68,7 +76,7 @@ Eight gaps logged in [`brand-gap-analysis.csv`](./brand-gap-analysis.csv). Ranke
 |---|---|---|---|
 | 2.1 | **Consolidate 23 thin /for/* pages into 4–5 hub pages** OR expand top 5 (openai-agents, anthropic-agents, trading-bots, ai-coding-agents, ai-developers) to 400+ words each with real use-case narrative + code. | M | Avoid thin-content cannibalization; capture demand that currently bounces. **✅ DONE 2026-07-18** — expanded top 5 to 620–695 words each with distinct positioning, code examples, FAQPage schema, and cross-links. Remaining 18 /for pages left at existing lengths (P3 — gradual expansion). |
 | 2.2 | **Publish 1 definitive cornerstone: "The Spend Firewall for AI Agents: A Complete Guide"** (2,500+ words). Define the category, the 6 rule types, the architecture, benchmarks. This is the page you want AI to cite when asked "how do I control my AI agent's spending." | L | Establishes category authority — the unit of work is the *topic*, not the keyword (query fan-out = 9–28 sub-queries). **✅ DONE 2026-07-18** (`/learn/spend-firewall-guide`, 2,486 words, Article+HowTo+FAQ+Breadcrumb schema) |
-| 2.3 | **Publish original benchmark content** (you already have /benchmarks/* — promote it). "Agent spend as % of revenue", "AI agent cost per task", "Runaway incident frequency", "Token cost by provider". Original data = citation magnet. | M | AI loves citing specific numbers. This is your moat — competitors don't have it. **✅ DONE 2026-07-18** — all 4 benchmark pages expanded to 570–795 words with Dataset schema, CC BY 4.0 license, honest methodology sections, cross-links. |
+| 2.3 | **Publish originally-framed benchmark content** (you already have /benchmarks/* — promote it). "Agent spend as % of revenue", "AI agent cost per task", "Runaway spend failure modes", "Token cost by provider". Originally-framed public data = citation magnet. | M | AI loves citing specific numbers. This is your moat — competitors don't have it. **✅ DONE 2026-07-18** — all 4 benchmark pages expanded to 570–795 words with Dataset schema, CC BY 4.0 license, honest methodology sections, cross-links. |
 | 2.4 | **Record 3 YouTube search-hit videos** (see §4 below). | M | YouTube = strongest single AI-citation channel. |
 
 ### §3 · Weeks 1–12 — earn mentions (Influence) — **THE #1 LEVER**

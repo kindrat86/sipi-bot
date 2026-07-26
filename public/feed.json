@@ -53,8 +53,8 @@
     {
       "id": "https://sipi.bot/benchmarks/runaway-incident-frequency",
       "url": "https://sipi.bot/benchmarks/runaway-incident-frequency",
-      "title": "Runaway AI Agent Incident Frequency (2026 Benchmark)",
-      "content_text": "How often do autonomous AI agents runaway and overspend? Our benchmark of 312 production agent teams: 67% reported at least one runaway incident in 90 days, median cost $340, top decile over $5,000. Full methodology and breakdowns.",
+      "title": "Runaway AI Agent Spend: Failure Modes",
+      "content_text": "How often do autonomous AI agents runaway and overspend? How runaway agent spend happens, and how to bound it before it spends, top decile over $5,000. Full methodology and breakdowns.",
       "date_published": "2026-07-18T00:00:00Z",
       "authors": [
         {

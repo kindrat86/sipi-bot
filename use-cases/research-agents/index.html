@@ -22,7 +22,7 @@
 <!-- sipi-enrich-v1 -->
 <section>
 <h2>The spend problem in this use case</h2>
-<p>AI Research Agent Spend Controls involve real money moving on autonomous decisions. Every transaction — a refund, a credit, a purchase, a trade, an API call — is a place where a bug, a loop, or an adversarial input can cause financial loss. The risk is not theoretical: 67% of production agent teams report at least one runaway incident in a 90-day window, with a median cost of $340 per incident.</p>
+<p>AI Research Agent Spend Controls involve real money moving on autonomous decisions. Every transaction — a refund, a credit, a purchase, a trade, an API call — is a place where a bug, a loop, or an adversarial input can cause financial loss. The risk is not theoretical — retry loops and prompt-injected purchase chains are documented failure modes — but its size depends entirely on the caps in front of the agent.</p>
 <p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
 </section>
 

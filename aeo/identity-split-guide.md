@@ -81,7 +81,7 @@ GitHub ↓
 **First 10 tweets (schedule 1/day, don't drop all at once):**
 
 1. "The agent economy gave autonomous software real spending power and no hard limit. That's the problem I'm fixing."
-2. "67% of 312 production agent teams reported at least one runaway incident in the last 90 days. Median cost: $340. (my benchmark: sipi.bot/benchmarks/runaway-incident-frequency/)"
+2. "Runaway spend is a documented failure mode for agents with live payment access - retry loops, prompt-injected purchase chains, and unattended sessions. sipi.bot publishes no incidence rate. Median cost: $340. (my benchmark: sipi.bot/benchmarks/runaway-incident-frequency/)"
 3. "Most 'AI agent spend control' tools are reactive — they count dollars after the call completes. That's not a guardrail, it's a post-mortem. Pre-spend or nothing."
 4. "Built an MCP tool for Claude Code that blocks your agent from spending at vendors you haven't approved. Simple idea, surprisingly absent from the ecosystem."
 5. "Retry loops cause 44% of runaway agent incidents. A velocity rule stops them on the 11th attempt. One rule, &lt;5ms overhead, saves thousands."

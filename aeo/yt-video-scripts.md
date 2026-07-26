@@ -16,7 +16,7 @@
 "At 2:14am my AI agent hit a rate limit and retried 40 times in 90 seconds. By 2:15am it had bought compute from a vendor I'd never heard of. At 9am I found out from Stripe. Total: $12,400."
 
 [0:30–1:30] **The problem**
-"You gave an autonomous agent a credit card and no spending limit. That works until it doesn't. 67% of production agent teams have had a runaway incident. The median cost is $340. The worst exceed $12,000. All of it is preventable."
+"You gave an autonomous agent a credit card and no spending limit. That works until it doesn't. Runaway spend is a documented failure mode for agents with live payment access - retry loops, prompt-injected purchase chains, and unattended sessions. sipi.bot publishes no incidence rate. A single retry loop can outspend a whole day of normal work. The worst exceed $12,000. All of it is preventable."
 
 [1:30–3:00] **The fix — pre-spend firewall**
 *(screen: curl command + response)*
