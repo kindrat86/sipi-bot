@@ -13,7 +13,7 @@ CSS = """
 body{background:var(--bg);color:var(--txt);font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--accent);text-decoration:none}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid rgba(0,212,170,.5);outline-offset:3px}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 .mono{font-family:'SF Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 nav{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -68,7 +68,7 @@ h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;margin-bottom:14px;font-
 .codebox .k{color:var(--accent)}.codebox .s{color:var(--amber)}.codebox .c{color:var(--mut)}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;text-align:center}
-.kpi .n{font-size:30px;font-weight:800;color:var(--accent)}
+.kpi .n{font-size:30px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
 .kpi .l{font-size:13px;color:var(--mut);margin-top:4px}
 footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 .form{display:flex;gap:10px;max-width:440px;margin:18px auto 0}
@@ -104,7 +104,8 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 .doc pre{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;max-width:760px;margin:16px auto;text-align:left}
 .doc pre code{background:none;border:0;padding:0;color:var(--accent);font-family:'SF Mono',monospace;font-size:13px}
 .doc .quiet{color:var(--mut);font-size:14px;max-width:760px;margin:24px auto 0}
-@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.decision3{grid-template-columns:1fr!important}.nav-toggle{display:inline-flex}#mainnav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 20px 18px;gap:2px;display:none;z-index:30;max-height:calc(100dvh - 60px);overflow-y:auto}nav.menu-open #mainnav{display:flex}#mainnav a{width:100%;padding:10px 0;justify-content:flex-start}#mainnav a.btn{justify-content:center;margin-top:10px}#mainnav a:not(.btn){font-size:15px}section{padding:52px 0}.hero{padding:48px 0 56px}.hero .tag{margin-bottom:18px}.hero h1{margin-bottom:16px}.hero .sub{margin-bottom:0;font-size:17px}.hero-actions{align-items:stretch;margin-top:22px}.hero-actions .btn{width:100%}.hero-actions .text-link{min-height:44px;display:inline-flex;align-items:center;justify-content:center}.hero-proof{margin-top:14px;gap:6px 12px}.cmp{font-size:12.5px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}.cmp th,.cmp td{padding:8px}}/* the comparison table is 371px inside a 335px column, so it pushed the whole document to 391px on a 375px phone; scroll it inside its own box instead */
+@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.decision3{grid-template-columns:1fr!important}.nav-toggle{display:inline-flex}#mainnav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 20px 18px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));gap:2px;display:none;z-index:30;max-height:calc(100dvh - 60px);overflow-y:auto;overscroll-behavior:contain}nav.menu-open #mainnav{display:flex}#mainnav a{width:100%;padding:10px 0;justify-content:flex-start}#mainnav a.btn{justify-content:center;margin-top:10px}#mainnav a:not(.btn){font-size:15px}section{padding:52px 0}.hero{padding:48px 0 56px}.hero .tag{margin-bottom:18px}.hero h1{margin-bottom:16px}.hero .sub{margin-bottom:0;font-size:17px}.hero-actions{align-items:stretch;margin-top:22px}.hero-actions .btn{width:100%}.hero-actions .text-link{min-height:44px;display:inline-flex;align-items:center;justify-content:center}.hero-proof{margin-top:14px;gap:6px 12px}.cmp{font-size:12.5px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}.cmp th,.cmp td{padding:8px}}/* the comparison table is 371px inside a 335px column, so it pushed the whole document to 391px on a 375px phone; scroll it inside its own box instead */
+p,h1,h2,h3{text-wrap:pretty}
 """
 
 # ─── Analytics ───
@@ -116,6 +117,38 @@ POSTHOG_HOST = os.environ.get("POSTHOG_HOST", "https://eu.i.posthog.com")
 GA4_ID = os.environ.get("GA4_MEASUREMENT_ID", "")
 GA4_SNIPPET = ""
 POSTHOG_SNIPPET = ""
+# ─── Shared mobile nav ───
+NAV_TOGGLE = ('<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>')
+NAV_JS = ('<script>(function(){var t=document.querySelector(\'.nav-toggle\');if(!t)return;var n=t.closest(\'nav\');function set(o){n.classList.toggle(\'menu-open\',o);t.setAttribute(\'aria-expanded\',o);t.setAttribute(\'aria-label\',o?\'Close menu\':\'Open menu\');}t.addEventListener(\'click\',function(){set(!n.classList.contains(\'menu-open\'));});n.querySelectorAll(\'.nav-links a\').forEach(function(a){a.addEventListener(\'click\',function(){set(false);});});document.addEventListener(\'keydown\',function(e){if(e.key===\'Escape\'&&n.classList.contains(\'menu-open\')){set(false);t.focus();}});})();</script>')
+NAV_CSS = """:root{--bg:#0a0a0a;--panel:#121316;--line:#23242a;--txt:#e8e8ea;--mut:#8a8d96;--accent:#00d4aa}
+.sipi-nav *{box-sizing:border-box;margin:0;padding:0}
+.sipi-nav{font:14px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.sipi-nav .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.sipi-nav nav{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.sipi-nav nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;flex-wrap:wrap}
+.sipi-nav .brand{font-weight:700;font-size:19px;letter-spacing:-.02em;color:var(--txt)}
+.sipi-nav .brand .dot{color:var(--accent)}
+.sipi-nav .nav-links{display:flex;gap:22px;align-items:center;font-size:14px;flex-wrap:wrap}
+.sipi-nav .nav-links a{color:var(--mut);min-height:44px;display:inline-flex;align-items:center}
+.sipi-nav .nav-links a:hover{color:var(--txt)}
+.sipi-nav .nav-links a.btn,.sipi-nav .nav-links a.btn:visited{background:var(--accent);color:#04120e;font-weight:700;padding:12px 22px;border-radius:10px}
+.sipi-nav .nav-toggle{display:none;background:transparent;border:1px solid var(--line);border-radius:8px;color:var(--txt);width:44px;height:44px;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sipi-nav .nav-toggle:focus-visible{outline:3px solid rgba(0,212,170,.5);outline-offset:3px}
+@media(max-width:760px){
+.sipi-nav .nav-toggle{display:inline-flex}
+.sipi-nav #mainnav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 20px 18px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));gap:2px;display:none;z-index:30;max-height:calc(100dvh - 60px);overflow-y:auto;overscroll-behavior:contain}
+.sipi-nav nav.menu-open #mainnav{display:flex}
+.sipi-nav #mainnav a{width:100%;padding:10px 0;justify-content:flex-start}
+.sipi-nav #mainnav a.btn{justify-content:center;margin-top:10px}
+.sipi-nav #mainnav a:not(.btn){font-size:15px}
+}"""
+
+def NAV_HTML(links: str, brand_link: bool = False) -> str:
+    brand = ('<div class="brand"><a href="/" style="color:var(--txt)">sipi<span class="dot">.bot</span></a></div>' if brand_link else '<div class="brand">sipi<span class="dot">.bot</span></div>')
+    return ('<nav><div class="wrap">\n  ' + brand + '\n  ' + NAV_TOGGLE + '\n  <div class="nav-links" id="mainnav">\n' + links + '\n  </div>\n</div></nav>\n' + NAV_JS)
+
+
+_LINKS_DOC = ('    <a href="/#how">How it works</a>\n    <a href="/#faq">FAQ</a>\n    <a href="/pricing">Pricing</a>\n    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>\n    <a href="/dashboard" class="btn">Live Dashboard</a>')
 
 
 def landing_page_html() -> str:
@@ -147,9 +180,11 @@ def landing_page_html() -> str:
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <div class="nav-links" id="mainnav">
     <a href="#how">How it works</a>
+    <a href="#origin">The founder</a>
+    <a href="#false-beliefs">Beliefs</a>
     <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
-    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>
+    <a href="/learn/how-to-control-ai-agent-spending">Compare</a>
     <a href="/pricing" class="btn">See plans</a>
   </div>
 </div></nav>
@@ -162,6 +197,10 @@ def landing_page_html() -> str:
   One HTTP call checks every proposed payment against your caps, velocity limits,
   and merchant rules—then returns APPROVED, BLOCKED, or FLAGGED with a deterministic rules check,
   before money moves.</p>
+  <p class="obt" style="font-size:clamp(15px,2vw,17px);color:var(--accent);font-weight:600;max-width:620px;margin:0 auto 28px;letter-spacing:.01em">
+    <span aria-hidden="true">&rarr;</span>&nbsp;The one promise of this page: <strong style="color:var(--txt)">one API call makes a runaway agent impossible.</strong>
+    Hope is not a spending policy.
+  </p>
   <div class="hero-actions">
     <a href="/pricing" class="btn">Protect my agent — see plans</a>
     <a href="/playground/" class="btn ghost">Run a free live check</a>
@@ -700,21 +739,36 @@ if(run)run.addEventListener('click',function(){run.disabled=true;run.textContent
     s = s.replace("{CSS}", CSS)
     s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
     s = s.replace("{GA4_SNIPPET}", GA4_SNIPPET)
-    # Keep the source history available for editorial review while shipping a
-    # focused conversion page. These sections repeated the same founder story
-    # and unsupported persuasion framing already established above.
-    origin_start = s.find("<!-- ═══ EXPERT SECRETS: Origin Story")
-    hope_start = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
-    if origin_start >= 0 and hope_start > origin_start:
-        s = s[:origin_start] + s[hope_start:]
-    value_start = s.find("<!-- VALUE STACK")
-    price_start = s.find('<div class="price mt24">', value_start)
-    if value_start >= 0 and price_start > value_start:
-        s = s[:value_start] + s[price_start:]
-    s = s.replace(
-        '<div class="strike">Hiring a human to babysit spend: $4,500/mo</div>',
-        "",
-    )
+
+    # Expert Secrets persuasion spine — feature flags
+    # Set any flag to False to disable the corresponding section at runtime.
+    BRUNSON_ORIGIN_STORY  = True   # Ch 1/4/5/6 — founder Epiphany Bridge
+    BRUNSON_FALSE_BELIEFS = True   # Ch 6/7     — Vehicle/Internal/External beliefs
+    BRUNSON_CAUSE         = True   # Ch 2       — movement / identity manifesto
+    BRUNSON_VALUE_STACK   = True   # Ch 14/16   — Stack & Close anchor
+
+    if not BRUNSON_ORIGIN_STORY:
+        a = s.find('<!-- \u2550\u2550\u2550 EXPERT SECRETS: Origin Story')
+        b = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+    if not BRUNSON_FALSE_BELIEFS:
+        a = s.find('<!-- \u2550\u2550\u2550 The 3 False Beliefs')
+        b = s.find('<!-- \u2550\u2550\u2550 The Cause / Movement')
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+    if not BRUNSON_CAUSE:
+        a = s.find('<!-- \u2550\u2550\u2550 The Cause / Movement')
+        b = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+    if not BRUNSON_VALUE_STACK:
+        a = s.find('<!-- VALUE STACK')
+        b = s.find('<div class="price mt24">', a)
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+        s = s.replace('<div class="strike">Hiring a human to babysit spend: $4,500/mo</div>', '')
+    PORTFOLIO_NETWORK = False
+    if not PORTFOLIO_NETWORK:
+        a = s.find('<!-- CROSS-PORTFOLIO NETWORK FOOTER')
+        b = s.rfind('</body></html>')
+        if a >= 0 and b > a: s = s[:a] + s[b:]
     return s
 
 
@@ -743,16 +797,7 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
 <meta name="theme-color" content="#00d4aa">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebPage","name":"{title}","url":"https://sipi.bot{canonical_path}","description":"{description}","isPartOf":{{"@type":"WebSite","name":"sipi.bot","url":"https://sipi.bot/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}}}}</script>
 <style>{CSS}</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
-<nav><div class="wrap">
-  <div class="brand"><a href="/" style="color:var(--txt)">sipi<span class="dot">.bot</span></a></div>
-  <div class="nav-links">
-    <a href="/#how">How it works</a>
-    <a href="/#faq">FAQ</a>
-    <a href="/pricing">Pricing</a>
-    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>
-    <a href="/dashboard" class="btn">Live Dashboard</a>
-  </div>
-</div></nav>
+""" + NAV_HTML(_LINKS_DOC, brand_link=True) + """
 <section><div class="wrap"><article class="doc">
 {body_html}
 <p style="margin-top:40px"><a href="/">← Back to sipi.bot</a></p>
