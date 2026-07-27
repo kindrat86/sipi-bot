@@ -390,6 +390,7 @@ def _inject_mobile_nav(html: str) -> str:
     """
     if 'data-sipi-nav-injected' in html or 'class="nav-toggle"' in html:
         return html
+    import re  # local; api.py uses local imports by convention
     nav_links = (
         '    <a href="/">Home</a>\n'
         '    <a href="/#how">How it works</a>\n'
