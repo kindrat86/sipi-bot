@@ -45,6 +45,13 @@ COPY tools/ ./tools/
 COPY changelog/ ./changelog/
 COPY status/ ./status/
 COPY public/data/ ./public/data/
+# Verify the new content landed — fails the build with a clear error if COPY
+# silently produced nothing (e.g. Depot context exclusion or dir mismatch).
+RUN test -f ./incidents/index.html || (echo "ERROR: incidents/index.html missing after COPY" && exit 1)
+RUN test -f ./blog/index.html    || (echo "ERROR: blog/index.html missing after COPY" && exit 1)
+RUN test -f ./changelog/index.html || (echo "ERROR: changelog/index.html missing after COPY" && exit 1)
+RUN test -f ./status/index.html  || (echo "ERROR: status/index.html missing after COPY" && exit 1)
+RUN test -f ./tools/index.html   || (echo "ERROR: tools/index.html missing after COPY" && exit 1)
 
 # --- structured-data gate (~/.growth-engine/GUARDRAILS.md rule 3) ---
 # Fails the image build — and so `flyctl deploy` — if any copied page carries
