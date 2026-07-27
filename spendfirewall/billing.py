@@ -108,12 +108,14 @@ def init_db() -> None:
         )
 
 
-def _stripe_post(path: str, data: dict) -> dict:
+def _stripe_post(path: str, data: dict, api_version: Optional[str] = None) -> dict:
     key = os.environ["STRIPE_SECRET_KEY"]
     body = urllib.parse.urlencode(data, doseq=True).encode()
     req = urllib.request.Request(_STRIPE_API + path, data=body, method="POST")
     req.add_header("Authorization", f"Bearer {key}")
     req.add_header("Content-Type", "application/x-www-form-urlencoded")
+    if api_version:
+        req.add_header("Stripe-Version", api_version)
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read().decode())
 
@@ -136,8 +138,24 @@ def create_checkout_session(plan: str) -> str:
         "success_url": base + "/keys/{CHECKOUT_SESSION_ID}",
         "cancel_url": base + "/pricing",
         "metadata[plan]": plan,
+        # Checkout previously inherited the shared Stripe account name
+        # "MicroSaaS", breaking trust at the final conversion step. Session-
+        # scoped branding keeps this product correctly identified without
+        # changing the account-wide identity used by other products.
+        "branding_settings[display_name]": "sipi.bot",
+        "branding_settings[background_color]": "#0A0A0A",
+        "branding_settings[button_color]": "#00D4AA",
+        "branding_settings[border_style]": "rounded",
+        "branding_settings[font_family]": "inter",
+        "branding_settings[icon][type]": "url",
+        "branding_settings[icon][url]": base + "/favicon.svg",
+        "custom_text[submit][message]": (
+            "Your API key is issued immediately after payment. "
+            "If sipi.bot approves a spend that violates an active rule, that month is free."
+        ),
     }
-    session = _stripe_post("/checkout/sessions", data)
+    # Per-session branding was added in Stripe's 2025-09-30.clover API.
+    session = _stripe_post("/checkout/sessions", data, api_version="2025-09-30.clover")
     init_db()
     with _LOCK, _conn() as c:
         c.execute("INSERT OR REPLACE INTO pending_sessions (session_id, plan, created_at) VALUES (?,?,?)",

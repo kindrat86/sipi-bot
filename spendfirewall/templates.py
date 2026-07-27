@@ -12,6 +12,8 @@ CSS = """
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--txt);font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--accent);text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid rgba(0,212,170,.5);outline-offset:3px}
+html{scroll-behavior:smooth}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 .mono{font-family:'SF Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 nav{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -20,11 +22,15 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:6
 .brand .dot{color:var(--accent)}
 .nav-links{display:flex;gap:22px;align-items:center;font-size:14px;flex-wrap:wrap}
 .nav-links a{color:var(--mut);min-height:44px;display:inline-flex;align-items:center}.nav-links a:hover{color:var(--txt)}.nav-links a.btn,.nav-links a.btn:hover,.nav-links a.btn:visited{color:#04120e}.nav-toggle{display:none;background:transparent;border:1px solid var(--line);border-radius:8px;color:var(--txt);width:44px;height:44px;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s}.nav-toggle:hover{border-color:var(--accent)}.nav-toggle svg{width:24px;height:24px;flex:0 0 auto;display:block}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;background:var(--accent);color:#04120e;font-weight:700;padding:12px 22px;border-radius:10px;border:none;cursor:pointer;font-size:15px;transition:transform .1s}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;background:var(--accent);color:#04120e;font-weight:700;padding:12px 22px;border-radius:10px;border:none;cursor:pointer;font-size:15px;transition:transform .18s ease,background .18s ease,border-color .18s ease}
 .btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px) scale(.99)}
 .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
 section{padding:72px 0;border-bottom:1px solid var(--line)}
 .hero{padding:90px 0 80px;text-align:center;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(0,212,170,.10),transparent)}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:26px}
+.hero-proof{display:flex;align-items:center;justify-content:center;gap:10px 18px;flex-wrap:wrap;margin-top:18px;color:var(--mut);font-size:13px}
+.hero-proof a{text-decoration:underline;text-underline-offset:3px}
 .tag{display:inline-block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:6px 14px;margin-bottom:24px}
 h1{font-size:clamp(32px,6vw,56px);line-height:1.05;letter-spacing:-.03em;font-weight:800;margin-bottom:20px}
 h1 .hl{color:var(--red)}
@@ -55,6 +61,8 @@ h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;margin-bottom:14px;font-
 .price ul{list-style:none;text-align:left;margin:24px 0;display:flex;flex-direction:column;gap:12px}
 .price li{display:flex;gap:10px;color:var(--txt)}
 .price li .c{color:var(--accent)}
+.grid2>.price{display:flex;flex-direction:column}
+.grid2>.price>.btn{margin-top:auto}
 .strike{color:var(--mut);text-decoration:line-through;font-size:15px}
 .codebox{background:#000;border:1px solid var(--line);border-radius:12px;padding:18px;overflow-x:auto;font-size:13.5px;color:#cfd2d8;text-align:left}
 .codebox .k{color:var(--accent)}.codebox .s{color:var(--amber)}.codebox .c{color:var(--mut)}
@@ -87,7 +95,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 .cmp thead th{background:var(--panel2);color:var(--txt);font-weight:700}
 .cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
 .cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
-@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.decision3{grid-template-columns:1fr!important}.nav-toggle{display:inline-flex}#mainnav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 20px 18px;gap:2px;display:none;z-index:30;max-height:calc(100dvh - 60px);overflow-y:auto}nav.menu-open #mainnav{display:flex}#mainnav a{width:100%;padding:10px 0;justify-content:flex-start}#mainnav a.btn{justify-content:center;margin-top:10px}#mainnav a:not(.btn){font-size:15px}section{padding:52px 0}.cmp{font-size:12.5px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}.cmp th,.cmp td{padding:8px}}/* the comparison table is 371px inside a 335px column, so it pushed the whole document to 391px on a 375px phone; scroll it inside its own box instead */
+@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.decision3{grid-template-columns:1fr!important}.nav-toggle{display:inline-flex}#mainnav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 20px 18px;gap:2px;display:none;z-index:30;max-height:calc(100dvh - 60px);overflow-y:auto}nav.menu-open #mainnav{display:flex}#mainnav a{width:100%;padding:10px 0;justify-content:flex-start}#mainnav a.btn{justify-content:center;margin-top:10px}#mainnav a:not(.btn){font-size:15px}section{padding:52px 0}.hero{padding:48px 0 56px}.hero .tag{margin-bottom:18px}.hero h1{margin-bottom:16px}.hero .sub{margin-bottom:0;font-size:17px}.hero-actions{align-items:stretch;margin-top:22px}.hero-actions .btn{width:100%}.hero-actions .text-link{min-height:44px;display:inline-flex;align-items:center;justify-content:center}.hero-proof{margin-top:14px;gap:6px 12px}.cmp{font-size:12.5px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}.cmp th,.cmp td{padding:8px}}/* the comparison table is 371px inside a 335px column, so it pushed the whole document to 391px on a 375px phone; scroll it inside its own box instead */
 """
 
 # ─── Analytics ───
@@ -159,7 +167,7 @@ def landing_page_html() -> str:
     <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
     <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>
-    <a href="/dashboard" class="btn">Live Dashboard</a>
+    <a href="/pricing" class="btn">See plans</a>
   </div>
 </div></nav>
 <script>(function(){var t=document.querySelector('.nav-toggle');if(!t)return;var n=t.closest('nav');function set(o){n.classList.toggle('menu-open',o);t.setAttribute('aria-expanded',o);t.setAttribute('aria-label',o?'Close menu':'Open menu');}t.addEventListener('click',function(){set(!n.classList.contains('menu-open'));});n.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){set(false);});});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&n.classList.contains('menu-open')){set(false);t.focus();}});})();</script>
@@ -167,13 +175,21 @@ def landing_page_html() -> str:
 <header class="hero"><div class="wrap">
   <span class="tag">Spend controls for the agent economy</span>
   <h1>Your AI agent just spent<br><span class="hl">$12,400 while you slept.</span></h1>
-  <p class="author" style="color:#8a8d96;font-size:14px;margin:4px 0 10px"><span rel="author">By Maryan — founder, sipi.bot</span> · Published 2026-07-08 · Last updated 2026-07-18 · <a href="#origin" style="color:var(--accent)">Read the origin story →</a></p>
-  <p style="font-size:15px;color:#8a8d96;margin:6px 0 14px;padding:10px 16px;background:rgba(0,212,170,.04);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;text-align:left;max-width:680px;margin-left:auto;margin-right:auto"><strong>TL;DR:</strong> sipi.bot is a pre-spend firewall for autonomous AI agents — one HTTP call evaluates every transaction against per-tx caps, velocity limits, and merchant rules, returning approve, block, or flag in under 5ms before any money moves. Flat $99/month, MIT open-source core, MCP-native.</p>
-  <p class="sub"><strong>sipi.bot is a spend firewall for autonomous AI agents:</strong> it evaluates every transaction against your rules and returns approve, block, or flag in under 5ms — before a single dollar moves. You gave an autonomous agent your credit card and no spending limit; sipi.bot is the control layer that sits in front of it. <a href="/learn/spend-firewall-guide" style="color:var(--accent);text-decoration:underline">Read the complete spend firewall guide →</a></p>
-  <a href="/pricing" class="btn">Protect my agent</a>
-  <span style="margin-left:16px"><a href="#how" style="color:var(--mut);font-size:14px;text-decoration:underline">See how it works</a>
-  &nbsp;<a href="/masterclass" style="color:var(--mut);font-size:14px;text-decoration:underline">Free masterclass</a>
-  &nbsp;<a href="/dashboard" style="color:var(--mut);font-size:14px;text-decoration:underline">Live dashboard</a></span>
+  <p class="sub"><strong>sipi.bot is the pre-spend firewall for autonomous AI agents.</strong>
+  One HTTP call checks every proposed payment against your caps, velocity limits,
+  and merchant rules—then returns APPROVED, BLOCKED, or FLAGGED in under 5ms,
+  before money moves.</p>
+  <div class="hero-actions">
+    <a href="/pricing" class="btn">Protect my agent — see plans</a>
+    <a href="/playground/" class="btn ghost">Run a free live check</a>
+  </div>
+  <div class="hero-proof" aria-label="Product proof">
+    <a href="/eval-report/">53/53 public evals</a>
+    <span aria-hidden="true">·</span>
+    <a href="https://github.com/kindrat86/sipi-bot" rel="noopener">MIT-licensed core</a>
+    <span aria-hidden="true">·</span>
+    <a href="#origin">Founder incident and origin</a>
+  </div>
   <!-- TRY IT NOW -->
   <div class="codebox mono" style="max-width:620px;margin:24px auto 0;text-align:left">
 <p style="color:var(--accent);font-weight:700;margin-bottom:8px;font-size:14px">✨ Try it right now — no signup, no key. Copy, paste, run.</p>
@@ -510,31 +526,10 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       <li><span class="c">✓</span> MCP tool + HTTP API + CLI</li>
       <li><span class="c">✓</span> <strong>Guarantee:</strong> if we green-light a spend that breaks your rule, that month is free</li>
     </ul>
-    <a href="/playground/" class="btn" style="width:100%">Try it free in the playground</a>
-    <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{tier:'team',location:'homepage_pricing'})" class="btn ghost" style="width:100%;margin-top:10px">Start Team — $99/mo</a>
+    <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{tier:'team',location:'homepage_pricing'})" class="btn" style="width:100%">Start Team — $99/mo</a>
+    <a href="/playground/" class="btn ghost" style="width:100%;margin-top:10px">Try the live firewall first</a>
     <p style="color:var(--accent);font-size:12px;margin-top:10px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
     <p class="mono" style="color:var(--mut);font-size:13px;margin-top:10px">Free self-host core &nbsp;•&nbsp; open on GitHub</p>
-    <form class="form" style="flex-direction:column" onsubmit="return sub(event)">
-      <div style="display:flex;gap:8px;width:100%">
-        <label for="em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="em" placeholder="you@company.com" required>
-        <button class="btn" type="submit">Get access</button>
-      </div>
-      <label style="color:var(--mut);font-size:13px;margin-top:8px;text-align:left;width:100%">
-        How did you hear about us?
-        <select id="ref" style="background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:6px 10px;border-radius:8px;font-size:13px;margin-left:6px;width:auto">
-          <option value="">— select —</option>
-          <option value="chatgpt">ChatGPT / AI search</option>
-          <option value="google">Google Search</option>
-          <option value="hn">Hacker News</option>
-          <option value="github">GitHub</option>
-          <option value="reddit">Reddit</option>
-          <option value="x">X / Twitter</option>
-          <option value="friend">Friend / Colleague</option>
-          <option value="other">Other</option>
-        </select>
-      </label>
-    </form>
-    <p id="msg" aria-live="polite" style="color:var(--accent);font-size:14px;margin-top:10px"></p>
   </div>
 </div></section>
 
@@ -1195,30 +1190,29 @@ def pricing_html() -> str:
   <div class="wrap">
   <span class="tag">Your agent's spending department</span>
   <h1 style="font-size:clamp(28px,5vw,44px)">Flat price. No metered surprises.</h1>
-  <p class="sub">You're not paying per API call. You're paying for the peace of mind that no
-  agent ever spends a dollar you didn't authorize.</p>
-  <!-- Playground — $0 — the first rung -->
+  <p class="sub">Hosted Team gives every agent one deterministic control point,
+  unlimited evaluations, and an API key immediately after checkout.</p>
+  <!-- Team is the primary hosted offer. Free tools remain a clear secondary path. -->
   <div style="max-width:440px;margin:18px auto 0;text-align:center">
-    <div class="price" style="margin:0 auto;border-color:rgba(0,212,170,.15)">
-      <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)">Playground</div>
-      <div class="amt">$0</div>
-      <p style="color:var(--mut);font-size:15px;margin:8px 0 14px">Try rules against sample spend — no signup, no install</p>
-      <a href="/playground/" onclick="if(window.posthog)posthog.capture('playground_opened',{{source:'pricing'}})" class="btn" style="width:100%">Open playground →</a>
-    </div>
-  </div>
-  <div class="grid2" style="max-width:820px;margin:30px auto 0;text-align:left">
-    <div class="price" style="margin:0">
-      <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Team</div>
+    <div class="price" style="margin:0 auto">
+      <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)">Team · recommended</div>
       <div class="amt">$99<span> / month</span></div>
       <ul>
         <li><span class="c">✓</span> Unlimited transaction evaluations</li>
         <li><span class="c">✓</span> All rule types + human approval queue</li>
-        <li><span class="c">✓</span> Live dashboard + tamper-evident audit log</li>
-        <li><span class="c">✓</span> MCP + HTTP + CLI</li>
-        <li><span class="c">✓</span> Guarantee: green-light a rule violation, month is free</li>
+        <li><span class="c">✓</span> Dashboard, audit log, MCP, HTTP + CLI</li>
+        <li><span class="c">✓</span> API key issued immediately after payment</li>
       </ul>
-      <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{{tier:'team',location:'pricing_page'}})" class="btn" style="width:100%">Start Team →</a>
-      <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
+      <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{{tier:'team',location:'pricing_page_primary'}})" class="btn" style="width:100%">Start Team — $99/mo</a>
+      <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Green-light an active-rule violation and that month is free</p>
+    </div>
+  </div>
+  <div class="grid2" style="max-width:820px;margin:30px auto 0;text-align:left">
+    <div class="price" style="margin:0;border-color:var(--line)">
+      <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Playground</div>
+      <div class="amt">$0</div>
+      <p style="color:var(--mut);font-size:15px;margin:18px 0 14px">Run sample transactions through the live production firewall. No signup, install, or card.</p>
+      <a href="/playground/" onclick="if(window.posthog)posthog.capture('playground_opened',{{source:'pricing'}})" class="btn ghost" style="width:100%">Try the live firewall →</a>
     </div>
     <div class="price" style="margin:0;border-color:var(--line)">
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Business</div>
@@ -1235,7 +1229,7 @@ def pricing_html() -> str:
     </div>
   </div>
   <p class="mono" style="color:var(--mut);font-size:13px;margin-top:26px">
-    Free forever: self-host the open-source core. &nbsp;•&nbsp; <a href="/">← back</a>
+    Prefer your own infrastructure? <a href="/self-hosted/">Self-host the MIT-licensed core free forever.</a>
   </p>
 
   <div style="max-width:820px;margin:60px auto 0;text-align:left">
@@ -1287,19 +1281,38 @@ def key_success_html(rec) -> str:
     if rec and rec.get("key"):
         inner = f"""
     <h1 style="color:var(--accent)">You're protected. ✅</h1>
-    <p class="sub">This is your API key. Save it now — we only show it once.</p>
-    <div class="codebox mono" style="font-size:16px;word-break:break-all">{rec['key']}</div>
-    <p class="lead center" style="margin-top:24px">Tier: <strong>{rec.get('tier','team')}</strong>. Use it as a Bearer token:</p>
-    <div class="codebox mono">curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
+    <p class="sub">Your <strong>{rec.get('tier','team')}</strong> subscription is active.
+    Save this API key now—we show it only on this page.</p>
+    <div class="codebox mono" id="issued-key" style="font-size:16px;word-break:break-all">{rec['key']}</div>
+    <button type="button" class="btn ghost" id="copy-key" style="margin-top:12px">Copy API key</button>
+    <div class="grid2" style="max-width:820px;margin:34px auto 0;text-align:left">
+      <div class="card"><h3>1. Save the key</h3><p style="color:var(--mut)">Put it in your secret manager as <code>SIPI_BOT_API_KEY</code>. Never commit it to source control.</p></div>
+      <div class="card"><h3>2. Protect the first spend</h3><p style="color:var(--mut)">Call the evaluation endpoint before your agent invokes any paid tool or payment API.</p></div>
+    </div>
+    <p class="lead center" style="margin-top:32px">Run your first protected transaction:</p>
+    <div class="codebox mono" id="first-eval">curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 &nbsp;&nbsp;-H <span class="s">"Authorization: Bearer {rec['key']}"</span> \\<br>
 &nbsp;&nbsp;-d <span class="s">'{{"amount": 6200, "merchant": "unknown-gpu.ru"}}'</span></div>
-    <a href="/dashboard" class="btn" style="margin-top:24px">Open the dashboard →</a>"""
+    <div class="hero-actions">
+      <a href="/for/" class="btn">Choose my integration →</a>
+      <a href="/dashboard" class="btn ghost">Open the live dashboard</a>
+    </div>
+    <p style="color:var(--mut);font-size:14px;margin-top:22px">Need help? Email <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a>.</p>
+    <script>
+    (function(){{var b=document.getElementById('copy-key');if(!b)return;b.addEventListener('click',function(){{
+      navigator.clipboard.writeText(document.getElementById('issued-key').textContent.trim()).then(function(){{
+        b.textContent='Copied';if(window.posthog)posthog.capture('api_key_copied',{{source:'checkout_success'}});
+      }});
+    }});if(window.posthog)posthog.capture('checkout_success_viewed',{{tier:'{rec.get('tier','team')}'}});}})();
+    </script>"""
     else:
         inner = """
     <h1>Processing your subscription…</h1>
-    <p class="sub">Your payment is confirmed. If your key isn't shown yet, refresh in a few seconds
-    (the webhook is issuing it now). Still nothing after a minute? Email sales@sipiteno.com.</p>
-    <a href="/pricing" class="btn ghost">Back to pricing</a>"""
+    <p class="sub">Stripe confirmed your payment. The webhook is issuing your API key now;
+    refresh this page in a few seconds. If it still is not ready after one minute,
+    email <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a>.</p>
+    <button type="button" class="btn" onclick="location.reload()">Check again</button>
+    <a href="/pricing" class="btn ghost" style="margin-left:10px">Back to pricing</a>"""
     return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
