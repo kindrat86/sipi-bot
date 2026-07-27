@@ -1723,7 +1723,7 @@ def masterclass_html() -> str:
       <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>Merchant allowlist — only approved vendors go through</span><span style="color:var(--accent);font-weight:700">$199/mo value</span></div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>Category + time rules — block by type and hour</span><span style="color:var(--accent);font-weight:700">$99/mo value</span></div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>🎁 BONUS: MCP tool + CLI + self-host option</span><span style="color:var(--accent);font-weight:700">INCLUDED</span></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;margin-top:4px"><span style="font-weight:700">Total value</span><span style="color:var(--mut);text-decoration:line-through;font-size:18px">$1,295/mo</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;margin-top:4px"><span style="font-weight:700">Total value</span><span style="color:var(--mut);text-decoration:line-through;font-size:18px">$2,500/mo</span></div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0"><span style="font-weight:700;font-size:20px">You pay</span><span style="color:var(--accent);font-weight:800;font-size:28px">$99/mo</span></div>
     </div>
 
