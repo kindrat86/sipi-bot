@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spend Limits for Google Gemini Agents | sipi.bot</title>
+<meta name="description" content="Google Gemini agents using function calling or the Vertex AI platform need spend limits configured outside the model. This guide covers what Gemini&#x27;s native controls do and do not bound, and how to enforce hard per-transaction and velocity limits via sipi.bot.">
+<link rel="canonical" href="https://sipi.bot/limits/gemini-agent-limits">
+<meta property="og:title" content="Spend Limits for Google Gemini Agents | sipi.bot">
+<meta property="og:description" content="Google Gemini agents using function calling or the Vertex AI platform need spend limits configured outside the model. This guide covers what Gemini&#x27;s native controls do and do not bound, and how to enforce hard per-transaction and velocity limits via sipi.bot.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sipi.bot/limits/gemini-agent-limits">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Spend Limits for Google Gemini Agents | sipi.bot">
+<meta name="twitter:description" content="Google Gemini agents using function calling or the Vertex AI platform need spend limits configured outside the model. This guide covers what Gemini&#x27;s native controls do and do not bound, and how to enforce hard per-transaction and velocity limits via sipi.bot.">
+<meta name="twitter:image" content="https://sipi.bot/og.png">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="alternate" hreflang="en" href="https://sipi.bot/limits/gemini-agent-limits">
+<link rel="alternate" hreflang="en-US" href="https://sipi.bot/limits/gemini-agent-limits">
+<link rel="alternate" hreflang="x-default" href="https://sipi.bot/limits/gemini-agent-limits">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Spend Limits for Google Gemini Agents | sipi.bot", "description": "Google Gemini agents using function calling or the Vertex AI platform need spend limits configured outside the model. This guide covers what Gemini's native controls do and do not bound, and how to enforce hard per-transaction and velocity limits via sipi.bot.", "author": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot"}, "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://sipi.bot/limits/gemini-agent-limits"}, "datePublished": "2026-07-27", "dateModified": "2026-07-27"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot/"}, {"@type": "ListItem", "position": 2, "name": "Spend limits for Google Gemini agents", "item": "https://sipi.bot/limits/gemini-agent-limits"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does Google Gemini block spend in real time?", "acceptedAnswer": {"@type": "Answer", "text": "No. The native controls described above are quotas, rate limits, IAM scopes, or monthly budgets. They throttle or alert; they do not evaluate an individual transaction against a spend policy and block it in milliseconds before the cost is incurred. That is the gap sipi.bot fills."}}, {"@type": "Question", "name": "What limit value should I start with?", "acceptedAnswer": {"@type": "Answer", "text": "Start with the recommended default for your agent type, observe real traffic for a week, then tune. The right limit is the smallest value that does not interrupt legitimate work. If you are blocking more than 1% of transactions in steady state, the limit is probably too tight. Pair every dollar limit with a velocity cap (transactions per minute) \u2014 dollar limits catch the single large transaction, velocity caps catch the loop."}}, {"@type": "Question", "name": "How does sipi.bot enforce this for a Google Gemini agent?", "acceptedAnswer": {"@type": "Answer", "text": "Your agent calls evaluate_spend before any transaction (the model call, tool call, or provisioning action). sipi.bot checks it against your per-transaction caps, daily totals, velocity limits, merchant allowlists, and category rules, then returns approve, block, or flag \u2014 in under 5ms. The Google Gemini request only proceeds if the decision is approve."}}]}</script>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:linear-gradient(135deg,#0066cc,#004499);color:#fff;padding:2rem;border-radius:.75rem;margin-top:2rem;text-align:center}
+.cta h2{color:#fff;border:none}.cta .btn{display:inline-block;background:#fff;color:#0066cc;padding:.75rem 1.5rem;border-radius:.375rem;font-weight:600;margin-top:.5rem}
+.price-tag{display:inline-block;background:#dcfce7;color:#166534;font-weight:700;padding:.25rem .75rem;border-radius:.375rem;font-size:1.1rem}
+.related-links,.mesh-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.mesh-links ul,.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"\2713  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+.hub-grid{display:grid;grid-template-columns:1fr;gap:1rem;margin:1.5rem 0}
+@media(min-width:560px){.hub-grid{grid-template-columns:1fr 1fr}}
+.hub-card{background:#f9fafb;border:1px solid #e5e7eb;border-radius:.5rem;padding:1.25rem}
+.hub-card h3{margin-top:0}.hub-card .prov{display:inline-block;background:#dbeafe;color:#1e40af;font-size:.75rem;padding:.15rem .5rem;border-radius:99px;margin-bottom:.5rem}
+.src{font-size:.85rem;color:#6b7280;font-style:italic;margin-top:.5rem}</style>
+<!-- isenberg-cost-limits -->
+</head>
+<body>
+<article>
+<header><p class="lede">sipi.bot limits</p><h1>Spend limits for Google Gemini agents</h1><p class="lede">Google Gemini agents using function calling or the Vertex AI platform need spend limits configured outside the model. This guide covers what Gemini&#x27;s native controls do and do not bound, and how to enforce hard per-transaction and velocity limits via sipi.bot.</p></header><h2>What Google Gemini provides natively</h2><p>Google Cloud and Vertex AI expose <strong>quota</strong> and <strong>project-level spending controls</strong>, plus per-request token caps. These are coarse and account/project-scoped: they cap aggregate usage, not individual agent actions, and they are evaluated after a request is in flight — not before a transaction commits. A Gemini agent that issues many parallel function calls inside one quota window can exceed a useful budget before the quota refreshes.</p><h2>Why that is not enough for autonomous agents</h2><p>Autonomous agents need explicit spend limits because the alternatives — trusting the agent, the provider's monthly cap, or a human reviewer on every transaction — do not actually bound the risk. Provider caps are coarse and account-level. Human review does not scale. And agents have no native concept of a budget. A pre-spend firewall gives you a concrete, enforceable ceiling evaluated on every transaction in under 5ms.</p><h2>The limits that matter for a Google Gemini agent</h2><table><thead><tr><th>Limit type</th><th>What it catches</th><th>Example</th></tr></thead><tbody><tr><td>Per-transaction cap</td><td>A single oversized call</td><td>Block any one model/tool spend over $5</td></tr><tr><td>Daily total</td><td>Aggregate session burn</td><td>Max $50/day across all agent spend</td></tr><tr><td>Velocity cap</td><td>Retry &amp; runaway loops</td><td>Max 30 Google Gemini calls/minute</td></tr><tr><td>Category limit</td><td>Tool-call cost categories</td><td>Cap "long-context" calls at $10/day</td></tr></tbody></table><div class="callout"><strong>Bound it per decision, not per month.</strong> <a href="https://sipi.bot/">sipi.bot</a> evaluates every Google Gemini agent transaction against these limits in under 5ms and returns approve, block, or flag before the cost is incurred. Pricing starts at $99/mo. <a href="/pricing">See plans &rarr;</a></div><h2>What happens when a limit is hit</h2><p>When a transaction would exceed the limit, sipi.bot returns <strong>block</strong> with a reason code identifying which limit fired. The agent receives the decision as structured JSON and can choose an alternative path — retry with smaller scope, request human approval, or abandon the task. The blocked transaction is logged with the policy version, so you can always see exactly why it was denied.</p><h2>Frequently asked questions</h2><h3>Does Google Gemini block spend in real time?</h3><p>No. The native controls described above are quotas, rate limits, IAM scopes, or monthly budgets. They throttle or alert; they do not evaluate an individual transaction against a spend policy and block it in milliseconds before the cost is incurred. That is the gap sipi.bot fills.</p><h3>What limit value should I start with?</h3><p>Start with the recommended default for your agent type, observe real traffic for a week, then tune. The right limit is the smallest value that does not interrupt legitimate work. If you are blocking more than 1% of transactions in steady state, the limit is probably too tight. Pair every dollar limit with a velocity cap (transactions per minute) — dollar limits catch the single large transaction, velocity caps catch the loop.</p><h3>How does sipi.bot enforce this for a Google Gemini agent?</h3><p>Your agent calls evaluate_spend before any transaction (the model call, tool call, or provisioning action). sipi.bot checks it against your per-transaction caps, daily totals, velocity limits, merchant allowlists, and category rules, then returns approve, block, or flag — in under 5ms. The Google Gemini request only proceeds if the decision is approve.</p><section class="mesh-links"><h3 style="margin-top:0">Related resources</h3><ul><li><a href="/limits/">All provider spend limits (hub)</a></li><li><a href="/limits/groq-agent-limits">Spend limits for Groq agents</a></li><li><a href="/limits/bedrock-agent-limits">Spend limits for Bedrock agents</a></li><li><a href="/limits/recommended-limits-by-use-case">Recommended spend limits by use case</a></li><li><a href="/limits/openai-agent-limits">Spend limits for OpenAI agents</a></li><li><a href="/limits/anthropic-agent-limits">Spend limits for Anthropic Claude agents</a></li><li><a href="/glossary/velocity-limit">Velocity limit (glossary)</a></li><li><a href="/glossary/per-transaction-limit">Per-transaction limit (glossary)</a></li></ul></section>
+</article>
+<section class="cta"><h2>Stop runaway agent spend before it happens</h2>
+<p>sipi.bot is a pre-spend firewall for autonomous AI agents — approve, block, or flag every transaction in under 5ms.</p>
+<a href="https://sipi.bot/pricing" class="btn">See plans &rarr;</a></section>
+<footer><p>&copy; 2026 sipi.bot &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a> &middot; <a href="https://sipi.bot/pricing">Pricing</a></p></footer>
+</body>
+</html>

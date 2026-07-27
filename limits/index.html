@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spend Limits by AI Provider [2026] — OpenAI, Anthropic, Gemini, Groq, Bedrock</title>
+<meta name="description" content="Provider-by-provider guide to spend limits for autonomous AI agents: what OpenAI, Anthropic, Google Gemini, Groq, and Amazon Bedrock cap natively, why those caps don&#x27;t bound autonomous agents, and how to add a deterministic pre-spend layer.">
+<link rel="canonical" href="https://sipi.bot/limits/">
+<meta property="og:title" content="Spend Limits by AI Provider [2026] — OpenAI, Anthropic, Gemini, Groq, Bedrock">
+<meta property="og:description" content="Provider-by-provider guide to spend limits for autonomous AI agents: what OpenAI, Anthropic, Google Gemini, Groq, and Amazon Bedrock cap natively, why those caps don&#x27;t bound autonomous agents, and how to add a deterministic pre-spend layer.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sipi.bot/limits/">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Spend Limits by AI Provider [2026] — OpenAI, Anthropic, Gemini, Groq, Bedrock">
+<meta name="twitter:description" content="Provider-by-provider guide to spend limits for autonomous AI agents: what OpenAI, Anthropic, Google Gemini, Groq, and Amazon Bedrock cap natively, why those caps don&#x27;t bound autonomous agents, and how to add a deterministic pre-spend layer.">
+<meta name="twitter:image" content="https://sipi.bot/og.png">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="alternate" hreflang="en" href="https://sipi.bot/limits/">
+<link rel="alternate" hreflang="en-US" href="https://sipi.bot/limits/">
+<link rel="alternate" hreflang="x-default" href="https://sipi.bot/limits/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Spend Limits by AI Provider [2026] \u2014 OpenAI, Anthropic, Gemini, Groq, Bedrock", "description": "Provider-by-provider guide to spend limits for autonomous AI agents: what OpenAI, Anthropic, Google Gemini, Groq, and Amazon Bedrock cap natively, why those caps don't bound autonomous agents, and how to add a deterministic pre-spend layer.", "author": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot"}, "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://sipi.bot/limits/"}, "datePublished": "2026-07-27", "dateModified": "2026-07-27"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot/"}, {"@type": "ListItem", "position": 2, "name": "Spend limits by provider", "item": "https://sipi.bot/limits/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why do I need spend limits if my provider has a monthly cap?", "acceptedAnswer": {"@type": "Answer", "text": "Provider caps are monthly, account-level, and reactive \u2014 they alert or cut off after spend has accumulated, often after the damage is done. Autonomous agents can rack up significant spend in minutes via retry loops; a monthly cap cannot catch that in time. A pre-spend limit evaluated per transaction (in milliseconds) is the only control that bounds a loop before it scales."}}, {"@type": "Question", "name": "What's the difference between a per-transaction cap and a velocity cap?", "acceptedAnswer": {"@type": "Answer", "text": "A per-transaction cap blocks a single oversized spend (e.g., one $500 call). A velocity cap blocks a runaway retry loop (e.g., 100 calls/minute). You need both: the per-transaction cap catches the catastrophic single call, the velocity cap catches the death-by-a-thousand-calls loop."}}, {"@type": "Question", "name": "Does sipi.bot work across all these providers?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. sipi.bot is provider-agnostic. Your agent calls evaluate_spend before any transaction \u2014 whether that hits OpenAI, Anthropic, Gemini, Groq, Bedrock, or a non-LLM spend like cloud provisioning \u2014 and sipi.bot returns approve, block, or flag against your rules in under 5ms."}}]}</script>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
+h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
+h3{font-size:1.15rem;margin-top:1.5rem}
+a{color:#0066cc;text-decoration:none}a:hover{text-decoration:underline}
+.lede{font-size:1.1rem;color:#374151;margin-bottom:1.5rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95rem}
+th,td{border:1px solid #e5e7eb;padding:.6rem .75rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:600}
+.callout{background:#f0f7ff;border-left:4px solid #0066cc;padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 .375rem .375rem 0}
+.callout.warn{background:#fef3c7;border-left-color:#d97706}
+.callout.good{background:#ecfdf5;border-left-color:#059669}
+.cta{background:linear-gradient(135deg,#0066cc,#004499);color:#fff;padding:2rem;border-radius:.75rem;margin-top:2rem;text-align:center}
+.cta h2{color:#fff;border:none}.cta .btn{display:inline-block;background:#fff;color:#0066cc;padding:.75rem 1.5rem;border-radius:.375rem;font-weight:600;margin-top:.5rem}
+.price-tag{display:inline-block;background:#dcfce7;color:#166534;font-weight:700;padding:.25rem .75rem;border-radius:.375rem;font-size:1.1rem}
+.related-links,.mesh-links{background:#f9fafb;padding:1rem 1.25rem;border-radius:.5rem;margin-top:2.5rem}
+.mesh-links ul,.related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+ul.check{list-style:none;padding-left:0}ul.check li::before{content:"\2713  ";color:#059669;font-weight:700}
+code{background:#f3f4f6;padding:.1em .35em;border-radius:.25em;font-size:.9em}
+pre{background:#0a0a0a;color:#e5e7eb;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+.hub-grid{display:grid;grid-template-columns:1fr;gap:1rem;margin:1.5rem 0}
+@media(min-width:560px){.hub-grid{grid-template-columns:1fr 1fr}}
+.hub-card{background:#f9fafb;border:1px solid #e5e7eb;border-radius:.5rem;padding:1.25rem}
+.hub-card h3{margin-top:0}.hub-card .prov{display:inline-block;background:#dbeafe;color:#1e40af;font-size:.75rem;padding:.15rem .5rem;border-radius:99px;margin-bottom:.5rem}
+.src{font-size:.85rem;color:#6b7280;font-style:italic;margin-top:.5rem}</style>
+<!-- isenberg-cost-limits -->
+</head>
+<body>
+<article>
+<header><h1>Spend limits by AI provider (2026)</h1><p class="lede">Provider-by-provider guide to spend limits for autonomous AI agents: what OpenAI, Anthropic, Google Gemini, Groq, and Amazon Bedrock cap natively, why those caps don&#x27;t bound autonomous agents, and how to add a deterministic pre-spend layer.</p></header><div class="callout warn"><strong>The pattern across every provider.</strong> Native controls are quotas, rate limits, or monthly budgets. They throttle or alert after the fact. None of them evaluate an individual agent transaction against a spend policy and block it in milliseconds before the cost is incurred. That gap is what sipi.bot fills.</div><h2>Limits by provider</h2><div class="hub-grid"><div class="hub-card"><span class="prov">OpenAI</span><h3><a href="/limits/openai-agent-limits">OpenAI agent limits</a></h3><p style="margin:0;font-size:.9rem;color:#374151">OpenAI Responses API &amp; function-calling agents.</p></div><div class="hub-card"><span class="prov">Anthropic Claude</span><h3><a href="/limits/anthropic-agent-limits">Anthropic Claude agent limits</a></h3><p style="margin:0;font-size:.9rem;color:#374151">Claude tool-use agents.</p></div><div class="hub-card"><span class="prov">Google Gemini</span><h3><a href="/limits/gemini-agent-limits">Google Gemini agent limits</a></h3><p style="margin:0;font-size:.9rem;color:#374151">Google Gemini agents using function calling or the Vertex AI platform need spend…</p></div><div class="hub-card"><span class="prov">Groq</span><h3><a href="/limits/groq-agent-limits">Groq agent limits</a></h3><p style="margin:0;font-size:.9rem;color:#374151">Groq serves Llama inference at the fastest latency tier available, which means a…</p></div><div class="hub-card"><span class="prov">Amazon Bedrock</span><h3><a href="/limits/bedrock-agent-limits">Amazon Bedrock agent limits</a></h3><p style="margin:0;font-size:.9rem;color:#374151">Amazon Bedrock agents orchestrate Nova and other models with native AWS Budgets …</p></div><div class="hub-card"><span class="prov">By use case</span><h3><a href="/limits/recommended-limits-by-use-case">By use case agent limits</a></h3><p style="margin:0;font-size:.9rem;color:#374151">Recommended default limits per agent type.</p></div></div><h2>The two limits every agent needs</h2><table><thead><tr><th>Limit</th><th>Catches</th><th>Without it</th></tr></thead><tbody><tr><td><strong>Per-transaction cap</strong></td><td>A single oversized spend</td><td>One buggy tool call empties the budget</td></tr><tr><td><strong>Velocity cap</strong></td><td>Retry &amp; runaway loops</td><td>A flaky-tool loop multiplies cost 50&times; overnight</td></tr></tbody></table><section class="mesh-links"><h3 style="margin-top:0">Related resources</h3><ul><li><a href="/cost-of/">AI API cost comparison (hub)</a></li><li><a href="/glossary/velocity-limit">Velocity limit (glossary)</a></li><li><a href="/glossary/per-transaction-limit">Per-transaction limit (glossary)</a></li><li><a href="/policies/">Spend policy templates</a></li><li><a href="/learn/how-to-stop-ai-agent-overspending">How to stop AI agent overspending</a></li><li><a href="/calculators/budget-sizing-calculator">Budget sizing calculator</a></li></ul></section><h2>Frequently asked questions</h2><h3>Why do I need spend limits if my provider has a monthly cap?</h3><p>Provider caps are monthly, account-level, and reactive — they alert or cut off after spend has accumulated, often after the damage is done. Autonomous agents can rack up significant spend in minutes via retry loops; a monthly cap cannot catch that in time. A pre-spend limit evaluated per transaction (in milliseconds) is the only control that bounds a loop before it scales.</p><h3>What&#x27;s the difference between a per-transaction cap and a velocity cap?</h3><p>A per-transaction cap blocks a single oversized spend (e.g., one $500 call). A velocity cap blocks a runaway retry loop (e.g., 100 calls/minute). You need both: the per-transaction cap catches the catastrophic single call, the velocity cap catches the death-by-a-thousand-calls loop.</p><h3>Does sipi.bot work across all these providers?</h3><p>Yes. sipi.bot is provider-agnostic. Your agent calls evaluate_spend before any transaction — whether that hits OpenAI, Anthropic, Gemini, Groq, Bedrock, or a non-LLM spend like cloud provisioning — and sipi.bot returns approve, block, or flag against your rules in under 5ms.</p>
+</article>
+<section class="cta"><h2>Stop runaway agent spend before it happens</h2>
+<p>sipi.bot is a pre-spend firewall for autonomous AI agents — approve, block, or flag every transaction in under 5ms.</p>
+<a href="https://sipi.bot/pricing" class="btn">See plans &rarr;</a></section>
+<footer><p>&copy; 2026 sipi.bot &middot; <a href="https://sipi.bot/">Home</a> &middot; <a href="https://sipi.bot/about">About</a> &middot; <a href="https://sipi.bot/pricing">Pricing</a></p></footer>
+</body>
+</html>
