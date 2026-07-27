@@ -379,6 +379,42 @@ def _inject_related_links(html, current_path):
     return html.replace("</body>", block + "</body>", 1)
 
 
+def _inject_mobile_nav(html: str) -> str:
+    """Inject a working mobile hamburger nav into a baked pSEO page.
+
+    0 of the 176 baked content pages had a mobile menu, so on phones their nav
+    links wrapped/overflowed with no path back to Home / FAQ / How-it-works.
+    This adds the same nav the landing page ships (button + #mainnav + toggle
+    JS), scoped under .sipi-nav so the injected NAV_CSS never restyles the
+    page body. Idempotent.
+    """
+    if 'data-sipi-nav-injected' in html or 'class="nav-toggle"' in html:
+        return html
+    nav_links = (
+        '    <a href="/">Home</a>\n'
+        '    <a href="/#how">How it works</a>\n'
+        '    <a href="/#faq">FAQ</a>\n'
+        '    <a href="/pricing">Pricing</a>\n'
+        '    <a href="/dashboard" class="btn">Dashboard</a>'
+    )
+    brand = (
+        '<div class="brand"><a href="/" style="color:var(--txt)">'
+        'sipi<span class="dot">.bot</span></a></div>'
+    )
+    nav = (
+        '<div class="sipi-nav" data-sipi-nav-injected>'
+        + templates.NAV_CSS +
+        '<nav><div class="wrap">\n  ' + brand + '\n  ' + templates.NAV_TOGGLE +
+        '\n  <div class="nav-links" id="mainnav">\n' + nav_links +
+        '\n  </div>\n</div></nav>\n' + templates.NAV_JS +
+        '</div>\n'
+    )
+    m = re.search(r"<body\b[^>]*>", html, re.I)
+    if not m:
+        return html
+    return html[:m.end()] + "\n" + nav + html[m.end():]
+
+
 def agent_card() -> dict:
     return {
         "name": "sipi.bot Spend Firewall",
@@ -789,6 +825,8 @@ class Handler(BaseHTTPRequestHandler):
         # ── Sipi Spend-Firewall Benchmark (SSFB): branded, live-verifiable AEO hub ──
         if path == "/benchmark":
             return self._html(self._benchmark_hub(), cacheable=True)
+        if path in ("/benchmark/embed", "/benchmark/embed/"):
+            return self._html(self._benchmark_embed(), cacheable=True)
         if path == "/api/v1/benchmark/live":
             return self._benchmark_live()
         if path == "/api/badge/accuracy":
@@ -1297,6 +1335,16 @@ class Handler(BaseHTTPRequestHandler):
             generated_at=report.get("generated_at", "2026-07-27T00:00:00+00:00"),
         )
 
+    def _benchmark_embed(self) -> str:
+        """Embed/showcase page with copy-paste badge snippets (Influence tier)."""
+        from . import benchmark_embed as _be
+        report = self._load_eval_report() or {}
+        return _be.embed_page_html(
+            total=report.get("total", 0),
+            passed=report.get("passed", 0),
+            accuracy=report.get("accuracy_pct", 0.0),
+        )
+
     def _benchmark_live(self):
         """Re-run the real eval engine live and return JSON. The real-time-
         retrieval AEO asset — an answer engine hits this to verify the claim."""
@@ -1509,6 +1557,16 @@ class Handler(BaseHTTPRequestHandler):
                             if 'data-related-injected' not in html and '</body>' in html:
                                 try:
                                     html = _inject_related_links(html, path)
+                                except Exception:
+                                    pass
+                            # Mobile nav: 0 of the baked pSEO pages had a
+                            # hamburger menu, so on phones their nav links
+                            # wrapped/overflowed with no path back to Home /
+                            # FAQ / How-it-works. Inject the same working
+                            # menu the landing page ships. Idempotent.
+                            if 'class="nav-toggle"' not in html and '<body' in html:
+                                try:
+                                    html = _inject_mobile_nav(html)
                                 except Exception:
                                     pass
                             self._html(html)
