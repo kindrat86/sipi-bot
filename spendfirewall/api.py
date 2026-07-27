@@ -517,6 +517,29 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", "0")
             self.end_headers()
             return
+        # Hub roots that have child pages but no index.html were 404ing on the
+        # bare form, leaking visitors who guessed the URL or followed a stale
+        # link. Redirect to the populated equivalent. Children (/compare/<x>/)
+        # are still served by _serve_pseo above, so only the bare hub is mapped.
+        # Mirrors the www->apex and /index.html hops, incl. security headers.
+        _HUB_REDIRECTS = {
+            "/compare": "/vs/",
+            "/compare/": "/vs/",
+            "/calculator": "/tools/risk-calculator/",
+            "/calculator/": "/tools/risk-calculator/",
+        }
+        if path in _HUB_REDIRECTS:
+            self.send_response(301)
+            self.send_header("Location", _HUB_REDIRECTS[path])
+            self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("X-Frame-Options", "DENY")
+            self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+            self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+            self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
         if path == "/":
             return self._html(templates.landing_page_html())
         if path == "/dashboard":
