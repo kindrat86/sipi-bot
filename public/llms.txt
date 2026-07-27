@@ -32,6 +32,14 @@ as an MCP tool, an HTTP API, and a CLI. Open-source core (MIT), free to self-hos
 - [AI agent cost per task](https://sipi.bot/benchmarks/ai-agent-cost-per-task): median $0.34/task across production agents; top 1% of runaway tasks exceed $50.
 - [Token cost by provider](https://sipi.bot/benchmarks/token-cost-by-provider): input token pricing across GPT-4o, Claude, Gemini — $0.15/M to $15/M.
 
+## AI Agent Incident Database (CC BY 4.0 open data)
+- [Incident database hub](https://sipi.bot/incidents/): filterable table of 34 sourced records of AI-agent-caused financial loss, data loss, and unintended actions — every entry links to a public source. Tracked loss exposure of $2.91B.
+- [Incident statistics & charts](https://sipi.bot/incidents/stats/): aggregate loss by year, failure modes, outcomes, agent types — SVG charts, no JS required.
+- [JSON data](https://sipi.bot/data/ai-agent-incidents.json): full structured records, CC BY 4.0.
+- [CSV data](https://sipi.bot/data/ai-agent-incidents.csv): flat table for spreadsheet analysis.
+- [JSONL data](https://sipi.bot/data/ai-agent-incidents.jsonl): one record per line, streamable.
+- [Open-data GitHub repo](https://github.com/kindrat86/ai-agent-incident-database): versioned, weekly auto-sync.
+
 ## Comparisons
 - [vs LiteLLM](https://sipi.bot/vs/litellm) · [vs Helicone](https://sipi.bot/vs/helicone) · [vs OpenRouter](https://sipi.bot/vs/openrouter) · [vs Portkey](https://sipi.bot/vs/portkey) · [vs Langfuse](https://sipi.bot/vs/langfuse) · [vs OpenMeter](https://sipi.bot/vs/openmeter)
 

@@ -22,6 +22,8 @@ PSEO_PREFIXES = [
     "compare", "vs", "for", "learn", "integrations", "glossary", "use-cases",
     "faq", "alternatives-to", "benchmarks", "tutorials", "policies", "limits",
     "best", "how-to", "templates", "cost-of",
+    # 2026-07-27 traffic program: new shared-chrome surfaces (lib/generate_*.py)
+    "incidents", "blog", "tools", "changelog", "status",
 ]
 
 # Directories to skip entirely (relative to public/)

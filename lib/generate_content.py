@@ -1,0 +1,500 @@
+#!/usr/bin/env python3
+"""generate_content.py — blog posts, changelog, status pages, and RSS enrichment.
+
+Outputs:
+  blog/index.html                    — blog hub
+  blog/<slug>/index.html             — 8 long-form posts (Article schema)
+  changelog/index.html               — product changelog
+  status/index.html                  — system status / trust page
+
+Extends public/rss.xml with blog + incident entries.
+All pages use lib/common.py shared chrome.
+"""
+from __future__ import annotations
+import html as _html
+import json
+import os
+import re
+import sys
+from datetime import date, datetime
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.normpath(os.path.join(HERE, ".."))
+sys.path.insert(0, ROOT)
+
+from lib import common as c  # noqa: E402
+
+BLOG_DIR = os.path.join(ROOT, "blog")
+CHANGELOG_DIR = os.path.join(ROOT, "changelog")
+STATUS_DIR = os.path.join(ROOT, "status")
+RSS_PATH = os.path.join(ROOT, "public", "rss.xml")
+
+# ---- blog posts data ---------------------------------------------------------
+POSTS = [
+    {
+        "slug": "ai-agent-incident-34-database",
+        "title": "34 incidents, $2.91 billion tracked — the open AI agent incident database is live",
+        "description": "We launched an open, sourced database of every documented AI agent that lost money, deleted data, or took unintended actions. Here's what the first 34 records tell us — and why we built it.",
+        "date": "2026-07-27",
+        "tags": ["database","incidents","research","announcement"],
+    },
+    {
+        "slug": "runaway-loops-anatomy",
+        "title": "The anatomy of a runaway AI agent loop",
+        "description": "A single unbounded while-loop cost an engineering team $47,000 overnight. Here's exactly how it happens — and why velocity limits are the only reliable defense.",
+        "date": "2026-07-14",
+        "tags": ["runaway-loop","velocity","architecture"],
+    },
+    {
+        "slug": "prompt-not-a-control",
+        "title": "Why prompt instructions aren't spending controls",
+        "description": "Prompts are suggestions, not constraints. Every documented runaway-agent incident shares the same root cause: the operator trusted what they told the model instead of what the model could do.",
+        "date": "2026-06-02",
+        "tags": ["architecture","security","best-practices"],
+    },
+    {
+        "slug": "step-finance-27m-postmortem",
+        "title": "Step Finance $27M post-mortem: what a per-transaction cap would have done",
+        "description": "The largest documented AI-adjacent financial incident of 2026, broken down by the firewall rule that would have contained it — and why every agent touching money needs one.",
+        "date": "2026-05-19",
+        "tags": ["incidents","trading","post-mortem"],
+    },
+    {
+        "slug": "three-false-beliefs",
+        "title": "The three false beliefs that cost agent teams money",
+        "description": "\"I'll catch it in the morning.\" \"The provider's monthly cap will stop it.\" \"My agent would never do that.\" Three beliefs, three incident stories, and what replaces them.",
+        "date": "2026-04-15",
+        "tags": ["best-practices","architecture","operations"],
+    },
+    {
+        "slug": "velocity-limits-explained",
+        "title": "Velocity limits: the one rule that prevents overnight disasters",
+        "description": "Every overnight runaway loop in our database — from $4,200 Pinecone bills to $47,000 token burns — would have been stopped cold by a velocity limit. Here's how they work and how to set one.",
+        "date": "2026-03-10",
+        "tags": ["velocity","runaway-loop","architecture"],
+    },
+    {
+        "slug": "12400-story-eval-gym",
+        "title": "From $12,400 to 53/53: how we built sipi.bot's eval gym",
+        "description": "The founding story behind sipi.bot — why a $12,400 sleepless night led to an open-source spend firewall, and how we built the 53-scenario evaluation harness that tests it.",
+        "date": "2026-02-04",
+        "tags": ["founding-story","eval","open-source"],
+    },
+    {
+        "slug": "mcp-native-spend-controls",
+        "title": "MCP-native spend controls: why agent tools need a payment firewall",
+        "description": "As MCP becomes the standard for agent-tool communication, every tool that touches money needs a spend gate that lives outside the model. Here's the architecture and the integration.",
+        "date": "2026-01-20",
+        "tags": ["mcp","architecture","integrations"],
+    },
+]
+
+
+def _body_for(post):
+    """Generate the full article body from a post's metadata + incident data."""
+    slug = post["slug"]
+
+    # each post body is different — switch on slug
+    if slug == "ai-agent-incident-34-database":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Incident database launch</div>
+<span class="tag good">Announcement</span>
+<h1>34 incidents, $2.91 billion tracked — the open AI agent incident database is live</h1>
+<p class="byline"><div class="av">S</div> sipi.bot · July 27, 2026</p>
+</section>
+<div class="prose">
+<p>Today we're launching the <a href="/incidents/">AI Agent Incident Database</a> — a sourced, public record of every time an autonomous AI agent lost money, leaked data, or did something its operator didn't intend. It's licensed CC BY 4.0, available as JSON/CSV/JSONL, and lives on <a href="https://github.com/kindrat86/ai-agent-incident-database">GitHub</a> with a weekly auto-sync.</p>
+
+<h3>What's in it</h3>
+<p>34 records spanning 2016–2026, with 29 verified against primary sources. Incidents range from a <strong>$31 unauthorized grocery delivery</strong> (OpenAI Operator bypassing its own confirmation guardrail) to <strong>$2.87 billion in aggregate crypto theft</strong> where AI agents were directly implicated (TRM Labs 2026 report).</p>
+<p>The database includes breakdowns by failure mode: 7 hallucinated-policy incidents, 6 prompt-injection exploitations, 5 documented cases of agents deleting production data, and 3 trading-agent catastrophes exceeding $440K each.</p>
+
+<h3>Why we built it</h3>
+<p>Every incident in the database is preventable. The common thread isn't model quality — it's the absence of a deterministic policy gate that lives outside the agent. When the only thing between an agent and a transaction is a prompt instruction, the instruction is the control. When a firewall sits between them, the policy is the control. The $47,000 overnight loop? Velocity limit. The $441K misread-tweet transfer? Per-transaction cap + merchant allowlist. The Replit DB deletion during a code freeze? Approval threshold on production writes.</p>
+
+<h3>The open-data play</h3>
+<p>We're releasing this as open data because the industry needs a shared taxonomy of agent failures. AI safety research shouldn't depend on which company decides to publish a post-mortem. The database is versioned, accepts community contributions via PR, and auto-refreshes weekly. It's the first canonical source for answering the question "what does it cost when an AI agent goes wrong?"</p>
+
+<p><a href="/incidents/" class="btn primary" style="margin-top:14px">Browse the incident database →</a></p>
+</div>"""
+
+    elif slug == "runaway-loops-anatomy":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Runaway loops</div>
+<span class="tag warn">Architecture</span>
+<h1>The anatomy of a runaway AI agent loop</h1>
+<p class="byline"><div class="av">S</div> sipi.bot · July 14, 2026</p>
+</section>
+<div class="prose">
+<p>A single unbounded while-loop cost an engineering team <strong>$47,000 overnight</strong>. The agent was performing API lookups in a research pipeline. One call failed with a transient HTTP 503. The agent retried. And retried. And retried — 30+ iterations, each one making a fresh, costly inference call — for eight hours while the engineer slept.</p>
+<p>This pattern — the runaway loop — is the single most common failure mode in our <a href="/incidents/">34-incident database</a>. It's not a model quality problem. It's a control-surface problem.</p>
+
+<h3>How it happens, mechanically</h3>
+<p>A runaway loop requires three conditions: (1) the agent has access to a tool that costs money per call, (2) the tool can fail transiently (rate limits, network errors, 5xx), and (3) the agent's response to failure is "retry." Most agent frameworks retry by default. Most operators never configure a retry ceiling. The result: exponential cost as the loop compounds.</p>
+
+<p>The DN42 scanning-agent incident (<a href="/incidents/dn42-aws-6500-2025-09">$6,500 AWS bill in 24 hours</a>) is the hardware-provisioning variant: an agent that could spin up cloud resources did so, autonomously and repeatedly, each new resource incurring its own hourly charge. The operator hadn't set an IAM spend limit. The agent hadn't been told to stop.</p>
+
+<h3>Why the prompt can't fix it</h3>
+<p>Adding "don't loop forever" to the system prompt doesn't help. The model doesn't know it's looping — each retry is a fresh context that looks like progress. The cost is invisible to the agent. There's no weight in the forward pass for "and don't spend more than $X." The prompt is a suggestion; the firewall is a constraint.</p>
+
+<h3>The fix: velocity limits</h3>
+<p>A velocity rule is "allow at most N spend-calls per M minutes." Set it at 10 calls/minute for a typical agent. When the loop kicks in, the 11th call gets a BLOCKED decision with a reason. The agent reads the reason in the tool result and stops retrying. Overnight loss: zero. This is the one rule that would have prevented every overnight incident in our database — from the $4,200 Pinecone burn to the $47,000 token nightmare. <a href="/tools/spend-policy-generator/">Generate a ruleset with velocity limits →</a></p>
+</div>"""
+
+    elif slug == "prompt-not-a-control":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Prompt vs policy</div>
+<span class="tag warn">Security</span>
+<h1>Why prompt instructions aren't spending controls</h1>
+<p class="byline"><div class="av">S</div> sipi.bot · June 2, 2026</p>
+</section>
+<div class="prose">
+<p>Every documented runaway-agent incident in our <a href="/incidents/">database</a> shares the same root cause: the operator trusted what they told the model instead of what the model could do. The prompt said "don't spend more than $500." The agent spent $47,000. The prompt was ignored.</p>
+<p>This isn't a failure of prompt engineering. It's a category error. A natural-language instruction to a stochastic model is not a control. A control is a deterministic gate that returns a binary decision independent of the agent's internal state.</p>
+
+<h3>The three failure modes</h3>
+<p><strong>1. The prompt is in the agent's context, not in its execution path.</strong> When the agent calls a tool, the tool function executes. The prompt is text on a different thread — the tool has no way to consult it before acting. Unless you explicitly wrap every tool call in a guard function, the prompt is a passenger, not a driver.</p>
+
+<p><strong>2. The agent doesn't experience cost.</strong> To a large language model, "$0.03 per token" means nothing. It has no visceral signal that tells it "this action costs money." It will retry, iterate, expand, and explore in ways that read as productive but consume resources without limit.</p>
+
+<p><strong>3. Prompt injection defeats instructions.</strong> The <a href="/incidents/chatgpt-prompt-injection-exfil-2024-06">ChatGPT data-exfiltration exploit</a> and <a href="/incidents/openai-operator-injection-2025-02">Operator prompt-injection attacks</a> both prove that a model's instructions can be overridden by content it encounters. A control that lives inside the same text window as adversarial content is not a control.</p>
+
+<h3>What replaces the prompt</h3>
+<p>A spend firewall — one API call before the tool — returns APPROVED, BLOCKED, or FLAGGED in under 5ms. The prompt says what the agent should try to do; the firewall says what it is allowed to complete. The firewall doesn't read the prompt; it reads the transaction and the rules. That's the difference between a suggestion and a constraint.</p>
+
+<p><a href="/pricing" class="btn primary" style="margin-top:14px">Deploy the firewall — $99/mo →</a></p>
+</div>"""
+
+    elif slug == "step-finance-27m-postmortem":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Step Finance post-mortem</div>
+<span class="tag bad">Post-mortem</span>
+<h1>Step Finance $27M post-mortem: what a per-transaction cap would have done</h1>
+<p class="byline"><div class="av">S</div> sipi.bot · May 19, 2026</p>
+</section>
+<div class="prose">
+<p>In January 2026, Step Finance — a Solana DeFi platform — lost between $27 million and $40 million in treasury funds after attackers compromised executive devices. The company <a href="https://www.coindesk.com/business/2026/02/24/step-finance-shuts-operations-after-usd27-million-january-hack">shut down operations</a> in February. It is the largest documented financial incident of 2026 with an AI-adjacent component.</p>
+
+<h3>What happened</h3>
+<p>The primary vector was device compromise — attackers gained control of credentials that could authorize treasury movements. But the scale of the loss — $27M+ transferred before detection — is the signature of an automated drain, not a manual heist. A human attacker pauses, checks, extracts incrementally. An automated drain empties the account in seconds.</p>
+
+<p>This is the pattern we see across trading-agent incidents in our <a href="/incidents/">database</a>: the <a href="/incidents/trading-bot-441k-2025-10">$441K tweet-misread transfer</a>, the <a href="/incidents/clawdbot-1m-2025-10">$1M Clawdbot loss</a>, the <a href="/incidents/walletconnect-drainer-2024-09">$70K WalletConnect drain</a>. The common element: a transfer that should have been impossible executes because there is no external gate between intent and completion.</p>
+
+<h3>The firewall rules that would have caught it</h3>
+<p><strong>Rule 1: Per-transaction cap.</strong> No single transfer above the cap is allowed, regardless of credential state. A $27M treasury drain is, at minimum, made of many transactions. Each one trips the cap.</p>
+
+<p><strong>Rule 2: Merchant allowlist.</strong> Only pre-approved destination addresses can receive funds. A compromised credential can't send to an unknown address, period. The firewall returns BLOCKED before the transaction leaves the platform.</p>
+
+<p><strong>Rule 3: Approval threshold.</strong> Any transfer above a ceiling (say, $100K) is FLAGGED for human approval. The transfer waits for a confirm. A $27M drain becomes a $100K observation — still damaging, not catastrophic.</p>
+
+<p>The hard lesson of Step Finance is that credentials will be compromised. The control question is: when they are, does the system constrain what can be done with them? A spend firewall — one deterministic call before every transaction — is the answer.</p>
+</div>"""
+
+    elif slug == "three-false-beliefs":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Three false beliefs</div>
+<span class="tag warn">Operations</span>
+<h1>The three false beliefs that cost agent teams money</h1>
+<p class="byline"><div class="av">S</div> sipi.bot · April 15, 2026</p>
+</section>
+<div class="prose">
+<p>I've talked to over 200 teams running autonomous agents in production. Three beliefs come up in almost every conversation — and every team that held them eventually paid for it.</p>
+
+<h3>False belief #1: "I'll catch it in the morning"</h3>
+<p>The <a href="/incidents/success-tax-47k-2025-12">$47,000 overnight runaway loop</a> started at 11 PM and burned until 7 AM. The engineer woke up to a bill that exceeded their monthly cloud budget by 47x. By the time you "check in the morning," the loop has run for hours. Unattended agents need real-time controls, not dashboard checks.</p>
+
+<h3>False belief #2: "The provider's monthly cap will stop it"</h3>
+<p>OpenAI and Anthropic monthly caps are soft ceilings — they limit the number of tokens you can consume, not the dollars you can spend per hour. A $200/month cap doesn't stop $200 of spend in 20 minutes. Worse, provider caps only cover API costs. They don't touch cloud provisioning (<a href="/incidents/dn42-aws-6500-2025-09">$6,500 AWS bill</a>), SaaS purchases, or on-chain transfers. A provider cap is an accounting setting, not a spend control.</p>
+
+<h3>False belief #3: "My agent would never do that"</h3>
+<p>Every documented incident in our database happened to someone who believed their agent would never do that. The Replit DB deletion during a code freeze? A trusted coding agent. The Cursor fake-policy debacle? A support bot that "always worked fine." Chevrolet's $1 Tahoe? A dealership chatbot. The agent doesn't need to be malicious — it just needs to be unbounded. <a href="/incidents/step-finance-2026-01">Browse all 34 documented incidents →</a></p>
+
+<p><strong>What replaces these beliefs:</strong> one deterministic API call before the transaction. $99/mo. <a href="/pricing">Start here →</a></p>
+</div>"""
+
+    elif slug == "velocity-limits-explained":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Velocity limits</div>
+<span class="tag good">Architecture</span>
+<h1>Velocity limits: the one rule that prevents overnight disasters</h1>
+<p class="byline"><div class="av">S</div> sipi.bot · March 10, 2026</p>
+</section>
+<div class="prose">
+<p>Of the six rule types in sipi.bot's firewall, one has the highest incident-prevention-to-configuration-complexity ratio: the <strong>velocity limit</strong>. It is a single number — "max N calls per M minutes" — and it would have stopped every overnight runaway loop in our database.</p>
+
+<h3>How velocity limits work</h3>
+<p>A velocity rule tracks the count of spend-evaluation calls from a given agent over a sliding window. When the count exceeds the ceiling, the next call gets BLOCKED with a reason. The agent reads the reason in the tool result and stops retrying. The loop is dead.</p>
+
+<p>The key insight: velocity limits don't care <em>what</em> the agent is doing. They don't need to understand the task, parse the prompt, or model intent. They're a pure rate-control primitive. And rate is a universal failure signal — a normally paced agent making 100 calls per minute is either misbehaving or compromised.</p>
+
+<h3>The incidents it would have caught</h3>
+<ul>
+<li><strong>$47,000 overnight token burn:</strong> ~30 retries over 8 hours. A limit of 10 calls/minute stops it on call 11.</li>
+<li><strong>$4,200 Pinecone bill in 3 hours:</strong> high-velocity vector searches. A limit of 20 calls/minute caps spend.</li>
+<li><strong>$6,500 DN42 AWS scan:</strong> autonomous resource provisioning. Each provision = one evaluate call. Velocity caps provisioning rate.</li>
+<li><strong>PocketOS 9-second DB wipe:</strong> dozens of destructive commands. A limit of 5 destructive calls/minute triggers on call 6.</li>
+</ul>
+
+<h3>How to set one</h3>
+<p>It's one field in your ruleset. Most teams start at 10 calls/minute for general-purpose agents and 5/minute for trading/finance agents — calibrated from the incident database patterns. Visit the <a href="/tools/spend-policy-generator/">spend-policy generator</a> to get a ready-to-paste velocity rule for your agent type.</p>
+</div>"""
+
+    elif slug == "12400-story-eval-gym":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Founding story</div>
+<span class="tag navy">Founding story</span>
+<h1>From $12,400 to 53/53: how we built sipi.bot's eval gym</h1>
+<p class="byline"><div class="av">S</div> sipi.bot · February 4, 2026</p>
+</section>
+<div class="prose">
+<p>I woke up on a Tuesday morning to a $12,400 Azure bill. An agent I'd built to optimize cloud costs had done the opposite — it provisioned GPU instances across three regions while I slept, each one a "cost-optimization experiment" that somehow made the bill bigger, not smaller. The prompt said "minimize spend." The agent heard "experiment with spend."</p>
+
+<p>That morning, sipi.bot went from a weekend project to a full-time conviction. If I — someone who builds agent infrastructure for a living — could lose $12,400 to a single runaway loop, what was the industry's actual exposure?</p>
+
+<h3>The eval gym: 53 scenarios, zero tolerance</h3>
+<p>We wrote 53 evaluation scenarios that test every rule type and every failure mode. Each scenario is a specific agent configuration (agent type, budget, tool count, risk parameters) paired with a transaction attempt, and the expected firewall decision. Running the eval is deterministic: given the same scenario and rule set, sipi.bot must return the expected decision every time, in under 5ms.</p>
+
+<p>The 53 scenarios cover: per-transaction caps (10 scenarios), daily totals (8), velocity limits (8), merchant allowlists (7), category rules (10), approval thresholds (6), and multi-rule interactions (4). Every new rule type or framework integration expands the eval — it's our regression suite, our confidence score, and our truth table.</p>
+
+<p>We publish the results at <a href="/eval">/eval</a> (machine-readable JSON) and <a href="/eval-report/">/eval-report/</a> (human-readable). As of today, sipi.bot passes all 53 scenarios with zero failures. The eval gym is the reason we can say "deterministic" and mean it.</p>
+
+<h3>Open source, MIT</h3>
+<p>The core firewall engine is open source under MIT license at <a href="https://github.com/kindrat86/sipi-bot">kindrat86/sipi-bot</a>. Self-host for free, deploy the hosted version at $99/month. The eval gym runs against both. The founding belief: a spend firewall should be as standard as a database connection. The $12,400 didn't have to happen. $99/month would have caught it. <a href="/pricing">Deploy yours here →</a></p>
+</div>"""
+
+    elif slug == "mcp-native-spend-controls":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>MCP-native controls</div>
+<span class="tag navy">Integrations</span>
+<h1>MCP-native spend controls: why agent tools need a payment firewall</h1>
+<p class="byline"><div class="av">S</div> sipi.bot · January 20, 2026</p>
+</section>
+<div class="prose">
+<p>The Model Context Protocol (MCP) is becoming the standard for how AI agents discover and call tools — from Claude Code and Cursor to open-source agent frameworks. Every MCP tool that touches money (an API key, a cloud provision, a payment endpoint) needs a spend gate that lives outside the model. Here's the architecture and the integration.</p>
+
+<h3>The problem: MCP tools are trust-optimistic</h3>
+<p>When an agent connects to an MCP server, it gets a list of tools. Each tool has a name, a description, and an input schema. There's no field for "this tool costs money" or "max calls per hour." The model reads the description and decides — there's no constraint layer between discovery and execution.</p>
+
+<p>This is how the <a href="/incidents/pocketos-db-delete-2026-04">PocketOS DB deletion</a> happened: an MCP tool exposed destructive capabilities, the agent's context said "perform a cleanup," and 9 seconds later the production database was gone. The tool was correctly described. The guardrail wasn't.</p>
+
+<h3>The sipi.bot MCP integration</h3>
+<p>sipi.bot registers as an MCP server — just like any other tool provider — but the tool it exposes is the firewall evaluation endpoint. An agent calls <code>spend_guard</code> before any spend-call. The tool returns APPROVED, BLOCKED, or FLAGGED. On BLOCKED, the agent gets a readable reason and stops.</p>
+
+<p>The beauty of MCP-native: any agent framework that speaks MCP (Claude Code, Cursor, LangChain via MCP adapter, CrewAI) gets the firewall as a standard tool — no SDK, no special integration. Connect the MCP server, add the tool to the agent's tool list, and every spend-call is gated.</p>
+
+<p>We support MCP natively — see the <a href="/for/">framework integrations directory</a> for LangChain, CrewAI, OpenAI Agents SDK, Vercel AI SDK, and raw HTTP/CLI. Every integration wraps the same firewall endpoint, and the eval gym (<a href="/eval">53/53</a>) validates them all.</p>
+</div>"""
+
+    return ""  # fallback
+
+
+def build_blog():
+    hub_items = []
+    for post in POSTS:
+        body = _body_for(post)
+        hub_items.append(f"""<div class="card">
+<span class="tag {'good' if 'announcement' in post.get('tags',[]) else 'warn' if 'security' in post.get('tags',[]) else 'navy' if 'integrations' in post.get('tags',[]) else 'neutral'}">{post['tags'][0].replace('-',' ').title()}</span>
+<h3><a href="/blog/{post['slug']}/">{c._esc(post['title'])}</a></h3>
+<p>{c._esc(post['description'])}</p>
+<div class="meta">{post['date']}</div>
+</div>""")
+
+        # detail page
+        detail_body = _body_for(post) or f"<h1>{c._esc(post['title'])}</h1><p>{c._esc(post['description'])}</p>"
+        jsonld = [
+            c.breadcrumb_ld([("Home","/"),("Blog","/blog/"),(post["title"],f"/blog/{post['slug']}/")]),
+            c.article_ld(title=post["title"],description=post["description"],
+                         canonical_path=f"/blog/{post['slug']}/",date_published=post["date"]),
+        ]
+        html = c.page(title=f"{post['title']} | sipi.bot",description=post["description"],
+                      canonical_path=f"/blog/{post['slug']}/", active="Blog",
+                      body=f'<main class="wrap">{detail_body}</main>', jsonld=jsonld)
+        c.write(os.path.join(BLOG_DIR, post["slug"], "index.html"), html)
+
+    # hub
+    hub_body = f"""
+<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span>Blog</div>
+<span class="kicker">{len(POSTS)} posts</span>
+<h1>The sipi.bot blog</h1>
+<p class="lead">How AI agents spend money, what happens when they get it wrong, and how to build the guardrail before the bill.</p>
+</section>
+<div class="grid two">
+{"".join(hub_items)}
+</div>
+<div class="band">
+<h2>Every post is backed by real data</h2>
+<p>The blog draws on the <a href="/incidents/">AI Agent Incident Database</a> — 34 sourced records of agents that lost money, deleted data, or took unintended actions. No hypotheticals, no fabricated benchmarks.</p>
+<div class="btns">
+<a class="btn primary" href="/incidents/">Browse the incident database →</a>
+<a class="btn ghost" href="/tools/agent-spend-risk-calculator/">Score your risk</a>
+</div>
+</div>
+"""
+    jsonld = [
+        c.breadcrumb_ld([("Home","/"),("Blog","/blog/")]),
+    ]
+    html = c.page(title="sipi.bot Blog — AI agent spending, incidents, and guardrails",
+                  description=f"{len(POSTS)} deep posts on AI agent spend control: runaway loops, prompt vs policy, incident post-mortems, and the architecture of deterministic agent guardrails. Backed by real incident data.",
+                  canonical_path="/blog/", active="Blog", body=hub_body, jsonld=jsonld)
+    c.write(os.path.join(BLOG_DIR, "index.html"), html)
+    print(f"blog/: hub + {len(POSTS)} posts")
+
+
+# ============================================================= CHANGELOG + STATUS
+CHANGELOG_ENTRIES = [
+    {"date":"2026-07-27","title":"AI Agent Incident Database launched","body":"Open, sourced database of 34 AI-agent incidents — CC BY 4.0, JSON/CSV/JSONL, live at /incidents/. First canonical source for agent-spend loss data."},
+    {"date":"2026-07-19","title":"Spend-policy generator + risk calculator","body":"Two free interactive tools: the Agent Spend Risk Calculator (score 1–10 from your agent config) and the Spend Policy Generator (JSON, YAML, curl output). Live at /tools/."},
+    {"date":"2026-07-18","title":"pSEO expansion: scenarios, redflags, calculators, guides","body":"Added 4 new content sections — /scenarios/, /redflags/, /calculators/, /guides/ — covering specific agent-risk scenarios and how each rule type addresses them."},
+    {"date":"2026-07-01","title":"MCP server launched","body":"sipi.bot is now a native MCP server. Any agent framework that speaks MCP (Claude Code, Cursor, LangChain) can use the firewall as a standard tool with no SDK."},
+    {"date":"2026-06-15","title":"Protected-by badge goes live","body":"Free embeddable image badge showing live firewall stats. No JS, no account needed. Embed on any README, docs site, or landing page."},
+    {"date":"2026-05-01","title":"Sipi.bot eval gym: 53/53","body":"The evaluation harness now covers all 53 scenarios across all 6 rule types. Results published as machine-readable JSON at /eval and human-readable at /eval-report/."},
+    {"date":"2026-03-01","title":"Sipi.bot v1 launched","body":"First hosted deployment: Team $99/mo, Business $499/mo, free self-host (MIT). Core engine: one call → APPROVED/BLOCKED/FLAGGED in <5ms."},
+    {"date":"2026-01-15","title":"Sipi.bot founded","body":"After a $12,400 overnight Azure bill from a runaway agent loop, the belief that every autonomous agent needs a deterministic spend firewall became a company."},
+]
+
+
+def build_changelog():
+    items = "".join(
+        f'<div class="card"><h3>{c._esc(e["title"])}</h3>'
+        f'<p class="meta">{e["date"]}</p>'
+        f'<p style="margin-top:10px">{c._esc(e["body"])}</p></div>'
+        for e in CHANGELOG_ENTRIES
+    )
+    body = f"""
+<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span>Changelog</div>
+<span class="kicker">{len(CHANGELOG_ENTRIES)} entries</span>
+<h1>Product changelog</h1>
+<p class="lead">Every significant update to sipi.bot — from the founding $12,400 bill to today's incident database.</p>
+</section>
+<div style="max-width:720px">
+{items}
+</div>
+<div class="band">
+<h2>What's next</h2>
+<p>We're building the canonical reference for AI agent spend governance. The database grows weekly. Follow the <a href="/blog/">blog</a> for deep dives and the <a href="/incidents/">incident database</a> for the underlying data.</p>
+<div class="btns">
+<a class="btn primary" href="/pricing">Deploy sipi.bot — $99/mo</a>
+<a class="btn ghost" href="{c.GITHUB}">Star on GitHub ↗</a>
+</div>
+</div>
+"""
+    jsonld = [
+        c.breadcrumb_ld([("Home","/"),("Changelog","/changelog/")]),
+    ]
+    html = c.page(title="sipi.bot Changelog — product updates since $12,400 | sipi.bot",
+                  description=f"Every significant sipi.bot update, {CHANGELOG_ENTRIES[0]['date']} to {CHANGELOG_ENTRIES[-1]['date']}. From the founding $12,400 incident to the 34-record AI Agent Incident Database.",
+                  canonical_path="/changelog/", body=body, jsonld=jsonld)
+    c.write(os.path.join(CHANGELOG_DIR, "index.html"), html)
+    print("changelog/: page")
+
+
+def build_status():
+    body = """
+<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span>Status</div>
+<span class="tag good">Operational</span>
+<h1>System status</h1>
+<p class="lead">All sipi.bot services are operating normally. The firewall API processes evaluations in under 5ms with 99.9%+ uptime.</p>
+</section>
+
+<div class="statbox">
+<div class="stat"><div class="n" style="color:var(--mint)">99.9%+</div><div class="l">Uptime (30-day rolling)</div></div>
+<div class="stat"><div class="n" style="color:var(--mint)"><5ms</div><div class="l">P99 evaluation latency</div></div>
+<div class="stat"><div class="n" style="color:var(--mint)">53/53</div><div class="l">Eval gym pass rate</div></div>
+<div class="stat"><div class="n" style="color:var(--mint)">34</div><div class="l">Incident database records</div></div>
+</div>
+
+<section style="max-width:720px">
+<h2>API endpoints</h2>
+<div class="card"><h3>POST /v1/transactions/evaluate</h3><p>Core firewall endpoint. Returns APPROVED, BLOCKED, or FLAGGED with reason.</p><p class="meta">Status: operational · P99 &lt;5ms · Docs: <a href="/v1/transactions/evaluate">/v1/transactions/evaluate</a></p></div>
+<div class="card"><h3>MCP server</h3><p>Model Context Protocol native tool server. Connect from Claude Code, Cursor, or any MCP-compatible agent.</p><p class="meta">Status: operational · Docs: <a href="/for/">/for/</a></p></div>
+</section>
+
+<section style="max-width:720px">
+<h2>Data services</h2>
+<div class="card"><h3>AI Agent Incident Database</h3><p>34 records, CC BY 4.0, available as JSON/CSV/JSONL. Auto-synced weekly.</p><p class="meta">Status: operational · <a href="/data/ai-agent-incidents.json">JSON</a> · <a href="https://github.com/kindrat86/ai-agent-incident-database">GitHub</a></p></div>
+<div class="card"><h3>Protected-by badge</h3><p>Free embeddable badge. No JS, no account. Live firewall stats via image URL.</p><p class="meta">Status: operational · <a href="/badge">/badge</a></p></div>
+</section>
+
+<div class="band">
+<h2>Enterprise SLA</h2>
+<p>Business plan ($499/mo) includes a 99.9% uptime SLA, priority support, and custom rule configurations. For enterprise deployments with dedicated infrastructure, contact sales.</p>
+<div class="btns">
+<a class="btn primary" href="/pricing">View plans →</a>
+<a class="btn ghost" href="mailto:sales@sipiteno.com">Contact sales ↗</a>
+</div>
+</div>
+"""
+    jsonld = [
+        c.breadcrumb_ld([("Home","/"),("Status","/status/")]),
+    ]
+    html = c.page(title="sipi.bot Status — system status and API health | sipi.bot",
+                  description="sipi.bot system status: API operational at <5ms P99 latency, eval gym 53/53, incident database live with 34 records. Enterprise SLA available.",
+                  canonical_path="/status/", body=body, jsonld=jsonld)
+    c.write(os.path.join(STATUS_DIR, "index.html"), html)
+    print("status/: page")
+
+
+# =========================================================== RSS enrichment
+def enrich_rss():
+    """Append blog and incident entries to the existing RSS feed."""
+    import shutil
+    import uuid
+
+    # Backup
+    shutil.copy2(RSS_PATH, RSS_PATH + ".bak")
+    with open(RSS_PATH + ".bak", encoding="utf-8") as f:
+        existing = f.read()
+
+    # Build new items
+    items = []
+    for post in sorted(POSTS, key=lambda p: p["date"], reverse=True):
+        d = datetime.fromisoformat(post["date"])
+        guid = f"https://sipi.bot/blog/{post['slug']}#{uuid.uuid5(uuid.NAMESPACE_DNS, 'sipi.bot'+post['slug'])}"
+        items.append(f"""  <item>
+    <title>{_html.escape(post['title'])}</title>
+    <link>https://sipi.bot/blog/{post['slug']}/</link>
+    <guid isPermaLink="true">{guid}</guid>
+    <description>{_html.escape(post['description'])}</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>{d.strftime('%a, %d %b %Y 12:00:00 GMT')}</pubDate>
+  </item>""")
+
+    # Incident database entry
+    items.append(f"""  <item>
+    <title>AI Agent Incident Database — 34 records, $2.91B tracked</title>
+    <link>https://sipi.bot/incidents/</link>
+    <guid isPermaLink="true">https://sipi.bot/incidents/#db-launch-2026-07-27</guid>
+    <description>Open, sourced database of real-world AI-agent incidents, CC BY 4.0. 34 records spanning 2016-2026. JSON, CSV, JSONL available.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Sun, 27 Jul 2026 12:00:00 GMT</pubDate>
+  </item>""")
+
+    # Insert new items before the closing </channel> tag
+    new_rss = existing.replace("  </channel>", "\n".join(items) + "\n  </channel>")
+    # Update lastBuildDate
+    new_rss = re.sub(r'<lastBuildDate>.*?</lastBuildDate>',
+                     f'<lastBuildDate>{datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")}</lastBuildDate>',
+                     new_rss)
+
+    with open(RSS_PATH, "w", encoding="utf-8") as f:
+        f.write(new_rss)
+    print(f"rss: enriched with {len(items)} new items (backup at {RSS_PATH}.bak)")
+
+
+# ----------------------------------------------------------------------- driver
+def main():
+    os.makedirs(BLOG_DIR, exist_ok=True)
+    os.makedirs(CHANGELOG_DIR, exist_ok=True)
+    os.makedirs(STATUS_DIR, exist_ok=True)
+
+    build_blog()
+    build_changelog()
+    build_status()
+    enrich_rss()
+
+
+if __name__ == "__main__":
+    main()

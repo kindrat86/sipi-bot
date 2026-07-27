@@ -885,6 +885,16 @@ class Handler(BaseHTTPRequestHandler):
                 "Terms of Service", "/terms",
                 "Terms for using sipi.bot, the spend firewall for autonomous AI agents, including the rule-integrity guarantee.",
                 templates.TERMS_BODY))
+        if path == "/security":
+            return self._html(templates.doc_page_html(
+                "Security", "/security",
+                "How sipi.bot handles security: MIT-licensed auditable core, no card data stored, strict transport and CSP headers, and an honest accounting of what compliance is and is not yet in place.",
+                templates.SECURITY_BODY))
+        if path == "/status":
+            return self._html(templates.doc_page_html(
+                "System Status", "/status",
+                "sipi.bot service status: live health endpoint, platform status, and uptime expectations.",
+                templates.STATUS_BODY))
         if path == "/billing/status":
             return self._json(200, billing.status())
         if path.startswith("/checkout/"):
@@ -1219,6 +1229,13 @@ class Handler(BaseHTTPRequestHandler):
         "/alternatives-to/langfuse/": "/vs/langfuse",
         "/alternatives-to/openai-billing": "/vs/openai-billing",
         "/alternatives-to/openai-billing/": "/vs/openai-billing",
+        # /integrations/openai-agents-sdk is the natural clean slug users and
+        # AI engines reach for (named in llms.txt, qa.jsonl and the homepage
+        # FAQ). The canonical integration page lives at the long slug below;
+        # this 301 recovers a top-3 intent query that otherwise 404s. Both the
+        # bare and trailing-slash forms are mapped.
+        "/integrations/openai-agents-sdk": "/integrations/sipi-bot-plus-openai-agents-sdk",
+        "/integrations/openai-agents-sdk/": "/integrations/sipi-bot-plus-openai-agents-sdk",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO
@@ -1334,7 +1351,7 @@ class Handler(BaseHTTPRequestHandler):
             self._redirect_301(target)
             return True
 
-        for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/"):
+        for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/", "/incidents/", "/blog/", "/tools/", "/changelog/", "/status/"):
             # Match "/learn/foo" and also the bare section root "/learn". The bare
             # form used to fall through to a 404 because it does not start with
             # "/learn/", so /learn 404'd while /learn/ served learn/index.html —

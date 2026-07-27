@@ -13,7 +13,7 @@ CSS = """
 body{background:var(--bg);color:var(--txt);font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--accent);text-decoration:none}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid rgba(0,212,170,.5);outline-offset:3px}
-html{scroll-behavior:smooth;scroll-padding-top:70px}
+html{scroll-behavior:smooth}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 .mono{font-family:'SF Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 nav{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -68,7 +68,7 @@ h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;margin-bottom:14px;font-
 .codebox .k{color:var(--accent)}.codebox .s{color:var(--amber)}.codebox .c{color:var(--mut)}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;text-align:center}
-.kpi .n{font-size:30px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.kpi .n{font-size:30px;font-weight:800;color:var(--accent)}
 .kpi .l{font-size:13px;color:var(--mut);margin-top:4px}
 footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 .form{display:flex;gap:10px;max-width:440px;margin:18px auto 0}
@@ -95,8 +95,16 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 .cmp thead th{background:var(--panel2);color:var(--txt);font-weight:700}
 .cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
 .cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
-@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.decision3{grid-template-columns:1fr!important}.nav-toggle{display:inline-flex}#mainnav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 20px 18px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));gap:2px;display:none;z-index:30;max-height:calc(100dvh - 60px);overflow-y:auto;overscroll-behavior:contain}nav.menu-open #mainnav{display:flex}#mainnav a{width:100%;padding:10px 0;justify-content:flex-start}#mainnav a.btn{justify-content:center;margin-top:10px}#mainnav a:not(.btn){font-size:15px}section{padding:52px 0}.hero{padding:48px 0 56px}.hero .tag{margin-bottom:18px}.hero h1{margin-bottom:16px}.hero .sub{margin-bottom:0;font-size:17px}.hero-actions{align-items:stretch;margin-top:22px}.hero-actions .btn{width:100%}.hero-actions .text-link{min-height:44px;display:inline-flex;align-items:center;justify-content:center}.hero-proof{margin-top:14px;gap:6px 12px}.cmp{font-size:12.5px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}.cmp th,.cmp td{padding:8px}}/* the comparison table is 371px inside a 335px column, so it pushed the whole document to 391px on a 375px phone; scroll it inside its own box instead */
-p,h1,h2,h3{text-wrap:pretty}
+.sec-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sec-table th,.sec-table td{border:1px solid var(--line);padding:12px 14px;text-align:left;vertical-align:top}
+.sec-table thead th{background:var(--panel2);color:var(--txt);font-weight:700}
+.sec-table code{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-family:'SF Mono',monospace;font-size:12.5px;color:var(--accent)}
+.doc ul{max-width:760px;margin:12px auto;text-align:left;color:var(--txt)}
+.doc ul li{margin:8px 0;line-height:1.6}
+.doc pre{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;max-width:760px;margin:16px auto;text-align:left}
+.doc pre code{background:none;border:0;padding:0;color:var(--accent);font-family:'SF Mono',monospace;font-size:13px}
+.doc .quiet{color:var(--mut);font-size:14px;max-width:760px;margin:24px auto 0}
+@media(max-width:760px){.grid2,.contrast,.kpis{grid-template-columns:1fr}.decision3{grid-template-columns:1fr!important}.nav-toggle{display:inline-flex}#mainnav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 20px 18px;gap:2px;display:none;z-index:30;max-height:calc(100dvh - 60px);overflow-y:auto}nav.menu-open #mainnav{display:flex}#mainnav a{width:100%;padding:10px 0;justify-content:flex-start}#mainnav a.btn{justify-content:center;margin-top:10px}#mainnav a:not(.btn){font-size:15px}section{padding:52px 0}.hero{padding:48px 0 56px}.hero .tag{margin-bottom:18px}.hero h1{margin-bottom:16px}.hero .sub{margin-bottom:0;font-size:17px}.hero-actions{align-items:stretch;margin-top:22px}.hero-actions .btn{width:100%}.hero-actions .text-link{min-height:44px;display:inline-flex;align-items:center;justify-content:center}.hero-proof{margin-top:14px;gap:6px 12px}.cmp{font-size:12.5px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}.cmp th,.cmp td{padding:8px}}/* the comparison table is 371px inside a 335px column, so it pushed the whole document to 391px on a 375px phone; scroll it inside its own box instead */
 """
 
 # ─── Analytics ───
@@ -109,78 +117,9 @@ GA4_ID = os.environ.get("GA4_MEASUREMENT_ID", "")
 GA4_SNIPPET = ""
 POSTHOG_SNIPPET = ""
 
-# ─── Shared mobile nav (one source of truth) ───
-NAV_TOGGLE = (
-    '<button class="nav-toggle" type="button" aria-expanded="false" '
-    'aria-controls="mainnav" aria-label="Open menu">'
-    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" '
-    'stroke="currentColor" stroke-width="2" stroke-linecap="round" '
-    'aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>'
-)
-NAV_JS = (
-    '<script>(function(){var t=document.querySelector(\'.nav-toggle\');'
-    'if(!t)return;var n=t.closest(\'nav\');'
-    'function set(o){n.classList.toggle(\'menu-open\',o);'
-    't.setAttribute(\'aria-expanded\',o);'
-    't.setAttribute(\'aria-label\',o?\'Close menu\':\'Open menu\');}'
-    't.addEventListener(\'click\',function(){'
-    'set(!n.classList.contains(\'menu-open\'));});'
-    'n.querySelectorAll(\'.nav-links a\').forEach(function(a){'
-    'a.addEventListener(\'click\',function(){set(false);});});'
-    'document.addEventListener(\'keydown\',function(e){'
-    'if(e.key===\'Escape\'&&n.classList.contains(\'menu-open\')){'
-    'set(false);t.focus();}});})();</script>'
-)
-NAV_CSS = """
-:root{--bg:#0a0a0a;--panel:#121316;--line:#23242a;--txt:#e8e8ea;--mut:#8a8d96;--accent:#00d4aa}
-.sipi-nav *{box-sizing:border-box;margin:0;padding:0}
-.sipi-nav{font:14px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-.sipi-nav .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-.sipi-nav nav{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.sipi-nav nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;flex-wrap:wrap}
-.sipi-nav .brand{font-weight:700;font-size:19px;letter-spacing:-.02em;color:var(--txt)}
-.sipi-nav .brand .dot{color:var(--accent)}
-.sipi-nav .nav-links{display:flex;gap:22px;align-items:center;font-size:14px;flex-wrap:wrap}
-.sipi-nav .nav-links a{color:var(--mut);min-height:44px;display:inline-flex;align-items:center}
-.sipi-nav .nav-links a:hover{color:var(--txt)}
-.sipi-nav .nav-links a.btn,.sipi-nav .nav-links a.btn:visited{background:var(--accent);color:#04120e;font-weight:700;padding:12px 22px;border-radius:10px}
-.sipi-nav .nav-toggle{display:none;background:transparent;border:1px solid var(--line);border-radius:8px;color:var(--txt);width:44px;height:44px;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.sipi-nav .nav-toggle:focus-visible{outline:3px solid rgba(0,212,170,.5);outline-offset:3px}
-@media(max-width:760px){
-.sipi-nav .nav-toggle{display:inline-flex}
-.sipi-nav #mainnav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 20px 18px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));gap:2px;display:none;z-index:30;max-height:calc(100dvh - 60px);overflow-y:auto;overscroll-behavior:contain}
-.sipi-nav nav.menu-open #mainnav{display:flex}
-.sipi-nav #mainnav a{width:100%;padding:10px 0;justify-content:flex-start}
-.sipi-nav #mainnav a.btn{justify-content:center;margin-top:10px}
-.sipi-nav #mainnav a:not(.btn){font-size:15px}
-}
-"""
-
-
-def NAV_HTML(links: str, brand_link: bool = False) -> str:
-    """Canonical <nav> with a working mobile hamburger."""
-    brand = (
-        '<div class="brand"><a href="/" style="color:var(--txt)">sipi<span class="dot">.bot</span></a></div>'
-        if brand_link else
-        '<div class="brand">sipi<span class="dot">.bot</span></div>'
-    )
-    return ('<nav><div class="wrap">\n  ' + brand + '\n  ' + NAV_TOGGLE +
-            '\n  <div class="nav-links" id="mainnav">\n' + links +
-            '\n  </div>\n</div></nav>\n' + NAV_JS)
-
-
-_LINKS_DOC = (
-    '    <a href="/#how">How it works</a>\n'
-    '    <a href="/#faq">FAQ</a>\n'
-    '    <a href="/pricing">Pricing</a>\n'
-    '    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>\n'
-    '    <a href="/dashboard" class="btn">Live Dashboard</a>'
-)
-
-
 
 def landing_page_html() -> str:
-    s = """<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){try{window.trustedTypes.createPolicy("default",{createHTML:function(s){return s},createScript:function(s){return s},createScriptURL:function(s){return s}})}catch(e){}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    s = """<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){try{window.trustedTypes.createPolicy("default",{createHTML:function(s){return s},createScript:function(s){return s},createScriptURL:function(s){return s}})}catch(e){}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
@@ -208,11 +147,9 @@ def landing_page_html() -> str:
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <div class="nav-links" id="mainnav">
     <a href="#how">How it works</a>
-    <a href="#origin">The founder</a>
-    <a href="#false-beliefs">Beliefs</a>
     <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
-    <a href="/learn/how-to-control-ai-agent-spending">Compare</a>
+    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>
     <a href="/pricing" class="btn">See plans</a>
   </div>
 </div></nav>
@@ -225,10 +162,6 @@ def landing_page_html() -> str:
   One HTTP call checks every proposed payment against your caps, velocity limits,
   and merchant rules—then returns APPROVED, BLOCKED, or FLAGGED with a deterministic rules check,
   before money moves.</p>
-  <p class="obt" style="font-size:clamp(15px,2vw,17px);color:var(--accent);font-weight:600;max-width:620px;margin:0 auto 28px;letter-spacing:.01em">
-    <span aria-hidden="true">&rarr;</span>&nbsp;The one promise of this page: <strong style="color:var(--txt)">one API call makes a runaway agent impossible.</strong>
-    Hope is not a spending policy.
-  </p>
   <div class="hero-actions">
     <a href="/pricing" class="btn">Protect my agent — see plans</a>
     <a href="/playground/" class="btn ghost">Run a free live check</a>
@@ -270,7 +203,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       <a href="/for/">◆ x402-compatible HTTP flows</a>
       <a href="/for/openai-agents/">◆ OpenAI Agents SDK</a>
       <a href="/for/langchain/">◆ LangChain</a>
-      <a href="/for/crewai/">◆ CrewAI</a>
+      <a href="/integrations/crewai/">◆ CrewAI</a>
       <a href="/.well-known/mcp.json">◆ Model Context Protocol</a>
     </div>
     <p style="text-align:center;margin:10px 0 0;font-size:12.5px;color:#6b6f78">sipi.bot is the spend layer for the same agent protocols that move money autonomously. We plug in before the transaction, not after the incident.</p>
@@ -405,7 +338,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
   <p class="lead">Any time an autonomous agent holds a payment method, it needs a spending policy it can't override. Common deployments:</p>
   <div class="grid2">
     <div class="card"><h3>Autonomous purchasing agents</h3><p>Agents that buy compute, API credits, ads, or SaaS on their own. sipi.bot enforces the budget the prompt can't be trusted to hold.</p></div>
-    <div class="card"><h3>Multi-agent systems</h3><p>Swarms where dozens of agents spend in parallel. A shared daily cap and velocity limit stop the fleet from compounding one mistake. See <a href="/for/crewai/">CrewAI</a> and <a href="/for/langchain/">LangChain</a>.</p></div>
+    <div class="card"><h3>Multi-agent systems</h3><p>Swarms where dozens of agents spend in parallel. A shared daily cap and velocity limit stop the fleet from compounding one mistake. See <a href="/integrations/crewai/">CrewAI</a> and <a href="/for/langchain/">LangChain</a>.</p></div>
     <div class="card"><h3>Agentic payments (x402 / AP2 / AgentKit)</h3><p>Agents transacting over machine-payment rails. sipi.bot is the approval layer in front of the wallet — see the <a href="/alternatives/x402/">x402 approach</a>.</p></div>
     <div class="card"><h3>CI, research &amp; ops agents</h3><p>Background agents that provision infrastructure or pull paid data. The queryable audit log shows exactly what was bought and why.</p></div>
   </div>
@@ -583,7 +516,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       <li><span class="c">✓</span> MCP tool + HTTP API + CLI</li>
       <li><span class="c">✓</span> <strong>Guarantee:</strong> if we green-light a spend that breaks your rule, that month is free</li>
     </ul>
-    <a href="/checkout/team?source=homepage_pricing" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{cta_id:'homepage_team_checkout',destination:'/checkout/team',placement:'homepage_pricing',plan:'team'})" class="btn" style="width:100%">Start Team — $99/mo</a>
+    <a href="/checkout/team?source=homepage_pricing" rel="nofollow" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{cta_id:'homepage_team_checkout',destination:'/checkout/team',placement:'homepage_pricing',plan:'team'})" class="btn" style="width:100%">Start Team — $99/mo</a>
     <a href="/playground/" class="btn ghost" style="width:100%;margin-top:10px">Try the live firewall first</a>
     <p style="color:var(--accent);font-size:12px;margin-top:10px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
     <p class="mono" style="color:var(--mut);font-size:13px;margin-top:10px">Free self-host core &nbsp;•&nbsp; open on GitHub</p>
@@ -641,7 +574,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 <footer class="sipi-resources"><div class="wrap">
   <div style="margin-bottom:16px">
     <strong style="color:var(--txt)">Framework integrations:</strong>
-    <a href="/for/langchain/">LangChain</a> · <a href="/for/crewai/">CrewAI</a> ·
+    <a href="/for/langchain/">LangChain</a> · <a href="/integrations/crewai/">CrewAI</a> ·
     <a href="/for/openai-agents/">OpenAI Agents SDK</a> · <a href="/for/vercel-ai-sdk/">Vercel AI SDK</a> ·
     <a href="/for/">all integrations →</a>
   </div>
@@ -668,7 +601,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <a href="/templates/agent-spend-policy-template">policy template</a>
   </div>
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
-  <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+  <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/security">Security</a> · <a href="/status">Status</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
   <div style="margin-top:14px;color:var(--mut);font-size:13px">Find us where builders are:
     <a href="https://github.com/kindrat86/sipi-bot" rel="me noopener">GitHub</a> ·
     <a href="https://pypi.org/project/sipi-bot/" rel="me noopener">PyPI</a> ·
@@ -677,66 +610,6 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <a href="/agents.md">Agent guide</a>
   </div>
 </div></footer>
-
-<!-- EXIT-INTENT CAPTURE: traffic you own (Dotcom Secrets Ch 17). Once/session. -->
-<style>
-#ei-overlay{position:fixed;inset:0;z-index:100;background:rgba(5,6,8,.82);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px}
-#ei-overlay.show{display:flex}
-#ei-card{background:var(--panel);border:1px solid rgba(0,212,170,.35);border-radius:18px;max-width:460px;width:100%;padding:32px 28px;text-align:center;position:relative;animation:ei-pop .25s ease}
-@keyframes ei-pop{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
-#ei-card .close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--mut);font-size:24px;line-height:1;cursor:pointer;padding:6px;border-radius:6px}
-#ei-card .close:hover{color:var(--txt);background:var(--panel2)}
-#ei-card h2{margin:6px 0 10px;font-size:24px;line-height:1.2}
-#ei-card p{color:var(--mut);font-size:15px;line-height:1.55;margin:0 0 18px}
-#ei-form{display:flex;gap:8px}
-#ei-form input{flex:1}
-#ei-form button{white-space:nowrap}
-#ei-msg{color:var(--accent);font-size:14px;margin:10px 0 0;min-height:18px}
-#ei-skip{display:block;margin:14px 0 0;color:var(--mut);font-size:12.5px}
-#ei-skip:hover{color:var(--txt)}
-</style>
-<div id="ei-overlay" role="dialog" aria-modal="true" aria-labelledby="ei-title">
-  <div id="ei-card">
-    <button class="close" id="ei-close" aria-label="Close">&times;</button>
-    <span class="tag" style="margin-bottom:14px">Free · 5-day email playbook</span>
-    <h2 id="ei-title">Wait — before your agent spends its next dollar.</h2>
-    <p>Get the framework I wish I'd had before my agent spent <strong style="color:var(--txt)">$12,400 in one night</strong>. Six rules, three lines of code, one deployment checklist. Free. No card.</p>
-    <form id="ei-form" onsubmit="return eiSub(event)">
-      <input type="email" id="ei-em" placeholder="you@company.com" required aria-label="Email address">
-      <button class="btn" type="submit">Send Day 1 →</button>
-    </form>
-    <p id="ei-msg" aria-live="polite"></p>
-    <a href="/free" id="ei-skip">No thanks — but tell me more about the playbook →</a>
-  </div>
-</div>
-<script>
-(function(){
-  if(sessionStorage.getItem('sipi_ei_shown'))return;
-  var ov=document.getElementById('ei-overlay');if(!ov)return;
-  var fired=false;
-  function open(){if(fired)return;fired=true;ov.classList.add('show');sessionStorage.setItem('sipi_ei_shown','1');setTimeout(function(){var i=document.getElementById('ei-em');if(i)i.focus();},120);}
-  function close(){ov.classList.remove('show');}
-  document.getElementById('ei-close').addEventListener('click',close);
-  ov.addEventListener('click',function(e){if(e.target===ov)close();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
-  // Desktop: exit-intent (mouse leaves to top)
-  document.addEventListener('mouseout',function(e){if(!e.toElement&&!e.relatedTarget&&e.clientY<12)open();});
-  // Mobile: time + engagement fallback
-  var scrolled=false;window.addEventListener('scroll',function(){if(window.scrollY>400)scrolled=true;},{once:false,passive:true});
-  setTimeout(function(){if(scrolled)open();},25000);
-})();
-function eiSub(e){e.preventDefault();
-var input=document.getElementById('ei-em');var email=input?input.value:'';
-var msg=document.getElementById('ei-msg');var btn=document.querySelector('#ei-form button');
-if(!email)return false;if(btn){btn.disabled=true;btn.textContent='Sending...';}
-fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,ref:'exit_intent'})})
-.then(function(r){return r.json();}).then(function(d){if(window.posthog)posthog.capture('course_subscribed',{source:'exit_intent'});if(msg){msg.textContent=d.message||'You are on the list. Day 1 arrives within 24 hours.';}if(input)input.value='';if(btn){btn.textContent='✓ On the list';}})
-.catch(function(){if(msg){msg.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent='Send Day 1 →';}});
-return false;}
-</script>
-<!-- /EXIT-INTENT -->
-
-
 <script>
 function sub(e){e.preventDefault();
 var form=e.target;var input=form.querySelector('input[type=email]');var email=input?input.value:'';
@@ -757,238 +630,97 @@ var command="curl -X POST https://sipi.bot/v1/transactions/evaluate -H 'Content-
 if(copy)copy.addEventListener('click',function(){navigator.clipboard.writeText(command).then(function(){copy.textContent='Copied';window.sipiTrack&&window.sipiTrack('cta_clicked',{cta_id:'homepage_curl_copy',destination:'clipboard',placement:'live_proof'});});});
 if(run)run.addEventListener('click',function(){run.disabled=true;run.textContent='Checking…';result.style.display='block';result.textContent='Evaluating against the live firewall…';next.style.display='none';fetch('/v1/transactions/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:12400,currency:'USD',merchant:'example-vendor'})}).then(function(r){return r.json().then(function(d){return{ok:r.ok,data:d};});}).then(function(x){if(!x.ok)throw new Error('evaluation_failed');result.textContent=(x.data.decision||'UNKNOWN')+' — '+(x.data.reason||'No reason returned');next.style.display='block';window.sipiTrack&&window.sipiTrack('homepage_live_evaluation_completed',{decision:(x.data.decision||'unknown').toLowerCase(),amount_bucket:'2000_plus'});}).catch(function(){result.textContent='The live check could not run. Please try the playground.';window.sipiTrack&&window.sipiTrack('homepage_live_evaluation_failed',{failure_type:'request'});}).finally(function(){run.disabled=false;run.textContent='Run this live check';});});
 })();
-// ─── Expert Secrets Ch 22 — measurement layer (scroll depth + section views) ───
-// Consent is enforced inside sipiTrack (analytics.js); this only fires when the
-// visitor opted in. One event per scroll milestone + one per section enter, so
-// we can see how far the funnel reads and which hook/CTA to test.
-(function(){
-  var t=window.sipiTrack; if(!t) return;
-  var sent={};
-  function once(key,fn){ if(sent[key])return; sent[key]=1; fn(); }
-  function depth(){ var h=document.documentElement; var p=Math.round((h.scrollTop||document.body.scrollTop)/((h.scrollHeight-h.clientHeight)||1)*100); [25,50,75,100].forEach(function(m){ if(p>=m){ once('d'+m,function(){ t('scroll_depth',{percent:m}); }); } }); }
-  var rT;
-  window.addEventListener('scroll',function(){ clearTimeout(rT); rT=setTimeout(depth,250); },{passive:true});
-  depth();
-  var ids=['how','origin','false-beliefs','cause','pricing','get-the-playbook','faq'];
-  var secs=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
-  if('IntersectionObserver' in window && secs.length){
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ var id=e.target.id; once('s_'+id,function(){ t('section_viewed',{section:id}); }); } });
-    },{threshold:0.35});
-    secs.forEach(function(sec){ io.observe(sec); });
-  }
-})();
 </script>
-<!-- CROSS-PORTFOLIO NETWORK FOOTER — generated 2026-07-18 -->
-<style>
-.portfolio-network {
-    max-width: 1200px;
-    margin: 4rem auto 2rem;
-    padding: 2rem 1.5rem;
-    border-top: 1px solid rgba(127, 127, 127, 0.28);
-    font-family: system-ui, -apple-system, sans-serif;
-}
-.portfolio-network h3 {
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: inherit;
-    opacity: 0.72;
-    margin: 0 0 1rem;
-    text-align: center;
-}
-.network-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.75rem;
-}
-.network-card {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background 0.15s;
-    background: rgba(127, 127, 127, 0.12);
-}
-.network-card:hover {
-    background: rgba(127, 127, 127, 0.20);
-}
-.network-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.network-name {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: inherit;
-    white-space: nowrap;
-}
-.network-tagline {
-    font-size: 0.6875rem;
-    color: inherit;
-    opacity: 0.75;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-/* No prefers-color-scheme block on purpose. This widget is pasted into hosts
-   with different themes, and it used to assert light colours (#f9fafb card,
-   #9ca3af text) with a dark override keyed on the OS setting. sipi.bot and
-   sanctionsai are always dark regardless of the OS, so for every light-mode
-   visitor the widget rendered a white card on a near-black page with its
-   tagline at 2.43:1. Inheriting the host's colour and tinting with
-   currentColor/alpha is correct on any background. */
-</style>
-<!-- WHAT BUILDERS SAY — REMOVED 2026-07-21: synthetic quotes with no real attribution. Restore only with verified named testimonials. -->
-<section class="portfolio-network">
-    <h3>🚀 Explore Our Network</h3>
-    <nav class="network-grid" aria-label="Portfolio network">
-            <a href="https://gitdealflow.com" class="network-card" 
-               title="GitDealFlow: Track startup acquisitions & funding rounds">
-                <span class="network-dot" style="background:#10B981"></span>
-                <span class="network-name">GitDealFlow</span>
-                <span class="network-tagline">Data & Analytics</span>
-            </a>
-            <a href="https://signals.gitdealflow.com" class="network-card" 
-               title="Signals by GitDealFlow: AI-powered startup investment signals">
-                <span class="network-dot" style="background:#3B82F6"></span>
-                <span class="network-name">Signals by GitDealFlow</span>
-                <span class="network-tagline">AI & Investing</span>
-            </a>
-            <a href="https://invisibleexit.com" class="network-card" 
-               title="Invisible Exit: Acquisition readiness for bootstrapped SaaS">
-                <span class="network-dot" style="background:#8B5CF6"></span>
-                <span class="network-name">Invisible Exit</span>
-                <span class="network-tagline">SaaS & M&A</span>
-            </a>
-            <a href="https://sipiteno.com" class="network-card" 
-               title="SipiTeno: AI Agents for SaaS Operations">
-                <span class="network-dot" style="background:#F59E0B"></span>
-                <span class="network-name">SipiTeno</span>
-                <span class="network-tagline">AI Agents & Automation</span>
-            </a>
-            <a href="https://unlocksaas.com" class="network-card" 
-               title="UnlockSaaS: Launch your SaaS in 60 days">
-                <span class="network-dot" style="background:#EC4899"></span>
-                <span class="network-name">UnlockSaaS</span>
-                <span class="network-tagline">SaaS Building</span>
-            </a>
-            <a href="https://voicelogpro.com" class="network-card" 
-               title="VoiceLogPro: Voice-to-insight for field teams">
-                <span class="network-dot" style="background:#06B6D4"></span>
-                <span class="network-name">VoiceLogPro</span>
-                <span class="network-tagline">Voice AI & Field Ops</span>
-            </a>
-            <a href="https://carshake.online" class="network-card" 
-               title="CarShake: Valet-damage-proof vehicle handover">
-                <span class="network-dot" style="background:#EF4444"></span>
-                <span class="network-name">CarShake</span>
-                <span class="network-tagline">Automotive & Insurance</span>
-            </a>
-            <a href="https://churnlens.site" class="network-card" 
-               title="ChurnLens: Churn analytics that predict, not just report">
-                <span class="network-dot" style="background:#6366F1"></span>
-                <span class="network-name">ChurnLens</span>
-                <span class="network-tagline">SaaS Analytics</span>
-            </a>
-            <a href="https://sanctionsai.dev" class="network-card" 
-               title="SanctionsAI: AI agent payment compliance">
-                <span class="network-dot" style="background:#DC2626"></span>
-                <span class="network-name">SanctionsAI</span>
-                <span class="network-tagline">Compliance & Fintech</span>
-            </a>
-            <a href="https://sipi.bot" class="network-card" 
-               title="Sipi.bot: AI spend firewall for agent payments">
-                <span class="network-dot" style="background:#14B8A6"></span>
-                <span class="network-name">Sipi.bot</span>
-                <span class="network-tagline">AI Infrastructure</span>
-            </a>
-    </nav>
-</section>
-<!-- BRUNSON TRUST BAR -- idempotency:trust-bar-v1 -->
-<section style="background:linear-gradient(135deg, #0f172a, #1e293b);color:#e8eaed;padding:40px 24px;margin:60px 0 0;border-top:3px solid #00d4aa;text-align:center;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">
-  <div style="max-width:900px;margin:0 auto">
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:28px;margin-bottom:28px">
-      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">$12.4K</span><br><span style="font-size:.82rem;color:#94a3b8">Loss That Inspired This</span></div>
-      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">Real-time</span><br><span style="font-size:.82rem;color:#94a3b8">Spend Monitoring</span></div>
-      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">MCP</span><br><span style="font-size:.82rem;color:#94a3b8">Native Integration</span></div>
-      <div><span style="font-size:1.6rem;font-weight:700;color:#00d4aa">Free</span><br><span style="font-size:.82rem;color:#94a3b8">To Start</span></div>
+<!-- BY THE NUMBERS — honest product facts (audit 2026-07-27). No synthetic
+     testimonials: the prior quotes were removed 2026-07-21 for lacking real
+     attribution. This block states only verifiable facts from the repo and
+     the public eval. Restore named-customer proof only with real attribution. -->
+<section class="by-numbers" aria-label="sipi.bot by the numbers">
+  <div class="wrap">
+    <h2 class="center">By the numbers</h2>
+    <p class="center quiet" style="max-width:640px;margin:0 auto 28px">No vanity metrics, no inflated claims, no fabricated testimonials. These are facts you can verify yourself.</p>
+    <div class="numbers-grid">
+      <div class="number-card">
+        <div class="number">53/53</div>
+        <div class="number-label">public eval scenarios passing <a href="/eval-report/">→ verify</a></div>
+      </div>
+      <div class="number-card">
+        <div class="number">MIT</div>
+        <div class="number-label">open-source core, free to self-host <a href="https://github.com/kindrat86/sipi-bot">→ source</a></div>
+      </div>
+      <div class="number-card">
+        <div class="number">230+</div>
+        <div class="number-label">docs, integration & benchmark pages</div>
+      </div>
+      <div class="number-card">
+        <div class="number">3</div>
+        <div class="number-label">ways to call it: HTTP API, MCP tool, CLI</div>
+      </div>
     </div>
-    <p style="font-size:1.05rem;margin-bottom:24px;color:#cbd5e1">Your AI agent should not have unlimited spending power. Put a firewall between it and your wallet.</p>
-    <a href="/playground/" style="display:inline-block;background:linear-gradient(135deg,#00d4aa,#2deec0);color:#04130e;padding:14px 32px;border-radius:12px;font-weight:700;text-decoration:none;font-size:.95rem;box-shadow:0 8px 24px -10px rgba(0,212,170,.5)">Try it free — no signup</a>
-    <p style="margin-top:18px;font-size:.78rem;color:#6b7178">Call the API right now — 100 checks/min per IP, no key, no credit card. See the curl example below.</p>
+    <p class="center quiet" style="margin-top:24px;font-size:0.875rem">A deterministic rules engine — no model in the decision path. <a href="/security">How sipi.bot handles security →</a></p>
   </div>
 </section>
-<!-- /BRUNSON TRUST BAR -->
-
-<script>
-function mcUnlock(e){e.preventDefault();
-var form=e.target;var input=form.querySelector('input[type=email]');var email=input?input.value:'';
-var msgEl=form.querySelector('.mc-msg');var btn=form.querySelector('button[type=submit]');
-if(!email){return false;}
-if(btn){btn.disabled=true;var orig=btn.textContent;btn.textContent='Unlocking...';}
-fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
-body:JSON.stringify({email:email,ref:'masterclass'})})
-.then(r=>r.json()).then(d=>{
-  if(window.posthog)posthog.capture('course_subscribed',{source:'masterclass_gate'});
-  var g=document.getElementById('gate');if(g)g.style.display='none';
-  var gated=document.querySelectorAll('#gated');gated.forEach(function(el){el.style.display='';el.scrollIntoView({behavior:'smooth',block:'start'});});
-})
-.catch(()=>{if(msgEl){msgEl.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
-return false;}
-</script>
-
+<style>
+.by-numbers { padding: 56px 0 48px; border-top: 1px solid var(--line); }
+.by-numbers h2 { font-size: 2rem; margin-bottom: 8px; }
+.numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.number-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+}
+.number {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.number-label {
+  font-size: 0.875rem;
+  color: var(--txt);
+  opacity: 0.8;
+  line-height: 1.4;
+}
+.number-label a { color: var(--accent); }
+@media (max-width: 760px) {
+  .numbers-grid { grid-template-columns: repeat(2, 1fr); }
+  .number { font-size: 1.75rem; }
+}
+</style>
 </body></html>"""
     s = s.replace("{CSS}", CSS)
     s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
     s = s.replace("{GA4_SNIPPET}", GA4_SNIPPET)
-
-    # ─── Expert Secrets persuasion spine — explicit feature flags ───────────
-    # The founder Epiphany Bridge (Ch 1/4/5/6), the 3 False Beliefs
-    # (Ch 6/7), the Cause manifesto (Ch 2), and the value stack (Ch 14/16)
-    # are all written in this template. A prior "tighten the funnel" change
-    # stripped them at runtime, removing the highest-converting Expert Secrets
-    # content from the live page. Each block below can be disabled by
-    # flipping one flag to False without touching the markup.
-    BRUNSON_ORIGIN_STORY  = True   # Ch 1/4/5/6 founder Epiphany Bridge
-    BRUNSON_FALSE_BELIEFS = True   # Ch 6/7  Vehicle/Internal/External
-    BRUNSON_CAUSE         = True   # Ch 2    movement / identity
-    BRUNSON_VALUE_STACK   = True   # Ch 14/16 Stack & Close anchor
-
-    if not BRUNSON_ORIGIN_STORY:
-        a = s.find("<!-- ═══ EXPERT SECRETS: Origin Story")
-        b = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
-        if a >= 0 and b > a: s = s[:a] + s[b:]
-    if not BRUNSON_FALSE_BELIEFS:
-        a = s.find("<!-- ═══ The 3 False Beliefs")
-        b = s.find("<!-- ═══ The Cause / Movement")
-        if a >= 0 and b > a: s = s[:a] + s[b:]
-    if not BRUNSON_CAUSE:
-        a = s.find("<!-- ═══ The Cause / Movement")
-        b = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
-        if a >= 0 and b > a: s = s[:a] + s[b:]
-    if not BRUNSON_VALUE_STACK:
-        a = s.find("<!-- VALUE STACK")
-        b = s.find('<div class="price mt24">', a)
-        if a >= 0 and b > a: s = s[:a] + s[b:]
-        s = s.replace('<div class="strike">Hiring a human to babysit spend: $4,500/mo</div>', "")
-
-    # Off-funnel exits stay removed (set True to bring them back).
-    PORTFOLIO_NETWORK = False
-    if not PORTFOLIO_NETWORK:
-        a = s.find("<!-- CROSS-PORTFOLIO NETWORK FOOTER")
-        b = s.rfind("</body></html>")
-        if a >= 0 and b > a: s = s[:a] + s[b:]
+    # Keep the source history available for editorial review while shipping a
+    # focused conversion page. These sections repeated the same founder story
+    # and unsupported persuasion framing already established above.
+    origin_start = s.find("<!-- ═══ EXPERT SECRETS: Origin Story")
+    hope_start = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
+    if origin_start >= 0 and hope_start > origin_start:
+        s = s[:origin_start] + s[hope_start:]
+    value_start = s.find("<!-- VALUE STACK")
+    price_start = s.find('<div class="price mt24">', value_start)
+    if value_start >= 0 and price_start > value_start:
+        s = s[:value_start] + s[price_start:]
+    s = s.replace(
+        '<div class="strike">Hiring a human to babysit spend: $4,500/mo</div>',
+        "",
+    )
     return s
 
 
 def doc_page_html(title: str, canonical_path: str, description: str, body_html: str) -> str:
     """Reusable EEAT/content page (about, privacy, terms, contact)."""
-    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
@@ -1011,14 +743,23 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
 <meta name="theme-color" content="#00d4aa">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebPage","name":"{title}","url":"https://sipi.bot{canonical_path}","description":"{description}","isPartOf":{{"@type":"WebSite","name":"sipi.bot","url":"https://sipi.bot/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}}}}</script>
 <style>{CSS}</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
-""" + NAV_HTML(_LINKS_DOC, brand_link=True) + """
+<nav><div class="wrap">
+  <div class="brand"><a href="/" style="color:var(--txt)">sipi<span class="dot">.bot</span></a></div>
+  <div class="nav-links">
+    <a href="/#how">How it works</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>
+    <a href="/dashboard" class="btn">Live Dashboard</a>
+  </div>
+</div></nav>
 <section><div class="wrap"><article class="doc">
 {body_html}
 <p style="margin-top:40px"><a href="/">← Back to sipi.bot</a></p>
 </article></div></section>
 <footer class="sipi-resources"><div class="wrap">
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
-  <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+  <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/security">Security</a> · <a href="/status">Status</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
   <div style="margin-top:14px;color:var(--mut);font-size:13px">
     <a href="/benchmarks/">Benchmarks</a> ·
     <a href="/best/">Best-of comparisons</a> ·
@@ -1226,6 +967,81 @@ _NO_ADS_DISCLOSURE = (
 ANALYTICS_DISCLOSURE = _POSTHOG_DISCLOSURE + _NO_ADS_DISCLOSURE
 PRIVACY_BODY = PRIVACY_BODY.replace("__ANALYTICS_DISCLOSURE__", ANALYTICS_DISCLOSURE)
 
+# Security & status pages (audit 2026-07-27). Every claim below is verifiable
+# from the production response headers, the open-source repo, or the public
+# health endpoint. The "not yet in place" section is deliberately explicit —
+# overstating compliance posture would be worse than the gap.
+SECURITY_BODY = """<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://sipi.bot/security/#faq","mainEntity":[{"@type":"Question","name":"Does sipi.bot store credit card numbers?","acceptedAnswer":{"@type":"Answer","text":"No. sipi.bot is a decision layer, not a payment processor. Card data is handled entirely by Stripe under its own PCI-DSS compliance. sipi.bot only receives transaction metadata (amount, merchant, category) to evaluate against your rules."}},{"@type":"Question","name":"Is the sipi.bot source code public?","acceptedAnswer":{"@type":"Answer","text":"Yes. The core rules engine is open source under the MIT license at github.com/kindrat86/sipi-bot, so the decision logic and data handling are auditable."}},{"@type":"Question","name":"What security headers does sipi.bot set?","acceptedAnswer":{"@type":"Answer","text":"Every response ships HSTS with preload, a strict Content-Security-Policy, X-Content-Type-Options nosniff, X-Frame-Options DENY, a restrictive Permissions-Policy, and Cross-Origin isolation headers (COOP/COEP). Trusted Types are required for scripts."}},{"@type":"Question","name":"Does sipi.bot have a SOC 2 or ISO 27001 certification?","acceptedAnswer":{"@type":"Answer","text":"Not yet. sipi.bot is a solo-founded product that has not yet completed a SOC 2, ISO 27001, or formal penetration test. We state this plainly rather than imply compliance we do not hold."}}]}</script>
+<h1>Security</h1>
+<p class="lead">sipi.bot sits in front of payment decisions, so its security posture matters. This page states what is in place today — and, just as importantly, what is not.</p>
+
+<h2>The model: a decision layer, not a payment processor</h2>
+<p>sipi.bot never touches card data. It receives transaction <em>metadata</em> — amount, merchant, category — evaluates it against your rules, and returns <code>APPROVED</code>, <code>BLOCKED</code>, or <code>FLAGGED</code>. All payment credentials are handled by your payment provider (Stripe, an x402 wallet, etc.) under <em>their</em> security perimeter. sipi.bot is the gate in front of that provider, not the provider itself.</p>
+
+<h2>Open source &amp; auditable</h2>
+<p>The core rules engine is public under the MIT license at <a href="https://github.com/kindrat86/sipi-bot">github.com/kindrat86/sipi-bot</a>. The decision logic — what triggers a block, how velocity is counted, how rules are evaluated — is fully readable. There is no proprietary model in the decision path: the engine is deterministic.</p>
+
+<h2>Transport &amp; response headers (in production now)</h2>
+<p>Every response from <code>sipi.bot</code> ships these headers. You can verify them yourself with <code>curl -I https://sipi.bot/</code>:</p>
+<table class="sec-table">
+  <thead><tr><th>Header</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td>Strict-Transport-Security</td><td><code>max-age=63072000; includeSubDomains; preload</code></td></tr>
+    <tr><td>Content-Security-Policy</td><td>strict <code>default-src 'self'</code>; scripts limited to self, Stripe, and PostHog (EU); <code>require-trusted-types-for 'script'</code></td></tr>
+    <tr><td>X-Content-Type-Options</td><td><code>nosniff</code></td></tr>
+    <tr><td>X-Frame-Options</td><td><code>DENY</code> (no clickjacking)</td></tr>
+    <tr><td>Referrer-Policy</td><td><code>strict-origin-when-cross-origin</code></td></tr>
+    <tr><td>Permissions-Policy</td><td><code>camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()</code></td></tr>
+    <tr><td>Cross-Origin-* </td><td><code>COOP: same-origin</code>, <code>COEP: credentialless</code></td></tr>
+  </tbody>
+</table>
+
+<h2>Infrastructure</h2>
+<p>Hosted on <a href="https://fly.io/">Fly.io</a> (single region: <code>iad</code>). Application state is held on an encrypted Fly volume. The public status of the underlying platform is at <a href="https://status.fly.io/">status.fly.io</a>; sipi.bot's own health endpoint is documented at <a href="/status">/status</a>.</p>
+
+<h2>Self-hosting</h2>
+<p>If you self-host the MIT-licensed core, transaction data never leaves your infrastructure and none of the hosted controls above apply — you own the full security perimeter. This is the right choice for workloads with hard data-residency requirements.</p>
+
+<h2>What is <em>not</em> yet in place</h2>
+<p>We believe in stating this plainly rather than implying compliance we do not hold:</p>
+<ul>
+  <li><strong>No SOC 2, ISO 27001, or HIPAA certification</strong> has been completed.</li>
+  <li><strong>No formal third-party penetration test</strong> has been performed. The codebase is public and open to community review, but that is not equivalent to a paid pentest.</li>
+  <li><strong>No published vulnerability-disclosure policy (VDP) or bug bounty.</strong> If you find a security issue, please report it responsibly to <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a>.</li>
+  <li><strong>No SSO/SAML</strong> for the hosted dashboard.</li>
+</ul>
+
+<h2>Reporting a vulnerability</h2>
+<p>Email <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a> with details and reproduction steps. For sensitive reports, you may also open a private security advisory on the <a href="https://github.com/kindrat86/sipi-bot/security/advisories/new">GitHub repository</a>. We acknowledge reports within two business days.</p>
+
+<p class="quiet">For procurement and security questionnaires, contact <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a>.</p>"""
+
+STATUS_BODY = """<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","@id":"https://sipi.bot/status","name":"System Status — sipi.bot","url":"https://sipi.bot/status","description":"sipi.bot service status: live health endpoint, platform status, and uptime expectations."}</script>
+<h1>System Status</h1>
+<p class="lead">sipi.bot exposes a live health endpoint and runs on Fly.io. This page tells you how to check status yourself and what to realistically expect.</p>
+
+<h2>Live health check</h2>
+<p>The service exposes a JSON health endpoint you can poll directly:</p>
+<pre><code>curl https://sipi.bot/health</code></pre>
+<p>Returns, when healthy:</p>
+<pre><code>{"ok": true, "service": "sipi.bot", "version": "0.1.0"}</code></pre>
+<p>If <code>ok</code> is not <code>true</code> or the request times out, the service is degraded.</p>
+
+<h2>Platform status</h2>
+<p>sipi.bot runs on <a href="https://fly.io/">Fly.io</a> in the <code>iad</code> (Northern Virginia) region. The real-time status of the underlying platform — including regional incidents that would affect sipi.bot — is published at <a href="https://status.fly.io/">status.fly.io</a>.</p>
+
+<h2>What to expect</h2>
+<ul>
+  <li><strong>Decision latency:</strong> the rule engine is deterministic and returns in single-digit milliseconds. End-to-end latency depends on your distance from the <code>iad</code> region — measure from your deployment before relying on a number.</li>
+  <li><strong>Availability:</strong> the hosted service is run as a best-effort solo product. There is no contracted SLA on Team or Business plans, and we do not publish a historical uptime figure we cannot independently verify. If you need an SLA, <a href="mailto:sales@sipiteno.com">ask</a>.</li>
+  <li><strong>Maintenance:</strong> scheduled changes are announced in advance on <a href="https://x.com/sipiteno">X (@sipiteno)</a> when they may cause brief unavailability.</li>
+</ul>
+
+<h2>Incident history</h2>
+<p>We do not yet maintain a public incident log. Significant incidents will be posted here with a timestamp, impact, and root cause.</p>
+
+<p class="quiet">Questions about reliability for a specific integration? <a href="mailto:sales@sipiteno.com">Get in touch</a>.</p>"""
+
 TERMS_BODY = """<h1>Terms of Service</h1>
 <p class="lead">Last updated: 2026. By using sipi.bot you agree to these terms.</p>
 <h2>The service</h2>
@@ -1241,7 +1057,7 @@ TERMS_BODY = """<h1>Terms of Service</h1>
 
 
 def dashboard_html() -> str:
-    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
@@ -1421,7 +1237,7 @@ setInterval(()=>{{if(workspaceKey())refresh();}},15000);
 
 
 def pricing_html() -> str:
-    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
@@ -1452,7 +1268,7 @@ def pricing_html() -> str:
         <li><span class="c">✓</span> Dashboard, audit log, MCP, HTTP + CLI</li>
         <li><span class="c">✓</span> API key issued immediately after payment</li>
       </ul>
-      <a href="/checkout/team?source=pricing_primary" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{{cta_id:'pricing_team_checkout',destination:'/checkout/team',placement:'pricing_primary',plan:'team'}})" class="btn" style="width:100%">Start Team — $99/mo</a>
+      <a href="/checkout/team?source=pricing_primary" rel="nofollow" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{{cta_id:'pricing_team_checkout',destination:'/checkout/team',placement:'pricing_primary',plan:'team'}})" class="btn" style="width:100%">Start Team — $99/mo</a>
       <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Green-light an active-rule violation and that month is free</p>
     </div>
   </div>
@@ -1524,65 +1340,6 @@ def pricing_html() -> str:
   </div>
 </section>
 <script>(function(){{var q=new URLSearchParams(location.search);if(q.get('checkout')==='cancelled'){{window.sipiTrack&&window.sipiTrack('checkout_canceled',{{plan:(q.get('plan')||'unknown').slice(0,16)}});}}}})();</script>
-
-<!-- EXIT-INTENT CAPTURE: traffic you own (Dotcom Secrets Ch 17). Once/session. -->
-<style>
-#ei-overlay{{position:fixed;inset:0;z-index:100;background:rgba(5,6,8,.82);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px}}
-#ei-overlay.show{{display:flex}}
-#ei-card{{background:var(--panel);border:1px solid rgba(0,212,170,.35);border-radius:18px;max-width:460px;width:100%;padding:32px 28px;text-align:center;position:relative;animation:ei-pop .25s ease}}
-@keyframes ei-pop{{from{{opacity:0;transform:translateY(12px) scale(.98)}}to{{opacity:1;transform:none}}}}
-#ei-card .close{{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--mut);font-size:24px;line-height:1;cursor:pointer;padding:6px;border-radius:6px}}
-#ei-card .close:hover{{color:var(--txt);background:var(--panel2)}}
-#ei-card h2{{margin:6px 0 10px;font-size:24px;line-height:1.2}}
-#ei-card p{{color:var(--mut);font-size:15px;line-height:1.55;margin:0 0 18px}}
-#ei-form{{display:flex;gap:8px}}
-#ei-form input{{flex:1}}
-#ei-form button{{white-space:nowrap}}
-#ei-msg{{color:var(--accent);font-size:14px;margin:10px 0 0;min-height:18px}}
-#ei-skip{{display:block;margin:14px 0 0;color:var(--mut);font-size:12.5px}}
-#ei-skip:hover{{color:var(--txt)}}
-</style>
-<div id="ei-overlay" role="dialog" aria-modal="true" aria-labelledby="ei-title">
-  <div id="ei-card">
-    <button class="close" id="ei-close" aria-label="Close">&times;</button>
-    <span class="tag" style="margin-bottom:14px">Free · 5-day email playbook</span>
-    <h2 id="ei-title">Wait — before your agent spends its next dollar.</h2>
-    <p>Get the framework I wish I'd had before my agent spent <strong style="color:var(--txt)">$12,400 in one night</strong>. Six rules, three lines of code, one deployment checklist. Free. No card.</p>
-    <form id="ei-form" onsubmit="return eiSub(event)">
-      <input type="email" id="ei-em" placeholder="you@company.com" required aria-label="Email address">
-      <button class="btn" type="submit">Send Day 1 →</button>
-    </form>
-    <p id="ei-msg" aria-live="polite"></p>
-    <a href="/free" id="ei-skip">No thanks — but tell me more about the playbook →</a>
-  </div>
-</div>
-<script>
-(function(){{
-  if(sessionStorage.getItem('sipi_ei_shown'))return;
-  var ov=document.getElementById('ei-overlay');if(!ov)return;
-  var fired=false;
-  function open(){{if(fired)return;fired=true;ov.classList.add('show');sessionStorage.setItem('sipi_ei_shown','1');setTimeout(function(){{var i=document.getElementById('ei-em');if(i)i.focus();}},120);}}
-  function close(){{ov.classList.remove('show');}}
-  document.getElementById('ei-close').addEventListener('click',close);
-  ov.addEventListener('click',function(e){{if(e.target===ov)close();}});
-  document.addEventListener('keydown',function(e){{if(e.key==='Escape')close();}});
-  // Desktop: exit-intent (mouse leaves to top)
-  document.addEventListener('mouseout',function(e){{if(!e.toElement&&!e.relatedTarget&&e.clientY<12)open();}});
-  // Mobile: time + engagement fallback
-  var scrolled=false;window.addEventListener('scroll',function(){{if(window.scrollY>400)scrolled=true;}},{{once:false,passive:true}});
-  setTimeout(function(){{if(scrolled)open();}},25000);
-}})();
-function eiSub(e){{e.preventDefault();
-var input=document.getElementById('ei-em');var email=input?input.value:'';
-var msg=document.getElementById('ei-msg');var btn=document.querySelector('#ei-form button');
-if(!email)return false;if(btn){{btn.disabled=true;btn.textContent='Sending...';}}
-fetch('/subscribe',{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{email:email,ref:'exit_intent'}})}})
-.then(function(r){{return r.json();}}).then(function(d){{if(window.posthog)posthog.capture('course_subscribed',{{source:'exit_intent'}});if(msg){{msg.textContent=d.message||'You are on the list. Day 1 arrives within 24 hours.';}}if(input)input.value='';if(btn){{btn.textContent='✓ On the list';}}}})
-.catch(function(){{if(msg){{msg.textContent='Something went wrong — please try again.';}}if(btn){{btn.disabled=false;btn.textContent='Send Day 1 →';}}}});
-return false;}}
-</script>
-<!-- /EXIT-INTENT -->
-
 </body></html>"""
 
 
@@ -1606,25 +1363,6 @@ def key_success_html(rec) -> str:
       <a href="/for/" class="btn">Choose my integration →</a>
       <a href="/dashboard" class="btn ghost">Open the live dashboard</a>
     </div>
-
-    <!-- UPSELL + REFERRAL: capture the buying moment (Dotcom Secrets Ch 6).
-         Honest path — Business is a real existing tier. No fabricated scarcity.
-         NOTE: braces doubled ({{ }}) because this lives inside inner's f-string. -->
-    <div style="max-width:820px;margin:30px auto 0;background:var(--panel);border:1px solid rgba(0,212,170,.3);border-radius:16px;padding:24px 26px">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
-        <div style="text-align:left;flex:1;min-width:240px">
-          <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px">While your card is out</div>
-          <h3 style="margin:0 0 6px;font-size:18px">Want it managed for you?</h3>
-          <p style="color:var(--mut);font-size:14px;margin:0;line-height:1.55">Upgrade to <strong style="color:var(--txt)">Business</strong> for managed policy onboarding, rule setup by our team, and priority support. Same guarantee — green-light a rule violation, the month is free.</p>
-        </div>
-        <a href="/checkout/business?source=key_success_upsell" onclick="if(window.posthog)posthog.capture('upsell_clicked',{{from:'team',to:'business',location:'key_success'}})" class="btn" style="white-space:nowrap">See Business →</a>
-      </div>
-      <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <span style="color:var(--mut);font-size:13px">🤝 Know another builder shipping autonomous agents?</span>
-        <a href="/free" style="color:var(--accent);font-size:13px;font-weight:600">Send them the free playbook →</a>
-      </div>
-    </div>
-
     <p style="color:var(--mut);font-size:14px;margin-top:22px">Need help? Email <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a>.</p>
     <script>
     (function(){{var b=document.getElementById('copy-key');if(!b)return;b.addEventListener('click',function(){{
@@ -1641,7 +1379,7 @@ def key_success_html(rec) -> str:
     email <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a>.</p>
     <button type="button" class="btn" onclick="location.reload()">Check again</button>
     <a href="/pricing" class="btn ghost" style="margin-left:10px">Back to pricing</a>"""
-    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
@@ -1659,7 +1397,7 @@ def key_success_html(rec) -> str:
 
 def masterclass_html() -> str:
     """Perfect Webinar / Masterclass: The 3 Secrets of Agent Spend Control (Ch 8)."""
-    s = f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    s = f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Masterclass — The 3 Secrets That Stop Agent Overspend | sipi.bot</title>
 <meta name="description" content="A 10-minute recorded walkthrough covering the 3 secrets every builder needs before deploying an autonomous agent with a payment method.">
@@ -1702,22 +1440,6 @@ def masterclass_html() -> str:
       <p style="color:var(--txt)"><strong>The One Thing:</strong> Every agent payment path gets one decision point — sipi.bot — that returns <span style="color:var(--green)">approve</span>, <span style="color:var(--red)">block</span>, or <span style="color:var(--amber)">flag</span> before a dollar moves.</p>
     </div>
   </div>
-</div></section>
-
-
-<!-- EMAIL GATE: capture before revealing Secrets #2 and #3 -->
-<section id="gate" style="background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,212,170,.02));border-top:1px solid rgba(0,212,170,.25);border-bottom:1px solid rgba(0,212,170,.25);padding:56px 0"><div class="wrap" style="max-width:620px;text-align:center">
-  <span class="badge b-green" style="margin-bottom:12px">KEEP READING — IT'S FREE</span>
-  <h2 style="margin:0 0 10px">Secret #2 and #3 are the ones that actually stop the $12,400 night.</h2>
-  <p style="color:var(--mut);font-size:16px;line-height:1.6;margin:0 0 24px">Drop your email and I'll unlock them now — and send you the 5-day Spend Firewall Playbook so you can wire it up this week. No spam, no paid signup, unsubscribe anytime.</p>
-  <form class="form" style="max-width:440px;margin:0 auto" onsubmit="return mcUnlock(event)">
-    <div style="display:flex;gap:8px">
-      <label for="mc-em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="mc-em" placeholder="you@company.com" required style="flex:1">
-      <button class="btn" type="submit">Unlock Secrets #2 & #3 →</button>
-    </div>
-    <p class="mc-msg" aria-live="polite" style="color:var(--accent);font-size:14px;margin:10px 0 0"></p>
-  </form>
-  <p style="font-size:12.5px;color:var(--mut);margin:14px 0 0">Prefer to just try it? <a href="/playground/" style="color:var(--accent)">Run a free live check →</a></p>
 </div></section>
 
 <!-- Secret #2: Story — The 3 False Walls -->
@@ -1767,7 +1489,7 @@ def masterclass_html() -> str:
       <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>Merchant allowlist — only approved vendors go through</span><span style="color:var(--accent);font-weight:700">$199/mo value</span></div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>Category + time rules — block by type and hour</span><span style="color:var(--accent);font-weight:700">$99/mo value</span></div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><span>🎁 BONUS: MCP tool + CLI + self-host option</span><span style="color:var(--accent);font-weight:700">INCLUDED</span></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;margin-top:4px"><span style="font-weight:700">Total value</span><span style="color:var(--mut);text-decoration:line-through;font-size:18px">$2,500/mo</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;margin-top:4px"><span style="font-weight:700">Total value</span><span style="color:var(--mut);text-decoration:line-through;font-size:18px">$1,295/mo</span></div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0"><span style="font-weight:700;font-size:20px">You pay</span><span style="color:var(--accent);font-weight:800;font-size:28px">$99/mo</span></div>
     </div>
 
@@ -1786,7 +1508,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\\\<br>
 
     <div style="text-align:center">
       <a href="/playground/" class="btn" style="font-size:18px;padding:16px 36px">Try it free in the playground</a>
-      <a href="/checkout/team?source=masterclass" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{{cta_id:'masterclass_team_checkout',destination:'/checkout/team',placement:'masterclass',plan:'team'}})" class="btn ghost" style="font-size:16px;padding:14px 30px;margin-left:12px">Start Team — $99/mo</a>
+      <a href="/checkout/team?source=masterclass" rel="nofollow" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{{cta_id:'masterclass_team_checkout',destination:'/checkout/team',placement:'masterclass',plan:'team'}})" class="btn ghost" style="font-size:16px;padding:14px 30px;margin-left:12px">Start Team — $99/mo</a>
       <p style="color:var(--accent);font-size:13px;margin-top:12px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
       <p style="color:var(--mut);font-size:14px;margin-top:14px">Free self-host core · MIT licensed · <a href="https://github.com/kindrat86/sipi-bot" style="color:var(--accent)">Open on GitHub</a></p>
     </div>
@@ -1809,6 +1531,7 @@ def tripwire_html() -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Agent Spend Audit — $7 One-Time | sipi.bot</title>
 <meta name="description" content="Get a personalized agent spend audit report showing exactly where your autonomous agents are bleeding money — $7 one-time, delivered in 10 minutes.">
 <style>
@@ -1885,8 +1608,8 @@ footer a{color:var(--mut)}
 </div>
 
 <div style="text-align:center;margin:30px 0">
-@@TW_BUY_BUTTON@@
-@@TW_SECONDARY@@
+<a href="https://buy.stripe.com/REPLACE_WITH_TRIPWIRE_LINK" class="btn" id="buy-btn">Get My Audit Report — $7 →</a>
+<p class="secondary">One-time payment. Delivered to your email in under 10 minutes. <a href="/">No thanks, I'll take my chances →</a></p>
 </div>
 
 <!-- TESTIMONIALS REMOVED 2026-07-23: no verified named attribution. Restore only with real users. -->
@@ -1917,30 +1640,6 @@ tick()
 })();
 </script>
 </body></html>"""
-    # Honest $7 CTA: auto-activates when STRIPE_PRICE_TRIPWIRE is set.
-    # This block is injected at the end of tripwire_html(), before "return s".
-    import os as _os
-    _tw_link = _os.environ.get("STRIPE_PRICE_TRIPWIRE", "").strip()
-    if _tw_link:
-        _tw_buy = (
-            '<a href="' + _tw_link + '" class="btn" id="buy-btn">'
-            "Get My Audit Report — $7 →</a>"
-        )
-        _tw_secondary = (
-            '<p class="secondary">One-time payment. Delivered to your email in under 10 minutes. '
-            '<a href="/">No thanks, take my chances →</a></p>'
-        )
-    else:
-        _tw_buy = (
-            '<a href="/playground/" class="btn" id="buy-btn">Run the free audit live now →</a>'
-            '<br><br><a href="/free" class="btn ghost" style="font-size:.95em">Or get the free 5-day playbook →</a>'
-        )
-        _tw_secondary = (
-            '<p class="secondary">The personalized $7 audit report is launching soon. '
-            "Meanwhile the live firewall and the 5-day playbook are free right now — no card, no signup. "
-            '<a href="/">Back to sipi.bot →</a></p>'
-        )
-    s = s.replace("@@TW_BUY_BUTTON@@", _tw_buy).replace("@@TW_SECONDARY@@", _tw_secondary)
     return s
 
 
@@ -1951,6 +1650,7 @@ def badge_page_html() -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Protected by sipi.bot — Badge</title>
 <meta name="description" content="Embed a live 'Protected by sipi.bot' badge on your site. Show visitors your agent spending is firewall-protected, with real-time stats.">
 <link rel="canonical" href="https://sipi.bot/badge">
@@ -2216,7 +1916,7 @@ BLOG_CASE_STUDY_BODY = """<h1>How my own AI agent spent $12,400 while I slept �
 
 def blog_page_html() -> str:
     """Single-founder origin-story blog post: how sipi.bot was born from a $12,400 runaway-agent incident."""
-    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
@@ -2260,7 +1960,7 @@ def blog_page_html() -> str:
 </article></div></section>
 <footer class="sipi-resources"><div class="wrap">
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
-  <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/about">About</a> · <a href="/blog/">Blog</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+  <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/about">About</a> · <a href="/blog/">Blog</a> · <a href="/security">Security</a> · <a href="/status">Status</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
   <div style="margin-top:14px;color:var(--mut);font-size:13px">
     <a href="/benchmarks/">Benchmarks</a> ·
     <a href="/best/">Best-of comparisons</a> ·
@@ -2273,84 +1973,3 @@ def blog_page_html() -> str:
   </div>
 </div></footer>
 </body></html>"""
-
-
-def squeeze_html() -> str:
-    s = """<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){try{window.trustedTypes.createPolicy("default",{createHTML:function(s){return s},createScript:function(s){return s},createScriptURL:function(s){return s}})}catch(e){}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Spend Firewall Playbook — Free 5-Day Email Course | sipi.bot</title>
-<meta name="description" content="One email a day for five days. The night my agent spent $12,400, the six rules that stop it, how to wire it in, the eval suite, and the deployment checklist. Free — no card, no signup for anything paid.">
-<link rel="canonical" href="https://sipi.bot/free">
-<meta name="robots" content="index, follow">
-<meta property="og:title" content="The Spend Firewall Playbook — Free 5-Day Email Course">
-<meta property="og:description" content="The framework for deploying autonomous agents that spend safely. 5 days. Free. No card.">
-<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/free"><meta property="og:image" content="https://sipi.bot/og.png"><meta name="theme-color" content="#00d4aa">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"The Spend Firewall Playbook","description":"A free 5-day email course on controlling autonomous AI agent spending.","provider":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"},"hasCourseInstance":{"@type":"CourseInstance","courseMode":"Online","courseWorkload":"PT15M"}}]</script>
-<style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}</head><body>
-<nav><div class="wrap">
-  <div class="brand"><a href="/" style="color:inherit;text-decoration:none">sipi<span class="dot">.bot</span></a></div>
-  <div class="nav-links"><a href="/pricing">Pricing</a><a href="/playground/" class="btn">Try it free</a></div>
-</div></nav>
-
-<section class="hero" style="padding:80px 0 50px"><div class="wrap" style="max-width:760px">
-  <span class="tag">Free · 5-day email playbook</span>
-  <h1 style="font-size:clamp(28px,5vw,46px)">Your autonomous agent has a credit card<br><span class="hl">and no spending policy.</span></h1>
-  <p class="sub">In five short emails, you'll get the exact framework I wish I'd had before my agent spent <strong style="color:var(--txt)">$12,400 in one night</strong> — the six rules that stop it, the three lines of code that wire it in, and the deployment checklist.</p>
-
-  <form class="form" style="max-width:480px;margin:28px auto 0" onsubmit="return sub(event)">
-    <div style="display:flex;gap:8px">
-      <label for="pb-em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="pb-em" placeholder="you@company.com" required style="flex:1">
-      <button class="btn" type="submit">Send me Day 1 →</button>
-    </div>
-    <p class="msg-inline" aria-live="polite" style="color:var(--accent);font-size:14px;margin:10px 0 0;text-align:center"></p>
-  </form>
-  <p style="font-size:12.5px;color:var(--mut);margin:12px auto 0;max-width:480px;text-align:center">Joining the list does not sign you up for anything paid. Unsubscribe anytime. No credit card.</p>
-</div></section>
-
-<section><div class="wrap" style="max-width:760px">
-  <h2 class="center">What you'll get over 5 days</h2>
-  <p class="lead center">Each email is a short read — written by a founder who learned this the hard way.</p>
-  <div class="grid2" style="margin-top:32px">
-    <div class="card"><div class="badge b-red" style="margin-bottom:8px">DAY 1</div><h3 style="margin:0 0 6px">The wound</h3><p style="color:var(--mut);margin:0">The 2:14 AM Stripe receipt. What the agent did, and why "be careful with spending" in the prompt didn't stop it.</p></div>
-    <div class="card"><div class="badge b-amber" style="margin-bottom:8px">DAY 2</div><h3 style="margin:0 0 6px">The six rules</h3><p style="color:var(--mut);margin:0">Per-tx cap, daily total, velocity, merchant allowlist, category, time-of-day — the deterministic rules that would have blocked every charge.</p></div>
-    <div class="card"><div class="badge b-green" style="margin-bottom:8px">DAY 3</div><h3 style="margin:0 0 6px">The wiring</h3><p style="color:var(--mut);margin:0">Three lines of code. MCP, HTTP, or CLI — how sipi.bot sits in front of any agent before it spends.</p></div>
-    <div class="card"><div class="badge b-amber" style="margin-bottom:8px">DAY 4</div><h3 style="margin:0 0 6px">The proof</h3><p style="color:var(--mut);margin:0">The Eval Gym: 53 labeled real-world spend scenarios, 53/53 passed. You can run it yourself — the core is MIT-licensed.</p></div>
-    <div class="card" style="grid-column:1/-1"><div class="badge b-red" style="margin-bottom:8px">DAY 5</div><h3 style="margin:0 0 6px">The deployment checklist</h3><p style="color:var(--mut);margin:0">The exact checklist to run before your next agent goes to production — and the rule-integrity guarantee that backs it.</p></div>
-  </div>
-</div></section>
-
-<!-- The offer isn't a trick. You can also just try the product free, right now. -->
-<section style="background:rgba(0,212,170,.03)"><div class="wrap" style="max-width:680px;text-align:center">
-  <h2 class="center">Not an email person? Skip the line.</h2>
-  <p class="lead center">The whole product is callable right now — no signup, no key, no card.</p>
-  <div class="codebox mono" style="text-align:left;max-width:560px;margin:0 auto">
-curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
-&nbsp;&nbsp;-H <span class="s">"Content-Type: application/json"</span> \\<br>
-&nbsp;&nbsp;-d <span class="s">'{"amount": 12400, "currency": "USD", "merchant": "example-vendor"}'</span>
-  </div>
-  <p class="center mt24"><a href="/playground/" class="btn">Run a free live check →</a></p>
-  <p style="color:var(--mut);font-size:13px;margin-top:10px">Returns <code>APPROVED</code>, <code>BLOCKED</code>, or <code>FLAGGED</code> in under 5ms. 100 checks/min per IP.</p>
-</div></section>
-
-<footer><div class="wrap">
-  sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
-  <a href="/">Home</a> · <a href="/pricing">Pricing</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
-</div></footer>
-<script>
-function sub(e){e.preventDefault();
-var form=e.target;var input=form.querySelector('input[type=email]');var email=input?input.value:'';
-var msgEl=form.querySelector('.msg-inline');
-if(!email){return false;}
-var btn=form.querySelector('button[type=submit]');if(btn){btn.disabled=true;var orig=btn.textContent;btn.textContent='Sending...';}
-fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
-body:JSON.stringify({email:email,ref:'free_squeeze'})})
-.then(r=>r.json()).then(d=>{if(window.posthog)posthog.capture('course_subscribed',{source:'free_squeeze'});if(msgEl){msgEl.textContent=d.message||'You are on the list. Day 1 arrives within 24 hours.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
-.catch(()=>{if(msgEl){msgEl.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
-return false;}
-</script>
-</body></html>"""
-    s = s.replace("{CSS}", CSS)
-    s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
-    s = s.replace("{GA4_SNIPPET}", GA4_SNIPPET)
-    return s
-

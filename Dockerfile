@@ -35,6 +35,17 @@ COPY redflags/ ./redflags/
 COPY calculators/ ./calculators/
 COPY guides/ ./guides/
 
+# 2026-07-27 traffic program — open incident database + freshness surfaces.
+# Generators live in lib/ (shared chrome) and write these section dirs at repo
+# root; api.py:_serve_pseo() serves them. public/data/ holds the CC BY 4.0
+# dataset endpoints (json/csv/jsonl/jsonld) referenced by llms.txt.
+COPY incidents/ ./incidents/
+COPY blog/ ./blog/
+COPY tools/ ./tools/
+COPY changelog/ ./changelog/
+COPY status/ ./status/
+COPY public/data/ ./public/data/
+
 # --- structured-data gate (~/.growth-engine/GUARDRAILS.md rule 3) ---
 # Fails the image build — and so `flyctl deploy` — if any copied page carries
 # unparsable JSON-LD. This runs after every COPY above so it sees exactly the

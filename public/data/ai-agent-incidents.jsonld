@@ -1,0 +1,45 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "AI Agent Incident Database",
+  "description": "A curated, sourced record of real-world incidents in which autonomous AI agents caused financial loss, data loss, or unintended actions. Every record links to a public source. Licensed CC BY 4.0.",
+  "url": "https://sipi.bot/incidents/",
+  "creator": {
+    "@type": "Organization",
+    "name": "sipi.bot",
+    "url": "https://sipi.bot/"
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "isAccessibleForFree": true,
+  "keywords": [
+    "AI agents",
+    "autonomous agents",
+    "AI incidents",
+    "runaway agent",
+    "agent spending",
+    "AI security",
+    "LLM agents",
+    "agentic AI"
+  ],
+  "variableMeasured": "34 documented incidents",
+  "distribution": [
+    {
+      "@type": "DataDownload",
+      "contentUrl": "https://sipi.bot/data/ai-agent-incidents.json",
+      "encodingFormat": "application/json",
+      "name": "JSON"
+    },
+    {
+      "@type": "DataDownload",
+      "contentUrl": "https://sipi.bot/data/ai-agent-incidents.csv",
+      "encodingFormat": "text/csv",
+      "name": "CSV"
+    },
+    {
+      "@type": "DataDownload",
+      "contentUrl": "https://sipi.bot/data/ai-agent-incidents.jsonl",
+      "encodingFormat": "application/jsonl",
+      "name": "JSON Lines"
+    }
+  ]
+}
