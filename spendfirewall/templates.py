@@ -1500,7 +1500,7 @@ def key_success_html(rec) -> str:
           <h3 style="margin:0 0 6px;font-size:18px">Want it managed for you?</h3>
           <p style="color:var(--mut);font-size:14px;margin:0;line-height:1.55">Upgrade to <strong style="color:var(--txt)">Business</strong> for managed policy onboarding, rule setup by our team, and priority support. Same guarantee — green-light a rule violation, the month is free.</p>
         </div>
-        <a href="/checkout/business?source=key_success_upsell" onclick="if(window.posthog)posthog.capture('upsell_clicked',{{from:'team',to:'business',location:'key_success'}})" class="btn" style="white-space:nowrap">See Business →</a>
+        <a href="/checkout/business?source=key_success_upsell" class="btn" style="white-space:nowrap">See Business →</a>
       </div>
       <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <span style="color:var(--mut);font-size:13px">🤝 Know another builder shipping autonomous agents?</span>
