@@ -1,0 +1,116 @@
+# ──────────────────────────────────────────────────────────────────────────
+# AI Agent Spend Policy — sipi.bot template
+# Mirror of the rule types sipi.bot's engine evaluates (engine.py).
+# License: CC BY 4.0 — copy, adapt, ship. Attribution to sipi.bot appreciated.
+# Canonical: https://sipi.bot/templates/agent-spend-policy-template
+# Download:  https://sipi.bot/agent-spend-policy.yaml
+# ──────────────────────────────────────────────────────────────────────────
+#
+# Every rule maps 1:1 to a sipi.bot rule_type. Load the whole file via the
+# CLI (`sipi-guard policy load agent-spend-policy.yaml`) or paste individual
+# rules into POST /api/rules. Decisions returned: APPROVED | BLOCKED | FLAGGED.
+# Higher priority rules evaluate first; the first BLOCK wins.
+
+policy_name: "production-agent-spend-firewall"
+version: "1.0.0"
+currency: USD
+description: >
+  A complete starting-point spend firewall for an autonomous agent with live
+  payment access. Stops runaway retry loops, blocks unknown merchants, caps
+  daily exposure, and routes large spends to a human.
+
+defaults:
+  default_action: BLOCKED          # unknown merchant / unmatched rule → block
+  audit_log_retention_days: 90
+
+rules:
+  # ── Hard caps (BLOCKED) ────────────────────────────────────────────────
+  - id: r_per_transaction_500
+    rule_type: per_transaction
+    params: { max_amount: 500 }
+    action: BLOCKED
+    priority: 200
+    label: "Per-transaction cap exceeded ($500)"
+
+  - id: r_daily_total_2500
+    rule_type: daily_total
+    params: { max_amount: 2500 }
+    action: BLOCKED
+    priority: 190
+    label: "Daily spend ceiling hit ($2,500)"
+
+  # ── Runaway-loop protection (BLOCKED) ──────────────────────────────────
+  # The single most important rule. Caps transactions per time window so a
+  # stuck retry/spend loop physically cannot drain a card.
+  - id: r_velocity_10_per_hour
+    rule_type: velocity
+    params: { max_count: 10, window_seconds: 3600 }
+    action: BLOCKED
+    priority: 210                    # beats per-tx so a loop trips before caps
+    label: "Velocity limit: >10 transactions/hour (runaway loop)"
+
+  # ── Merchant governance (BLOCKED) ──────────────────────────────────────
+  - id: r_block_high_risk_tlds
+    rule_type: merchant_block
+    params:
+      patterns: ["*.ru", "*.cn", "*.tk", "*.zip", "sketchy*", "unknown-gpu*"]
+    action: BLOCKED
+    priority: 220
+    label: "High-risk merchant blocked"
+
+  - id: r_allow_known_providers
+    rule_type: merchant_allow
+    params:
+      patterns:
+        - "openai.com"
+        - "anthropic.com"
+        - "aws.amazon.com"
+        - "console.anthropic.com"
+        - "stripe.com"
+        - "github.com"
+    action: APPROVED                 # allowlisted merchants still hit caps above
+    priority: 100
+    label: "Known provider allowlisted"
+
+  # ── Category budgets (BLOCKED) ─────────────────────────────────────────
+  - id: r_compute_cap_1000
+    rule_type: category_limit
+    params: { category: "compute", max_amount: 1000 }
+    action: BLOCKED
+    priority: 180
+    label: "Compute category budget exceeded ($1,000)"
+
+  - id: r_ads_cap_300
+    rule_type: category_limit
+    params: { category: "ads", max_amount: 300 }
+    action: BLOCKED
+    priority: 180
+    label: "Ads category budget exceeded ($300)"
+
+  # ── Time windows (BLOCKED outside business hours) ──────────────────────
+  - id: r_business_hours_only
+    rule_type: time_window
+    params: { start_hour: 7, end_hour: 21 }   # UTC
+    action: BLOCKED                             # outside 07:00–21:00 UTC
+    priority: 150
+    label: "Outside allowed spending window (07:00–21:00 UTC)"
+
+  # ── Human-in-the-loop (FLAGGED) ────────────────────────────────────────
+  # Large spends are allowed but parked for a human to approve/deny.
+  - id: r_flag_over_1000
+    rule_type: approval_threshold
+    params: { amount: 1000 }
+    action: FLAGGED
+    priority: 120
+    label: "Spend ≥ $1,000 requires human approval"
+
+# ── Tuning guide ──────────────────────────────────────────────────────────
+# Start permissive, tighten after a week of real traffic:
+#   1. Review /dashboard blocked reasons daily for the first 7 days.
+#   2. If a legitimate merchant keeps getting blocked, add it to r_allow_known_providers.
+#   3. If velocity trips on real (non-loop) bursts, raise max_count by 50%.
+#   4. Drop the per-transaction cap to just above your 95th-percentile txn.
+#   5. Set the approval_threshold to ~2× your per-transaction cap.
+#
+# Per-agent overrides: add `agent_id: "billing-agent"` to scope a rule to one agent.
+# Full rule reference: https://sipi.bot/learn/spend-firewall-guide

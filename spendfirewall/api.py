@@ -428,6 +428,26 @@ class Handler(BaseHTTPRequestHandler):
                   '<meta name="twitter:description" content="' + od + '">\n'
                   '<meta name="twitter:image" content="https://sipi.bot/og.png">\n')
             html = html.replace('<meta property="og:title"', ob + '<meta property="og:title"', 1)
+        # W8 — BreadcrumbList JSON-LD on every cacheable HTML page missing it,
+        # so all pSEO/blog/template pages get the rich-result-eligible
+        # breadcrumb the homepage already has. Derived from the canonical URL.
+        if cacheable and 'BreadcrumbList' not in html and '<link rel="canonical"' in html and '</head>' in html:
+            import re as _rebcm
+            cm = _rebcm.search(r'<link rel="canonical" href="([^"]+)"', html)
+            tm = _rebcm.search(r'<title>([^<]+)</title>', html)
+            if cm:
+                cu = cm.group(1)
+                ttl = (tm.group(1) if tm else "").strip()
+                bl = self._breadcrumb_jsonld(cu, ttl)
+                if bl:
+                    html = html.replace('</head>', bl + '</head>', 1)
+        # W4 — site-wide Resources footer before </body> on cacheable HTML
+        # pages that don't already have ANY footer. Un-orphans ~200 pSEO/leaf
+        # pages from the homepage so internal PageRank reaches every cluster.
+        # Guards on '<footer' (any footer) so we never stack a second one on
+        # pages that already carry their own (homepage, badge, eval-report, etc.).
+        if cacheable and '<footer' not in html.lower() and '</body>' in html:
+            html = html.replace('</body>', self._RESOURCES_FOOTER + '</body>', 1)
         self.wfile.write(html.encode())
 
     def _body(self) -> dict:
@@ -1142,14 +1162,135 @@ class Handler(BaseHTTPRequestHandler):
         return self._json(404, {"error": "not_found"})
 
     
+    # ── Traffic-win fixes (audit 2026-07-27) ─────────────────────────────
+    # W5 — exact duplicate 301s. Each /alternatives-to/<x> below is a
+    # byte-for-byte duplicate of /vs/<x> (same target, same intent). We
+    # collapse them into the /vs/ primary to stop keyword cannibalization.
+    # Only mapped where /vs/<x> actually exists (reversible, low-risk).
+    _PSEO_301_REDIRECTS = {
+        "/alternatives-to/helicone": "/vs/helicone",
+        "/alternatives-to/helicone/": "/vs/helicone",
+        "/alternatives-to/litellm": "/vs/litellm",
+        "/alternatives-to/litellm/": "/vs/litellm",
+        "/alternatives-to/langfuse": "/vs/langfuse",
+        "/alternatives-to/langfuse/": "/vs/langfuse",
+        "/alternatives-to/openai-billing": "/vs/openai-billing",
+        "/alternatives-to/openai-billing/": "/vs/openai-billing",
+    }
+
+    # W4 — site-wide Resources footer. Injected before </body> on every pSEO
+    # page that lacks it, so ~230 hub/leaf pages stop being orphans of the
+    # homepage and internal PageRank flows to glossary/faq/answers/etc.
+    _RESOURCES_FOOTER = (
+        '<footer class="sipi-resources" style="border-top:1px solid #e5e7eb;'
+        'padding:28px 0 8px;margin-top:48px;font-size:13px;line-height:1.9;'
+        'color:#6b7280;background:#fafafa">'
+        '<div style="max-width:960px;margin:0 auto;padding:0 16px">'
+        '<div style="font-weight:600;color:#0a0a0a;margin-bottom:6px">'
+        'sipi.bot — resources</div>'
+        '<div><strong>Glossary:</strong> '
+        '<a href="/glossary/spend-firewall/">spend firewall</a> · '
+        '<a href="/glossary/velocity-limit/">velocity limit</a> · '
+        '<a href="/glossary/circuit-breaker/">circuit breaker</a> · '
+        '<a href="/glossary/runaway-agent-loop/">runaway agent</a> · '
+        '<a href="/glossary/">all terms →</a></div>'
+        '<div><strong>FAQ:</strong> '
+        '<a href="/faq/how-to-prevent-runaway-ai-costs/">prevent runaway costs</a> · '
+        '<a href="/faq/how-to-set-ai-spend-limit/">set a spend limit</a> · '
+        '<a href="/faq/how-much-should-my-ai-agent-spend/">how much should it spend</a> · '
+        '<a href="/faq/">all FAQ →</a></div>'
+        '<div><strong>Learn:</strong> '
+        '<a href="/learn/spend-firewall-guide">complete guide</a> · '
+        '<a href="/learn/how-to-control-ai-agent-spending">control methods</a> · '
+        '<a href="/learn/runaway-agent-cost-calculator">cost calculator</a></div>'
+        '<div><strong>Compare:</strong> '
+        '<a href="/vs/">vs alternatives</a> · '
+        '<a href="/best/">best-of</a> · '
+        '<a href="/benchmarks/">benchmarks</a> · '
+        '<a href="/answers/">answers hub</a></div>'
+        '<div><strong>Product:</strong> '
+        '<a href="/pricing">pricing</a> · '
+        '<a href="/dashboard">dashboard</a> · '
+        '<a href="/templates/agent-spend-policy-template">policy template</a> · '
+        '<a href="/badge">embed badge</a></div>'
+        '<div style="margin-top:10px;color:#9ca3af">'
+        '<a href="https://sipi.bot/">sipi.bot</a> — the pre-spend firewall for '
+        'autonomous AI agents. <a href="/about">about</a> · '
+        '<a href="/blog/">blog</a> · <a href="/privacy">privacy</a> · '
+        '<a href="/terms">terms</a> · '
+        '<a href="https://github.com/kindrat86/sipi-bot" rel="me noopener">github</a>'
+        '</div></div></footer>'
+    )
+
+    # W8 — JSON-LD BreadcrumbList injected on every pSEO leaf page so all
+    # templates get the rich-result-eligible breadcrumb the homepage has.
+    def _breadcrumb_jsonld(self, canonical_url: str, title: str) -> str:
+        """Build a BreadcrumbList JSON-LD block: Home → section → page.
+        Best-effort: skips injection if the page already has BreadcrumbList."""
+        import json as _json
+        try:
+            # canonical_url like https://sipi.bot/vs/litellm/ → ['vs','litellm']
+            stripped = canonical_url.replace("https://sipi.bot", "").replace("http://sipi.bot", "")
+            parts = [p for p in stripped.strip("/").split("/") if p]
+            if not parts:
+                return ""
+            section_name = {
+                "vs": "Comparisons", "for": "For", "learn": "Learn",
+                "glossary": "Glossary", "faq": "FAQ", "best": "Best of",
+                "benchmarks": "Benchmarks", "answers": "Answers",
+                "how-to": "How-To", "use-cases": "Use Cases",
+                "guides": "Guides", "checklists": "Checklists",
+                "templates": "Templates", "cost-of": "Cost of",
+                "integrations": "Integrations", "compare": "Compare",
+                "alternatives": "Alternatives", "alternatives-to": "Alternatives",
+                "tools": "Tools", "limits": "Limits", "policies": "Policies",
+                "tutorials": "Tutorials", "research": "Research",
+            }.get(parts[0], parts[0].capitalize())
+            items = [{
+                "@type": "ListItem", "position": 1,
+                "name": "Home", "item": "https://sipi.bot/",
+            }]
+            if len(parts) >= 1:
+                items.append({
+                    "@type": "ListItem", "position": 2,
+                    "name": section_name,
+                    "item": f"https://sipi.bot/{parts[0]}/",
+                })
+            if len(parts) >= 2:
+                items.append({
+                    "@type": "ListItem", "position": 3,
+                    "name": (title or parts[-1].replace("-", " ").title())[:110],
+                    "item": canonical_url,
+                })
+            block = {"@context": "https://schema.org",
+                     "@type": "BreadcrumbList", "itemListElement": items}
+            return '<script type="application/ld+json">' + _json.dumps(block) + '</script>'
+        except Exception:
+            return ""
+
     def _serve_pseo(self, path):
         """Serve pSEO static HTML pages from vs/ for/ learn/ integrations/ subdirs.
 
         Returns True when a page was served (so do_GET stops routing),
         None/False on a miss. NB: _html() returns None — never return its
         result directly or do_GET falls through and appends a second 404
-        response to the body (the 82-page corruption bug)."""
+        response to the body (the 82-page corruption bug).
+
+        Traffic-win fixes applied here at runtime (so we don't edit 230 files):
+          W3 — trailing-slash canonicalization (301 slash → bare form)
+          W4 — site-wide Resources footer injected before </body>
+          W5 — exact duplicate 301s (/alternatives-to/X → /vs/X)
+          W8 — BreadcrumbList JSON-LD injected into <head>
+        """
         import os
+
+        # W5 — cannibalization 301s (checked before anything else so they win
+        # regardless of which prefix the URL happens to live under).
+        if path in self._PSEO_301_REDIRECTS:
+            target = self._PSEO_301_REDIRECTS[path]
+            self._redirect_301(target)
+            return True
+
         for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/"):
             # Match "/learn/foo" and also the bare section root "/learn". The bare
             # form used to fall through to a 404 because it does not start with
@@ -1157,8 +1298,24 @@ class Handler(BaseHTTPRequestHandler):
             # and a breadcrumb on every /learn/* page pointed at the bare form.
             # Sections with no index.html (e.g. /compare) still 404, unchanged.
             if path.startswith(prefix) or path == prefix.rstrip("/"):
-                if path == prefix.rstrip("/"):
+                # W3 — canonicalize every leaf page to ONE URL form. Audit
+                # found both "/vs/litellm" and "/vs/litellm/" return 200 — a
+                # duplicate pair per page. The site's majority canonical is
+                # BARE (156 of 226 pages), so we 301 the slash form → bare.
+                # Section ROOTS ("/vs", "/learn") and hub index pages
+                # ("/templates/", "/alternatives/") keep the slash form (that
+                # is their canonical) and are excluded from the redirect.
+                is_section_root = (path == prefix.rstrip("/") or path == prefix)
+                # Hub index pages (the new W2 hubs + existing section roots)
+                # are slash-canonical — only redirect LEAF pages with a slash.
+                # A leaf looks like "/vs/litellm/"; a hub looks like "/vs/".
+                is_hub_index = (path == prefix)
+                if is_section_root:
                     path = prefix
+                elif path.endswith("/") and not is_hub_index:
+                    # leaf with trailing slash → redirect to bare form
+                    self._redirect_301(path.rstrip("/"))
+                    return True
                 # /data/ files live inside the spendfirewall package; others at project root
                 if prefix == "/data/":
                     base = os.path.abspath(os.path.dirname(__file__))
@@ -1173,10 +1330,10 @@ class Handler(BaseHTTPRequestHandler):
                     try:
                         with open(filepath, encoding="utf-8") as fh:
                             html = fh.read()
+                            import re as _re
                             # Inject hreflang + OG image + twitter tags for pSEO pages missing them
                             if 'hreflang' not in html.lower() and '<link rel="canonical"' in html:
                                 canonical_url = ''
-                                import re as _re
                                 cm = _re.search(r'<link rel="canonical" href="([^"]+)"', html)
                                 if cm:
                                     canonical_url = cm.group(1)
@@ -1189,9 +1346,8 @@ class Handler(BaseHTTPRequestHandler):
                             if 'og:image' not in html and '<meta property="og:title"' in html:
                                 og_title = ''
                                 og_desc = ''
-                                import re as _re2
-                                tm = _re2.search(r'<meta property="og:title" content="([^"]+)"', html)
-                                dm = _re2.search(r'<meta property="og:description" content="([^"]+)"', html)
+                                tm = _re.search(r'<meta property="og:title" content="([^"]+)"', html)
+                                dm = _re.search(r'<meta property="og:description" content="([^"]+)"', html)
                                 if tm: og_title = tm.group(1)
                                 if dm: og_desc = dm.group(1)
                                 og_image_block = (
@@ -1206,16 +1362,29 @@ class Handler(BaseHTTPRequestHandler):
                                     '<meta name="twitter:image" content="https://sipi.bot/og.png">\n'
                                 )
                                 html = html.replace('<meta property="og:title"', og_image_block + '<meta property="og:title"')
-                            if 'twitter:image' not in html and 'twitter:card' not in html:
-                                # Twitter card was already added above with og:image; 
-                                # if somehow missing entirely, inject before </head>
-                                pass
+                            # W4 (footer) + W8 (BreadcrumbList JSON-LD) are applied
+                            # centrally in _html() so they also cover pages served
+                            # via _serve_static. No need to duplicate here.
                             self._html(html)
                             return True
                     except Exception:
                         pass
                 return None
         return None
+
+    def _redirect_301(self, location: str):
+        """301 redirect with the baseline security headers so HSTS / transport
+        hardening survive the hop (same pattern as the www→apex redirect)."""
+        self.send_response(301)
+        self.send_header("Location", location)
+        self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+        self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
+        self.send_header("Content-Length", "0")
+        self.end_headers()
 
     def do_POST(self):
         path = urlparse(self.path).path

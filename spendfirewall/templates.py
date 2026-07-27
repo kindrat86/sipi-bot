@@ -562,7 +562,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
   </div>
 </div></section>
 
-<footer><div class="wrap">
+<footer class="sipi-resources"><div class="wrap">
   <div style="margin-bottom:16px">
     <strong style="color:var(--txt)">Framework integrations:</strong>
     <a href="/for/langchain/">LangChain</a> · <a href="/for/crewai/">CrewAI</a> ·
@@ -578,6 +578,18 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <a href="/benchmarks/">spend benchmarks</a> ·
     <a href="/learn/how-to-control-ai-agent-spending">5 approaches compared</a> ·
     <a href="/best/">best-of comparisons</a>
+  </div>
+  <div style="margin-bottom:16px;font-size:13px;line-height:2">
+    <strong style="color:var(--txt)">Learn & resources:</strong>
+    <a href="/learn/spend-firewall-guide">complete guide</a> ·
+    <a href="/glossary/">glossary</a> ·
+    <a href="/faq/">FAQ</a> ·
+    <a href="/answers/">answers hub</a> ·
+    <a href="/how-to/">how-to</a> ·
+    <a href="/use-cases/">use cases</a> ·
+    <a href="/guides/">deep guides</a> ·
+    <a href="/checklists/">checklists</a> ·
+    <a href="/templates/agent-spend-policy-template">policy template</a>
   </div>
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
   <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
@@ -821,7 +833,7 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
 {body_html}
 <p style="margin-top:40px"><a href="/">← Back to sipi.bot</a></p>
 </article></div></section>
-<footer><div class="wrap">
+<footer class="sipi-resources"><div class="wrap">
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
   <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
   <div style="margin-top:14px;color:var(--mut);font-size:13px">
@@ -1504,7 +1516,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\\\<br>
   </div>
 </div></section>
 
-<footer><div class="wrap">
+<footer class="sipi-resources"><div class="wrap">
   <p>© 2026 sipi.bot — <a href="/">The pre-spend firewall for autonomous AI agents</a></p>
 </div></footer>
 </body></html>"""
@@ -1613,7 +1625,7 @@ footer a{color:var(--mut)}
 </div>
 </div>
 
-<footer>
+<footer class="sipi-resources">
 <p>© 2026 sipi.bot — <a href="/">The pre-spend firewall for autonomous AI agents</a></p>
 </footer></div>
 
@@ -1814,7 +1826,7 @@ The badge pulls live stats from the sipi.bot firewall engine. Every number is re
 
 </div>
 
-<footer>
+<footer class="sipi-resources">
 <p>© 2026 sipi.bot — <a href="/">The pre-spend firewall for autonomous AI agents</a></p>
 </footer></div>
 </body></html>"""
@@ -1945,7 +1957,7 @@ def blog_page_html() -> str:
 <div style="margin-bottom:20px"><a href="/" style="color:var(--accent);font-size:14px">← Back to sipi.bot</a></div>
 {BLOG_CASE_STUDY_BODY}
 </article></div></section>
-<footer><div class="wrap">
+<footer class="sipi-resources"><div class="wrap">
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
   <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/about">About</a> · <a href="/blog/">Blog</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
   <div style="margin-top:14px;color:var(--mut);font-size:13px">

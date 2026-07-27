@@ -82,3 +82,24 @@ flyctl certs add sipi.bot
 ```
 
 Stdlib-only (http.server, sqlite3). No framework, trivial deploy. `pip install mcp` only for the MCP surface.
+
+## "Protected by sipi.bot" badge (free, no API key)
+
+If your product has autonomous agents that spend, embed the live status badge so users can see your guardrail is active. One line, zero JavaScript, always current — it's a server-rendered SVG.
+
+```html
+<img src="https://sipi.bot/api/badge/firewall-status"
+     alt="Protected by sipi.bot — spend firewall for AI agents"
+     height="32">
+```
+
+Live demo, customization options, and the full embed guide: **[sipi.bot/badge](https://sipi.bot/badge)**.
+
+The badge is also a free, durable backlink — every embed points a dofollow link at sipi.bot from your site. If you embed it, [open an issue](https://github.com/kindrat86/sipi-bot/issues) and we'll list you in the network.
+
+## Resources
+
+- **[Complete spend firewall guide](https://sipi.bot/learn/spend-firewall-guide)** — the definitive 3.7k-word walkthrough (architecture, rules, tuning, anti-patterns).
+- **[Spend policy template (YAML)](https://sipi.bot/agent-spend-policy.yaml)** — ready-to-load policy covering all six rule types.
+- **[Glossary](https://sipi.bot/glossary/)** · **[FAQ](https://sipi.bot/faq/)** · **[Benchmarks](https://sipi.bot/benchmarks/)** · **[Comparisons](https://sipi.bot/vs/)**.
+- **[Agent reference for LLMs](https://sipi.bot/llms.txt)** — `llms.txt`, `llms-full.txt`, `qa.jsonl`, OpenAPI, agent card.
