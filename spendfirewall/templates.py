@@ -160,7 +160,7 @@ def landing_page_html() -> str:
   <div class="hero-proof" aria-label="Product proof">
     <a href="/eval-report/">53/53 public evals</a>
     <span aria-hidden="true">·</span>
-    <a href="/benchmark/">live accuracy benchmark</a>
+    <a href="/benchmarks/">live accuracy benchmark</a>
     <span aria-hidden="true">·</span>
     <a href="https://github.com/kindrat86/sipi-bot" rel="noopener">MIT-licensed core</a>
     <span aria-hidden="true">·</span>
@@ -2023,7 +2023,7 @@ def blog_page_html() -> str:
 </article></div></section>
 <footer><div class="wrap">
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
-  <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/about">About</a> · <a href="/blog/">Blog</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+  <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/about">About</a> · <a href="/blog/">Blog</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/sitemap-html">Sitemap</a>
   <div style="margin-top:14px;color:var(--mut);font-size:13px">
     <a href="/benchmarks/">Benchmarks</a> ·
     <a href="/best/">Best-of comparisons</a> ·
@@ -2036,3 +2036,4 @@ def blog_page_html() -> str:
   </div>
 </div></footer>
 </body></html>"""
+# probe 1785156480
