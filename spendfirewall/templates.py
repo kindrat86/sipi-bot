@@ -138,9 +138,11 @@ def landing_page_html() -> str:
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <div class="nav-links" id="mainnav">
     <a href="#how">How it works</a>
+    <a href="#origin">The founder</a>
+    <a href="#false-beliefs">Beliefs</a>
     <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
-    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>
+    <a href="/learn/how-to-control-ai-agent-spending">Compare</a>
     <a href="/pricing" class="btn">See plans</a>
   </div>
 </div></nav>
@@ -153,6 +155,10 @@ def landing_page_html() -> str:
   One HTTP call checks every proposed payment against your caps, velocity limits,
   and merchant rules—then returns APPROVED, BLOCKED, or FLAGGED with a deterministic rules check,
   before money moves.</p>
+  <p class="obt" style="font-size:clamp(15px,2vw,17px);color:var(--accent);font-weight:600;max-width:620px;margin:0 auto 28px;letter-spacing:.01em">
+    <span aria-hidden="true">&rarr;</span>&nbsp;The one promise of this page: <strong style="color:var(--txt)">one API call makes a runaway agent impossible.</strong>
+    Hope is not a spending policy.
+  </p>
   <div class="hero-actions">
     <a href="/pricing" class="btn">Protect my agent — see plans</a>
     <a href="/playground/" class="btn ghost">Run a free live check</a>
@@ -669,6 +675,27 @@ var command="curl -X POST https://sipi.bot/v1/transactions/evaluate -H 'Content-
 if(copy)copy.addEventListener('click',function(){navigator.clipboard.writeText(command).then(function(){copy.textContent='Copied';window.sipiTrack&&window.sipiTrack('cta_clicked',{cta_id:'homepage_curl_copy',destination:'clipboard',placement:'live_proof'});});});
 if(run)run.addEventListener('click',function(){run.disabled=true;run.textContent='Checking…';result.style.display='block';result.textContent='Evaluating against the live firewall…';next.style.display='none';fetch('/v1/transactions/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:12400,currency:'USD',merchant:'example-vendor'})}).then(function(r){return r.json().then(function(d){return{ok:r.ok,data:d};});}).then(function(x){if(!x.ok)throw new Error('evaluation_failed');result.textContent=(x.data.decision||'UNKNOWN')+' — '+(x.data.reason||'No reason returned');next.style.display='block';window.sipiTrack&&window.sipiTrack('homepage_live_evaluation_completed',{decision:(x.data.decision||'unknown').toLowerCase(),amount_bucket:'2000_plus'});}).catch(function(){result.textContent='The live check could not run. Please try the playground.';window.sipiTrack&&window.sipiTrack('homepage_live_evaluation_failed',{failure_type:'request'});}).finally(function(){run.disabled=false;run.textContent='Run this live check';});});
 })();
+// ─── Expert Secrets Ch 22 — measurement layer (scroll depth + section views) ───
+// Consent is enforced inside sipiTrack (analytics.js); this only fires when the
+// visitor opted in. One event per scroll milestone + one per section enter, so
+// we can see how far the funnel reads and which hook/CTA to test.
+(function(){
+  var t=window.sipiTrack; if(!t) return;
+  var sent={};
+  function once(key,fn){ if(sent[key])return; sent[key]=1; fn(); }
+  function depth(){ var h=document.documentElement; var p=Math.round((h.scrollTop||document.body.scrollTop)/((h.scrollHeight-h.clientHeight)||1)*100); [25,50,75,100].forEach(function(m){ if(p>=m){ once('d'+m,function(){ t('scroll_depth',{percent:m}); }); } }); }
+  var rT;
+  window.addEventListener('scroll',function(){ clearTimeout(rT); rT=setTimeout(depth,250); },{passive:true});
+  depth();
+  var ids=['how','origin','false-beliefs','cause','pricing','get-the-playbook','faq'];
+  var secs=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  if('IntersectionObserver' in window && secs.length){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ var id=e.target.id; once('s_'+id,function(){ t('section_viewed',{section:id}); }); } });
+    },{threshold:0.35});
+    secs.forEach(function(sec){ io.observe(sec); });
+  }
+})();
 </script>
 <!-- CROSS-PORTFOLIO NETWORK FOOTER — generated 2026-07-18 -->
 <style>
@@ -837,26 +864,43 @@ return false;}
     s = s.replace("{CSS}", CSS)
     s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
     s = s.replace("{GA4_SNIPPET}", GA4_SNIPPET)
-    # Keep the source history available for editorial review while shipping a
-    # focused conversion page. These sections repeated the same founder story
-    # and unsupported persuasion framing already established above.
-    origin_start = s.find("<!-- ═══ EXPERT SECRETS: Origin Story")
-    hope_start = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
-    if origin_start >= 0 and hope_start > origin_start:
-        s = s[:origin_start] + s[hope_start:]
-    value_start = s.find("<!-- VALUE STACK")
-    price_start = s.find('<div class="price mt24">', value_start)
-    if value_start >= 0 and price_start > value_start:
-        s = s[:value_start] + s[price_start:]
-    s = s.replace(
-        '<div class="strike">Hiring a human to babysit spend: $4,500/mo</div>',
-        "",
-    )
-    # The cross-portfolio module and free-first trust bar were off-funnel exits.
-    portfolio_start = s.find("<!-- CROSS-PORTFOLIO NETWORK FOOTER")
-    body_end = s.rfind("</body></html>")
-    if portfolio_start >= 0 and body_end > portfolio_start:
-        s = s[:portfolio_start] + s[body_end:]
+
+    # ─── Expert Secrets persuasion spine — explicit feature flags ───────────
+    # The founder Epiphany Bridge (Ch 1/4/5/6), the 3 False Beliefs
+    # (Ch 6/7), the Cause manifesto (Ch 2), and the value stack (Ch 14/16)
+    # are all written in this template. A prior "tighten the funnel" change
+    # stripped them at runtime, removing the highest-converting Expert Secrets
+    # content from the live page. Each block below can be disabled by
+    # flipping one flag to False without touching the markup.
+    BRUNSON_ORIGIN_STORY  = True   # Ch 1/4/5/6 founder Epiphany Bridge
+    BRUNSON_FALSE_BELIEFS = True   # Ch 6/7  Vehicle/Internal/External
+    BRUNSON_CAUSE         = True   # Ch 2    movement / identity
+    BRUNSON_VALUE_STACK   = True   # Ch 14/16 Stack & Close anchor
+
+    if not BRUNSON_ORIGIN_STORY:
+        a = s.find("<!-- ═══ EXPERT SECRETS: Origin Story")
+        b = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+    if not BRUNSON_FALSE_BELIEFS:
+        a = s.find("<!-- ═══ The 3 False Beliefs")
+        b = s.find("<!-- ═══ The Cause / Movement")
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+    if not BRUNSON_CAUSE:
+        a = s.find("<!-- ═══ The Cause / Movement")
+        b = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+    if not BRUNSON_VALUE_STACK:
+        a = s.find("<!-- VALUE STACK")
+        b = s.find('<div class="price mt24">', a)
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+        s = s.replace('<div class="strike">Hiring a human to babysit spend: $4,500/mo</div>', "")
+
+    # Off-funnel exits stay removed (set True to bring them back).
+    PORTFOLIO_NETWORK = False
+    if not PORTFOLIO_NETWORK:
+        a = s.find("<!-- CROSS-PORTFOLIO NETWORK FOOTER")
+        b = s.rfind("</body></html>")
+        if a >= 0 and b > a: s = s[:a] + s[b:]
     return s
 
 
