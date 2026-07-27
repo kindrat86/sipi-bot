@@ -22,6 +22,7 @@ Stdlib only (http.server). Serves:
 """
 from __future__ import annotations
 
+import gzip as _gzip
 import hmac
 import html as _html
 import json
@@ -38,6 +39,51 @@ from . import __version__, core, store, templates
 from . import billing
 from . import drip
 
+# --- HTTP response compression (opt-in via env, safe default on) ---
+# The server previously emitted every HTML/JSON/SVG body uncompressed — the
+# 58 KB homepage shipped raw. gzip-encoding compressible text types above a
+# small threshold cuts transfer size ~75% (and TTFB on slow/mobile links).
+# Disabled under tests by setting HTTP_COMPRESSION=false.
+_COMPRESSION_ENABLED = os.environ.get("HTTP_COMPRESSION", "true").lower() not in (
+    "0",
+    "false",
+    "no",
+    "off",
+)
+_COMPRESS_MIN_BYTES = 1024
+_COMPRESSIBLE_PREFIXES = (
+    "text/",
+    "application/json",
+    "application/javascript",
+    "application/xml",
+    "image/svg+xml",
+)
+
+
+def _gzip_acceptable(accept_encoding: str) -> bool:
+    return "gzip" in (accept_encoding or "").lower()
+
+
+def _compress_body(body: bytes, ctype: str, accept_encoding: str):
+    """Return (body, content_encoding) — gzip when eligible, else unchanged.
+
+    Compresses only compressible content-types above _COMPRESS_MIN_BYTES when
+    the client advertised gzip and compression is enabled. Never compresses
+    already-compressed types (images, fonts) or small bodies where the gzip
+    header overhead exceeds the saving."""
+    if not _COMPRESSION_ENABLED:
+        return body, None
+    if len(body) < _COMPRESS_MIN_BYTES:
+        return body, None
+    if not _gzip_acceptable(accept_encoding):
+        return body, None
+    if not ctype:
+        return body, None
+    semi = ctype.split(";", 1)[0].strip().lower()
+    if not semi.startswith(_COMPRESSIBLE_PREFIXES):
+        return body, None
+    return _gzip.compress(body, compresslevel=6), "gzip"
+
 _SUBSCRIBERS: list[queue.Queue] = []
 _SUB_LOCK = threading.Lock()
 _SUBSCRIBER_FILE_LOCK = threading.RLock()
@@ -45,6 +91,19 @@ _EVAL_REPORT_PATH = os.environ.get("EVAL_REPORT", os.path.join(os.getcwd(), "eva
 _SUBSCRIBERS_FILE = os.environ.get("SUBS_FILE", os.path.join(os.getcwd(), "subscribers.txt"))
 # Trusted origin echoed on state-changing control-plane routes instead of *.
 _TRUSTED_ORIGIN = (os.environ.get("PUBLIC_URL") or "https://sipi.bot").rstrip("/")
+
+# Bare app routes served by exact `path ==` match in do_GET. The site convention
+# is bare URLs for app pages (/eval, /badge, /pricing, /dashboard) and directory
+# URLs for pSEO spokes (/for/crewai/, /vs/litellm/). A user who types the slash
+# form of a bare route (/eval/) used to hit a 404 — Google reads that as a
+# soft-404 error and wastes crawl budget. do_GET uses this set to 301 /eval/
+# -> /eval (and every other bare route) while leaving pSEO directory URLs
+# untouched. Keep in sync with the `if path == "/..."` block in do_GET.
+_BARE_ROUTES = frozenset({
+    "/dashboard", "/health", "/eval", "/badge", "/pricing",
+    "/masterclass", "/about", "/content-calendar", "/privacy", "/terms",
+    "/data", "/blog", "/sitemap-html",
+})
 
 # --- In-memory rate limiting (per-instance, abuse prevention) ---
 import time as _rl_time
@@ -228,6 +287,96 @@ def _validated_transaction_input(
     return {"amount": amount, **values}, None
 
 
+# --- pSEO internal-link-graph enrichment -------------------------------------
+# Cached parse of sitemap.xml -> {silo: [urls]}. Built once per process; the
+# sitemap changes rarely and a stale cache only means a new page isn't linked
+# until restart, never a broken link (every URL came from the sitemap itself).
+_SITEMAP_INDEX: dict[str, list[str]] | None = None
+_SITEMAP_INDEX_MTIME = 0.0
+
+
+def _sitemap_index() -> dict[str, list[str]]:
+    """Return {silo: [/path/, ...]} parsed from sitemap.xml, cached by mtime."""
+    global _SITEMAP_INDEX, _SITEMAP_INDEX_MTIME
+    import os as _os
+    base = _os.path.abspath(_os.path.join(_os.path.dirname(__file__), ".."))
+    sm = _os.path.join(base, "sitemap.xml")
+    try:
+        mt = _os.path.getmtime(sm)
+    except OSError:
+        return {}
+    if _SITEMAP_INDEX is not None and mt == _SITEMAP_INDEX_MTIME:
+        return _SITEMAP_INDEX
+    import re as _re
+    sections: dict[str, list[str]] = {}
+    try:
+        with open(sm, encoding="utf-8") as fh:
+            for m in _re.finditer(r"<loc>([^<]+)</loc>", fh.read()):
+                url = m.group(1).strip().replace("https://sipi.bot", "")
+                parts = [p for p in url.split("/") if p]
+                if len(parts) >= 2:
+                    sections.setdefault(parts[0], []).append(url)
+    except OSError:
+        return {}
+    _SITEMAP_INDEX = sections
+    _SITEMAP_INDEX_MTIME = mt
+    return sections
+
+
+def _inject_related_links(html: str, current_path: str) -> str:
+    """Inject a 'Related' cross-link block before </body> on pSEO pages.
+
+    Picks up to 5 same-silo siblings (excluding the current page) plus 3 stable
+    hub links (homepage, integrations index, comparison index). Strengthens the
+    internal-link graph so pSEO spokes aren't orphaned and crawl discovery +
+    link equity flow beyond the homepage's dozen links. Idempotent via a
+    sentinel comment so re-injection never duplicates the block."""
+    import html as _html
+    sections = _sitemap_index()
+    # Normalize: /for/crewai/ -> silo 'for'
+    parts = [p for p in current_path.strip("/").split("/") if p]
+    if not parts:
+        return html
+    silo = parts[0]
+    # Idempotent at the helper level too (not just at the _serve_pseo call
+    # site): never double-inject if the block is already present.
+    if "data-related-injected" in html:
+        return html
+    siblings = [u for u in sections.get(silo, []) if u.rstrip("/") != current_path.rstrip("/")][:5]
+    if not siblings:
+        return html
+    # Hub links — only ones that exist as silos in the sitemap.
+    hubs = []
+    for hub_path, label in [
+        ("/", "Home"),
+        ("/for/", "All integrations"),
+        ("/vs/", "All comparisons"),
+        ("/glossary/", "Glossary"),
+    ]:
+        if hub_path == "/":
+            hubs.append((hub_path, label))
+        elif hub_path.strip("/") in sections and sections[hub_path.strip("/")]:
+            hubs.append((hub_path, label))
+    links = "".join(
+        '<li><a href="%s">%s</a></li>' % (_html.escape(u), _html.escape(u.strip("/").split("/")[-1].replace("-", " ").title()))
+        for u in siblings
+    )
+    hub_links = "".join(
+        '<li><a href="%s">%s</a></li>' % (_html.escape(p), _html.escape(lbl))
+        for p, lbl in hubs[:3]
+    )
+    block = (
+        '\n<!-- data-related-injected: internal-link-graph enrichment -->\n'
+        '<nav aria-label="Related" style="max-width:760px;margin:48px auto 0;padding:24px 20px;'
+        'border-top:1px solid #23242a;font:14px/1.7 -apple-system,BlinkMacMacSystemFont,sans-serif">'
+        '<strong style="color:#e8e8ea;font-size:13px;text-transform:uppercase;letter-spacing:.05em">Related</strong>'
+        '<ul style="list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px">'
+        + links + hub_links +
+        '</ul></nav>\n'
+    )
+    return html.replace("</body>", block + "</body>", 1)
+
+
 def agent_card() -> dict:
     return {
         "name": "sipi.bot Spend Firewall",
@@ -259,12 +408,18 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
     def _client_ip(self) -> str:
+        # Prefer Fly-Client-IP: it is set by the Fly proxy and is NOT
+        # client-controllable, unlike X-Forwarded-For which an attacker can
+        # forge to bypass per-IP rate limits (verified: rotating XFF values
+        # all returned 200, defeating the 100/min/IP cap). XFF is only used as
+        # a fallback for local/self-hosted deployments that run without the
+        # Fly proxy in front.
+        fly_ip = self.headers.get("Fly-Client-IP", "")
+        if fly_ip:
+            return fly_ip.strip()
         forwarded = self.headers.get("X-Forwarded-For", "")
         if forwarded:
             return forwarded.split(",")[0].strip()
-        fly_ip = self.headers.get("Fly-Client-IP", "")
-        if fly_ip:
-            return fly_ip
         return self.client_address[0] if self.client_address else "0.0.0.0"
 
     def _check_rate(self, route_key: str) -> bool:
@@ -272,11 +427,19 @@ class Handler(BaseHTTPRequestHandler):
 
     def _send(self, code: int, body: bytes, ctype="application/json", noindex=False,
               origin="*"):
+        accept_encoding = self.headers.get("Accept-Encoding", "")
+        body, encoding = _compress_body(body, ctype, accept_encoding)
         self.send_response(code)
         self.send_header("Content-Type", ctype)
         if noindex:
             # Machine endpoints (JSON) should not appear in search indexes.
             self.send_header("X-Robots-Tag", "noindex")
+        # Vary tells any shared cache (Fly edge / CDN) that the response
+        # representation depends on the Accept-Encoding request header, so a
+        # gzip-encoded body is never served to a client that can't decode it.
+        self.send_header("Vary", "Accept-Encoding")
+        if encoding:
+            self.send_header("Content-Encoding", encoding)
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Connection", "close")
         self.send_header("Access-Control-Allow-Origin", origin)
@@ -393,8 +556,15 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
         self.send_header("Cross-Origin-Opener-Policy", "same-origin")
         self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
-        self.end_headers()
         if getattr(self, "_head_only", False):
+            # HEAD must still emit a Content-Length and the Vary/Encoding
+            # headers so a caching layer's HEAD/GET coherence is correct.
+            body_bytes = html.encode()
+            _, encoding = _compress_body(body_bytes, "text/html", self.headers.get("Accept-Encoding", ""))
+            self.send_header("Content-Length", str(len(body_bytes)))
+            if encoding:
+                self.send_header("Content-Encoding", encoding)
+            self.end_headers()
             return
         # Inject hreflang + OG image + twitter tags for any HTML page missing them
         if cacheable and "/analytics.js" not in html and "</head>" in html:
@@ -428,7 +598,13 @@ class Handler(BaseHTTPRequestHandler):
                   '<meta name="twitter:description" content="' + od + '">\n'
                   '<meta name="twitter:image" content="https://sipi.bot/og.png">\n')
             html = html.replace('<meta property="og:title"', ob + '<meta property="og:title"', 1)
-        self.wfile.write(html.encode())
+        body_bytes, encoding = _compress_body(html.encode(), "text/html", self.headers.get("Accept-Encoding", ""))
+        self.send_header("Vary", "Accept-Encoding")
+        if encoding:
+            self.send_header("Content-Encoding", encoding)
+        self.send_header("Content-Length", str(len(body_bytes)))
+        self.end_headers()
+        self.wfile.write(body_bytes)
 
     def _body(self) -> dict:
         try:
@@ -478,6 +654,36 @@ class Handler(BaseHTTPRequestHandler):
                 return
 
 
+        # Trailing-slash normalization for bare app routes. The site convention
+        # is directory URLs for pSEO spokes (/for/crewai/) but bare URLs for app
+        # routes (/eval, /badge, /pricing, /dashboard). Both directions leaked:
+        # /eval/ 404'd (soft-404 error in GSC) while /for/crewai 404'd. One rule
+        # fixes all bare routes now and any added later: if the slashed form has
+        # no on-disk directory AND a bare route handles it, 301 to the bare
+        # form. pSEO spokes are left untouched because they resolve as dirs.
+        if len(path) > 1 and path != "/" and path.endswith("/"):
+            import os as _os_slash
+            stripped = path.rstrip("/")
+            base = _os_slash.path.abspath(_os_slash.path.join(_os_slash.path.dirname(__file__), ".."))
+            spoke_dir = _os_slash.path.normpath(_os_slash.path.join(base, stripped.lstrip("/")))
+            spoke_dir_exists = (
+                spoke_dir.startswith(base + _os_slash.sep)
+                and _os_slash.path.isfile(_os_slash.path.join(spoke_dir, "index.html"))
+            )
+            if stripped in _BARE_ROUTES and not spoke_dir_exists:
+                qs = urlparse(self.path).query
+                loc = stripped + ("?" + qs if qs else "")
+                self.send_response(301)
+                self.send_header("Location", loc)
+                self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+                self.send_header("X-Content-Type-Options", "nosniff")
+                self.send_header("X-Frame-Options", "DENY")
+                self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+                self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+                self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
+                self.send_header("Content-Length", "0")
+                self.end_headers()
+                return
         # ── pSEO static pages ──────────────────────────
         try_pseo = self._serve_pseo(path)
         if try_pseo:
@@ -578,6 +784,13 @@ class Handler(BaseHTTPRequestHandler):
         # ── Badge showcase page ──
         if path == "/badge":
             return self._html(templates.badge_page_html())
+        # ── Sipi Spend-Firewall Benchmark (SSFB): branded, live-verifiable AEO hub ──
+        if path == "/benchmark":
+            return self._html(self._benchmark_hub(), cacheable=True)
+        if path == "/api/v1/benchmark/live":
+            return self._benchmark_live()
+        if path == "/api/badge/accuracy":
+            return self._accuracy_badge_svg()
         if path == "/api/stats":
             access = self._control_auth()
             if not access:
@@ -793,6 +1006,8 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, {"@context": "https://schema.org", "@type": "ItemList", "name": "sipi.bot Knowledge Base", "numberOfItems": len(_nlweb_items), "itemListElement": _nlweb_items})
         if path == "/pricing":
             return self._html(templates.pricing_html())
+        if path == "/sitemap-html":
+            return self._html(templates.sitemap_html())
         if path == "/masterclass":
             return self._html(templates.masterclass_html())
         if path in ("/blog", "/blog/"):
@@ -1057,6 +1272,78 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
         self.wfile.flush()
 
+    # ── Sipi Spend-Firewall Benchmark (SSFB) handlers ─────────────
+    def _load_eval_report(self):
+        """Load the shipped eval_report.json; return None if absent."""
+        try:
+            if os.path.exists(_EVAL_REPORT_PATH):
+                with open(_EVAL_REPORT_PATH) as f:
+                    return json.load(f)
+        except (OSError, ValueError):
+            pass
+        return None
+
+    def _benchmark_hub(self) -> str:
+        """Render the SSFB hub from eval_report.json (the shipped ground truth)."""
+        from . import benchmark as _bm
+        report = self._load_eval_report() or {}
+        return _bm.benchmark_hub_html(
+            total=report.get("total", 0),
+            passed=report.get("passed", 0),
+            accuracy=report.get("accuracy_pct", 0.0),
+            by_category=report.get("by_category", {}),
+            generated_at=report.get("generated_at", "2026-07-27T00:00:00+00:00"),
+        )
+
+    def _benchmark_live(self):
+        """Re-run the real eval engine live and return JSON. The real-time-
+        retrieval AEO asset — an answer engine hits this to verify the claim."""
+        from . import benchmark as _bm
+        try:
+            from .eval.run_eval import run as _run_eval
+            report = _run_eval()
+            payload = _bm.live_payload(report)
+            body = json.dumps(payload).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            # Real-time asset: keep fresh but cacheable so it survives a spike.
+            self.send_header("Cache-Control", "public, max-age=30, s-maxage=60")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("X-Robots-Tag", "index, follow")
+            self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.end_headers()
+            if not getattr(self, "_head_only", False):
+                self.wfile.write(body)
+                self.wfile.flush()
+        except Exception as e:  # never let the live endpoint take down a request
+            return self._json(200, {
+                "benchmark": "Sipi Spend-Firewall Benchmark (SSFB)",
+                "verified_live": False,
+                "error": "eval_unavailable",
+                "detail": str(e)[:200],
+                "fallback": "https://sipi.bot/benchmark/",
+            }, noindex=False, origin="*")
+
+    def _accuracy_badge_svg(self):
+        """Embeddable live SSFB accuracy badge. Earns backlinks/consensus when
+        embedded in READMEs, docs, and comparison pages."""
+        from . import benchmark as _bm
+        report = self._load_eval_report() or {}
+        body = _bm.accuracy_badge_svg(report).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "image/svg+xml; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "public, max-age=60, s-maxage=120")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+        self.end_headers()
+        if not getattr(self, "_head_only", False):
+            self.wfile.write(body)
+            self.wfile.flush()
+
     def _serve_static(self, path: str) -> bool:
         """Serve a file from the public/ dir if it exists. Path-traversal safe."""
         import mimetypes
@@ -1207,9 +1494,21 @@ class Handler(BaseHTTPRequestHandler):
                                 )
                                 html = html.replace('<meta property="og:title"', og_image_block + '<meta property="og:title"')
                             if 'twitter:image' not in html and 'twitter:card' not in html:
-                                # Twitter card was already added above with og:image; 
+                                # Twitter card was already added above with og:image;
                                 # if somehow missing entirely, inject before </head>
                                 pass
+                            # Internal-link graph boost: inject a "Related" block of
+                            # cross-links into every pSEO page. pSEO spokes were
+                            # near-orphaned from the homepage (1 in-link each), so
+                            # link equity and crawl discovery were thin. This block
+                            # adds same-silo siblings + the key hubs, computed from
+                            # the live sitemap so it never drifts. Idempotent: only
+                            # injected once (guarded by a sentinel comment).
+                            if 'data-related-injected' not in html and '</body>' in html:
+                                try:
+                                    html = _inject_related_links(html, path)
+                                except Exception:
+                                    pass
                             self._html(html)
                             return True
                     except Exception:
