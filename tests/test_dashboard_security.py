@@ -73,6 +73,11 @@ class DashboardSecurityTests(unittest.TestCase):
                 self.request(path)
             self.assertEqual(error.exception.code, 401)
 
+    def test_get_routes_can_parse_query_strings(self):
+        status, payload = self.request("/api/nlweb?query=firewall")
+        self.assertEqual(status, 200)
+        self.assertEqual(payload["numberOfItems"], 2)
+
     def test_paid_workspaces_have_isolated_rules_and_transactions(self):
         _, created = self.request(
             "/api/rules",

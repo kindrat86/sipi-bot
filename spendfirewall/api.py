@@ -782,7 +782,6 @@ class Handler(BaseHTTPRequestHandler):
 
         # ── NLWeb endpoint ──
         if path == "/api/nlweb":
-            from urllib.parse import parse_qs, urlparse as _up
             query = parse_qs(urlparse(self.path).query).get("query", [""])[0]
             _nlweb_items = [
                 {"@type": "Question", "name": "What is sipi.bot?", "acceptedAnswer": "The spend firewall for autonomous AI agents. Evaluate every transaction before spending.", "url": "https://sipi.bot/"},
