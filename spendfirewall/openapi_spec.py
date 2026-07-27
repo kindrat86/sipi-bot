@@ -34,14 +34,15 @@ SPEC: dict = {
             "attempts and evaluates it against your spend rules — per-transaction "
             "caps, daily totals, velocity (runaway-loop protection), merchant "
             "allow/block, category limits, time windows, and approval thresholds. "
-            "It returns APPROVED, BLOCKED, or FLAGGED in under 5ms, before a "
-            "single dollar moves. Every decision is written to a tamper-evident "
+            "It returns APPROVED, BLOCKED, or FLAGGED with a deterministic rules check, before a "
+            "single dollar moves. Every decision is written to a queryable "
             "audit log.\n\n"
             "**The core call an agent makes before spending:** "
             "`POST /v1/transactions/evaluate`.\n\n"
-            "Auth is optional in free / self-host mode. Pass "
-            "`Authorization: Bearer <api_key>` to attribute transactions to a "
-            "registered agent (keys are returned by `POST /api/agents`)."
+            "Auth is optional only for the public evaluation sandbox. Pass "
+            "`Authorization: Bearer <api_key>` for an isolated paid or "
+            "operator-created workspace. Dashboard and control-plane routes "
+            "require authentication."
         ),
         "version": __version__,
         "contact": {
@@ -72,7 +73,7 @@ SPEC: dict = {
             "BearerAuth": {
                 "type": "http",
                 "scheme": "bearer",
-                "description": "Optional. Pass an agent API key (returned by POST /api/agents) to attribute transactions to that agent.",
+                "description": "A checkout-issued or operator-created API key. ADMIN_TOKEN is accepted only for operator control-plane access.",
             }
         },
         "schemas": {
@@ -226,8 +227,8 @@ SPEC: dict = {
                 "description": (
                     "**The core call.** An autonomous agent calls this *before* it "
                     "spends money. sipi.bot evaluates the transaction against every "
-                    "active rule and returns APPROVED, BLOCKED, or FLAGGED in "
-                    "under 5ms.\n\n"
+                    "active rule and returns APPROVED, BLOCKED, or FLAGGED "
+                    "without a model call.\n\n"
                     "Auth is optional in free / self-host mode; pass a Bearer agent "
                     "API key to attribute the transaction to a registered agent and "
                     "scope per-agent rules."
@@ -270,7 +271,6 @@ SPEC: dict = {
                 "tags": ["Rules"],
                 "summary": "List all spend rules",
                 "operationId": "listRules",
-                "security": [{}],
                 "responses": {
                     "200": {"description": "Rules list.", "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/Rule"}}}}},
                 },
@@ -279,7 +279,6 @@ SPEC: dict = {
                 "tags": ["Rules"],
                 "summary": "Add a spend rule",
                 "operationId": "addRule",
-                "security": [{}],
                 "requestBody": {
                     "required": True,
                     "content": {"application/json": {"schema": {"$ref": "#/components/schemas/RuleCreate"}}},
@@ -294,7 +293,6 @@ SPEC: dict = {
                 "tags": ["Rules"],
                 "summary": "Delete a spend rule",
                 "operationId": "deleteRule",
-                "security": [{}],
                 "parameters": [
                     {"name": "rule_id", "in": "path", "required": True, "schema": {"type": "string"}},
                 ],
@@ -309,7 +307,6 @@ SPEC: dict = {
                 "summary": "List pending approvals",
                 "description": "Returns FLAGGED transactions routed to the human-in-the-loop queue.",
                 "operationId": "listApprovals",
-                "security": [{}],
                 "responses": {
                     "200": {"description": "Pending approvals.", "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/Approval"}}}}},
                 },
@@ -321,7 +318,6 @@ SPEC: dict = {
                 "summary": "Resolve a pending approval",
                 "description": "Approve or deny a FLAGGED transaction in the human queue.",
                 "operationId": "resolveApproval",
-                "security": [{}],
                 "parameters": [
                     {"name": "approval_id", "in": "path", "required": True, "schema": {"type": "string"}},
                 ],
@@ -339,7 +335,6 @@ SPEC: dict = {
                 "tags": ["Agents"],
                 "summary": "List registered agents",
                 "operationId": "listAgents",
-                "security": [{}],
                 "responses": {
                     "200": {"description": "Agents list.", "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/Agent"}}}}},
                 },
@@ -348,7 +343,6 @@ SPEC: dict = {
                 "tags": ["Agents"],
                 "summary": "Register a new agent and get an API key",
                 "operationId": "registerAgent",
-                "security": [{}],
                 "requestBody": {
                     "required": True,
                     "content": {"application/json": {"schema": {"type": "object", "required": ["name"], "properties": {"name": {"type": "string", "example": "billing-agent"}}}}},
@@ -364,7 +358,6 @@ SPEC: dict = {
                 "summary": "List recent transactions",
                 "description": "Returns the 50 most recent recorded transactions (the audit-log tail).",
                 "operationId": "listTransactions",
-                "security": [{}],
                 "responses": {
                     "200": {"description": "Recent transactions.", "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/Transaction"}}}}},
                 },
@@ -376,7 +369,6 @@ SPEC: dict = {
                 "summary": "Dashboard aggregates and current budget posture",
                 "description": "Live totals: transaction counts by decision, pending approvals, active rules, and current daily spend.",
                 "operationId": "getStats",
-                "security": [{}],
                 "responses": {
                     "200": {"description": "Aggregates.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Stats"}}}},
                 },
@@ -386,7 +378,7 @@ SPEC: dict = {
             "get": {
                 "tags": ["Budget"],
                 "summary": "Subscription / billing status",
-                "description": "Whether the workspace is on a paid plan (drives whether rules are enforced).",
+                "description": "Public billing capability status and available hosted tiers. No customer counts or account data.",
                 "operationId": "billingStatus",
                 "security": [{}],
                 "responses": {

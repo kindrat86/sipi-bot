@@ -103,34 +103,10 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 POSTHOG_KEY = os.environ.get("POSTHOG_KEY", "phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX")
 POSTHOG_HOST = os.environ.get("POSTHOG_HOST", "https://eu.i.posthog.com")
 
-# Google Analytics 4 — AEO measurement. Override via env for production.
-# Set GA4_MEASUREMENT_ID env var to enable. Example: G-XXXXXXXXXX
+# Google Analytics stays disabled until it is wired through the consent loader.
 GA4_ID = os.environ.get("GA4_MEASUREMENT_ID", "")
-
-GA4_SNIPPET = (
-    f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>\n'
-    f'<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}'
-    f"gtag('js',new Date());gtag('config','{GA4_ID}');</script>"
-) if GA4_ID else ""
-
-POSTHOG_SNIPPET = (
-    "<script>!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){"
-    "function g(t,e){var o=e.split('.');2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){"
-    "t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement('script')).type='text/javascript',"
-    "p.crossOrigin='anonymous',p.async=!0,p.src=s.api_host.replace('.i.posthog.com','-assets.i.posthog.com')+'/static/array.js',"
-    "(r=t.getElementsByTagName('script')[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a='posthog',"
-    "u.people=u.people||[],u.toString=function(t){var e='posthog';return'posthog'!==a&&(e+='.'+a),t||(e+=' (stub)'),e},"
-    "u.people.toString=function(){return u.toString(1)+'.people (stub)'},o='init capture register register_once register_for_session "
-    "unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags "
-    "updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys "
-    "renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags "
-    "resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups "
-    "get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording "
-    "sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile "
-    "opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing "
-    "debug getPageViewId'.split(' '),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);"
-    f"posthog.init('{POSTHOG_KEY}',{{api_host:'{POSTHOG_HOST}',person_profiles:'identified_only',capture_pageview:false}});posthog.capture('$pageview',{{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth}})</script>"
-)
+GA4_SNIPPET = ""
+POSTHOG_SNIPPET = ""
 
 
 def landing_page_html() -> str:
@@ -156,14 +132,12 @@ def landing_page_html() -> str:
 <meta name="twitter:description" content="Pre-spend firewall for autonomous AI agents: approve, block, or flag every agent transaction before a dollar moves.">
 <meta name="twitter:image" content="https://sipi.bot/og.png">
 <meta name="theme-color" content="#00d4aa">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","alternateName":["sipibot","sipi bot","sipi.bot spend firewall"],"url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds.","disambiguatingDescription":"sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/","https://x.com/MaryanK499484","https://www.linkedin.com/in/maryan-k/"],"knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","API Spend Governance","x402 Payment Protocol","Agent Transaction Monitoring","Runaway AI Cost Prevention","Agent Budget Management","Multi-Agent Spend Orchestration"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-17","author":{"@id":"https://sipi.bot/#person"}},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","alternateName":["sipibot","sipi bot"],"applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag in under 5ms.","disambiguatingDescription":"A payment-control spend firewall API for autonomous AI agents — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Tamper-evident audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"Hosted plans are flat-rate: Team is $99/month and Business is $499/month, both with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each."}},{"@type":"Question","name":"Is sipi.bot a SIP, voice, or telephony product?","acceptedAnswer":{"@type":"Answer","text":"No. Despite the name, sipi.bot has nothing to do with SIP, VoIP, or voice, and it is not a bot-management or 'block AI bots' tool. sipi.bot is a spend firewall that governs how much money autonomous AI agents can spend."}},{"@type":"Question","name":"How does sipi.bot protect against runaway AI spending?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot evaluates every transaction request in under 5ms before money moves. It enforces per-transaction caps, daily totals, velocity limits, and merchant allowlists. If a rule is violated, the transaction is BLOCKED instantly — you wake up to a clean log, not a drained account."}},{"@type":"Question","name":"Which payment protocols does sipi.bot support?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot works with any HTTP-based payment pipeline: x402, AP2, AgentKit (Coinbase), Stripe agent tooling, LangChain, CrewAI, and the Model Context Protocol (MCP). It's protocol-agnostic — if your agent speaks HTTP, sipi.bot can gate it."}},{"@type":"Question","name":"Can I try sipi.bot for free?","acceptedAnswer":{"@type":"Answer","text":"Yes — you can call the evaluate API right now, free, with no signup and no credit card. Send a POST to /v1/transactions/evaluate and get a decision in under 5ms — 100 calls per minute per IP with no account required. Paid plans unlock advanced rule types, team features, and dedicated support."}},{"@type":"Question","name":"How fast is the API?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot decisions return in under 5ms. It's designed to sit inline in payment pipelines without adding perceptible latency."}}]},{"@type":"SpeakableSpecification","cssSelector":["h1","h2","p"]},{"@type":"Person","@id":"https://sipi.bot/#person","name":"Maryan","givenName":"Maryan","description":"Solo founder and AI infrastructure engineer. Building in the agent-economy stack since 2024 — spend controls, payment protocols (x402, AP2), MCP tooling, and compliance infrastructure.","knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","x402 Payment Protocol","MCP Tooling","Agent Infrastructure"],"sameAs":["https://github.com/kindrat86","https://x.com/MaryanK499484"],"jobTitle":"Founder","worksFor":{"@id":"https://sipi.bot/#org"},"nationality":{"@type":"Country","name":"Greece"}}]}</script><style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}<!-- /ux.css + /ux.js removed 2026-07-26. They loaded AFTER this page's own <style>{CSS}</style>, and ux.css is light by default (--ux-text:#0f172a, --ux-surface:#fff, dark only inside a prefers-color-scheme query). So for every light-mode visitor body text became #0f172a while .card kept this page's own --panel #121316 — measured 1.04:1, i.e. the "Who uses a spend firewall" cards were invisible in production. This page uses no .ux-* class, no var(--ux-*) and no ux.js hook, so the pair contributed nothing but the bug (and two render-blocking requests). --></head><body>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sipi.bot/#org","name":"sipi.bot","alternateName":["sipibot","sipi bot","sipi.bot spend firewall"],"url":"https://sipi.bot/","description":"sipi.bot is a spend firewall for autonomous AI agents — a real-time API that returns APPROVED, BLOCKED, or FLAGGED for every payment an agent attempts, enforcing per-transaction caps, daily totals, velocity limits, and merchant rules so a runaway agent can't drain your funds.","disambiguatingDescription":"sipi.bot is a payment-control spend firewall API for autonomous AI agents (x402 / AP2 / AgentKit) — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","sameAs":["https://github.com/kindrat86/sipi-bot","https://pypi.org/project/sipi-bot/","https://x.com/MaryanK499484","https://www.linkedin.com/in/maryan-k/"],"knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","API Spend Governance","x402 Payment Protocol","Agent Transaction Monitoring","Runaway AI Cost Prevention","Agent Budget Management","Multi-Agent Spend Orchestration"]},{"@type":"WebSite","@id":"https://sipi.bot/#website","url":"https://sipi.bot/","name":"sipi.bot","publisher":{"@id":"https://sipi.bot/#org"}},{"@type":"WebPage","@id":"https://sipi.bot/#page","url":"https://sipi.bot/","name":"sipi.bot — The Pre-Spend Firewall for Autonomous AI Agents","isPartOf":{"@id":"https://sipi.bot/#website"},"datePublished":"2026-07-08","dateModified":"2026-07-17","author":{"@id":"https://sipi.bot/#person"}},{"@type":"BreadcrumbList","@id":"https://sipi.bot/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}]},{"@type":"SiteNavigationElement","name":["Home","Dashboard","Pricing","About"],"url":["https://sipi.bot/","https://sipi.bot/dashboard","https://sipi.bot/pricing","https://sipi.bot/about"]},{"@type":"SoftwareApplication","@id":"https://sipi.bot/#app","name":"sipi.bot","alternateName":["sipibot","sipi bot"],"applicationCategory":"BusinessApplication","operatingSystem":"Any (HTTP API, MCP, CLI)","description":"Spend firewall that evaluates every autonomous-agent transaction against your rules and returns approve, block, or flag with a deterministic rules check.","disambiguatingDescription":"A payment-control spend firewall API for autonomous AI agents — not a SIP/VoIP telephony bot and not an AI-bot-blocking / WAF tool.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD"},"featureList":["Per-transaction, daily, velocity, merchant, category and time rules","Human-in-the-loop approval queue","Queryable audit log","MCP tool + HTTP API + CLI"]},{"@type":"FAQPage","@id":"https://sipi.bot/#faq","mainEntity":[{"@type":"Question","name":"What is a spend firewall for AI agents?","acceptedAnswer":{"@type":"Answer","text":"A spend firewall sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision with a deterministic rules check over HTTP, MCP, or CLI."}},{"@type":"Question","name":"How does sipi.bot stop an agent from overspending?","acceptedAnswer":{"@type":"Answer","text":"Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted."}},{"@type":"Question","name":"How much does sipi.bot cost?","acceptedAnswer":{"@type":"Answer","text":"Hosted plans are flat-rate: Team is $99/month and Business is $499/month, both with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever."}},{"@type":"Question","name":"Does sipi.bot work with MCP and Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each."}},{"@type":"Question","name":"Is sipi.bot a SIP, voice, or telephony product?","acceptedAnswer":{"@type":"Answer","text":"No. Despite the name, sipi.bot has nothing to do with SIP, VoIP, or voice, and it is not a bot-management or 'block AI bots' tool. sipi.bot is a spend firewall that governs how much money autonomous AI agents can spend."}},{"@type":"Question","name":"How does sipi.bot protect against runaway AI spending?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot evaluates every transaction request with a deterministic rules check before money moves. It enforces per-transaction caps, daily totals, velocity limits, and merchant allowlists. If a rule is violated, the transaction is BLOCKED instantly — you wake up to a clean log, not a drained account."}},{"@type":"Question","name":"Which payment protocols does sipi.bot support?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot works with any HTTP-based payment pipeline: x402, AP2, AgentKit (Coinbase), Stripe agent tooling, LangChain, CrewAI, and the Model Context Protocol (MCP). It's protocol-agnostic — if your agent speaks HTTP, sipi.bot can gate it."}},{"@type":"Question","name":"Can I try sipi.bot for free?","acceptedAnswer":{"@type":"Answer","text":"Yes — you can call the evaluate API right now, free, with no signup and no credit card. Send a POST to /v1/transactions/evaluate and get a decision with a deterministic rules check — 100 calls per minute per IP with no account required. Hosted plans add a private workspace and managed infrastructure."}},{"@type":"Question","name":"How fast is the API?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot decisions return with a deterministic rules check. Measure end-to-end latency from your deployment region before using it on a critical payment path."}}]},{"@type":"SpeakableSpecification","cssSelector":["h1","h2","p"]},{"@type":"Person","@id":"https://sipi.bot/#person","name":"Maryan","givenName":"Maryan","description":"Solo founder and AI infrastructure engineer. Building in the agent-economy stack since 2024 — spend controls, payment protocols (x402, AP2), MCP tooling, and compliance infrastructure.","knowsAbout":["AI Agent Spend Control","Autonomous Agent Payment Firewall","x402 Payment Protocol","MCP Tooling","Agent Infrastructure"],"sameAs":["https://github.com/kindrat86","https://x.com/MaryanK499484"],"jobTitle":"Founder","worksFor":{"@id":"https://sipi.bot/#org"},"nationality":{"@type":"Country","name":"Greece"}}]}</script><style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}<!-- /ux.css + /ux.js removed 2026-07-26. They loaded AFTER this page's own <style>{CSS}</style>, and ux.css is light by default (--ux-text:#0f172a, --ux-surface:#fff, dark only inside a prefers-color-scheme query). So for every light-mode visitor body text became #0f172a while .card kept this page's own --panel #121316 — measured 1.04:1, i.e. the "Who uses a spend firewall" cards were invisible in production. This page uses no .ux-* class, no var(--ux-*) and no ux.js hook, so the pair contributed nothing but the bug (and two render-blocking requests). --></head><body>
 <nav><div class="wrap">
   <div class="brand">sipi<span class="dot">.bot</span></div>
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <div class="nav-links" id="mainnav">
     <a href="#how">How it works</a>
-    <a href="#origin">Origin</a>
-    <a href="#false-beliefs">Beliefs</a>
     <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
     <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>
@@ -177,7 +151,7 @@ def landing_page_html() -> str:
   <h1>Your AI agent just spent<br><span class="hl">$12,400 while you slept.</span></h1>
   <p class="sub"><strong>sipi.bot is the pre-spend firewall for autonomous AI agents.</strong>
   One HTTP call checks every proposed payment against your caps, velocity limits,
-  and merchant rules—then returns APPROVED, BLOCKED, or FLAGGED in under 5ms,
+  and merchant rules—then returns APPROVED, BLOCKED, or FLAGGED with a deterministic rules check,
   before money moves.</p>
   <div class="hero-actions">
     <a href="/pricing" class="btn">Protect my agent — see plans</a>
@@ -188,7 +162,7 @@ def landing_page_html() -> str:
     <span aria-hidden="true">·</span>
     <a href="https://github.com/kindrat86/sipi-bot" rel="noopener">MIT-licensed core</a>
     <span aria-hidden="true">·</span>
-    <a href="#origin">Founder incident and origin</a>
+    <a href="/about">Founder story</a>
   </div>
   <!-- TRY IT NOW -->
   <div class="codebox mono" style="max-width:620px;margin:24px auto 0;text-align:left">
@@ -196,11 +170,19 @@ def landing_page_html() -> str:
 curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 &nbsp;&nbsp;-H <span class="s">"Content-Type: application/json"</span> \\<br>
 &nbsp;&nbsp;-d <span class="s">'{"amount": 12400, "currency": "USD", "merchant": "example-vendor"}'</span><br><br>
-<span class="c"># Returns in &lt;5ms:</span><br>
+<span class="c"># Returns a deterministic decision:</span><br>
 { <span class="k">"decision"</span>: <span class="s">"BLOCKED"</span>, <span class="k">"reason"</span>: <span class="s">"Block any single transaction over $500"</span>, <span class="k">"rule_id"</span>: <span class="s">"rul_d8edb12ffa"</span>, <span class="k">"transaction_id"</span>: <span class="s">"txn_e340f0e12489"</span>, <span class="k">"amount"</span>: <span class="k">12400.0</span>, <span class="k">"merchant"</span>: <span class="s">"example-vendor"</span> }
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+      <button type="button" class="btn" id="hero-run-check">Run this live check</button>
+      <button type="button" class="btn ghost" id="hero-copy-check">Copy curl command</button>
+    </div>
+    <div id="hero-live-result" aria-live="polite" style="display:none;margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:9px;white-space:pre-wrap"></div>
+    <div id="hero-live-next" style="display:none;margin-top:12px">
+      <a href="/pricing?from=homepage-live-proof" class="btn">Use this protection in production →</a>
+    </div>
   </div>
   <div class="kpis mt40">
-    <div class="kpi"><div class="n">&lt;5ms</div><div class="l">decision latency</div></div>
+    <div class="kpi"><div class="n">Deterministic</div><div class="l">rules engine</div></div>
     <div class="kpi"><div class="n">3</div><div class="l">outcomes: approve / block / flag</div></div>
     <div class="kpi"><div class="n">53/53</div><div class="l">sipi.bot Eval Gym scenarios</div></div>
     <div class="kpi"><div class="n">6</div><div class="l">rule types enforced</div></div>
@@ -208,13 +190,12 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
   <!-- DREAM 100 / AUTHORITY BAR (Brunson Traffic Secrets Secret #2: surface the congregation) -->
   <div style="margin-top:36px;padding:18px 16px;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);background:rgba(0,212,170,.03)">
     <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 28px;font-size:14px;color:#8a8d96">
-      <span style="color:var(--accent);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:11px">In the conversation with</span>
-      <span>◆ x402 payment protocol</span>
-      <span>◆ Anthropic agent SDK</span>
-      <span>◆ OpenAI agents</span>
-      <span>◆ LangChain / CrewAI</span>
-      <span>◆ Model Context Protocol</span>
-      <span>◆ Stripe agent tooling</span>
+      <span style="color:var(--accent);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:11px">Works with</span>
+      <a href="/for/">◆ x402-compatible HTTP flows</a>
+      <a href="/for/openai-agents/">◆ OpenAI Agents SDK</a>
+      <a href="/for/langchain/">◆ LangChain</a>
+      <a href="/for/crewai/">◆ CrewAI</a>
+      <a href="/.well-known/mcp.json">◆ Model Context Protocol</a>
     </div>
     <p style="text-align:center;margin:10px 0 0;font-size:12.5px;color:#6b6f78">sipi.bot is the spend layer for the same agent protocols that move money autonomously. We plug in before the transaction, not after the incident.</p>
   </div>
@@ -251,7 +232,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 &nbsp;&nbsp;-H <span class="s">"Authorization: Bearer ***"</span> \\<br>
 &nbsp;&nbsp;-d <span class="s">'{"amount": 6200, "merchant": "unknown-gpu.ru", "category": "compute"}'</span><br><br>
-<span class="c"># sipi.bot answers in &lt;5ms</span><br>
+<span class="c"># sipi.bot answers without a model call</span><br>
 { <span class="k">"decision"</span>: <span class="s">"BLOCKED"</span>, <span class="k">"reason"</span>: <span class="s">"Merchant not on allowlist"</span> }
   </div>
 
@@ -328,8 +309,8 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <tbody>
       <tr><td>Trust the prompt</td><td>❌ No</td><td>—</td><td>❌ No</td><td>$0 (until it isn't)</td></tr>
       <tr><td>Provider spend cap</td><td>⚠️ Per-provider only</td><td>—</td><td>⚠️ Partial</td><td>Varies</td></tr>
-      <tr><td>Human babysitter</td><td>✅ Yes</td><td>Minutes</td><td>⚠️ Manual</td><td>~$4,500/mo</td></tr>
-      <tr><td><strong>sipi.bot</strong></td><td>✅ Yes</td><td><strong>&lt;5ms</strong></td><td>✅ Tamper-evident</td><td><strong>$99/mo</strong></td></tr>
+      <tr><td>Manual review</td><td>✅ Yes</td><td>Minutes+</td><td>⚠️ Separate notes</td><td>Variable</td></tr>
+      <tr><td><strong>sipi.bot</strong></td><td>✅ Yes</td><td><strong>No model call</strong></td><td>✅ Queryable</td><td><strong>$99/mo</strong></td></tr>
     </tbody>
   </table>
 
@@ -350,11 +331,11 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <div class="card"><h3>Autonomous purchasing agents</h3><p>Agents that buy compute, API credits, ads, or SaaS on their own. sipi.bot enforces the budget the prompt can't be trusted to hold.</p></div>
     <div class="card"><h3>Multi-agent systems</h3><p>Swarms where dozens of agents spend in parallel. A shared daily cap and velocity limit stop the fleet from compounding one mistake. See <a href="/for/crewai/">CrewAI</a> and <a href="/for/langchain/">LangChain</a>.</p></div>
     <div class="card"><h3>Agentic payments (x402 / AP2 / AgentKit)</h3><p>Agents transacting over machine-payment rails. sipi.bot is the approval layer in front of the wallet — see the <a href="/alternatives/x402/">x402 approach</a>.</p></div>
-    <div class="card"><h3>CI, research &amp; ops agents</h3><p>Background agents that provision infrastructure or pull paid data. The tamper-evident audit log shows exactly what was bought and why.</p></div>
+    <div class="card"><h3>CI, research &amp; ops agents</h3><p>Background agents that provision infrastructure or pull paid data. The queryable audit log shows exactly what was bought and why.</p></div>
   </div>
 
   <h2 class="mt40" style="margin-top:56px">What sipi.bot is <em>not</em></h2>
-  <p class="lead">Because the name gets misread: <strong>sipi.bot is a payment-control spend firewall for autonomous AI agents.</strong> It is <em>not</em> a SIP/VoIP telephony bot, and it is <em>not</em> an AI-bot-blocking tool or web-application firewall (WAF). It never holds your money — it's a decision API that returns approve, block, or flag in under 5ms, and your existing payment rail is what actually moves (or doesn't move) the funds.</p>
+  <p class="lead">Because the name gets misread: <strong>sipi.bot is a payment-control spend firewall for autonomous AI agents.</strong> It is <em>not</em> a SIP/VoIP telephony bot, and it is <em>not</em> an AI-bot-blocking tool or web-application firewall (WAF). It never holds your money — it's a decision API that returns approve, block, or flag with a deterministic rules check, and your existing payment rail is what actually moves (or doesn't move) the funds.</p>
 </div></section>
 
 <!-- ═══ EXPERT SECRETS: Origin Story + Epiphany Bridge (Ch 1,4,5,6) ═══ -->
@@ -386,7 +367,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       I spent the next week reading every provider's spend-control docs. OpenAI has usage limits — per-provider. Anthropic has rate limits — per-model. Stripe has Radar — for fraud, not agent velocity. Every solution was partial and reactive. You find out <em>after</em>. Nobody was building the thing that says "no" <em>before</em> the money moves.
     </p>
     <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:18px">
-      So I stopped looking. I built the missing layer: a spend firewall that sits in front of every transaction, checks it against your rules, and returns approve, block, or flag — in under 5 milliseconds. Not a dashboard. Not a report. A decision. Before the money moves.
+      So I stopped looking. I built the missing layer: a spend firewall that sits in front of every transaction, checks it against your rules, and returns approve, block, or flag — with a deterministic rules check. Not a dashboard. Not a report. A decision. Before the money moves.
     </p>
 
     <div style="color:var(--mut);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">The New Opportunity</div>
@@ -456,7 +437,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     </p>
   </div>
   <div class="kpis mt40" style="max-width:600px;margin-left:auto;margin-right:auto">
-    <div class="kpi"><div class="n">&lt;5ms</div><div class="l">per decision</div></div>
+    <div class="kpi"><div class="n">No ML</div><div class="l">in the decision path</div></div>
     <div class="kpi"><div class="n">53/53</div><div class="l">eval scenarios passed</div></div>
     <div class="kpi"><div class="n">$0</div><div class="l">lost to runaway agents</div></div>
   </div>
@@ -479,7 +460,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       <ul>
         <li>🟢 Every spend checked against your rules first</li>
         <li>🟢 Velocity limits kill runaway loops instantly</li>
-        <li>🟢 Tamper-evident audit log of every decision</li>
+        <li>🟢 Queryable audit log of every decision</li>
         <li>🟢 Human-in-the-loop on the transactions that matter</li>
       </ul>
     </div>
@@ -494,10 +475,10 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
   <div class="valuestack" style="max-width:560px;margin:32px auto 0;padding:28px 24px;border:1px solid var(--line);border-radius:16px;background:var(--panel2)">
     <div style="text-align:center;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:16px">What you actually get</div>
     <ul style="list-style:none;padding:0;margin:0 0 18px;font-size:15px;line-height:2">
-      <li style="display:flex;justify-content:space-between;gap:12px"><span>Spend firewall engine (6 rule types, &lt;5ms)</span><strong style="color:var(--mut);text-decoration:line-through">$1,200/mo</strong></li>
+      <li style="display:flex;justify-content:space-between;gap:12px"><span>Spend firewall engine (6 rule types, No model call)</span><strong style="color:var(--mut);text-decoration:line-through">$1,200/mo</strong></li>
       <li style="display:flex;justify-content:space-between;gap:12px"><span>Live control-room dashboard + SSE</span><strong style="color:var(--mut);text-decoration:line-through">$400/mo</strong></li>
       <li style="display:flex;justify-content:space-between;gap:12px"><span>Human-in-the-loop approval queue</span><strong style="color:var(--mut);text-decoration:line-through">$300/mo</strong></li>
-      <li style="display:flex;justify-content:space-between;gap:12px"><span>Tamper-evident audit log (compliance-grade)</span><strong style="color:var(--mut);text-decoration:line-through">$250/mo</strong></li>
+      <li style="display:flex;justify-content:space-between;gap:12px"><span>Queryable audit log (compliance-grade)</span><strong style="color:var(--mut);text-decoration:line-through">$250/mo</strong></li>
       <li style="display:flex;justify-content:space-between;gap:12px"><span>MCP tool + HTTP API + CLI (all runtimes)</span><strong style="color:var(--mut);text-decoration:line-through">$150/mo</strong></li>
       <li style="display:flex;justify-content:space-between;gap:12px"><span>MIT self-host core + onboarding call</span><strong style="color:var(--mut);text-decoration:line-through">$200/mo</strong></li>
     </ul>
@@ -522,11 +503,11 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       <li><span class="c">✓</span> Unlimited transaction evaluations</li>
       <li><span class="c">✓</span> Per-tx, daily, velocity, merchant, category & time rules</li>
       <li><span class="c">✓</span> Human-in-the-loop approval queue</li>
-      <li><span class="c">✓</span> Live dashboard + tamper-evident audit log</li>
+      <li><span class="c">✓</span> Live dashboard + queryable audit log</li>
       <li><span class="c">✓</span> MCP tool + HTTP API + CLI</li>
       <li><span class="c">✓</span> <strong>Guarantee:</strong> if we green-light a spend that breaks your rule, that month is free</li>
     </ul>
-    <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{tier:'team',location:'homepage_pricing'})" class="btn" style="width:100%">Start Team — $99/mo</a>
+    <a href="/checkout/team?source=homepage_pricing" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{cta_id:'homepage_team_checkout',destination:'/checkout/team',placement:'homepage_pricing',plan:'team'})" class="btn" style="width:100%">Start Team — $99/mo</a>
     <a href="/playground/" class="btn ghost" style="width:100%;margin-top:10px">Try the live firewall first</a>
     <p style="color:var(--accent);font-size:12px;margin-top:10px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
     <p class="mono" style="color:var(--mut);font-size:13px;margin-top:10px">Free self-host core &nbsp;•&nbsp; open on GitHub</p>
@@ -558,10 +539,10 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 
 <section id="faq"><div class="wrap">
   <h2 class="center">Frequently asked questions</h2>
-  <p class="lead center"><strong>TL;DR:</strong> sipi.bot is a spend firewall for autonomous AI agents. Your agent asks permission before it spends; sipi.bot returns approve, block, or flag in under 5ms based on your rules — over HTTP, MCP, or CLI, for a flat $99/month.</p>
+  <p class="lead center"><strong>TL;DR:</strong> sipi.bot is a spend firewall for autonomous AI agents. Your agent asks permission before it spends; sipi.bot returns approve, block, or flag with a deterministic rules check based on your rules — over HTTP, MCP, or CLI, for a flat $99/month.</p>
   <div class="faq mt24">
     <details open><summary>What is a spend firewall for AI agents?</summary>
-      <p>A <strong>spend firewall</strong> sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision in under 5ms over HTTP, MCP, or CLI.</p></details>
+      <p>A <strong>spend firewall</strong> sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — approving, blocking, or flagging it before any money moves. sipi.bot returns a decision with a deterministic rules check over HTTP, MCP, or CLI.</p></details>
     <details><summary>How does sipi.bot stop an agent from overspending?</summary>
       <p>Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted.</p></details>
     <details><summary>How much does sipi.bot cost?</summary>
@@ -569,13 +550,13 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <details><summary>Does sipi.bot work with MCP and Claude Code?</summary>
       <p>Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each.</p></details>
     <details><summary>What happens if sipi.bot wrongly approves a spend?</summary>
-      <p>If sipi.bot green-lights a spend that breaks one of your active rules, that month's subscription is free. Every decision is written to a tamper-evident audit log recording the rule that fired, the amount, and the reason, so you can review exactly why anything was approved, blocked, or flagged.</p></details>
+      <p>If sipi.bot green-lights a spend that breaks one of your active rules, that month's subscription is free. Every decision is written to a queryable audit log recording the rule that fired, the amount, and the reason, so you can review exactly why anything was approved, blocked, or flagged.</p></details>
     <details><summary>Does sipi.bot support x402, AP2, and Coinbase AgentKit?</summary>
       <p>Yes. sipi.bot sits in front of agentic-payment rails including x402, Google's AP2, and Coinbase AgentKit as the approval layer — your agent asks sipi.bot for a decision before it settles a payment on any of them. It's rail-agnostic because it evaluates the transaction (amount, merchant, category), not the plumbing.</p></details>
     <details><summary>Does sipi.bot hold or move my money?</summary>
       <p>No. sipi.bot is a decision API, not a wallet or a processor. It returns approve, block, or flag; your existing payment rail is what actually moves the funds. That means there's no float, no custody, and nothing new to reconcile — you're only adding a control check in front of what you already use.</p></details>
     <details><summary>Can I self-host sipi.bot?</summary>
-      <p>Yes. The core is MIT-licensed and open on <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>, free to self-host forever. The hosted plans add the live dashboard, managed approval queue, and tamper-evident log storage. See the <a href="/self-hosted/">self-hosted guide</a>.</p></details>
+      <p>Yes. The core is MIT-licensed and open on <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>, free to self-host forever. The hosted plans add the live dashboard, managed approval queue, and timestamped audit log storage. See the <a href="/self-hosted/">self-hosted guide</a>.</p></details>
     <details><summary>How is this different from my provider's spending cap?</summary>
       <p>A provider cap (OpenAI, Anthropic, a cloud bill) only limits spend <em>on that provider</em>, and usually only tells you after the fact. sipi.bot sits in front of <em>every</em> transaction across every merchant, decides in real time before money moves, and keeps one audit log for all of it — see <a href="/vs/stripe-radar/">how it compares to Stripe Radar</a>.</p></details>
   </div>
@@ -615,11 +596,19 @@ var msgEl=form.querySelector('.msg-inline')||document.getElementById('msg');
 var ref=document.getElementById('ref')?document.getElementById('ref').value:'';
 if(!email){return false;}
 var btn=form.querySelector('button[type=submit]');if(btn){btn.disabled=true;var orig=btn.textContent;btn.textContent='Sending...';}
+window.sipiTrack&&window.sipiTrack('lead_form_submitted',{asset:'spend_firewall_playbook',placement:'homepage'});
 fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
 body:JSON.stringify({email:email,ref:ref})})
-.then(r=>r.json()).then(d=>{if(window.posthog)posthog.capture('course_subscribed',{source:'homepage'});if(msgEl){msgEl.textContent=d.message||'You are on the list.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
-.catch(()=>{if(msgEl){msgEl.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
+.then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(x=>{if(!x.ok)throw new Error(x.data.message||'subscribe_failed');window.sipiTrack&&window.sipiTrack('lead_subscribed',{asset:'spend_firewall_playbook',placement:'homepage'});if(msgEl){msgEl.textContent=x.data.message||'You are on the list.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
+.catch((err)=>{window.sipiTrack&&window.sipiTrack('lead_subscription_failed',{asset:'spend_firewall_playbook',failure_type:'request'});if(msgEl){msgEl.textContent=err.message==='subscribe_failed'?'Something went wrong — please try again.':err.message;}if(btn){btn.disabled=false;btn.textContent=orig;}});
 return false;}
+(function(){
+var run=document.getElementById('hero-run-check'),copy=document.getElementById('hero-copy-check');
+var result=document.getElementById('hero-live-result'),next=document.getElementById('hero-live-next');
+var command="curl -X POST https://sipi.bot/v1/transactions/evaluate -H 'Content-Type: application/json' -d '{\\"amount\\":12400,\\"currency\\":\\"USD\\",\\"merchant\\":\\"example-vendor\\"}'";
+if(copy)copy.addEventListener('click',function(){navigator.clipboard.writeText(command).then(function(){copy.textContent='Copied';window.sipiTrack&&window.sipiTrack('cta_clicked',{cta_id:'homepage_curl_copy',destination:'clipboard',placement:'live_proof'});});});
+if(run)run.addEventListener('click',function(){run.disabled=true;run.textContent='Checking…';result.style.display='block';result.textContent='Evaluating against the live firewall…';next.style.display='none';fetch('/v1/transactions/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:12400,currency:'USD',merchant:'example-vendor'})}).then(function(r){return r.json().then(function(d){return{ok:r.ok,data:d};});}).then(function(x){if(!x.ok)throw new Error('evaluation_failed');result.textContent=(x.data.decision||'UNKNOWN')+' — '+(x.data.reason||'No reason returned');next.style.display='block';window.sipiTrack&&window.sipiTrack('homepage_live_evaluation_completed',{decision:(x.data.decision||'unknown').toLowerCase(),amount_bucket:'2000_plus'});}).catch(function(){result.textContent='The live check could not run. Please try the playground.';window.sipiTrack&&window.sipiTrack('homepage_live_evaluation_failed',{failure_type:'request'});}).finally(function(){run.disabled=false;run.textContent='Run this live check';});});
+})();
 </script>
 <!-- CROSS-PORTFOLIO NETWORK FOOTER — generated 2026-07-18 -->
 <style>
@@ -770,6 +759,26 @@ return false;}
     s = s.replace("{CSS}", CSS)
     s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
     s = s.replace("{GA4_SNIPPET}", GA4_SNIPPET)
+    # Keep the source history available for editorial review while shipping a
+    # focused conversion page. These sections repeated the same founder story
+    # and unsupported persuasion framing already established above.
+    origin_start = s.find("<!-- ═══ EXPERT SECRETS: Origin Story")
+    hope_start = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
+    if origin_start >= 0 and hope_start > origin_start:
+        s = s[:origin_start] + s[hope_start:]
+    value_start = s.find("<!-- VALUE STACK")
+    price_start = s.find('<div class="price mt24">', value_start)
+    if value_start >= 0 and price_start > value_start:
+        s = s[:value_start] + s[price_start:]
+    s = s.replace(
+        '<div class="strike">Hiring a human to babysit spend: $4,500/mo</div>',
+        "",
+    )
+    # The cross-portfolio module and free-first trust bar were off-funnel exits.
+    portfolio_start = s.find("<!-- CROSS-PORTFOLIO NETWORK FOOTER")
+    body_end = s.rfind("</body></html>")
+    if portfolio_start >= 0 and body_end > portfolio_start:
+        s = s[:portfolio_start] + s[body_end:]
     return s
 
 
@@ -834,10 +843,10 @@ ABOUT_BODY = """<script type="application/ld+json">{"@context":"https://schema.o
 <p class="lead">sipi.bot is the spend firewall for autonomous AI agents — the control layer that evaluates every transaction an agent attempts and returns approve, block, or flag before any money moves. Built for the agent economy, open-source (MIT), and free to self-host.</p>
 
 <h2>Why we built it</h2>
-<p>The agent economy handed autonomous software real spending power — API credits, compute, SaaS, payments — usually backed by a human's credit card and no hard limit. In 2026, 67% of agent teams reported a runaway-spend incident within their first 90 days of deployment, at a median cost of $340 per incident. The worst cases hit five figures overnight. We built sipi.bot because every autonomous agent deserves a guardrail, and every operator deserves to sleep without checking their bank balance.</p>
+<p>The agent economy handed autonomous software real spending power — API credits, compute, SaaS, payments — usually backed by a human's credit card and no hard limit. Runaway retry loops and unattended purchase chains are failure modes worth testing before an agent receives live payment access. We built sipi.bot because every autonomous agent deserves a guardrail, and every operator deserves to sleep without checking their bank balance.</p>
 
 <h2>What sipi.bot does</h2>
-<p>sipi.bot sits in front of every transaction an autonomous AI agent attempts. One HTTP call — <code>POST /v1/transactions/evaluate</code> — evaluates the proposed spend against your rules and returns APPROVED, BLOCKED, or FLAGGED in under 5ms. Six rule types are enforced: per-transaction caps, daily totals, velocity limits (runaway-loop protection), merchant allow/block lists, category limits, and time-window constraints. Every decision is written to a tamper-evident audit log, and transactions that need human judgment are routed to an approval queue — not auto-approved and not silently blocked.</p>
+<p>sipi.bot sits in front of every transaction an autonomous AI agent attempts. One HTTP call — <code>POST /v1/transactions/evaluate</code> — evaluates the proposed spend against your rules and returns APPROVED, BLOCKED, or FLAGGED with a deterministic rules check. Six rule types are enforced: per-transaction caps, daily totals, velocity limits (runaway-loop protection), merchant allow/block lists, category limits, and time-window constraints. Every decision is written to a queryable audit log, and transactions that need human judgment are routed to an approval queue — not auto-approved and not silently blocked.</p>
 
 <h2>How it works</h2>
 <p>You define rules: "Max $500 per transaction," "Max $2,000 per day," "Block any merchant matching *.ru," "Require human approval above $1,000." Your agent calls sipi.bot before it spends money. sipi.bot evaluates every active rule in priority order. The first BLOCK rule that matches stops the transaction instantly — no money moves. FLAGGED transactions enter the human-in-the-loop queue. APPROVED transactions proceed. The entire decision path is logged, timestamped, and auditable.</p>
@@ -936,7 +945,7 @@ CALENDAR_BODY = """<h1>Content Calendar — sipi.bot Publishing Schedule</h1>
   <div class="stat"><div class="stat-num">Weekly</div><div class="stat-label">Eval report refresh</div></div>
   <div class="stat"><div class="stat-num">Monthly</div><div class="stat-label">x402 integration tests</div></div>
   <div class="stat"><div class="stat-num">Quarterly</div><div class="stat-label">Agent-spend benchmark</div></div>
-  <div class="stat"><div class="stat-num">5ms</div><div class="stat-label">Per-transaction latency</div></div>
+  <div class="stat"><div class="stat-num">No ML</div><div class="stat-label">Deterministic decision path</div></div>
 </div>
 
 <h2>Weekly Publishing</h2>
@@ -1005,31 +1014,21 @@ __ANALYTICS_DISCLOSURE__
 <h2>Self-hosting</h2>
 <p>If you self-host the open-source core, your transaction data never leaves your infrastructure and this policy does not apply to that deployment.</p>"""
 
-# The analytics disclosure has to track the deployment's actual configuration, not a
-# hardcoded claim. GA4 is enabled by the GA4_MEASUREMENT_ID env var, so production can
-# be running Google Analytics while the source default (no GA4) says otherwise — which
-# is exactly what happened: the policy advertised "privacy-respecting analytics
-# (PostHog, EU region)" while production also set _ga / _ga_<id> cookies via gtag.
-# Deriving the text from GA4_ID keeps it honest in both configurations.
 _POSTHOG_DISCLOSURE = (
-    "<p>We use <a href=\"https://posthog.com/privacy\" rel=\"noopener\" target=\"_blank\">PostHog</a> "
-    "(EU region) for product analytics, to understand aggregate usage. It stores an identifier in "
-    "your browser and is configured not to build a profile for anonymous visitors. We do not use it "
-    "to track you across other websites.</p>"
-)
-_GA4_DISCLOSURE = (
-    "<p>This deployment also runs <strong>Google Analytics 4</strong>, which sets its own cookies "
-    "(<code>_ga</code> and <code>_ga_&lt;id&gt;</code>) and processes your data under "
-    "<a href=\"https://policies.google.com/privacy\" rel=\"noopener\" target=\"_blank\">Google's privacy policy</a>. "
-    "We use it for measurement only — there are no advertising or retargeting pixels on this site, "
-    "and we do not build or share advertising audiences.</p>"
+    "<p>With your explicit permission, we load "
+    "<a href=\"https://posthog.com/privacy\" rel=\"noopener\" target=\"_blank\">PostHog</a> "
+    "(EU region) for anonymous product analytics. Analytics stay off until you choose "
+    "<strong>Allow analytics</strong>. Autocapture and session recording are disabled, "
+    "anonymous visitor profiles are not created, and selecting <strong>No thanks</strong> "
+    "does not affect the product. You can reopen the choice at any time using the "
+    "<strong>Privacy choices</strong> button.</p>"
 )
 _NO_ADS_DISCLOSURE = (
     "<p>We run no advertising or retargeting pixels of any kind — no Meta, Reddit, LinkedIn, "
     "TikTok or Google Ads tags. You can block all of the above with any standard tracker blocker "
     "without affecting how the site works.</p>"
 )
-ANALYTICS_DISCLOSURE = _POSTHOG_DISCLOSURE + (_GA4_DISCLOSURE if GA4_ID else "") + _NO_ADS_DISCLOSURE
+ANALYTICS_DISCLOSURE = _POSTHOG_DISCLOSURE + _NO_ADS_DISCLOSURE
 PRIVACY_BODY = PRIVACY_BODY.replace("__ANALYTICS_DISCLOSURE__", ANALYTICS_DISCLOSURE)
 
 TERMS_BODY = """<h1>Terms of Service</h1>
@@ -1060,7 +1059,7 @@ def dashboard_html() -> str:
 <meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/dashboard"><meta property="og:image" content="https://sipi.bot/og.png"><meta name="robots" content="index, follow"><meta name="theme-color" content="#00d4aa">
 <style>{CSS}
 .tabs{{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto}}
-.tab{{padding:12px 18px;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent;white-space:nowrap}}
+.tab{{padding:12px 18px;cursor:pointer;color:var(--mut);border:0;border-bottom:2px solid transparent;white-space:nowrap;background:transparent;font:inherit}}
 .tab.on{{color:var(--txt);border-bottom-color:var(--accent)}}
 .pane{{display:none}}.pane.on{{display:block}}
 .feed{{display:flex;flex-direction:column;gap:8px}}
@@ -1073,23 +1072,32 @@ th,td{{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}}
 th{{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}}
 input,select{{background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:9px 11px;border-radius:8px;font-size:14px}}
 .mini{{padding:7px 13px;font-size:13px}}
+.connect{{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px}}
+.connect input{{flex:1;min-width:240px}}
+.status{{font-size:13px;color:var(--mut)}}
 </style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span> <span style="color:var(--mut);font-size:13px;font-weight:400">/ control room</span></div>
-<div class="nav-links"><a href="/">← Landing</a></div></div></nav>
+<div class="nav-links"><a href="/">← Landing</a><a class="btn mini" href="/pricing">Get production access</a></div></div></nav>
 <div class="wrap" style="padding-top:28px;padding-bottom:60px">
-  <div class="kpis">
-    <div class="kpi"><div class="n" id="k-approved">$0</div><div class="l">approved today</div></div>
-    <div class="kpi"><div class="n" id="k-blocked">$0</div><div class="l">blocked today</div></div>
-    <div class="kpi"><div class="n" id="k-pending">0</div><div class="l">pending approvals</div></div>
-    <div class="kpi"><div class="n" id="k-agents">0</div><div class="l">active agents</div></div>
+  <div class="card connect">
+    <div style="flex:1;min-width:220px"><strong>Connect your workspace</strong><div class="status">Your API key stays in this browser tab and is sent only to sipi.bot.</div></div>
+    <input id="workspace-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste sk_live_… or sk_sipi_… API key">
+    <button class="btn mini" onclick="connectWorkspace()">Connect</button>
+    <button class="btn mini ghost" onclick="clearWorkspace()">Clear</button>
+    <span class="status" id="workspace-status">Showing labelled sample data</span>
   </div>
-  <div style="background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.3);border-radius:10px;padding:10px 16px;margin-bottom:16px;text-align:center;font-size:13px;color:var(--accent);font-weight:600">Demo data — sample traffic, not live customer transactions.</div>
+  <div class="kpis">
+    <div class="kpi"><div class="n" id="k-approved">$1,248</div><div class="l">approved today</div></div>
+    <div class="kpi"><div class="n" id="k-blocked">$6,950</div><div class="l">blocked today</div></div>
+    <div class="kpi"><div class="n" id="k-pending">1</div><div class="l">pending approvals</div></div>
+    <div class="kpi"><div class="n" id="k-agents">1</div><div class="l">workspace</div></div>
+  </div>
+  <div id="data-mode" style="background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.3);border-radius:10px;padding:10px 16px;margin-bottom:16px;text-align:center;font-size:13px;color:var(--accent);font-weight:600">Sample mode — illustrative traffic, never live customer data.</div>
   <div class="tabs mt24">
-    <div class="tab on" data-t="live">Live activity</div>
-    <div class="tab" data-t="approvals">Approvals</div>
-    <div class="tab" data-t="rules">Rules</div>
-    <div class="tab" data-t="agents">Agents</div>
-    <div class="tab" data-t="test">Test API</div>
+    <button type="button" class="tab on" data-t="live">Live activity</button>
+    <button type="button" class="tab" data-t="approvals">Approvals</button>
+    <button type="button" class="tab" data-t="rules">Rules</button>
+    <button type="button" class="tab" data-t="test">Test API</button>
   </div>
 
   <div class="pane on" id="p-live"><div class="feed" id="feed"><p style="color:var(--mut)">Waiting for transactions…</p></div></div>
@@ -1109,16 +1117,6 @@ input,select{{background:var(--panel2);border:1px solid var(--line);color:var(--
     </div>
   </div>
 
-  <div class="pane" id="p-agents">
-    <table><thead><tr><th>Name</th><th>ID</th><th>Status</th></tr></thead><tbody id="agents"></tbody></table>
-    <div class="card mt24"><h3>Register an agent</h3>
-      <div style="display:flex;gap:10px;margin-top:12px">
-        <input id="a-name" placeholder="my-autonomous-agent" style="flex:1">
-        <button class="btn mini" onclick="addAgent()">Create + get key</button>
-      </div><p id="a-key" class="mono" style="color:var(--accent);margin-top:12px"></p>
-    </div>
-  </div>
-
   <div class="pane" id="p-test"><div class="card"><h3>Evaluate a transaction</h3>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
       <input id="t-amt" type="number" placeholder="amount" value="750" style="width:120px">
@@ -1131,10 +1129,10 @@ input,select{{background:var(--panel2);border:1px solid var(--line);color:var(--
 
   <div style="margin-top:56px;border-top:1px solid var(--line);padding-top:32px">
     <h2 style="font-size:22px;margin-bottom:10px">What the control room shows</h2>
-    <p style="color:var(--mut);margin-bottom:14px">This is the live operations view of your spend firewall. The four counters at the top — dollars approved today, dollars blocked today, pending approvals, and active agents — refresh every 15 seconds, and the activity feed updates in real time over a server-sent-events stream, so a blocked transaction appears here the moment it happens.</p>
-    <p style="color:var(--mut);margin-bottom:14px"><strong style="color:var(--txt)">Live activity</strong> lists every evaluation with its amount, decision badge, merchant, and the exact rule that produced the decision. <strong style="color:var(--txt)">Approvals</strong> is the human-in-the-loop queue: transactions that crossed your approval threshold wait here until you approve or deny them. <strong style="color:var(--txt)">Rules</strong> is the policy editor with all seven rule types — per-transaction caps, daily totals, velocity limits, merchant block and allow lists, category limits, and approval thresholds — each with its own parameters, action, and priority. <strong style="color:var(--txt)">Agents</strong> registers a named agent and issues its API key.</p>
+    <p style="color:var(--mut);margin-bottom:14px">This is the private operations view of your spend firewall. Paste the API key delivered after checkout to load only that key's isolated workspace. The counters and activity refresh every 15 seconds.</p>
+    <p style="color:var(--mut);margin-bottom:14px"><strong style="color:var(--txt)">Live activity</strong> lists every evaluation with its amount, decision badge, merchant, and the exact rule that produced the decision. <strong style="color:var(--txt)">Approvals</strong> is the human-in-the-loop queue: transactions that crossed your approval threshold wait here until you approve or deny them. <strong style="color:var(--txt)">Rules</strong> is the policy editor with seven rule types — per-transaction caps, daily totals, velocity limits, merchant block and allow lists, category limits, and approval thresholds — each with its own parameters, action, and priority.</p>
     <p style="color:var(--mut);margin-bottom:14px">The <strong style="color:var(--txt)">Test API</strong> tab sends a real request to the same <span class="mono">/v1/transactions/evaluate</span> endpoint your agents call, so you can watch a $750 purchase from an unknown merchant get blocked, then see the decision land in the feed and the audit log. Prefer a guided demo? The <a href="/playground/">public playground</a> runs the same endpoint with preset scenarios, and the <a href="/for/">framework integrations</a> show the five-line client for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK.</p>
-    <p style="color:var(--mut)">Every decision shown here is also written to a tamper-evident audit log, and the engine behind it passes a public eval suite of 53 labeled spend scenarios (53/53). Hosting is a flat <a href="/pricing">$99/month</a>; the same dashboard ships in the MIT-licensed <a href="/self-hosted/">self-hosted core</a>.</p>
+    <p style="color:var(--mut)">Every decision shown here is written to the workspace audit log, and the engine behind it passes the public eval suite. Hosting starts at <a href="/pricing">$99/month</a>; the MIT-licensed core can also be <a href="/self-hosted/">self-hosted</a>.</p>
   </div>
 </div>
 <script>
@@ -1145,29 +1143,85 @@ document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{{
 const $=id=>document.getElementById(id);
 function money(n){{return '$'+Number(n||0).toLocaleString(undefined,{{maximumFractionDigits:0}});}}
 function badge(d){{const c={{APPROVED:'b-green',BLOCKED:'b-red',FLAGGED:'b-amber'}}[d]||'b-green';return '<span class="badge '+c+'">'+d+'</span>';}}
-function loadStats(){{fetch('/api/stats').then(r=>r.json()).then(s=>{{
+function esc(v){{return String(v==null?'':v).replace(/[&<>"']/g,c=>({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}}[c]));}}
+const DEMO_TX=[
+  {{amount:6200,decision:'BLOCKED',merchant:'unknown-gpu.example',reason:'Per-transaction cap exceeded',created_at:'2026-01-01T12:04:00Z'}},
+  {{amount:248,decision:'APPROVED',merchant:'Cloud compute',reason:'Within policy',created_at:'2026-01-01T11:58:00Z'}},
+  {{amount:750,decision:'BLOCKED',merchant:'New infrastructure vendor',reason:'Per-transaction cap exceeded',created_at:'2026-01-01T11:42:00Z'}}
+];
+const DEMO_AP=[{{id:'demo',amount:250,merchant:'Design API',reason:'Approval threshold reached'}}];
+const DEMO_RULES=[
+  {{id:'demo1',rule_type:'per_transaction',params:{{max_amount:500}},action:'BLOCKED',priority:100}},
+  {{id:'demo2',rule_type:'daily_total',params:{{max_amount:2000}},action:'BLOCKED',priority:90}},
+  {{id:'demo3',rule_type:'velocity',params:{{max_count:10,window_seconds:3600}},action:'BLOCKED',priority:80}},
+  {{id:'demo4',rule_type:'approval_threshold',params:{{amount:200}},action:'FLAGGED',priority:50}}
+];
+function workspaceKey(){{return sessionStorage.getItem('sipi_dashboard_key')||'';}}
+function authH(){{const t=workspaceKey();return t?{{Authorization:'Bearer '+t}}:{{}};}}
+function status(msg,bad){{$('workspace-status').textContent=msg;$('workspace-status').style.color=bad?'var(--danger)':'var(--mut)';}}
+function setMode(live){{
+  $('data-mode').textContent=live?'Private workspace — scoped to the connected API key.':'Sample mode — illustrative traffic, never live customer data.';
+  $('data-mode').style.color=live?'var(--accent)':'var(--accent)';
+}}
+async function api(path,options){{
+  const response=await fetch(path,{{...options,headers:{{...authH(),...(options&&options.headers||{{}})}}}});
+  if(response.status===401||response.status===403)throw new Error('That API key is invalid or no longer active.');
+  if(!response.ok)throw new Error('Request failed ('+response.status+').');
+  return response.json();
+}}
+function renderStats(s){{
   $('k-approved').textContent=money(s.approved_24h);$('k-blocked').textContent=money(s.blocked_value_24h);
-  $('k-pending').textContent=s.pending_approvals;$('k-agents').textContent=s.active_agents;}});}}
-function loadFeed(){{fetch('/api/transactions').then(r=>r.json()).then(rows=>{{
+  $('k-pending').textContent=s.pending_approvals;$('k-agents').textContent=s.active_agents||1;
+}}
+function renderFeed(rows){{
   const f=$('feed');if(!rows.length){{f.innerHTML='<p style="color:var(--mut)">No transactions yet. Try the Test API tab.</p>';return;}}
-  f.innerHTML=rows.map(r=>`<div class="row"><span class="amt">${{money(r.amount)}}</span>${{badge(r.decision)}}<span class="meta">${{r.merchant||'—'}} · ${{r.reason||''}}</span><span class="t">${{(r.created_at||'').slice(11,19)}}</span></div>`).join('');}});}}
-function loadApprovals(){{fetch('/api/approvals').then(r=>r.json()).then(rows=>{{
-  $('appr').innerHTML=rows.length?rows.map(r=>`<tr><td>${{money(r.amount)}}</td><td>${{r.merchant||'—'}}</td><td>${{r.reason||''}}</td><td><button class="btn mini" onclick="resolve('${{r.id}}','approve')">Approve</button> <button class="btn mini ghost" onclick="resolve('${{r.id}}','deny')">Deny</button></td></tr>`).join(''):'<tr><td colspan=4 style="color:var(--mut)">Nothing pending. 🎉</td></tr>';}});}}
-function loadRules(){{fetch('/api/rules').then(r=>r.json()).then(rows=>{{
-  $('rules').innerHTML=rows.map(r=>`<tr><td>${{r.rule_type}}</td><td class="mono">${{JSON.stringify(r.params)}}</td><td>${{badge(r.action)}}</td><td>${{r.priority}}</td><td><button class="btn mini ghost" onclick="delRule('${{r.id}}')">Delete</button></td></tr>`).join('');}});}}
-function loadAgents(){{fetch('/api/agents').then(r=>r.json()).then(rows=>{{
-  $('agents').innerHTML=rows.length?rows.map(r=>`<tr><td>${{r.name}}</td><td class="mono">${{r.id}}</td><td>${{r.status}}</td></tr>`).join(''):'<tr><td colspan=3 style="color:var(--mut)">No agents yet.</td></tr>';}});}}
-function authH(){{const t=localStorage.getItem('sf_admin_token');return t?{{'Authorization':'Bearer '+t}}:{{}};}}
-function needTok(r){{if(r.status===403){{alert('Admin token required. Operators: localStorage.setItem("sf_admin_token", "<token>") then retry.');throw new Error('forbidden');}}return r;}}
-function resolve(id,d){{fetch('/api/approvals/'+id,{{method:'POST',headers:{{'Content-Type':'application/json',...authH()}},body:JSON.stringify({{decision:d}})}}).then(needTok).then(()=>{{loadApprovals();loadStats();}}).catch(()=>{{}});}}
-function addRule(){{let p;try{{p=JSON.parse($('r-params').value||'{{}}');}}catch(e){{alert('params must be JSON');return;}}
-  fetch('/api/rules',{{method:'POST',headers:{{'Content-Type':'application/json',...authH()}},body:JSON.stringify({{rule_type:$('r-type').value,params:p,action:$('r-action').value,label:$('r-label').value}})}}).then(needTok).then(()=>{{loadRules();$('r-label').value='';}}).catch(()=>{{}});}}
-function delRule(id){{fetch('/api/rules/'+id,{{method:'DELETE',headers:authH()}}).then(needTok).then(loadRules).catch(()=>{{}});}}
-function addAgent(){{fetch('/api/agents',{{method:'POST',headers:{{'Content-Type':'application/json',...authH()}},body:JSON.stringify({{name:$('a-name').value||'agent'}})}}).then(needTok).then(r=>r.json()).then(d=>{{$('a-key').textContent='API key (save it now): '+d.api_key;loadAgents();}}).catch(()=>{{}});}}
-function testEval(){{fetch('/v1/transactions/evaluate',{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{amount:Number($('t-amt').value),merchant:$('t-mer').value,category:$('t-cat').value}})}}).then(r=>r.json()).then(d=>{{$('t-out').textContent=JSON.stringify(d,null,2);loadFeed();loadStats();loadApprovals();}});}}
-try{{const es=new EventSource('/v1/activity');es.onmessage=e=>{{if(e.data&&e.data!=='ping'){{loadFeed();loadStats();loadApprovals();}}}};}}catch(e){{}}
-function all(){{loadStats();loadFeed();loadApprovals();loadRules();loadAgents();}}
-all();setInterval(loadStats,15000);
+  f.innerHTML=rows.map(r=>`<div class="row"><span class="amt">${{money(r.amount)}}</span>${{badge(esc(r.decision))}}<span class="meta">${{esc(r.merchant||'—')}} · ${{esc(r.reason||'')}}</span><span class="t">${{esc((r.created_at||'').slice(11,19))}}</span></div>`).join('');
+}}
+function renderApprovals(rows,demo){{
+  $('appr').innerHTML=rows.length?rows.map(r=>`<tr><td>${{money(r.amount)}}</td><td>${{esc(r.merchant||'—')}}</td><td>${{esc(r.reason||'')}}</td><td>${{demo?'<span class="status">sample</span>':`<button class="btn mini" onclick="resolve('${{esc(r.id)}}','approve')">Approve</button> <button class="btn mini ghost" onclick="resolve('${{esc(r.id)}}','deny')">Deny</button>`}}</td></tr>`).join(''):'<tr><td colspan=4 style="color:var(--mut)">Nothing pending.</td></tr>';
+}}
+function renderRules(rows,demo){{
+  $('rules').innerHTML=rows.map(r=>`<tr><td>${{esc(r.rule_type)}}</td><td class="mono">${{esc(JSON.stringify(r.params))}}</td><td>${{badge(esc(r.action))}}</td><td>${{esc(r.priority)}}</td><td>${{demo?'<span class="status">sample</span>':`<button class="btn mini ghost" onclick="delRule('${{esc(r.id)}}')">Delete</button>`}}</td></tr>`).join('');
+}}
+function sample(){{
+  setMode(false);renderStats({{approved_24h:1248,blocked_value_24h:6950,pending_approvals:1,active_agents:1}});
+  renderFeed(DEMO_TX);renderApprovals(DEMO_AP,true);renderRules(DEMO_RULES,true);
+}}
+async function refresh(){{
+  if(!workspaceKey()){{sample();return;}}
+  try{{
+    const [s,tx,ap,rules]=await Promise.all([api('/api/stats'),api('/api/transactions'),api('/api/approvals'),api('/api/rules')]);
+    setMode(true);renderStats(s);renderFeed(tx);renderApprovals(ap,false);renderRules(rules,false);
+    status('Connected — key is held only for this tab',false);
+  }}catch(e){{status(e.message,true);setMode(false);}}
+}}
+async function connectWorkspace(){{
+  const key=$('workspace-key').value.trim();
+  if(!key){{status('Paste an API key first.',true);return;}}
+  sessionStorage.setItem('sipi_dashboard_key',key);$('workspace-key').value='';
+  await refresh();
+}}
+function clearWorkspace(){{sessionStorage.removeItem('sipi_dashboard_key');$('workspace-key').value='';status('Showing labelled sample data',false);sample();}}
+async function resolve(id,d){{
+  try{{await api('/api/approvals/'+encodeURIComponent(id),{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{decision:d}})}});await refresh();}}
+  catch(e){{status(e.message,true);}}
+}}
+async function addRule(){{
+  if(!workspaceKey()){{status('Connect your API key before editing rules.',true);return;}}
+  let p;try{{p=JSON.parse($('r-params').value||'{{}}');}}catch(e){{status('Rule parameters must be valid JSON.',true);return;}}
+  try{{await api('/api/rules',{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{rule_type:$('r-type').value,params:p,action:$('r-action').value,label:$('r-label').value}})}});$('r-label').value='';await refresh();}}
+  catch(e){{status(e.message,true);}}
+}}
+async function delRule(id){{try{{await api('/api/rules/'+encodeURIComponent(id),{{method:'DELETE'}});await refresh();}}catch(e){{status(e.message,true);}}}}
+async function testEval(){{
+  if(!workspaceKey()){{status('Connect your API key before sending a private evaluation.',true);return;}}
+  try{{
+    const d=await api('/v1/transactions/evaluate',{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{amount:Number($('t-amt').value),merchant:$('t-mer').value,category:$('t-cat').value}})}});
+    $('t-out').textContent=JSON.stringify(d,null,2);await refresh();
+  }}catch(e){{$('t-out').textContent=e.message;status(e.message,true);}}
+}}
+if(workspaceKey()){{status('Reconnecting this tab…',false);refresh();}}else{{sample();}}
+setInterval(()=>{{if(workspaceKey())refresh();}},15000);
 </script></body></html>"""
 
 
@@ -1203,7 +1257,7 @@ def pricing_html() -> str:
         <li><span class="c">✓</span> Dashboard, audit log, MCP, HTTP + CLI</li>
         <li><span class="c">✓</span> API key issued immediately after payment</li>
       </ul>
-      <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{{tier:'team',location:'pricing_page_primary'}})" class="btn" style="width:100%">Start Team — $99/mo</a>
+      <a href="/checkout/team?source=pricing_primary" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{{cta_id:'pricing_team_checkout',destination:'/checkout/team',placement:'pricing_primary',plan:'team'}})" class="btn" style="width:100%">Start Team — $99/mo</a>
       <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Green-light an active-rule violation and that month is free</p>
     </div>
   </div>
@@ -1212,19 +1266,18 @@ def pricing_html() -> str:
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Playground</div>
       <div class="amt">$0</div>
       <p style="color:var(--mut);font-size:15px;margin:18px 0 14px">Run sample transactions through the live production firewall. No signup, install, or card.</p>
-      <a href="/playground/" onclick="if(window.posthog)posthog.capture('playground_opened',{{source:'pricing'}})" class="btn ghost" style="width:100%">Try the live firewall →</a>
+      <a href="/playground/" onclick="window.sipiTrack&&window.sipiTrack('playground_opened',{{source:'pricing'}})" class="btn ghost" style="width:100%">Try the live firewall →</a>
     </div>
     <div class="price" style="margin:0;border-color:var(--line)">
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Business</div>
       <div class="amt">$499<span> / month</span></div>
       <ul>
         <li><span class="c">✓</span> Everything in Team</li>
-        <li><span class="c">✓</span> We manage your spend policy for you</li>
-        <li><span class="c">✓</span> Custom rules + compliance reporting</li>
-        <li><span class="c">✓</span> Priority support + SLA</li>
-        <li><span class="c">✓</span> Webhook + Slack alerts</li>
+        <li><span class="c">✓</span> Managed policy onboarding</li>
+        <li><span class="c">✓</span> Policy review and rule setup</li>
+        <li><span class="c">✓</span> Priority email support</li>
       </ul>
-      <a href="/checkout/business" onclick="if(window.posthog)posthog.capture('checkout_clicked',{{tier:'business',location:'pricing_page'}})" class="btn ghost" style="width:100%">Start Business →</a>
+      <a href="/checkout/business?source=pricing_business" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{{cta_id:'pricing_business_checkout',destination:'/checkout/business',placement:'pricing_business',plan:'business'}})" class="btn ghost" style="width:100%">Start Business →</a>
       <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
     </div>
   </div>
@@ -1239,13 +1292,12 @@ def pricing_html() -> str:
       <thead><tr><th>Capability</th><th>Self-host (free)</th><th>Team $99/mo</th><th>Business $499/mo</th></tr></thead>
       <tbody>
         <tr><td>Transaction evaluations</td><td>Unlimited</td><td>Unlimited</td><td>Unlimited</td></tr>
-        <tr><td>Rule types (per-tx, daily, velocity, merchant, category, time)</td><td>✓ All</td><td>✓ All</td><td>✓ All + custom</td></tr>
+        <tr><td>Rule types (per-tx, daily, velocity, merchant, category, time)</td><td>✓ All</td><td>✓ All</td><td>✓ All</td></tr>
         <tr><td>Human-in-the-loop approval queue</td><td>✓</td><td>✓</td><td>✓</td></tr>
-        <tr><td>Tamper-evident audit log</td><td>✓</td><td>✓ Persistent</td><td>✓ Persistent + export</td></tr>
+        <tr><td>Queryable SQLite audit trail</td><td>✓ Local</td><td>✓ Hosted</td><td>✓ Hosted</td></tr>
         <tr><td>MCP tool, HTTP API, CLI</td><td>✓</td><td>✓</td><td>✓</td></tr>
-        <tr><td>Hosted dashboard + uptime SLA</td><td>—</td><td>✓</td><td>✓ Priority</td></tr>
+        <tr><td>Dashboard</td><td>✓ Local</td><td>✓ Hosted</td><td>✓ Hosted + priority support</td></tr>
         <tr><td>Managed spend policy (we write your rules)</td><td>—</td><td>—</td><td>✓</td></tr>
-        <tr><td>Compliance reporting + webhook/Slack alerts</td><td>—</td><td>—</td><td>✓</td></tr>
         <tr><td>Rule-integrity guarantee</td><td>—</td><td>✓ Month free</td><td>✓ Month free</td></tr>
       </tbody>
     </table>
@@ -1258,9 +1310,10 @@ def pricing_html() -> str:
       <details><summary>Is there a free plan?</summary><p>Yes. The entire open-source core is MIT-licensed and free to self-host forever — full policy engine, dashboard, audit trail, MCP tool, HTTP API, and CLI. The hosted plans add managed infrastructure, persistent log retention, and support.</p></details>
       <details><summary>What counts as a "transaction evaluation"?</summary><p>One call to the <code>/v1/transactions/evaluate</code> endpoint — your agent asking "should I spend $X at merchant Y?" Each plan includes unlimited evaluations. There is no per-call fee, no metering, no overage charge.</p></details>
       <details><summary>What is the rule-integrity guarantee?</summary><p>If sipi.bot returns "approve" for a transaction that violated one of your active rules, that month's subscription is refunded. The guarantee covers rule-evaluation engine errors, not losses from rules you didn't configure or from acting against a block/flag decision.</p></details>
-      <details><summary>Can I switch between Team and Business?</summary><p>Yes, at any time from the dashboard. Upgrades are prorated immediately; downgrades take effect at the next billing cycle. No contracts, cancel anytime.</p></details>
-      <details><summary>Do you offer annual billing or a startup discount?</summary><p>Annual billing (two months free) is available on both plans. For early-stage teams (pre-seed or open-source projects), reach out on <a href="https://github.com/kindrat86/sipi-bot">GitHub</a> — we offer free hosted Business seats.</p></details>
-      <details><summary>How fast is a transaction evaluation?</summary><p>Under 5 milliseconds on the hosted endpoint. The firewall runs a deterministic rules engine over SQLite — no ML inference, no network hops — so the latency is bounded and predictable even under burst load.</p></details>
+      <details><summary>What happens immediately after payment?</summary><p>Stripe returns you to a private sipi.bot activation page where your API key is displayed with a copy button, a first protected transaction, and framework-specific integration links.</p></details>
+      <details><summary>How do plan changes and cancellation work?</summary><p>Email <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a> from the billing email. We will confirm the effective date before the next renewal; there is no long-term contract.</p></details>
+      <details><summary>What if a legitimate transaction is blocked?</summary><p>Every block includes the exact rule and reason. Adjust or disable that rule in the dashboard, then retry the transaction. A blocked evaluation never moves money itself.</p></details>
+      <details><summary>How fast is a transaction evaluation?</summary><p>The policy check is deterministic local code with no model inference. End-to-end hosted latency depends on your network path and current service load, so measure it from your deployment region before putting it on a critical payment path.</p></details>
     </div>
   </div>
 
@@ -1269,12 +1322,14 @@ def pricing_html() -> str:
     <div class="grid2" style="text-align:left">
       <div class="card"><h3>Deterministic, not probabilistic</h3><p>The rules engine is pure logic — no ML guessing. If a rule says block at $500, every $501 transaction is blocked, every time, with a reason you can audit.</p></div>
       <div class="card"><h3>Open source, auditable core</h3><p>The exact code running the hosted service is on <a href="https://github.com/kindrat86/sipi-bot">GitHub</a> (MIT). You can read every rule-evaluation path and self-host the same engine.</p></div>
-      <div class="card"><h3>Tamper-evident audit log</h3><p>Every decision is written to an append-only SQLite ledger with a content hash chain. You can verify the log hasn't been altered after the fact.</p></div>
-      <div class="card"><h3>&lt;5ms latency</h3><p>One HTTP call before the spend, under 5ms. The firewall doesn't slow down your agent's purchase path — it's faster than the payment API that follows.</p></div>
+      <div class="card"><h3>Queryable audit trail</h3><p>Every evaluation records its decision, rule, reason, amount, merchant, agent identity, and timestamp in SQLite for review.</p></div>
+      <div class="card"><h3>Small decision path</h3><p>The rules engine is deterministic local code with no model call. Hosted latency still includes the network path between your agent and sipi.bot.</p></div>
     </div>
   </div>
   </div>
-</section></body></html>"""
+</section>
+<script>(function(){{var q=new URLSearchParams(location.search);if(q.get('checkout')==='cancelled'){{window.sipiTrack&&window.sipiTrack('checkout_canceled',{{plan:(q.get('plan')||'unknown').slice(0,16)}});}}}})();</script>
+</body></html>"""
 
 
 def key_success_html(rec) -> str:
@@ -1301,9 +1356,9 @@ def key_success_html(rec) -> str:
     <script>
     (function(){{var b=document.getElementById('copy-key');if(!b)return;b.addEventListener('click',function(){{
       navigator.clipboard.writeText(document.getElementById('issued-key').textContent.trim()).then(function(){{
-        b.textContent='Copied';if(window.posthog)posthog.capture('api_key_copied',{{source:'checkout_success'}});
+        b.textContent='Copied';
       }});
-    }});if(window.posthog)posthog.capture('checkout_success_viewed',{{tier:'{rec.get('tier','team')}'}});}})();
+    }});history.replaceState({{}},'', '/keys/');}})();
     </script>"""
     else:
         inner = """
@@ -1322,7 +1377,7 @@ def key_success_html(rec) -> str:
 <meta name="description" content="Your sipi.bot API key. Use it as a Bearer token to authenticate transaction evaluation calls from your AI agents.">
 <link rel="canonical" href="https://sipi.bot/keys/">
 <meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#00d4aa">
-<style>{CSS}</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
+<style>{CSS}</style></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span></div>
 <div class="nav-links"><a href="/">Home</a></div></div></nav>
 <section class="hero" style="padding-top:70px"><div class="wrap">{inner}</div></section>
@@ -1364,7 +1419,7 @@ def masterclass_html() -> str:
     
     <div style="border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin:24px 0">
       <p style="font-size:17px;line-height:1.7;color:var(--txt);font-style:italic">
-        "Your agent doesn't need a budget. It needs a firewall. Every transaction — before the money moves — must be evaluated against your rules. Not the provider's rules. Your rules. In under 5 milliseconds."
+        "Your agent doesn't need a budget. It needs a firewall. Every transaction — before the money moves — must be evaluated against your rules. Not the provider's rules. Your rules. In without a model call."
       </p>
     </div>
 
@@ -1395,7 +1450,7 @@ def masterclass_html() -> str:
       <div class="card">
         <h3 style="font-size:18px;color:var(--amber);margin-bottom:8px">Wall #2: "I'll catch it in the morning"</h3>
         <p style="color:var(--mut)">You check your dashboards. You monitor logs. But at 2:14 AM, when the agent retries 40 times in three minutes, you're asleep. By 9:03 AM the damage is done. Human review is not a control — it's a post-mortem.</p>
-        <p style="color:var(--accent);margin-top:6px"><strong>What actually stops it:</strong> A per-transaction cap and merchant allowlist that fires in under 5ms.</p>
+        <p style="color:var(--accent);margin-top:6px"><strong>What actually stops it:</strong> A per-transaction cap and merchant allowlist that fires with a deterministic rules check.</p>
       </div>
 
       <div class="card">
@@ -1432,17 +1487,17 @@ def masterclass_html() -> str:
     </div>
 
     <div class="codebox mono" style="margin-bottom:32px">
-<span class="c"># One curl call. 5ms. Your agent is protected.</span><br>
+<span class="c"># One curl call. A deterministic answer before the spend.</span><br>
 curl -X POST https://sipi.bot/v1/transactions/evaluate \\\\<br>
 &nbsp;&nbsp;-H <span class="s">"Authorization: Bearer YOUR_KEY"</span> \\\\<br>
 &nbsp;&nbsp;-d <span class="s">'{{"amount": 6200, "merchant": "unknown-gpu.ru", "category": "compute"}}'</span><br><br>
-<span class="c"># sipi.bot returns in under 5ms:</span><br>
+<span class="c"># sipi.bot returns with a deterministic rules check:</span><br>
 {{ <span class="k">"decision"</span>: <span class="s">"BLOCKED"</span>, <span class="k">"reason"</span>: <span class="s">"Merchant not on allowlist"</span> }}
     </div>
 
     <div style="text-align:center">
       <a href="/playground/" class="btn" style="font-size:18px;padding:16px 36px">Try it free in the playground</a>
-      <a href="/checkout/team" onclick="if(window.posthog)posthog.capture('checkout_clicked',{{tier:'team',location:'masterclass'}})" class="btn ghost" style="font-size:16px;padding:14px 30px;margin-left:12px">Start Team — $99/mo</a>
+      <a href="/checkout/team?source=masterclass" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{{cta_id:'masterclass_team_checkout',destination:'/checkout/team',placement:'masterclass',plan:'team'}})" class="btn ghost" style="font-size:16px;padding:14px 30px;margin-left:12px">Start Team — $99/mo</a>
       <p style="color:var(--accent);font-size:13px;margin-top:12px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
       <p style="color:var(--mut);font-size:14px;margin-top:14px">Free self-host core · MIT licensed · <a href="https://github.com/kindrat86/sipi-bot" style="color:var(--accent)">Open on GitHub</a></p>
     </div>
@@ -1794,7 +1849,7 @@ BLOG_CASE_STUDY_BODY = """<h1>How my own AI agent spent $12,400 while I slept �
 
 <h2>Building the missing layer</h2>
 
-<p>So I stopped looking. I built sipi.bot: a spend firewall that sits in front of every transaction an autonomous agent attempts, evaluates it against your rules, and returns <code>APPROVED</code>, <code>BLOCKED</code>, or <code>FLAGGED</code> — in under 5 milliseconds. Not a dashboard. Not a report. A decision. <strong>Before the money moves.</strong></p>
+<p>So I stopped looking. I built sipi.bot: a spend firewall that sits in front of every transaction an autonomous agent attempts, evaluates it against your rules, and returns <code>APPROVED</code>, <code>BLOCKED</code>, or <code>FLAGGED</code> — with a deterministic rules check. Not a dashboard. Not a report. A decision. <strong>Before the money moves.</strong></p>
 
 <h3>Design principles</h3>
 
@@ -1815,7 +1870,7 @@ BLOG_CASE_STUDY_BODY = """<h1>How my own AI agent spent $12,400 while I slept �
 <li><strong>Time-window constraints</strong> — "no purchases between 11 PM and 7 AM"</li>
 </ol>
 
-<p>Every rule is checked in priority order. The first <code>BLOCK</code> stops the transaction instantly. <code>FLAGGED</code> transactions enter a human-in-the-loop queue — not auto-approved, not silently blocked. Every decision is written to a tamper-evident audit log with a content hash chain.</p>
+<p>Every rule is checked in priority order. The first <code>BLOCK</code> stops the transaction instantly. <code>FLAGGED</code> transactions enter a human-in-the-loop queue — not auto-approved, not silently blocked. Every decision is written to a queryable audit log with the rule, reason, amount, agent identity, and timestamp.</p>
 
 <hr style="border:none;border-top:1px solid var(--line);margin:30px 0">
 
@@ -1827,7 +1882,7 @@ BLOG_CASE_STUDY_BODY = """<h1>How my own AI agent spent $12,400 while I slept �
 <li>Every week, more agents get deployed with real spending power</li>
 <li>The payment rails — x402, AP2, AgentKit — are optimized for speed, not safety</li>
 <li>A single runaway agent can cost five figures in a night</li>
-<li><strong>67% of agent teams report a runaway-spend incident within their first 90 days</strong> (self-reported from early-2026 deployments)</li>
+<li><strong>Runaway retry loops are a concrete failure mode</strong> — test velocity and daily-total rules before giving an agent live payment access.</li>
 </ul>
 
 <p>The gap — between an agent's ability to spend and your ability to control it — is exactly where sipi.bot lives.</p>

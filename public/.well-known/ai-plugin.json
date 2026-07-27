@@ -3,7 +3,7 @@
   "name_for_human": "sipi.bot — Spend Firewall for AI Agents",
   "name_for_model": "sipi_bot_spend_firewall",
   "description_for_human": "Pre-spend firewall for autonomous AI agents. Approve, block, or flag every agent transaction before money moves.",
-  "description_for_model": "Use sipi.bot to evaluate whether an autonomous AI agent's proposed transaction should be approved, blocked, or flagged before money moves. The firewall checks against configurable spend rules: per-transaction caps, daily totals, velocity limits, merchant allowlists, category limits, time windows, and approval thresholds. Returns APPROVED, BLOCKED, or FLAGGED in under 5ms. All decisions are written to a tamper-evident audit log with a content-hash chain.",
+  "description_for_model": "Use sipi.bot to evaluate whether an autonomous AI agent's proposed transaction should be approved, blocked, or flagged before money moves. The firewall checks against configurable spend rules: per-transaction caps, daily totals, velocity limits, merchant allowlists, category limits, time windows, and approval thresholds. Returns APPROVED, BLOCKED, or FLAGGED with a deterministic rules check. All decisions are written to a queryable audit trail with the rule, reason, agent identity, and timestamp.",
   "auth": {
     "type": "service_http",
     "authorization_type": "bearer"

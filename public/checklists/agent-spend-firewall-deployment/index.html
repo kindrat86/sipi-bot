@@ -29,7 +29,7 @@ ul,ol{color:#c9ccd3;margin:0 0 16px 22px}li{margin-bottom:8px}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 @media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
 </style>
-<script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script>
+
 </head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap">
@@ -71,7 +71,7 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 
 <h2>Step 8: Test with a $1 transaction</h2>
 <p>The smoke test: a small approved transaction that confirms the full integration — policy check, decision, audit log — works end to end.</p>
-<p><strong>Verification:</strong> Submit a $1 transaction to an allowed merchant. Confirm firewall returns APPROVED and the transaction appears in the audit log with correct agent ID, merchant, amount, timestamp, and policy version.</p>
+<p><strong>Verification:</strong> Submit a $1 transaction to an allowed merchant. Confirm firewall returns APPROVED and the transaction appears in the audit log with correct agent ID, merchant, amount, timestamp.</p>
 
 <h2>Step 9: Test with a blocked merchant</h2>
 <p>Confirm the BLOCKED path works: the firewall returns BLOCKED, the agent handles the decision gracefully (no crash, no silent retry), and the block is logged with a reason.</p>

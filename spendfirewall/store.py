@@ -100,6 +100,7 @@ def create_agent(name: str) -> dict[str, Any]:
             "INSERT INTO agents (id, name, api_key, status, created_at) VALUES (?,?,?,?,?)",
             (aid, name, key, "active", _now()),
         )
+    ensure_default_rules_for_agent(aid)
     return {"id": aid, "name": name, "api_key": key, "status": "active"}
 
 
@@ -139,11 +140,18 @@ def delete_rule(rule_id: str) -> bool:
 
 
 def get_rules_for_agent(agent_id: Optional[str]) -> list[Rule]:
+    if agent_id is not None:
+        ensure_default_rules_for_agent(agent_id)
     with _LOCK, _conn() as c:
-        rows = c.execute(
-            "SELECT * FROM rules WHERE enabled=1 AND (agent_id IS NULL OR agent_id=?)",
-            (agent_id,),
-        ).fetchall()
+        if agent_id is None:
+            rows = c.execute(
+                "SELECT * FROM rules WHERE enabled=1 AND agent_id IS NULL"
+            ).fetchall()
+        else:
+            rows = c.execute(
+                "SELECT * FROM rules WHERE enabled=1 AND agent_id=?",
+                (agent_id,),
+            ).fetchall()
     out: list[Rule] = []
     for r in rows:
         out.append(Rule(
@@ -159,9 +167,30 @@ def get_rules_for_agent(agent_id: Optional[str]) -> list[Rule]:
     return out
 
 
-def list_rules() -> list[dict[str, Any]]:
+def list_rules(
+    agent_id: Optional[str] = None,
+    *,
+    scoped: bool = False,
+) -> list[dict[str, Any]]:
+    if scoped and agent_id is not None:
+        ensure_default_rules_for_agent(agent_id)
     with _LOCK, _conn() as c:
-        rows = c.execute("SELECT * FROM rules ORDER BY priority DESC, created_at").fetchall()
+        if scoped:
+            if agent_id is None:
+                rows = c.execute(
+                    "SELECT * FROM rules WHERE agent_id IS NULL "
+                    "ORDER BY priority DESC, created_at"
+                ).fetchall()
+            else:
+                rows = c.execute(
+                    "SELECT * FROM rules WHERE agent_id=? "
+                    "ORDER BY priority DESC, created_at",
+                    (agent_id,),
+                ).fetchall()
+        else:
+            rows = c.execute(
+                "SELECT * FROM rules ORDER BY priority DESC, created_at"
+            ).fetchall()
     out = []
     for r in rows:
         d = dict(r)
@@ -173,18 +202,31 @@ def list_rules() -> list[dict[str, Any]]:
 
 def seed_default_rules() -> None:
     """Give the product a working day-one policy without manual config."""
+    ensure_default_rules_for_agent(None)
+
+
+def ensure_default_rules_for_agent(agent_id: Optional[str]) -> None:
+    """Create an isolated starter policy for one anonymous or keyed workspace."""
     with _LOCK, _conn() as c:
-        n = c.execute("SELECT COUNT(*) AS n FROM rules WHERE agent_id IS NULL").fetchone()["n"]
+        if agent_id is None:
+            n = c.execute(
+                "SELECT COUNT(*) AS n FROM rules WHERE agent_id IS NULL"
+            ).fetchone()["n"]
+        else:
+            n = c.execute(
+                "SELECT COUNT(*) AS n FROM rules WHERE agent_id=?",
+                (agent_id,),
+            ).fetchone()["n"]
     if n > 0:
         return
     add_rule("per_transaction", {"max_amount": 500}, "BLOCKED", 100,
-             "Block any single transaction over $500")
+             "Block any single transaction over $500", agent_id)
     add_rule("daily_total", {"max_amount": 2000}, "BLOCKED", 90,
-             "Block once daily spend would exceed $2,000")
+             "Block once daily spend would exceed $2,000", agent_id)
     add_rule("velocity", {"max_count": 10, "window_seconds": 3600}, "BLOCKED", 80,
-             "Block more than 10 transactions per hour (runaway protection)")
+             "Block more than 10 transactions per hour (runaway protection)", agent_id)
     add_rule("approval_threshold", {"amount": 200}, "FLAGGED", 50,
-             "Flag transactions of $200+ for human approval")
+             "Flag transactions of $200+ for human approval", agent_id)
 
 
 # --- Transactions + context ---
@@ -232,43 +274,99 @@ def record_transaction(txn, result) -> str:
 
 # --- Approvals ---
 
-def list_approvals(status: str = "pending") -> list[dict[str, Any]]:
+def list_approvals(
+    status: str = "pending",
+    agent_id: Optional[str] = None,
+    *,
+    scoped: bool = False,
+) -> list[dict[str, Any]]:
     with _LOCK, _conn() as c:
-        rows = c.execute(
+        query = (
             "SELECT a.*, t.amount, t.merchant, t.category, t.description, t.reason "
             "FROM approvals a LEFT JOIN transactions t ON a.txn_id=t.id "
-            "WHERE a.status=? ORDER BY a.created_at DESC",
-            (status,),
-        ).fetchall()
+            "WHERE a.status=?"
+        )
+        params: list[Any] = [status]
+        if scoped:
+            if agent_id is None:
+                query += " AND a.agent_id IS NULL"
+            else:
+                query += " AND a.agent_id=?"
+                params.append(agent_id)
+        query += " ORDER BY a.created_at DESC"
+        rows = c.execute(query, params).fetchall()
         return [dict(r) for r in rows]
 
 
-def resolve_approval(approval_id: str, decision: str) -> bool:
+def resolve_approval(
+    approval_id: str,
+    decision: str,
+    agent_id: Optional[str] = None,
+    *,
+    scoped: bool = False,
+) -> bool:
     new_status = "approved" if decision.lower() in ("approve", "approved") else "denied"
     with _LOCK, _conn() as c:
-        cur = c.execute(
-            "UPDATE approvals SET status=?, resolved_at=? WHERE id=? AND status='pending'",
-            (new_status, _now(), approval_id),
+        query = (
+            "UPDATE approvals SET status=?, resolved_at=? "
+            "WHERE id=? AND status='pending'"
         )
+        params: list[Any] = [new_status, _now(), approval_id]
+        if scoped:
+            if agent_id is None:
+                query += " AND agent_id IS NULL"
+            else:
+                query += " AND agent_id=?"
+                params.append(agent_id)
+        cur = c.execute(query, params)
         return cur.rowcount > 0
 
 
 # --- Dashboard stats ---
 
-def get_stats() -> dict[str, Any]:
+def get_stats(agent_id: Optional[str] = None, *, scoped: bool = False) -> dict[str, Any]:
     day_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0).isoformat()
     with _LOCK, _conn() as c:
+        scope_sql = ""
+        scope_params: list[Any] = []
+        if scoped:
+            if agent_id is None:
+                scope_sql = " AND agent_id IS NULL"
+            else:
+                scope_sql = " AND agent_id=?"
+                scope_params = [agent_id]
         approved_24h = c.execute(
-            "SELECT COALESCE(SUM(amount),0) AS s FROM transactions WHERE decision='APPROVED' AND created_at>=?",
-            (day_start,)).fetchone()["s"]
+            "SELECT COALESCE(SUM(amount),0) AS s FROM transactions "
+            "WHERE decision='APPROVED' AND created_at>=?" + scope_sql,
+            [day_start, *scope_params],
+        ).fetchone()["s"]
         blocked_val = c.execute(
-            "SELECT COALESCE(SUM(amount),0) AS s FROM transactions WHERE decision='BLOCKED' AND created_at>=?",
-            (day_start,)).fetchone()["s"]
-        pending = c.execute("SELECT COUNT(*) AS n FROM approvals WHERE status='pending'").fetchone()["n"]
-        agents = c.execute("SELECT COUNT(*) AS n FROM agents WHERE status='active'").fetchone()["n"]
-        total_txns = c.execute("SELECT COUNT(*) AS n FROM transactions").fetchone()["n"]
-        by_dec = {r["decision"]: r["n"] for r in c.execute(
-            "SELECT decision, COUNT(*) AS n FROM transactions GROUP BY decision").fetchall()}
+            "SELECT COALESCE(SUM(amount),0) AS s FROM transactions "
+            "WHERE decision='BLOCKED' AND created_at>=?" + scope_sql,
+            [day_start, *scope_params],
+        ).fetchone()["s"]
+        pending = c.execute(
+            "SELECT COUNT(*) AS n FROM approvals WHERE status='pending'" + scope_sql,
+            scope_params,
+        ).fetchone()["n"]
+        if scoped:
+            agents = 1
+        else:
+            agents = c.execute(
+                "SELECT COUNT(*) AS n FROM agents WHERE status='active'"
+            ).fetchone()["n"]
+        total_txns = c.execute(
+            "SELECT COUNT(*) AS n FROM transactions WHERE 1=1" + scope_sql,
+            scope_params,
+        ).fetchone()["n"]
+        by_dec = {
+            r["decision"]: r["n"]
+            for r in c.execute(
+                "SELECT decision, COUNT(*) AS n FROM transactions "
+                "WHERE 1=1" + scope_sql + " GROUP BY decision",
+                scope_params,
+            ).fetchall()
+        }
     return {
         "approved_24h": round(float(approved_24h or 0), 2),
         "blocked_value_24h": round(float(blocked_val or 0), 2),
@@ -279,12 +377,37 @@ def get_stats() -> dict[str, Any]:
     }
 
 
-def recent_transactions(limit: int = 50) -> list[dict[str, Any]]:
+def recent_transactions(
+    limit: int = 50,
+    agent_id: Optional[str] = None,
+    *,
+    scoped: bool = False,
+) -> list[dict[str, Any]]:
     with _LOCK, _conn() as c:
-        rows = c.execute(
-            "SELECT id, agent_id, amount, currency, merchant, category, decision, reason, created_at "
-            "FROM transactions ORDER BY created_at DESC LIMIT ?", (limit,)).fetchall()
+        query = (
+            "SELECT id, agent_id, amount, currency, merchant, category, "
+            "decision, reason, created_at FROM transactions"
+        )
+        params: list[Any] = []
+        if scoped:
+            if agent_id is None:
+                query += " WHERE agent_id IS NULL"
+            else:
+                query += " WHERE agent_id=?"
+                params.append(agent_id)
+        query += " ORDER BY created_at DESC LIMIT ?"
+        params.append(limit)
+        rows = c.execute(query, params).fetchall()
         return [dict(r) for r in rows]
+
+
+def delete_rule_for_agent(rule_id: str, agent_id: str) -> bool:
+    with _LOCK, _conn() as c:
+        cur = c.execute(
+            "DELETE FROM rules WHERE id=? AND agent_id=?",
+            (rule_id, agent_id),
+        )
+        return cur.rowcount > 0
 
 
 def reset_demo_data() -> int:

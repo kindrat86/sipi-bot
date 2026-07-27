@@ -61,7 +61,7 @@ curl -X POST https://sipi.bot/api/rules \
   -d '{"rule_type":"daily_total","params":{"max_amount":1600},"action":"FLAGGED","label":"daily-80pct-warning"}'</pre>
 
 <h2>Step 3: Integrate alerts</h2>
-<p>Poll the SSE stream at <code>/v1/activity</code> or call <code>/api/stats</code> periodically. When the daily total crosses your thresholds, trigger a notification:</p>
+<p>Poll the authenticated <code>/api/stats</code> endpoint periodically. When the daily total crosses your thresholds, trigger a notification:</p>
 <pre># In your monitoring script (Python)
 import requests, json
 

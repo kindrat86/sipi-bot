@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>sipi.bot vs human approval workflows for AI agent spend — sipi.bot</title>
-<meta name="description" content="Compare a programmatic spend firewall to Slack-approval, email-approval, and manual review workflows. sipi.bot gives you rules that fire in under 5ms; humans fire on their own schedule.">
+<meta name="description" content="Compare a programmatic spend firewall to Slack-approval, email-approval, and manual review workflows. sipi.bot gives you rules that fire without a model call; humans fire on their own schedule.">
 <link rel="canonical" href="https://sipi.bot/compare/human-approval-workflow/">
 <meta property="og:title" content="sipi.bot vs human approval workflows for AI agent spend — sipi.bot">
-<meta property="og:description" content="Compare a programmatic spend firewall to Slack-approval, email-approval, and manual review workflows. sipi.bot gives you rules that fire in under 5ms; humans fire on their own schedule.">
+<meta property="og:description" content="Compare a programmatic spend firewall to Slack-approval, email-approval, and manual review workflows. sipi.bot gives you rules that fire without a model call; humans fire on their own schedule.">
 <meta property="og:type" content="article"><meta name="theme-color" content="#00d4aa">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I still need a human approval step?", "acceptedAnswer": {"@type": "Answer", "text": "For most transactions, no. The firewall auto-approves everything within your rules. FLAGGED transactions \u2014 the borderline cases \u2014 go to a human. You review exceptions, not every purchase."}}, {"@type": "Question", "name": "What if I want approval for every transaction?", "acceptedAnswer": {"@type": "Answer", "text": "Set the approval_threshold rule to $0 \u2014 everything gets FLAGGED and goes to the human queue. But most teams find that setting per-transaction caps and daily totals catches 95% of risk with zero human latency."}}, {"@type": "Question", "name": "How does the approval queue work in practice?", "acceptedAnswer": {"@type": "Answer", "text": "When a transaction is FLAGGED, it appears in the dashboard. A human clicks Approve or Deny. The agent receives the result and acts on it. The queue is asynchronous \u2014 the agent waits for the decision."}}]}</script>
 <style>*{box-sizing:border-box;margin:0;padding:0}
@@ -46,11 +46,11 @@ ol li,ul li{margin-bottom:8px;line-height:1.6}
 <p>A human approval workflow — DM the manager, wait for an emoji reaction, check a spreadsheet — adds minutes of latency to every purchase decision. That's fine when an agent buys one thing a day. It's catastrophic when a travel agent books three flights in a retry loop at 2am.</p>
 
 <table class="cmp"><thead><tr><th>Dimension</th><th>Human approval workflow</th><th>sipi.bot</th></tr></thead><tbody>
-<tr><td>Decision latency</td><td>Minutes to hours</td><td>Under 5ms</td></tr>
+<tr><td>Decision latency</td><td>Minutes to hours</td><td>Deterministic rules check</td></tr>
 <tr><td>24/7 coverage</td><td>Only during business hours</td><td>Always on</td></tr>
 <tr><td>Runaway-loop protection</td><td>None — 40 small buys fly through before a human notices</td><td>Velocity rules stop at the 11th request</td></tr>
 <tr><td>Consistency</td><td>Depends on who's on call and how awake they are</td><td>Same rules fire every time, deterministically</td></tr>
-<tr><td>Audit trail</td><td>Scattered across Slack DMs and email threads</td><td>Tamper-evident log of every decision and its reason</td></tr>
+<tr><td>Audit trail</td><td>Scattered across Slack DMs and email threads</td><td>Timestamped audit log of every decision and its reason</td></tr>
 <tr><td>Cost</td><td>Human ops time — expensive, doesn't scale</td><td>$99/mo flat; one person reviews the exceptions only</td></tr>
 </tbody></table>
 

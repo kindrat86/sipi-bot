@@ -4,7 +4,7 @@
 
 ## What this product does
 
-sipi.bot sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — per-transaction caps, daily totals, velocity (runaway-loop protection), merchant allow/block, category limits, time windows, and approval thresholds — returning approve, block, or flag in under 5ms. Every decision is written to a tamper-evident audit log; the transactions that matter go to a human-in-the-loop approval queue.
+sipi.bot sits in front of every transaction an autonomous AI agent attempts and evaluates it against your rules — per-transaction caps, daily totals, velocity (runaway-loop protection), merchant allow/block, category limits, time windows, and approval thresholds — returning approve, block, or flag with a deterministic rules check. Every decision is written to a queryable audit log; the transactions that matter go to a human-in-the-loop approval queue.
 
 ## Core endpoint
 

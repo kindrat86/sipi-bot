@@ -46,7 +46,7 @@ p{color:#c9ccd3;margin-bottom:12px}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 .cta{display:inline-block;background:#00d4aa;color:#04120e;font-weight:700;padding:12px 22px;border-radius:10px;margin:8px 8px 8px 0}
 @media(max-width:640px){.presets{grid-template-columns:1fr}}
-</style><script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script></head><body>
+</style></head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div>
 <div class="nav-links"><a href="/tools/risk-calculator/">Risk Calculator</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap">
@@ -66,6 +66,11 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <div class="result-card" id="pg-result">
 <span class="icon" id="pg-icon"></span>
 <div><div id="pg-decision"></div><div class="detail" id="pg-reason"></div></div>
+</div>
+<div id="pg-next" style="display:none;background:#121316;border:1px solid #23242a;border-radius:12px;padding:16px;margin:-6px 0 18px">
+<strong id="pg-next-title">Put this policy in front of your real agent.</strong>
+<p style="font-size:14px;color:#8a8d96;margin:5px 0 10px">Your production key uses the same deterministic evaluation path with persistent history and support.</p>
+<a class="cta" id="pg-next-cta" href="/pricing?from=playground">Use this policy in production →</a>
 </div>
 
 <div class="code-out" id="pg-json">Result appears here…</div>
@@ -103,7 +108,7 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <section>
 <h2>Why Playground matters for agent spend control</h2>
 <p>Whether you are exploring playground, comparing solutions, or evaluating specific features, the central challenge remains the same: autonomous AI agents can initiate financial transactions, and without real-time enforcement, those transactions can escape human oversight in milliseconds. A policy that is not enforced before the transaction executes is not a control — it is a hope.</p>
-<p>Production teams that deploy active spend enforcement report 60-80% fewer cost incidents and recover from anomalies in minutes rather than days. The mechanism is straightforward: every transaction runs through a policy check that returns one of three decisions, and the agent acts on that decision before the money moves. No dashboard-watching, no after-the-fact reconciliation, no "we caught it on the next billing cycle."</p>
+<p>The mechanism is straightforward: every transaction runs through a policy check that returns one of three decisions, and the agent acts on that decision before the money moves. No dashboard-watching, no after-the-fact reconciliation, no "we caught it on the next billing cycle."</p>
 <h2>Key considerations for playground</h2>
 <ul>
 <li><strong>Enforcement vs. observation:</strong> Dashboards tell you what happened. A spend firewall stops what should not happen. Both are useful; they are not substitutes. Start with enforcement, add observation for attribution and analytics.</li>
@@ -112,7 +117,7 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <li><strong>Merchant allowlists prevent the worst-case scenario:</strong> A compromised agent can be redirected to any destination. An allowlist ensures it can only transact with vendors you have explicitly approved.</li>
 </ul>
 <h2>Next steps</h2>
-<p>sipi.bot enforces all four control dimensions — per-transaction limits, daily ceilings, velocity caps, and merchant allowlists — in under 5 milliseconds per evaluation. Pricing starts at $99/month for unlimited evaluations. Deploy in under an hour: define your policy, wrap your agent's spend functions, and run the three test scenarios (APPROVED, BLOCKED, FLAGGED) before going to production.</p>
+<p>sipi.bot enforces all four control dimensions — per-transaction limits, daily ceilings, velocity caps, and merchant allowlists — with a deterministic rules check and no model call. Pricing starts at $99/month for unlimited evaluations. Deploy in under an hour: define your policy, wrap your agent's spend functions, and run the three test scenarios (APPROVED, BLOCKED, FLAGGED) before going to production.</p>
 </section>
 </main>
 <footer><div class="wrap">
@@ -120,14 +125,24 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 sip<span style="color:#00d4aa">.bot</span> — the spend firewall for autonomous AI agents
 </div></footer>
 <script>
+let pgPreset=false;
+let pgRuns=0;
+function amountBucket(value){
+if(value<50)return'under_50';
+if(value<200)return'50_to_199';
+if(value<500)return'200_to_499';
+if(value<2000)return'500_to_1999';
+return'2000_plus';
+}
 function pgEval(){
-if(window.posthog)posthog.capture('playground_opened',{source:'playground_page'});
 const amt=parseFloat(document.getElementById('pg-amt').value)||0;
 const mer=document.getElementById('pg-mer').value||'';
 const cat=document.getElementById('pg-cat').value||'';
+const usedPreset=pgPreset;pgPreset=false;pgRuns+=1;
 const body=JSON.stringify({amount:amt,merchant:mer,category:cat});
 const card=document.getElementById('pg-result');
 card.classList.remove('show');
+document.getElementById('pg-next').style.display='none';
 document.getElementById('pg-json').textContent='Evaluating…';
 fetch('/v1/transactions/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body})
 .then(r=>r.json()).then(d=>{
@@ -138,19 +153,37 @@ card.className='result-card show '+cls;
 document.getElementById('pg-icon').textContent=icon;
 document.getElementById('pg-decision').textContent=dec;
 document.getElementById('pg-reason').textContent=d.reason||'';
+const next=document.getElementById('pg-next');
+const nextTitle=document.getElementById('pg-next-title');
+nextTitle.textContent=dec==='BLOCKED'?'Keep this block in front of your real agent.':dec==='FLAGGED'?'Add this human-approval step to production.':'Protect the next production spend with the same policy.';
+const nextCta=document.getElementById('pg-next-cta');
+nextCta.href='/pricing?from=playground&decision='+encodeURIComponent((dec||'unknown').toLowerCase());
+next.style.display='block';
+window.sipiTrack&&window.sipiTrack('playground_evaluation_completed',{
+decision:(dec||'UNKNOWN').toLowerCase(),
+category:(cat||'unspecified').slice(0,32),
+preset:usedPreset,
+repeat:pgRuns>1,
+amount_bucket:amountBucket(amt)
+});
 }).catch(e=>{
 document.getElementById('pg-json').textContent='Error: '+e.message;
 card.className='result-card show blocked';
 document.getElementById('pg-icon').textContent='⚠️';
 document.getElementById('pg-decision').textContent='FETCH FAILED';
 document.getElementById('pg-reason').textContent=e.message;
+window.sipiTrack&&window.sipiTrack('playground_evaluation_failed',{failure_type:'network'});
 });
 }
 function quick(a,m,c){
+pgPreset=true;
 document.getElementById('pg-amt').value=a;
 document.getElementById('pg-mer').value=m;
 document.getElementById('pg-cat').value=c;
 pgEval();
 }
+document.getElementById('pg-next-cta').addEventListener('click',function(){
+window.sipiTrack&&window.sipiTrack('cta_clicked',{cta_id:'playground_result_pricing',destination:'/pricing',placement:'result'});
+});
 </script>
 </body></html>

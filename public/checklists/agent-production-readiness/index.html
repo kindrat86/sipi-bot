@@ -32,7 +32,7 @@ ul{color:#c9ccd3;margin:0 0 16px 20px}li{margin-bottom:6px}
 footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 @media(max-width:640px){.cmp{font-size:12.5px}.cmp th,.cmp td{padding:8px}}
 </style>
-<script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script>
+
 </head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="d">.bot</span></div><div class="nav-links"><a href="/for/">Integrations</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div></div></nav>
 <main><div class="wrap">
@@ -62,7 +62,7 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <!-- _expand_thin-enriched -->
 <section>
 <h2>Why this checklist matters for agent spend control</h2>
-<p>Checklists like "AI Agent Production Readiness: Spend Controls Checklist" are only as valuable as their execution. In autonomous agent operations, a checklist item left unchecked is not a minor oversight — it is a financial exposure. Production agent teams that systematically work through deployment checklists report 60-80% fewer runaway cost incidents in the first 90 days compared to teams that rely on ad-hoc setups.</p>
+<p>Checklists like "AI Agent Production Readiness: Spend Controls Checklist" are only as valuable as their execution. In autonomous agent operations, a checklist item left unchecked is not a minor oversight — it is a financial exposure. A deployment checklist makes each required control explicit and testable before an agent receives payment access.</p>
 <p>The cost of skipping a single control — a velocity cap, a merchant allowlist entry, a human-in-the-loop threshold — is measured in dollars when a loop hits. Runaway spend is a documented failure mode for agents with live payment access - retry loops, prompt-injected purchase chains, and unattended sessions. sipi.bot publishes no incidence rate. Every item on this checklist maps to a specific failure mode.</p>
 <h2>Implementation sequence</h2>
 <p>Work through these items in order. The first four (per-transaction limits, daily caps, velocity limits, merchant allowlists) form the foundation that every subsequent check depends on. Do not skip ahead to alerting or testing until the foundation is deployed and verified.</p>
@@ -74,7 +74,7 @@ footer{border-top:1px solid #23242a;padding:30px 0;color:#8a8d96;font-size:14px}
 <li><strong>Schedule a 7-day review</strong> — after one week of production traffic, review every blocked and flagged transaction. Tune limits based on what you learn. Most teams loosen initial limits by 20-50% after observing real patterns.</li>
 </ol>
 <h2>Connecting back to your stack</h2>
-<p>sipi.bot enforces every item on this checklist in under 5 milliseconds per transaction. Define your per-transaction limit, daily ceiling, velocity cap, and merchant allowlist once — the firewall applies them consistently across every agent, every payment path, every run. At $99/month, the cost of deploying all 12 checklist items is less than the median single runaway incident.</p>
+<p>sipi.bot enforces every item on this checklist with a deterministic rules check and no model call. Define your per-transaction limit, daily ceiling, velocity cap, and merchant allowlist once — the firewall applies them consistently across every agent, every payment path, every run. Hosted Team is $99 per month; the same rule engine is MIT-licensed for self-hosting.</p>
 </section>
 </main>
 <footer><div class="wrap">sipi<span style="color:#00d4aa">.bot</span> — The spend firewall for autonomous AI agents · <a href="/for/">Integrations</a> · <a href="/vs/hardcoded-check/">vs hardcoded</a> · <a href="/alternatives/x402/">x402 alt</a> · <a href="/self-hosted/">self-host</a> · <a href="/">Home</a></div></footer>

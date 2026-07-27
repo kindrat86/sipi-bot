@@ -1,4 +1,4 @@
-"""api.py — HTTP API + dashboard server + SSE + agent-card + eval report.
+"""api.py — HTTP API + dashboard server + agent-card + eval report.
 
 Stdlib only (http.server). Serves:
   GET  /                          landing page
@@ -8,7 +8,7 @@ Stdlib only (http.server). Serves:
   GET  /openapi.json                  OpenAPI 3.0 spec (AIO / AI-agent discoverability)
   GET  /eval                      last eval report (JSON) — the sales asset
   POST /v1/transactions/evaluate  THE core call (auth optional in free mode)
-  GET  /v1/activity               SSE live stream
+  GET  /v1/activity               retired (tenant-safe dashboard polls instead)
   GET  /api/stats                 dashboard aggregates
   GET  /api/transactions          recent txns
   GET  /api/approvals             pending approvals
@@ -25,11 +25,14 @@ from __future__ import annotations
 import hmac
 import html as _html
 import json
+import math
 import os
 import queue
+import tempfile
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import urlparse
+from typing import Optional
+from urllib.parse import parse_qs, urlparse
 
 from . import __version__, core, store, templates
 from . import billing
@@ -37,6 +40,7 @@ from . import drip
 
 _SUBSCRIBERS: list[queue.Queue] = []
 _SUB_LOCK = threading.Lock()
+_SUBSCRIBER_FILE_LOCK = threading.RLock()
 _EVAL_REPORT_PATH = os.environ.get("EVAL_REPORT", os.path.join(os.getcwd(), "eval_report.json"))
 _SUBSCRIBERS_FILE = os.environ.get("SUBS_FILE", os.path.join(os.getcwd(), "subscribers.txt"))
 # Trusted origin echoed on state-changing control-plane routes instead of *.
@@ -90,6 +94,140 @@ def _broadcast(event: dict) -> None:
             _SUBSCRIBERS.remove(q)
 
 
+def _resolve_api_key(api_key: str) -> tuple[Optional[str], Optional[dict]]:
+    """Resolve operator-created and paid checkout keys through one auth path."""
+    agent = store.get_agent_by_key(api_key)
+    if agent:
+        return agent["id"], {"source": "agent", "agent": agent}
+    paid = billing.validate_key(api_key)
+    if paid:
+        return paid["agent_id"], {"source": "billing", "billing": paid}
+    return None, None
+
+
+def _is_admin_token(given: str) -> bool:
+    admin = os.environ.get("ADMIN_TOKEN", "")
+    return bool(
+        admin
+        and given
+        and hmac.compare_digest(given.encode(), admin.encode())
+    )
+
+
+def _validated_rule_input(body: dict) -> tuple[Optional[dict], Optional[str]]:
+    """Bound rule input so one malformed rule cannot break a workspace."""
+    rule_type = body.get("rule_type", "")
+    allowed_types = {
+        "per_transaction",
+        "daily_total",
+        "velocity",
+        "merchant_block",
+        "merchant_allow",
+        "category_limit",
+        "time_window",
+        "approval_threshold",
+    }
+    if rule_type not in allowed_types:
+        return None, "invalid_rule_type"
+    action = body.get("action", "BLOCKED")
+    if action not in {"BLOCKED", "FLAGGED"}:
+        return None, "invalid_rule_action"
+    params = body.get("params", {})
+    if not isinstance(params, dict):
+        return None, "invalid_rule_params"
+    try:
+        priority = int(body.get("priority", 100))
+    except (TypeError, ValueError):
+        return None, "invalid_rule_priority"
+    if not -10_000 <= priority <= 10_000:
+        return None, "invalid_rule_priority"
+    label = body.get("label", "")
+    if not isinstance(label, str) or len(label) > 200:
+        return None, "invalid_rule_label"
+
+    def positive_number(name: str, maximum: float = 1_000_000_000) -> bool:
+        try:
+            value = float(params.get(name))
+        except (TypeError, ValueError):
+            return False
+        return math.isfinite(value) and 0 < value <= maximum
+
+    if rule_type in {"per_transaction", "daily_total"}:
+        if not positive_number("max_amount"):
+            return None, "invalid_rule_params"
+    elif rule_type == "approval_threshold":
+        if not positive_number("amount"):
+            return None, "invalid_rule_params"
+    elif rule_type == "velocity":
+        if not positive_number("max_count", 1_000_000) or not positive_number(
+            "window_seconds", 31_536_000
+        ):
+            return None, "invalid_rule_params"
+    elif rule_type in {"merchant_block", "merchant_allow"}:
+        patterns = params.get("patterns")
+        if (
+            not isinstance(patterns, list)
+            or not 1 <= len(patterns) <= 100
+            or any(not isinstance(item, str) or not 1 <= len(item) <= 256 for item in patterns)
+        ):
+            return None, "invalid_rule_params"
+    elif rule_type == "category_limit":
+        category = params.get("category")
+        if (
+            not isinstance(category, str)
+            or not 1 <= len(category) <= 64
+            or not positive_number("max_amount")
+        ):
+            return None, "invalid_rule_params"
+    elif rule_type == "time_window":
+        try:
+            start = int(params.get("start_hour"))
+            end = int(params.get("end_hour"))
+        except (TypeError, ValueError):
+            return None, "invalid_rule_params"
+        if not 0 <= start <= 23 or not 1 <= end <= 24:
+            return None, "invalid_rule_params"
+    return {
+        "rule_type": rule_type,
+        "params": params,
+        "action": action,
+        "priority": priority,
+        "label": label.strip(),
+    }, None
+
+
+def _validated_transaction_input(
+    body: dict,
+) -> tuple[Optional[dict], Optional[str]]:
+    if "amount" not in body:
+        return None, "amount_required"
+    try:
+        amount = float(body["amount"])
+    except (TypeError, ValueError):
+        return None, "invalid_amount"
+    if not math.isfinite(amount) or abs(amount) > 1_000_000_000_000:
+        return None, "invalid_amount"
+    limits = {
+        "merchant": 512,
+        "category": 128,
+        "description": 2_000,
+        "currency": 8,
+        "timestamp": 64,
+    }
+    values: dict[str, Optional[str]] = {}
+    for name, maximum in limits.items():
+        value = body.get(name)
+        if value is None and name == "timestamp":
+            values[name] = None
+            continue
+        if value is None:
+            value = "USD" if name == "currency" else ""
+        if not isinstance(value, str) or len(value) > maximum:
+            return None, f"invalid_{name}"
+        values[name] = value
+    return {"amount": amount, **values}, None
+
+
 def agent_card() -> dict:
     return {
         "name": "sipi.bot Spend Firewall",
@@ -98,7 +236,7 @@ def agent_card() -> dict:
         "version": __version__,
         "url": "https://sipi.bot",
         "provider": {"organization": "sipi.bot", "url": "https://sipi.bot"},
-        "capabilities": {"streaming": True},
+        "capabilities": {"streaming": False},
         "skills": [{
             "id": "evaluate_transaction",
             "name": "Evaluate a spend",
@@ -108,7 +246,6 @@ def agent_card() -> dict:
         }],
         "endpoints": {
             "evaluate": "https://sipi.bot/v1/transactions/evaluate",
-            "activity": "https://sipi.bot/v1/activity",
             "openapi": "https://sipi.bot/openapi.json",
             "eval_report": "https://sipi.bot/eval",
         },
@@ -182,13 +319,35 @@ class Handler(BaseHTTPRequestHandler):
         Reads ADMIN_TOKEN from the environment and compares in constant
         time. FAILS CLOSED: when ADMIN_TOKEN is unset every request is
         rejected with 403 until the operator sets the secret."""
-        token = os.environ.get("ADMIN_TOKEN", "")
         auth = self.headers.get("Authorization", "")
         given = auth[7:].strip() if auth.startswith("Bearer ") else ""
-        if token and given and hmac.compare_digest(given.encode(), token.encode()):
+        if _is_admin_token(given):
             return True
         self._json(403, {"error": "forbidden"}, origin=_TRUSTED_ORIGIN)
         return False
+
+    def _control_auth(self) -> Optional[dict]:
+        """Authorize a dashboard/control-plane request.
+
+        Operators receive an unscoped view with ADMIN_TOKEN. Checkout and
+        operator-created API keys receive an isolated workspace keyed by the
+        same agent identity used for transaction evaluation.
+        """
+        auth = self.headers.get("Authorization", "")
+        given = auth[7:].strip() if auth.startswith("Bearer ") else ""
+        if _is_admin_token(given):
+            return {"admin": True, "agent_id": None}
+        if given:
+            agent_id, context = _resolve_api_key(given)
+            if context:
+                return {"admin": False, "agent_id": agent_id}
+        self._json(
+            401,
+            {"error": "api_key_required"},
+            noindex=True,
+            origin=_TRUSTED_ORIGIN,
+        )
+        return None
 
     def _html(self, html: str, cacheable: bool = True):
         self.send_response(200)
@@ -204,8 +363,33 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "DENY")
-        self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://eu.posthog.com https://checkout.stripe.com https://www.googletagmanager.com https://*.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://eu.i.posthog.com https://eu-assets.i.posthog.com https://sipi.bot https://*.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; frame-src https://js.stripe.com https://checkout.stripe.com; require-trusted-types-for 'script'")
+        self.send_header(
+            "Referrer-Policy",
+            "strict-origin-when-cross-origin" if cacheable else "no-referrer",
+        )
+        if cacheable:
+            csp = (
+                "default-src 'self'; script-src 'self' 'unsafe-inline' "
+                "https://js.stripe.com https://eu.i.posthog.com "
+                "https://eu-assets.i.posthog.com https://eu.posthog.com "
+                "https://checkout.stripe.com; style-src 'self' 'unsafe-inline'; "
+                "img-src 'self' data: https:; connect-src 'self' "
+                "https://eu.i.posthog.com https://eu-assets.i.posthog.com "
+                "https://sipi.bot; frame-ancestors 'none'; "
+                "object-src 'none'; base-uri 'self'; "
+                "frame-src https://js.stripe.com https://checkout.stripe.com; "
+                "require-trusted-types-for 'script'"
+            )
+        else:
+            # Secret-bearing success pages must never load third-party scripts,
+            # make cross-origin requests, or leak their capability URL.
+            csp = (
+                "default-src 'self'; script-src 'self' 'unsafe-inline'; "
+                "style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
+                "connect-src 'self'; frame-ancestors 'none'; object-src 'none'; "
+                "base-uri 'self'; form-action 'self'"
+            )
+        self.send_header("Content-Security-Policy", csp)
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()")
         self.send_header("Cross-Origin-Opener-Policy", "same-origin")
         self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
@@ -213,6 +397,12 @@ class Handler(BaseHTTPRequestHandler):
         if getattr(self, "_head_only", False):
             return
         # Inject hreflang + OG image + twitter tags for any HTML page missing them
+        if cacheable and "/analytics.js" not in html and "</head>" in html:
+            html = html.replace(
+                "</head>",
+                '<script src="/analytics.js" defer></script></head>',
+                1,
+            )
         if 'hreflang' not in html.lower() and '<link rel="canonical"' in html:
             import re as _reh
             cm = _reh.search(r'<link rel="canonical" href="([^"]+)"', html)
@@ -245,8 +435,16 @@ class Handler(BaseHTTPRequestHandler):
             n = int(self.headers.get("Content-Length", 0))
             if n <= 0:
                 return {}
-            return json.loads(self.rfile.read(n) or b"{}")
+            if n > 65_536:
+                self._body_error = "body_too_large"
+                return {}
+            parsed = json.loads(self.rfile.read(n) or b"{}")
+            if not isinstance(parsed, dict):
+                self._body_error = "invalid_json_object"
+                return {}
+            return parsed
         except Exception:
+            self._body_error = "invalid_json"
             return {}
 
     def do_OPTIONS(self):
@@ -322,7 +520,10 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/":
             return self._html(templates.landing_page_html())
         if path == "/dashboard":
-            return self._html(templates.dashboard_html())
+            # The dashboard temporarily holds the customer's API key in
+            # sessionStorage. Keep it non-cacheable and first-party-only so a
+            # consented analytics SDK can never share its JavaScript context.
+            return self._html(templates.dashboard_html(), cacheable=False)
         if path == "/health":
             return self._json(200, {"ok": True, "service": "sipi.bot", "version": __version__},
                               noindex=True)
@@ -378,24 +579,66 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/badge":
             return self._html(templates.badge_page_html())
         if path == "/api/stats":
-            return self._json(200, core.status())
+            access = self._control_auth()
+            if not access:
+                return
+            return self._json(
+                200,
+                store.get_stats(access["agent_id"], scoped=not access["admin"]),
+                noindex=True,
+                origin=_TRUSTED_ORIGIN,
+            )
         if path == "/api/transactions":
-            return self._json(200, store.recent_transactions(50))
+            access = self._control_auth()
+            if not access:
+                return
+            return self._json(
+                200,
+                store.recent_transactions(
+                    50, access["agent_id"], scoped=not access["admin"]
+                ),
+                noindex=True,
+                origin=_TRUSTED_ORIGIN,
+            )
         if path == "/api/approvals":
-            return self._json(200, store.list_approvals("pending"))
+            access = self._control_auth()
+            if not access:
+                return
+            return self._json(
+                200,
+                store.list_approvals(
+                    "pending", access["agent_id"], scoped=not access["admin"]
+                ),
+                noindex=True,
+                origin=_TRUSTED_ORIGIN,
+            )
         if path == "/api/rules":
-            return self._json(200, store.list_rules())
+            access = self._control_auth()
+            if not access:
+                return
+            return self._json(
+                200,
+                store.list_rules(
+                    access["agent_id"], scoped=not access["admin"]
+                ),
+                noindex=True,
+                origin=_TRUSTED_ORIGIN,
+            )
         if path == "/api/agents":
-            return self._json(200, store.list_agents())
+            if not self._require_admin():
+                return
+            return self._json(
+                200, store.list_agents(), noindex=True, origin=_TRUSTED_ORIGIN
+            )
 
         # ── MCP (Model Context Protocol) JSON-RPC endpoint ──
         if path == "/api/mcp":
             _mcp_tools = [
                 {"name": "evaluate_spend", "description": "Check whether an autonomous agent is allowed to make a purchase BEFORE spending. Returns APPROVED, BLOCKED, or FLAGGED.",
                  "inputSchema": {"type": "object", "properties": {"amount": {"type": "number"}, "merchant": {"type": "string"}, "category": {"type": "string"}, "description": {"type": "string"}}, "required": ["amount"]}},
-                {"name": "add_spend_rule", "description": "Add a spend policy rule. Types: per_transaction, daily_total, velocity, merchant_block, category_limit, approval_threshold.",
-                 "inputSchema": {"type": "object", "properties": {"rule_type": {"type": "string"}, "params": {"type": "string"}, "action": {"type": "string"}}, "required": ["rule_type", "params"]}},
-                {"name": "firewall_status", "description": "Get current firewall stats: spend approved/blocked today, pending approvals, active agents.",
+                {"name": "add_spend_rule", "description": "Add a rule to the authenticated API key's isolated workspace.",
+                 "inputSchema": {"type": "object", "properties": {"rule_type": {"type": "string"}, "params": {"type": "object"}, "action": {"type": "string"}, "priority": {"type": "integer"}, "label": {"type": "string"}}, "required": ["rule_type", "params"]}},
+                {"name": "firewall_status", "description": "Get private firewall stats for the authenticated API key.",
                  "inputSchema": {"type": "object"}},
             ]
             _mcp_server_info = {"name": "sipibot-mcp", "version": "1.0.0"}
@@ -438,18 +681,75 @@ class Handler(BaseHTTPRequestHandler):
                         "content": [{"type": "text", "text": f"Unknown tool: {tool_name}. Available: {', '.join(t['name'] for t in _mcp_tools)}"}], "isError": True}})
                 # For evaluate_spend, actually run the evaluation
                 if tool_name == "evaluate_spend":
+                    agent_id = None
+                    auth_context = None
+                    paid_key = None
+                    auth = self.headers.get("Authorization", "")
+                    if auth:
+                        if not auth.startswith("Bearer ") or not auth[7:].strip():
+                            return self._json(401, {"error": "invalid_api_key"})
+                        paid_key = auth[7:].strip()
+                        if _is_admin_token(paid_key):
+                            auth_context = {"source": "admin"}
+                        else:
+                            agent_id, auth_context = _resolve_api_key(paid_key)
+                            if not auth_context:
+                                return self._json(401, {"error": "invalid_api_key"})
+                    transaction, transaction_error = _validated_transaction_input(args)
+                    if transaction_error:
+                        return self._json(200, {
+                            "jsonrpc": "2.0",
+                            "id": rpc_id,
+                            "result": {
+                                "content": [
+                                    {"type": "text", "text": transaction_error}
+                                ],
+                                "isError": True,
+                            },
+                        })
                     result = core.evaluate_transaction(
-                        amount=args.get("amount", 0), merchant=args.get("merchant", ""),
-                        category=args.get("category", ""), description=args.get("description", ""))
+                        **transaction, agent_id=agent_id
+                    )
+                    if auth_context and auth_context["source"] == "billing":
+                        billing.record_key_use(paid_key, result.get("decision", "UNKNOWN"))
                     return self._json(200, {"jsonrpc": "2.0", "id": rpc_id, "result": {
                         "content": [{"type": "text", "text": json.dumps(result)}]}})
                 if tool_name == "firewall_status":
+                    access = self._control_auth()
+                    if not access:
+                        return
+                    stats = store.get_stats(
+                        access["agent_id"], scoped=not access["admin"]
+                    )
                     return self._json(200, {"jsonrpc": "2.0", "id": rpc_id, "result": {
-                        "content": [{"type": "text", "text": json.dumps(core.status())}]}})
-                arg_summary = "; ".join(f"{k}={v}" for k, v in args.items())
-                cta = f"https://sipi.bot/?utm_source=mcp&utm_campaign={tool_name}"
-                return self._json(200, {"jsonrpc": "2.0", "id": rpc_id, "result": {
-                    "content": [{"type": "text", "text": f"**{tool['description']}**\n\nParameters: {arg_summary or '(none)'}\n\nVisit: {cta}"}]}})
+                        "content": [{"type": "text", "text": json.dumps(stats)}]}})
+                if tool_name == "add_spend_rule":
+                    access = self._control_auth()
+                    if not access:
+                        return
+                    rule_input, rule_error = _validated_rule_input(args)
+                    if rule_error:
+                        return self._json(200, {
+                            "jsonrpc": "2.0",
+                            "id": rpc_id,
+                            "result": {
+                                "content": [{"type": "text", "text": rule_error}],
+                                "isError": True,
+                            },
+                        })
+                    created = store.add_rule(
+                        **rule_input,
+                        agent_id=None if access["admin"] else access["agent_id"],
+                    )
+                    return self._json(200, {
+                        "jsonrpc": "2.0",
+                        "id": rpc_id,
+                        "result": {
+                            "content": [
+                                {"type": "text", "text": json.dumps(created)}
+                            ]
+                        },
+                    })
             if method == "ping":
                 return self._json(200, {"jsonrpc": "2.0", "id": rpc_id, "result": {}})
             return self._json(200, {"jsonrpc": "2.0", "id": rpc_id, "error": {"code": -32601, "message": f"Method not found: {method}"}})
@@ -501,7 +801,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/about":
             return self._html(templates.doc_page_html(
                 "About", "/about",
-                "sipi.bot is the spend firewall for autonomous AI agents — evaluate every transaction against your rules and get approve, block, or flag in under 5ms.",
+                "sipi.bot is the spend firewall for autonomous AI agents — evaluate every transaction against your rules and get approve, block, or flag with a deterministic rules check.",
                 templates.ABOUT_BODY))
         if path == "/dream100":
             return self._html(templates.doc_page_html(
@@ -527,9 +827,21 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, billing.status())
         if path.startswith("/checkout/"):
             plan = path.rsplit("/", 1)[-1]
+            query = parse_qs(urlparse(self.path).query)
+            analytics_id = query.get("aid", [None])[0]
+            source_cta = query.get("source", ["direct"])[0]
             try:
-                url = billing.create_checkout_session(plan)
+                url = billing.create_checkout_session(
+                    plan,
+                    analytics_id=analytics_id,
+                    source_cta=source_cta,
+                )
             except Exception as e:
+                billing.capture_checkout_failure(
+                    plan,
+                    type(e).__name__,
+                    analytics_id,
+                )
                 return self._json(400, {"error": str(e)})
             self.send_response(302)
             self.send_header("Location", url)
@@ -545,18 +857,20 @@ class Handler(BaseHTTPRequestHandler):
         if path.startswith("/keys/"):
             sess = path.rsplit("/", 1)[-1]
             rec = billing.key_for_session(sess)
+            billing.capture_key_delivery(rec)
             return self._html(templates.key_success_html(rec), cacheable=False)
         if path == "/v1/activity":
-            return self._sse()
+            return self._json(
+                410,
+                {"error": "activity_stream_retired", "use": "/api/transactions"},
+                noindex=True,
+                origin=_TRUSTED_ORIGIN,
+            )
         # Static files from public/ (sitemap.xml, robots.txt, llms.txt, pSEO
         # pages written by the growth engine). Served last, before 404.
         if path == "/unsubscribe" or path == "/api/unsubscribe":
-            email = ""
-            parts = urlparse(self.path)
-            if parts.query:
-                for kv in parts.query.split("&"):
-                    if kv.startswith("email="):
-                        email = kv.split("=", 1)[1]
+            email = parse_qs(urlparse(self.path).query).get("email", [""])[0]
+            email = drip.normalize_email(email) or ""
             html = "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Unsubscribe - sipi.bot</title>"
             html += "<style>body{background:#0a0a0a;color:#ccc;font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px}.card{background:#111;border:1px solid #1a1a1a;border-radius:16px;padding:40px;max-width:400px;text-align:center}h1{color:#fff;margin:0 0 8px;font-size:22px}p{color:#888;margin:0 0 24px;font-size:14px;line-height:1.6}.btn{background:#00d4aa;color:#0a0a0a;border:none;padding:12px 32px;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer}.btn:hover{opacity:.9}</style></head><body>"
             html += "<div class='card'>"
@@ -581,20 +895,10 @@ class Handler(BaseHTTPRequestHandler):
         if self._serve_static(path):
             return
 
-        # Drip cron endpoint — also accept GET for cron triggers (no body needed)
+        # Drip delivery is a state-changing operation and is POST-only so its
+        # credential never leaks into URLs, access logs, or browser history.
         if path == "/cron/drip":
-            secret = os.environ.get("DRIP_CRON_SECRET", "")
-            tok = ""
-            if "?" in self.path:
-                q = urlparse(self.path).query
-                tok = q.split("secret=")[-1] if "secret=" in q else ""
-            if secret and tok == secret:
-                try:
-                    result = drip.send_soap_operas()
-                    return self._json(200, {"ok": True, "fired": True, "result": result})
-                except Exception as e:
-                    return self._json(500, {"ok": False, "error": str(e)})
-            return self._json(403, {"ok": False, "error": "forbidden"})
+            return self._json(405, {"ok": False, "error": "method_not_allowed"})
 
         return self._json(404, {"error": "not_found"})
 
@@ -733,7 +1037,7 @@ class Handler(BaseHTTPRequestHandler):
   <text x="680" y="76" fill="#8a8d96" font-family="SF Mono,ui-monospace,monospace" font-size="10">Total all-time</text>
   <text x="680" y="92" fill="#e8e8ea" font-family="SF Mono,ui-monospace,monospace" font-size="18" font-weight="700">{total_str}</text>
   <!-- Verdict line -->
-  <text x="120" y="118" fill="#00d4aa" font-family="SF Mono,ui-monospace,monospace" font-size="9">DECISION: APPROVED · BLOCKED · FLAGGED — every transaction, &lt;5ms</text>
+  <text x="120" y="118" fill="#00d4aa" font-family="SF Mono,ui-monospace,monospace" font-size="9">DECISION: APPROVED · BLOCKED · FLAGGED — deterministic decision path</text>
   <!-- CTA -->
   <text x="{width-16}" y="118" fill="#8a8d96" font-family="SF Mono,ui-monospace,monospace" font-size="8" text-anchor="end">sipi.bot/badge</text>
 </svg>'''
@@ -824,10 +1128,18 @@ class Handler(BaseHTTPRequestHandler):
     def do_DELETE(self):
         path = urlparse(self.path).path
         if path.startswith("/api/rules/"):
-            if not self._require_admin():
+            access = self._control_auth()
+            if not access:
                 return
             rid = path.rsplit("/", 1)[-1]
-            return self._json(200, {"deleted": store.delete_rule(rid)}, origin=_TRUSTED_ORIGIN)
+            deleted = (
+                store.delete_rule(rid)
+                if access["admin"]
+                else store.delete_rule_for_agent(rid, access["agent_id"])
+            )
+            return self._json(
+                200, {"deleted": deleted}, noindex=True, origin=_TRUSTED_ORIGIN
+            )
         return self._json(404, {"error": "not_found"})
 
     
@@ -911,6 +1223,11 @@ class Handler(BaseHTTPRequestHandler):
 
         # MCP, A2A, NLWeb POST routes — delegate to do_GET which handles JSON-RPC
         if path in ("/api/mcp", "/api/a2a", "/api/nlweb"):
+            try:
+                if int(self.headers.get("Content-Length", 0)) > 65_536:
+                    return self._json(413, {"error": "body_too_large"})
+            except (TypeError, ValueError):
+                return self._json(400, {"error": "invalid_content_length"})
             self.command = "POST"
             return self.do_GET()
 
@@ -919,6 +1236,8 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/webhooks/stripe":
             try:
                 n = int(self.headers.get("Content-Length", 0))
+                if n < 0 or n > 1_048_576:
+                    return self._json(413, {"error": "body_too_large"})
                 raw = self.rfile.read(n) if n > 0 else b"{}"
             except Exception:
                 raw = b"{}"
@@ -930,43 +1249,65 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, result)
 
         body = self._body()
+        body_error = getattr(self, "_body_error", "")
+        if body_error:
+            code = 413 if body_error == "body_too_large" else 400
+            return self._json(code, {"error": body_error})
 
         if path == "/v1/transactions/evaluate":
             if not self._check_rate("evaluate"):
                 return self._json(429, {"error": "rate_limited", "retry_after": 60})
-            # Auth optional in free/self-host mode. If a key is provided, tie to agent.
+            # Auth is optional in free/self-host mode. If an Authorization
+            # header is supplied, it must resolve; never silently downgrade an
+            # invalid paid key to anonymous behavior.
             agent_id = None
+            auth_context = None
+            paid_key = None
             auth = self.headers.get("Authorization", "")
-            if auth.startswith("Bearer "):
-                agent = store.get_agent_by_key(auth[7:].strip())
-                if agent:
-                    agent_id = agent["id"]
+            if auth:
+                if not auth.startswith("Bearer ") or not auth[7:].strip():
+                    return self._json(401, {"error": "invalid_api_key"})
+                paid_key = auth[7:].strip()
+                if _is_admin_token(paid_key):
+                    auth_context = {"source": "admin"}
+                else:
+                    agent_id, auth_context = _resolve_api_key(paid_key)
+                    if not auth_context:
+                        return self._json(401, {"error": "invalid_api_key"})
+            transaction, transaction_error = _validated_transaction_input(body)
+            if transaction_error:
+                return self._json(400, {"error": transaction_error})
             try:
                 result = core.evaluate_transaction(
-                    amount=body.get("amount", 0),
-                    merchant=body.get("merchant", ""),
-                    category=body.get("category", ""),
-                    description=body.get("description", ""),
-                    currency=body.get("currency", "USD"),
-                    timestamp=body.get("timestamp"),
+                    **transaction,
                     agent_id=agent_id,
                 )
             except Exception as e:
                 return self._json(400, {"error": str(e)})
+            if auth_context and auth_context["source"] == "billing":
+                billing.record_key_use(paid_key, result.get("decision", "UNKNOWN"))
             _broadcast({"type": "transaction", **result})
             return self._json(200, result)
 
         if path == "/api/rules":
-            if not self._require_admin():
+            access = self._control_auth()
+            if not access:
                 return
+            rule_input, rule_error = _validated_rule_input(body)
+            if rule_error:
+                return self._json(
+                    400,
+                    {"error": rule_error},
+                    noindex=True,
+                    origin=_TRUSTED_ORIGIN,
+                )
             r = store.add_rule(
-                rule_type=body.get("rule_type", "per_transaction"),
-                params=body.get("params", {}),
-                action=body.get("action", "BLOCKED"),
-                priority=int(body.get("priority", 100)),
-                label=body.get("label", ""),
+                **rule_input,
+                agent_id=None if access["admin"] else access["agent_id"],
             )
-            return self._json(200, r, origin=_TRUSTED_ORIGIN)
+            return self._json(
+                200, r, noindex=True, origin=_TRUSTED_ORIGIN
+            )
 
         if path == "/api/agents":
             # Mints an sk_live_ agent key — operator-only. Paid keys from the
@@ -978,12 +1319,20 @@ class Handler(BaseHTTPRequestHandler):
                               origin=_TRUSTED_ORIGIN)
 
         if path.startswith("/api/approvals/"):
-            if not self._require_admin():
+            access = self._control_auth()
+            if not access:
                 return
             aid = path.rsplit("/", 1)[-1]
-            ok = store.resolve_approval(aid, body.get("decision", "deny"))
+            ok = store.resolve_approval(
+                aid,
+                body.get("decision", "deny"),
+                access["agent_id"],
+                scoped=not access["admin"],
+            )
             _broadcast({"type": "approval_resolved", "id": aid})
-            return self._json(200, {"resolved": ok}, origin=_TRUSTED_ORIGIN)
+            return self._json(
+                200, {"resolved": ok}, noindex=True, origin=_TRUSTED_ORIGIN
+            )
 
         if path == "/admin/reset":
             # Admin-gated: clears transaction + approval history (keeps rules/agents).
@@ -996,50 +1345,81 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/subscribe":
             if not self._check_rate("subscribe"):
                 return self._json(429, {"error": "rate_limited", "retry_after": 3600})
-            email = (body.get("email") or "").strip()
-            ref = (body.get("ref") or "").strip()
-            if email and "@" in email:
+            email = drip.normalize_email(body.get("email") or "")
+            ref = (body.get("ref") or "").strip()[:128]
+            ref = "".join(ch for ch in ref if ch not in "|\r\n" and ord(ch) >= 32)
+            if email:
                 try:
-                    with open(_SUBSCRIBERS_FILE, "a") as f:
-                        f.write(f"{email}|{ref}\n")
-                except Exception:
-                    pass
-                # 2026-07-24: was "We'll email your pilot access" — sipi.bot
-                # has no "pilot" product; every form posting here promises
-                # the 5-day Spend Firewall Playbook, so the confirmation
-                # should say that instead. See conversion-audit-scored-2026-07-24.
-                return self._json(200, {"ok": True, "message": "You're on the list. Day 1 is on its way — check your inbox."})
+                    with _SUBSCRIBER_FILE_LOCK:
+                        existing = set()
+                        if os.path.exists(_SUBSCRIBERS_FILE):
+                            with open(_SUBSCRIBERS_FILE, encoding="utf-8") as f:
+                                for line in f:
+                                    saved = drip.normalize_email(line.split("|", 1)[0])
+                                    if saved:
+                                        existing.add(saved)
+                        if email not in existing:
+                            parent = os.path.dirname(_SUBSCRIBERS_FILE)
+                            if parent:
+                                os.makedirs(parent, exist_ok=True)
+                            with open(_SUBSCRIBERS_FILE, "a", encoding="utf-8") as f:
+                                f.write(f"{email}|{ref}\n")
+                except OSError:
+                    return self._json(
+                        503,
+                        {"ok": False, "message": "We couldn't save your subscription. Please try again."},
+                    )
+                message = (
+                    "You're on the list. Day 1 will arrive within 24 hours."
+                    if drip.delivery_enabled()
+                    else "You're on the list. We'll email the 5-day playbook when delivery is available."
+                )
+                return self._json(200, {"ok": True, "message": message})
             return self._json(400, {"ok": False, "message": "Enter a valid email."})
 
         # Unsubscribe POST handler
         if path == "/unsubscribe" or path == "/api/unsubscribe":
-            email = (body.get("email") or "").strip()
+            email = drip.normalize_email(body.get("email") or "")
             removed = False
-            if email and "@" in email:
+            if email:
                 try:
-                    subs_path = _SUBSCRIBERS_FILE
-                    if os.path.exists(subs_path):
-                        with open(subs_path) as f:
-                            lines = f.readlines()
-                        with open(subs_path, "w") as f:
+                    with _SUBSCRIBER_FILE_LOCK:
+                        subs_path = _SUBSCRIBERS_FILE
+                        if os.path.exists(subs_path):
+                            with open(subs_path, encoding="utf-8") as f:
+                                lines = f.readlines()
+                            kept = []
                             for line in lines:
-                                if not line.startswith(email + "|"):
-                                    f.write(line)
-                                else:
+                                saved = drip.normalize_email(line.split("|", 1)[0])
+                                if saved == email:
                                     removed = True
-                except Exception:
-                    pass
+                                else:
+                                    kept.append(line)
+                            parent = os.path.dirname(subs_path) or "."
+                            with tempfile.NamedTemporaryFile(
+                                "w",
+                                encoding="utf-8",
+                                dir=parent,
+                                delete=False,
+                            ) as tmp:
+                                tmp.writelines(kept)
+                                tmp_path = tmp.name
+                            os.replace(tmp_path, subs_path)
+                except OSError:
+                    return self._json(503, {"ok": False, "error": "unsubscribe_failed"})
             return self._json(200, {"ok": True, "removed": removed})
 
         # Drip cron - protected endpoint to fire Soap Opera sequence
         # (Brunson Traffic Secrets Secret #6: Follow-Up Funnels)
         if path == "/cron/drip":
             secret = os.environ.get("DRIP_CRON_SECRET", "")
-            tok = ""
-            if "?" in self.path:
-                q = urlparse(self.path).query
-                tok = q.split("secret=")[-1] if "secret=" in q else ""
-            if secret and tok == secret:
+            auth = self.headers.get("Authorization", "")
+            tok = auth[7:].strip() if auth.startswith("Bearer ") else ""
+            if (
+                secret
+                and tok
+                and hmac.compare_digest(secret.encode(), tok.encode())
+            ):
                 try:
                     result = drip.send_soap_operas()
                     return self._json(200, {"ok": True, "fired": True, "result": result})

@@ -47,6 +47,7 @@ class CheckoutConversionTests(unittest.TestCase):
             captured["data"]["success_url"],
             "https://sipi.bot/keys/{CHECKOUT_SESSION_ID}",
         )
+        self.assertNotIn("client_reference_id", captured["data"])
 
     def test_pricing_leads_with_team_and_keeps_free_path_secondary(self):
         html = templates.pricing_html()
@@ -75,8 +76,10 @@ class CheckoutConversionTests(unittest.TestCase):
         self.assertIn("Save the key", html)
         self.assertIn("Protect the first spend", html)
         self.assertIn("Choose my integration", html)
-        self.assertIn("api_key_copied", html)
-        self.assertIn("checkout_success_viewed", html)
+        self.assertNotIn("api_key_copied", html)
+        self.assertNotIn("checkout_success_viewed", html)
+        self.assertNotIn("posthog", html.lower())
+        self.assertIn("history.replaceState", html)
 
 
 if __name__ == "__main__":
