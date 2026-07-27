@@ -287,6 +287,98 @@ def _validated_transaction_input(
     return {"amount": amount, **values}, None
 
 
+# --- pSEO internal-link-graph enrichment -------------------------------------
+# Cached parse of sitemap.xml -> {silo: [urls]}. Built once per process; the
+# sitemap changes rarely and a stale cache only means a new page isn't linked
+# until restart, never a broken link (every URL came from the sitemap itself).
+_SITEMAP_INDEX = None
+_SITEMAP_INDEX_MTIME = 0.0
+
+
+def _sitemap_index():
+    """Return {silo: [/path/, ...]} parsed from sitemap.xml, cached by mtime."""
+    global _SITEMAP_INDEX, _SITEMAP_INDEX_MTIME
+    import os as _os
+    base = _os.path.abspath(_os.path.join(_os.path.dirname(__file__), ".."))
+    sm = _os.path.join(base, "sitemap.xml")
+    try:
+        mt = _os.path.getmtime(sm)
+    except OSError:
+        return {}
+    if _SITEMAP_INDEX is not None and mt == _SITEMAP_INDEX_MTIME:
+        return _SITEMAP_INDEX
+    import re as _re
+    sections = {}
+    try:
+        with open(sm, encoding="utf-8") as fh:
+            for m in _re.finditer(r"<loc>([^<]+)</loc>", fh.read()):
+                url = m.group(1).strip().replace("https://sipi.bot", "")
+                parts = [p for p in url.split("/") if p]
+                if len(parts) >= 2:
+                    sections.setdefault(parts[0], []).append(url)
+    except OSError:
+        return {}
+    _SITEMAP_INDEX = sections
+    _SITEMAP_INDEX_MTIME = mt
+    return sections
+
+
+def _inject_related_links(html, current_path):
+    """Inject a 'Related' cross-link block before </body> on pSEO pages.
+
+    Picks up to 5 same-silo siblings (excluding the current page) plus up to 3
+    stable hub links (homepage, integrations index, comparison index).
+    Strengthens the internal-link graph so pSEO spokes aren't orphaned and
+    crawl discovery + link equity flow beyond the homepage's dozen links.
+    Idempotent via a sentinel comment so re-injection never duplicates the block."""
+    import html as _html
+    # Idempotent at the helper level too (not just at the _serve_pseo call
+    # site): never double-inject if the block is already present.
+    if "data-related-injected" in html:
+        return html
+    sections = _sitemap_index()
+    parts = [p for p in current_path.strip("/").split("/") if p]
+    if not parts:
+        return html
+    silo = parts[0]
+    siblings = [u for u in sections.get(silo, []) if u.rstrip("/") != current_path.rstrip("/")][:5]
+    if not siblings:
+        return html
+    # Hub links — only ones that exist as silos in the sitemap.
+    hubs = []
+    for hub_path, label in [
+        ("/", "Home"),
+        ("/for/", "All integrations"),
+        ("/vs/", "All comparisons"),
+        ("/glossary/", "Glossary"),
+    ]:
+        if hub_path == "/":
+            hubs.append((hub_path, label))
+        elif hub_path.strip("/") in sections and sections[hub_path.strip("/")]:
+            hubs.append((hub_path, label))
+    links = "".join(
+        '<li><a href="%s">%s</a></li>' % (
+            _html.escape(u),
+            _html.escape(u.strip("/").split("/")[-1].replace("-", " ").title()),
+        )
+        for u in siblings
+    )
+    hub_links = "".join(
+        '<li><a href="%s">%s</a></li>' % (_html.escape(p), _html.escape(lbl))
+        for p, lbl in hubs[:3]
+    )
+    block = (
+        '\n<!-- data-related-injected: internal-link-graph enrichment -->\n'
+        '<nav aria-label="Related" style="max-width:760px;margin:48px auto 0;padding:24px 20px;'
+        'border-top:1px solid #23242a;font:14px/1.7 -apple-system,BlinkMacSystemFont,sans-serif">'
+        '<strong style="color:#e8e8ea;font-size:13px;text-transform:uppercase;letter-spacing:.05em">Related</strong>'
+        '<ul style="list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px">'
+        + links + hub_links +
+        '</ul></nav>\n'
+    )
+    return html.replace("</body>", block + "</body>", 1)
+
+
 def agent_card() -> dict:
     return {
         "name": "sipi.bot Spend Firewall",
