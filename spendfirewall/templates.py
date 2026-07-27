@@ -589,6 +589,66 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <a href="/agents.md">Agent guide</a>
   </div>
 </div></footer>
+
+<!-- EXIT-INTENT CAPTURE: traffic you own (Dotcom Secrets Ch 17). Once/session. -->
+<style>
+#ei-overlay{position:fixed;inset:0;z-index:100;background:rgba(5,6,8,.82);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px}
+#ei-overlay.show{display:flex}
+#ei-card{background:var(--panel);border:1px solid rgba(0,212,170,.35);border-radius:18px;max-width:460px;width:100%;padding:32px 28px;text-align:center;position:relative;animation:ei-pop .25s ease}
+@keyframes ei-pop{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+#ei-card .close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--mut);font-size:24px;line-height:1;cursor:pointer;padding:6px;border-radius:6px}
+#ei-card .close:hover{color:var(--txt);background:var(--panel2)}
+#ei-card h2{margin:6px 0 10px;font-size:24px;line-height:1.2}
+#ei-card p{color:var(--mut);font-size:15px;line-height:1.55;margin:0 0 18px}
+#ei-form{display:flex;gap:8px}
+#ei-form input{flex:1}
+#ei-form button{white-space:nowrap}
+#ei-msg{color:var(--accent);font-size:14px;margin:10px 0 0;min-height:18px}
+#ei-skip{display:block;margin:14px 0 0;color:var(--mut);font-size:12.5px}
+#ei-skip:hover{color:var(--txt)}
+</style>
+<div id="ei-overlay" role="dialog" aria-modal="true" aria-labelledby="ei-title">
+  <div id="ei-card">
+    <button class="close" id="ei-close" aria-label="Close">&times;</button>
+    <span class="tag" style="margin-bottom:14px">Free · 5-day email playbook</span>
+    <h2 id="ei-title">Wait — before your agent spends its next dollar.</h2>
+    <p>Get the framework I wish I'd had before my agent spent <strong style="color:var(--txt)">$12,400 in one night</strong>. Six rules, three lines of code, one deployment checklist. Free. No card.</p>
+    <form id="ei-form" onsubmit="return eiSub(event)">
+      <input type="email" id="ei-em" placeholder="you@company.com" required aria-label="Email address">
+      <button class="btn" type="submit">Send Day 1 →</button>
+    </form>
+    <p id="ei-msg" aria-live="polite"></p>
+    <a href="/free" id="ei-skip">No thanks — but tell me more about the playbook →</a>
+  </div>
+</div>
+<script>
+(function(){
+  if(sessionStorage.getItem('sipi_ei_shown'))return;
+  var ov=document.getElementById('ei-overlay');if(!ov)return;
+  var fired=false;
+  function open(){if(fired)return;fired=true;ov.classList.add('show');sessionStorage.setItem('sipi_ei_shown','1');setTimeout(function(){var i=document.getElementById('ei-em');if(i)i.focus();},120);}
+  function close(){ov.classList.remove('show');}
+  document.getElementById('ei-close').addEventListener('click',close);
+  ov.addEventListener('click',function(e){if(e.target===ov)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  // Desktop: exit-intent (mouse leaves to top)
+  document.addEventListener('mouseout',function(e){if(!e.toElement&&!e.relatedTarget&&e.clientY<12)open();});
+  // Mobile: time + engagement fallback
+  var scrolled=false;window.addEventListener('scroll',function(){if(window.scrollY>400)scrolled=true;},{once:false,passive:true});
+  setTimeout(function(){if(scrolled)open();},25000);
+})();
+function eiSub(e){e.preventDefault();
+var input=document.getElementById('ei-em');var email=input?input.value:'';
+var msg=document.getElementById('ei-msg');var btn=document.querySelector('#ei-form button');
+if(!email)return false;if(btn){btn.disabled=true;btn.textContent='Sending...';}
+fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,ref:'exit_intent'})})
+.then(function(r){return r.json();}).then(function(d){if(window.posthog)posthog.capture('course_subscribed',{source:'exit_intent'});if(msg){msg.textContent=d.message||'You are on the list. Day 1 arrives within 24 hours.';}if(input)input.value='';if(btn){btn.textContent='✓ On the list';}})
+.catch(function(){if(msg){msg.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent='Send Day 1 →';}});
+return false;}
+</script>
+<!-- /EXIT-INTENT -->
+
+
 <script>
 function sub(e){e.preventDefault();
 var form=e.target;var input=form.querySelector('input[type=email]');var email=input?input.value:'';
@@ -755,6 +815,24 @@ if(run)run.addEventListener('click',function(){run.disabled=true;run.textContent
   </div>
 </section>
 <!-- /BRUNSON TRUST BAR -->
+
+<script>
+function mcUnlock(e){e.preventDefault();
+var form=e.target;var input=form.querySelector('input[type=email]');var email=input?input.value:'';
+var msgEl=form.querySelector('.mc-msg');var btn=form.querySelector('button[type=submit]');
+if(!email){return false;}
+if(btn){btn.disabled=true;var orig=btn.textContent;btn.textContent='Unlocking...';}
+fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({email:email,ref:'masterclass'})})
+.then(r=>r.json()).then(d=>{
+  if(window.posthog)posthog.capture('course_subscribed',{source:'masterclass_gate'});
+  var g=document.getElementById('gate');if(g)g.style.display='none';
+  var gated=document.querySelectorAll('#gated');gated.forEach(function(el){el.style.display='';el.scrollIntoView({behavior:'smooth',block:'start'});});
+})
+.catch(()=>{if(msgEl){msgEl.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
+return false;}
+</script>
+
 </body></html>"""
     s = s.replace("{CSS}", CSS)
     s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
@@ -1329,6 +1407,65 @@ def pricing_html() -> str:
   </div>
 </section>
 <script>(function(){{var q=new URLSearchParams(location.search);if(q.get('checkout')==='cancelled'){{window.sipiTrack&&window.sipiTrack('checkout_canceled',{{plan:(q.get('plan')||'unknown').slice(0,16)}});}}}})();</script>
+
+<!-- EXIT-INTENT CAPTURE: traffic you own (Dotcom Secrets Ch 17). Once/session. -->
+<style>
+#ei-overlay{{position:fixed;inset:0;z-index:100;background:rgba(5,6,8,.82);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px}}
+#ei-overlay.show{{display:flex}}
+#ei-card{{background:var(--panel);border:1px solid rgba(0,212,170,.35);border-radius:18px;max-width:460px;width:100%;padding:32px 28px;text-align:center;position:relative;animation:ei-pop .25s ease}}
+@keyframes ei-pop{{from{{opacity:0;transform:translateY(12px) scale(.98)}}to{{opacity:1;transform:none}}}}
+#ei-card .close{{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--mut);font-size:24px;line-height:1;cursor:pointer;padding:6px;border-radius:6px}}
+#ei-card .close:hover{{color:var(--txt);background:var(--panel2)}}
+#ei-card h2{{margin:6px 0 10px;font-size:24px;line-height:1.2}}
+#ei-card p{{color:var(--mut);font-size:15px;line-height:1.55;margin:0 0 18px}}
+#ei-form{{display:flex;gap:8px}}
+#ei-form input{{flex:1}}
+#ei-form button{{white-space:nowrap}}
+#ei-msg{{color:var(--accent);font-size:14px;margin:10px 0 0;min-height:18px}}
+#ei-skip{{display:block;margin:14px 0 0;color:var(--mut);font-size:12.5px}}
+#ei-skip:hover{{color:var(--txt)}}
+</style>
+<div id="ei-overlay" role="dialog" aria-modal="true" aria-labelledby="ei-title">
+  <div id="ei-card">
+    <button class="close" id="ei-close" aria-label="Close">&times;</button>
+    <span class="tag" style="margin-bottom:14px">Free · 5-day email playbook</span>
+    <h2 id="ei-title">Wait — before your agent spends its next dollar.</h2>
+    <p>Get the framework I wish I'd had before my agent spent <strong style="color:var(--txt)">$12,400 in one night</strong>. Six rules, three lines of code, one deployment checklist. Free. No card.</p>
+    <form id="ei-form" onsubmit="return eiSub(event)">
+      <input type="email" id="ei-em" placeholder="you@company.com" required aria-label="Email address">
+      <button class="btn" type="submit">Send Day 1 →</button>
+    </form>
+    <p id="ei-msg" aria-live="polite"></p>
+    <a href="/free" id="ei-skip">No thanks — but tell me more about the playbook →</a>
+  </div>
+</div>
+<script>
+(function(){{
+  if(sessionStorage.getItem('sipi_ei_shown'))return;
+  var ov=document.getElementById('ei-overlay');if(!ov)return;
+  var fired=false;
+  function open(){{if(fired)return;fired=true;ov.classList.add('show');sessionStorage.setItem('sipi_ei_shown','1');setTimeout(function(){{var i=document.getElementById('ei-em');if(i)i.focus();}},120);}}
+  function close(){{ov.classList.remove('show');}}
+  document.getElementById('ei-close').addEventListener('click',close);
+  ov.addEventListener('click',function(e){{if(e.target===ov)close();}});
+  document.addEventListener('keydown',function(e){{if(e.key==='Escape')close();}});
+  // Desktop: exit-intent (mouse leaves to top)
+  document.addEventListener('mouseout',function(e){{if(!e.toElement&&!e.relatedTarget&&e.clientY<12)open();}});
+  // Mobile: time + engagement fallback
+  var scrolled=false;window.addEventListener('scroll',function(){{if(window.scrollY>400)scrolled=true;}},{{once:false,passive:true}});
+  setTimeout(function(){{if(scrolled)open();}},25000);
+}})();
+function eiSub(e){{e.preventDefault();
+var input=document.getElementById('ei-em');var email=input?input.value:'';
+var msg=document.getElementById('ei-msg');var btn=document.querySelector('#ei-form button');
+if(!email)return false;if(btn){{btn.disabled=true;btn.textContent='Sending...';}}
+fetch('/subscribe',{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{email:email,ref:'exit_intent'}})}})
+.then(function(r){{return r.json();}}).then(function(d){{if(window.posthog)posthog.capture('course_subscribed',{{source:'exit_intent'}});if(msg){{msg.textContent=d.message||'You are on the list. Day 1 arrives within 24 hours.';}}if(input)input.value='';if(btn){{btn.textContent='✓ On the list';}}}})
+.catch(function(){{if(msg){{msg.textContent='Something went wrong — please try again.';}}if(btn){{btn.disabled=false;btn.textContent='Send Day 1 →';}}}});
+return false;}}
+</script>
+<!-- /EXIT-INTENT -->
+
 </body></html>"""
 
 
@@ -1352,6 +1489,25 @@ def key_success_html(rec) -> str:
       <a href="/for/" class="btn">Choose my integration →</a>
       <a href="/dashboard" class="btn ghost">Open the live dashboard</a>
     </div>
+
+    <!-- UPSELL + REFERRAL: capture the buying moment (Dotcom Secrets Ch 6).
+         Honest path — Business is a real existing tier. No fabricated scarcity.
+         NOTE: braces doubled ({{ }}) because this lives inside inner's f-string. -->
+    <div style="max-width:820px;margin:30px auto 0;background:var(--panel);border:1px solid rgba(0,212,170,.3);border-radius:16px;padding:24px 26px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+        <div style="text-align:left;flex:1;min-width:240px">
+          <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px">While your card is out</div>
+          <h3 style="margin:0 0 6px;font-size:18px">Want it managed for you?</h3>
+          <p style="color:var(--mut);font-size:14px;margin:0;line-height:1.55">Upgrade to <strong style="color:var(--txt)">Business</strong> for managed policy onboarding, rule setup by our team, and priority support. Same guarantee — green-light a rule violation, the month is free.</p>
+        </div>
+        <a href="/checkout/business?source=key_success_upsell" onclick="if(window.posthog)posthog.capture('upsell_clicked',{{from:'team',to:'business',location:'key_success'}})" class="btn" style="white-space:nowrap">See Business →</a>
+      </div>
+      <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="color:var(--mut);font-size:13px">🤝 Know another builder shipping autonomous agents?</span>
+        <a href="/free" style="color:var(--accent);font-size:13px;font-weight:600">Send them the free playbook →</a>
+      </div>
+    </div>
+
     <p style="color:var(--mut);font-size:14px;margin-top:22px">Need help? Email <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a>.</p>
     <script>
     (function(){{var b=document.getElementById('copy-key');if(!b)return;b.addEventListener('click',function(){{
@@ -1429,6 +1585,22 @@ def masterclass_html() -> str:
       <p style="color:var(--txt)"><strong>The One Thing:</strong> Every agent payment path gets one decision point — sipi.bot — that returns <span style="color:var(--green)">approve</span>, <span style="color:var(--red)">block</span>, or <span style="color:var(--amber)">flag</span> before a dollar moves.</p>
     </div>
   </div>
+</div></section>
+
+
+<!-- EMAIL GATE: capture before revealing Secrets #2 and #3 -->
+<section id="gate" style="background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,212,170,.02));border-top:1px solid rgba(0,212,170,.25);border-bottom:1px solid rgba(0,212,170,.25);padding:56px 0"><div class="wrap" style="max-width:620px;text-align:center">
+  <span class="badge b-green" style="margin-bottom:12px">KEEP READING — IT'S FREE</span>
+  <h2 style="margin:0 0 10px">Secret #2 and #3 are the ones that actually stop the $12,400 night.</h2>
+  <p style="color:var(--mut);font-size:16px;line-height:1.6;margin:0 0 24px">Drop your email and I'll unlock them now — and send you the 5-day Spend Firewall Playbook so you can wire it up this week. No spam, no paid signup, unsubscribe anytime.</p>
+  <form class="form" style="max-width:440px;margin:0 auto" onsubmit="return mcUnlock(event)">
+    <div style="display:flex;gap:8px">
+      <label for="mc-em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="mc-em" placeholder="you@company.com" required style="flex:1">
+      <button class="btn" type="submit">Unlock Secrets #2 & #3 →</button>
+    </div>
+    <p class="mc-msg" aria-live="polite" style="color:var(--accent);font-size:14px;margin:10px 0 0"></p>
+  </form>
+  <p style="font-size:12.5px;color:var(--mut);margin:14px 0 0">Prefer to just try it? <a href="/playground/" style="color:var(--accent)">Run a free live check →</a></p>
 </div></section>
 
 <!-- Secret #2: Story — The 3 False Walls -->
@@ -1596,8 +1768,8 @@ footer a{color:var(--mut)}
 </div>
 
 <div style="text-align:center;margin:30px 0">
-<a href="https://buy.stripe.com/REPLACE_WITH_TRIPWIRE_LINK" class="btn" id="buy-btn">Get My Audit Report — $7 →</a>
-<p class="secondary">One-time payment. Delivered to your email in under 10 minutes. <a href="/">No thanks, I'll take my chances →</a></p>
+@@TW_BUY_BUTTON@@
+@@TW_SECONDARY@@
 </div>
 
 <!-- TESTIMONIALS REMOVED 2026-07-23: no verified named attribution. Restore only with real users. -->
@@ -1628,6 +1800,30 @@ tick()
 })();
 </script>
 </body></html>"""
+    # Honest $7 CTA: auto-activates when STRIPE_PRICE_TRIPWIRE is set.
+    # This block is injected at the end of tripwire_html(), before "return s".
+    import os as _os
+    _tw_link = _os.environ.get("STRIPE_PRICE_TRIPWIRE", "").strip()
+    if _tw_link:
+        _tw_buy = (
+            '<a href="' + _tw_link + '" class="btn" id="buy-btn">'
+            "Get My Audit Report — $7 →</a>"
+        )
+        _tw_secondary = (
+            '<p class="secondary">One-time payment. Delivered to your email in under 10 minutes. '
+            '<a href="/">No thanks, take my chances →</a></p>'
+        )
+    else:
+        _tw_buy = (
+            '<a href="/playground/" class="btn" id="buy-btn">Run the free audit live now →</a>'
+            '<br><br><a href="/free" class="btn ghost" style="font-size:.95em">Or get the free 5-day playbook →</a>'
+        )
+        _tw_secondary = (
+            '<p class="secondary">The personalized $7 audit report is launching soon. '
+            "Meanwhile the live firewall and the 5-day playbook are free right now — no card, no signup. "
+            '<a href="/">Back to sipi.bot →</a></p>'
+        )
+    s = s.replace("@@TW_BUY_BUTTON@@", _tw_buy).replace("@@TW_SECONDARY@@", _tw_secondary)
     return s
 
 
@@ -1960,3 +2156,84 @@ def blog_page_html() -> str:
   </div>
 </div></footer>
 </body></html>"""
+
+
+def squeeze_html() -> str:
+    s = """<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){try{window.trustedTypes.createPolicy("default",{createHTML:function(s){return s},createScript:function(s){return s},createScriptURL:function(s){return s}})}catch(e){}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Spend Firewall Playbook — Free 5-Day Email Course | sipi.bot</title>
+<meta name="description" content="One email a day for five days. The night my agent spent $12,400, the six rules that stop it, how to wire it in, the eval suite, and the deployment checklist. Free — no card, no signup for anything paid.">
+<link rel="canonical" href="https://sipi.bot/free">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="The Spend Firewall Playbook — Free 5-Day Email Course">
+<meta property="og:description" content="The framework for deploying autonomous agents that spend safely. 5 days. Free. No card.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/free"><meta property="og:image" content="https://sipi.bot/og.png"><meta name="theme-color" content="#00d4aa">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"The Spend Firewall Playbook","description":"A free 5-day email course on controlling autonomous AI agent spending.","provider":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"},"hasCourseInstance":{"@type":"CourseInstance","courseMode":"Online","courseWorkload":"PT15M"}}]</script>
+<style>{CSS}</style>{POSTHOG}{GA4_SNIPPET}</head><body>
+<nav><div class="wrap">
+  <div class="brand"><a href="/" style="color:inherit;text-decoration:none">sipi<span class="dot">.bot</span></a></div>
+  <div class="nav-links"><a href="/pricing">Pricing</a><a href="/playground/" class="btn">Try it free</a></div>
+</div></nav>
+
+<section class="hero" style="padding:80px 0 50px"><div class="wrap" style="max-width:760px">
+  <span class="tag">Free · 5-day email playbook</span>
+  <h1 style="font-size:clamp(28px,5vw,46px)">Your autonomous agent has a credit card<br><span class="hl">and no spending policy.</span></h1>
+  <p class="sub">In five short emails, you'll get the exact framework I wish I'd had before my agent spent <strong style="color:var(--txt)">$12,400 in one night</strong> — the six rules that stop it, the three lines of code that wire it in, and the deployment checklist.</p>
+
+  <form class="form" style="max-width:480px;margin:28px auto 0" onsubmit="return sub(event)">
+    <div style="display:flex;gap:8px">
+      <label for="pb-em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="pb-em" placeholder="you@company.com" required style="flex:1">
+      <button class="btn" type="submit">Send me Day 1 →</button>
+    </div>
+    <p class="msg-inline" aria-live="polite" style="color:var(--accent);font-size:14px;margin:10px 0 0;text-align:center"></p>
+  </form>
+  <p style="font-size:12.5px;color:var(--mut);margin:12px auto 0;max-width:480px;text-align:center">Joining the list does not sign you up for anything paid. Unsubscribe anytime. No credit card.</p>
+</div></section>
+
+<section><div class="wrap" style="max-width:760px">
+  <h2 class="center">What you'll get over 5 days</h2>
+  <p class="lead center">Each email is a short read — written by a founder who learned this the hard way.</p>
+  <div class="grid2" style="margin-top:32px">
+    <div class="card"><div class="badge b-red" style="margin-bottom:8px">DAY 1</div><h3 style="margin:0 0 6px">The wound</h3><p style="color:var(--mut);margin:0">The 2:14 AM Stripe receipt. What the agent did, and why "be careful with spending" in the prompt didn't stop it.</p></div>
+    <div class="card"><div class="badge b-amber" style="margin-bottom:8px">DAY 2</div><h3 style="margin:0 0 6px">The six rules</h3><p style="color:var(--mut);margin:0">Per-tx cap, daily total, velocity, merchant allowlist, category, time-of-day — the deterministic rules that would have blocked every charge.</p></div>
+    <div class="card"><div class="badge b-green" style="margin-bottom:8px">DAY 3</div><h3 style="margin:0 0 6px">The wiring</h3><p style="color:var(--mut);margin:0">Three lines of code. MCP, HTTP, or CLI — how sipi.bot sits in front of any agent before it spends.</p></div>
+    <div class="card"><div class="badge b-amber" style="margin-bottom:8px">DAY 4</div><h3 style="margin:0 0 6px">The proof</h3><p style="color:var(--mut);margin:0">The Eval Gym: 53 labeled real-world spend scenarios, 53/53 passed. You can run it yourself — the core is MIT-licensed.</p></div>
+    <div class="card" style="grid-column:1/-1"><div class="badge b-red" style="margin-bottom:8px">DAY 5</div><h3 style="margin:0 0 6px">The deployment checklist</h3><p style="color:var(--mut);margin:0">The exact checklist to run before your next agent goes to production — and the rule-integrity guarantee that backs it.</p></div>
+  </div>
+</div></section>
+
+<!-- The offer isn't a trick. You can also just try the product free, right now. -->
+<section style="background:rgba(0,212,170,.03)"><div class="wrap" style="max-width:680px;text-align:center">
+  <h2 class="center">Not an email person? Skip the line.</h2>
+  <p class="lead center">The whole product is callable right now — no signup, no key, no card.</p>
+  <div class="codebox mono" style="text-align:left;max-width:560px;margin:0 auto">
+curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
+&nbsp;&nbsp;-H <span class="s">"Content-Type: application/json"</span> \\<br>
+&nbsp;&nbsp;-d <span class="s">'{"amount": 12400, "currency": "USD", "merchant": "example-vendor"}'</span>
+  </div>
+  <p class="center mt24"><a href="/playground/" class="btn">Run a free live check →</a></p>
+  <p style="color:var(--mut);font-size:13px;margin-top:10px">Returns <code>APPROVED</code>, <code>BLOCKED</code>, or <code>FLAGGED</code> in under 5ms. 100 checks/min per IP.</p>
+</div></section>
+
+<footer><div class="wrap">
+  sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
+  <a href="/">Home</a> · <a href="/pricing">Pricing</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+</div></footer>
+<script>
+function sub(e){e.preventDefault();
+var form=e.target;var input=form.querySelector('input[type=email]');var email=input?input.value:'';
+var msgEl=form.querySelector('.msg-inline');
+if(!email){return false;}
+var btn=form.querySelector('button[type=submit]');if(btn){btn.disabled=true;var orig=btn.textContent;btn.textContent='Sending...';}
+fetch('/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({email:email,ref:'free_squeeze'})})
+.then(r=>r.json()).then(d=>{if(window.posthog)posthog.capture('course_subscribed',{source:'free_squeeze'});if(msgEl){msgEl.textContent=d.message||'You are on the list. Day 1 arrives within 24 hours.';}if(input){input.value='';}if(btn){btn.disabled=false;btn.textContent=orig;}})
+.catch(()=>{if(msgEl){msgEl.textContent='Something went wrong — please try again.';}if(btn){btn.disabled=false;btn.textContent=orig;}});
+return false;}
+</script>
+</body></html>"""
+    s = s.replace("{CSS}", CSS)
+    s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
+    s = s.replace("{GA4_SNIPPET}", GA4_SNIPPET)
+    return s
+

@@ -1010,6 +1010,11 @@ class Handler(BaseHTTPRequestHandler):
             return self._html(templates.sitemap_html())
         if path == "/masterclass":
             return self._html(templates.masterclass_html())
+        # --- Dotcom Secrets funnel rungs (2026-07-27) ---
+        if path == "/free":
+            return self._html(templates.squeeze_html())
+        if path == "/tripwire":
+            return self._html(templates.tripwire_html())
         if path in ("/blog", "/blog/"):
             return self._html(templates.blog_page_html())
         if path == "/about":
