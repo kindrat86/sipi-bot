@@ -98,8 +98,10 @@ def build_sitemap():
             full_url = SITE_BASE + url_path
             urls[full_url] = os.path.join(root, "index.html")
 
-    # Dynamic server-rendered page not backed by a file
+    # Dynamic server-rendered pages not backed by a file
     urls.setdefault(SITE_BASE + "/blog/", None)
+    # Sipi Spend-Firewall Benchmark (SSFB) — server-rendered hub + live endpoint.
+    urls.setdefault(SITE_BASE + "/benchmark/", None)
 
     urls_sorted = sorted(urls.keys())
     parts = ['<?xml version="1.0" encoding="UTF-8"?>',

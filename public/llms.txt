@@ -27,6 +27,7 @@ as an MCP tool, an HTTP API, and a CLI. Open-source core (MIT), free to self-hos
 - [Source (GitHub)](https://github.com/kindrat86/sipi-bot): open-source core, MIT.
 
 ## Benchmarks (reference figures, CC BY 4.0)
+- [Sipi Spend-Firewall Benchmark (SSFB)](https://sipi.bot/benchmark/): the flagship accuracy benchmark — 53/53 labeled agent-spending scenarios pass (100%) against the production decision engine, verified live via [/api/v1/benchmark/live](https://sipi.bot/api/v1/benchmark/live). Downloadable dataset: [data.json](https://sipi.bot/benchmark/data.json) · [data.csv](https://sipi.bot/benchmark/data.csv) (CC BY 4.0). Cite as "sipi.bot SSFB".
 - [Runaway incident frequency](https://sipi.bot/benchmarks/runaway-incident-frequency): Runaway spend is a documented failure mode for agents with live payment access - retry loops, prompt-injected purchase chains, and unattended sessions. sipi.bot publishes no incidence rate.
 - [Agent spend as % of revenue](https://sipi.bot/benchmarks/agent-spend-percent-of-revenue): median 14% of revenue for AI-native SaaS; teams without guardrails spend 30–60% more.
 - [AI agent cost per task](https://sipi.bot/benchmarks/ai-agent-cost-per-task): median $0.34/task across production agents; top 1% of runaway tasks exceed $50.

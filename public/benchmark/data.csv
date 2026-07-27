@@ -1,0 +1,54 @@
+scenario,category,expected_decision,got_decision,pass,reason,note
+tiny coffee-money api call,clean_approval,APPROVED,APPROVED,True,Within all spend policies.,well under everything
+small compute spend,clean_approval,APPROVED,APPROVED,True,Within all spend policies.,
+just under approval flag,clean_approval,APPROVED,APPROVED,True,Within all spend policies.,199.99 < 200 flag threshold
+modest ads spend,clean_approval,APPROVED,APPROVED,True,Within all spend policies.,
+cheap subscription,clean_approval,APPROVED,APPROVED,True,Within all spend policies.,
+zero-dollar auth check,clean_approval,APPROVED,APPROVED,True,Within all spend policies.,zero always fine
+exactly at approval threshold,approval_flag,FLAGGED,FLAGGED,True,default approval flag,boundary: 200 >= 200
+mid-range flag,approval_flag,FLAGGED,FLAGGED,True,default approval flag,
+just under per-tx block but flagged,approval_flag,FLAGGED,FLAGGED,True,default approval flag,"499<500 so no block, but >=200 flag"
+flag on ads,approval_flag,FLAGGED,FLAGGED,True,default approval flag,
+exactly at per-tx limit (allowed),edge_case,FLAGGED,FLAGGED,True,default approval flag,"500 not > 500, so no block; but >=200 flag"
+one cent over per-tx limit,per_tx_block,BLOCKED,BLOCKED,True,default per-tx,boundary: 500.01 > 500
+big single compute buy,per_tx_block,BLOCKED,BLOCKED,True,default per-tx,
+huge single spend,per_tx_block,BLOCKED,BLOCKED,True,default per-tx,the 3am nightmare
+block wins over flag,per_tx_block,BLOCKED,BLOCKED,True,default per-tx,>500 blocks even though >=200 would flag
+pushes over daily cap,daily_limit,BLOCKED,BLOCKED,True,default daily,1800 prior + 300 = 2100 > 2000
+exactly reaches daily cap (allowed edge),edge_case,FLAGGED,FLAGGED,True,default approval flag,1800+200=2000 not >2000; but 200>=flag
+daily cap not yet reached,daily_limit,APPROVED,APPROVED,True,Within all spend policies.,"800+100=900 < 2000, <200 flag"
+daily cap with small txn still blocks,daily_limit,BLOCKED,BLOCKED,True,default daily,1960+60=2020>2000; daily beats small amount
+11th txn in an hour (runaway),velocity,BLOCKED,BLOCKED,True,default velocity,10 prior + this = 11 > 10 max
+10th txn still allowed,velocity,APPROVED,APPROVED,True,Within all spend policies.,"9 prior + this = 10, not > 10"
+runaway loop of tiny charges,velocity,BLOCKED,BLOCKED,True,default velocity,velocity catches loop even when amounts tiny
+blocklisted sketchy TLD,merchant_block,BLOCKED,BLOCKED,True,block sketchy merchants,
+blocklist pattern match,merchant_block,BLOCKED,BLOCKED,True,block sketchy,
+clean merchant passes blocklist,merchant_block,APPROVED,APPROVED,True,Within all spend policies.,
+merchant not on allowlist,merchant_block,BLOCKED,BLOCKED,True,allowlist only,allowlist blocks strangers
+merchant on allowlist,merchant_block,APPROVED,APPROVED,True,Within all spend policies.,
+allowlist flag instead of block,merchant_block,FLAGGED,FLAGGED,True,flag non-allowlisted,allowlist can flag not block
+ads over category cap,category_limit,BLOCKED,BLOCKED,True,ads cap $100,300>100 ads cap
+ads under category cap,category_limit,APPROVED,APPROVED,True,Within all spend policies.,
+category cap doesn't touch other categories,category_limit,APPROVED,APPROVED,True,Within all spend policies.,compute unaffected by ads cap
+category cap flag mode,category_limit,FLAGGED,FLAGGED,True,flag big ads,
+spend outside business hours,time_window,BLOCKED,BLOCKED,True,no 3am spend,3am outside 9-18
+spend inside business hours,time_window,APPROVED,APPROVED,True,Within all spend policies.,2pm inside window
+time window flag at night,time_window,FLAGGED,FLAGGED,True,flag off-hours,
+block beats flag on same txn,edge_case,BLOCKED,BLOCKED,True,default per-tx,"700>500 block, also >=200 flag -> block wins"
+merchant block beats approval flag,edge_case,BLOCKED,BLOCKED,True,block ru,"250 would flag, but .ru blocks"
+negative amount treated as zero-ish,edge_case,APPROVED,APPROVED,True,Within all spend policies.,refund/negative not a spend risk
+flag when only approval rule trips,edge_case,FLAGGED,FLAGGED,True,default approval flag,"480<500 no block, >=200 flag"
+daily block beats per-tx approval,edge_case,BLOCKED,BLOCKED,True,default daily,under per-tx but blows daily cap
+velocity block beats approval flag,edge_case,BLOCKED,BLOCKED,True,default velocity,"300 would flag, but 11th txn blocks"
+high priority merchant block over daily,edge_case,BLOCKED,BLOCKED,True,top-priority block,
+case-insensitive merchant match,edge_case,BLOCKED,BLOCKED,True,block ru,uppercase merchant still matches
+large travel booking flagged,approval_flag,FLAGGED,FLAGGED,True,default approval flag,
+domain purchase small,clean_approval,APPROVED,APPROVED,True,Within all spend policies.,
+gpu rental blocked over per-tx,per_tx_block,BLOCKED,BLOCKED,True,default per-tx,
+api topup flagged mid,approval_flag,FLAGGED,FLAGGED,True,default approval flag,
+many small under velocity ok,velocity,APPROVED,APPROVED,True,Within all spend policies.,"6th of hour, fine"
+category cap exact boundary allowed,edge_case,APPROVED,APPROVED,True,Within all spend policies.,100 not > 100
+combined: daily near cap small ok,daily_limit,APPROVED,APPROVED,True,Within all spend policies.,"1500+30=1530<2000, <200"
+flag then human territory,approval_flag,FLAGGED,FLAGGED,True,default approval flag,
+blocklist plus under-limit amount,merchant_block,BLOCKED,BLOCKED,True,block bad,"small amount, still bad merchant"
+clean high-freq legit ok,velocity,APPROVED,APPROVED,True,Within all spend policies.,"9th txn, under 10"
