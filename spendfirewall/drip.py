@@ -232,7 +232,8 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
 </code>
 </td></tr></table>
 <p style='margin:0 0 20px;font-size:14px;color:#999;line-height:1.6'>That's it. LangChain, CrewAI, OpenAI Agents SDK, Vercel AI SDK &mdash; all wrap the same endpoint. Your agent gets approve, block, or flag before a single dollar moves.</p>
-<p style='text-align:center;margin:24px 0 32px'><a href='https://sipi.bot/pricing' style='display:inline-block;background:#00d4aa;color:#0a0a0a;text-decoration:none;padding:12px 32px;border-radius:8px;font-weight:700;font-size:13px'>Start the free pilot &rarr;</a></p>
+<p style='text-align:center;margin:24px 0 8px'><a href='https://sipi.bot/playground/' style='display:inline-block;background:#00d4aa;color:#0a0a0a;text-decoration:none;padding:12px 32px;border-radius:8px;font-weight:700;font-size:13px'>Try it free in the playground &rarr;</a></p>
+<p style='text-align:center;margin:0 0 32px;font-size:12px;color:#666;line-height:1.6'>No signup, no card, no key &mdash; run a live transaction through the firewall now.<br>When you're ready to protect production: <a href='https://sipi.bot/checkout/team?source=drip_day3' style='color:#00d4aa;text-decoration:none'>Team is $99/mo &rarr;</a></p>
 """)
 
 # Day 4 — proof (eval suite)
