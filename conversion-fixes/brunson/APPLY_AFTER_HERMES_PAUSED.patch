@@ -1,0 +1,117 @@
+# ============================================================
+# Expert Secrets (Brunson) homepage improvements for sipi.bot
+# Apply to: spendfirewall/templates.py  (function landing_page_html)
+# WHEN TO APPLY: after pausing the Hermes agent that concurrently
+#   edits templates.py / api.py. Re-apply if Hermes reverts it.
+# All three hunks are independent; each is safe on its own.
+# ============================================================
+
+--- HUNK 1: NAV — add founder + beliefs links, shorten "Compare approaches"
+Find:
+  <div class="nav-links" id="mainnav">
+    <a href="#how">How it works</a>
+    <a href="#faq">FAQ</a>
+    <a href="#pricing">Pricing</a>
+    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>
+    <a href="/pricing" class="btn">See plans</a>
+  </div>
+Replace with:
+  <div class="nav-links" id="mainnav">
+    <a href="#how">How it works</a>
+    <a href="#origin">The founder</a>
+    <a href="#false-beliefs">Beliefs</a>
+    <a href="#faq">FAQ</a>
+    <a href="#pricing">Pricing</a>
+    <a href="/learn/how-to-control-ai-agent-spending">Compare</a>
+    <a href="/pricing" class="btn">See plans</a>
+  </div>
+
+--- HUNK 2: HERO — add the One Big Thing subline + domino through-line
+Find:
+  and merchant rules—then returns APPROVED, BLOCKED, or FLAGGED with a deterministic rules check,
+  before money moves.</p>
+  <div class="hero-actions">
+    <a href="/pricing" class="btn">Protect my agent — see plans</a>
+    <a href="/playground/" class="btn ghost">Run a free live check</a>
+  </div>
+Replace with:
+  and merchant rules—then returns APPROVED, BLOCKED, or FLAGGED with a deterministic rules check,
+  before money moves.</p>
+  <p class="obt" style="font-size:clamp(15px,2vw,17px);color:var(--accent);font-weight:600;max-width:620px;margin:0 auto 28px;letter-spacing:.01em">
+    <span aria-hidden="true">&rarr;</span>&nbsp;The one promise of this page: <strong style="color:var(--txt)">one API call makes a runaway agent impossible.</strong>
+    Hope is not a spending policy.
+  </p>
+  <div class="hero-actions">
+    <a href="/pricing" class="btn">Protect my agent — see plans</a>
+    <a href="/playground/" class="btn ghost">Run a free live check</a>
+  </div>
+
+--- HUNK 3: RESTORE THE EXPERT SECRETS SPINE (the big one)
+The founder Epiphany Bridge, 3 False Beliefs, Cause manifesto, and value
+stack are all written in this template but stripped at runtime by a
+"tighten the funnel" change. Replace the destructive deletions with an
+explicit feature-flag block so each section can be toggled with one line.
+
+Find (inside landing_page_html, after the {CSS}/{POSTHOG}/{GA4} replaces):
+    s = s.replace("{CSS}", CSS)
+    s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
+    s = s.replace("{GA4_SNIPPET}", GA4_SNIPPET)
+    # Keep the source history available for editorial review while shipping a
+    # focused conversion page. These sections repeated the same founder story
+    # and unsupported persuasion framing already established above.
+    origin_start = s.find("<!-- ═══ EXPERT SECRETS: Origin Story")
+    hope_start = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
+    if origin_start >= 0 and hope_start > origin_start:
+        s = s[:origin_start] + s[hope_start:]
+    value_start = s.find("<!-- VALUE STACK")
+    price_start = s.find('<div class="price mt24">', value_start)
+    if value_start >= 0 and price_start > value_start:
+        s = s[:value_start] + s[price_start:]
+    s = s.replace(
+        '<div class="strike">Hiring a human to babysit spend: $4,500/mo</div>',
+        "",
+    )
+    # The cross-portfolio module and free-first trust bar were off-funnel exits.
+    portfolio_start = s.find("<!-- CROSS-PORTFOLIO NETWORK FOOTER")
+    body_end = s.rfind("</body></html>")
+    if portfolio_start >= 0 and body_end > portfolio_start:
+        s = s[:portfolio_start] + s[body_end:]
+    return s
+
+Replace with:
+    s = s.replace("{CSS}", CSS)
+    s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
+    s = s.replace("{GA4_SNIPPET}", GA4_SNIPPET)
+
+    # --- Expert Secrets persuasion spine: explicit feature flags ---
+    # Each block can be disabled by flipping one flag to False.
+    BRUNSON_ORIGIN_STORY  = True   # Ch 1/4/5/6 founder Epiphany Bridge
+    BRUNSON_FALSE_BELIEFS = True   # Ch 6/7 Vehicle/Internal/External
+    BRUNSON_CAUSE         = True   # Ch 2 movement / identity
+    BRUNSON_VALUE_STACK   = True   # Ch 14/16 Stack & Close anchor
+
+    if not BRUNSON_ORIGIN_STORY:
+        a = s.find("<!-- ═══ EXPERT SECRETS: Origin Story")
+        b = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+    if not BRUNSON_FALSE_BELIEFS:
+        a = s.find('<!-- ═══ The 3 False Beliefs')
+        b = s.find('<!-- ═══ The Cause / Movement')
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+    if not BRUNSON_CAUSE:
+        a = s.find('<!-- ═══ The Cause / Movement')
+        b = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+    if not BRUNSON_VALUE_STACK:
+        a = s.find("<!-- VALUE STACK")
+        b = s.find('<div class="price mt24">', a)
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+        s = s.replace('<div class="strike">Hiring a human to babysit spend: $4,500/mo</div>', "")
+
+    # Off-funnel exits stay removed (toggle True to bring back).
+    PORTFOLIO_NETWORK = False
+    if not PORTFOLIO_NETWORK:
+        a = s.find("<!-- CROSS-PORTFOLIO NETWORK FOOTER")
+        b = s.rfind("</body></html>")
+        if a >= 0 and b > a: s = s[:a] + s[b:]
+    return s

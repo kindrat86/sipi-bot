@@ -102,6 +102,7 @@ def build_sitemap():
     urls.setdefault(SITE_BASE + "/blog/", None)
     # Sipi Spend-Firewall Benchmark (SSFB) — server-rendered hub + live endpoint.
     urls.setdefault(SITE_BASE + "/benchmark/", None)
+    urls.setdefault(SITE_BASE + "/benchmark/embed", None)
 
     urls_sorted = sorted(urls.keys())
     parts = ['<?xml version="1.0" encoding="UTF-8"?>',
