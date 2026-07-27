@@ -228,6 +228,44 @@ def _validated_transaction_input(
     return {"amount": amount, **values}, None
 
 
+def _inject_mobile_nav(html: str) -> str:
+    """Inject a working mobile hamburger nav into a baked pSEO page.
+
+    0 of the 176 baked content pages had a mobile menu, so on phones their nav
+    links wrapped/overflowed with no path back to Home / FAQ / How-it-works.
+    This adds the same nav the landing page ships (button + #mainnav + toggle
+    JS), scoped under .sipi-nav so the injected NAV_CSS never restyles the
+    page body. Idempotent.
+    """
+    if 'data-sipi-nav-injected' in html or 'class="nav-toggle"' in html:
+        return html
+    import re  # local; api.py uses local imports by convention
+    nav_links = (
+        '    <a href="/">Home</a>\n'
+        '    <a href="/#how">How it works</a>\n'
+        '    <a href="/#faq">FAQ</a>\n'
+        '    <a href="/pricing">Pricing</a>\n'
+        '    <a href="/dashboard" class="btn">Dashboard</a>'
+    )
+    brand = (
+        '<div class="brand"><a href="/" style="color:var(--txt)">'
+        'sipi<span class="dot">.bot</span></a></div>'
+    )
+    nav = (
+        '<div class="sipi-nav" data-sipi-nav-injected>'
+        + templates.NAV_CSS +
+        '<nav><div class="wrap">\n  ' + brand + '\n  ' + templates.NAV_TOGGLE +
+        '\n  <div class="nav-links" id="mainnav">\n' + nav_links +
+        '\n  </div>\n</div></nav>\n' + templates.NAV_JS +
+        '</div>\n'
+    )
+    m = re.search(r"<body\b[^>]*>", html, re.I)
+    if not m:
+        return html
+    return html[:m.end()] + "\n" + nav + html[m.end():]
+
+
+
 def agent_card() -> dict:
     return {
         "name": "sipi.bot Spend Firewall",
@@ -1365,6 +1403,13 @@ class Handler(BaseHTTPRequestHandler):
                             # W4 (footer) + W8 (BreadcrumbList JSON-LD) are applied
                             # centrally in _html() so they also cover pages served
                             # via _serve_static. No need to duplicate here.
+                            # Mobile nav: inject a working hamburger menu
+                            # into baked pSEO pages that lack one. Idempotent.
+                            if 'class="nav-toggle"' not in html and '<body' in html:
+                                try:
+                                    html = _inject_mobile_nav(html)
+                                except Exception:
+                                    pass
                             self._html(html)
                             return True
                     except Exception:
