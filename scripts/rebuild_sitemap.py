@@ -24,6 +24,10 @@ PSEO_PREFIXES = [
     "best", "how-to", "templates", "cost-of",
     # 2026-07-27 traffic program: new shared-chrome surfaces (lib/generate_*.py)
     "incidents", "blog", "tools", "changelog", "status",
+    # 2026-07-28: sync with _serve_pseo() prefix list in api.py — these prefixes
+    # are served but were missing here, causing their pages to be absent from
+    # the sitemap (and ghost URLs from removed pages to persist).
+    "calculators", "compliance", "guides", "redflags", "scenarios", "data",
 ]
 
 # Directories to skip entirely (relative to public/)
