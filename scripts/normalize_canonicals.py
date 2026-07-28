@@ -24,6 +24,12 @@ HUB_SECTIONS = {
     "vs", "for", "learn", "integrations", "glossary", "use-cases", "faq",
     "alternatives-to", "benchmarks", "tutorials", "policies", "limits",
     "best", "how-to", "templates", "cost-of", "alternatives", "compare",
+    # Dynamic server-rendered sections (lib/generate_*)
+    "incidents", "blog", "tools", "changelog", "status",
+    # _serve_pseo() prefixes synced with rebuild_sitemap.py (2026-07-28)
+    "guides", "redflags", "scenarios", "calculators", "compliance", "data",
+    # public/ leaf sections not at repo root
+    "answers", "checklists", "research",
 }
 
 # pSEO prefixes served by _serve_pseo (must match api.py)

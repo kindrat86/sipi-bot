@@ -67,6 +67,16 @@ def git_lastmod(filepath):
         return date.today().isoformat()
 
 
+def is_leaf(path_segments: tuple) -> bool:
+    """True if path represents a leaf page (not a hub or the root).
+
+    A page is a leaf when it has at least two path segments — a section
+    prefix AND a slug (e.g. 'vs/litellm'). Hub index pages (e.g. just
+    'vs') and the root '/' keep their trailing slashes.
+    """
+    return len(path_segments) >= 2
+
+
 def build_sitemap():
     urls = {}  # full_url -> source filepath (for lastmod lookup)
 
@@ -88,10 +98,15 @@ def build_sitemap():
                 url_path = "/" + rel.replace(os.sep, "/")
                 if not url_path.endswith("/"):
                     url_path += "/"
+                # Keep trailing slash for hub index pages AND root; leaf pages go bare
+                segments = tuple(s for s in url_path.strip("/").split("/") if s)
+                if is_leaf(segments):
+                    url_path = url_path.rstrip("/")
             else:
                 name = f[:-5]
                 url_path = ("/" + rel.replace(os.sep, "/") + "/" + name) if rel else ("/" + name)
-                url_path += "/"
+                # Non-index flat files are leaf pages → bare
+                url_path = url_path.rstrip("/")
             url_path = re.sub(r'/+', '/', url_path)
             full_url = SITE_BASE + url_path
             urls[full_url] = os.path.join(root, f)
@@ -106,12 +121,21 @@ def build_sitemap():
             if "index.html" not in files:
                 continue
             rel = os.path.relpath(root, ROOT)
-            url_path = "/" + rel.replace(os.sep, "/") + "/"
+            url_path = "/" + rel.replace(os.sep, "/")
+            # Keep trailing slash for hub pages; leaf pages go bare
+            segments = tuple(s for s in url_path.strip("/").split("/") if s)
+            if is_leaf(segments):
+                # Leaf page: no trailing slash, matches normalize_canonicals output
+                pass
+            else:
+                # Hub page: keep trailing slash
+                url_path += "/"
             url_path = re.sub(r'/+', '/', url_path)
             full_url = SITE_BASE + url_path
             urls[full_url] = os.path.join(root, "index.html")
 
-    # Dynamic server-rendered page not backed by a file
+    # Dynamic server-rendered pages not backed by a file
+    urls.setdefault(SITE_BASE + "/", None)
     urls.setdefault(SITE_BASE + "/blog/", None)
 
     urls_sorted = sorted(urls.keys())
