@@ -1351,7 +1351,7 @@ class Handler(BaseHTTPRequestHandler):
             self._redirect_301(target)
             return True
 
-        for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/", "/incidents/", "/blog/", "/tools/", "/changelog/", "/status/"):
+        for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/", "/incidents/", "/blog/", "/tools/", "/changelog/", "/status/", "/calculators/", "/compliance/", "/guides/", "/redflags/", "/scenarios/", "/data/"):
             # Match "/learn/foo" and also the bare section root "/learn". The bare
             # form used to fall through to a 404 because it does not start with
             # "/learn/", so /learn 404'd while /learn/ served learn/index.html —
