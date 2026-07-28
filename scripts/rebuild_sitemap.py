@@ -30,16 +30,21 @@ PSEO_PREFIXES = [
     "calculators", "compliance", "guides", "redflags", "scenarios", "data",
 ]
 
-# Directories to skip entirely (relative to public/)
+# Directories to skip entirely (relative to public/). Checked as path prefix so
+# subdirectories of excluded dirs (e.g. embed/tools/) are also skipped.
 EXCLUDE_DIRS = {
-    "embed",  # widget farm
+    "embed",       # widget farm
+    "widgets",     # embeddable widget HTML — not crawlable pages
 }
 
 # Individual filenames to skip anywhere in public/ — NOT index.html, that's
-# the normal page marker and must stay includable.
+# the normal page marker and must stay includable. Widget .html files that
+# produce trailing-slash URLs the server can't resolve (no index.html backing).
 EXCLUDE_FILES = {
     "google57979683042f3b0e.html",
     "googlea30bb998b91eb6ac.html",
+    "related-tools.html",   # widget artifact, not a page
+    "widget.html",          # network/widget.html — embed widget, not a page
 }
 
 
@@ -70,7 +75,9 @@ def build_sitemap():
         rel = os.path.relpath(root, PUBLIC)
         if rel == ".":
             rel = ""
-        if rel in EXCLUDE_DIRS:
+        # Skip if this dir or any parent dir is excluded (prefix match catches
+        # subdirectories like embed/tools/ too)
+        if any(rel == d or rel.startswith(d + "/") for d in EXCLUDE_DIRS):
             continue
         for f in files:
             if not f.endswith(".html"):
