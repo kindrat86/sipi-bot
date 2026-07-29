@@ -66,6 +66,14 @@ FOOTER_SECTIONS = [
         ("Cost audit checklist", "/checklists/agent-cost-audit/"),
         ("Protected-by badge", "/badge"),
     ]),
+    ("Network", [
+        ("GitDealFlow", "https://gitdealflow.com"),
+        ("VC Deal Flow Signal", "https://signals.gitdealflow.com"),
+        ("ChurnLens", "https://churnlens.site"),
+        ("SanctionsAI", "https://sanctionsai.dev"),
+        ("UnlockSaaS", "https://unlocksaas.com"),
+        ("InvisibleExit", "https://invisibleexit.com"),
+    ]),
 ]
 
 # ----------------------------------------------------------------------- design
