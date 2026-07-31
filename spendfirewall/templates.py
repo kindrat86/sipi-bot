@@ -245,7 +245,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
       <a href="/integrations/crewai/">◆ CrewAI</a>
       <a href="/.well-known/mcp.json">◆ Model Context Protocol</a>
     </div>
-    <p style="text-align:center;margin:10px 0 0;font-size:12.5px;color:#6b6f78">sipi.bot is the spend layer for the same agent protocols that move money autonomously. We plug in before the transaction, not after the incident.</p>
+    <p style="text-align:center;margin:10px 0 0;font-size:12.5px;color:#9aa0aa">sipi.bot is the spend layer for the same agent protocols that move money autonomously. We plug in before the transaction, not after the incident.</p>
   </div>
 </div></header>
 
