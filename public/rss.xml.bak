@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Aug 2026 06:42:23 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 27 Jul 2026 13:35:02 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -167,78 +167,6 @@
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Sun, 14 Jun 2026 17:12:17 GMT</pubDate>
     </item>
-  <item>
-    <title>34 incidents, $2.91 billion tracked — the open AI agent incident database is live</title>
-    <link>https://sipi.bot/blog/ai-agent-incident-34-database/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/ai-agent-incident-34-database#fac1caaf-8660-51e5-b2cd-080c873e8625</guid>
-    <description>We launched an open, sourced database of every documented AI agent that lost money, deleted data, or took unintended actions. Here&#x27;s what the first 34 records tell us — and why we built it.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Mon, 27 Jul 2026 12:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>The anatomy of a runaway AI agent loop</title>
-    <link>https://sipi.bot/blog/runaway-loops-anatomy/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/runaway-loops-anatomy#406f3016-dc84-530a-ab12-39f33b381244</guid>
-    <description>A single unbounded while-loop cost an engineering team $47,000 overnight. Here&#x27;s exactly how it happens — and why velocity limits are the only reliable defense.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Tue, 14 Jul 2026 12:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Why prompt instructions aren&#x27;t spending controls</title>
-    <link>https://sipi.bot/blog/prompt-not-a-control/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/prompt-not-a-control#de95428d-7e93-58c8-b536-828a836b40c4</guid>
-    <description>Prompts are suggestions, not constraints. Every documented runaway-agent incident shares the same root cause: the operator trusted what they told the model instead of what the model could do.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Tue, 02 Jun 2026 12:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Step Finance $27M post-mortem: what a per-transaction cap would have done</title>
-    <link>https://sipi.bot/blog/step-finance-27m-postmortem/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/step-finance-27m-postmortem#4a9e6e0a-896c-53b3-8a1a-a5c60807933b</guid>
-    <description>The largest documented AI-adjacent financial incident of 2026, broken down by the firewall rule that would have contained it — and why every agent touching money needs one.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Tue, 19 May 2026 12:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>The three false beliefs that cost agent teams money</title>
-    <link>https://sipi.bot/blog/three-false-beliefs/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/three-false-beliefs#25cd4444-c41b-5886-bd7e-aac3438226ee</guid>
-    <description>&quot;I&#x27;ll catch it in the morning.&quot; &quot;The provider&#x27;s monthly cap will stop it.&quot; &quot;My agent would never do that.&quot; Three beliefs, three incident stories, and what replaces them.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Wed, 15 Apr 2026 12:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Velocity limits: the one rule that prevents overnight disasters</title>
-    <link>https://sipi.bot/blog/velocity-limits-explained/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/velocity-limits-explained#93b5f81c-49f2-5bd6-9cb3-d4d8f93e931d</guid>
-    <description>Every overnight runaway loop in our database — from $4,200 Pinecone bills to $47,000 token burns — would have been stopped cold by a velocity limit. Here&#x27;s how they work and how to set one.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Tue, 10 Mar 2026 12:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>From $12,400 to 53/53: how we built sipi.bot&#x27;s eval gym</title>
-    <link>https://sipi.bot/blog/12400-story-eval-gym/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/12400-story-eval-gym#00a944cb-2071-512c-b731-7aaf066f57fb</guid>
-    <description>The founding story behind sipi.bot — why a $12,400 sleepless night led to an open-source spend firewall, and how we built the 53-scenario evaluation harness that tests it.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Wed, 04 Feb 2026 12:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>MCP-native spend controls: why agent tools need a payment firewall</title>
-    <link>https://sipi.bot/blog/mcp-native-spend-controls/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/mcp-native-spend-controls#6d175040-8198-5127-97c5-71e37aef786f</guid>
-    <description>As MCP becomes the standard for agent-tool communication, every tool that touches money needs a spend gate that lives outside the model. Here&#x27;s the architecture and the integration.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Tue, 20 Jan 2026 12:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>AI Agent Incident Database — 34 records, $2.91B tracked</title>
-    <link>https://sipi.bot/incidents/</link>
-    <guid isPermaLink="true">https://sipi.bot/incidents/#db-launch-2026-07-27</guid>
-    <description>Open, sourced database of real-world AI-agent incidents, CC BY 4.0. 34 records spanning 2016-2026. JSON, CSV, JSONL available.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Sun, 27 Jul 2026 12:00:00 GMT</pubDate>
-  </item>
   <item>
     <title>34 incidents, $2.91 billion tracked — the open AI agent incident database is live</title>
     <link>https://sipi.bot/blog/ai-agent-incident-34-database/</link>

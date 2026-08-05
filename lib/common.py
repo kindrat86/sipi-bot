@@ -66,6 +66,14 @@ FOOTER_SECTIONS = [
         ("Cost audit checklist", "/checklists/agent-cost-audit/"),
         ("Protected-by badge", "/badge"),
     ]),
+    ("Network", [
+        ("GitDealFlow", "https://gitdealflow.com"),
+        ("VC Deal Flow Signal", "https://signals.gitdealflow.com"),
+        ("ChurnLens", "https://churnlens.site"),
+        ("SanctionsAI", "https://sanctionsai.dev"),
+        ("UnlockSaaS", "https://unlocksaas.com"),
+        ("InvisibleExit", "https://invisibleexit.com"),
+    ]),
 ]
 
 # ----------------------------------------------------------------------- design
@@ -445,7 +453,7 @@ returns APPROVED, BLOCKED, or FLAGGED against your rules. Open-source core, MIT 
 </div>
 <div class="legal"><span>© {date.today().year} {BRAND}. Open-source core under MIT.</span>
 <span>Incident data is documented from public sources and licensed CC BY 4.0.</span></div>
-<div class="network" style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--line-2);font-size:.75rem;color:var(--fg-3);text-align:center"><span>Portfolio: </span><a href="https://gitdealflow.com" style="color:var(--fg-3);text-decoration:none">GitDealFlow</a> · <a href="https://signals.gitdealflow.com" style="color:var(--fg-3);text-decoration:none">Signals</a> · <a href="https://churnlens.site" style="color:var(--fg-3);text-decoration:none">ChurnLens</a> · <a href="https://carshake.online" style="color:var(--fg-3);text-decoration:none">CarShake</a> · <a href="https://unlocksaas.com" style="color:var(--fg-3);text-decoration:none">UnlockSaaS</a> · <a href="https://sanctionsai.dev" style="color:var(--fg-3);text-decoration:none">SanctionsAI</a> · <a href="https://voicelogpro.com" style="color:var(--fg-3);text-decoration:none">VoiceLogPro</a> · <a href="https://invisibleexit.com" style="color:var(--fg-3);text-decoration:none">InvisibleExit</a> · <a href="https://sipiteno.com" style="color:var(--fg-3);text-decoration:none">Sipiteno</a></div>
+<div class="network" style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--line-2);font-size:.75rem;color:var(--fg-3);text-align:center"><span>Portfolio: </span><a href="https://gitdealflow.com" style="color:var(--fg-3);text-decoration:none">GitDealFlow</a> · <a href="https://signals.gitdealflow.com" style="color:var(--fg-3);text-decoration:none">Signals</a> · <a href="https://churnlens.site" style="color:var(--fg-3);text-decoration:none">ChurnLens</a> · <a href="https://carshake.online" style="color:var(--fg-3);text-decoration:none">CarShake</a> · <a href="https://unlocksaas.com" style="color:var(--fg-3);text-decoration:none">UnlockSaaS</a> · <a href="https://sanctionsai.dev" style="color:var(--fg-3);text-decoration:none">SanctionsAI</a> · <a href="https://voicelogpro.com" style="color:var(--fg-3);text-decoration:none">VoiceLogPro</a> · <a href="https://invisibleexit.com" style="color:var(--fg-3);text-decoration:none">InvisibleExit</a> · <a href="https://sipiteno.com" style="color:var(--fg-3);text-decoration:none">Sipiteno</a> · <a href="https://hirenika.com" style="color:var(--fg-3);text-decoration:none">HireNika</a></div>
 </div></footer>"""
 
 
