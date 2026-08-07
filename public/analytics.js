@@ -59,8 +59,13 @@
     }
   }
 
+  // Loads for everyone EXCEPT visitors who explicitly denied (or send DNT).
+  // Without a stored "granted" it runs cookieless — see the persistence choice
+  // in init() below. Previously this required consent() === "granted", so at
+  // this site's volume almost nobody was ever measured: the $pageview below
+  // was queued into `pending` and silently discarded on unload.
   function loadAnalytics() {
-    if (loading || consent() !== "granted") return;
+    if (loading || consent() === "denied") return;
     loading = true;
     var script = document.createElement("script");
     var source = POSTHOG_HOST + "/static/array.js";
@@ -85,7 +90,12 @@
         capture_pageleave: false,
         disable_session_recording: true,
         person_profiles: "never",
-        persistence: "localStorage+cookie",
+        // Cookieless until the visitor accepts: "memory" keeps the id in RAM
+        // for the tab only — no cookie, no localStorage, nothing persisted to
+        // the device and no cross-visit identifier. Counting anonymous
+        // pageviews this way needs no storage consent; accepting upgrades the
+        // live session in choose() below.
+        persistence: consent() === "granted" ? "localStorage+cookie" : "memory",
       });
       flush();
     };
@@ -104,8 +114,13 @@
     saveConsent(value);
     removePrompt();
     if (value === "granted") {
-      if (window.posthog && window.posthog.opt_in_capturing) {
-        window.posthog.opt_in_capturing();
+      if (window.posthog && window.posthog.__loaded) {
+        // Already running cookieless — upgrade this session in place rather
+        // than reloading the SDK.
+        if (window.posthog.set_config) {
+          window.posthog.set_config({ persistence: "localStorage+cookie" });
+        }
+        if (window.posthog.opt_in_capturing) window.posthog.opt_in_capturing();
         flush();
       } else {
         loadAnalytics();
@@ -276,6 +291,9 @@
   } else if (consent() === "granted") {
     loadAnalytics();
   } else if (consent() !== "denied") {
+    // Undecided: measure anonymously and cookielessly straight away, and still
+    // ask. Waiting for a click meant recording nothing at all.
+    loadAnalytics();
     showPrompt();
   }
 })();
