@@ -208,13 +208,13 @@ function calcRisk(){
 """
     jsonld = [
         c.breadcrumb_ld([("Home","/"),("Tools","/tools/"),("Risk Calculator","/tools/agent-spend-risk-calculator/")]),
-        c.software_app_ld(name="Agent Spend Risk Calculator",description="Free interactive tool that estimates your worst-case AI agent spend exposure and calculates a risk score from 1–10, based on the sipi.bot AI Agent Incident Database.",canonical_path="/tools/agent-spend-risk-calculator/",application_category="FinanceApplication",offers_price="0",offers_currency="USD"),
+        c.software_app_ld(name="Agent Spend Risk Calculator",description="Free interactive tool that estimates your worst-case AI agent spend exposure and calculates a risk score from 1–10, based on the sipi.bot AI Agent Incident Database.",canonical_path="/tools/agent-spend-risk-calculator",application_category="FinanceApplication",offers_price="0",offers_currency="USD"),
         c.howto_ld(name="Calculate your agent spend risk",description="Follow these steps to estimate your AI agent's worst-case loss exposure.",steps=["Count every tool your agent can use to spend money","Estimate the largest single transaction your most dangerous tool could trigger","Assess whether the agent runs unattended overnight","Check if the agent retries on failure","Enter your monthly cloud/API budget","Read your risk score and recommended controls"]),
         c.faq_ld([("Is my data sent anywhere?","No. The calculator runs entirely in your browser using JavaScript. No input is transmitted to a server."),("What's the most common risk pattern?","Retry-on-failure + unattended with more than 3 spending tools. The median overnight loss in our incident database is approximately $47,000."),("How do I reduce my score?","Add a spend firewall with three rules: per-transaction cap, velocity limit, and daily ceiling.")]),
     ]
     html = c.page(title="Agent Spend Risk Calculator — what's your worst-case loss? | sipi.bot",
                   description="Free interactive tool: estimate your AI agent's worst-case 24h loss and get a risk score from 1–10. Calibrated on real incident data. No signup — runs in your browser.",
-                  canonical_path="/tools/agent-spend-risk-calculator/", active="Tools", body=body, jsonld=jsonld)
+                  canonical_path="/tools/agent-spend-risk-calculator", active="Tools", body=body, jsonld=jsonld)
     c.write(os.path.join(TOOLS_DIR, "agent-spend-risk-calculator", "index.html"), html)
 
 
@@ -397,13 +397,13 @@ function jsonToYaml(obj,indent){
 """
     jsonld = [
         c.breadcrumb_ld([("Home","/"),("Tools","/tools/"),("Policy Generator","/tools/spend-policy-generator/")]),
-        c.software_app_ld(name="Spend Policy Generator",description="Free tool that generates a ready-to-paste spend-firewall ruleset in JSON, YAML, and curl. Calibrated on real incident data from the sipi.bot AI Agent Incident Database.",canonical_path="/tools/spend-policy-generator/",application_category="DeveloperApplication",offers_price="0",offers_currency="USD"),
+        c.software_app_ld(name="Spend Policy Generator",description="Free tool that generates a ready-to-paste spend-firewall ruleset in JSON, YAML, and curl. Calibrated on real incident data from the sipi.bot AI Agent Incident Database.",canonical_path="/tools/spend-policy-generator",application_category="DeveloperApplication",offers_price="0",offers_currency="USD"),
         c.howto_ld(name="Generate a spend-firewall ruleset",description="Answer questions about your agent's type, budget, and risk profile, and get a ready-to-deploy policy.",steps=["Select your agent type","Set your monthly budget","Choose a merchant policy (allowlist or blocklist)","Flag high-risk categories for human review","Copy the generated JSON/YAML/curl output","Paste into sipi.bot and monitor blocked rate for one week"]),
         c.faq_ld([("What if I don't have a sipi.bot account yet?","The generated ruleset is a starting point. Sign up for a $99/mo Team plan and paste the JSON into your rules endpoint."),("Are these rules safe to use in production?","They are conservative defaults calibrated on incident database patterns. Monitor your blocked-transaction rate for one week (should be below 1%), and adjust upward."),("Can I customize the generated ruleset?","Yes — the JSON is a starting point. sipi.bot supports all six rule types.")]),
     ]
     html = c.page(title="Spend Policy Generator — ready-to-paste firewall ruleset | sipi.bot",
                   description="Free tool: generate a spend-firewall ruleset in JSON, YAML, and curl. Calibrated on real incident data. Ready to paste into sipi.bot — no signup required.",
-                  canonical_path="/tools/spend-policy-generator/", active="Tools", body=body, jsonld=jsonld)
+                  canonical_path="/tools/spend-policy-generator", active="Tools", body=body, jsonld=jsonld)
     c.write(os.path.join(TOOLS_DIR, "spend-policy-generator", "index.html"), html)
 
 

@@ -1383,9 +1383,26 @@ class Handler(BaseHTTPRequestHandler):
                 elif is_section_root:
                     path = prefix
                 elif path.endswith("/") and not is_hub_index:
-                    # leaf with trailing slash → redirect to bare form
-                    self._redirect_301(path.rstrip("/"))
-                    return True
+                    # leaf with trailing slash → redirect to bare form.
+                    # First verify the bare form's file exists at repo root;
+                    # if the page only lives in public/, _serve_static will
+                    # serve it correctly (with its slash canonical). Redirecting
+                    # without this check creates a redirect loop: slash→bare
+                    # (pSEO) then bare→slash (_serve_static) forever.
+                    # (Aug 2026 GSC indexing-regression fix — 34 URLs.)
+                    bare_path = path.rstrip("/")
+                    if prefix == "/data/":
+                        check_base = os.path.abspath(os.path.dirname(__file__))
+                    else:
+                        check_base = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+                    bare_file = os.path.join(check_base, bare_path.lstrip("/"), "index.html")
+                    if os.path.isfile(bare_file):
+                        self._redirect_301(bare_path)
+                        return True
+                    # Bare file doesn't exist — page lives in public/ only.
+                    # Fall through to _serve_static, which handles both the
+                    # bare→slash redirect and the final 200 serve.
+                    return None
                 # /data/ files live inside the spendfirewall package; others at project root
                 if prefix == "/data/":
                     base = os.path.abspath(os.path.dirname(__file__))
