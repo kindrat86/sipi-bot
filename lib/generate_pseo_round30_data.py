@@ -455,7 +455,7 @@ ANSWERS = [
             ("What's the fastest fix?",
              "A velocity limit — it kills the most common multiplier in seconds."),
         ],
-        related=[("How much does an agent cost", "/blog/how-much-does-an-agent-cost-to-run"), ("Runaway cost average", "/benchmarks/agent-runaway-cost-average"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("How much does an agent cost", "/blog/how-much-does-an-agent-cost-to-run"), ("Runaway cost average", "/benchmarks/agent-runaway-cost-average"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
     dict(
         slug="how-to-track-ai-agent-costs",

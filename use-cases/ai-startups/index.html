@@ -72,6 +72,10 @@ details[open]{background:#fff}
 <section><h2>Recommended policy for this use case</h2><ul><li><strong>Per-transaction limit</strong>: cap the dollar value of any single transaction. For AI Startup workflows, $1 to $10 per transaction covers most legitimate use.</li><li><strong>Daily ceiling</strong>: bound the total the agent can move in 24 hours. Start at $50/day for development, scale with production volume.</li><li><strong>Velocity cap</strong>: limit transactions per minute. This is the control that catches a runaway loop before the daily ceiling does.</li><li><strong>Merchant allowlist</strong>: restrict which destinations the agent can transact with. This is the control that catches a prompt injection redirecting a purchase.</li><li><strong>Human-in-the-loop</strong>: escalate transactions above a threshold (e.g. $25) for human approval before they execute.</li></ul></section>
 
 <section>
+<h2>Why build this yourself is the expensive option</h2>
+<p>The alternative to a spend firewall is writing one: a policy engine, a decision API that returns in single-digit milliseconds, an append-only audit log, alerting, and a human review queue for the transactions you want escalated rather than blocked. That is months of engineering, and it is nobody's core product.</p>
+<p>For a startup the cost is not really the engineering time — it is that the work competes directly with the product you raised money to build. The controls end up half-finished, which is how a budget designed for a month gets spent in an afternoon.</p>
+
 <h2>What this prevents</h2>
 <p>Without these controls, a single bug can drain a budget in minutes. With them, the worst case is a blocked transaction and a Slack alert. The difference, measured in dollars, is typically two to three orders of magnitude.</p>
 </section>

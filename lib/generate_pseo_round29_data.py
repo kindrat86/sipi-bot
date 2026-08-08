@@ -181,7 +181,7 @@ COST_OF = [
             ("Can sipi.bot control Groq spend?",
              "Yes — category rules and per-agent caps apply to any API merchant."),
         ],
-        related=[("Cost per 1M tokens", "/benchmarks/cost-per-1m-tokens-2026"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs"), ("LLM API pricing", "/benchmarks/llm-api-pricing-comparison-2026")],
+        related=[("Cost per 1M tokens", "/benchmarks/cost-per-1m-tokens-2026"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs"), ("LLM API pricing", "/benchmarks/llm-api-pricing-comparison-2026")],
     ),
     dict(
         slug="cohere-api-cost",

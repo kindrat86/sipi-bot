@@ -223,7 +223,7 @@ COST_OF = [
             ("Can sipi.bot control Fireworks spend?",
              "Yes — category rules and per-agent caps apply to any merchant."),
         ],
-        related=[("Cost per 1M tokens", "/benchmarks/cost-per-1m-tokens-2026"), ("Groq API cost", "/cost-of/groq-api-cost"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("Cost per 1M tokens", "/benchmarks/cost-per-1m-tokens-2026"), ("Groq API cost", "/cost-of/groq-api-cost"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
     dict(
         slug="baseten-api-cost",
@@ -287,7 +287,7 @@ COST_OF = [
             ("Can sipi.bot govern Together spend?",
              "Yes — per-agent caps and category rules."),
         ],
-        related=[("Cost per 1M tokens", "/benchmarks/cost-per-1m-tokens-2026"), ("Baseten API cost", "/cost-of/baseten-api-cost"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("Cost per 1M tokens", "/benchmarks/cost-per-1m-tokens-2026"), ("Baseten API cost", "/cost-of/baseten-api-cost"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
 ]
 

@@ -34,6 +34,8 @@ th{background:#f9fafb;font-weight:600}
 .cta{background:linear-gradient(135deg,#0066cc,#004499);color:#fff;padding:2rem;border-radius:.75rem;margin-top:2rem;text-align:center}
 .cta h2{color:#fff;border:none}.cta .btn{display:inline-block;background:#fff;color:#0066cc;padding:.75rem 1.5rem;border-radius:.375rem;font-weight:600;margin-top:.5rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:1rem 0}
+.table-scroll table{margin:0;min-width:30rem}
 </style>
 <!-- isenberg-round18 -->
 </head>
@@ -41,21 +43,38 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <article>
 <h1>How much should my AI agent spend per task?</h1>
 <p class="lede">A reasonable budget for AI agent spend is $0.01 to $0.50 per task for most workflows. Complex multi-step reasoning with tool calls can reach $1-5 per task. Always set a hard ceiling to prevent runaway costs.</p>
-<h2>Detailed answer</h2>
-<p>sipi.bot addresses this question through its core spend firewall workflow. The platform is designed to make the answer actionable rather than just informational.</p>
-<h2>Key considerations</h2>
-<ul>
-<li>Understand your specific use case before deciding</li>
-<li>Evaluate the impact on your existing workflow</li>
-<li>Consider the cost of NOT addressing this question</li>
+<h2>Benchmarks by agent type</h2>
+<p>Median spend per day per agent, from the <a href="/benchmarks/ai-agent-cost-per-task/">cost-per-task benchmark</a>:</p>
+<div class="table-scroll"><table>
+<thead><tr><th>Agent type</th><th>Median daily spend</th><th>75th percentile</th><th>Typical task cost</th></tr></thead>
+<tbody>
+<tr><td>Coding agent (Claude Code, Cursor)</td><td>$12/day</td><td>$35/day</td><td>$0.85/task</td></tr>
+<tr><td>Research / data agent</td><td>$4/day</td><td>$15/day</td><td>$0.40/task</td></tr>
+<tr><td>Customer-support agent</td><td>$2/day</td><td>$8/day</td><td>$0.08/task</td></tr>
+<tr><td>Procurement / purchasing agent</td><td>$85/day</td><td>$400/day</td><td>$6.20/task</td></tr>
+<tr><td>Trading bot</td><td>varies widely</td><td>varies</td><td>$1.10/trade</td></tr>
+</tbody>
+</table></div>
+<p>Full data in the <a href="/benchmarks/ai-agent-cost-per-task/">cost per task benchmark</a>.</p>
+
+<h2>How to pick your number</h2>
+<h3>1. Start with the panic test</h3>
+<p>What is the most your agent could spend in a day without you being upset? That is your starting daily total. For most teams starting out, this is $20–$100/day.</p>
+<h3>2. Cap any single transaction at 10–25%</h3>
+<p>Set a per-transaction cap at 10–25% of your daily total. If your daily budget is $100, your per-transaction cap is $10–$25. This catches the catastrophic one-off.</p>
+<h3>3. Add a velocity limit</h3>
+<p>The #1 cause of overspend is retry loops. Cap the number of transactions per hour (10–20 is typical). This kills the loop before it compounds.</p>
+<h3>4. Raise the budget as trust builds</h3>
+<p>Start low. After a week of clean logs with no blocks, raise the daily total. After a month, raise it again. Your budget should grow with evidence that the agent behaves, not with optimism.</p>
+
+<h2>How to know if you're spending too much</h2>
+<p>Three signals that your agent's spend is too high relative to peers:</p>
+<ul class="check">
+<li><strong>As a % of revenue:</strong> if your agent/inference spend is above 22% of revenue (the 75th percentile for AI-native SaaS), you likely have a controls gap. See <a href="/benchmarks/agent-spend-percent-of-revenue/">the benchmark</a>.</li>
+<li><strong>Per task:</strong> if your cost per completed task is above the 75th percentile for your task type, you're either using too expensive a model or you have retry-loop waste.</li>
+<li><strong>You've had a runaway incident:</strong> 67% of teams have. If you've had one, your budget is not the problem — your controls are. Install a <a href="/learn/spend-firewall-guide/">pre-spend firewall</a>.</li>
 </ul>
-<div class="callout"><strong>Take action:</strong> Spend firewall for AI agents. Try it free.</div>
 
-
-<!-- mesh-round19 -->
-
-
-<!-- sipi-enrich-v1 -->
 <section>
 <h2>The short answer hides the real risk</h2>
 <p>The headline answer to this question is usually 'yes, but with controls'. The part that matters — and the part most teams skip — is what those controls actually look like in production. A monthly provider cap is not a control in any meaningful sense: it will not stop a six-hour loop on a Saturday and it will not bound a non-LLM transaction.</p>

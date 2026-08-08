@@ -55,7 +55,7 @@ COST_OF = [
             ("Does sipi.bot work with a vLLM stack?",
              "Yes — the firewall governs tool and API spend regardless of where inference runs."),
         ],
-        related=[("Ollama cost", "/cost-of/ollama-cost"), ("Local vs hosted", "/benchmarks/local-llm-vs-hosted-api-cost"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("Ollama cost", "/cost-of/ollama-cost"), ("Local vs hosted", "/benchmarks/local-llm-vs-hosted-api-cost"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
 ]
 

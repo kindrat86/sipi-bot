@@ -320,7 +320,7 @@ USE_CASES = [
             ("Does it slow content production?",
              "No — ~5 ms per check."),
         ],
-        related=[("Marketing sector", "/sectors/marketing"), ("Media sector", "/sectors/media-publishing"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("Marketing sector", "/sectors/marketing"), ("Media sector", "/sectors/media-publishing"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
     dict(
         slug="procurement-agents",
@@ -386,7 +386,7 @@ GLOSSARY = [
             ("Does routing replace budgets?",
              "No — it cuts rate; caps bound volume."),
         ],
-        related=[("Best LLM gateways", "/best/best-llm-gateways-2026"), ("How to choose an LLM provider", "/how-to/how-to-choose-an-llm-provider"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("Best LLM gateways", "/best/best-llm-gateways-2026"), ("How to choose an LLM provider", "/how-to/how-to-choose-an-llm-provider"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
 ]
 

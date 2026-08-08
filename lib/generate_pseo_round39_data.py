@@ -172,7 +172,7 @@ COST_OF = [
             ("Does the firewall cover memory spend?",
              "Yes — any merchant, including memory and vector providers."),
         ],
-        related=[("Vector database cost", "/cost-of/vector-database-cost"), ("Token caching", "/glossary/token-caching"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("Vector database cost", "/cost-of/vector-database-cost"), ("Token caching", "/glossary/token-caching"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
 ]
 

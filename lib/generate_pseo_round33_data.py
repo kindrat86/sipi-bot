@@ -78,7 +78,7 @@ COST_OF = [
             ("Does sipi.bot work with local stacks?",
              "Yes — the firewall governs tool and API spend regardless of where inference runs."),
         ],
-        related=[("Local vs hosted benchmark", "/benchmarks/local-llm-vs-hosted-api-cost"), ("vLLM cost", "/cost-of/vllm-cost"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("Local vs hosted benchmark", "/benchmarks/local-llm-vs-hosted-api-cost"), ("vLLM cost", "/cost-of/vllm-cost"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
     dict(
         slug="aws-bedrock-cost",

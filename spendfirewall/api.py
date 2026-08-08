@@ -1257,6 +1257,28 @@ class Handler(BaseHTTPRequestHandler):
         # directories are deleted and their URLs 301 to the real vendor page.
         # The whole site's convention is the short vendor slug anyway
         # (/integrations/anthropic, /integrations/langchain, …).
+        # W10 (2026-08-08) — five duplicate-<h1> clusters consolidated. Each of
+        # these URLs targeted the same query as its keeper with a near-identical
+        # slug. Keepers chosen on 90-day GSC impressions first, then internal
+        # links, then section naming convention, then depth:
+        #   aws-bedrock-cost      -> api-cost matches 21 of 34 /cost-of/ slugs
+        #   the two how-much FAQs -> the keeper is in the site-wide footer
+        #   for/ai-startups       -> use-cases/ has the impressions (8 vs 0)
+        #   how-to/how-to-*       -> the keeper has 30 impressions, this had 0
+        #   sipi-bot-vs-*         -> "sipi-bot-vs-" was a 1-of-1 outlier in /vs/
+        "/cost-of/aws-bedrock-cost": "/cost-of/aws-bedrock-api-cost",
+        "/cost-of/aws-bedrock-cost/": "/cost-of/aws-bedrock-api-cost",
+        "/faq/how-much-ai-agent-spend": "/faq/how-much-should-my-ai-agent-spend",
+        "/faq/how-much-ai-agent-spend/": "/faq/how-much-should-my-ai-agent-spend",
+        "/faq/how-much-should-ai-agent-spend": "/faq/how-much-should-my-ai-agent-spend",
+        "/faq/how-much-should-ai-agent-spend/": "/faq/how-much-should-my-ai-agent-spend",
+        "/for/ai-startups": "/use-cases/ai-startups",
+        "/for/ai-startups/": "/use-cases/ai-startups",
+        "/how-to/how-to-reduce-ai-api-costs": "/how-to/reduce-ai-api-costs",
+        "/how-to/how-to-reduce-ai-api-costs/": "/how-to/reduce-ai-api-costs",
+        "/vs/sipi-bot-vs-openai-spending-limits": "/vs/openai-spending-limits",
+        "/vs/sipi-bot-vs-openai-spending-limits/": "/vs/openai-spending-limits",
+
         "/integrations/sipi-bot-plus-stripe": "/integrations/stripe",
         "/integrations/sipi-bot-plus-stripe/": "/integrations/stripe",
         "/integrations/sipi-bot-plus-openai-agents-sdk": "/integrations/openai-agents/",

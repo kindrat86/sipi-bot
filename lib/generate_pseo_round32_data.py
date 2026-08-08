@@ -423,7 +423,7 @@ ANSWERS = [
             ("What's the fastest fix?",
              "A velocity limit and a per-agent ceiling."),
         ],
-        related=[("Why agents cost so much", "/answers/why-do-ai-agents-cost-so-much/"), ("Agent cost breakdown", "/blog/how-much-does-an-agent-cost-to-run"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("Why agents cost so much", "/answers/why-do-ai-agents-cost-so-much/"), ("Agent cost breakdown", "/blog/how-much-does-an-agent-cost-to-run"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
 ]
 

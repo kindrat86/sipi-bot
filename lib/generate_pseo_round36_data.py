@@ -256,7 +256,7 @@ GLOSSARY = [
             ("Does caching replace caps?",
              "No — it cuts rate; caps bound volume. Both."),
         ],
-        related=[("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs"), ("Context window", "/glossary/context-window"), ("Cache-hit benchmark", "/benchmarks/token-cache-hit-savings")],
+        related=[("How to reduce AI API costs", "/how-to/reduce-ai-api-costs"), ("Context window", "/glossary/context-window"), ("Cache-hit benchmark", "/benchmarks/token-cache-hit-savings")],
     ),
     dict(
         slug="agent-identity",

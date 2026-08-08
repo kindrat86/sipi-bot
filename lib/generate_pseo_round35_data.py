@@ -150,7 +150,7 @@ ANSWERS = [
             ("What's the smartest first step?",
              "Cap the pilot before it runs — ceilings from day one."),
         ],
-        related=[("Why agents cost so much", "/answers/why-do-ai-agents-cost-so-much/"), ("How to set a budget", "/answers/how-to-set-a-budget-for-ai-agents/"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("Why agents cost so much", "/answers/why-do-ai-agents-cost-so-much/"), ("How to set a budget", "/answers/how-to-set-a-budget-for-ai-agents/"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
     dict(
         slug="are-ai-agents-worth-it",

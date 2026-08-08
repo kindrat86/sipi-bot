@@ -205,7 +205,7 @@ VS = [
             ("What's the agent angle?",
              "Meeting-agents that transcribe and summarize call paid APIs per minute of audio — that's firewall territory."),
         ],
-        related=[("Meeting agents", "/use-cases/meeting-agents"), ("Fireflies pricing", "/cost-of/fireflies-pricing"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("Meeting agents", "/use-cases/meeting-agents"), ("Fireflies pricing", "/cost-of/fireflies-pricing"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
 ]
 
@@ -513,7 +513,7 @@ BENCHMARKS = [
             ("What's the biggest token sink?",
              "Context size on long tasks — cap per-call spend to contain it."),
         ],
-        related=[("LLM context cost", "/benchmarks/llm-context-window-cost-comparison"), ("Cost per 1M tokens", "/benchmarks/cost-per-1m-tokens-2026"), ("How to reduce AI API costs", "/how-to/how-to-reduce-ai-api-costs")],
+        related=[("LLM context cost", "/benchmarks/llm-context-window-cost-comparison"), ("Cost per 1M tokens", "/benchmarks/cost-per-1m-tokens-2026"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
     ),
 ]
 
