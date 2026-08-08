@@ -18,7 +18,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I replace Langfuse with sipi.bot?","acceptedAnswer":{"@type":"Answer","text":"Use both. Langfuse traces every LLM call and gives you observability — prompts, responses, cost, latency, evaluation scoring. sipi.bot enforces spend before money moves. Langfuse is for understanding your LLM calls, sipi.bot is for governing your agent's spending."}},{"@type":"Question","name":"Does Langfuse have spend limits?","acceptedAnswer":{"@type":"Answer","text":"Langfuse has cost tracking and you can layer evaluation and alerting on top, but it is observability infrastructure — it reports what happened. sipi.bot is a pre-spend firewall: it blocks or flags a transaction before a dollar moves, with velocity limits, merchant allowlists, and a human approval queue."}},{"@type":"Question","name":"Is Langfuse or sipi.bot better for stopping a runaway agent?","acceptedAnswer":{"@type":"Answer","text":"sipi.bot. Langfuse will give you a detailed trace of exactly how your runaway agent spent $12,400. sipi.bot will have blocked it on the second retry."}}]}</script>
 
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem;background:#fff}
 h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
 h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
 h3{font-size:1.15rem;margin-top:1.5rem}

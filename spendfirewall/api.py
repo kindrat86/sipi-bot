@@ -253,7 +253,13 @@ def _inject_mobile_nav(html: str) -> str:
     )
     nav = (
         '<div class="sipi-nav" data-sipi-nav-injected>'
-        + templates.NAV_CSS +
+        # NAV_CSS is a bare stylesheet with no <style> wrapper of its own
+        # (unlike NAV_JS, which carries its <script> tags). Injected raw it
+        # rendered as ~4KB of visible CSS text at the top of every baked page —
+        # confirmed in production 2026-08-08 on /integrations/*, /vs/* and the
+        # rest of the pSEO surface. curl could not see it: the bytes are
+        # present either way, and only a browser shows them as body text.
+        + '<style>' + templates.NAV_CSS + '</style>' +
         '<nav><div class="wrap">\n  ' + brand + '\n  ' + templates.NAV_TOGGLE +
         '\n  <div class="nav-links" id="mainnav">\n' + nav_links +
         '\n  </div>\n</div></nav>\n' + templates.NAV_JS +
@@ -415,9 +421,20 @@ class Handler(BaseHTTPRequestHandler):
                 "https://eu.i.posthog.com https://eu-assets.i.posthog.com "
                 "https://sipi.bot; frame-ancestors 'none'; "
                 "object-src 'none'; base-uri 'self'; "
-                "frame-src https://js.stripe.com https://checkout.stripe.com; "
-                "require-trusted-types-for 'script'"
+                "frame-src https://js.stripe.com https://checkout.stripe.com"
             )
+            # NB: no "require-trusted-types-for 'script'". It was here until
+            # 2026-08-08 with no Trusted Types policy registered, so Chromium
+            # rejected every innerHTML assignment on the page ("This document
+            # requires 'TrustedHTML' assignment"). That silently killed the
+            # output of all three interactive tools — the risk calculator, the
+            # policy generator and the AI spend optimizer all computed their
+            # answer and then failed to display it, for ~70% of visitors.
+            # It was also buying almost nothing: script-src above still allows
+            # 'unsafe-inline', so the primary XSS vector stays open either way.
+            # If it is ever restored, register a default policy FIRST and
+            # browser-check the tools — see the voicelogpro incident where a
+            # Trusted Types default policy recursed and emptied #root in prod.
         else:
             # Secret-bearing success pages must never load third-party scripts,
             # make cross-origin requests, or leak their capability URL.

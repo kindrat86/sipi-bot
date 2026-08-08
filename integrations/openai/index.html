@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>sipi.bot + OpenAI API integration guide</title>
-<meta name="description" content="Integrate sipi.bot with the OpenAI API. Wrap the OpenAI SDK with a 5ms policy check that caps per-request token cost, daily spend ceilings, and functi">
+<meta name="description" content="Four ways an OpenAI agent bill grows: context accumulation, sampling multipliers, retry storms and server-side thread state. Where to put the spend check, and why batch work needs its own budget.">
 <link rel="canonical" href="https://sipi.bot/integrations/openai">
 <meta property="og:title" content="sipi.bot + OpenAI API integration guide">
-<meta property="og:description" content="Integrate sipi.bot with the OpenAI API. Wrap the OpenAI SDK with a 5ms policy check that caps per-request token cost, daily spend ceilings, and functi">
+<meta property="og:description" content="Four ways an OpenAI agent bill grows: context accumulation, sampling multipliers, retry storms and server-side thread state. Where to put the spend check, and why batch work needs its own budget.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/integrations/openai">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + OpenAI API integration guide","description":"Integrate sipi.bot with the OpenAI API. Wrap the OpenAI SDK with a 5ms policy check that caps per-request token cost, daily spend ceilings, and functi","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/openai"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + OpenAI API integration guide","description":"Four ways an OpenAI agent bill grows: context accumulation, sampling multipliers, retry storms and server-side thread state. Where to put the spend check, and why batch work needs its own budget.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/openai"},"datePublished":"2026-07-18","dateModified":"2026-08-08"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/integrations/openai"}]}</script>
 
 
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem;background:#fff}
 h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
 h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
 h3{font-size:1.15rem;margin-top:1.5rem}
@@ -38,7 +38,8 @@ th{background:#f9fafb;font-weight:600}
 .related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
 ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
-ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+ul.cross{list-style:none;padding-left:0}
+pre{background:#0f172a;color:#e2e8f0;padding:1rem 1.1rem;border-radius:.5rem;overflow-x:auto;font-size:.86rem;line-height:1.55;margin:1.25rem 0}pre code{background:none;color:inherit;padding:0;font-size:inherit}code{background:#f1f5f9;padding:.12em .35em;border-radius:.25rem;font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
 </style>
 <!-- isenberg-round15 -->
 </head>
@@ -49,65 +50,86 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <h1>sipi.bot + OpenAI API</h1>
 <p class="lede">Integrate sipi.bot with the OpenAI API. Wrap the OpenAI SDK with a 5ms policy check that caps per-request token cost, daily spend ceilings, and function-call transaction limits.</p>
 </header>
-
-<h2>How the integration works</h2>
-<p>Integrate sipi.bot with the OpenAI API. Wrap the OpenAI SDK with a 5ms policy check that caps per-request token cost, daily spend ceilings, and function-call transaction limits. The integration is a 5ms policy check inserted between your agent's spend intent and the actual openai api call.</p>
-
-<h2>Setup</h2>
+<h2>Four ways an OpenAI bill grows</h2>
+<p>Token pricing is only the first of them, and on an agent workload it is rarely the
+one that surprises you.</p>
 <ol>
-<li>Create a sipi.bot account and get your API key</li>
-<li>Add the sipi.bot SDK to your OpenAI API integration</li>
-<li>Configure your spend policy: per-transaction limit, daily ceiling, merchant allowlist</li>
-<li>Every OpenAI API call now passes through the policy check</li>
+<li><strong>Context accumulation.</strong> Every turn of a tool-calling loop re-sends
+the conversation so far. Cost climbs faster than turn count.</li>
+<li><strong>Sampling multipliers.</strong> Asking for several completions multiplies
+output tokens by the number you asked for. It is one parameter and it is easy to
+leave turned up after an experiment.</li>
+<li><strong>Retry storms.</strong> A rate limit or a timeout triggers a retry; a
+retry that also fails triggers another. Naive backoff turns one failure into a burst
+of billed attempts.</li>
+<li><strong>Server-side conversation state.</strong> When the provider keeps the
+thread for you, the context still grows — you just stop seeing it grow in your own
+code.</li>
 </ol>
+<p>Each of these produces a different signature, which is why one rule type is not
+enough to cover them.</p>
 
-<h2>What gets enforced</h2>
-<ul class="check">
-<li>Per-transaction cost ceiling</li>
-<li>Daily spend ceiling</li>
-<li>Velocity cap (transactions per minute)</li>
-<li>Merchant allowlist</li>
-<li>Audit trail for every transaction</li>
+<h2>Putting the check in front of the SDK</h2>
+<p>Wrap the completion call. Price the worst case from your token ceiling, submit it,
+and respect the decision.</p>
+<pre><code>import requests
+from openai import OpenAI
+
+client = OpenAI()
+
+def guarded_completion(**kw):
+    d = requests.post(
+        "https://sipi.bot/v1/transactions/evaluate",
+        headers={"Authorization": f"Bearer {SIPI_KEY}"},
+        json={"amount": estimate_usd(**kw), "merchant": "openai",
+              "category": "llm", "description": kw["model"]},
+        timeout=5,
+    ).json()
+    if d["decision"] == "BLOCKED":
+        raise RuntimeError(d["reason"])
+    if d["decision"] == "FLAGGED":
+        await_human_approval(d["transaction_id"])
+    return client.chat.completions.create(**kw)</code></pre>
+<p>Note that <code>FLAGGED</code> is not a failure. It is the decision that lets you
+keep a tight ceiling without killing legitimate expensive work — the agent pauses,
+a human looks, the task continues.</p>
+
+<h2>Matching rules to failure modes</h2>
+<table><thead><tr><th>Rule type</th><th>What it does on this integration</th></tr></thead><tbody><tr><td><code>velocity</code></td><td>The retry-storm control. A burst of attempts in a short window is a shape that per-call limits cannot see.</td></tr><tr><td><code>daily_total</code></td><td>The backstop for context accumulation, where every individual call is defensible and the total is not.</td></tr><tr><td><code>per_transaction</code></td><td>Catches an oversized request — a long context, a raised token ceiling, or a sampling multiplier left turned up.</td></tr><tr><td><code>category_limit</code></td><td>Separates model spend from the other things an OpenAI-based agent buys, so one budget cannot quietly eat the other.</td></tr></tbody></table>
+
+<h2>Batch work deserves a different policy</h2>
+<p>An asynchronous batch job is legitimately large and legitimately slow. Under a
+policy tuned for interactive use it looks exactly like a runaway. Give batch work its
+own agent identity and its own ceiling rather than loosening the interactive policy
+until the batch fits through it — that is how a temporary exception becomes a
+permanent hole.</p>
+<div class="callout"><p>The same reasoning applies to evaluation runs. They are
+bursty, expensive and expected. Separate identity, separate budget, no exceptions
+carved into the policy that guards production.</p></div>
+
+<h2>Limits worth knowing</h2>
+<ul class="cross">
+<li>The firewall prices what you tell it, not what OpenAI later charges. Submit the
+real usage figures afterwards so the daily total reflects reality.</li>
+<li>It cannot see tokens spent through a different key, a different SDK, or a
+teammate's script.</li>
+<li>It does not deduplicate a retried request. If you retry, either reuse the
+decision or record the retry deliberately — do not let the same logical call consume
+budget twice by accident.</li>
 </ul>
 
-<h2>Frequently asked questions</h2>
-<h3>Does this slow down my agent?</h3>
-<p>No. The policy check adds 5ms of latency, far below typical network latency to OpenAI API.</p>
-<h3>Can I disable the policy mid-run?</h3>
-<p>Only with admin override. Disabling is logged and alerted on.</p>
+<h2>Common questions</h2>
+<h3>Isn't a spend cap in the provider dashboard enough?</h3>
+<p>A provider cap is account-wide and it acts after the fact — it tells you the month
+is over, not that this call should not happen. It also cannot distinguish your
+runaway agent from your production traffic. Use both: the dashboard cap is a
+backstop, the pre-call check is the control.</p>
+<h3>Does it work with streaming?</h3>
+<p>Yes, because the check runs before the stream opens. Once tokens are flowing you
+cannot un-bill them, so the decision has to happen first.</p>
 
 <div class="cta"><a href="https://sipi.bot/">Get started with sipi.bot &rarr;</a></div>
 
-
-
-<!-- mesh-round19 -->
-
-
-<!-- sipi-enrich-v1 -->
-<section>
-<h2>How the integration works</h2>
-<p>The OpenAI API integration inserts sipi.bot as a policy layer between your agent's spend intent and the actual transaction. Every call that can move money — a charge, a paid API request, a tool that provisions a metered resource — passes through a single policy check that returns approve, block, or flag in under 5ms.</p>
-<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
-</section>
-
-<section><h2>Setup steps</h2><ol><li>Create a sipi.bot account and define your policy: per-transaction limit, daily ceiling, velocity cap (transactions per minute), and merchant allowlist.</li><li>Generate an API key and add it to your OpenAI API agent's environment.</li><li>Wrap the function or tool call that triggers spend with a single sipi.bot check. Most integrations are a five-line wrapper around the existing call.</li><li>Run a test transaction. sipi.bot returns a structured JSON decision; verify your agent handles the block and flag paths, not just approve.</li><li>Turn on real-time alerts (Slack, email, webhook) so you hear about flagged transactions the moment they happen.</li></ol></section>
-
-<section>
-<h2>What data flows between them</h2>
-<p>On every spend intent, your agent sends sipi.bot four fields: agent id, merchant or destination, dollar amount, and intent description. sipi.bot returns a decision (approve, block, flag), a reason code, the policy version that was evaluated, and a transaction id for the audit trail.</p>
-<p>sipi.bot never sees the content of your agent's reasoning, prompts, or non-spend tool calls. It only inspects the transaction. The audit log is append-only and tamper-evident — every decision is timestamped and attributable to a specific policy version.</p>
-</section>
-
-<section>
-<h2>Example configuration</h2>
-<p>A typical policy for an agent using OpenAI API: per-transaction limit $5, daily ceiling $50, velocity cap 10 transactions per minute, merchant allowlist restricted to your approved vendors. Human-in-the-loop escalation on any single transaction over $25.</p>
-<p>This is conservative enough to stop a runaway loop in seconds and permissive enough that a productive agent can do its job without constant interruption. Adjust the numbers to match your agent's task scope and your risk tolerance.</p>
-</section>
-
-<section>
-<h2>Why this integration matters</h2>
-<p>OpenAI API is powerful precisely because it can act autonomously. That autonomy is also the risk: an agent that can transact can also overspend, loop, or hit the wrong merchant. The integration gives you the autonomy without the financial exposure.</p>
-</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">

@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>sipi.bot + Google Gemini API integration guide</title>
-<meta name="description" content="Integrate sipi.bot with the Google Gemini API. sipi.bot enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend lim">
+<meta name="description" content="Long context means one Gemini call can outcost hundreds, so per-transaction limits do the load-bearing work. Plus context caching, billed by storage time, which no per-call check ever sees.">
 <link rel="canonical" href="https://sipi.bot/integrations/google-gemini">
 <meta property="og:title" content="sipi.bot + Google Gemini API integration guide">
-<meta property="og:description" content="Integrate sipi.bot with the Google Gemini API. sipi.bot enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend lim">
+<meta property="og:description" content="Long context means one Gemini call can outcost hundreds, so per-transaction limits do the load-bearing work. Plus context caching, billed by storage time, which no per-call check ever sees.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/integrations/google-gemini">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + Google Gemini API integration guide","description":"Integrate sipi.bot with the Google Gemini API. sipi.bot enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend lim","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/google-gemini"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + Google Gemini API integration guide","description":"Long context means one Gemini call can outcost hundreds, so per-transaction limits do the load-bearing work. Plus context caching, billed by storage time, which no per-call check ever sees.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/google-gemini"},"datePublished":"2026-07-18","dateModified":"2026-08-08"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/integrations/google-gemini"}]}</script>
 
 
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem;background:#fff}
 h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
 h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
 h3{font-size:1.15rem;margin-top:1.5rem}
@@ -38,7 +38,8 @@ th{background:#f9fafb;font-weight:600}
 .related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
 ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
-ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+ul.cross{list-style:none;padding-left:0}
+pre{background:#0f172a;color:#e2e8f0;padding:1rem 1.1rem;border-radius:.5rem;overflow-x:auto;font-size:.86rem;line-height:1.55;margin:1.25rem 0}pre code{background:none;color:inherit;padding:0;font-size:inherit}code{background:#f1f5f9;padding:.12em .35em;border-radius:.25rem;font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
 </style>
 <!-- isenberg-round15 -->
 </head>
@@ -49,65 +50,73 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <h1>sipi.bot + Google Gemini API</h1>
 <p class="lede">Integrate sipi.bot with the Google Gemini API. sipi.bot enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend limits on Gemini calls.</p>
 </header>
+<h2>Very large context changes which rule matters</h2>
+<p>Most spend advice assumes many small calls. Gemini's long context windows break
+that assumption: a single request carrying a large document can cost more than
+hundreds of ordinary calls put together. If your only protection is a rate limit, one
+call slips through it untouched and the rate limit was never the control you thought
+it was.</p>
+<p>On this integration <code>per_transaction</code> does the load-bearing work. It is
+the rule that notices a single request is enormous, which is precisely the failure
+mode a long-context model makes cheap to trigger and expensive to survive.</p>
+<div class="callout warn"><p><strong>Retrieval turns a bug into a bill.</strong> When
+context is assembled programmatically, a retrieval step that returns too much does
+not raise an error. It just makes the next call larger, and it will keep doing so
+every time it runs.</p></div>
 
-<h2>How the integration works</h2>
-<p>Integrate sipi.bot with the Google Gemini API. sipi.bot enforces per-call cost ceilings, daily budget caps, and multi-turn conversation spend limits on Gemini calls. The integration is a 5ms policy check inserted between your agent's spend intent and the actual google gemini api call.</p>
+<h2>Context caching is a second cost axis</h2>
+<p>Cached context is billed for how long it is stored, not only for the calls that
+use it. A cache created and forgotten keeps costing money while your agent does
+nothing at all — and that spend never passes through a per-call check, because there
+is no call to intercept.</p>
+<p>Record cache creation as its own transaction with its own category, and treat
+cache lifetime as a budget decision rather than an implementation detail. This is the
+one part of a Gemini integration where a pre-call firewall genuinely does not help by
+itself, and it is better to say so than to imply coverage that is not there.</p>
 
-<h2>Setup</h2>
-<ol>
-<li>Create a sipi.bot account and get your API key</li>
-<li>Add the sipi.bot SDK to your Google Gemini API integration</li>
-<li>Configure your spend policy: per-transaction limit, daily ceiling, merchant allowlist</li>
-<li>Every Google Gemini API call now passes through the policy check</li>
-</ol>
+<h2>Wiring the check in</h2>
+<pre><code>import requests
+from google import genai
 
-<h2>What gets enforced</h2>
-<ul class="check">
-<li>Per-transaction cost ceiling</li>
-<li>Daily spend ceiling</li>
-<li>Velocity cap (transactions per minute)</li>
-<li>Merchant allowlist</li>
-<li>Audit trail for every transaction</li>
-</ul>
+client = genai.Client()
 
-<h2>Frequently asked questions</h2>
-<h3>Does this slow down my agent?</h3>
-<p>No. The policy check adds 5ms of latency, far below typical network latency to Google Gemini API.</p>
-<h3>Can I disable the policy mid-run?</h3>
-<p>Only with admin override. Disabling is logged and alerted on.</p>
+def guarded_generate(model, contents, **kw):
+    d = requests.post(
+        "https://sipi.bot/v1/transactions/evaluate",
+        headers={"Authorization": f"Bearer {SIPI_KEY}"},
+        json={"amount": price_context(model, contents),
+              "merchant": "google", "category": "llm",
+              "description": f"{model} ctx={token_count(contents)}"},
+        timeout=5,
+    ).json()
+    if d["decision"] != "APPROVED":
+        raise RuntimeError(f"{d['decision']}: {d['reason']}")
+    return client.models.generate_content(
+        model=model, contents=contents, **kw)</code></pre>
+<p>Count the context before you price it. On a long-context model the token count is
+the whole story, and an estimate that ignores it is not an estimate.</p>
+
+<h2>Rule priorities for Gemini</h2>
+<table><thead><tr><th>Rule type</th><th>What it does on this integration</th></tr></thead><tbody><tr><td><code>per_transaction</code></td><td>First priority. One long-context call is the characteristic expensive event on this integration.</td></tr><tr><td><code>category_limit</code></td><td>Keeps context-cache storage on a separate budget line from generation, since the two accrue differently.</td></tr><tr><td><code>daily_total</code></td><td>Bounds the aggregate when many medium-sized calls each stay under the per-call ceiling.</td></tr><tr><td><code>approval_threshold</code></td><td>Sends the genuinely large document run to a human rather than blocking work that may well be justified.</td></tr></tbody></table>
+
+<h2>The free-tier trap</h2>
+<p>Development against a free tier teaches you nothing about production cost, and the
+switch to a billed key is usually a one-line change made by someone who is not
+thinking about spend at that moment. The same code that was free on Friday can bill
+on Monday. Put the policy in place while it is still free — that is the cheapest time
+to discover your estimates are wrong.</p>
+
+<h2>Questions</h2>
+<h3>Does the check understand multimodal input?</h3>
+<p>Only through the amount you submit. Images, audio and video convert to tokens at
+their own rates, so price them with the provider's current conversion before
+submitting rather than assuming a text-token equivalence.</p>
+<h3>Can I cap spend per document instead of per call?</h3>
+<p>Give the document-processing path its own agent identity. Its ceiling then applies
+to the whole job rather than to any one request inside it.</p>
 
 <div class="cta"><a href="https://sipi.bot/">Get started with sipi.bot &rarr;</a></div>
 
-
-
-<!-- mesh-round19 -->
-
-
-<!-- sipi-enrich-v1 -->
-<section>
-<h2>How the integration works</h2>
-<p>The Google Gemini API integration inserts sipi.bot as a policy layer between your agent's spend intent and the actual transaction. Every call that can move money — a charge, a paid API request, a tool that provisions a metered resource — passes through a single policy check that returns approve, block, or flag in under 5ms.</p>
-<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
-</section>
-
-<section><h2>Setup steps</h2><ol><li>Create a sipi.bot account and define your policy: per-transaction limit, daily ceiling, velocity cap (transactions per minute), and merchant allowlist.</li><li>Generate an API key and add it to your Google Gemini API agent's environment.</li><li>Wrap the function or tool call that triggers spend with a single sipi.bot check. Most integrations are a five-line wrapper around the existing call.</li><li>Run a test transaction. sipi.bot returns a structured JSON decision; verify your agent handles the block and flag paths, not just approve.</li><li>Turn on real-time alerts (Slack, email, webhook) so you hear about flagged transactions the moment they happen.</li></ol></section>
-
-<section>
-<h2>What data flows between them</h2>
-<p>On every spend intent, your agent sends sipi.bot four fields: agent id, merchant or destination, dollar amount, and intent description. sipi.bot returns a decision (approve, block, flag), a reason code, the policy version that was evaluated, and a transaction id for the audit trail.</p>
-<p>sipi.bot never sees the content of your agent's reasoning, prompts, or non-spend tool calls. It only inspects the transaction. The audit log is append-only and tamper-evident — every decision is timestamped and attributable to a specific policy version.</p>
-</section>
-
-<section>
-<h2>Example configuration</h2>
-<p>A typical policy for an agent using Google Gemini API: per-transaction limit $5, daily ceiling $50, velocity cap 10 transactions per minute, merchant allowlist restricted to your approved vendors. Human-in-the-loop escalation on any single transaction over $25.</p>
-<p>This is conservative enough to stop a runaway loop in seconds and permissive enough that a productive agent can do its job without constant interruption. Adjust the numbers to match your agent's task scope and your risk tolerance.</p>
-</section>
-
-<section>
-<h2>Why this integration matters</h2>
-<p>Google Gemini API is powerful precisely because it can act autonomously. That autonomy is also the risk: an agent that can transact can also overspend, loop, or hit the wrong merchant. The integration gives you the autonomy without the financial exposure.</p>
-</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">

@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>sipi.bot + CrewAI integration guide</title>
-<meta name="description" content="CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. sipi.bot enforces them per crew member.">
+<meta name="description" content="CrewAI delegation multiplies calls you never wrote, and hierarchical process adds a manager LLM to every decision. Per-crew-member budgets, retry cost, and returning a block as a tool result.">
 <link rel="canonical" href="https://sipi.bot/integrations/crewai">
 <meta property="og:title" content="sipi.bot + CrewAI integration guide">
-<meta property="og:description" content="CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. sipi.bot enforces them per crew member.">
+<meta property="og:description" content="CrewAI delegation multiplies calls you never wrote, and hierarchical process adds a manager LLM to every decision. Per-crew-member budgets, retry cost, and returning a block as a tool result.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/integrations/crewai">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + CrewAI integration guide","description":"CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. sipi.bot enforces them per crew member.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/crewai"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + CrewAI integration guide","description":"CrewAI delegation multiplies calls you never wrote, and hierarchical process adds a manager LLM to every decision. Per-crew-member budgets, retry cost, and returning a block as a tool result.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/crewai"},"datePublished":"2026-07-18","dateModified":"2026-08-08"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/integrations/crewai"}]}</script>
 
 
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem;background:#fff}
 h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
 h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
 h3{font-size:1.15rem;margin-top:1.5rem}
@@ -38,7 +38,8 @@ th{background:#f9fafb;font-weight:600}
 .related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
 ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
-ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+ul.cross{list-style:none;padding-left:0}
+pre{background:#0f172a;color:#e2e8f0;padding:1rem 1.1rem;border-radius:.5rem;overflow-x:auto;font-size:.86rem;line-height:1.55;margin:1.25rem 0}pre code{background:none;color:inherit;padding:0;font-size:inherit}code{background:#f1f5f9;padding:.12em .35em;border-radius:.25rem;font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
 </style>
 <!-- isenberg-round15 -->
 </head>
@@ -49,65 +50,75 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <h1>sipi.bot + CrewAI</h1>
 <p class="lede">CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. sipi.bot enforces them per crew member.</p>
 </header>
+<h2>Delegation multiplies calls you did not write</h2>
+<p>A CrewAI crew is easy to reason about at the task level and harder to reason about
+at the invocation level. One task assigned to one agent is rarely one model call: the
+agent reasons, calls a tool, reads the result, reasons again. Add delegation and a
+task can fan out into work you never explicitly requested.</p>
+<p>The hierarchical process makes this sharper. A manager agent coordinates the crew,
+and the manager is itself an LLM — every coordination decision is a billed call that
+appears nowhere in your task list. Crews often cost meaningfully more under
+hierarchical process than sequential, for structural reasons rather than because
+anything went wrong.</p>
 
-<h2>How the integration works</h2>
-<p>CrewAI agents that execute tasks with spend consequences need per-agent velocity caps. sipi.bot enforces them per crew member. The integration is a 5ms policy check inserted between your agent's spend intent and the actual crewai call.</p>
+<h2>Budget per crew member, not per crew</h2>
+<p>A single ceiling for the whole crew tells you that something is expensive. A
+ceiling per agent tells you which role is expensive — and roles differ enormously. A
+researcher that searches and reads costs very differently from a writer that produces
+one long output, and averaging them hides both.</p>
+<pre><code>import requests
+from crewai import Agent, Crew, Task
 
-<h2>Setup</h2>
-<ol>
-<li>Create a sipi.bot account and get your API key</li>
-<li>Add the sipi.bot SDK to your CrewAI integration</li>
-<li>Configure your spend policy: per-transaction limit, daily ceiling, merchant allowlist</li>
-<li>Every CrewAI call now passes through the policy check</li>
-</ol>
+def guarded_tool(fn, role, cost, sipi_key):
+    def wrapper(*a, **kw):
+        d = requests.post(
+            "https://sipi.bot/v1/transactions/evaluate",
+            headers={"Authorization": f"Bearer {sipi_key}"},
+            json={"amount": cost, "merchant": fn.__name__,
+                  "category": "tool", "description": f"{role} -> {fn.__name__}"},
+            timeout=5,
+        ).json()
+        if d["decision"] == "BLOCKED":
+            return f"Budget exceeded for {role}: {d['reason']}"
+        return fn(*a, **kw)
+    return wrapper</code></pre>
+<div class="callout good"><p>Returning the block as a <em>tool result</em> rather than
+raising is often the better move in CrewAI. The agent reads it, understands the tool
+is unavailable, and writes up what it has — instead of the task dying mid-crew.</p>
+</div>
 
-<h2>What gets enforced</h2>
-<ul class="check">
-<li>Per-transaction cost ceiling</li>
-<li>Daily spend ceiling</li>
-<li>Velocity cap (transactions per minute)</li>
-<li>Merchant allowlist</li>
-<li>Audit trail for every transaction</li>
+<h2>Retries are where task cost hides</h2>
+<p>When a task's output fails validation, the framework's instinct is to try again.
+That is usually the right behaviour and it is billed every time. A task that retries
+three times costs roughly four times its nominal price, and nothing in the run summary
+draws attention to it. A velocity rule catches this shape early, because retries
+cluster tightly in time.</p>
+
+<h2>Rule selection for crews</h2>
+<table><thead><tr><th>Rule type</th><th>What it does on this integration</th></tr></thead><tbody><tr><td><code>velocity</code></td><td>Catches retry loops and over-eager delegation, both of which burst rather than accumulate slowly.</td></tr><tr><td><code>category_limit</code></td><td>Splits tool spend from model spend — essential when crew members use paid search or data APIs.</td></tr><tr><td><code>daily_total</code></td><td>The crew-wide aggregate, applied per agent identity for attribution.</td></tr><tr><td><code>merchant_allow</code></td><td>Constrains which third-party tools a crew member may spend on at all.</td></tr></tbody></table>
+
+<h2>Honest limits</h2>
+<ul class="cross">
+<li>Spend inside the framework's own coordination — manager reasoning under the
+hierarchical process — only counts if you route it through the check like any other
+call.</li>
+<li>The firewall does not evaluate output quality, so it cannot tell a productive
+retry from a doomed one.</li>
+<li>Per-agent attribution depends on you issuing per-agent keys. One shared key gives
+you one shared number.</li>
 </ul>
 
-<h2>Frequently asked questions</h2>
-<h3>Does this slow down my agent?</h3>
-<p>No. The policy check adds 5ms of latency, far below typical network latency to CrewAI.</p>
-<h3>Can I disable the policy mid-run?</h3>
-<p>Only with admin override. Disabling is logged and alerted on.</p>
+<h2>Questions</h2>
+<h3>Sequential or hierarchical — does it change the policy?</h3>
+<p>It changes the numbers, not the structure. Hierarchical adds manager calls, so the
+same crew needs more headroom under the same rules. Measure both before setting the
+ceiling.</p>
+<h3>Can one agent's block stop the crew?</h3>
+<p>Only if you let it propagate. Returning the block as a tool result keeps the crew
+running with one member constrained, which is usually what you want.</p>
 
 <div class="cta"><a href="https://sipi.bot/">Get started with sipi.bot &rarr;</a></div>
 
-
-
-<!-- mesh-round19 -->
-
-
-<!-- sipi-enrich-v1 -->
-<section>
-<h2>How the integration works</h2>
-<p>The CrewAI integration inserts sipi.bot as a policy layer between your agent's spend intent and the actual transaction. Every call that can move money — a charge, a paid API request, a tool that provisions a metered resource — passes through a single policy check that returns approve, block, or flag in under 5ms.</p>
-<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
-</section>
-
-<section><h2>Setup steps</h2><ol><li>Create a sipi.bot account and define your policy: per-transaction limit, daily ceiling, velocity cap (transactions per minute), and merchant allowlist.</li><li>Generate an API key and add it to your CrewAI agent's environment.</li><li>Wrap the function or tool call that triggers spend with a single sipi.bot check. Most integrations are a five-line wrapper around the existing call.</li><li>Run a test transaction. sipi.bot returns a structured JSON decision; verify your agent handles the block and flag paths, not just approve.</li><li>Turn on real-time alerts (Slack, email, webhook) so you hear about flagged transactions the moment they happen.</li></ol></section>
-
-<section>
-<h2>What data flows between them</h2>
-<p>On every spend intent, your agent sends sipi.bot four fields: agent id, merchant or destination, dollar amount, and intent description. sipi.bot returns a decision (approve, block, flag), a reason code, the policy version that was evaluated, and a transaction id for the audit trail.</p>
-<p>sipi.bot never sees the content of your agent's reasoning, prompts, or non-spend tool calls. It only inspects the transaction. The audit log is append-only and tamper-evident — every decision is timestamped and attributable to a specific policy version.</p>
-</section>
-
-<section>
-<h2>Example configuration</h2>
-<p>A typical policy for an agent using CrewAI: per-transaction limit $5, daily ceiling $50, velocity cap 10 transactions per minute, merchant allowlist restricted to your approved vendors. Human-in-the-loop escalation on any single transaction over $25.</p>
-<p>This is conservative enough to stop a runaway loop in seconds and permissive enough that a productive agent can do its job without constant interruption. Adjust the numbers to match your agent's task scope and your risk tolerance.</p>
-</section>
-
-<section>
-<h2>Why this integration matters</h2>
-<p>CrewAI is powerful precisely because it can act autonomously. That autonomy is also the risk: an agent that can transact can also overspend, loop, or hit the wrong merchant. The integration gives you the autonomy without the financial exposure.</p>
-</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">

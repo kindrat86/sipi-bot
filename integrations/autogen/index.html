@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>sipi.bot + Microsoft AutoGen integration guide</title>
-<meta name="description" content="AutoGen&#x27;s multi-agent conversations can rack up spend quickly. sipi.bot enforces per-agent, per-conversation, and total-run spend ceilings.">
+<meta name="description" content="In AutoGen every round re-sends the transcript, so cost grows faster than the conversation. Per-agent budgets, why max_round is not a spend cap, and the politeness loop that never converges.">
 <link rel="canonical" href="https://sipi.bot/integrations/autogen">
 <meta property="og:title" content="sipi.bot + Microsoft AutoGen integration guide">
-<meta property="og:description" content="AutoGen&#x27;s multi-agent conversations can rack up spend quickly. sipi.bot enforces per-agent, per-conversation, and total-run spend ceilings.">
+<meta property="og:description" content="In AutoGen every round re-sends the transcript, so cost grows faster than the conversation. Per-agent budgets, why max_round is not a spend cap, and the politeness loop that never converges.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/integrations/autogen">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + Microsoft AutoGen integration guide","description":"AutoGen's multi-agent conversations can rack up spend quickly. sipi.bot enforces per-agent, per-conversation, and total-run spend ceilings.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/autogen"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + Microsoft AutoGen integration guide","description":"In AutoGen every round re-sends the transcript, so cost grows faster than the conversation. Per-agent budgets, why max_round is not a spend cap, and the politeness loop that never converges.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/autogen"},"datePublished":"2026-07-18","dateModified":"2026-08-08"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/integrations/autogen"}]}</script>
 
 
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem;background:#fff}
 h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
 h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
 h3{font-size:1.15rem;margin-top:1.5rem}
@@ -38,7 +38,8 @@ th{background:#f9fafb;font-weight:600}
 .related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
 ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
-ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+ul.cross{list-style:none;padding-left:0}
+pre{background:#0f172a;color:#e2e8f0;padding:1rem 1.1rem;border-radius:.5rem;overflow-x:auto;font-size:.86rem;line-height:1.55;margin:1.25rem 0}pre code{background:none;color:inherit;padding:0;font-size:inherit}code{background:#f1f5f9;padding:.12em .35em;border-radius:.25rem;font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
 </style>
 <!-- isenberg-round15 -->
 </head>
@@ -49,65 +50,78 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <h1>sipi.bot + Microsoft AutoGen</h1>
 <p class="lede">AutoGen&#x27;s multi-agent conversations can rack up spend quickly. sipi.bot enforces per-agent, per-conversation, and total-run spend ceilings.</p>
 </header>
+<h2>The cost of a conversation grows faster than the conversation</h2>
+<p>AutoGen's premise is that agents talk to each other. Its cost profile follows
+directly: every round, each participant is sent the transcript so far. Round twenty
+is not the same price as round two, because round twenty carries nineteen rounds of
+history in its input.</p>
+<p>That single fact explains most AutoGen bill shocks. A run that felt fine at five
+rounds during development becomes dramatically more expensive at forty in production,
+and the change in cost is not proportional to the change in rounds.</p>
+<div class="callout warn"><p><strong>The characteristic runaway is politeness.</strong>
+Two agents that keep acknowledging each other, refining a plan, or deferring to one
+another will converse until something stops them. Nothing in the conversation itself
+signals a problem — each individual message is perfectly reasonable.</p></div>
 
-<h2>How the integration works</h2>
-<p>AutoGen&#x27;s multi-agent conversations can rack up spend quickly. sipi.bot enforces per-agent, per-conversation, and total-run spend ceilings. The integration is a 5ms policy check inserted between your agent's spend intent and the actual microsoft autogen call.</p>
+<h2>max_round counts turns, not money</h2>
+<p>Setting a round limit is correct and it is not a budget. It bounds the number of
+exchanges; it says nothing about what an exchange costs, and — because of the
+transcript growth above — the last rounds under the limit are the most expensive ones
+you will pay for. A round cap and a spend ceiling answer different questions and you
+want both.</p>
 
-<h2>Setup</h2>
-<ol>
-<li>Create a sipi.bot account and get your API key</li>
-<li>Add the sipi.bot SDK to your Microsoft AutoGen integration</li>
-<li>Configure your spend policy: per-transaction limit, daily ceiling, merchant allowlist</li>
-<li>Every Microsoft AutoGen call now passes through the policy check</li>
-</ol>
+<h2>Give every agent its own identity</h2>
+<p>The most useful thing you can do on an AutoGen integration is stop treating the
+crew as one spender. Register each <code>ConversableAgent</code> separately and send
+its own key, and the audit trail tells you which participant is burning the budget —
+usually not the one you would have guessed.</p>
+<pre><code>import requests
+from autogen import ConversableAgent
 
-<h2>What gets enforced</h2>
-<ul class="check">
-<li>Per-transaction cost ceiling</li>
-<li>Daily spend ceiling</li>
-<li>Velocity cap (transactions per minute)</li>
-<li>Merchant allowlist</li>
-<li>Audit trail for every transaction</li>
+def spend_guard(agent_name, sipi_key):
+    def check(amount, description):
+        d = requests.post(
+            "https://sipi.bot/v1/transactions/evaluate",
+            headers={"Authorization": f"Bearer {sipi_key}"},
+            json={"amount": amount, "merchant": "llm-provider",
+                  "category": "conversation",
+                  "description": f"{agent_name}: {description}"},
+            timeout=5,
+        ).json()
+        if d["decision"] != "APPROVED":
+            raise RuntimeError(f"{agent_name} {d['decision']}: {d['reason']}")
+    return check
+
+researcher = ConversableAgent("researcher", llm_config=cfg)
+guard = spend_guard("researcher", RESEARCHER_KEY)</code></pre>
+<p>Per-agent keys also mean a per-agent ceiling. One participant hitting its limit
+stops that participant rather than the whole run — often the difference between a
+degraded result and no result.</p>
+
+<h2>Rules for multi-agent runs</h2>
+<table><thead><tr><th>Rule type</th><th>What it does on this integration</th></tr></thead><tbody><tr><td><code>velocity</code></td><td>The primary control. A conversational loop shows up as many calls in a short window long before it shows up as a large total.</td></tr><tr><td><code>daily_total</code></td><td>Bounds the aggregate across every conversation the crew runs.</td></tr><tr><td><code>approval_threshold</code></td><td>Escalates a long-running deliberation to a human instead of killing work that may be close to converging.</td></tr><tr><td><code>per_transaction</code></td><td>Catches the late-round call carrying an enormous transcript.</td></tr></tbody></table>
+
+<h2>What it will not do for you</h2>
+<ul class="cross">
+<li>Judge whether the conversation is productive. Two agents converging usefully and
+two agents stuck in a loop generate identical spend signals.</li>
+<li>Summarise or truncate the transcript. Controlling context growth is a design
+decision in your agent configuration, not something a firewall can retrofit.</li>
+<li>See spend from a human participant in the loop, or from any call made outside the
+guarded path.</li>
 </ul>
 
-<h2>Frequently asked questions</h2>
-<h3>Does this slow down my agent?</h3>
-<p>No. The policy check adds 5ms of latency, far below typical network latency to Microsoft AutoGen.</p>
-<h3>Can I disable the policy mid-run?</h3>
-<p>Only with admin override. Disabling is logged and alerted on.</p>
+<h2>Questions</h2>
+<h3>Where in the round should the check go?</h3>
+<p>Before the model call the agent is about to make, not after the round completes.
+By the time a round has finished, its cost is already incurred.</p>
+<h3>Should a blocked agent end the whole run?</h3>
+<p>Usually not. Catch the block in that agent's path and let it return a message
+saying it has reached its budget. The group chat can often finish without it, and a
+graceful degradation beats a stack trace.</p>
 
 <div class="cta"><a href="https://sipi.bot/">Get started with sipi.bot &rarr;</a></div>
 
-
-
-<!-- mesh-round19 -->
-
-
-<!-- sipi-enrich-v1 -->
-<section>
-<h2>How the integration works</h2>
-<p>The Microsoft AutoGen integration inserts sipi.bot as a policy layer between your agent's spend intent and the actual transaction. Every call that can move money — a charge, a paid API request, a tool that provisions a metered resource — passes through a single policy check that returns approve, block, or flag in under 5ms.</p>
-<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
-</section>
-
-<section><h2>Setup steps</h2><ol><li>Create a sipi.bot account and define your policy: per-transaction limit, daily ceiling, velocity cap (transactions per minute), and merchant allowlist.</li><li>Generate an API key and add it to your Microsoft AutoGen agent's environment.</li><li>Wrap the function or tool call that triggers spend with a single sipi.bot check. Most integrations are a five-line wrapper around the existing call.</li><li>Run a test transaction. sipi.bot returns a structured JSON decision; verify your agent handles the block and flag paths, not just approve.</li><li>Turn on real-time alerts (Slack, email, webhook) so you hear about flagged transactions the moment they happen.</li></ol></section>
-
-<section>
-<h2>What data flows between them</h2>
-<p>On every spend intent, your agent sends sipi.bot four fields: agent id, merchant or destination, dollar amount, and intent description. sipi.bot returns a decision (approve, block, flag), a reason code, the policy version that was evaluated, and a transaction id for the audit trail.</p>
-<p>sipi.bot never sees the content of your agent's reasoning, prompts, or non-spend tool calls. It only inspects the transaction. The audit log is append-only and tamper-evident — every decision is timestamped and attributable to a specific policy version.</p>
-</section>
-
-<section>
-<h2>Example configuration</h2>
-<p>A typical policy for an agent using Microsoft AutoGen: per-transaction limit $5, daily ceiling $50, velocity cap 10 transactions per minute, merchant allowlist restricted to your approved vendors. Human-in-the-loop escalation on any single transaction over $25.</p>
-<p>This is conservative enough to stop a runaway loop in seconds and permissive enough that a productive agent can do its job without constant interruption. Adjust the numbers to match your agent's task scope and your risk tolerance.</p>
-</section>
-
-<section>
-<h2>Why this integration matters</h2>
-<p>Microsoft AutoGen is powerful precisely because it can act autonomously. That autonomy is also the risk: an agent that can transact can also overspend, loop, or hit the wrong merchant. The integration gives you the autonomy without the financial exposure.</p>
-</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">

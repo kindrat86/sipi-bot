@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>sipi.bot + LangChain integration guide</title>
-<meta name="description" content="Add sipi.bot as a callback handler in LangChain. Every tool call and LLM invocation is policy-checked against your agent&#x27;s spend rules.">
+<meta name="description" content="Add sipi.bot as a LangChain callback handler on on_llm_start and on_tool_start. Why tool spend usually beats model spend, and why max_iterations bounds steps rather than dollars.">
 <link rel="canonical" href="https://sipi.bot/integrations/langchain">
 <meta property="og:title" content="sipi.bot + LangChain integration guide">
-<meta property="og:description" content="Add sipi.bot as a callback handler in LangChain. Every tool call and LLM invocation is policy-checked against your agent&#x27;s spend rules.">
+<meta property="og:description" content="Add sipi.bot as a LangChain callback handler on on_llm_start and on_tool_start. Why tool spend usually beats model spend, and why max_iterations bounds steps rather than dollars.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/integrations/langchain">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + LangChain integration guide","description":"Add sipi.bot as a callback handler in LangChain. Every tool call and LLM invocation is policy-checked against your agent's spend rules.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/langchain"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + LangChain integration guide","description":"Add sipi.bot as a LangChain callback handler on on_llm_start and on_tool_start. Why tool spend usually beats model spend, and why max_iterations bounds steps rather than dollars.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/langchain"},"datePublished":"2026-07-18","dateModified":"2026-08-08"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/integrations/langchain"}]}</script>
 
 
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem;background:#fff}
 h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
 h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
 h3{font-size:1.15rem;margin-top:1.5rem}
@@ -38,7 +38,8 @@ th{background:#f9fafb;font-weight:600}
 .related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
 ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
-ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+ul.cross{list-style:none;padding-left:0}
+pre{background:#0f172a;color:#e2e8f0;padding:1rem 1.1rem;border-radius:.5rem;overflow-x:auto;font-size:.86rem;line-height:1.55;margin:1.25rem 0}pre code{background:none;color:inherit;padding:0;font-size:inherit}code{background:#f1f5f9;padding:.12em .35em;border-radius:.25rem;font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
 </style>
 <!-- isenberg-round15 -->
 </head>
@@ -49,65 +50,79 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <h1>sipi.bot + LangChain</h1>
 <p class="lede">Add sipi.bot as a callback handler in LangChain. Every tool call and LLM invocation is policy-checked against your agent&#x27;s spend rules.</p>
 </header>
+<h2>Callbacks are the natural hook, with one caveat</h2>
+<p>LangChain already runs a callback on every LLM invocation and every tool start,
+which is exactly where a spend decision belongs. You do not need to wrap each model
+client individually — implement <code>BaseCallbackHandler</code> once and pass it to
+the chain.</p>
+<p>The caveat is that a callback has no return channel. There is no value you can
+return that means "deny". The only way to stop the call is to raise, and the
+exception surfaces as a chain failure that your calling code has to handle
+deliberately. Plan for that rather than discovering it in production.</p>
+<pre><code>from langchain_core.callbacks import BaseCallbackHandler
+import requests
 
-<h2>How the integration works</h2>
-<p>Add sipi.bot as a callback handler in LangChain. Every tool call and LLM invocation is policy-checked against your agent&#x27;s spend rules. The integration is a 5ms policy check inserted between your agent's spend intent and the actual langchain call.</p>
+class SpendFirewall(BaseCallbackHandler):
+    def on_llm_start(self, serialized, prompts, **kw):
+        self._check(estimate_usd(serialized, prompts), "llm",
+                    serialized.get("name", "model"))
 
-<h2>Setup</h2>
-<ol>
-<li>Create a sipi.bot account and get your API key</li>
-<li>Add the sipi.bot SDK to your LangChain integration</li>
-<li>Configure your spend policy: per-transaction limit, daily ceiling, merchant allowlist</li>
-<li>Every LangChain call now passes through the policy check</li>
-</ol>
+    def on_tool_start(self, serialized, input_str, **kw):
+        self._check(tool_cost(serialized), "tool",
+                    serialized.get("name", "tool"))
 
-<h2>What gets enforced</h2>
-<ul class="check">
-<li>Per-transaction cost ceiling</li>
-<li>Daily spend ceiling</li>
-<li>Velocity cap (transactions per minute)</li>
-<li>Merchant allowlist</li>
-<li>Audit trail for every transaction</li>
+    def _check(self, amount, category, name):
+        d = requests.post(
+            "https://sipi.bot/v1/transactions/evaluate",
+            headers={"Authorization": f"Bearer {SIPI_KEY}"},
+            json={"amount": amount, "merchant": name,
+                  "category": category, "description": f"langchain {category}"},
+            timeout=5,
+        ).json()
+        if d["decision"] != "APPROVED":
+            raise SpendBlocked(f"{d['decision']}: {d['reason']}")</code></pre>
+
+<h2>Tools cost money too, and they are the part people forget</h2>
+<p>Attention goes to token spend because that is what the pricing page talks about.
+But a LangChain agent's tools are where the genuinely uncapped spend usually lives: a
+paid search API, a data vendor, a scraping service, anything that provisions
+infrastructure. These are billed per request, they are invoked in a loop, and none of
+them appear on your model provider's invoice.</p>
+<p>Handling <code>on_tool_start</code> alongside <code>on_llm_start</code> is what
+makes the coverage real. Give tools their own <code>category</code> so you can see
+the split.</p>
+<div class="callout"><p>A useful diagnostic: run for a day, then compare tool spend to
+model spend in the audit trail. Teams are routinely wrong about the ratio, usually in
+the direction of underestimating tools.</p></div>
+
+<h2>max_iterations bounds steps, not dollars</h2>
+<p>LangChain's own iteration limit is a good reflex and an incomplete control. Ten
+iterations of a cheap tool and ten iterations that each carry a large context cost
+wildly different amounts, and the limit cannot tell them apart. It bounds how long an
+agent runs. It does not bound what running costs.</p>
+<table><thead><tr><th>Rule type</th><th>What it does on this integration</th></tr></thead><tbody><tr><td><code>velocity</code></td><td>Catches the agent that loops within its iteration budget but fires far more calls than the task warrants.</td></tr><tr><td><code>category_limit</code></td><td>Separates tool spend from model spend — the split that makes LangChain cost legible.</td></tr><tr><td><code>daily_total</code></td><td>The aggregate ceiling across every chain sharing the key.</td></tr><tr><td><code>merchant_allow</code></td><td>Genuinely useful here, because a LangChain agent's tools reach many third parties rather than one provider.</td></tr></tbody></table>
+
+<h2>Where this does not reach</h2>
+<ul class="cross">
+<li>Anything that bypasses the callback. A tool that spends inside its own
+implementation, without going through a registered tool interface, is invisible.</li>
+<li>Streaming responses already in flight — the decision happens at start, and after
+that the tokens are committed.</li>
+<li>Cost you have not modelled. <code>tool_cost</code> is yours to write; the
+firewall enforces the number, it does not discover it.</li>
 </ul>
 
-<h2>Frequently asked questions</h2>
-<h3>Does this slow down my agent?</h3>
-<p>No. The policy check adds 5ms of latency, far below typical network latency to LangChain.</p>
-<h3>Can I disable the policy mid-run?</h3>
-<p>Only with admin override. Disabling is logged and alerted on.</p>
+<h2>Questions</h2>
+<h3>Does this work with LangGraph?</h3>
+<p>The same handler applies, since the callback interface is shared. Graphs make the
+per-node attribution more useful — send the node name as the description and the
+audit trail tells you which step in the graph is expensive.</p>
+<h3>What about async chains?</h3>
+<p>Implement the async callback methods and use an async HTTP client, so the check
+does not block the event loop on every invocation.</p>
 
 <div class="cta"><a href="https://sipi.bot/">Get started with sipi.bot &rarr;</a></div>
 
-
-
-<!-- mesh-round19 -->
-
-
-<!-- sipi-enrich-v1 -->
-<section>
-<h2>How the integration works</h2>
-<p>The LangChain integration inserts sipi.bot as a policy layer between your agent's spend intent and the actual transaction. Every call that can move money — a charge, a paid API request, a tool that provisions a metered resource — passes through a single policy check that returns approve, block, or flag in under 5ms.</p>
-<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
-</section>
-
-<section><h2>Setup steps</h2><ol><li>Create a sipi.bot account and define your policy: per-transaction limit, daily ceiling, velocity cap (transactions per minute), and merchant allowlist.</li><li>Generate an API key and add it to your LangChain agent's environment.</li><li>Wrap the function or tool call that triggers spend with a single sipi.bot check. Most integrations are a five-line wrapper around the existing call.</li><li>Run a test transaction. sipi.bot returns a structured JSON decision; verify your agent handles the block and flag paths, not just approve.</li><li>Turn on real-time alerts (Slack, email, webhook) so you hear about flagged transactions the moment they happen.</li></ol></section>
-
-<section>
-<h2>What data flows between them</h2>
-<p>On every spend intent, your agent sends sipi.bot four fields: agent id, merchant or destination, dollar amount, and intent description. sipi.bot returns a decision (approve, block, flag), a reason code, the policy version that was evaluated, and a transaction id for the audit trail.</p>
-<p>sipi.bot never sees the content of your agent's reasoning, prompts, or non-spend tool calls. It only inspects the transaction. The audit log is append-only and tamper-evident — every decision is timestamped and attributable to a specific policy version.</p>
-</section>
-
-<section>
-<h2>Example configuration</h2>
-<p>A typical policy for an agent using LangChain: per-transaction limit $5, daily ceiling $50, velocity cap 10 transactions per minute, merchant allowlist restricted to your approved vendors. Human-in-the-loop escalation on any single transaction over $25.</p>
-<p>This is conservative enough to stop a runaway loop in seconds and permissive enough that a productive agent can do its job without constant interruption. Adjust the numbers to match your agent's task scope and your risk tolerance.</p>
-</section>
-
-<section>
-<h2>Why this integration matters</h2>
-<p>LangChain is powerful precisely because it can act autonomously. That autonomy is also the risk: an agent that can transact can also overspend, loop, or hit the wrong merchant. The integration gives you the autonomy without the financial exposure.</p>
-</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">

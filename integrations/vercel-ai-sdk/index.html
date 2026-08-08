@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>sipi.bot + Vercel AI SDK integration guide</title>
-<meta name="description" content="Use sipi.bot as middleware in the Vercel AI SDK. Every generateText, streamText, and generateObject call is intercepted and policy-checked.">
+<meta name="description" content="Wrap the model once with AI SDK middleware and every generateText and streamText inherits the policy. Why a module-scoped counter cannot hold a daily budget on serverless, and why streaming decides early.">
 <link rel="canonical" href="https://sipi.bot/integrations/vercel-ai-sdk">
 <meta property="og:title" content="sipi.bot + Vercel AI SDK integration guide">
-<meta property="og:description" content="Use sipi.bot as middleware in the Vercel AI SDK. Every generateText, streamText, and generateObject call is intercepted and policy-checked.">
+<meta property="og:description" content="Wrap the model once with AI SDK middleware and every generateText and streamText inherits the policy. Why a module-scoped counter cannot hold a daily budget on serverless, and why streaming decides early.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/integrations/vercel-ai-sdk">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + Vercel AI SDK integration guide","description":"Use sipi.bot as middleware in the Vercel AI SDK. Every generateText, streamText, and generateObject call is intercepted and policy-checked.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/vercel-ai-sdk"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + Vercel AI SDK integration guide","description":"Wrap the model once with AI SDK middleware and every generateText and streamText inherits the policy. Why a module-scoped counter cannot hold a daily budget on serverless, and why streaming decides early.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/vercel-ai-sdk"},"datePublished":"2026-07-18","dateModified":"2026-08-08"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/integrations/vercel-ai-sdk"}]}</script>
 
 
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem;background:#fff}
 h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
 h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
 h3{font-size:1.15rem;margin-top:1.5rem}
@@ -38,7 +38,8 @@ th{background:#f9fafb;font-weight:600}
 .related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
 ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
-ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+ul.cross{list-style:none;padding-left:0}
+pre{background:#0f172a;color:#e2e8f0;padding:1rem 1.1rem;border-radius:.5rem;overflow-x:auto;font-size:.86rem;line-height:1.55;margin:1.25rem 0}pre code{background:none;color:inherit;padding:0;font-size:inherit}code{background:#f1f5f9;padding:.12em .35em;border-radius:.25rem;font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
 </style>
 <!-- isenberg-round15 -->
 </head>
@@ -49,65 +50,85 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <h1>sipi.bot + Vercel AI SDK</h1>
 <p class="lede">Use sipi.bot as middleware in the Vercel AI SDK. Every generateText, streamText, and generateObject call is intercepted and policy-checked.</p>
 </header>
+<h2>Middleware is the right seam</h2>
+<p>The AI SDK gives you a model-level extension point, which is a better place for a
+spend check than wrapping every call site. Wrap the model once with middleware and
+every <code>generateText</code>, <code>streamText</code> and
+<code>generateObject</code> that uses it inherits the policy — including the calls a
+colleague adds next month without reading this page.</p>
+<pre><code>import { wrapLanguageModel } from "ai";
 
-<h2>How the integration works</h2>
-<p>Use sipi.bot as middleware in the Vercel AI SDK. Every generateText, streamText, and generateObject call is intercepted and policy-checked. The integration is a 5ms policy check inserted between your agent's spend intent and the actual vercel ai sdk call.</p>
+const spendFirewall = {
+  async wrapGenerate({ doGenerate, params }) {
+    const res = await fetch(
+      "https://sipi.bot/v1/transactions/evaluate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json",
+                   Authorization: `Bearer ${process.env.SIPI_KEY}` },
+        body: JSON.stringify({
+          amount: estimateUsd(params),
+          merchant: "model-provider",
+          category: "llm",
+          description: "ai-sdk generate",
+        }),
+      });
+    const d = await res.json();
+    if (d.decision !== "APPROVED") throw new Error(`${d.decision}: ${d.reason}`);
+    return doGenerate();
+  },
+};
 
-<h2>Setup</h2>
-<ol>
-<li>Create a sipi.bot account and get your API key</li>
-<li>Add the sipi.bot SDK to your Vercel AI SDK integration</li>
-<li>Configure your spend policy: per-transaction limit, daily ceiling, merchant allowlist</li>
-<li>Every Vercel AI SDK call now passes through the policy check</li>
-</ol>
+const model = wrapLanguageModel({ model: baseModel, middleware: spendFirewall });</code></pre>
+<p>Implement the streaming path as well as the generate path. Anything you leave
+unwrapped is simply unguarded, and streaming is usually the one that ships first.</p>
 
-<h2>What gets enforced</h2>
-<ul class="check">
-<li>Per-transaction cost ceiling</li>
-<li>Daily spend ceiling</li>
-<li>Velocity cap (transactions per minute)</li>
-<li>Merchant allowlist</li>
-<li>Audit trail for every transaction</li>
+<h2>Why a local counter cannot hold a daily budget</h2>
+<p>This is the part that specifically bites on serverless, and it catches good
+engineers. An in-memory total works perfectly in development, where one long-lived
+process sees every request. In production your handler runs across many isolated
+invocations. Each one starts with its own memory, so each one starts the day's
+counting from zero.</p>
+<div class="callout warn"><p>A module-scoped <code>let spentToday = 0</code> does not
+enforce a daily ceiling in a serverless deployment. It enforces a per-instance
+ceiling, silently, and the number of instances is not yours to control.</p></div>
+<p>Any ceiling that spans requests has to live in shared state. That is the main
+structural reason to use an external policy service here rather than a few lines of
+local arithmetic — not because the arithmetic is hard, but because there is nowhere
+local to keep it.</p>
+
+<h2>Streaming forces the decision earlier</h2>
+<p>Tokens that have been streamed to a user are billed and cannot be recalled. The
+decision therefore has to happen before the stream opens, using an estimate, and there
+is no second chance to reconsider halfway through. Price the worst case from your
+token ceiling — for streaming the worst case is the only figure that protects you.</p>
+
+<h2>Rules that fit an edge deployment</h2>
+<table><thead><tr><th>Rule type</th><th>What it does on this integration</th></tr></thead><tbody><tr><td><code>daily_total</code></td><td>The rule that most needs shared state, and the one a serverless app cannot enforce for itself.</td></tr><tr><td><code>velocity</code></td><td>Bounds a burst across invocations — including one triggered by traffic rather than by a bug.</td></tr><tr><td><code>per_transaction</code></td><td>Caps a single oversized generation before the stream opens.</td></tr><tr><td><code>approval_threshold</code></td><td>Better suited to background jobs than to a user-facing route, where nobody is waiting to approve.</td></tr></tbody></table>
+
+<h2>Limits</h2>
+<ul class="cross">
+<li>The check costs a network round trip on a latency-sensitive path. On user-facing
+streaming routes, measure it before assuming it is free.</li>
+<li>It prices your estimate. Reconcile against real usage after the response
+completes, or the daily total drifts from reality.</li>
+<li>Model calls that bypass the wrapped model instance are not covered. Wrap once,
+centrally, and export that instance rather than the raw one.</li>
 </ul>
 
-<h2>Frequently asked questions</h2>
-<h3>Does this slow down my agent?</h3>
-<p>No. The policy check adds 5ms of latency, far below typical network latency to Vercel AI SDK.</p>
-<h3>Can I disable the policy mid-run?</h3>
-<p>Only with admin override. Disabling is logged and alerted on.</p>
+<h2>Questions</h2>
+<h3>Does this work on the edge runtime?</h3>
+<p>Yes — it is a standard <code>fetch</code> to an HTTPS endpoint, with no Node-only
+APIs involved.</p>
+<h3>What should a user see when a call is blocked?</h3>
+<p>Something honest and specific. A blocked request is a budget decision, not an
+outage, and "this request exceeds the configured budget" is far more useful than a
+generic failure — for the user and for whoever debugs it later.</p>
+<h3>Can I set different budgets per route?</h3>
+<p>Give each route its own agent identity and key. A background job and an interactive
+chat route should not share a ceiling.</p>
 
 <div class="cta"><a href="https://sipi.bot/">Get started with sipi.bot &rarr;</a></div>
 
-
-
-<!-- mesh-round19 -->
-
-
-<!-- sipi-enrich-v1 -->
-<section>
-<h2>How the integration works</h2>
-<p>The Vercel AI SDK integration inserts sipi.bot as a policy layer between your agent's spend intent and the actual transaction. Every call that can move money — a charge, a paid API request, a tool that provisions a metered resource — passes through a single policy check that returns approve, block, or flag in under 5ms.</p>
-<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
-</section>
-
-<section><h2>Setup steps</h2><ol><li>Create a sipi.bot account and define your policy: per-transaction limit, daily ceiling, velocity cap (transactions per minute), and merchant allowlist.</li><li>Generate an API key and add it to your Vercel AI SDK agent's environment.</li><li>Wrap the function or tool call that triggers spend with a single sipi.bot check. Most integrations are a five-line wrapper around the existing call.</li><li>Run a test transaction. sipi.bot returns a structured JSON decision; verify your agent handles the block and flag paths, not just approve.</li><li>Turn on real-time alerts (Slack, email, webhook) so you hear about flagged transactions the moment they happen.</li></ol></section>
-
-<section>
-<h2>What data flows between them</h2>
-<p>On every spend intent, your agent sends sipi.bot four fields: agent id, merchant or destination, dollar amount, and intent description. sipi.bot returns a decision (approve, block, flag), a reason code, the policy version that was evaluated, and a transaction id for the audit trail.</p>
-<p>sipi.bot never sees the content of your agent's reasoning, prompts, or non-spend tool calls. It only inspects the transaction. The audit log is append-only and tamper-evident — every decision is timestamped and attributable to a specific policy version.</p>
-</section>
-
-<section>
-<h2>Example configuration</h2>
-<p>A typical policy for an agent using Vercel AI SDK: per-transaction limit $5, daily ceiling $50, velocity cap 10 transactions per minute, merchant allowlist restricted to your approved vendors. Human-in-the-loop escalation on any single transaction over $25.</p>
-<p>This is conservative enough to stop a runaway loop in seconds and permissive enough that a productive agent can do its job without constant interruption. Adjust the numbers to match your agent's task scope and your risk tolerance.</p>
-</section>
-
-<section>
-<h2>Why this integration matters</h2>
-<p>Vercel AI SDK is powerful precisely because it can act autonomously. That autonomy is also the risk: an agent that can transact can also overspend, loop, or hit the wrong merchant. The integration gives you the autonomy without the financial exposure.</p>
-</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">

@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>sipi.bot + Anthropic Claude API integration guide</title>
-<meta name="description" content="Integrate sipi.bot with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-">
+<meta name="description" content="Claude API cost is tokens, and a tool-use loop re-sends the whole transcript every turn. How to price the worst case before messages.create, which sipi.bot rules carry the weight, and what a pre-call check cannot see.">
 <link rel="canonical" href="https://sipi.bot/integrations/anthropic">
 <meta property="og:title" content="sipi.bot + Anthropic Claude API integration guide">
-<meta property="og:description" content="Integrate sipi.bot with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-">
+<meta property="og:description" content="Claude API cost is tokens, and a tool-use loop re-sends the whole transcript every turn. How to price the worst case before messages.create, which sipi.bot rules carry the weight, and what a pre-call check cannot see.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sipi.bot/integrations/anthropic">
 <meta property="og:image" content="https://sipi.bot/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + Anthropic Claude API integration guide","description":"Integrate sipi.bot with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/anthropic"},"datePublished":"2026-07-18","dateModified":"2026-07-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sipi.bot + Anthropic Claude API integration guide","description":"Claude API cost is tokens, and a tool-use loop re-sends the whole transcript every turn. How to price the worst case before messages.create, which sipi.bot rules carry the weight, and what a pre-call check cannot see.","author":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"publisher":{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://sipi.bot/integrations/anthropic"},"datePublished":"2026-07-18","dateModified":"2026-08-08"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"},{"@type":"ListItem","position":2,"name":"sipi.bot","item":"https://sipi.bot/integrations/anthropic"}]}</script>
 
 
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.65;color:#0a0a0a;max-width:760px;margin:0 auto;padding:2rem 1.25rem;background:#fff}
 h1{font-size:2.1rem;line-height:1.2;margin:.3em 0}
 h2{font-size:1.45rem;margin-top:2rem;border-bottom:2px solid #e5e7eb;padding-bottom:.3rem}
 h3{font-size:1.15rem;margin-top:1.5rem}
@@ -38,7 +38,8 @@ th{background:#f9fafb;font-weight:600}
 .related-links ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.9rem}
 ul.check{list-style:none;padding-left:0}ul.check li::before{content:"✓  ";color:#059669;font-weight:700}
-ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
+ul.cross{list-style:none;padding-left:0}
+pre{background:#0f172a;color:#e2e8f0;padding:1rem 1.1rem;border-radius:.5rem;overflow-x:auto;font-size:.86rem;line-height:1.55;margin:1.25rem 0}pre code{background:none;color:inherit;padding:0;font-size:inherit}code{background:#f1f5f9;padding:.12em .35em;border-radius:.25rem;font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}ul.cross li::before{content:"✗  ";color:#dc2626;font-weight:700}
 </style>
 <!-- isenberg-round15 -->
 </head>
@@ -49,65 +50,90 @@ ul.cross{list-style:none;padding-left:0}ul.cross li::before{content:"✗  ";colo
 <h1>sipi.bot + Anthropic Claude API</h1>
 <p class="lede">Integrate sipi.bot with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-conversation velocity caps, and tool-use transaction limits before the request is sent.</p>
 </header>
+<h2>Where the money actually goes</h2>
+<p>Nothing in a Claude integration looks like a purchase. There is no checkout, no
+merchant, no invoice at the moment of spend — there is a <code>messages.create</code>
+call that returns some tokens and quietly adds a line to your monthly bill. That is
+what makes it easy to overspend: the expensive call and the cheap call are the same
+function with different arguments.</p>
+<p>Cost on the Claude API is a function of input tokens, output tokens, and the model
+you picked. The input side is the part people underestimate. In a tool-use loop the
+entire conversation so far is re-sent on every turn, so a ten-turn agent does not cost
+ten times a one-turn agent — it costs considerably more, because turn ten carries the
+transcript of turns one through nine. A loop that never converges is the classic
+runaway shape here.</p>
 
-<h2>How the integration works</h2>
-<p>Integrate sipi.bot with the Anthropic Claude API. Every messages.create call passes through a policy check that enforces per-token cost ceilings, per-conversation velocity caps, and tool-use transaction limits before the request is sent. The integration is a 5ms policy check inserted between your agent's spend intent and the actual anthropic claude api call.</p>
+<h2>The estimate problem, stated honestly</h2>
+<p>You cannot know what a Claude call costs until it returns and you read
+<code>usage</code>. A firewall that runs <em>before</em> the call therefore cannot
+evaluate the true cost — it evaluates your estimate of it. This is a real limitation
+and worth being clear about rather than papering over.</p>
+<p>The workable approach is to check the ceiling, not the expectation. You know
+<code>max_tokens</code> before you call, and you know your input length. Price the
+worst case and submit that as the amount. A policy that approves the worst case is
+safe by construction; a policy tuned to the average will let the tail through.</p>
+<div class="callout warn"><p><strong>Then reconcile.</strong> After the response
+lands, submit the real figure from <code>usage</code> as a second, recorded
+evaluation. The pre-call check is your brake; the post-call record is what makes the
+daily ceiling and the audit trail accurate.</p></div>
 
-<h2>Setup</h2>
-<ol>
-<li>Create a sipi.bot account and get your API key</li>
-<li>Add the sipi.bot SDK to your Anthropic Claude API integration</li>
-<li>Configure your spend policy: per-transaction limit, daily ceiling, merchant allowlist</li>
-<li>Every Anthropic Claude API call now passes through the policy check</li>
-</ol>
+<h2>Wrapping messages.create</h2>
+<p>The hook point is the client call itself. Estimate, check the decision, and only
+then let the request through.</p>
+<pre><code>import requests, anthropic
 
-<h2>What gets enforced</h2>
-<ul class="check">
-<li>Per-transaction cost ceiling</li>
-<li>Daily spend ceiling</li>
-<li>Velocity cap (transactions per minute)</li>
-<li>Merchant allowlist</li>
-<li>Audit trail for every transaction</li>
+client = anthropic.Anthropic()
+
+def guarded_message(**kw):
+    worst_case = estimate_usd(kw["model"], kw["messages"], kw["max_tokens"])
+    d = requests.post(
+        "https://sipi.bot/v1/transactions/evaluate",
+        headers={"Authorization": f"Bearer {SIPI_KEY}"},
+        json={"amount": worst_case, "merchant": "anthropic", "category": "llm",
+              "description": f"{kw['model']} max_tokens={kw['max_tokens']}"},
+        timeout=5,
+    ).json()
+    if d["decision"] != "APPROVED":
+        raise RuntimeError(f"{d['decision']}: {d['reason']}")
+    return client.messages.create(**kw)</code></pre>
+<p>The response carries <code>decision</code> (<code>APPROVED</code>,
+<code>BLOCKED</code> or <code>FLAGGED</code>), a <code>reason</code>, the rules in
+<code>triggered</code>, and a <code>transaction_id</code> for the audit trail. Handle
+all three decisions — an agent that only understands <code>APPROVED</code> will treat
+a block as a crash.</p>
+
+<h2>Rules that carry weight here</h2>
+<table><thead><tr><th>Rule type</th><th>What it does on this integration</th></tr></thead><tbody><tr><td><code>daily_total</code></td><td>The one that matters most. Token spend is many small charges, and no single call looks alarming — only the sum does.</td></tr><tr><td><code>velocity</code></td><td>Catches the non-converging tool-use loop, which fires many calls in quick succession rather than one large one.</td></tr><tr><td><code>per_transaction</code></td><td>Guards against a single call with a huge context or an over-generous max_tokens.</td></tr><tr><td><code>approval_threshold</code></td><td>Escalates to a human instead of hard-blocking — the right default for long-context batch work.</td></tr></tbody></table>
+<p><code>merchant_allow</code> has little to do on a single-provider integration.
+It earns its place once the same agent can also reach OpenAI, a search API and a
+cloud account, and you want to constrain which of them it may spend on.</p>
+
+<h2>What the check cannot see</h2>
+<ul class="cross">
+<li>Anthropic's own meter. sipi.bot evaluates the number you submit; if your estimate
+is wrong, the policy is wrong in the same direction.</li>
+<li>Prompt-caching economics. A cache write costs more than a normal input token and
+a cache read costs far less, so a naive per-token estimate misprices both.</li>
+<li>Whether the output was any good. A blocked call and a wasted call cost the same
+to prevent, but only one of them is a spend problem.</li>
 </ul>
 
-<h2>Frequently asked questions</h2>
-<h3>Does this slow down my agent?</h3>
-<p>No. The policy check adds 5ms of latency, far below typical network latency to Anthropic Claude API.</p>
-<h3>Can I disable the policy mid-run?</h3>
-<p>Only with admin override. Disabling is logged and alerted on.</p>
+<h2>Questions people actually ask</h2>
+<h3>Does this add latency to every Claude call?</h3>
+<p>It adds one HTTP round trip before the request. That is real, but it is small next
+to the multi-second generation it precedes. If you cannot accept it on a hot path,
+check at the start of a task rather than on every individual message.</p>
+<h3>What happens if sipi.bot is unreachable?</h3>
+<p>That is your decision to make explicitly, and you should make it before you ship.
+Failing open keeps the agent running and drops the guarantee; failing closed keeps
+the guarantee and stops the agent. Pick per environment — most people fail closed in
+production and open in development.</p>
+<h3>Can I attribute spend to individual agents?</h3>
+<p>Yes — register each one and send its own key, so the daily ceiling and the audit
+trail are per agent rather than per account.</p>
 
 <div class="cta"><a href="https://sipi.bot/">Get started with sipi.bot &rarr;</a></div>
 
-
-
-<!-- mesh-round19 -->
-
-
-<!-- sipi-enrich-v1 -->
-<section>
-<h2>How the integration works</h2>
-<p>The Anthropic Claude API integration inserts sipi.bot as a policy layer between your agent's spend intent and the actual transaction. Every call that can move money — a charge, a paid API request, a tool that provisions a metered resource — passes through a single policy check that returns approve, block, or flag in under 5ms.</p>
-<p>sipi.bot is a spend firewall for autonomous AI agents. It sits between your agent code and your payment methods, evaluating every transaction against your rules in under 5 milliseconds and returning one of three structured decisions: approve, block, or flag. Per-transaction limits, daily ceilings, velocity caps, merchant allowlists, and human-in-the-loop escalation are all enforced before a dollar moves. Pricing starts at $99 per month.</p>
-</section>
-
-<section><h2>Setup steps</h2><ol><li>Create a sipi.bot account and define your policy: per-transaction limit, daily ceiling, velocity cap (transactions per minute), and merchant allowlist.</li><li>Generate an API key and add it to your Anthropic Claude API agent's environment.</li><li>Wrap the function or tool call that triggers spend with a single sipi.bot check. Most integrations are a five-line wrapper around the existing call.</li><li>Run a test transaction. sipi.bot returns a structured JSON decision; verify your agent handles the block and flag paths, not just approve.</li><li>Turn on real-time alerts (Slack, email, webhook) so you hear about flagged transactions the moment they happen.</li></ol></section>
-
-<section>
-<h2>What data flows between them</h2>
-<p>On every spend intent, your agent sends sipi.bot four fields: agent id, merchant or destination, dollar amount, and intent description. sipi.bot returns a decision (approve, block, flag), a reason code, the policy version that was evaluated, and a transaction id for the audit trail.</p>
-<p>sipi.bot never sees the content of your agent's reasoning, prompts, or non-spend tool calls. It only inspects the transaction. The audit log is append-only and tamper-evident — every decision is timestamped and attributable to a specific policy version.</p>
-</section>
-
-<section>
-<h2>Example configuration</h2>
-<p>A typical policy for an agent using Anthropic Claude API: per-transaction limit $5, daily ceiling $50, velocity cap 10 transactions per minute, merchant allowlist restricted to your approved vendors. Human-in-the-loop escalation on any single transaction over $25.</p>
-<p>This is conservative enough to stop a runaway loop in seconds and permissive enough that a productive agent can do its job without constant interruption. Adjust the numbers to match your agent's task scope and your risk tolerance.</p>
-</section>
-
-<section>
-<h2>Why this integration matters</h2>
-<p>Anthropic Claude API is powerful precisely because it can act autonomously. That autonomy is also the risk: an agent that can transact can also overspend, loop, or hit the wrong merchant. The integration gives you the autonomy without the financial exposure.</p>
-</section>
 <section class="mesh-links" style="background:#f9fafb;padding:1.25rem;border-radius:.5rem;margin-top:2rem">
 <h3 style="margin-top:0">Related resources</h3>
 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1rem;font-size:.95rem">
