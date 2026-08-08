@@ -133,6 +133,9 @@ def build_sitemap():
             if "index.html" not in files:
                 continue
             rel = os.path.relpath(root, ROOT)
+            # Skip paths that the server redirects or canonicalizes elsewhere
+            if rel in EXCLUDE_PATHS:
+                continue
             url_path = "/" + rel.replace(os.sep, "/")
             # Keep trailing slash for hub pages; leaf pages go bare
             segments = tuple(s for s in url_path.strip("/").split("/") if s)
