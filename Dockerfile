@@ -44,6 +44,9 @@ COPY blog/ ./blog/
 COPY tools/ ./tools/
 COPY changelog/ ./changelog/
 COPY status/ ./status/
+COPY sectors/ ./sectors/
+COPY errors/ ./errors/
+COPY pricing-questions/ ./pricing-questions/
 COPY public/data/ ./public/data/
 # Verify the new content landed — fails the build with a clear error if COPY
 # silently produced nothing (e.g. Depot context exclusion or dir mismatch).

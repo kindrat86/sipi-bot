@@ -28,6 +28,12 @@ PSEO_PREFIXES = [
     # are served but were missing here, causing their pages to be absent from
     # the sitemap (and ghost URLs from removed pages to persist).
     "calculators", "compliance", "guides", "redflags", "scenarios", "data",
+    # 2026-08-08 Round 20: industry vertical pages (sectors/)
+    "sectors",
+    # 2026-08-08 Round 21: API error-code reference (errors/)
+    "errors",
+    # 2026-08-08 Round 22: pricing questions (pricing-questions/)
+    "pricing-questions",
 ]
 
 # Directories to skip entirely (relative to public/). Checked as path prefix so
