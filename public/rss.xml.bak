@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 12:30:41 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 12:38:23 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -343,6 +343,14 @@
     <description>Lovable, Bolt, and friends bill by credits for building. The real bill starts when the apps you built start running agents. How to budget the runtime, not just the build.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Sun, 15 Mar 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Bedrock, Vertex, and AI Foundry are not spend firewalls</title>
+    <link>https://sipi.bot/blog/the-cloud-ai-platform-bill/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/the-cloud-ai-platform-bill#ec3b29f0-4216-501d-8ad2-9747c4843e3c</guid>
+    <description>The big three cloud AI platforms govern model access, not agent spend. Their budgets stop at the cloud boundary. Here&#x27;s the money-layer gap.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Sat, 28 Feb 2026 12:00:00 GMT</pubDate>
   </item>
   </channel>
 </rss>

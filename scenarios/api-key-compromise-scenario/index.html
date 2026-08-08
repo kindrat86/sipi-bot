@@ -3,27 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>sipi.bot Blog — AI agent spending, incidents, and guardrails</title>
-<meta name="description" content="23 deep posts on AI agent spend control: runaway loops, prompt vs policy, incident post-mortems, and the architecture of deterministic agent guardrails. Backed by real incident data.">
-<link rel="canonical" href="https://sipi.bot/blog/">
+<title>API Key Compromise Scenario — What the Firewall Does</title>
+<meta name="description" content="The API-key-compromise eval scenario: a leaked key drives spend before the breach is found. The firewall&#x27;s role.">
+<link rel="canonical" href="https://sipi.bot/scenarios/api-key-compromise-scenario">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="sipi.bot">
-<meta property="og:title" content="sipi.bot Blog — AI agent spending, incidents, and guardrails">
-<meta property="og:description" content="23 deep posts on AI agent spend control: runaway loops, prompt vs policy, incident post-mortems, and the architecture of deterministic agent guardrails. Backed by real incident data.">
-<meta property="og:url" content="https://sipi.bot/blog/">
+<meta property="og:title" content="API Key Compromise Scenario — What the Firewall Does">
+<meta property="og:description" content="The API-key-compromise eval scenario: a leaked key drives spend before the breach is found. The firewall&#x27;s role.">
+<meta property="og:url" content="https://sipi.bot/scenarios/api-key-compromise-scenario">
 <meta property="og:image" content="https://sipi.bot/og-default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="sipi.bot Blog — AI agent spending, incidents, and guardrails">
-<meta name="twitter:description" content="23 deep posts on AI agent spend control: runaway loops, prompt vs policy, incident post-mortems, and the architecture of deterministic agent guardrails. Backed by real incident data.">
+<meta name="twitter:title" content="API Key Compromise Scenario — What the Firewall Does">
+<meta name="twitter:description" content="The API-key-compromise eval scenario: a leaked key drives spend before the breach is found. The firewall&#x27;s role.">
 <meta name="twitter:image" content="https://sipi.bot/og-default.png">
 <link rel="icon" type="image/svg+xml" href="https://sipi.bot/favicon.svg">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot — incidents & research" href="/rss.xml">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "sipi.bot", "url": "https://sipi.bot/", "description": "The pre-spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.", "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sipi.bot/blog/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "name", "item": "https://sipi.boturl"}, {"@type": "ListItem", "position": 2, "name": "name", "item": "https://sipi.boturl"}, {"@type": "ListItem", "position": 3, "name": "name", "item": "https://sipi.boturl"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "question", "acceptedAnswer": {"@type": "Answer", "text": "answer"}}, {"@type": "Question", "name": "question", "acceptedAnswer": {"@type": "Answer", "text": "answer"}}]}</script>
 <script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script>
 <style>
 :root{
@@ -182,141 +183,22 @@ tr:hover td{background:rgba(255,255,255,.015)}
 <body>
 <header class="nav"><div class="wrap" style="display:flex;align-items:center;width:100%">
 <a class="brand" href="/">sipi<span class="dot-org">.bot</span></a>
-<nav class="links"><a href="/incidents/">Incidents</a><a href="/tools/">Tools</a><a href="/blog/" style="color:var(--fg)">Blog</a><a href="/for/">Integrations</a><a class="cta" href="https://sipi.bot/pricing">Pricing</a><a class="cta" href="https://sipi.bot/dashboard">Dashboard</a></nav></div></header>
-<main class="wrap">
-<section class="hero">
-<div class="crumbs"><a href="/">Home</a><span class="sep">/</span>Blog</div>
-<span class="kicker">23 posts</span>
-<h1>The sipi.bot blog</h1>
-<p class="lead">How AI agents spend money, what happens when they get it wrong, and how to build the guardrail before the bill.</p>
-</section>
-<div class="grid two">
-<div class="card">
-<span class="tag good">Database</span>
-<h3><a href="/blog/ai-agent-incident-34-database/">34 incidents, $2.91 billion tracked — the open AI agent incident database is live</a></h3>
-<p>We launched an open, sourced database of every documented AI agent that lost money, deleted data, or took unintended actions. Here&#x27;s what the first 34 records tell us — and why we built it.</p>
-<div class="meta">2026-07-27</div>
-</div><div class="card">
-<span class="tag neutral">Runaway Loop</span>
-<h3><a href="/blog/runaway-loops-anatomy/">The anatomy of a runaway AI agent loop</a></h3>
-<p>A single unbounded while-loop cost an engineering team $47,000 overnight. Here&#x27;s exactly how it happens — and why velocity limits are the only reliable defense.</p>
-<div class="meta">2026-07-14</div>
-</div><div class="card">
-<span class="tag warn">Architecture</span>
-<h3><a href="/blog/prompt-not-a-control/">Why prompt instructions aren&#x27;t spending controls</a></h3>
-<p>Prompts are suggestions, not constraints. Every documented runaway-agent incident shares the same root cause: the operator trusted what they told the model instead of what the model could do.</p>
-<div class="meta">2026-06-02</div>
-</div><div class="card">
-<span class="tag neutral">Incidents</span>
-<h3><a href="/blog/step-finance-27m-postmortem/">Step Finance $27M post-mortem: what a per-transaction cap would have done</a></h3>
-<p>The largest documented AI-adjacent financial incident of 2026, broken down by the firewall rule that would have contained it — and why every agent touching money needs one.</p>
-<div class="meta">2026-05-19</div>
-</div><div class="card">
-<span class="tag neutral">Best Practices</span>
-<h3><a href="/blog/three-false-beliefs/">The three false beliefs that cost agent teams money</a></h3>
-<p>&quot;I&#x27;ll catch it in the morning.&quot; &quot;The provider&#x27;s monthly cap will stop it.&quot; &quot;My agent would never do that.&quot; Three beliefs, three incident stories, and what replaces them.</p>
-<div class="meta">2026-04-15</div>
-</div><div class="card">
-<span class="tag neutral">Velocity</span>
-<h3><a href="/blog/velocity-limits-explained/">Velocity limits: the one rule that prevents overnight disasters</a></h3>
-<p>Every overnight runaway loop in our database — from $4,200 Pinecone bills to $47,000 token burns — would have been stopped cold by a velocity limit. Here&#x27;s how they work and how to set one.</p>
-<div class="meta">2026-03-10</div>
-</div><div class="card">
-<span class="tag neutral">Founding Story</span>
-<h3><a href="/blog/12400-story-eval-gym/">From $12,400 to 53/53: how we built sipi.bot&#x27;s eval gym</a></h3>
-<p>The founding story behind sipi.bot — why a $12,400 sleepless night led to an open-source spend firewall, and how we built the 53-scenario evaluation harness that tests it.</p>
-<div class="meta">2026-02-04</div>
-</div><div class="card">
-<span class="tag navy">Mcp</span>
-<h3><a href="/blog/mcp-native-spend-controls/">MCP-native spend controls: why agent tools need a payment firewall</a></h3>
-<p>As MCP becomes the standard for agent-tool communication, every tool that touches money needs a spend gate that lives outside the model. Here&#x27;s the architecture and the integration.</p>
-<div class="meta">2026-01-20</div>
-</div><div class="card">
-<span class="tag good">Agentic Payments</span>
-<h3><a href="/blog/agentic-payments-state-2026/">The state of agentic payments in 2026</a></h3>
-<p>x402, AP2, and AgentKit made agent-to-agent payments real. The rails are live; the control layer is the constraint. Here&#x27;s where the stack stands and what ships next.</p>
-<div class="meta">2026-08-08</div>
-</div><div class="card">
-<span class="tag neutral">Cost</span>
-<h3><a href="/blog/how-much-does-an-agent-cost-to-run/">How much does an AI agent actually cost to run?</a></h3>
-<p>The honest cost model for an AI agent: inference, tools, data, and the runaway risk that the sticker price never shows. Plus the numbers to budget.</p>
-<div class="meta">2026-08-01</div>
-</div><div class="card">
-<span class="tag neutral">Incidents</span>
-<h3><a href="/blog/q2-2026-agent-incident-report/">Q2 2026 agent incident report: what the database shows</a></h3>
-<p>A quarterly read of the AI Agent Incident Database: the failure modes that keep repeating, the dollars involved, and the rules that would have stopped each one.</p>
-<div class="meta">2026-07-30</div>
-</div><div class="card">
-<span class="tag warn">Security</span>
-<h3><a href="/blog/the-hidden-cost-of-prompt-injection/">The hidden cost of prompt injection: it&#x27;s the spend, not the prompt</a></h3>
-<p>Prompt injection isn&#x27;t just a data-safety problem — it&#x27;s a money problem. The documented attacks that ended in spend, and the deterministic defense that can&#x27;t be injected.</p>
-<div class="meta">2026-07-22</div>
-</div><div class="card">
-<span class="tag neutral">Operations</span>
-<h3><a href="/blog/how-to-run-an-agent-spend-audit/">How to run an agent spend audit in 30 minutes</a></h3>
-<p>The audit-log questions that turn agent spend into decisions: where the money goes, what got blocked that shouldn&#x27;t have, and the one rule change that matters most.</p>
-<div class="meta">2026-07-15</div>
-</div><div class="card">
-<span class="tag neutral">Best Practices</span>
-<h3><a href="/blog/what-a-spend-firewall-wont-do/">What a spend firewall won&#x27;t do</a></h3>
-<p>The honest limits: it won&#x27;t stop every bad decision, it can&#x27;t reverse settlements, and it&#x27;s not a compliance certification. Here&#x27;s what it actually is.</p>
-<div class="meta">2026-07-08</div>
-</div><div class="card">
-<span class="tag neutral">Onboarding</span>
-<h3><a href="/blog/how-to-pick-your-first-three-rules/">How to pick your first three firewall rules</a></h3>
-<p>You don&#x27;t need all six rule types on day one. The three that cover the most documented failure modes — and how to set them in one session.</p>
-<div class="meta">2026-06-28</div>
-</div><div class="card">
-<span class="tag neutral">Voice</span>
-<h3><a href="/blog/the-voice-agent-spend-problem/">The voice agent spend problem nobody is talking about</a></h3>
-<p>Voice agents bill per minute of telephony plus LLM tokens per turn. A retry storm is billable minutes for nothing. Here&#x27;s the math and the control.</p>
-<div class="meta">2026-06-15</div>
-</div><div class="card">
-<span class="tag neutral">Operations</span>
-<h3><a href="/blog/subscription-sprawl-the-quiet-ai-cost/">Subscription sprawl: the quiet AI cost</a></h3>
-<p>Unused seats, auto-renewing tools, silent tier upgrades — and agents that can subscribe on their own. How the quietest line on the AI bill grows.</p>
-<div class="meta">2026-05-30</div>
-</div><div class="card">
-<span class="tag neutral">Coding Agents</span>
-<h3><a href="/blog/the-coding-agent-cost-war/">The coding agent cost war is really a control problem</a></h3>
-<p>Every coding agent — Cline, Roo, Cursor, Claude Code, Codex — bills differently, and all of them can spend beyond the editor. The winner isn&#x27;t the cheapest model; it&#x27;s the team that controls the spend.</p>
-<div class="meta">2026-05-10</div>
-</div><div class="card">
-<span class="tag neutral">Operations</span>
-<h3><a href="/blog/when-to-flag-vs-block/">Flag vs block: when to let an agent ask instead of stop</a></h3>
-<p>Hard blocks stop bad spend but also stop legitimate work. Approval thresholds keep agents fast. Here&#x27;s the decision rule for when to use which.</p>
-<div class="meta">2026-04-20</div>
-</div><div class="card">
-<span class="tag neutral">Architecture</span>
-<h3><a href="/blog/metering-vs-spend-firewall/">Metering platforms bill your customers. They don&#x27;t control your agents.</a></h3>
-<p>Metronome, Orb, and Amberflo are for revenue — measuring usage and billing customers. Agent spend control is a different job, in the other direction. Here&#x27;s the split.</p>
-<div class="meta">2026-04-05</div>
-</div><div class="card">
-<span class="tag neutral">App Builders</span>
-<h3><a href="/blog/the-credit-model-of-ai-app-builders/">The credit model of AI app builders, and the bill it hides</a></h3>
-<p>Lovable, Bolt, and friends bill by credits for building. The real bill starts when the apps you built start running agents. How to budget the runtime, not just the build.</p>
-<div class="meta">2026-03-15</div>
-</div><div class="card">
-<span class="tag neutral">Architecture</span>
-<h3><a href="/blog/the-cloud-ai-platform-bill/">Bedrock, Vertex, and AI Foundry are not spend firewalls</a></h3>
-<p>The big three cloud AI platforms govern model access, not agent spend. Their budgets stop at the cloud boundary. Here&#x27;s the money-layer gap.</p>
-<div class="meta">2026-02-28</div>
-</div><div class="card">
-<span class="tag neutral">Cost</span>
-<h3><a href="/blog/the-real-gpt-vs-claude-api-cost/">The real GPT vs Claude API cost comparison</a></h3>
-<p>Rate cards are the smallest part of the comparison. For agent workloads, volume, reasoning depth, and context dominate. Here&#x27;s the comparison that matters.</p>
-<div class="meta">2026-02-10</div>
-</div>
-</div>
-<div class="band">
-<h2>Every post is backed by real data</h2>
-<p>The blog draws on the <a href="/incidents/">AI Agent Incident Database</a> — 34 sourced records of agents that lost money, deleted data, or took unintended actions. No hypotheticals, no fabricated benchmarks.</p>
-<div class="btns">
-<a class="btn primary" href="/incidents/">Browse the incident database →</a>
-<a class="btn ghost" href="/tools/agent-spend-risk-calculator/">Score your risk</a>
-</div>
-</div>
-</main>
+<nav class="links"><a href="/incidents/">Incidents</a><a href="/tools/">Tools</a><a href="/blog/">Blog</a><a href="/for/">Integrations</a><a class="cta" href="https://sipi.bot/pricing">Pricing</a><a class="cta" href="https://sipi.bot/dashboard">Dashboard</a></nav></div></header>
+<main class="wrap"><span class="crumbs"><a href="/">Home</a> <span class="sep">/</span> <a href="/">Home</a> <span class="sep">/</span> <a href="/scenarios/">Scenarios</a> <span class="sep">/</span> API Key Compromise Scenario</span>
+<h1>API Key Compromise Scenario</h1>
+<p class="lead">A leaked API key is spend before it&#x27;s a headline: an attacker (or an agent) with a valid key can drive transactions. The eval gym tests what the firewall does.</p>
+<h2>The scenario</h2>
+<p>A valid key leaks (repo, logs, prompt).</p><p>Attacker-driven requests begin spending immediately.</p><p>Traditional detection finds it after the fact.</p>
+<h2>What the firewall does</h2>
+<p>Caps bound the damage per agent and per window.</p><p>Velocity limits stop automated bursts.</p><p>Merchant allowlists stop unknown destinations.</p><p>The audit log shows exactly what moved.</p>
+<h2>The honest limit</h2>
+<p>The firewall can&#x27;t un-leak a key — it limits the blast radius and logs it.</p>
+<h2>FAQ</h2>
+<details><summary>Is this scenario in the eval gym?</summary><p>Yes — key-compromise is one of the 53 eval scenarios, 53/53 passing.</p></details>
+<details><summary>What else should I do?</summary><p>Rotate keys fast and put spend limits on every key — both.</p></details>
+<h2>Related</h2>
+<ul class="related"><li><a href="/eval-report/">Eval report</a></li><li><a href="/redflags/red-flags-in-api-keys">Red flags in API keys</a></li><li><a href="/for/security-engineers">Secret scanning</a></li></ul>
+<div class="cta-card"><h3>Stop the next $12,400 night.</h3><p>One API call (or MCP tool) in front of every agent transaction — APPROVED, BLOCKED, or FLAGGED, deterministic, ~5 ms, fully logged.</p><a class="btn primary" href="/pricing">See plans — from $99/mo</a> <a class="btn ghost" href="/playground/">Try a live check</a></div></main>
 <footer class="foot"><div class="wrap">
 <div class="cols">
 <div>
