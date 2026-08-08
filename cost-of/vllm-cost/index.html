@@ -3,28 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>What a spend firewall won&#x27;t do | sipi.bot</title>
-<meta name="description" content="The honest limits: it won&#x27;t stop every bad decision, it can&#x27;t reverse settlements, and it&#x27;s not a compliance certification. Here&#x27;s what it actually is.">
-<link rel="canonical" href="https://sipi.bot/blog/what-a-spend-firewall-wont-do">
+<title>vLLM Cost — Local Inference Pricing and Spend Control</title>
+<meta name="description" content="vLLM cost: open-source serving is hardware, power, and time — not tokens. The honest cost of self-served inference.">
+<link rel="canonical" href="https://sipi.bot/cost-of/vllm-cost">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="sipi.bot">
-<meta property="og:title" content="What a spend firewall won&#x27;t do | sipi.bot">
-<meta property="og:description" content="The honest limits: it won&#x27;t stop every bad decision, it can&#x27;t reverse settlements, and it&#x27;s not a compliance certification. Here&#x27;s what it actually is.">
-<meta property="og:url" content="https://sipi.bot/blog/what-a-spend-firewall-wont-do">
+<meta property="og:title" content="vLLM Cost — Local Inference Pricing and Spend Control">
+<meta property="og:description" content="vLLM cost: open-source serving is hardware, power, and time — not tokens. The honest cost of self-served inference.">
+<meta property="og:url" content="https://sipi.bot/cost-of/vllm-cost">
 <meta property="og:image" content="https://sipi.bot/og-default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="What a spend firewall won&#x27;t do | sipi.bot">
-<meta name="twitter:description" content="The honest limits: it won&#x27;t stop every bad decision, it can&#x27;t reverse settlements, and it&#x27;s not a compliance certification. Here&#x27;s what it actually is.">
+<meta name="twitter:title" content="vLLM Cost — Local Inference Pricing and Spend Control">
+<meta name="twitter:description" content="vLLM cost: open-source serving is hardware, power, and time — not tokens. The honest cost of self-served inference.">
 <meta name="twitter:image" content="https://sipi.bot/og-default.png">
 <link rel="icon" type="image/svg+xml" href="https://sipi.bot/favicon.svg">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot — incidents & research" href="/rss.xml">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "sipi.bot", "url": "https://sipi.bot/", "description": "The pre-spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.", "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sipi.bot/blog/"}, {"@type": "ListItem", "position": 3, "name": "What a spend firewall won&#x27;t do", "item": "https://sipi.bot/blog/what-a-spend-firewall-wont-do"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "What a spend firewall won&#x27;t do", "description": "The honest limits: it won&#x27;t stop every bad decision, it can&#x27;t reverse settlements, and it&#x27;s not a compliance certification. Here&#x27;s what it actually is.", "url": "https://sipi.bot/blog/what-a-spend-firewall-wont-do", "image": "https://sipi.bot/og-default.png", "datePublished": "2026-07-08", "dateModified": "2026-07-08", "author": {"@type": "Organization", "name": "sipi.bot"}, "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://sipi.bot/blog/what-a-spend-firewall-wont-do"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "name", "item": "https://sipi.boturl"}, {"@type": "ListItem", "position": 2, "name": "name", "item": "https://sipi.boturl"}, {"@type": "ListItem", "position": 3, "name": "name", "item": "https://sipi.boturl"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "question", "acceptedAnswer": {"@type": "Answer", "text": "answer"}}, {"@type": "Question", "name": "question", "acceptedAnswer": {"@type": "Answer", "text": "answer"}}]}</script>
 <script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script>
 <style>
 :root{
@@ -183,29 +183,24 @@ tr:hover td{background:rgba(255,255,255,.015)}
 <body>
 <header class="nav"><div class="wrap" style="display:flex;align-items:center;width:100%">
 <a class="brand" href="/">sipi<span class="dot-org">.bot</span></a>
-<nav class="links"><a href="/incidents/">Incidents</a><a href="/tools/">Tools</a><a href="/blog/" style="color:var(--fg)">Blog</a><a href="/for/">Integrations</a><a class="cta" href="https://sipi.bot/pricing">Pricing</a><a class="cta" href="https://sipi.bot/dashboard">Dashboard</a></nav></div></header>
-<main class="wrap"><main class="wrap"><section class="hero">
-<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>What a spend firewall won't do</div>
-<span class="tag neutral">Honest</span>
-<h1>What a spend firewall won't do</h1>
-<p class="lead">The honest limits: it won't stop every bad decision, it can't reverse settlements, and it's not a compliance certification. Here's what it actually is.</p>
-<div class="meta">July 8, 2026 · sipi.bot</div>
-</section>
-<div class="prose">
-<p>Most writing about spend firewalls sells the upside. Here's the other side — because a control you misunderstand is a control you'll mis-deploy.</p>
-
-<h3>It won't stop every bad decision</h3>
-<p>A firewall enforces the rules you wrote. If the rules are wrong — a cap too high, a vendor mistakenly allowlisted, a category ungoverned — the firewall will faithfully enforce the wrong policy. <a href="/checklists/firewall-rule-tuning-checklist/">Rule tuning</a> is part of the product, not an afterthought.</p>
-
-<h3>It can't reverse settlements</h3>
-<p>Decisions happen before the money moves. If a transaction is approved and settles, no firewall is un-ringing that bell. That's why the design favors flag-over-block for edge cases: review before settlement, not after.</p>
-
-<h3>It's not a compliance certification</h3>
-<p>The audit log is evidence — a control and a source of truth. It is not SOC 2, ISO 27001, or a regulatory sign-off. Pair it with your org's governance framework.</p>
-
-<h3>What it actually is</h3>
-<p>A deterministic decision layer on the money path: APPROVED, BLOCKED, or FLAGGED before settlement, every decision logged. That's a narrow, honest job — and it's the one control that would have stopped the documented runaways in the <a href="/incidents/">incident database</a>.</p>
-</div></main></main>
+<nav class="links"><a href="/incidents/">Incidents</a><a href="/tools/">Tools</a><a href="/blog/">Blog</a><a href="/for/">Integrations</a><a class="cta" href="https://sipi.bot/pricing">Pricing</a><a class="cta" href="https://sipi.bot/dashboard">Dashboard</a></nav></div></header>
+<main class="wrap"><span class="crumbs"><a href="/">Home</a> <span class="sep">/</span> <a href="/">Home</a> <span class="sep">/</span> <a href="/cost-of/">Cost of AI</a> <span class="sep">/</span> How Much Does vLLM Cost?</span>
+<h1>How Much Does vLLM Cost?</h1>
+<p class="lead">vLLM is free software — the cost is the GPU, the power, and the engineering. Self-served inference trades token bills for a different ledger.</p>
+<h2>How vLLM is priced</h2>
+<p>No per-token fee — you pay for hardware, power, and ops.</p><p>Serving cost per million tokens depends on model size and your rig.</p><p>Time is a real cost: slower serving means longer agent loops.</p>
+<h2>The honest comparison</h2>
+<p>vLLM wins at high steady volume with a tuned rig.</p><p>Hosted wins for spiky, varied, or multi-provider workloads.</p><p>Model the TCO for your shape — don&#x27;t trust averages.</p>
+<h2>Why agents still need a budget</h2>
+<p>Self-served inference doesn&#x27;t govern the tools and APIs beyond it.</p><p>The firewall applies to any stack.</p>
+<h2>Where the money goes</h2>
+<div class="tbl-wrap"><table class="cmp"><thead><tr><th>Cost bucket</th><th>How to control it</th></tr></thead><tbody><tr><td>Hardware</td><td>Model size vs rig</td></tr><tr><td>Power</td><td>Utilization</td></tr><tr><td>Ops</td><td>Tuning time</td></tr><tr><td>Tools/APIs</td><td>Firewall rules</td></tr></tbody></table></div>
+<h2>FAQ</h2>
+<details><summary>Is vLLM cheaper than hosted APIs?</summary><p>At high steady utilization, often — model your TCO.</p></details>
+<details><summary>Does sipi.bot work with a vLLM stack?</summary><p>Yes — the firewall governs tool and API spend regardless of where inference runs.</p></details>
+<h2>Related</h2>
+<ul class="related"><li><a href="/cost-of/ollama-cost">Ollama cost</a></li><li><a href="/benchmarks/local-llm-vs-hosted-api-cost">Local vs hosted</a></li><li><a href="/how-to/how-to-reduce-ai-api-costs">How to reduce AI API costs</a></li></ul>
+<div class="cta-card"><h3>Stop the next $12,400 night.</h3><p>One API call (or MCP tool) in front of every agent transaction — APPROVED, BLOCKED, or FLAGGED, deterministic, ~5 ms, fully logged.</p><a class="btn primary" href="/pricing">See plans — from $99/mo</a> <a class="btn ghost" href="/playground/">Try a live check</a></div></main>
 <footer class="foot"><div class="wrap">
 <div class="cols">
 <div>
