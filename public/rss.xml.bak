@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 11:39:39 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 11:45:57 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -264,5 +264,21 @@
     <pubDate>Thu, 30 Jul 2026 12:00:00 GMT</pubDate>
   </item>
 
+  <item>
+    <title>The hidden cost of prompt injection: it&#x27;s the spend, not the prompt</title>
+    <link>https://sipi.bot/blog/the-hidden-cost-of-prompt-injection/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/the-hidden-cost-of-prompt-injection#98ee6b67-6ef0-5b44-98e5-46aee77d0eef</guid>
+    <description>Prompt injection isn&#x27;t just a data-safety problem — it&#x27;s a money problem. The documented attacks that ended in spend, and the deterministic defense that can&#x27;t be injected.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Wed, 22 Jul 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>How to run an agent spend audit in 30 minutes</title>
+    <link>https://sipi.bot/blog/how-to-run-an-agent-spend-audit/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/how-to-run-an-agent-spend-audit#d5425b33-5a5e-566e-9894-9e230985db58</guid>
+    <description>The audit-log questions that turn agent spend into decisions: where the money goes, what got blocked that shouldn&#x27;t have, and the one rule change that matters most.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Wed, 15 Jul 2026 12:00:00 GMT</pubDate>
+  </item>
   </channel>
 </rss>
