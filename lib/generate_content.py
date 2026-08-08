@@ -199,6 +199,13 @@ POSTS = [
         "date": "2026-01-30",
         "tags": ["cost","operations","best-practices"],
     },
+    {
+        "slug": "the-agent-kill-switch",
+        "title": "The agent kill switch: build it before you need it",
+        "description": "Runaways compound at machine speed — the kill switch has to be faster than the agent. What it is, how it works, and why ceilings mean you rarely need it.",
+        "date": "2026-01-15",
+        "tags": ["operations","security","rules"],
+    },
 ]
 
 
@@ -518,7 +525,7 @@ def _body_for(post):
 <p>Most writing about spend firewalls sells the upside. Here's the other side — because a control you misunderstand is a control you'll mis-deploy.</p>
 
 <h3>It won't stop every bad decision</h3>
-<p>A firewall enforces the rules you wrote. If the rules are wrong — a cap too high, a vendor mistakenly allowlisted, a category ungoverned — the firewall will faithfully enforce the wrong policy. <a href="/templates/firewall-rule-tuning-checklist">Rule tuning</a> is part of the product, not an afterthought.</p>
+<p>A firewall enforces the rules you wrote. If the rules are wrong — a cap too high, a vendor mistakenly allowlisted, a category ungoverned — the firewall will faithfully enforce the wrong policy. <a href="/checklists/firewall-rule-tuning-checklist/">Rule tuning</a> is part of the product, not an afterthought.</p>
 
 <h3>It can't reverse settlements</h3>
 <p>Decisions happen before the money moves. If a transaction is approved and settles, no firewall is un-ringing that bell. That's why the design favors flag-over-block for edge cases: review before settlement, not after.</p>
@@ -732,6 +739,24 @@ def _body_for(post):
 
 <h3>The pattern</h3>
 <p>None of this is model-choice. That's why rate shopping alone never fixes the bill — and why the <a href="/benchmarks/agent-token-consumption-by-task">spend shape</a> matters more than the rate card.</p>
+</div>"""
+
+    if slug == "the-agent-kill-switch":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The agent kill switch</div>
+<span class="tag navy">Operations</span>
+<h1>The agent kill switch: build it before you need it</h1>
+<p class="lead">Runaways compound at machine speed — the kill switch has to be faster than the agent. What it is, how it works, and why ceilings mean you rarely need it.</p>
+<div class="meta">January 15, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>The <a href="/glossary/kill-switch">kill switch</a> is the control you hope never to use — which is exactly why you build it first. A runaway doesn't wait for a committee.</p>
+
+<h3>Speed is the requirement</h3>
+<p>Agents spend at machine speed; a retry loop can bill thousands in minutes. The kill switch must disable spending <em>instantly</em> — one action, affecting the agent, the fleet, or the merchant, enforced on the next transaction.</p>
+
+<h3>Why ceilings mean you rarely need it</h3>
+<p>The kill switch is the emergency brake; <a href="/glossary/velocity-limit">velocity limits</a> and <a href="/glossary/spend-cap">spend caps</a> are the cruise control. A governed agent hits its cap and stops on its own — the switch stays in the glovebox. That's the design: <a href="/how-to/how-to-stop-runaway-agents">stop the bleeding, contain, understand, prevent →</a></p>
 </div>"""
 
     return ""  # fallback

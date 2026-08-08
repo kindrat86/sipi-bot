@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 13:01:26 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 13:16:36 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -368,5 +368,14 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Fri, 30 Jan 2026 12:00:00 GMT</pubDate>
   </item>
+  <item>
+    <title>The agent kill switch: build it before you need it</title>
+    <link>https://sipi.bot/blog/the-agent-kill-switch/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/the-agent-kill-switch#540171c8-b287-5850-87b0-225c0ab4ed8b</guid>
+    <description>Runaways compound at machine speed — the kill switch has to be faster than the agent. What it is, how it works, and why ceilings mean you rarely need it.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Thu, 15 Jan 2026 12:00:00 GMT</pubDate>
+  </item>
+
   </channel>
 </rss>
