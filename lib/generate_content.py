@@ -227,6 +227,13 @@ POSTS = [
         "date": "2025-11-15",
         "tags": ["operations","cost","forecasting"],
     },
+    {
+        "slug": "the-image-generation-bill",
+        "title": "The image generation bill: per-image costs add up fast",
+        "description": "DALL-E, Midjourney, and Stable Diffusion bill per image — and agents generate hundreds. The math agents don't show you.",
+        "date": "2025-10-30",
+        "tags": ["cost","images","architecture"],
+    },
 ]
 
 
@@ -832,6 +839,24 @@ def _body_for(post):
 
 <h3>The forecast</h3>
 <p>Next month ≈ per-agent actuals × volume trend, bounded by ceilings. That's not prediction — it's the ledger doing its job. <a href="/answers/how-to-track-ai-agent-costs/">Track it →</a> The monthly <a href="/templates/agent-cost-report-template">cost report</a> turns the log into the forecast.</p>
+</div>"""
+
+    if slug == "the-image-generation-bill":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The image generation bill</div>
+<span class="tag warn">Cost</span>
+<h1>The image generation bill: per-image costs add up fast</h1>
+<p class="lead">DALL-E, Midjourney, and Stable Diffusion bill per image — and agents generate hundreds. The math agents don't show you.</p>
+<div class="meta">October 30, 2025 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Text models bill per token — visible in every dashboard. Image models bill per image — and agents iterate, regenerate, and scale without anyone doing the per-image math.</p>
+
+<h3>The multiplication</h3>
+<p>A content agent generating 100 assets with 3 iterations each is 300 billable images — before campaigns, A/B variants, or localization. At per-image rates that's a real line. <a href="/cost-of/dall-e-api-cost">DALL-E</a>, <a href="/cost-of/midjourney-cost">Midjourney</a>, and <a href="/cost-of/stable-diffusion-api-cost">Stable Diffusion providers</a> all multiply the same way.</p>
+
+<h3>The control</h3>
+<p>Per-agent ceilings on image generation, a regeneration limit (velocity), and a category budget that separates images from text. The bill is per-image × volume; the ceiling governs the volume. <a href="/answers/how-much-does-agentic-ai-cost/">The full cost picture →</a></p>
 </div>"""
 
     return ""  # fallback
