@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 11:58:37 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 12:13:01 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -295,6 +295,22 @@
     <description>You don&#x27;t need all six rule types on day one. The three that cover the most documented failure modes — and how to set them in one session.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Sun, 28 Jun 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>The voice agent spend problem nobody is talking about</title>
+    <link>https://sipi.bot/blog/the-voice-agent-spend-problem/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/the-voice-agent-spend-problem#bcab6018-5770-58cb-9cda-5a8f9d3e91f3</guid>
+    <description>Voice agents bill per minute of telephony plus LLM tokens per turn. A retry storm is billable minutes for nothing. Here&#x27;s the math and the control.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Mon, 15 Jun 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Subscription sprawl: the quiet AI cost</title>
+    <link>https://sipi.bot/blog/subscription-sprawl-the-quiet-ai-cost/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/subscription-sprawl-the-quiet-ai-cost#e74947f3-a886-531e-a5c9-95e7dfd0f78c</guid>
+    <description>Unused seats, auto-renewing tools, silent tier upgrades — and agents that can subscribe on their own. How the quietest line on the AI bill grows.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Sat, 30 May 2026 12:00:00 GMT</pubDate>
   </item>
   </channel>
 </rss>

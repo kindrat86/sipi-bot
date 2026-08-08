@@ -150,6 +150,20 @@ POSTS = [
         "date": "2026-05-30",
         "tags": ["operations","cost","subscriptions"],
     },
+    {
+        "slug": "the-coding-agent-cost-war",
+        "title": "The coding agent cost war is really a control problem",
+        "description": "Every coding agent — Cline, Roo, Cursor, Claude Code, Codex — bills differently, and all of them can spend beyond the editor. The winner isn't the cheapest model; it's the team that controls the spend.",
+        "date": "2026-05-10",
+        "tags": ["coding-agents","cost","architecture"],
+    },
+    {
+        "slug": "when-to-flag-vs-block",
+        "title": "Flag vs block: when to let an agent ask instead of stop",
+        "description": "Hard blocks stop bad spend but also stop legitimate work. Approval thresholds keep agents fast. Here's the decision rule for when to use which.",
+        "date": "2026-04-20",
+        "tags": ["operations","rules","best-practices"],
+    },
 ]
 
 
@@ -545,6 +559,48 @@ def _body_for(post):
 
 <h3>The quarterly fix</h3>
 <p>Audit usage, kill unused seats, review renewals, and put new tool purchases behind the allowlist. The <a href="/redflags/red-flags-in-ai-agent-subscriptions">subscription red flags</a> list is the audit checklist.</p>
+</div>"""
+
+    if slug == "the-coding-agent-cost-war":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The coding agent cost war</div>
+<span class="tag warn">Cost</span>
+<h1>The coding agent cost war is really a control problem</h1>
+<p class="lead">Every coding agent — Cline, Roo, Cursor, Claude Code, Codex — bills differently, and all of them can spend beyond the editor. The winner isn't the cheapest model; it's the team that controls the spend.</p>
+<div class="meta">May 10, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Read any thread about coding agents and you'll find a pricing comparison — tokens per model, seats per tool. The comparison misses the point. The bill isn't decided by the rate card; it's decided by what the agent <em>does</em>.</p>
+
+<h3>Every agent can spend beyond the editor</h3>
+<p>Cline and Roo call tools freely in autonomous loops. Cursor and Claude Code consume usage fast in agentic sessions. Codex triggers actions. Each of them can buy compute, hit paid APIs, or trigger payments — spend no seat price captures. <a href="/integrations/cline">Cline</a>, <a href="/integrations/roo-code">Roo Code</a>, and the rest all wire to the same control.</p>
+
+<h3>The control, not the rate</h3>
+<p>The teams that win the cost war don't chase the cheapest model — they put a <a href="/glossary/spend-policy">spend policy</a> in front of every agent: a cap, an allowlist, a velocity limit. The model choice matters 10%; the control matters 90%.</p>
+
+<h3>The math</h3>
+<p>A retry loop multiplies any rate card. A velocity limit stops the loop. That's the entire war, in one sentence.</p>
+</div>"""
+
+    if slug == "when-to-flag-vs-block":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Flag vs block</div>
+<span class="tag navy">Operations</span>
+<h1>Flag vs block: when to let an agent ask instead of stop</h1>
+<p class="lead">Hard blocks stop bad spend but also stop legitimate work. Approval thresholds keep agents fast. Here's the decision rule for when to use which.</p>
+<div class="meta">April 20, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Every spend firewall decision is APPROVED, BLOCKED, or FLAGGED. The first two are easy to understand. The third is where the design actually lives — and where most teams get it wrong.</p>
+
+<h3>Block for certainty</h3>
+<p>When a transaction can never be legitimate — banned merchant, over a hard cap, category blocked — BLOCK is right. No review needed, no queue, final. <a href="/scenarios/unknown-vendor-spend-scenario">Unknown vendors</a> are the classic case.</p>
+
+<h3>Flag for ambiguity</h3>
+<p>When a transaction is suspicious but might be legitimate — over a threshold, a new merchant, off-hours — FLAG and route to a human. The agent pauses, the human decides in minutes, and legitimate work proceeds. This is what the <a href="/glossary/approval-queue">approval queue</a> is for.</p>
+
+<h3>The decision rule</h3>
+<p>If you'd never approve it, block. If you might, flag. If it's routine, approve. Tune with the audit log: all-approved flags mean the threshold is too low; all-denied means the agents are trying the wrong things. <a href="/blog/how-to-pick-your-first-three-rules">Start with three rules →</a></p>
 </div>"""
 
     return ""  # fallback
