@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 13:28:26 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 13:34:09 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -392,6 +392,14 @@
     <description>Procurement and purchasing agents exist to spend — one unvetted vendor, one wrong purchase. Why the buying agents get the tightest rules.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Mon, 01 Dec 2025 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Agent spend forecasting: the ledger you&#x27;re not keeping</title>
+    <link>https://sipi.bot/blog/agent-spend-forecasting/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/agent-spend-forecasting#7f3be05e-0074-522a-9100-dd4d9883338a</guid>
+    <description>Forecasting agent spend isn&#x27;t predicting the future — it&#x27;s reading the audit log. The three inputs that make the forecast real.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Sat, 15 Nov 2025 12:00:00 GMT</pubDate>
   </item>
   </channel>
 </rss>

@@ -220,6 +220,13 @@ POSTS = [
         "date": "2025-12-01",
         "tags": ["operations","rules","procurement"],
     },
+    {
+        "slug": "agent-spend-forecasting",
+        "title": "Agent spend forecasting: the ledger you're not keeping",
+        "description": "Forecasting agent spend isn't predicting the future — it's reading the audit log. The three inputs that make the forecast real.",
+        "date": "2025-11-15",
+        "tags": ["operations","cost","forecasting"],
+    },
 ]
 
 
@@ -807,6 +814,24 @@ def _body_for(post):
 
 <h3>The tightest controls</h3>
 <p>The <a href="/glossary/merchant-allowlist">allowlist is the centerpiece</a> — unapproved vendors are simply not payable. Then a per-requisition cap, an approval threshold for new vendors, and a full audit trail on every purchase. Buy with the strongest budget, always.</p>
+</div>"""
+
+    if slug == "agent-spend-forecasting":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Agent spend forecasting</div>
+<span class="tag warn">Cost</span>
+<h1>Agent spend forecasting: the ledger you're not keeping</h1>
+<p class="lead">Forecasting agent spend isn't predicting the future — it's reading the audit log. The three inputs that make the forecast real.</p>
+<div class="meta">November 15, 2025 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Most AI spend forecasts are vibes: take last month, add growth, round up. The audit log makes it arithmetic instead.</p>
+
+<h3>The three inputs</h3>
+<p><strong>Per-agent actuals</strong> — what each agent really spends, from the log. <strong>Volume trend</strong> — how calls grow per agent and per category. <strong>Ceiling proximity</strong> — how close agents run to their caps, which tells you whether the forecast is a floor or a ceiling.</p>
+
+<h3>The forecast</h3>
+<p>Next month ≈ per-agent actuals × volume trend, bounded by ceilings. That's not prediction — it's the ledger doing its job. <a href="/answers/how-to-track-ai-agent-costs/">Track it →</a> The monthly <a href="/templates/agent-cost-report-template">cost report</a> turns the log into the forecast.</p>
 </div>"""
 
     return ""  # fallback
