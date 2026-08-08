@@ -28,6 +28,7 @@
   <url><loc>https://sipi.bot/answers/what-is-agentic-commerce/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/benchmarks/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/benchmarks/agent-cost-per-task-benchmarks/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/benchmarks/agent-failure-cost-by-type</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/benchmarks/agent-retry-loop-cost-patterns</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/benchmarks/agent-runaway-cost-average</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/benchmarks/agent-spend-percent-of-revenue</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -51,6 +52,7 @@
   <url><loc>https://sipi.bot/best/ai-spend-monitoring</loc><lastmod>2026-07-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/best/best-agent-budgeting-tools</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/best/best-agent-cost-dashboards</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/best/best-agent-incident-response-tools</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/best/best-ai-agent-cost-tools</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/best/best-ai-agent-frameworks</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/best/best-ai-agent-observability-tools</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -80,11 +82,13 @@
   <url><loc>https://sipi.bot/blog/runaway-loops-anatomy</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/blog/step-finance-27m-postmortem</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/blog/subscription-sprawl-the-quiet-ai-cost</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/blog/the-coding-agent-cost-war</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/blog/the-hidden-cost-of-prompt-injection</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/blog/the-voice-agent-spend-problem</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/blog/three-false-beliefs</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/blog/velocity-limits-explained</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/blog/what-a-spend-firewall-wont-do</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/blog/when-to-flag-vs-block</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/calculators/agent-cost-calculator</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/calculators/budget-sizing-calculator</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/calculators/runaway-cost-calculator</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -112,12 +116,14 @@
   <url><loc>https://sipi.bot/cost-of/chatgpt-plus-cost</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/cost-of/claude-code-pricing</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/cost-of/claude-pro-cost</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/cost-of/cohere-api-cost</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/cost-of/cursor-pricing</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/cost-of/deepseek-api-cost</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/cost-of/fireflies-pricing</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/cost-of/gemini-advanced-cost</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/cost-of/github-copilot-pricing</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/cost-of/google-gemini-api-cost</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/cost-of/groq-api-cost</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/cost-of/langsmith-pricing</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/cost-of/mistral-api-cost</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/cost-of/openai-api-cost</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -177,6 +183,7 @@
   <url><loc>https://sipi.bot/for/content-bots</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/for/crewai/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/for/ctos</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/for/customer-success-teams</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/for/customer-support-agents</loc><lastmod>2026-07-27</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/for/data-engineers</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/for/data-pipelines</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -191,6 +198,7 @@
   <url><loc>https://sipi.bot/for/heads-of-ai</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/for/langchain-agents</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/for/langchain/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/for/legal-teams</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/for/llm-apps</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/for/ml-engineers</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/for/openai-agents</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -207,14 +215,17 @@
   <url><loc>https://sipi.bot/glossary/agent-audit-trail</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/agent-budget</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/agent-cost-center</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/glossary/agent-orchestration</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/agent-spend-policy</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/agent-wallet</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/agentic-ai</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/agentic-payment</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/glossary/agentic-workflow</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/ai-agent-economy</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/ap2</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/approval-queue</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/approval-threshold/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/glossary/budget-alert</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/category-based-spending/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/category-rule</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/glossary/circuit-breaker</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -262,12 +273,14 @@
   <url><loc>https://sipi.bot/how-to/how-to-audit-agent-spending</loc><lastmod>2026-07-24</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/how-to-block-agent-overspend</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/how-to-create-a-spend-policy</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/how-to/how-to-handle-a-flagged-transaction</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/how-to-implement-spend-controls</loc><lastmod>2026-07-24</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/how-to-integrate-sipi-bot-with-mcp</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/how-to-monitor-ai-costs</loc><lastmod>2026-07-24</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/how-to-prevent-runaway-agents</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/how-to-set-spend-limits</loc><lastmod>2026-07-24</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/how-to-set-up-an-approval-workflow</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/how-to/how-to-vet-mcp-servers</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/prevent-runaway-ai-costs</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/reduce-ai-api-costs</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/set-ai-budget-limits</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -316,6 +329,7 @@
   <url><loc>https://sipi.bot/integrations/aws-bedrock-agents</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/aws-bedrock/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/claude-code</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/integrations/cline</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/crewai</loc><lastmod>2026-07-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/cursor</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/custom-agent/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -329,6 +343,7 @@
   <url><loc>https://sipi.bot/integrations/langgraph</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/letta</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/llama-index</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/integrations/make</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/mastra</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/mcp</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/n8n</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -337,6 +352,7 @@
   <url><loc>https://sipi.bot/integrations/openai-codex</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/openrouter</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/pydantic-ai</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/integrations/roo-code</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/semantic-kernel</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/sipi-bot-plus-openai-agents-sdk</loc><lastmod>2026-07-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/sipi-bot-plus-stripe</loc><lastmod>2026-07-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -345,6 +361,7 @@
   <url><loc>https://sipi.bot/integrations/vapi</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/vercel-ai-sdk</loc><lastmod>2026-07-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/integrations/windsurf</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/integrations/zapier</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/learn/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/learn/agent-billing-audit-trail</loc><lastmod>2026-07-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/learn/agent-credit-card-security</loc><lastmod>2026-07-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -390,6 +407,7 @@
   <url><loc>https://sipi.bot/pricing-questions/does-sipi-bot-have-a-free-tier</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/pricing-questions/how-much-does-sipi-bot-cost</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/pricing-questions/is-sipi-bot-free</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/pricing-questions/is-sipi-bot-soc-2-compliant</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/pricing-questions/is-sipi-bot-worth-it</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/pricing-questions/sipi-bot-vs-building-your-own</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/pricing-questions/what-happens-if-sipi-bot-makes-a-mistake</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -450,6 +468,7 @@
   <url><loc>https://sipi.bot/templates/agent-purchase-policy</loc><lastmod>2026-07-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/agent-runbook-template</loc><lastmod>2026-07-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/agent-spend-approval-policy</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/templates/agent-spend-policy-one-pager</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/agent-spend-policy-template</loc><lastmod>2026-07-27</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/approval-workflow/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/budget-approval-matrix</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -459,10 +478,12 @@
   <url><loc>https://sipi.bot/templates/incident-communication-template</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/incident-response-plan-template</loc><lastmod>2026-07-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/llm-cost-optimization-playbook</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/templates/mcp-server-vetting-template</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/merchant-allowlist-template</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/merchant-blocklist/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/spend-guard-prompt/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/team-spend-policy/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/templates/vendor-offboarding-policy</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/vendor-onboarding-policy</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/vendor-risk-assessment-template</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/templates/weekly-spend-review-template</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
