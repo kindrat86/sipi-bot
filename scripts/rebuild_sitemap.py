@@ -47,17 +47,6 @@ EXCLUDE_FILES = {
     "widget.html",          # network/widget.html — embed widget, not a page
 }
 
-# Specific pSEO paths to skip — pages whose server-side handler redirects or
-# sets a canonical to a different URL already in the sitemap. Listing both
-# the redirect source and target causes GSC "Alternate page with proper
-# canonical tag." Checked as directory-relative paths (e.g. "alternatives-to/helicone").
-EXCLUDE_PATHS = {
-    # W5 exact duplicate 301s — /alternatives-to/X → /vs/X
-    "alternatives-to/helicone",
-    "alternatives-to/langfuse",
-    "alternatives-to/litellm",
-    "alternatives-to/openai-billing",
-}
 
 
 def git_lastmod(filepath):
@@ -133,9 +122,6 @@ def build_sitemap():
             if "index.html" not in files:
                 continue
             rel = os.path.relpath(root, ROOT)
-            # Skip paths that the server redirects or canonicalizes elsewhere
-            if rel in EXCLUDE_PATHS:
-                continue
             url_path = "/" + rel.replace(os.sep, "/")
             # Keep trailing slash for hub pages; leaf pages go bare
             segments = tuple(s for s in url_path.strip("/").split("/") if s)
