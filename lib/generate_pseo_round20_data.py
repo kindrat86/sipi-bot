@@ -564,7 +564,7 @@ INTEGRATIONS = [
             ("Can typed schemas be enforced?",
              "The decision response is a typed object (decision, reason, rule_id, transaction_id), which fits Pydantic validation naturally."),
         ],
-        related=[("OpenAI Agents SDK", "/integrations/sipi-bot-plus-openai-agents-sdk"), ("LangChain", "/integrations/langchain"), ("Vercel AI SDK", "/integrations/vercel-ai-sdk")],
+        related=[("OpenAI Agents SDK", "/integrations/openai-agents/"), ("LangChain", "/integrations/langchain"), ("Vercel AI SDK", "/integrations/vercel-ai-sdk")],
     ),
     dict(
         slug="smolagents",

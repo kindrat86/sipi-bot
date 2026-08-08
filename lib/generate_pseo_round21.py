@@ -67,8 +67,12 @@ def build_integrations():
         "openai": ("OpenAI", "OpenAI API spend control."),
         "stripe": ("Stripe", "Gate spend that settles through Stripe."),
         "vercel-ai-sdk": ("Vercel AI SDK", "AI streaming in Next.js apps."),
-        "sipi-bot-plus-openai-agents-sdk": ("OpenAI Agents SDK recipe", "Plus-schema recipe."),
-        "sipi-bot-plus-stripe": ("Stripe recipe", "Plus-schema recipe."),
+        # NOTE: sipi-bot-plus-openai-agents-sdk / sipi-bot-plus-stripe were
+        # removed 2026-08-08. They were template clones (98.4% identical to
+        # each other) that duplicated /integrations/openai and
+        # /integrations/stripe and triggered a GSC "Duplicate, Google chose
+        # different canonical than user" error. Their URLs now 301 — see
+        # _PSEO_301_REDIRECTS in spendfirewall/api.py. Do not re-add.
     }
     slugs = []
     for d in sorted(os.listdir(os.path.join(ROOT, "integrations"))):

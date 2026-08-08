@@ -77,7 +77,7 @@ INTEGRATIONS = [
             ("What happens on BLOCKED?",
              "The agent stops, the money doesn't move, and the attempt is logged."),
         ],
-        related=[("Claude Code integration", "/integrations/claude-code"), ("OpenAI Agents SDK", "/integrations/sipi-bot-plus-openai-agents-sdk"), ("Prompt is not a control", "/blog/prompt-not-a-control")],
+        related=[("Claude Code integration", "/integrations/claude-code"), ("OpenAI Agents SDK", "/integrations/openai-agents/"), ("Prompt is not a control", "/blog/prompt-not-a-control")],
     ),
     dict(
         slug="aider",
