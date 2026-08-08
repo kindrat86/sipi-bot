@@ -120,7 +120,14 @@ POSTHOG_SNIPPET = ""
 # ─── Shared mobile nav ───
 NAV_TOGGLE = ('<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>')
 NAV_JS = ('<script>(function(){var t=document.querySelector(\'.nav-toggle\');if(!t)return;var n=t.closest(\'nav\');function set(o){n.classList.toggle(\'menu-open\',o);t.setAttribute(\'aria-expanded\',o);t.setAttribute(\'aria-label\',o?\'Close menu\':\'Open menu\');}t.addEventListener(\'click\',function(){set(!n.classList.contains(\'menu-open\'));});n.querySelectorAll(\'.nav-links a\').forEach(function(a){a.addEventListener(\'click\',function(){set(false);});});document.addEventListener(\'keydown\',function(e){if(e.key===\'Escape\'&&n.classList.contains(\'menu-open\')){set(false);t.focus();}});})();</script>')
-NAV_CSS = """:root{--bg:#0a0a0a;--panel:#121316;--line:#23242a;--txt:#e8e8ea;--mut:#8a8d96;--accent:#00d4aa}
+# The nav palette lives on .sipi-nav, NOT :root. Every rule below is already
+# scoped to .sipi-nav, and descendants inherit the custom properties from it —
+# so the nav renders identically while nothing leaks to the page.
+# On :root these variables overrode the host page's own values: /data/ declares
+# a light --bg:#fafbfc with dark --fg, so the injected dark --bg turned it into
+# dark-on-dark (~1.8:1 contrast). Harmless while NAV_CSS was rendering as inert
+# text; it went live the moment the stylesheet was correctly wrapped in <style>.
+NAV_CSS = """.sipi-nav{--bg:#0a0a0a;--panel:#121316;--line:#23242a;--txt:#e8e8ea;--mut:#8a8d96;--accent:#00d4aa}
 .sipi-nav *{box-sizing:border-box;margin:0;padding:0}
 .sipi-nav{font:14px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
 .sipi-nav .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
