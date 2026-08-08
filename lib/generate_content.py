@@ -192,6 +192,13 @@ POSTS = [
         "date": "2026-02-10",
         "tags": ["cost","architecture","api"],
     },
+    {
+        "slug": "why-your-ai-bill-keeps-growing",
+        "title": "Why your AI bill keeps growing (and it's not the model)",
+        "description": "The bill grows because of what agents do, not what models cost: tool fan-out, retry loops, context bloat, and ungoverned vendors. The five growth drivers and the five levers.",
+        "date": "2026-01-30",
+        "tags": ["cost","operations","best-practices"],
+    },
 ]
 
 
@@ -704,6 +711,27 @@ def _body_for(post):
 
 <h3>The comparison that matters</h3>
 <p>Compare models for <em>your</em> task shape, measure with your audit log, and cap the total. The <a href="/cost-of/claude-api-cost">Claude API cost</a> and <a href="/cost-of/gpt-api-cost">GPT API cost</a> pages walk through each. The winner isn't the cheaper rate — it's the workload that fits the model, governed by a budget.</p>
+</div>"""
+
+    if slug == "why-your-ai-bill-keeps-growing":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Why your AI bill keeps growing</div>
+<span class="tag warn">Cost</span>
+<h1>Why your AI bill keeps growing (and it's not the model)</h1>
+<p class="lead">The bill grows because of what agents do, not what models cost: tool fan-out, retry loops, context bloat, and ungoverned vendors. The five growth drivers and the five levers.</p>
+<div class="meta">January 30, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Month over month, the AI line grows — and the model rate card didn't change. The growth is in what agents <em>do</em>. Five drivers, five levers.</p>
+
+<h3>The five growth drivers</h3>
+<p><strong>Tool fan-out:</strong> more agents × more tools × more calls. <strong>Retry loops:</strong> the same failure billed repeatedly. <strong>Context bloat:</strong> long sessions re-sending growing contexts. <strong>Ungoverned vendors:</strong> tools and data bought without review. <strong>Autonomy:</strong> unattended agents spending without a human moment.</p>
+
+<h3>The five levers</h3>
+<p><strong>Ceilings</strong> bound the total. <strong>Velocity limits</strong> kill the loops. <strong>Allowlists</strong> govern the vendors. <strong>Category budgets</strong> separate inference from tools from payments. <strong>Approvals</strong> add the human moment where it matters. <a href="/answers/how-to-set-a-budget-for-ai-agents/">Set the budget →</a></p>
+
+<h3>The pattern</h3>
+<p>None of this is model-choice. That's why rate shopping alone never fixes the bill — and why the <a href="/benchmarks/agent-token-consumption-by-task">spend shape</a> matters more than the rate card.</p>
 </div>"""
 
     return ""  # fallback

@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 12:49:44 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 13:01:26 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -359,6 +359,14 @@
     <description>Rate cards are the smallest part of the comparison. For agent workloads, volume, reasoning depth, and context dominate. Here&#x27;s the comparison that matters.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Tue, 10 Feb 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Why your AI bill keeps growing (and it&#x27;s not the model)</title>
+    <link>https://sipi.bot/blog/why-your-ai-bill-keeps-growing/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/why-your-ai-bill-keeps-growing#6e463345-ac25-5dd3-bab8-422306c44e88</guid>
+    <description>The bill grows because of what agents do, not what models cost: tool fan-out, retry loops, context bloat, and ungoverned vendors. The five growth drivers and the five levers.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Fri, 30 Jan 2026 12:00:00 GMT</pubDate>
   </item>
   </channel>
 </rss>
