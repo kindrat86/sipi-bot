@@ -122,6 +122,20 @@ POSTS = [
         "date": "2026-07-15",
         "tags": ["operations","audit","best-practices"],
     },
+    {
+        "slug": "what-a-spend-firewall-wont-do",
+        "title": "What a spend firewall won't do",
+        "description": "The honest limits: it won't stop every bad decision, it can't reverse settlements, and it's not a compliance certification. Here's what it actually is.",
+        "date": "2026-07-08",
+        "tags": ["best-practices","honest","architecture"],
+    },
+    {
+        "slug": "how-to-pick-your-first-three-rules",
+        "title": "How to pick your first three firewall rules",
+        "description": "You don't need all six rule types on day one. The three that cover the most documented failure modes — and how to set them in one session.",
+        "date": "2026-06-28",
+        "tags": ["onboarding","best-practices","rules"],
+    },
 ]
 
 
@@ -427,6 +441,54 @@ def _body_for(post):
 
 <h3>The output</h3>
 <p>One rule change, measured next week. That's the whole audit: <a href="/guides/guide-to-agent-spend-audits">read the guide →</a></p>
+</div>"""
+
+    if slug == "what-a-spend-firewall-wont-do":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>What a spend firewall won't do</div>
+<span class="tag neutral">Honest</span>
+<h1>What a spend firewall won't do</h1>
+<p class="lead">The honest limits: it won't stop every bad decision, it can't reverse settlements, and it's not a compliance certification. Here's what it actually is.</p>
+<div class="meta">July 8, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Most writing about spend firewalls sells the upside. Here's the other side — because a control you misunderstand is a control you'll mis-deploy.</p>
+
+<h3>It won't stop every bad decision</h3>
+<p>A firewall enforces the rules you wrote. If the rules are wrong — a cap too high, a vendor mistakenly allowlisted, a category ungoverned — the firewall will faithfully enforce the wrong policy. <a href="/templates/firewall-rule-tuning-checklist">Rule tuning</a> is part of the product, not an afterthought.</p>
+
+<h3>It can't reverse settlements</h3>
+<p>Decisions happen before the money moves. If a transaction is approved and settles, no firewall is un-ringing that bell. That's why the design favors flag-over-block for edge cases: review before settlement, not after.</p>
+
+<h3>It's not a compliance certification</h3>
+<p>The audit log is evidence — a control and a source of truth. It is not SOC 2, ISO 27001, or a regulatory sign-off. Pair it with your org's governance framework.</p>
+
+<h3>What it actually is</h3>
+<p>A deterministic decision layer on the money path: APPROVED, BLOCKED, or FLAGGED before settlement, every decision logged. That's a narrow, honest job — and it's the one control that would have stopped the documented runaways in the <a href="/incidents/">incident database</a>.</p>
+</div>"""
+
+    if slug == "how-to-pick-your-first-three-rules":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>How to pick your first three firewall rules</div>
+<span class="tag navy">Onboarding</span>
+<h1>How to pick your first three firewall rules</h1>
+<p class="lead">You don't need all six rule types on day one. The three that cover the most documented failure modes — and how to set them in one session.</p>
+<div class="meta">June 28, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>New teams often ask for every rule type at once. The incident database suggests otherwise: three rules cover the majority of documented failure modes. Start there, then tune with your audit log.</p>
+
+<h3>Rule 1: the per-transaction cap</h3>
+<p>Block any single purchase above a ceiling. This is the bluntest rule and the most valuable — the largest documented runaways start with one oversized transaction that nothing screened. Set it at the largest 'no review needed' purchase for the agent.</p>
+
+<h3>Rule 2: the merchant allowlist</h3>
+<p>Only approved vendors can be paid. Unknown vendors are the second-most-common failure shape — and the allowlist makes them default-deny. Start with the three to five vendors the agent actually uses.</p>
+
+<h3>Rule 3: the velocity limit</h3>
+<p>A cap on transactions per window. This is the rule that kills retry loops — the single most common runaway pattern in the <a href="/incidents/">database</a>. Start at 10 calls per minute for general agents, 5 for trading/finance.</p>
+
+<h3>One session, three rules</h3>
+<p>Set all three in the dashboard (or via the API), then watch the audit log for a week. The log — not the rule count — is what tells you what to add next. <a href="/how-to/how-to-create-a-spend-policy">Build the policy around them →</a></p>
 </div>"""
 
     return ""  # fallback

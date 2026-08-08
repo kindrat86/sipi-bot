@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 11:45:57 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 11:58:37 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -279,6 +279,22 @@
     <description>The audit-log questions that turn agent spend into decisions: where the money goes, what got blocked that shouldn&#x27;t have, and the one rule change that matters most.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Wed, 15 Jul 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>What a spend firewall won&#x27;t do</title>
+    <link>https://sipi.bot/blog/what-a-spend-firewall-wont-do/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/what-a-spend-firewall-wont-do#e2099bf8-8154-57a5-9897-a58d02c7f3cd</guid>
+    <description>The honest limits: it won&#x27;t stop every bad decision, it can&#x27;t reverse settlements, and it&#x27;s not a compliance certification. Here&#x27;s what it actually is.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Wed, 08 Jul 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>How to pick your first three firewall rules</title>
+    <link>https://sipi.bot/blog/how-to-pick-your-first-three-rules/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/how-to-pick-your-first-three-rules#6f592052-d6f3-5342-8fc0-b2e3316d67f3</guid>
+    <description>You don&#x27;t need all six rule types on day one. The three that cover the most documented failure modes — and how to set them in one session.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Sun, 28 Jun 2026 12:00:00 GMT</pubDate>
   </item>
   </channel>
 </rss>
