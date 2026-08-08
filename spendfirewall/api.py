@@ -1145,7 +1145,13 @@ class Handler(BaseHTTPRequestHandler):
             # try /foo -> /foo/index.html (pSEO cluster pages)
             alt = os.path.normpath(os.path.join(root, rel, "index.html"))
             if os.path.isfile(alt):
-                target = alt
+                # When a bare path resolves to a directory with index.html,
+                # 301 → trailing-slash form so both /foo and /foo/ don't
+                # each return 200 with the same slash canonical (the bare
+                # variant was a duplicate-content / "Alternate page" source
+                # in GSC — Aug 2026 audit).
+                self._redirect_301(path + "/")
+                return True
             else:
                 return False
         ctype = mimetypes.guess_type(target)[0] or "application/octet-stream"
@@ -1216,19 +1222,13 @@ class Handler(BaseHTTPRequestHandler):
 
     
     # ── Traffic-win fixes (audit 2026-07-27) ─────────────────────────────
-    # W5 — exact duplicate 301s. Each /alternatives-to/<x> below is a
-    # byte-for-byte duplicate of /vs/<x> (same target, same intent). We
-    # collapse them into the /vs/ primary to stop keyword cannibalization.
-    # Only mapped where /vs/<x> actually exists (reversible, low-risk).
+    # W5 — 301 redirects for canonical URL consolidation.
+    # NOTE (2026-08-08): /alternatives-to/* redirects REMOVED — these pages now
+    # serve self-referencing canonicals and are indexed directly (not duplicates
+    # of /vs/*). They were causing GSC "Alternate page with proper canonical tag"
+    # errors because the sitemap listed /alternatives-to/* URLs but the 301 sent
+    # Google to /vs/* with a different canonical.
     _PSEO_301_REDIRECTS = {
-        "/alternatives-to/helicone": "/vs/helicone",
-        "/alternatives-to/helicone/": "/vs/helicone",
-        "/alternatives-to/litellm": "/vs/litellm",
-        "/alternatives-to/litellm/": "/vs/litellm",
-        "/alternatives-to/langfuse": "/vs/langfuse",
-        "/alternatives-to/langfuse/": "/vs/langfuse",
-        "/alternatives-to/openai-billing": "/vs/openai-billing",
-        "/alternatives-to/openai-billing/": "/vs/openai-billing",
         # /integrations/openai-agents-sdk is the natural clean slug users and
         # AI engines reach for (named in llms.txt, qa.jsonl and the homepage
         # FAQ). The canonical integration page lives at the long slug below;
@@ -1351,7 +1351,7 @@ class Handler(BaseHTTPRequestHandler):
             self._redirect_301(target)
             return True
 
-        for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/", "/incidents/", "/blog/", "/tools/", "/changelog/", "/status/", "/calculators/", "/compliance/", "/guides/", "/redflags/", "/scenarios/", "/data/"):
+        for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/", "/incidents/", "/blog/", "/tools/", "/changelog/", "/status/", "/calculators/", "/compliance/", "/guides/", "/redflags/", "/scenarios/", "/data/", "/sectors/", "/errors/", "/pricing-questions/"):
             # Match "/learn/foo" and also the bare section root "/learn". The bare
             # form used to fall through to a 404 because it does not start with
             # "/learn/", so /learn 404'd while /learn/ served learn/index.html —
@@ -1370,7 +1370,13 @@ class Handler(BaseHTTPRequestHandler):
                 # are slash-canonical — only redirect LEAF pages with a slash.
                 # A leaf looks like "/vs/litellm/"; a hub looks like "/vs/".
                 is_hub_index = (path == prefix)
-                if is_section_root:
+                if is_section_root and not is_hub_index:
+                    # bare hub page (/faq) → 301 to trailing-slash form (/faq/)
+                    # so both variants don't each return 200 with the same
+                    # slash canonical (duplicate-content source — Aug 2026 GSC audit).
+                    self._redirect_301(prefix)
+                    return True
+                elif is_section_root:
                     path = prefix
                 elif path.endswith("/") and not is_hub_index:
                     # leaf with trailing slash → redirect to bare form

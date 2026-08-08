@@ -41,6 +41,10 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 <div class="faq-item"><h3><a href="/faq/how-much-should-my-ai-agent-spend">How much should my AI agent spend per task?</a></h3><p>$0.02 to $4.50 depending on task type. Median across all agents: $0.34.</p></div>
 </div>
 
+<h2>The firewall, plainly</h2>
+<div class="grid2">
+<div class="card"><h3><a href="/faq/can-sipi-bot-stop-prompt-injection">Can sipi.bot Stop Prompt Injection?</a></h3><p>sipi.bot won&#x27;t detect an injection — but it makes injection pointless for spending. The decision path is a deterministic rules engine, and rules can&#x27;t be talked into approving anything.</p></div><div class="card"><h3><a href="/faq/does-sipi-bot-need-an-llm">Does sipi.bot Need an LLM?</a></h3><p>No. Every decision is made by a deterministic rules engine — no model call, no tokens, no hallucination, nothing to inject.</p></div><div class="card"><h3><a href="/faq/can-sipi-bot-work-with-any-framework">Can sipi.bot Work With Any Framework?</a></h3><p>Yes. sipi.bot is transport-agnostic: an HTTP API, a native MCP tool, and a CLI. Any agent that can make an HTTP call can use it.</p></div><div class="card"><h3><a href="/faq/what-happens-when-a-transaction-is-blocked">What Happens When a Transaction Is Blocked?</a></h3><p>BLOCKED is final: the transaction violates a hard rule, no money moves, and the attempt is logged. Here&#x27;s the full sequence.</p></div>
+</div>
 <div style="margin-top:2rem"><a href="/learn/spend-firewall-guide">📖 Complete Guide →</a> · <a href="/learn/">All resources →</a></div>
 <footer><p><strong>sipi.bot</strong> — the spend firewall for autonomous AI agents.</p></footer>
 </body>

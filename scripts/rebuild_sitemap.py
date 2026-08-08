@@ -28,6 +28,12 @@ PSEO_PREFIXES = [
     # are served but were missing here, causing their pages to be absent from
     # the sitemap (and ghost URLs from removed pages to persist).
     "calculators", "compliance", "guides", "redflags", "scenarios", "data",
+    # 2026-08-08 Round 20: industry vertical pages (sectors/)
+    "sectors",
+    # 2026-08-08 Round 21: API error-code reference (errors/)
+    "errors",
+    # 2026-08-08 Round 22: pricing questions (pricing-questions/)
+    "pricing-questions",
 ]
 
 # Directories to skip entirely (relative to public/). Checked as path prefix so
@@ -47,17 +53,6 @@ EXCLUDE_FILES = {
     "widget.html",          # network/widget.html — embed widget, not a page
 }
 
-# Specific pSEO paths to skip — pages whose server-side handler redirects or
-# sets a canonical to a different URL already in the sitemap. Listing both
-# the redirect source and target causes GSC "Alternate page with proper
-# canonical tag." Checked as directory-relative paths (e.g. "alternatives-to/helicone").
-EXCLUDE_PATHS = {
-    # W5 exact duplicate 301s — /alternatives-to/X → /vs/X
-    "alternatives-to/helicone",
-    "alternatives-to/langfuse",
-    "alternatives-to/litellm",
-    "alternatives-to/openai-billing",
-}
 
 
 def git_lastmod(filepath):
@@ -133,9 +128,6 @@ def build_sitemap():
             if "index.html" not in files:
                 continue
             rel = os.path.relpath(root, ROOT)
-            # Skip paths that the server redirects or canonicalizes elsewhere
-            if rel in EXCLUDE_PATHS:
-                continue
             url_path = "/" + rel.replace(os.sep, "/")
             # Keep trailing slash for hub pages; leaf pages go bare
             segments = tuple(s for s in url_path.strip("/").split("/") if s)
