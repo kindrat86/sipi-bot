@@ -1216,19 +1216,13 @@ class Handler(BaseHTTPRequestHandler):
 
     
     # ── Traffic-win fixes (audit 2026-07-27) ─────────────────────────────
-    # W5 — exact duplicate 301s. Each /alternatives-to/<x> below is a
-    # byte-for-byte duplicate of /vs/<x> (same target, same intent). We
-    # collapse them into the /vs/ primary to stop keyword cannibalization.
-    # Only mapped where /vs/<x> actually exists (reversible, low-risk).
+    # W5 — 301 redirects for canonical URL consolidation.
+    # NOTE (2026-08-08): /alternatives-to/* redirects REMOVED — these pages now
+    # serve self-referencing canonicals and are indexed directly (not duplicates
+    # of /vs/*). They were causing GSC "Alternate page with proper canonical tag"
+    # errors because the sitemap listed /alternatives-to/* URLs but the 301 sent
+    # Google to /vs/* with a different canonical.
     _PSEO_301_REDIRECTS = {
-        "/alternatives-to/helicone": "/vs/helicone",
-        "/alternatives-to/helicone/": "/vs/helicone",
-        "/alternatives-to/litellm": "/vs/litellm",
-        "/alternatives-to/litellm/": "/vs/litellm",
-        "/alternatives-to/langfuse": "/vs/langfuse",
-        "/alternatives-to/langfuse/": "/vs/langfuse",
-        "/alternatives-to/openai-billing": "/vs/openai-billing",
-        "/alternatives-to/openai-billing/": "/vs/openai-billing",
         # /integrations/openai-agents-sdk is the natural clean slug users and
         # AI engines reach for (named in llms.txt, qa.jsonl and the homepage
         # FAQ). The canonical integration page lives at the long slug below;
