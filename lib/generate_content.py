@@ -178,6 +178,13 @@ POSTS = [
         "date": "2026-03-15",
         "tags": ["app-builders","cost","architecture"],
     },
+    {
+        "slug": "the-cloud-ai-platform-bill",
+        "title": "Bedrock, Vertex, and AI Foundry are not spend firewalls",
+        "description": "The big three cloud AI platforms govern model access, not agent spend. Their budgets stop at the cloud boundary. Here's the money-layer gap.",
+        "date": "2026-02-28",
+        "tags": ["architecture","cost","cloud"],
+    },
 ]
 
 
@@ -654,6 +661,24 @@ def _body_for(post):
 
 <h3>Budget the runtime</h3>
 <p>Wire the guard into the agents your built apps run: a ceiling per app, an allowlist for the APIs it calls, a velocity limit for loops. The builder gets you to launch; the firewall keeps launch profitable. <a href="/use-cases/agentic-commerce">The same logic applies to any shipped agent →</a></p>
+</div>"""
+
+    if slug == "the-cloud-ai-platform-bill":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The cloud AI platform bill</div>
+<span class="tag warn">Architecture</span>
+<h1>Bedrock, Vertex, and AI Foundry are not spend firewalls</h1>
+<p class="lead">The big three cloud AI platforms govern model access, not agent spend. Their budgets stop at the cloud boundary. Here's the money-layer gap.</p>
+<div class="meta">February 28, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Teams standardize agents on <a href="/vs/aws-bedrock">AWS Bedrock</a>, <a href="/vs/google-vertex-ai">Google Vertex AI</a>, or <a href="/vs/azure-ai-foundry">Azure AI Foundry</a> — and assume the platform's budgets cover the risk. They don't. Those budgets stop at the cloud boundary.</p>
+
+<h3>The gap</h3>
+<p>The platform governs <em>its own</em> usage: model tokens, compute, managed services. Nothing it offers gates what your agents buy <em>beyond</em> it — a data vendor, a payment rail, a third-party API. That's where the documented runaways live.</p>
+
+<h3>The money layer</h3>
+<p>The control that covers every merchant sits outside the platform: a <a href="/glossary/spend-firewall">spend firewall</a> on the money path, evaluating each proposed transaction before settlement. Platform budgets for the platform; the firewall for the money. They compose — see the <a href="/vs/aws-bedrock">comparisons →</a></p>
 </div>"""
 
     return ""  # fallback
