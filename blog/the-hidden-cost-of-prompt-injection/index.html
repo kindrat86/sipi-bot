@@ -3,27 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Red Flags in AI Agent Spend — Warning Signs | sipi.bot</title>
-<meta name="description" content="Red flags that agent spending is about to run away: off-hours activity, unknown merchants, retry spikes, MCP server risks, payment rail risks.">
-<link rel="canonical" href="https://sipi.bot/redflags/">
+<title>The hidden cost of prompt injection: it&#x27;s the spend, not the prompt | sipi.bot</title>
+<meta name="description" content="Prompt injection isn&#x27;t just a data-safety problem — it&#x27;s a money problem. The documented attacks that ended in spend, and the deterministic defense that can&#x27;t be injected.">
+<link rel="canonical" href="https://sipi.bot/blog/the-hidden-cost-of-prompt-injection">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="sipi.bot">
-<meta property="og:title" content="Red Flags in AI Agent Spend — Warning Signs | sipi.bot">
-<meta property="og:description" content="Red flags that agent spending is about to run away: off-hours activity, unknown merchants, retry spikes, MCP server risks, payment rail risks.">
-<meta property="og:url" content="https://sipi.bot/redflags/">
+<meta property="og:title" content="The hidden cost of prompt injection: it&#x27;s the spend, not the prompt | sipi.bot">
+<meta property="og:description" content="Prompt injection isn&#x27;t just a data-safety problem — it&#x27;s a money problem. The documented attacks that ended in spend, and the deterministic defense that can&#x27;t be injected.">
+<meta property="og:url" content="https://sipi.bot/blog/the-hidden-cost-of-prompt-injection">
 <meta property="og:image" content="https://sipi.bot/og-default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Red Flags in AI Agent Spend — Warning Signs | sipi.bot">
-<meta name="twitter:description" content="Red flags that agent spending is about to run away: off-hours activity, unknown merchants, retry spikes, MCP server risks, payment rail risks.">
+<meta name="twitter:title" content="The hidden cost of prompt injection: it&#x27;s the spend, not the prompt | sipi.bot">
+<meta name="twitter:description" content="Prompt injection isn&#x27;t just a data-safety problem — it&#x27;s a money problem. The documented attacks that ended in spend, and the deterministic defense that can&#x27;t be injected.">
 <meta name="twitter:image" content="https://sipi.bot/og-default.png">
 <link rel="icon" type="image/svg+xml" href="https://sipi.bot/favicon.svg">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot — incidents & research" href="/rss.xml">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "sipi.bot", "url": "https://sipi.bot/", "description": "The pre-spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.", "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "name", "item": "https://sipi.boturl"}, {"@type": "ListItem", "position": 2, "name": "name", "item": "https://sipi.boturl"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sipi.bot/blog/"}, {"@type": "ListItem", "position": 3, "name": "The hidden cost of prompt injection: it&#x27;s the spend, not the prompt", "item": "https://sipi.bot/blog/the-hidden-cost-of-prompt-injection"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "The hidden cost of prompt injection: it&#x27;s the spend, not the prompt", "description": "Prompt injection isn&#x27;t just a data-safety problem — it&#x27;s a money problem. The documented attacks that ended in spend, and the deterministic defense that can&#x27;t be injected.", "url": "https://sipi.bot/blog/the-hidden-cost-of-prompt-injection", "image": "https://sipi.bot/og-default.png", "datePublished": "2026-07-22", "dateModified": "2026-07-22", "author": {"@type": "Organization", "name": "sipi.bot"}, "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://sipi.bot/blog/the-hidden-cost-of-prompt-injection"}}</script>
 <script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script>
 <style>
 :root{
@@ -182,12 +183,26 @@ tr:hover td{background:rgba(255,255,255,.015)}
 <body>
 <header class="nav"><div class="wrap" style="display:flex;align-items:center;width:100%">
 <a class="brand" href="/">sipi<span class="dot-org">.bot</span></a>
-<nav class="links"><a href="/incidents/">Incidents</a><a href="/tools/">Tools</a><a href="/blog/">Blog</a><a href="/for/">Integrations</a><a class="cta" href="https://sipi.bot/pricing">Pricing</a><a class="cta" href="https://sipi.bot/dashboard">Dashboard</a></nav></div></header>
-<main class="wrap"><span class="crumbs"><a href="/">Home</a> <span class="sep">/</span> <a href="/">Home</a> <span class="sep">/</span> Red Flags in AI Agent Spend</span>
-<h1>Red Flags in AI Agent Spend</h1>
-<p class="lead">Runaway spend leaves tracks. These are the warning signs — and the rules that stop each one.</p>
-<div class="grid two"><div class="card"><h3><a href="/redflags/red-flags-in-agent-spend">Red Flags in Agent Spend</a></h3><p>Runaway spend doesn&#x27;t announce itself — but it leaves tracks. These seven red flags are the ones the incident database keeps showing up.</p></div><div class="card"><h3><a href="/redflags/red-flags-in-mcp-servers">Red Flags in MCP Servers</a></h3><p>MCP servers are third-party code with access to your agent&#x27;s tools — and potentially its wallet. Vet them the way you&#x27;d vet any dependency.</p></div><div class="card"><h3><a href="/redflags/red-flags-in-agent-payment-rails">Red Flags in Agent Payment Rails</a></h3><p>Payment rails for agents are new — and new infrastructure deserves extra scrutiny. These are the red flags to check before a wallet touches your system.</p></div><div class="card"><h3><a href="/redflags/new-endpoint-high-volume">New Endpoint High Volume</a></h3><p>Warning sign.</p></div><div class="card"><h3><a href="/redflags/off-hours-billing-activity">Off Hours Billing Activity</a></h3><p>Warning sign.</p></div><div class="card"><h3><a href="/redflags/payment-to-previously-failed-vendor">Payment To Previously Failed Vendor</a></h3><p>Warning sign.</p></div><div class="card"><h3><a href="/redflags/sudden-spike-in-small-payments">Sudden Spike In Small Payments</a></h3><p>Warning sign.</p></div></div>
-<div class="cta-card"><h3>Stop the next $12,400 night.</h3><p>One API call (or MCP tool) in front of every agent transaction — APPROVED, BLOCKED, or FLAGGED, deterministic, ~5 ms, fully logged.</p><a class="btn primary" href="/pricing">See plans — from $99/mo</a> <a class="btn ghost" href="/playground/">Try a live check</a></div></main>
+<nav class="links"><a href="/incidents/">Incidents</a><a href="/tools/">Tools</a><a href="/blog/" style="color:var(--fg)">Blog</a><a href="/for/">Integrations</a><a class="cta" href="https://sipi.bot/pricing">Pricing</a><a class="cta" href="https://sipi.bot/dashboard">Dashboard</a></nav></div></header>
+<main class="wrap"><main class="wrap"><section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The hidden cost of prompt injection</div>
+<span class="tag warn">Security</span>
+<h1>The hidden cost of prompt injection: it's the spend, not the prompt</h1>
+<p class="lead">Prompt injection isn't just a data-safety problem — it's a money problem. The documented attacks that ended in spend, and the deterministic defense that can't be injected.</p>
+<div class="meta">July 22, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Most writing about prompt injection focuses on data exfiltration and model behavior. The angle that gets less attention is the one that actually shows up on invoices: injection as a <em>spending</em> attack. An injected instruction in tool output can push an agent to purchase, subscribe, or pay — and the agent will do it, because that's what it's built to do.</p>
+
+<h3>The documented shapes</h3>
+<p>The <a href="/incidents/">incident database</a> records the patterns: agents that followed instructions embedded in content and spent against an operator's intent — purchases from unknown vendors, subscription triggers, payment-rail activity. The common thread isn't model quality; it's that nothing sat between the agent and the money.</p>
+
+<h3>Why detection isn't the answer</h3>
+<p>Injection detection is probabilistic — a bypass is always possible. Even a <em>detected</em> injection still needs something to stop the money from moving. The reliable defense is a deterministic gate on the spend path: <a href="/faq/can-sipi-bot-stop-prompt-injection">rules that can't be injected</a>. An injected instruction can't add a merchant to the allowlist or raise a cap — approvals come from rules, not from model output.</p>
+
+<h3>The layered answer</h3>
+<p>Keep detection tools for the content layer. Add the firewall for the money layer. Defense in depth: detect the attack, and make the damage impossible regardless.</p>
+</div></main></main>
 <footer class="foot"><div class="wrap">
 <div class="cols">
 <div>
@@ -202,12 +217,4 @@ returns APPROVED, BLOCKED, or FLAGGED against your rules. Open-source core, MIT 
 <span>Incident data is documented from public sources and licensed CC BY 4.0.</span></div>
 <div class="network" style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--line-2);font-size:.75rem;color:var(--fg-3);text-align:center"><span>Portfolio: </span><a href="https://gitdealflow.com" style="color:var(--fg-3);text-decoration:none">GitDealFlow</a> · <a href="https://signals.gitdealflow.com" style="color:var(--fg-3);text-decoration:none">Signals</a> · <a href="https://churnlens.site" style="color:var(--fg-3);text-decoration:none">ChurnLens</a> · <a href="https://carshake.online" style="color:var(--fg-3);text-decoration:none">CarShake</a> · <a href="https://unlocksaas.com" style="color:var(--fg-3);text-decoration:none">UnlockSaaS</a> · <a href="https://sanctionsai.dev" style="color:var(--fg-3);text-decoration:none">SanctionsAI</a> · <a href="https://voicelogpro.com" style="color:var(--fg-3);text-decoration:none">VoiceLogPro</a> · <a href="https://invisibleexit.com" style="color:var(--fg-3);text-decoration:none">InvisibleExit</a> · <a href="https://sipiteno.com" style="color:var(--fg-3);text-decoration:none">Sipiteno</a> · <a href="https://hirenika.com" style="color:var(--fg-3);text-decoration:none">HireNika</a></div>
 </div></footer>
-<h2>Bills & logs</h2>
-<div class="grid2">
-<div class="card"><h3><a href="/redflags/red-flags-in-llm-api-bills">Red Flags in LLM API Bills</a></h3><p>Your LLM bill is a signal. These six patterns say something&#x27;s wrong — usually an agent doing more than you think.</p></div><div class="card"><h3><a href="/redflags/red-flags-in-agent-logs">Red Flags in Agent Logs</a></h3><p>Agent logs tell you what&#x27;s about to happen before the bill does. These six patterns are the ones to automate detection for.</p></div>
-</div>
-<h2>Subscriptions</h2>
-<div class="grid2">
-<div class="card"><h3><a href="/redflags/red-flags-in-ai-agent-subscriptions">Red Flags in AI Agent Subscriptions</a></h3><p>Subscription spend is the quiet part of the AI budget — monthly, automatic, and easy to ignore. These six flags say it&#x27;s drifting.</p></div>
-</div>
 </body></html>

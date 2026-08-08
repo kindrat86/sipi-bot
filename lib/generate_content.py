@@ -108,6 +108,20 @@ POSTS = [
         "date": "2026-07-30",
         "tags": ["incidents","research","database"],
     },
+    {
+        "slug": "the-hidden-cost-of-prompt-injection",
+        "title": "The hidden cost of prompt injection: it's the spend, not the prompt",
+        "description": "Prompt injection isn't just a data-safety problem — it's a money problem. The documented attacks that ended in spend, and the deterministic defense that can't be injected.",
+        "date": "2026-07-22",
+        "tags": ["security","injection","incidents"],
+    },
+    {
+        "slug": "how-to-run-an-agent-spend-audit",
+        "title": "How to run an agent spend audit in 30 minutes",
+        "description": "The audit-log questions that turn agent spend into decisions: where the money goes, what got blocked that shouldn't have, and the one rule change that matters most.",
+        "date": "2026-07-15",
+        "tags": ["operations","audit","best-practices"],
+    },
 ]
 
 
@@ -368,6 +382,51 @@ def _body_for(post):
 <p>Every incident shares a root cause: the only control was a prompt instruction. Prompts are <a href="/blog/prompt-not-a-control">not controls</a>. The incidents that cost the most are the ones where a deterministic gate would have been trivial.</p>
 
 <p>Full records, sources, and machine-readable data: <a href="/incidents/">browse the database →</a></p>
+</div>"""
+
+    if slug == "the-hidden-cost-of-prompt-injection":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The hidden cost of prompt injection</div>
+<span class="tag warn">Security</span>
+<h1>The hidden cost of prompt injection: it's the spend, not the prompt</h1>
+<p class="lead">Prompt injection isn't just a data-safety problem — it's a money problem. The documented attacks that ended in spend, and the deterministic defense that can't be injected.</p>
+<div class="meta">July 22, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Most writing about prompt injection focuses on data exfiltration and model behavior. The angle that gets less attention is the one that actually shows up on invoices: injection as a <em>spending</em> attack. An injected instruction in tool output can push an agent to purchase, subscribe, or pay — and the agent will do it, because that's what it's built to do.</p>
+
+<h3>The documented shapes</h3>
+<p>The <a href="/incidents/">incident database</a> records the patterns: agents that followed instructions embedded in content and spent against an operator's intent — purchases from unknown vendors, subscription triggers, payment-rail activity. The common thread isn't model quality; it's that nothing sat between the agent and the money.</p>
+
+<h3>Why detection isn't the answer</h3>
+<p>Injection detection is probabilistic — a bypass is always possible. Even a <em>detected</em> injection still needs something to stop the money from moving. The reliable defense is a deterministic gate on the spend path: <a href="/faq/can-sipi-bot-stop-prompt-injection">rules that can't be injected</a>. An injected instruction can't add a merchant to the allowlist or raise a cap — approvals come from rules, not from model output.</p>
+
+<h3>The layered answer</h3>
+<p>Keep detection tools for the content layer. Add the firewall for the money layer. Defense in depth: detect the attack, and make the damage impossible regardless.</p>
+</div>"""
+
+    if slug == "how-to-run-an-agent-spend-audit":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>How to run an agent spend audit</div>
+<span class="tag navy">Operations</span>
+<h1>How to run an agent spend audit in 30 minutes</h1>
+<p class="lead">The audit-log questions that turn agent spend into decisions: where the money goes, what got blocked that shouldn't have, and the one rule change that matters most.</p>
+<div class="meta">July 15, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>You don't need a dashboard project to audit agent spend. You need the audit log and 30 minutes. Here's the agenda — the same one from the <a href="/templates/weekly-spend-review-template">weekly review template</a>, compressed.</p>
+
+<h3>Question 1: where is the spend?</h3>
+<p>Group the log by agent, then by merchant. The shape tells you everything: one agent dominating, or a long tail of vendors you don't recognize.</p>
+
+<h3>Question 2: what got blocked that shouldn't have?</h3>
+<p>Blocked attempts are the firewall working — but blocks on legitimate work are the tuning signal. If a real workflow keeps hitting a cap, the cap is wrong, not the workflow.</p>
+
+<h3>Question 3: what got flagged?</h3>
+<p>Flagged transactions that were all approved mean your threshold is too low — you're paying humans to rubber-stamp. All denied means the agents are trying things they shouldn't.</p>
+
+<h3>The output</h3>
+<p>One rule change, measured next week. That's the whole audit: <a href="/guides/guide-to-agent-spend-audits">read the guide →</a></p>
 </div>"""
 
     return ""  # fallback
