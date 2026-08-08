@@ -206,6 +206,13 @@ POSTS = [
         "date": "2026-01-15",
         "tags": ["operations","security","rules"],
     },
+    {
+        "slug": "your-agents-need-a-budget-not-just-a-bill",
+        "title": "Your agents need a budget, not just a bill",
+        "description": "Every agent platform bills you. Few give you a budget. The difference between a bill and a budget is a decision layer — here's how to build it.",
+        "date": "2025-12-20",
+        "tags": ["operations","cost","best-practices"],
+    },
 ]
 
 
@@ -757,6 +764,24 @@ def _body_for(post):
 
 <h3>Why ceilings mean you rarely need it</h3>
 <p>The kill switch is the emergency brake; <a href="/glossary/velocity-limit">velocity limits</a> and <a href="/glossary/spend-cap">spend caps</a> are the cruise control. A governed agent hits its cap and stops on its own — the switch stays in the glovebox. That's the design: <a href="/how-to/how-to-stop-runaway-agents">stop the bleeding, contain, understand, prevent →</a></p>
+</div>"""
+
+    if slug == "your-agents-need-a-budget-not-just-a-bill":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Your agents need a budget, not just a bill</div>
+<span class="tag navy">Operations</span>
+<h1>Your agents need a budget, not just a bill</h1>
+<p class="lead">Every agent platform bills you. Few give you a budget. The difference between a bill and a budget is a decision layer — here's how to build it.</p>
+<div class="meta">December 20, 2025 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Platforms are great at the <em>bill</em> — usage pages, invoices, alerts. They're almost universally bad at the <em>budget</em> — deciding, before the money moves, whether the spend may happen.</p>
+
+<h3>Bill vs budget</h3>
+<p>A bill is retrospective: what happened. A budget is prospective: what may happen. Alerts tell you after the damage; a <a href="/glossary/spend-cap">spend cap</a> prevents it. The platforms you run agents on bill you; the budget is the layer you add.</p>
+
+<h3>The three numbers</h3>
+<p><strong>The ceiling</strong> — the most an agent may spend in a period. <strong>The velocity limit</strong> — how fast it may spend. <strong>The allowlist</strong> — who it may pay. Those three numbers are the budget; everything else is dashboard. <a href="/answers/how-to-set-a-budget-for-ai-agents/">Set it →</a></p>
 </div>"""
 
     return ""  # fallback
