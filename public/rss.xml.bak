@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 12:13:01 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 12:19:34 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -311,6 +311,22 @@
     <description>Unused seats, auto-renewing tools, silent tier upgrades — and agents that can subscribe on their own. How the quietest line on the AI bill grows.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Sat, 30 May 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>The coding agent cost war is really a control problem</title>
+    <link>https://sipi.bot/blog/the-coding-agent-cost-war/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/the-coding-agent-cost-war#200ac580-6eb4-5cdf-bdf3-374e0e21157c</guid>
+    <description>Every coding agent — Cline, Roo, Cursor, Claude Code, Codex — bills differently, and all of them can spend beyond the editor. The winner isn&#x27;t the cheapest model; it&#x27;s the team that controls the spend.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Sun, 10 May 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Flag vs block: when to let an agent ask instead of stop</title>
+    <link>https://sipi.bot/blog/when-to-flag-vs-block/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/when-to-flag-vs-block#a42189a2-4f71-58f5-9ced-5613debd7adb</guid>
+    <description>Hard blocks stop bad spend but also stop legitimate work. Approval thresholds keep agents fast. Here&#x27;s the decision rule for when to use which.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Mon, 20 Apr 2026 12:00:00 GMT</pubDate>
   </item>
   </channel>
 </rss>

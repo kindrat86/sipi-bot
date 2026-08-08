@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 12:19:34 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 12:30:41 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -327,6 +327,22 @@
     <description>Hard blocks stop bad spend but also stop legitimate work. Approval thresholds keep agents fast. Here&#x27;s the decision rule for when to use which.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Mon, 20 Apr 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Metering platforms bill your customers. They don&#x27;t control your agents.</title>
+    <link>https://sipi.bot/blog/metering-vs-spend-firewall/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/metering-vs-spend-firewall#7a9fb5dc-be2a-5f2b-9f30-05e3c70029b8</guid>
+    <description>Metronome, Orb, and Amberflo are for revenue — measuring usage and billing customers. Agent spend control is a different job, in the other direction. Here&#x27;s the split.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Sun, 05 Apr 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>The credit model of AI app builders, and the bill it hides</title>
+    <link>https://sipi.bot/blog/the-credit-model-of-ai-app-builders/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/the-credit-model-of-ai-app-builders#3be80c46-44f3-5ac0-98ee-84f235fede1b</guid>
+    <description>Lovable, Bolt, and friends bill by credits for building. The real bill starts when the apps you built start running agents. How to budget the runtime, not just the build.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Sun, 15 Mar 2026 12:00:00 GMT</pubDate>
   </item>
   </channel>
 </rss>

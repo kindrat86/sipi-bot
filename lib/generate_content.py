@@ -164,6 +164,20 @@ POSTS = [
         "date": "2026-04-20",
         "tags": ["operations","rules","best-practices"],
     },
+    {
+        "slug": "metering-vs-spend-firewall",
+        "title": "Metering platforms bill your customers. They don't control your agents.",
+        "description": "Metronome, Orb, and Amberflo are for revenue — measuring usage and billing customers. Agent spend control is a different job, in the other direction. Here's the split.",
+        "date": "2026-04-05",
+        "tags": ["architecture","cost","billing"],
+    },
+    {
+        "slug": "the-credit-model-of-ai-app-builders",
+        "title": "The credit model of AI app builders, and the bill it hides",
+        "description": "Lovable, Bolt, and friends bill by credits for building. The real bill starts when the apps you built start running agents. How to budget the runtime, not just the build.",
+        "date": "2026-03-15",
+        "tags": ["app-builders","cost","architecture"],
+    },
 ]
 
 
@@ -601,6 +615,45 @@ def _body_for(post):
 
 <h3>The decision rule</h3>
 <p>If you'd never approve it, block. If you might, flag. If it's routine, approve. Tune with the audit log: all-approved flags mean the threshold is too low; all-denied means the agents are trying the wrong things. <a href="/blog/how-to-pick-your-first-three-rules">Start with three rules →</a></p>
+</div>"""
+
+    if slug == "metering-vs-spend-firewall":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Metering vs spend firewall</div>
+<span class="tag warn">Architecture</span>
+<h1>Metering platforms bill your customers. They don't control your agents.</h1>
+<p class="lead">Metronome, Orb, and Amberflo are for revenue — measuring usage and billing customers. Agent spend control is a different job, in the other direction. Here's the split.</p>
+<div class="meta">April 5, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>When teams shop for AI cost control, they often land on usage-based billing platforms. It's an easy confusion: both products are about 'usage' and 'cost.' But they face opposite directions.</p>
+
+<h3>The revenue direction</h3>
+<p>Metering platforms (<a href="/vs/metronome">Metronome</a>, <a href="/vs/orb">Orb</a>, <a href="/vs/amberflo">Amberflo</a>) measure what your <em>customers</em> used and bill them. They're revenue infrastructure — critical, but they look outward.</p>
+
+<h3>The cost direction</h3>
+<p>Agent spend control looks inward: what do <em>your</em> agents spend, on whom, against which rules — before the money moves. No metering platform makes that decision; they record usage after the fact.</p>
+
+<h3>The compose pattern</h3>
+<p>Meter your customers' usage with Metronome or Orb. Gate your agents' spend with sipi.bot. Feed the firewall's audit log into your metering stack. Revenue and cost, each with the right tool. <a href="/vs/metronome">Read the comparison →</a></p>
+</div>"""
+
+    if slug == "the-credit-model-of-ai-app-builders":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The credit model of AI app builders</div>
+<span class="tag navy">Architecture</span>
+<h1>The credit model of AI app builders, and the bill it hides</h1>
+<p class="lead">Lovable, Bolt, and friends bill by credits for building. The real bill starts when the apps you built start running agents. How to budget the runtime, not just the build.</p>
+<div class="meta">March 15, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>AI app builders (<a href="/integrations/lovable">Lovable</a>, <a href="/integrations/bolt">Bolt</a>, <a href="/integrations/v0">v0</a>) sell credits — pay per prompt, ship an app. The credits are the visible spend. The bill that grows after launch is the runtime: the agents your shipped app runs, calling APIs per user action.</p>
+
+<h3>The hidden line</h3>
+<p>A generated app with an agentic feature is spend infrastructure: every user action can trigger tool calls, inference, and third-party APIs. The builder's credits paid for the build; nothing budgets the runtime.</p>
+
+<h3>Budget the runtime</h3>
+<p>Wire the guard into the agents your built apps run: a ceiling per app, an allowlist for the APIs it calls, a velocity limit for loops. The builder gets you to launch; the firewall keeps launch profitable. <a href="/use-cases/agentic-commerce">The same logic applies to any shipped agent →</a></p>
 </div>"""
 
     return ""  # fallback
