@@ -51,6 +51,3 @@ Allow: /
 # MCP manifest:        https://sipi.bot/.well-known/mcp.json
 
 Sitemap: https://sipi.bot/sitemap.xml
-
-# Image sitemap for Google Images indexing
-Sitemap: https://sipi.bot/image-sitemap.xml

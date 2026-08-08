@@ -47,6 +47,18 @@ EXCLUDE_FILES = {
     "widget.html",          # network/widget.html — embed widget, not a page
 }
 
+# Specific pSEO paths to skip — pages whose server-side handler redirects or
+# sets a canonical to a different URL already in the sitemap. Listing both
+# the redirect source and target causes GSC "Alternate page with proper
+# canonical tag." Checked as directory-relative paths (e.g. "alternatives-to/helicone").
+EXCLUDE_PATHS = {
+    # W5 exact duplicate 301s — /alternatives-to/X → /vs/X
+    "alternatives-to/helicone",
+    "alternatives-to/langfuse",
+    "alternatives-to/litellm",
+    "alternatives-to/openai-billing",
+}
+
 
 def git_lastmod(filepath):
     """Real last-content-change date from git history; falls back to mtime."""
@@ -137,6 +149,9 @@ def build_sitemap():
     # Dynamic server-rendered pages not backed by a file
     urls.setdefault(SITE_BASE + "/", None)
     urls.setdefault(SITE_BASE + "/blog/", None)
+    # Flat dynamic pages served by api.py (2026-08-08: were missing from sitemap)
+    for flat in ["/about", "/pricing", "/security", "/terms", "/privacy"]:
+        urls.setdefault(SITE_BASE + flat, None)
 
     urls_sorted = sorted(urls.keys())
     parts = ['<?xml version="1.0" encoding="UTF-8"?>',
