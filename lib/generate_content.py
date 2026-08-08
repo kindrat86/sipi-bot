@@ -87,6 +87,27 @@ POSTS = [
         "date": "2026-01-20",
         "tags": ["mcp","architecture","integrations"],
     },
+    {
+        "slug": "agentic-payments-state-2026",
+        "title": "The state of agentic payments in 2026",
+        "description": "x402, AP2, and AgentKit made agent-to-agent payments real. The rails are live; the control layer is the constraint. Here's where the stack stands and what ships next.",
+        "date": "2026-08-08",
+        "tags": ["agentic-payments","research","announcement"],
+    },
+    {
+        "slug": "how-much-does-an-agent-cost-to-run",
+        "title": "How much does an AI agent actually cost to run?",
+        "description": "The honest cost model for an AI agent: inference, tools, data, and the runaway risk that the sticker price never shows. Plus the numbers to budget.",
+        "date": "2026-08-01",
+        "tags": ["cost","benchmarks","research"],
+    },
+    {
+        "slug": "q2-2026-agent-incident-report",
+        "title": "Q2 2026 agent incident report: what the database shows",
+        "description": "A quarterly read of the AI Agent Incident Database: the failure modes that keep repeating, the dollars involved, and the rules that would have stopped each one.",
+        "date": "2026-07-30",
+        "tags": ["incidents","research","database"],
+    },
 ]
 
 
@@ -285,6 +306,70 @@ def _body_for(post):
 <p>We support MCP natively — see the <a href="/for/">framework integrations directory</a> for LangChain, CrewAI, OpenAI Agents SDK, Vercel AI SDK, and raw HTTP/CLI. Every integration wraps the same firewall endpoint, and the eval gym (<a href="/eval">53/53</a>) validates them all.</p>
 </div>"""
 
+    if slug == "agentic-payments-state-2026":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Agentic payments state 2026</div>
+<span class="tag good">Research</span>
+<h1>The state of agentic payments in 2026</h1>
+<p class="lead">x402, AP2, and AgentKit made agent-to-agent payments real. The rails are live; the control layer is the constraint. Here's where the stack stands and what ships next.</p>
+<div class="meta">August 8, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Agentic payments — payments initiated by an AI agent rather than a human — moved from prototype to production this year. Three rails define the stack: <a href="/glossary/x402">x402</a> (HTTP-based, using the 402 status code), Google's <a href="/glossary/ap2">AP2</a>, and Coinbase AgentKit for onchain payments. Each lets an agent discover a payable resource and settle it autonomously.</p>
+
+<h3>What's real</h3>
+<p>All three rails are live and shipping products. The pattern is consistent: an agent requests a resource, the rail presents payment terms, the agent settles, and the resource unlocks. Settlement is fast — seconds, not days — which is exactly why the next layer matters.</p>
+
+<h3>What's missing</h3>
+<p>Rails move money; none of them screen transactions before settlement. A runaway agent on a fast rail is damage at settlement speed — the <a href="/incidents/">incident database</a> already contains the shapes this takes. The control layer — a deterministic pre-spend decision in front of the rail — is where the stack is immature, and where <a href="/guides/agent-payment-firewall">the firewall pattern</a> fits.</p>
+
+<h3>What ships next</h3>
+<p>Expect the rails to consolidate around standards, and expect the control layer to become a default part of the stack — the same way fraud screening became default for card payments. The protocol is the plumbing; the policy is the product.</p>
+</div>"""
+
+    if slug == "how-much-does-an-agent-cost-to-run":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>How much does an agent cost to run</div>
+<span class="tag navy">Cost</span>
+<h1>How much does an AI agent actually cost to run?</h1>
+<p class="lead">The honest cost model for an AI agent: inference, tools, data, and the runaway risk that the sticker price never shows. Plus the numbers to budget.</p>
+<div class="meta">August 1, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Everyone quotes per-token prices. Nobody quotes what an agent costs to run, because the real cost is <em>rate × volume × behavior</em> — and behavior is the variable. Here's the model we use when talking to teams.</p>
+
+<h3>The three cost lines</h3>
+<p><strong>Inference.</strong> The model bill: per-token rates times the tokens an agent actually consumes. Long-context runs and retries inflate this line faster than any rate card suggests — see the <a href="/benchmarks/llm-context-window-cost-comparison">context-cost math</a>.</p>
+<p><strong>Tools and data.</strong> Every API the agent calls: search, enrichment, compute, data vendors. This is the line most teams don't see until the invoice — and the one <a href="/glossary/merchant-allowlist">allowlists</a> govern.</p>
+<p><strong>The runaway risk.</strong> Not a line item — a multiplier. A <a href="/glossary/retry-loop">retry loop</a> turns one failed call into 40. The incident database's <a href="/benchmarks/agent-runaway-cost-average">runaway costs</a> show the range: hundreds to millions.</p>
+
+<h3>The number to budget</h3>
+<p>Work backwards from the task: estimate legitimate daily spend, multiply by 1.5, and make that the <a href="/limits/daily-spend-limits">daily ceiling</a>. Then let the audit log tell you the real number. The price of the agent isn't the token rate — it's the ceiling you enforce.</p>
+</div>"""
+
+    if slug == "q2-2026-agent-incident-report":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Q2 2026 incident report</div>
+<span class="tag warn">Incidents</span>
+<h1>Q2 2026 agent incident report: what the database shows</h1>
+<p class="lead">A quarterly read of the AI Agent Incident Database: the failure modes that keep repeating, the dollars involved, and the rules that would have stopped each one.</p>
+<div class="meta">July 30, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>The <a href="/incidents/">AI Agent Incident Database</a> now tracks 34 sourced incidents spanning 2016–2026 — agents that lost money, deleted data, or acted beyond intent. The Q2 read keeps surfacing the same three patterns.</p>
+
+<h3>Pattern 1: the retry loop</h3>
+<p>The single most common shape. One failed call, retried in a tight loop — overnight, unattended. The <a href="/blog/velocity-limits-explained">velocity limit</a> is the rule that stops it: a cap on transactions per window ends the loop at the source.</p>
+
+<h3>Pattern 2: the unknown vendor</h3>
+<p>Agents buying from merchants nobody vetted. The <a href="/glossary/merchant-allowlist">merchant allowlist</a> makes the default deny: unknown vendors are BLOCKED unless approved.</p>
+
+<h3>Pattern 3: no external gate</h3>
+<p>Every incident shares a root cause: the only control was a prompt instruction. Prompts are <a href="/blog/prompt-not-a-control">not controls</a>. The incidents that cost the most are the ones where a deterministic gate would have been trivial.</p>
+
+<p>Full records, sources, and machine-readable data: <a href="/incidents/">browse the database →</a></p>
+</div>"""
+
     return ""  # fallback
 
 
@@ -301,13 +386,17 @@ def build_blog():
 
         # detail page
         detail_body = _body_for(post) or f"<h1>{c._esc(post['title'])}</h1><p>{c._esc(post['description'])}</p>"
+        # BARE canonical (2026-08-08): blog leaves are served by _serve_pseo,
+        # which 301s the slash form to bare — slash canonicals contradicted the
+        # served URL (GSC duplicate-source, same pattern as the public/ fix).
+        post_path = f"/blog/{post['slug']}"
         jsonld = [
-            c.breadcrumb_ld([("Home","/"),("Blog","/blog/"),(post["title"],f"/blog/{post['slug']}/")]),
-            c.article_ld(title=post["title"],description=post["description"],
-                         canonical_path=f"/blog/{post['slug']}/",date_published=post["date"]),
+            c.breadcrumb_ld([("Home", "/"), ("Blog", "/blog/"), (post["title"], post_path)]),
+            c.article_ld(title=post["title"], description=post["description"],
+                         canonical_path=post_path, date_published=post["date"]),
         ]
-        html = c.page(title=f"{post['title']} | sipi.bot",description=post["description"],
-                      canonical_path=f"/blog/{post['slug']}/", active="Blog",
+        html = c.page(title=f"{post['title']} | sipi.bot", description=post["description"],
+                      canonical_path=post_path, active="Blog",
                       body=f'<main class="wrap">{detail_body}</main>', jsonld=jsonld)
         c.write(os.path.join(BLOG_DIR, post["slug"], "index.html"), html)
 
@@ -437,9 +526,32 @@ def build_status():
     print("status/: page")
 
 
+def _dedupe_rss(rss: str) -> str:
+    """Remove duplicate <item> blocks (same guid), keeping the first."""
+    items = list(re.finditer(r"<item>.*?</item>", rss, re.S))
+    if not items:
+        return rss
+    seen, kept = set(), []
+    for m in items:
+        g = re.search(r"<guid[^>]*>([^<]+)</guid>", m.group(0))
+        key = g.group(1) if g else m.group(0)
+        if key in seen:
+            continue
+        seen.add(key)
+        kept.append(m)
+    if len(kept) == len(items):
+        return rss
+    return rss[:items[0].start()] + "\n".join(m.group(0) for m in kept) + rss[items[-1].end():]
+
+
 # =========================================================== RSS enrichment
 def enrich_rss():
-    """Append blog and incident entries to the existing RSS feed."""
+    """Append blog and incident entries to the existing RSS feed.
+
+    Idempotent since 2026-08-08: dedupes the existing feed and only appends
+    items whose guid is not already present (the old version re-appended every
+    post on each run, duplicating entries — 36 items for 27 unique).
+    """
     import shutil
     import uuid
 
@@ -448,11 +560,16 @@ def enrich_rss():
     with open(RSS_PATH + ".bak", encoding="utf-8") as f:
         existing = f.read()
 
+    existing = _dedupe_rss(existing)
+    existing_guids = set(re.findall(r"<guid[^>]*>([^<]+)</guid>", existing))
+
     # Build new items
     items = []
     for post in sorted(POSTS, key=lambda p: p["date"], reverse=True):
         d = datetime.fromisoformat(post["date"])
         guid = f"https://sipi.bot/blog/{post['slug']}#{uuid.uuid5(uuid.NAMESPACE_DNS, 'sipi.bot'+post['slug'])}"
+        if guid in existing_guids:
+            continue
         items.append(f"""  <item>
     <title>{_html.escape(post['title'])}</title>
     <link>https://sipi.bot/blog/{post['slug']}/</link>
@@ -463,10 +580,12 @@ def enrich_rss():
   </item>""")
 
     # Incident database entry
-    items.append(f"""  <item>
+    inc_guid = "https://sipi.bot/incidents/#db-launch-2026-07-27"
+    if inc_guid not in existing_guids:
+        items.append(f"""  <item>
     <title>AI Agent Incident Database — 34 records, $2.91B tracked</title>
     <link>https://sipi.bot/incidents/</link>
-    <guid isPermaLink="true">https://sipi.bot/incidents/#db-launch-2026-07-27</guid>
+    <guid isPermaLink="true">{inc_guid}</guid>
     <description>Open, sourced database of real-world AI-agent incidents, CC BY 4.0. 34 records spanning 2016-2026. JSON, CSV, JSONL available.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Sun, 27 Jul 2026 12:00:00 GMT</pubDate>

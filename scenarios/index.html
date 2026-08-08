@@ -206,4 +206,8 @@ returns APPROVED, BLOCKED, or FLAGGED against your rules. Open-source core, MIT 
 <div class="grid2">
 <div class="card"><h3><a href="/scenarios/merchant-category-drift-scenario">Scenario: Merchant Category Drift</a></h3><p>A research agent is approved to buy datasets — and starts buying compute. Nobody changed the code; the agent just drifted.</p></div><div class="card"><h3><a href="/scenarios/legit-workflow-false-positive-scenario">Scenario: Legitimate Work Blocked</a></h3><p>A legitimate $700 dataset purchase hits the $500 approval threshold. The workflow pauses. What happens next is the whole point of FLAGGED.</p></div><div class="card"><h3><a href="/scenarios/new-agent-onboarding-scenario">Scenario: New Agent, No Rules</a></h3><p>A team ships a new agent on Friday. It can spend. Nobody set a budget. The weekend passes; the bill arrives.</p></div>
 </div>
+<h2>Policy in practice</h2>
+<div class="grid2">
+<div class="card"><h3><a href="/scenarios/silent-tier-escalation-scenario">Scenario: Silent Tier Escalation</a></h3><p>A provider changes its default model, or your agent starts selecting a pricier tier. No code changed; the bill doubles. Nobody notices until the invoice.</p></div><div class="card"><h3><a href="/scenarios/cross-agent-budget-race-scenario">Scenario: Cross-Agent Budget Race</a></h3><p>Two agents share a daily budget. One spends early and fast; the other starves — or both loop retrying. The shared ceiling needs a design, not just a number.</p></div>
+</div>
 </body></html>

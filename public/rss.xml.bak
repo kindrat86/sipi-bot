@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Mon, 27 Jul 2026 13:35:02 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 11:36:58 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -23,7 +23,7 @@
       <pubDate>Tue, 07 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
-    <item>
+<item>
       <title>The Spend Firewall for AI Agents: A Complete Guide (2026)</title>
       <link>https://sipi.bot/learn/spend-firewall-guide</link>
       <guid isPermaLink="true">https://sipi.bot/learn/spend-firewall-guide</guid>
@@ -32,7 +32,7 @@
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
-    <item>
+<item>
       <title>Runaway AI Agent Incident Frequency (2026 Benchmark)</title>
       <link>https://sipi.bot/benchmarks/runaway-incident-frequency</link>
       <guid isPermaLink="true">https://sipi.bot/benchmarks/runaway-incident-frequency</guid>
@@ -41,7 +41,7 @@
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
-    <item>
+<item>
       <title>How to Prevent Runaway AI Costs (2026 Guide) — sipi.bot</title>
       <link>https://sipi.bot/how-to/prevent-runaway-ai-costs</link>
       <guid isPermaLink="true">https://sipi.bot/how-to/prevent-runaway-ai-costs</guid>
@@ -50,7 +50,7 @@
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
-    <item>
+<item>
       <title>sipi.bot vs LiteLLM: which is right for you?</title>
       <link>https://sipi.bot/vs/litellm</link>
       <guid isPermaLink="true">https://sipi.bot/vs/litellm</guid>
@@ -59,7 +59,7 @@
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
-    <item>
+<item>
       <title>sipi.bot vs Helicone: which is right for you?</title>
       <link>https://sipi.bot/vs/helicone</link>
       <guid isPermaLink="true">https://sipi.bot/vs/helicone</guid>
@@ -68,7 +68,7 @@
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
-    <item>
+<item>
       <title>Can an AI Agent Spend Money Without Permission?</title>
       <link>https://sipi.bot/faq/can-ai-agent-spend-without-permission</link>
       <guid isPermaLink="true">https://sipi.bot/faq/can-ai-agent-spend-without-permission</guid>
@@ -77,7 +77,7 @@
       <pubDate>Mon, 06 Jul 2026 17:12:17 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
-    <item>
+<item>
       <title>What is Spend firewall? sipi.bot glossary</title>
       <link>https://sipi.bot/glossary/spend-firewall</link>
       <guid isPermaLink="true">https://sipi.bot/glossary/spend-firewall</guid>
@@ -86,7 +86,7 @@
       <pubDate>Fri, 17 Jul 2026 21:00:00 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
-    <item>
+<item>
       <title>/learn</title>
       <link>https://sipi.bot/learn</link>
       <guid isPermaLink="true">https://sipi.bot/learn</guid>
@@ -94,7 +94,7 @@
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Thu, 02 Jul 2026 17:12:17 GMT</pubDate>
     </item>
-    <item>
+<item>
       <title>/vs</title>
       <link>https://sipi.bot/vs</link>
       <guid isPermaLink="true">https://sipi.bot/vs</guid>
@@ -102,7 +102,7 @@
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Tue, 30 Jun 2026 17:12:17 GMT</pubDate>
     </item>
-    <item>
+<item>
       <title>/faq</title>
       <link>https://sipi.bot/faq</link>
       <guid isPermaLink="true">https://sipi.bot/faq</guid>
@@ -110,7 +110,7 @@
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Sun, 28 Jun 2026 17:12:17 GMT</pubDate>
     </item>
-    <item>
+<item>
       <title>/glossary</title>
       <link>https://sipi.bot/glossary</link>
       <guid isPermaLink="true">https://sipi.bot/glossary</guid>
@@ -118,7 +118,7 @@
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Fri, 26 Jun 2026 17:12:17 GMT</pubDate>
     </item>
-    <item>
+<item>
       <title>AI agent framework integrations — sipi.bot</title>
       <link>https://sipi.bot/for</link>
       <guid isPermaLink="true">https://sipi.bot/for</guid>
@@ -126,7 +126,7 @@
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Wed, 24 Jun 2026 17:12:17 GMT</pubDate>
     </item>
-    <item>
+<item>
       <title>/best</title>
       <link>https://sipi.bot/best</link>
       <guid isPermaLink="true">https://sipi.bot/best</guid>
@@ -134,7 +134,7 @@
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Mon, 22 Jun 2026 17:12:17 GMT</pubDate>
     </item>
-    <item>
+<item>
       <title>Free Tools — sipi.bot</title>
       <link>https://sipi.bot/tools</link>
       <guid isPermaLink="true">https://sipi.bot/tools</guid>
@@ -142,7 +142,7 @@
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Sat, 20 Jun 2026 17:12:17 GMT</pubDate>
     </item>
-    <item>
+<item>
       <title>Open source agent spend firewall — self-host sipi.bot</title>
       <link>https://sipi.bot/self-hosted</link>
       <guid isPermaLink="true">https://sipi.bot/self-hosted</guid>
@@ -150,7 +150,7 @@
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Thu, 18 Jun 2026 17:12:17 GMT</pubDate>
     </item>
-    <item>
+<item>
       <title>sipi.bot — Pricing</title>
       <link>https://sipi.bot/pricing</link>
       <guid isPermaLink="true">https://sipi.bot/pricing</guid>
@@ -159,7 +159,7 @@
       <pubDate>Tue, 16 Jun 2026 17:12:17 GMT</pubDate>
       <media:content url="https://sipi.bot/og.png" medium="image"/>
     </item>
-    <item>
+<item>
       <title>sipi.bot Firewall Playground — Try it live, no signup</title>
       <link>https://sipi.bot/playground</link>
       <guid isPermaLink="true">https://sipi.bot/playground</guid>
@@ -167,7 +167,7 @@
       <dc:creator>sipi.bot</dc:creator>
       <pubDate>Sun, 14 Jun 2026 17:12:17 GMT</pubDate>
     </item>
-  <item>
+<item>
     <title>34 incidents, $2.91 billion tracked — the open AI agent incident database is live</title>
     <link>https://sipi.bot/blog/ai-agent-incident-34-database/</link>
     <guid isPermaLink="true">https://sipi.bot/blog/ai-agent-incident-34-database#fac1caaf-8660-51e5-b2cd-080c873e8625</guid>
@@ -175,7 +175,7 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Mon, 27 Jul 2026 12:00:00 GMT</pubDate>
   </item>
-  <item>
+<item>
     <title>The anatomy of a runaway AI agent loop</title>
     <link>https://sipi.bot/blog/runaway-loops-anatomy/</link>
     <guid isPermaLink="true">https://sipi.bot/blog/runaway-loops-anatomy#406f3016-dc84-530a-ab12-39f33b381244</guid>
@@ -183,7 +183,7 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Tue, 14 Jul 2026 12:00:00 GMT</pubDate>
   </item>
-  <item>
+<item>
     <title>Why prompt instructions aren&#x27;t spending controls</title>
     <link>https://sipi.bot/blog/prompt-not-a-control/</link>
     <guid isPermaLink="true">https://sipi.bot/blog/prompt-not-a-control#de95428d-7e93-58c8-b536-828a836b40c4</guid>
@@ -191,7 +191,7 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Tue, 02 Jun 2026 12:00:00 GMT</pubDate>
   </item>
-  <item>
+<item>
     <title>Step Finance $27M post-mortem: what a per-transaction cap would have done</title>
     <link>https://sipi.bot/blog/step-finance-27m-postmortem/</link>
     <guid isPermaLink="true">https://sipi.bot/blog/step-finance-27m-postmortem#4a9e6e0a-896c-53b3-8a1a-a5c60807933b</guid>
@@ -199,7 +199,7 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Tue, 19 May 2026 12:00:00 GMT</pubDate>
   </item>
-  <item>
+<item>
     <title>The three false beliefs that cost agent teams money</title>
     <link>https://sipi.bot/blog/three-false-beliefs/</link>
     <guid isPermaLink="true">https://sipi.bot/blog/three-false-beliefs#25cd4444-c41b-5886-bd7e-aac3438226ee</guid>
@@ -207,7 +207,7 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Wed, 15 Apr 2026 12:00:00 GMT</pubDate>
   </item>
-  <item>
+<item>
     <title>Velocity limits: the one rule that prevents overnight disasters</title>
     <link>https://sipi.bot/blog/velocity-limits-explained/</link>
     <guid isPermaLink="true">https://sipi.bot/blog/velocity-limits-explained#93b5f81c-49f2-5bd6-9cb3-d4d8f93e931d</guid>
@@ -215,7 +215,7 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Tue, 10 Mar 2026 12:00:00 GMT</pubDate>
   </item>
-  <item>
+<item>
     <title>From $12,400 to 53/53: how we built sipi.bot&#x27;s eval gym</title>
     <link>https://sipi.bot/blog/12400-story-eval-gym/</link>
     <guid isPermaLink="true">https://sipi.bot/blog/12400-story-eval-gym#00a944cb-2071-512c-b731-7aaf066f57fb</guid>
@@ -223,7 +223,7 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Wed, 04 Feb 2026 12:00:00 GMT</pubDate>
   </item>
-  <item>
+<item>
     <title>MCP-native spend controls: why agent tools need a payment firewall</title>
     <link>https://sipi.bot/blog/mcp-native-spend-controls/</link>
     <guid isPermaLink="true">https://sipi.bot/blog/mcp-native-spend-controls#6d175040-8198-5127-97c5-71e37aef786f</guid>
@@ -231,13 +231,37 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Tue, 20 Jan 2026 12:00:00 GMT</pubDate>
   </item>
-  <item>
+<item>
     <title>AI Agent Incident Database — 34 records, $2.91B tracked</title>
     <link>https://sipi.bot/incidents/</link>
     <guid isPermaLink="true">https://sipi.bot/incidents/#db-launch-2026-07-27</guid>
     <description>Open, sourced database of real-world AI-agent incidents, CC BY 4.0. 34 records spanning 2016-2026. JSON, CSV, JSONL available.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Sun, 27 Jul 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>The state of agentic payments in 2026</title>
+    <link>https://sipi.bot/blog/agentic-payments-state-2026/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/agentic-payments-state-2026#c9bb5d13-594d-5cf3-8039-57fdb9d85dbf</guid>
+    <description>x402, AP2, and AgentKit made agent-to-agent payments real. The rails are live; the control layer is the constraint. Here&#x27;s where the stack stands and what ships next.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Sat, 08 Aug 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>How much does an AI agent actually cost to run?</title>
+    <link>https://sipi.bot/blog/how-much-does-an-agent-cost-to-run/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/how-much-does-an-agent-cost-to-run#70a3e955-fdb4-5228-ac1f-c953b9a9db99</guid>
+    <description>The honest cost model for an AI agent: inference, tools, data, and the runaway risk that the sticker price never shows. Plus the numbers to budget.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Sat, 01 Aug 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Q2 2026 agent incident report: what the database shows</title>
+    <link>https://sipi.bot/blog/q2-2026-agent-incident-report/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/q2-2026-agent-incident-report#0824029c-0765-546a-a429-640ad08a0da3</guid>
+    <description>A quarterly read of the AI Agent Incident Database: the failure modes that keep repeating, the dollars involved, and the rules that would have stopped each one.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Thu, 30 Jul 2026 12:00:00 GMT</pubDate>
   </item>
   </channel>
 </rss>
