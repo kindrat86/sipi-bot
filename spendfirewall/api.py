@@ -1351,7 +1351,11 @@ class Handler(BaseHTTPRequestHandler):
             self._redirect_301(target)
             return True
 
-        for prefix in ("/compare/", "/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/", "/incidents/", "/blog/", "/tools/", "/changelog/", "/status/", "/calculators/", "/compliance/", "/guides/", "/redflags/", "/scenarios/", "/data/", "/sectors/", "/errors/", "/pricing-questions/"):
+        # NOTE: "/compare/" is deliberately NOT here — repo-root compare/ does
+        # not exist; /compare/* is served from public/ by _serve_static. Having
+        # it in this tuple created a redirect loop (pSEO: slash→bare, static:
+        # bare→slash). Verified 2026-08-08; compare pages now resolve cleanly.
+        for prefix in ("/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/", "/incidents/", "/blog/", "/tools/", "/changelog/", "/status/", "/calculators/", "/compliance/", "/guides/", "/redflags/", "/scenarios/", "/data/", "/sectors/", "/errors/", "/pricing-questions/"):
             # Match "/learn/foo" and also the bare section root "/learn". The bare
             # form used to fall through to a 404 because it does not start with
             # "/learn/", so /learn 404'd while /learn/ served learn/index.html —

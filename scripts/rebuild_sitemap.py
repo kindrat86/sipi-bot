@@ -96,6 +96,13 @@ def build_sitemap():
         # subdirectories like embed/tools/ too)
         if any(rel == d or rel.startswith(d + "/") for d in EXCLUDE_DIRS):
             continue
+        # Skip mirrored leaves that are served from repo-root: if the exact
+        # relative path exists at repo root, _serve_pseo() serves THAT file and
+        # the fleet walk below emits its bare URL. Emitting the public slash
+        # form here too would create a bare+slash duplicate pair.
+        if rel:
+            if os.path.isfile(os.path.join(ROOT, rel, "index.html")):
+                continue
         for f in files:
             if not f.endswith(".html"):
                 continue
@@ -105,10 +112,12 @@ def build_sitemap():
                 url_path = "/" + rel.replace(os.sep, "/")
                 if not url_path.endswith("/"):
                     url_path += "/"
-                # Keep trailing slash for hub index pages AND root; leaf pages go bare
-                segments = tuple(s for s in url_path.strip("/").split("/") if s)
-                if is_leaf(segments):
-                    url_path = url_path.rstrip("/")
+                # Public/ pages are slash-canonical: _serve_static 301s the
+                # bare form to the trailing-slash form, and since 2026-08-08
+                # the pages' canonicals are slash too. Keep the trailing slash
+                # for ALL index.html pages here (hubs and leaves alike).
+                # Repo-root pSEO leaves stay BARE — that's the fleet walk
+                # below, which is separate.
             else:
                 name = f[:-5]
                 url_path = ("/" + rel.replace(os.sep, "/") + "/" + name) if rel else ("/" + name)
