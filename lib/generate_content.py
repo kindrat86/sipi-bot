@@ -185,6 +185,13 @@ POSTS = [
         "date": "2026-02-28",
         "tags": ["architecture","cost","cloud"],
     },
+    {
+        "slug": "the-real-gpt-vs-claude-api-cost",
+        "title": "The real GPT vs Claude API cost comparison",
+        "description": "Rate cards are the smallest part of the comparison. For agent workloads, volume, reasoning depth, and context dominate. Here's the comparison that matters.",
+        "date": "2026-02-10",
+        "tags": ["cost","architecture","api"],
+    },
 ]
 
 
@@ -679,6 +686,24 @@ def _body_for(post):
 
 <h3>The money layer</h3>
 <p>The control that covers every merchant sits outside the platform: a <a href="/glossary/spend-firewall">spend firewall</a> on the money path, evaluating each proposed transaction before settlement. Platform budgets for the platform; the firewall for the money. They compose — see the <a href="/vs/aws-bedrock">comparisons →</a></p>
+</div>"""
+
+    if slug == "the-real-gpt-vs-claude-api-cost":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The real GPT vs Claude API cost</div>
+<span class="tag warn">Cost</span>
+<h1>The real GPT vs Claude API cost comparison</h1>
+<p class="lead">Rate cards are the smallest part of the comparison. For agent workloads, volume, reasoning depth, and context dominate. Here's the comparison that matters.</p>
+<div class="meta">February 10, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Every "GPT vs Claude cost" comparison starts with the rate card. It's the least useful number for agent workloads, because agents don't bill like chat sessions — they bill like <em>processes</em>.</p>
+
+<h3>What actually drives the bill</h3>
+<p><strong>Volume:</strong> agents call models hundreds of times per task. <strong>Reasoning depth:</strong> reasoning models charge premium output rates, and agents reason a lot. <strong>Context:</strong> long sessions re-send big contexts. <strong>Retries:</strong> loops multiply everything. The rate card is one factor in four.</p>
+
+<h3>The comparison that matters</h3>
+<p>Compare models for <em>your</em> task shape, measure with your audit log, and cap the total. The <a href="/cost-of/claude-api-cost">Claude API cost</a> and <a href="/cost-of/gpt-api-cost">GPT API cost</a> pages walk through each. The winner isn't the cheaper rate — it's the workload that fits the model, governed by a budget.</p>
 </div>"""
 
     return ""  # fallback
