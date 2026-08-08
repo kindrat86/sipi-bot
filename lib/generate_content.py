@@ -136,6 +136,20 @@ POSTS = [
         "date": "2026-06-28",
         "tags": ["onboarding","best-practices","rules"],
     },
+    {
+        "slug": "the-voice-agent-spend-problem",
+        "title": "The voice agent spend problem nobody is talking about",
+        "description": "Voice agents bill per minute of telephony plus LLM tokens per turn. A retry storm is billable minutes for nothing. Here's the math and the control.",
+        "date": "2026-06-15",
+        "tags": ["voice","cost","architecture"],
+    },
+    {
+        "slug": "subscription-sprawl-the-quiet-ai-cost",
+        "title": "Subscription sprawl: the quiet AI cost",
+        "description": "Unused seats, auto-renewing tools, silent tier upgrades — and agents that can subscribe on their own. How the quietest line on the AI bill grows.",
+        "date": "2026-05-30",
+        "tags": ["operations","cost","subscriptions"],
+    },
 ]
 
 
@@ -489,6 +503,48 @@ def _body_for(post):
 
 <h3>One session, three rules</h3>
 <p>Set all three in the dashboard (or via the API), then watch the audit log for a week. The log — not the rule count — is what tells you what to add next. <a href="/how-to/how-to-create-a-spend-policy">Build the policy around them →</a></p>
+</div>"""
+
+    if slug == "the-voice-agent-spend-problem":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The voice agent spend problem</div>
+<span class="tag warn">Cost</span>
+<h1>The voice agent spend problem nobody is talking about</h1>
+<p class="lead">Voice agents bill per minute of telephony plus LLM tokens per turn. A retry storm is billable minutes for nothing. Here's the math and the control.</p>
+<div class="meta">June 15, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Voice agents are the fastest-growing agent category — and their billing model is the easiest to overspend: <strong>per minute of telephony</strong> on top of <strong>per-token LLM cost</strong> for every turn. Both lines scale with autonomy.</p>
+
+<h3>The two lines</h3>
+<p>The telephony line is simple: minutes × rate. The token line is where it escapes — a long or looping conversation compounds tokens per turn, and every tool call mid-call adds another spend surface. Platforms like <a href="/integrations/vapi">Vapi</a>, <a href="/vs/retell">Retell</a>, and <a href="/vs/bland-ai">Bland</a> bill the minutes; nobody bills the policy.</p>
+
+<h3>The retry storm</h3>
+<p>Failed calls get retried — and retries are billable minutes for nothing. A retry storm during an outage is the voice version of the <a href="/blog/runaway-loops-anatomy">runaway loop</a>: same pattern, different meter. A <a href="/glossary/velocity-limit">velocity limit</a> stops it at the source.</p>
+
+<h3>The control</h3>
+<p>Per-agent ceilings on telephony, category rules separating minutes from tokens, and an allowlist for mid-call tools. See the <a href="/use-cases/voice-agents">voice agent spend guide →</a></p>
+</div>"""
+
+    if slug == "subscription-sprawl-the-quiet-ai-cost":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Subscription sprawl</div>
+<span class="tag navy">Operations</span>
+<h1>Subscription sprawl: the quiet AI cost</h1>
+<p class="lead">Unused seats, auto-renewing tools, silent tier upgrades — and agents that can subscribe on their own. How the quietest line on the AI bill grows.</p>
+<div class="meta">May 30, 2026 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Everyone watches the token bill. The line that actually grows quietly is subscriptions: seats nobody uses, tools nobody reviewed, tiers that upgraded without a decision. And now agents can add to it themselves.</p>
+
+<h3>The three drift patterns</h3>
+<p><strong>Seat sprawl.</strong> Per-seat AI tools multiply faster than value. <strong>Auto-renewal drift.</strong> Tools renew because nobody reviewed them. <strong>Silent tier upgrades.</strong> Plans upgrade without a decision — usually to chase a limit nobody hit.</p>
+
+<h3>The agent twist</h3>
+<p>Agents with payment capability can <a href="/faq/can-ai-agents-pay-subscriptions">start subscriptions on their own</a> — a recurring line item created by one tool call. The <a href="/glossary/merchant-allowlist">merchant allowlist</a> is the control: only approved vendors can be paid, new ones FLAG for review.</p>
+
+<h3>The quarterly fix</h3>
+<p>Audit usage, kill unused seats, review renewals, and put new tool purchases behind the allowlist. The <a href="/redflags/red-flags-in-ai-agent-subscriptions">subscription red flags</a> list is the audit checklist.</p>
 </div>"""
 
     return ""  # fallback
