@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 12:38:23 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 12:49:44 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -351,6 +351,14 @@
     <description>The big three cloud AI platforms govern model access, not agent spend. Their budgets stop at the cloud boundary. Here&#x27;s the money-layer gap.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Sat, 28 Feb 2026 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>The real GPT vs Claude API cost comparison</title>
+    <link>https://sipi.bot/blog/the-real-gpt-vs-claude-api-cost/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/the-real-gpt-vs-claude-api-cost#0298f060-6bd0-54f8-9b7a-af330e99d275</guid>
+    <description>Rate cards are the smallest part of the comparison. For agent workloads, volume, reasoning depth, and context dominate. Here&#x27;s the comparison that matters.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Tue, 10 Feb 2026 12:00:00 GMT</pubDate>
   </item>
   </channel>
 </rss>
