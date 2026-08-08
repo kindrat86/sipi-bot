@@ -209,7 +209,7 @@ function calculate() {
   if (primary_provider === 'OpenAI' && monthly_spend > 300) recommendations.push('Consider DeepSeek for non-critical tasks — 90% cheaper for comparable quality');
   if (monthly_spend > bench.p90) recommendations.push('Your spend is in the 90th+ percentile for ' + use_case + ' — audit for inefficiencies');
   
-  return {
+  const result = {
     percentile_vs_peers: percentile,
     vs_average_pct: vs_average > 0 ? '+' + vs_average + '% above avg' : Math.abs(vs_average) + '% below avg',
     potential_monthly_savings: Math.round(total_savings_potential),
