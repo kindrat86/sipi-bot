@@ -1252,6 +1252,17 @@ class Handler(BaseHTTPRequestHandler):
         # never had). Both the bare and trailing-slash forms are mapped.
         "/integrations/openai-agents-sdk": "/integrations/openai-agents/",
         "/integrations/openai-agents-sdk/": "/integrations/openai-agents/",
+        # 2026-08-08 — /tools/risk-calculator/ and /tools/agent-spend-risk-calculator
+        # were the SAME tool: same <h1>, same risk model, both in sitemap.xml, each
+        # self-canonical. Google had indexed only the old public/-only page and had
+        # not yet discovered the new one; when it did, that pair was the next
+        # "Duplicate, Google chose different canonical than user" report.
+        # The old page is retired in favour of the repo-root one, which carries
+        # SoftwareApplication + HowTo + FAQ schema and a working calculator.
+        # Search Console (90d to 2026-08-08): the retired URL had 0 clicks and
+        # 0 impressions, so there was no ranking equity to protect.
+        "/tools/risk-calculator": "/tools/agent-spend-risk-calculator",
+        "/tools/risk-calculator/": "/tools/agent-spend-risk-calculator",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO

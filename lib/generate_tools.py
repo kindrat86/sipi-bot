@@ -186,7 +186,7 @@ function calcRisk(){
     $('risk-score').innerHTML='<span style="color:'+sc+'">'+s+'</span><span style="font-size:.5em;color:var(--fg-3);display:block">/10</span>';
     $('risk-score').parentElement.querySelector('.label').textContent=t+' risk';
     $('worst-24h').textContent=digits(w); $('annual-exp').textContent=digits(a);
-    $('recommendation').innerHTML='<p style="color:var(--fg-3)">Score loaded from shared link. <a href="#" onclick="document.getElementById(\'result\').querySelector(\'.btns\').scrollIntoView({behavior:\'smooth\'})">Scroll for actions →</a></p>';
+    $('recommendation').innerHTML='<p style="color:var(--fg-3)">Score loaded from shared link. <a href="#" onclick="document.getElementById(&#39;result&#39;).querySelector(&#39;.btns&#39;).scrollIntoView({behavior:&#39;smooth&#39;})">Scroll for actions →</a></p>';
     $('result').classList.add('show');
   }
 })();
@@ -374,7 +374,7 @@ function jsonToYaml(obj,indent){
       else if(Array.isArray(v)){
         lines.push(d+k+':');
         if(v.length===0) lines.push(d+'  []');
-        else v.forEach(function(vi){lines.push(d+'  - '+JSON.stringify(vi)});
+        else v.forEach(function(vi){lines.push(d+'  - '+JSON.stringify(vi))});
       }else if(typeof v==='object'){
         lines.push(d+k+':');
         walk(v,d+'  ');
