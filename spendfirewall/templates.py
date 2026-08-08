@@ -205,12 +205,12 @@ def landing_page_html() -> str:
   and merchant rules—then returns APPROVED, BLOCKED, or FLAGGED with a deterministic rules check,
   before money moves.</p>
   <p class="obt" style="font-size:clamp(15px,2vw,17px);color:var(--accent);font-weight:600;max-width:620px;margin:0 auto 28px;letter-spacing:.01em">
-    <span aria-hidden="true">&rarr;</span>&nbsp;The one promise of this page: <strong style="color:var(--txt)">one API call makes a runaway agent impossible.</strong>
+    <span aria-hidden="true">&rarr;</span>&nbsp;The one promise of this page: <strong style="color:var(--txt)">transactions routed through sipi.bot are evaluated against your rules before execution.</strong> The calling agent or payment integration must honor the decision.
     Hope is not a spending policy.
   </p>
   <div class="hero-actions">
-    <a href="/pricing" class="btn">Protect my agent — see plans</a>
-    <a href="/playground/" class="btn ghost">Run a free live check</a>
+    <a href="/pricing" class="btn" onclick="window.sipiTrack&&window.sipiTrack('pricing_view',{source:'hero_cta'})">Protect my agent — see plans</a>
+    <a href="/playground/" class="btn ghost" onclick="window.sipiTrack&&window.sipiTrack('hero_policy_test_click',{source:'hero'})">Run a free live check</a>
   </div>
   <div class="hero-proof" aria-label="Product proof">
     <a href="/eval-report/">53/53 public evals</a>
@@ -218,6 +218,16 @@ def landing_page_html() -> str:
     <a href="https://github.com/kindrat86/sipi-bot" rel="noopener">MIT-licensed core</a>
     <span aria-hidden="true">·</span>
     <a href="/about">Founder story</a>
+  </div>
+  <!-- Who this is for — Dotcom Secrets Ch 1: Secret Formula (Who/Where) -->
+  <div style="margin-top:28px;padding:20px 22px;background:var(--panel);border:1px solid var(--line);border-radius:14px;text-align:left;max-width:620px;margin-left:auto;margin-right:auto">
+    <div style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:10px">Who this is for</div>
+    <p style="color:var(--txt);font-size:clamp(14px,1.8vw,15px);margin:0 0 6px"><strong>Teams running autonomous agents</strong> with paid APIs, cloud provisioning, ad spend, data purchases, or payment rails.</p>
+    <p style="color:var(--mut);font-size:clamp(13px,1.6vw,14px);margin:0 0 16px">The observable risk: retry loops, unapproved merchants, and distributed agent budgets that no single dashboard catches before the charge clears.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="/playground/" class="btn" onclick="window.sipiTrack&&window.sipiTrack('hero_policy_test_click',{source:'who_block'})">Run a no-signup policy test</a>
+      <a href="/learn/runaway-agent-cost-calculator" class="btn ghost" onclick="window.sipiTrack&&window.sipiTrack('risk_calculator_start',{source:'who_block'})">Use the risk calculator →</a>
+    </div>
   </div>
   <!-- TRY IT NOW -->
   <div class="codebox mono" style="max-width:620px;margin:24px auto 0;text-align:left">
@@ -804,7 +814,7 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
 <meta name="theme-color" content="#00d4aa">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebPage","name":"{title}","url":"https://sipi.bot{canonical_path}","description":"{description}","isPartOf":{{"@type":"WebSite","name":"sipi.bot","url":"https://sipi.bot/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}}}}</script>
 <style>{CSS}</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
-""" + NAV_HTML(_LINKS_DOC, brand_link=True) + """
+""" + NAV_HTML(_LINKS_DOC, brand_link=True) + f"""
 <section><div class="wrap"><article class="doc">
 {body_html}
 <p style="margin-top:40px"><a href="/">← Back to sipi.bot</a></p>
