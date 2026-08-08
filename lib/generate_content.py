@@ -213,6 +213,13 @@ POSTS = [
         "date": "2025-12-20",
         "tags": ["operations","cost","best-practices"],
     },
+    {
+        "slug": "the-agents-that-buy-things-need-the-strongest-budgets",
+        "title": "The agents that buy things need the strongest budgets",
+        "description": "Procurement and purchasing agents exist to spend — one unvetted vendor, one wrong purchase. Why the buying agents get the tightest rules.",
+        "date": "2025-12-01",
+        "tags": ["operations","rules","procurement"],
+    },
 ]
 
 
@@ -782,6 +789,24 @@ def _body_for(post):
 
 <h3>The three numbers</h3>
 <p><strong>The ceiling</strong> — the most an agent may spend in a period. <strong>The velocity limit</strong> — how fast it may spend. <strong>The allowlist</strong> — who it may pay. Those three numbers are the budget; everything else is dashboard. <a href="/answers/how-to-set-a-budget-for-ai-agents/">Set it →</a></p>
+</div>"""
+
+    if slug == "the-agents-that-buy-things-need-the-strongest-budgets":
+        return """<section class="hero">
+<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The agents that buy things</div>
+<span class="tag navy">Operations</span>
+<h1>The agents that buy things need the strongest budgets</h1>
+<p class="lead">Procurement and purchasing agents exist to spend — one unvetted vendor, one wrong purchase. Why the buying agents get the tightest rules.</p>
+<div class="meta">December 1, 2025 · sipi.bot</div>
+</section>
+<div class="prose">
+<p>Most agents spend as a side effect of doing work. <a href="/use-cases/procurement-agents">Procurement agents</a> spend as the point of their existence — they source, compare, and buy. The rules that fit a coding agent don't fit them.</p>
+
+<h3>The buying agent's risk profile</h3>
+<p>Purchasing is irreversible and vendor-directed: one unvetted merchant, one approved purchase, and procurement has happened. There's no retry to catch — the buy is the event.</p>
+
+<h3>The tightest controls</h3>
+<p>The <a href="/glossary/merchant-allowlist">allowlist is the centerpiece</a> — unapproved vendors are simply not payable. Then a per-requisition cap, an approval threshold for new vendors, and a full audit trail on every purchase. Buy with the strongest budget, always.</p>
 </div>"""
 
     return ""  # fallback

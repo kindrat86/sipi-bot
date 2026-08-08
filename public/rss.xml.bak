@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 13:16:36 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 13:22:32 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -377,5 +377,13 @@
     <pubDate>Thu, 15 Jan 2026 12:00:00 GMT</pubDate>
   </item>
 
+  <item>
+    <title>Your agents need a budget, not just a bill</title>
+    <link>https://sipi.bot/blog/your-agents-need-a-budget-not-just-a-bill/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/your-agents-need-a-budget-not-just-a-bill#ebd70a32-1e98-5961-8185-fc9149fb9a33</guid>
+    <description>Every agent platform bills you. Few give you a budget. The difference between a bill and a budget is a decision layer — here&#x27;s how to build it.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Sat, 20 Dec 2025 12:00:00 GMT</pubDate>
+  </item>
   </channel>
 </rss>
