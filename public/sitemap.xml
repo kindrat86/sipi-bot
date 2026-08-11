@@ -354,6 +354,8 @@
   <url><loc>https://sipi.bot/incidents/</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/agent-1.9m-rows-2025-11</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/air-canada-chatbot-2024-02</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/incidents/amazon-q-wiper-2025-07</loc><lastmod>2026-08-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/incidents/anthropic-project-vend-2025-06</loc><lastmod>2026-08-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/anthropic-snowboard-duplicate-2025-10</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/chatgpt-prompt-injection-exfil-2024-06</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/chevrolet-tahoe-2023-12</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -364,7 +366,9 @@
   <url><loc>https://sipi.bot/incidents/devin-misleading-demo-2024-03</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/dn42-aws-6500-2025-09</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/dpd-chatbot-swearing-2024-01</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/incidents/freysa-prize-pool-2024-11</loc><lastmod>2026-08-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/humane-ai-pin-recall-2024-10</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/incidents/mcdonalds-ibm-drive-thru-2024-06</loc><lastmod>2026-08-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/meta-galactica-2022-11</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/microsoft-tay-2016-03</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/nyc-mycity-2024-03</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -374,6 +378,8 @@
   <url><loc>https://sipi.bot/incidents/openai-operator-salmon-2025-03</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/pocketos-db-delete-2026-04</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/replit-db-delete-2025-07</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/incidents/sakana-ai-scientist-2024-08</loc><lastmod>2026-08-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/incidents/salesloft-drift-oauth-2025-08</loc><lastmod>2026-08-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/sec-ai-ponzi-2025-11</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/stat-avepoint-88pct-2026</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/stat-darktrace-csa-2026</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -499,9 +505,7 @@
   <url><loc>https://sipi.bot/pricing-questions/what-happens-if-sipi-bot-makes-a-mistake</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/privacy</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/redflags/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://sipi.bot/redflags/new-endpoint-high-volume</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/redflags/off-hours-billing-activity</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://sipi.bot/redflags/payment-to-previously-failed-vendor</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/redflags/red-flags-in-agent-logs</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/redflags/red-flags-in-agent-payment-rails</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/redflags/red-flags-in-agent-spend</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -510,13 +514,11 @@
   <url><loc>https://sipi.bot/redflags/red-flags-in-llm-api-bills</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/redflags/red-flags-in-mcp-servers</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/redflags/red-flags-in-voice-agents</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://sipi.bot/redflags/sudden-spike-in-small-payments</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/research/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/research/ai-agent-spend-optimization-2026/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/scenarios/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/scenarios/agent-budget-breach</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/scenarios/agent-goes-rogue-scenario</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://sipi.bot/scenarios/agent-key-compromise</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/scenarios/api-key-compromise-scenario</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/scenarios/cross-agent-budget-race-scenario</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/scenarios/legit-workflow-false-positive-scenario</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -526,9 +528,7 @@
   <url><loc>https://sipi.bot/scenarios/new-agent-onboarding-scenario</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/scenarios/overnight-runaway-scenario</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/scenarios/prompt-injection-spend-scenario</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://sipi.bot/scenarios/runaway-agent-loop</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/scenarios/silent-tier-escalation-scenario</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://sipi.bot/scenarios/unauthorized-api-call</loc><lastmod>2026-07-18</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/scenarios/unknown-vendor-spend-scenario</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/sectors/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/sectors/agriculture</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
