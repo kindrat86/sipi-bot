@@ -282,7 +282,7 @@ are listed separately and labelled <span class="tag neutral" style="font-size:.6
 </div>
 <div class="callout" style="margin-top:18px">
 <div class="k">Open-data repository</div>
-<p>The canonical, versioned dataset lives on GitHub with a weekly auto-sync Action. Fork it, submit an incident,
+<p>The canonical, versioned dataset lives on GitHub and is kept in sync with this site. Fork it, submit an incident,
 or mirror it: <a href="{GITHUB_DATA}">{GITHUB_DATA}</a>. See <a href="/incidents/stats/">aggregate statistics &amp; charts →</a></p>
 </div>
 </section>

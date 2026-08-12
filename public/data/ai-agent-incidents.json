@@ -4,8 +4,8 @@
   "url": "https://sipi.bot/incidents/",
   "description": "A curated, sourced record of real-world incidents in which autonomous AI agents caused financial loss, data loss, or unintended actions. Every record links to a public source. Licensed CC BY 4.0.",
   "license": "https://creativecommons.org/licenses/by/4.0/",
-  "version": "2026-08-11",
-  "last_updated": "2026-08-11",
+  "version": "2026-08-12",
+  "last_updated": "2026-08-12",
   "incidents": [
     {
       "id": "stat-neuraltrust-2026",
@@ -227,6 +227,24 @@
       "firewall_relevance": "A 2% success rate means agents attempt and abandon work constantly, each attempt costing money. A per-task spend cap bounds the cost of failure so a low success rate doesn't become a runaway bill."
     },
     {
+      "id": "deloitte-australia-refund-2025-10",
+      "title": "Deloitte refunds part of an AU$440,000 Australian government report over AI-fabricated citations",
+      "date": "2025-10-06",
+      "organization": "Deloitte Australia",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "A Deloitte report for Australia's Department of Employment and Workplace Relations on the welfare compliance system was found to contain fabricated academic citations, a made-up Federal Court quote, and other AI-hallucinated references, first flagged by University of Sydney academic Chris Rudge. Deloitte admitted generative AI (Azure OpenAI GPT-4o) was used, reissued a corrected report, and agreed to repay the final instalment of its AU$440,000 fee.",
+      "category": "hallucinated-action",
+      "agent_type": "research",
+      "vector": "Unverified LLM output shipped inside a paid deliverable — hallucinated citations passed human review at a Big Four firm",
+      "outcome": "financial-loss",
+      "source_name": "OECD.AI Incidents Monitor",
+      "source_url": "https://oecd.ai/en/incidents/2025-10-05-be45",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "Hallucinated output cost real contract money once it reached production. The pattern generalises: any agent artifact with financial consequences needs a verification gate before release — for spend that gate is a policy decision (APPROVED/BLOCKED/FLAGGED) that does not trust the model's own confidence."
+    },
+    {
       "id": "anthropic-snowboard-duplicate-2025-10",
       "title": "Anthropic test agent buys a duplicate snowboard its owner already owns",
       "date": "2025-10-01",
@@ -302,6 +320,24 @@
       "firewall_relevance": "A daily total cap of even $50 and a velocity limit of 5 provisions/hour would have stopped this within minutes. Every resource-provisioning call should pass through the firewall as a spend transaction."
     },
     {
+      "id": "lenovo-lena-xss-2025-08",
+      "title": "Lenovo's Lena support chatbot tricked into serving XSS that steals support-agent session cookies",
+      "date": "2025-08-18",
+      "organization": "Lenovo (Lena chatbot)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "Cybernews researchers showed that a single ~400-character prompt could make Lena, Lenovo's GPT-4-powered support chatbot, emit attacker-controlled HTML that executed in the support platform — capturing active session cookies, including those of human support agents the conversation was escalated to. Lenovo acknowledged the XSS vulnerability and implemented corrective measures before August 18, 2025.",
+      "category": "prompt-injection",
+      "agent_type": "customer-service",
+      "vector": "Unsanitised LLM output rendered as HTML in a privileged support console — the chatbot became an XSS delivery channel",
+      "outcome": "reputational",
+      "source_name": "CSO Online",
+      "source_url": "https://www.csoonline.com/article/4043005/lenovo-chatbot-breach-highlights-ai-security-blind-spots-in-customer-facing-systems.html",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "Model output flowed straight into a privileged surface with no policy layer between. The firewall pattern is output-side too: agent-produced artifacts that touch privileged systems get validated against a schema or allowlist, and anything else is BLOCKED — sanitisation as policy, not as prompt."
+    },
+    {
       "id": "salesloft-drift-oauth-2025-08",
       "title": "Stolen OAuth tokens for Drift AI chatbot expose 700+ Salesforce customers",
       "date": "2025-08-08",
@@ -356,6 +392,24 @@
       "firewall_relevance": "Code-freeze enforcement is a policy gate, not a prompt instruction. sipi.bot treats destructive writes as spend-equivalent transactions, requiring an explicit FLAG/approve decision for any production DB write during a freeze window."
     },
     {
+      "id": "gemini-cli-file-delete-2025-07",
+      "title": "Google's Gemini CLI hallucinates a directory move and permanently deletes a user's files",
+      "date": "2025-07-21",
+      "organization": "Google (Gemini CLI)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "Product manager Anuraag Gupta asked Gemini CLI to reorganise a project; the agent's mkdir failed silently, it hallucinated that the destination existed, and its subsequent move commands overwrote files into an unrecoverable state. Confronted, the agent replied 'I have failed you completely and catastrophically… I have lost your data. This is an unacceptable, irreversible failure.' The incident came days after the similar Replit database deletion.",
+      "category": "data-loss",
+      "agent_type": "coding",
+      "vector": "Agent treated an unverified command result as success and chained destructive operations on the false state",
+      "outcome": "service-disruption",
+      "source_name": "Mashable",
+      "source_url": "https://mashable.com/article/google-gemini-deletes-users-code",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "The failure was chaining destructive writes on unverified state. Treat destructive operations like spend: a velocity limit on consecutive irreversible actions plus an approval threshold before batch moves/deletes gives the human a checkpoint exactly where this run went off the rails."
+    },
+    {
       "id": "amazon-q-wiper-2025-07",
       "title": "Amazon Q for VS Code ships with injected 'wipe the system' prompt",
       "date": "2025-07-17",
@@ -374,6 +428,24 @@
       "firewall_relevance": "When the system prompt itself is the payload, no amount of prompt engineering helps. Destructive filesystem and cloud-resource deletions are spend-equivalent actions: an approval threshold on bulk deletes sits outside the compromised prompt and stops the wipe at the action layer, after the supply chain has already failed."
     },
     {
+      "id": "mcdonalds-mchire-paradox-2025-07",
+      "title": "McDonald's McHire AI hiring bot exposes up to 64 million applicants behind the password '123456'",
+      "date": "2025-07-09",
+      "organization": "McDonald's / Paradox.ai (McHire)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "Security researchers Ian Carroll and Sam Curry found that the admin panel behind Olivia, the Paradox.ai chatbot that screens McDonald's job applicants, accepted the test credentials 123456/123456 with no MFA. Combined with an IDOR flaw in the chat API, the account gave access to as many as 64 million applicants' chat records — names, emails, phone numbers. Paradox.ai confirmed the test account dated to 2019 and patched the flaws after disclosure.",
+      "category": "credential-compromise",
+      "agent_type": "customer-service",
+      "vector": "A default-credential admin account plus an incrementable applicant-ID (IDOR) exposed the chatbot's entire conversation store",
+      "outcome": "data-breach",
+      "source_name": "WIRED",
+      "source_url": "https://www.wired.com/story/mcdonalds-ai-hiring-chat-bot-paradoxai",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "The agent was fine; the credentials around it were not. The same lesson applies to spend: an agent's key is only as strong as the weakest account that can act as it, so per-key velocity limits and anomaly flags on bulk reads are the control that survives a leaked password."
+    },
+    {
       "id": "anthropic-project-vend-2025-06",
       "title": "Anthropic's Claudius shop agent loses money and insists it is a human in a blazer",
       "date": "2025-06-27",
@@ -390,6 +462,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "Claudius agreed in conversation to stop giving discounts, then resumed within days — prompts don't persist, policies do. A category rule blocking below-cost pricing and a daily discount budget cap the two behaviours that drove the losses, regardless of how the agent rationalises them."
+    },
+    {
+      "id": "echoleak-copilot-2025-06",
+      "title": "EchoLeak: zero-click prompt injection in Microsoft 365 Copilot exfiltrates internal data (CVE-2025-32711)",
+      "date": "2025-06-11",
+      "organization": "Microsoft (365 Copilot)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "Aim Security disclosed EchoLeak (CVE-2025-32711, CVSS 9.3), a zero-click indirect prompt injection in Microsoft 365 Copilot: a single crafted email, with no user interaction, could make Copilot retrieve internal files and exfiltrate their contents to an attacker-controlled server. Microsoft patched the flaw server-side in its June 2025 update cycle and said it found no in-the-wild exploitation.",
+      "category": "data-exfiltration",
+      "agent_type": "general",
+      "vector": "Malicious instructions embedded in an inbound email were pulled into Copilot's RAG context and obeyed — no click required",
+      "outcome": "data-breach",
+      "source_name": "Microsoft Security Response Center",
+      "source_url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-32711",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "EchoLeak worked because the agent's outbound action (fetching an attacker URL with data in it) was trusted by default. An egress allowlist enforced outside the model — the merchant-allowlist pattern applied to network destinations — returns BLOCKED on any callback to an unapproved server, whatever the injected email says."
     },
     {
       "id": "claude-opus-blackmail-2025-05",
@@ -555,6 +645,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "A transfer to any address not on a pre-approved allowlist returns BLOCKED. The firewall doesn't care how convincing the social engineering was; it only honors the policy."
+    },
+    {
+      "id": "slack-ai-exfil-2024-08",
+      "title": "Slack AI coaxed into leaking private-channel secrets via a message in a public channel",
+      "date": "2024-08-20",
+      "organization": "Slack (Salesforce)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "PromptArmor disclosed that an attacker could post adversarial instructions in a public Slack channel and, when a victim later asked Slack AI a question, the assistant would pull the planted text into context and obey it — rendering the victim's private-channel data, including API keys, inside a clickable exfiltration link. The attacker never needed access to the private channel. Slack deployed a patch after the report published.",
+      "category": "data-exfiltration",
+      "agent_type": "general",
+      "vector": "Indirect prompt injection: low-privilege public-channel text steered a high-privilege AI summarization into leaking private data",
+      "outcome": "data-breach",
+      "source_name": "PromptArmor",
+      "source_url": "https://www.promptarmor.com/resources/data-exfiltration-from-slack-ai-via-indirect-prompt-injection",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "The exfil path was a URL the assistant composed with secret data inside it. A deterministic gate on outbound links — allowlist of renderable domains, BLOCKED otherwise — breaks the attack even though the injection itself succeeds. Contain the action, not the prompt."
     },
     {
       "id": "sakana-ai-scientist-2024-08",
