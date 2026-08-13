@@ -296,6 +296,52 @@ def agent_card() -> dict:
     }
 
 
+# Exact routes matched literally by do_GET/do_POST. Used only for
+# trailing-slash normalisation, so a stale entry is harmless and a
+# missing one simply keeps today's behaviour (no redirect).
+# Regenerate: grep -oE 'path == "/[a-z0-9._/-]*"' spendfirewall/api.py
+_EXACT_ROUTES = frozenset({
+    "/.well-known/agent-card.json",
+    "/.well-known/security.txt",
+    "/about",
+    "/admin/reset",
+    "/api/a2a",
+    "/api/agents",
+    "/api/approvals",
+    "/api/badge/firewall-status",
+    "/api/mcp",
+    "/api/nlweb",
+    "/api/rules",
+    "/api/stats",
+    "/api/transactions",
+    "/api/unsubscribe",
+    "/badge",
+    "/billing/status",
+    "/content-calendar",
+    "/cron/drip",
+    "/dashboard",
+    "/data",
+    "/data/feed.json",
+    "/dream100",
+    "/eval",
+    "/free",
+    "/health",
+    "/index.html",
+    "/masterclass",
+    "/openapi.json",
+    "/pricing",
+    "/privacy",
+    "/security",
+    "/status",
+    "/subscribe",
+    "/terms",
+    "/tripwire",
+    "/unsubscribe",
+    "/v1/activity",
+    "/v1/transactions/evaluate",
+    "/webhooks/stripe",
+})
+
 class Handler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.0"
 
@@ -552,6 +598,19 @@ class Handler(BaseHTTPRequestHandler):
                 self.end_headers()
                 return
 
+
+        # ── Trailing-slash normalisation for exact routes ──────────────
+        # Two conventions coexist here on purpose: pSEO/static cluster pages
+        # canonicalise WITH a trailing slash (_serve_static 301s /foo -> /foo/),
+        # while exact routes are matched literally as `path == "/pricing"`.
+        # The consequence was that the slash variant of every exact route fell
+        # through the entire chain to a 404 — including /pricing/, the money
+        # page, and /about/. Any inbound link or sitemap entry written with the
+        # other convention died instead of redirecting.
+        # Normalise to the bare form so both spellings resolve.
+        if len(path) > 1 and path.endswith("/") and path.rstrip("/") in _EXACT_ROUTES:
+            self._redirect_301(path.rstrip("/"))
+            return
 
         # ── pSEO static pages ──────────────────────────
         try_pseo = self._serve_pseo(path)
