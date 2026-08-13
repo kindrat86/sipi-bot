@@ -1366,12 +1366,21 @@ class Handler(BaseHTTPRequestHandler):
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO
     # page that lacks it, so ~230 hub/leaf pages stop being orphans of the
     # homepage and internal PageRank flows to glossary/faq/answers/etc.
+    # Palette note: this footer used to paint itself light (#fafafa) with dark
+    # text on a site whose body is #0a0a0a. Body text and the heading passed
+    # contrast against that light band, but the links inside inherit the brand
+    # teal #00d4aa, which is a dark-background colour — on #fafafa it measured
+    # 1.83:1 where WCAG AA needs 4.5, so every link in this footer was
+    # effectively unreadable. It also rendered as a light slab below the fold on
+    # an otherwise dark page, which is why a hero screenshot never caught it.
+    # Now it inherits the page ground; measured on #0a0a0a: text #9ca3af 7.8:1,
+    # heading #e8e8ea 16.2:1, teal links 10.4:1.
     _RESOURCES_FOOTER = (
-        '<footer class="sipi-resources" style="border-top:1px solid #e5e7eb;'
+        '<footer class="sipi-resources" style="border-top:1px solid #1f2937;'
         'padding:28px 0 8px;margin-top:48px;font-size:13px;line-height:1.9;'
-        'color:#6b7280;background:#fafafa">'
+        'color:#9ca3af">'
         '<div style="max-width:960px;margin:0 auto;padding:0 16px">'
-        '<div style="font-weight:600;color:#0a0a0a;margin-bottom:6px">'
+        '<div style="font-weight:600;color:#e8e8ea;margin-bottom:6px">'
         'sipi.bot — resources</div>'
         '<div><strong>Glossary:</strong> '
         '<a href="/glossary/spend-firewall/">spend firewall</a> · '
