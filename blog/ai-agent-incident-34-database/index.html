@@ -191,7 +191,7 @@ tr:hover td{background:rgba(255,255,255,.015)}
 <p class="byline"><div class="av">S</div> sipi.bot · July 27, 2026</p>
 </section>
 <div class="prose">
-<p>Today we're launching the <a href="/incidents/">AI Agent Incident Database</a> — a sourced, public record of every time an autonomous AI agent lost money, leaked data, or did something its operator didn't intend. It's licensed CC BY 4.0, available as JSON/CSV/JSONL, and lives on <a href="https://github.com/kindrat86/ai-agent-incident-database">GitHub</a>, kept in sync with the canonical dataset on this site.</p>
+<p>Today we're launching the <a href="/incidents/">AI Agent Incident Database</a> — a sourced, public record of every time an autonomous AI agent lost money, leaked data, or did something its operator didn't intend. It's licensed CC BY 4.0, available as JSON/CSV/JSONL, and lives on <a href="https://github.com/kindrat86/ai-agent-incident-database">GitHub</a> with a weekly auto-sync.</p>
 
 <h3>What's in it</h3>
 <p>34 records spanning 2016–2026, with 29 verified against primary sources. Incidents range from a <strong>$31 unauthorized grocery delivery</strong> (OpenAI Operator bypassing its own confirmation guardrail) to <strong>$2.87 billion in aggregate crypto theft</strong> where AI agents were directly implicated (TRM Labs 2026 report).</p>
@@ -201,7 +201,7 @@ tr:hover td{background:rgba(255,255,255,.015)}
 <p>Every incident in the database is preventable. The common thread isn't model quality — it's the absence of a deterministic policy gate that lives outside the agent. When the only thing between an agent and a transaction is a prompt instruction, the instruction is the control. When a firewall sits between them, the policy is the control. The $47,000 overnight loop? Velocity limit. The $441K misread-tweet transfer? Per-transaction cap + merchant allowlist. The Replit DB deletion during a code freeze? Approval threshold on production writes.</p>
 
 <h3>The open-data play</h3>
-<p>We're releasing this as open data because the industry needs a shared taxonomy of agent failures. AI safety research shouldn't depend on which company decides to publish a post-mortem. The database is versioned, accepts community contributions via PR, and is updated as new incidents are verified. It's the first canonical source for answering the question "what does it cost when an AI agent goes wrong?"</p>
+<p>We're releasing this as open data because the industry needs a shared taxonomy of agent failures. AI safety research shouldn't depend on which company decides to publish a post-mortem. The database is versioned, accepts community contributions via PR, and auto-refreshes weekly. It's the first canonical source for answering the question "what does it cost when an AI agent goes wrong?"</p>
 
 <p><a href="/incidents/" class="btn primary" style="margin-top:14px">Browse the incident database →</a></p>
 </div></main></main>

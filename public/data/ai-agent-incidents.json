@@ -4,8 +4,8 @@
   "url": "https://sipi.bot/incidents/",
   "description": "A curated, sourced record of real-world incidents in which autonomous AI agents caused financial loss, data loss, or unintended actions. Every record links to a public source. Licensed CC BY 4.0.",
   "license": "https://creativecommons.org/licenses/by/4.0/",
-  "version": "2026-08-13",
-  "last_updated": "2026-08-13",
+  "version": "2026-08-14",
+  "last_updated": "2026-08-14",
   "incidents": [
     {
       "id": "stat-neuraltrust-2026",
@@ -320,6 +320,24 @@
       "firewall_relevance": "A daily total cap of even $50 and a velocity limit of 5 provisions/hour would have stopped this within minutes. Every resource-provisioning call should pass through the firewall as a spend transaction."
     },
     {
+      "id": "manus-vscode-exposure-2025-08",
+      "title": "Prompt injection in Manus turned its sandbox into a publicly-exposed VS Code server with API keys inside",
+      "date": "2025-08-25",
+      "organization": "Manus (AI agent)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "Johann Rehberger demonstrated a full kill chain against the Manus agent: an indirect prompt injection in a document Manus was processing caused it to expose its VS Code development server to the public internet, with the sandbox's environment variables — including API keys — readable. The issue was disclosed to Manus on June 1, 2025; the write-up was published on August 25, 2025 during the Month of AI Bugs.",
+      "category": "credential-compromise",
+      "agent_type": "coding",
+      "vector": "Indirect prompt injection → agent reconfigures its own sandbox networking to expose services (and secrets) to the internet",
+      "outcome": "data-breach",
+      "source_name": "Embrace The Red (Johann Rehberger)",
+      "source_url": "https://embracethered.com/blog/posts/2025/manus-ai-kill-chain-expose-port-vs-code-server-on-internet",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "The agent could reconfigure its own runtime — opening a port to the world — because nothing policed its infrastructure actions. An execution policy that treats network-configuration changes as high-risk, requiring approval or hard-blocking public exposure, contains the blast radius when the model is compromised."
+    },
+    {
       "id": "windsurf-cascade-exfil-2025-08",
       "title": "Windsurf Cascade coding agent leaks developer secrets via indirect prompt injection",
       "date": "2025-08-21",
@@ -572,6 +590,42 @@
       "firewall_relevance": "Any agent action that changes a customer's entitlement (access revocation, plan change) should be a FLAGGED transaction requiring a policy-version check, not a free-text commitment the model invents."
     },
     {
+      "id": "mcp-tool-poisoning-2025-04",
+      "title": "Invariant Labs demonstrates MCP tool poisoning: hidden instructions in tool descriptions exfiltrate data from AI agents",
+      "date": "2025-04-07",
+      "organization": "Invariant Labs (proof of concept)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "Invariant Labs published a proof-of-concept 'tool poisoning attack' against the Model Context Protocol: a malicious MCP server embeds hidden instructions inside a tool's description field — invisible in the host UI — which the connected agent obeys. In demonstrations, agents connected to the poisoned server read local files and private data and sent them to an attacker-controlled server; the same technique was shown exfiltrating WhatsApp chat histories.",
+      "category": "coding-agent",
+      "agent_type": "coding",
+      "vector": "Hidden prompt injection in MCP tool metadata (description/arguments fields) — instructions the model sees but the human operator does not",
+      "outcome": "data-breach",
+      "source_name": "Invariant Labs",
+      "source_url": "https://www.invariantlabs.ai/blog/mcp-tool-poisoning",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "Tool poisoning defeats human review because the poisoned instructions never render in the UI — the model acts on text only it can see. The defence is not better prompts: it is an egress policy that BLOCKS outbound calls to any destination not on an approved allowlist, so even an obedient-to-attacker agent cannot ship data out."
+    },
+    {
+      "id": "aixbt-dashboard-compromise-2025-03",
+      "title": "AIXBT autonomous agent drained of 55.5 ETH via two malicious prompts queued through its dashboard",
+      "date": "2025-03-18",
+      "organization": "AIXBT (Virtuals Protocol)",
+      "loss_usd": 107000,
+      "loss_range": null,
+      "what_happened": "An attacker compromised the secure dashboard of AIXBT, an autonomous crypto-market agent on Virtuals Protocol, at 02:00 UTC on March 18, 2025, and queued two fraudulent prompts into its autonomous response system. The agent executed them, transferring 55.5 ETH (roughly $107,000 at the time) from its Simulacrum wallet on Base to the attacker's address. The AIXBT token fell about 20% on the news.",
+      "category": "credential-compromise",
+      "agent_type": "trading",
+      "vector": "Compromise of the agent's operator dashboard — the control plane that can inject prompts directly into the autonomous execution loop",
+      "outcome": "financial-loss",
+      "source_name": "Decrypt",
+      "source_url": "https://decrypt.co/310510/aixbt-ai-influencer-hacked-100k-ethereum",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "The agent's wallet executed a transfer because a privileged channel told it to — no policy layer sat between the prompt queue and the money. An external spend policy with a destination allowlist would have BLOCKED a 55.5 ETH transfer to a brand-new address regardless of who queued the prompt."
+    },
+    {
       "id": "openai-operator-salmon-2025-03",
       "title": "OpenAI Operator AI agent makes surprise smoked-salmon purchase",
       "date": "2025-03-09",
@@ -719,6 +773,24 @@
       "firewall_relevance": "A 'robot lawyer' that overstates its own capability is a governance failure. The firewall pattern generalises: any agent making legally consequential commitments must have those outputs gated by a verification policy — a category rule requiring a licensed-human review before a legal document or legal claim ships — so an unqualified model cannot promise what it cannot deliver."
     },
     {
+      "id": "chatgpt-spaiware-memory-2024-09",
+      "title": "'SpAIware': ChatGPT memory poisoning turned the assistant into a persistent spy, exfiltrating every future chat",
+      "date": "2024-09-20",
+      "organization": "OpenAI (ChatGPT memory feature)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "Johann Rehberger (Embrace The Red) demonstrated 'SpAIware': a malicious website uses indirect prompt injection to invoke ChatGPT's memory tool and plant a persistent instruction that appends the user's chat data into image-render URLs pointing at an attacker's server. Every future conversation is then silently exfiltrated, across sessions. OpenAI had earlier dismissed memory manipulation as a non-security issue before the end-to-end proof of concept.",
+      "category": "data-exfiltration",
+      "agent_type": "general",
+      "vector": "Prompt injection → memory-tool poisoning for persistence → image-render exfiltration channel",
+      "outcome": "data-breach",
+      "source_name": "Embrace The Red (Johann Rehberger)",
+      "source_url": "https://embracethered.com/blog/posts/2024/chatgpt-macos-app-persistent-data-exfiltration",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "Persistence makes this worse than one-shot injection — the poisoned memory re-arms the exfil channel in every new session. A defence enforced outside the model (an egress allowlist on every outbound request the agent triggers) survives both the initial injection and the persistent payload."
+    },
+    {
       "id": "walletconnect-drainer-2024-09",
       "title": "Wallet-drainer disguised as WalletConnect steals $70K+, hits an Ethereum core dev",
       "date": "2024-09-01",
@@ -863,6 +935,24 @@
       "firewall_relevance": "Independent verification is the principle. sipi.bot's 53/53 eval gym is published as JSON so capability claims are reproducible, not marketed."
     },
     {
+      "id": "morris-ii-ai-worm-2024-03",
+      "title": "Morris II: researchers demonstrate a zero-click worm that propagates between GenAI agents via self-replicating prompts",
+      "date": "2024-03-05",
+      "organization": "Cornell Tech / Technion (research)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "Researchers published a paper (arXiv:2403.02817, submitted March 5, 2024) demonstrating an AI worm dubbed 'Morris II', after the 1988 Morris worm. Crafted as an adversarial self-replicating prompt, it exploits RAG-based GenAI applications — demonstrated against Gemini Pro, GPT-4 and LLaVA — to trigger a chain of indirect prompt injections that spread the payload to other agents with zero clicks, using email-assistant spam and data-exfiltration as the demonstrated use cases.",
+      "category": "data-exfiltration",
+      "agent_type": "general",
+      "vector": "Adversarial self-replicating prompt injected via RAG — worm-like propagation between connected GenAI agents",
+      "outcome": "data-breach",
+      "source_name": "arXiv (Cornell Tech / Technion)",
+      "source_url": "https://arxiv.org/abs/2403.02817",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "A worm that spreads by making agents exfiltrate data is stopped by the same control as every exfil chain: outbound network calls from the agent must pass an allowlist enforced outside the model. Worm-infected or not, an agent whose egress is policy-gated cannot beacon an attacker's server."
+    },
+    {
       "id": "air-canada-chatbot-2024-02",
       "title": "Air Canada held liable for chatbot's invented bereavement refund policy",
       "date": "2024-02-14",
@@ -897,6 +987,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "Outbound brand-damaging messages are reputation-spend. Treating high-risk message categories as FLAGGED transactions gives a human a kill-switch between the model and the customer."
+    },
+    {
+      "id": "huggingface-cli-slopsquat-2024-01",
+      "title": "Researchers prove slopsquatting: hallucinated 'huggingface-cli' package downloaded 30,000+ times once registered",
+      "date": "2024-01-15",
+      "organization": "Lasso Security (research) / PyPI ecosystem",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "Bar Lanyado of Lasso Security noticed LLMs repeatedly recommending a Python package that did not exist — 'huggingface-cli' (the real install is 'huggingface_hub[cli]'). He registered the hallucinated name on PyPI as an empty placeholder and watched it accumulate more than 30,000 authentic downloads in the following three months, including references in real GitHub projects' install instructions. The experiment proved an attacker can pre-register the package names AI assistants invent and let developers install malware themselves — a technique later named 'slopsquatting'.",
+      "category": "coding-agent",
+      "agent_type": "coding",
+      "vector": "Package-hallucination supply-chain squatting — coding assistants confidently recommend installable, attacker-registerable dependencies",
+      "outcome": "reputational",
+      "source_name": "Simon Willison (on Lasso Security research)",
+      "source_url": "https://simonwillison.net/2024/Apr/1/diving-deeper-into-ai-package-hallucinations/",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "A coding agent that can shell out to pip will install whatever plausible-sounding dependency it hallucinates. An execution policy that gates package installs to an allowlisted set — or blocks pip-to-unknown-package calls — stops the slopsquat before the malware runs."
     },
     {
       "id": "chevrolet-tahoe-2023-12",
