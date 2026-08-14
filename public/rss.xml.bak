@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 13:34:09 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 13:40:08 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -400,6 +400,14 @@
     <description>Forecasting agent spend isn&#x27;t predicting the future — it&#x27;s reading the audit log. The three inputs that make the forecast real.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Sat, 15 Nov 2025 12:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>The image generation bill: per-image costs add up fast</title>
+    <link>https://sipi.bot/blog/the-image-generation-bill/</link>
+    <guid isPermaLink="true">https://sipi.bot/blog/the-image-generation-bill#b07f2247-d4f5-5b48-8530-5eeaf83b3272</guid>
+    <description>DALL-E, Midjourney, and Stable Diffusion bill per image — and agents generate hundreds. The math agents don&#x27;t show you.</description>
+    <dc:creator>sipi.bot</dc:creator>
+    <pubDate>Thu, 30 Oct 2025 12:00:00 GMT</pubDate>
   </item>
   </channel>
 </rss>
