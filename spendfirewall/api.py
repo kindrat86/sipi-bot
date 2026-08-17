@@ -301,6 +301,11 @@ def agent_card() -> dict:
 # missing one simply keeps today's behaviour (no redirect).
 # Regenerate: grep -oE 'path == "/[a-z0-9._/-]*"' spendfirewall/api.py
 _EXACT_ROUTES = frozenset({
+    # NOTE: do NOT add pSEO hub prefixes (/data, /status) here. These are
+    # slash-canonical hub pages served by _serve_pseo(); listing them bare
+    # makes line ~611 redirect /data/ -> /data while _serve_pseo redirects
+    # /data -> /data/ — a redirect loop Google reports as "Page with redirect".
+    # (Regression: commit aba9d7d added them; removed 2026-08-17.)
     "/.well-known/agent-card.json",
     "/.well-known/security.txt",
     "/about",
@@ -320,7 +325,6 @@ _EXACT_ROUTES = frozenset({
     "/content-calendar",
     "/cron/drip",
     "/dashboard",
-    "/data",
     "/data/feed.json",
     "/dream100",
     "/eval",
@@ -332,7 +336,6 @@ _EXACT_ROUTES = frozenset({
     "/pricing",
     "/privacy",
     "/security",
-    "/status",
     "/subscribe",
     "/terms",
     "/tripwire",
