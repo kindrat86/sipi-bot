@@ -3,29 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>GitHub Copilot Chat vulnerable to data exfiltration via prompt injection in untrusted source code — AI agent incident | sipi.bot</title>
-<meta name="description" content="Johann Rehberger demonstrated that the GitHub Copilot Chat VS Code extension was vulnerable to data exfiltration via prompt injection. Because Copilot Chat i…">
-<link rel="canonical" href="https://sipi.bot/incidents/github-copilot-chat-exfil-2024-06">
+<title>SEC charges Texas man with $12.3M fraud over nonexistent &#x27;AI trading bots&#x27; — AI agent incident | sipi.bot</title>
+<meta name="description" content="The U.S. SEC charged Nathan Fuller with raising approximately $12.3 million from about 150 investors by claiming he would deploy proprietary AI-based trading…">
+<link rel="canonical" href="https://sipi.bot/incidents/nathan-fuller-sec-ai-bot-fraud-2026-05">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="sipi.bot">
-<meta property="og:title" content="GitHub Copilot Chat vulnerable to data exfiltration via prompt injection in untrusted source code — AI agent incident | sipi.bot">
-<meta property="og:description" content="Johann Rehberger demonstrated that the GitHub Copilot Chat VS Code extension was vulnerable to data exfiltration via prompt injection. Because Copilot Chat i…">
-<meta property="og:url" content="https://sipi.bot/incidents/github-copilot-chat-exfil-2024-06">
+<meta property="og:title" content="SEC charges Texas man with $12.3M fraud over nonexistent &#x27;AI trading bots&#x27; — AI agent incident | sipi.bot">
+<meta property="og:description" content="The U.S. SEC charged Nathan Fuller with raising approximately $12.3 million from about 150 investors by claiming he would deploy proprietary AI-based trading…">
+<meta property="og:url" content="https://sipi.bot/incidents/nathan-fuller-sec-ai-bot-fraud-2026-05">
 <meta property="og:image" content="https://sipi.bot/og-default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="GitHub Copilot Chat vulnerable to data exfiltration via prompt injection in untrusted source code — AI agent incident | sipi.bot">
-<meta name="twitter:description" content="Johann Rehberger demonstrated that the GitHub Copilot Chat VS Code extension was vulnerable to data exfiltration via prompt injection. Because Copilot Chat i…">
+<meta name="twitter:title" content="SEC charges Texas man with $12.3M fraud over nonexistent &#x27;AI trading bots&#x27; — AI agent incident | sipi.bot">
+<meta name="twitter:description" content="The U.S. SEC charged Nathan Fuller with raising approximately $12.3 million from about 150 investors by claiming he would deploy proprietary AI-based trading…">
 <meta name="twitter:image" content="https://sipi.bot/og-default.png">
 <link rel="icon" type="image/svg+xml" href="https://sipi.bot/favicon.svg">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot — incidents & research" href="/rss.xml">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "sipi.bot", "url": "https://sipi.bot/", "description": "The pre-spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.", "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot/"}, {"@type": "ListItem", "position": 2, "name": "Incident database", "item": "https://sipi.bot/incidents/"}, {"@type": "ListItem", "position": 3, "name": "GitHub Copilot Chat vulnerable to data exfiltration via prompt injection in untrusted source code", "item": "https://sipi.bot/incidents/github-copilot-chat-exfil-2024-06"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "GitHub Copilot Chat vulnerable to data exfiltration via prompt injection in untrusted source code", "description": "Johann Rehberger demonstrated that the GitHub Copilot Chat VS Code extension was vulnerable to data exfiltration via prompt injection. Because Copilot Chat i…", "url": "https://sipi.bot/incidents/github-copilot-chat-exfil-2024-06", "image": "https://sipi.bot/og-default.png", "datePublished": "2024-06-14", "dateModified": "2026-08-18", "author": {"@type": "Organization", "name": "sipi.bot"}, "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://sipi.bot/incidents/github-copilot-chat-exfil-2024-06"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What happened in the GitHub (Copilot Chat) incident?", "acceptedAnswer": {"@type": "Answer", "text": "Johann Rehberger demonstrated that the GitHub Copilot Chat VS Code extension was vulnerable to data exfiltration via prompt injection. Because Copilot Chat interprets and renders markdown — including images — returned by the LLM, a carefully crafted instruction planted in an untrusted source file could make the model return hyperlinks to attacker-controlled images, which were then auto-rendered and silently sent the developer&#x27;s data (including file contents) to the attacker inside the image URL."}}, {"@type": "Question", "name": "Is this incident verified?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — confirmed against a primary or major-secondary source."}}, {"@type": "Question", "name": "How could a spend firewall have helped?", "acceptedAnswer": {"@type": "Answer", "text": "The exfiltration rode on an auto-rendered image URL the agent composed from untrusted input. An egress allowlist enforced outside the model — the merchant-allowlist pattern applied to network destinations — returns BLOCKED on any callback to a domain that is not approved, breaking the exfil regardless of what the injected file says."}}, {"@type": "Question", "name": "Where is the source?", "acceptedAnswer": {"@type": "Answer", "text": "Reported by Embrace The Red (Johann Rehberger): https://embracethered.com/blog/posts/2024/github-copilot-chat-prompt-injection-data-exfiltration/"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot/"}, {"@type": "ListItem", "position": 2, "name": "Incident database", "item": "https://sipi.bot/incidents/"}, {"@type": "ListItem", "position": 3, "name": "SEC charges Texas man with $12.3M fraud over nonexistent &#x27;AI trading bots&#x27;", "item": "https://sipi.bot/incidents/nathan-fuller-sec-ai-bot-fraud-2026-05"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "SEC charges Texas man with $12.3M fraud over nonexistent &#x27;AI trading bots&#x27;", "description": "The U.S. SEC charged Nathan Fuller with raising approximately $12.3 million from about 150 investors by claiming he would deploy proprietary AI-based trading…", "url": "https://sipi.bot/incidents/nathan-fuller-sec-ai-bot-fraud-2026-05", "image": "https://sipi.bot/og-default.png", "datePublished": "2026-05-28", "dateModified": "2026-08-18", "author": {"@type": "Organization", "name": "sipi.bot"}, "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://sipi.bot/incidents/nathan-fuller-sec-ai-bot-fraud-2026-05"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What happened in the Nathan Fuller (Cypress, Texas) incident?", "acceptedAnswer": {"@type": "Answer", "text": "The U.S. SEC charged Nathan Fuller with raising approximately $12.3 million from about 150 investors by claiming he would deploy proprietary AI-based trading bots for high-frequency crypto arbitrage, promising returns up to 100%. The SEC alleges the bots and their performance were misrepresented and investor funds were instead diverted. The action is part of a run of SEC &#x27;AI-washing&#x27; enforcement cases targeting fabricated AI trading technology."}}, {"@type": "Question", "name": "Is this incident verified?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — confirmed against a primary or major-secondary source."}}, {"@type": "Question", "name": "How could a spend firewall have helped?", "acceptedAnswer": {"@type": "Answer", "text": "Fraudulent &#x27;AI trading&#x27; schemes exploit the same trust gap a spend firewall closes: the operator cannot verify what the agent actually does. A deterministic policy gate with a real audit trail — per-transaction caps, merchant allowlists, and approval thresholds — separates a real agent from a claim about one."}}, {"@type": "Question", "name": "Where is the source?", "acceptedAnswer": {"@type": "Answer", "text": "Reported by InvestmentNews (SEC action): https://www.investmentnews.com/regulation-legal-compliance/sec-sues-texas-man-over-alleged-123-million-ai-crypto-scheme/266827"}}]}</script>
 <script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script>
 <style>
 :root{
@@ -188,39 +188,39 @@ tr:hover td{background:rgba(255,255,255,.015)}
 <main class="wrap">
 <section class="hero">
 <div class="crumbs"><a href="/">Home</a><span class="sep">/</span>
-<a href="/incidents/">Incident database</a><span class="sep">/</span>github-copilot-chat-exfil-2024-06</div>
+<a href="/incidents/">Incident database</a><span class="sep">/</span>nathan-fuller-sec-ai-bot-fraud-2026-05</div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-<span class="tag warn">Data breach</span>
-<span class="tag neutral">Data exfiltration</span>
+<span class="tag neutral">Legal / liability</span>
+<span class="tag neutral">Trading agent failure</span>
 <span class="tag good">verified</span>
 
 </div>
-<h1>GitHub Copilot Chat vulnerable to data exfiltration via prompt injection in untrusted source code</h1>
-<p class="lead">GitHub (Copilot Chat) · Jun 14, 2024 · Coding agent</p>
+<h1>SEC charges Texas man with $12.3M fraud over nonexistent &#x27;AI trading bots&#x27;</h1>
+<p class="lead">Nathan Fuller (Cypress, Texas) · May 28, 2026 · Trading agent</p>
 </section>
 
 <section class="prose">
 <h2>What happened</h2>
-<p>Johann Rehberger demonstrated that the GitHub Copilot Chat VS Code extension was vulnerable to data exfiltration via prompt injection. Because Copilot Chat interprets and renders markdown — including images — returned by the LLM, a carefully crafted instruction planted in an untrusted source file could make the model return hyperlinks to attacker-controlled images, which were then auto-rendered and silently sent the developer&#x27;s data (including file contents) to the attacker inside the image URL.</p>
+<p>The U.S. SEC charged Nathan Fuller with raising approximately $12.3 million from about 150 investors by claiming he would deploy proprietary AI-based trading bots for high-frequency crypto arbitrage, promising returns up to 100%. The SEC alleges the bots and their performance were misrepresented and investor funds were instead diverted. The action is part of a run of SEC &#x27;AI-washing&#x27; enforcement cases targeting fabricated AI trading technology.</p>
 
 <div class="statbox">
-<div class="stat"><div class="n">—</div><div class="l">Loss / impact</div></div>
-<div class="stat"><div class="n">Jun 14</div><div class="l">2024</div></div>
-<div class="stat"><div class="n">Data</div><div class="l">Failure mode</div></div>
-<div class="stat"><div class="n">Coding</div><div class="l">Agent type</div></div>
+<div class="stat"><div class="n">$12M</div><div class="l">Loss / impact</div></div>
+<div class="stat"><div class="n">May 28</div><div class="l">2026</div></div>
+<div class="stat"><div class="n">Trading</div><div class="l">Failure mode</div></div>
+<div class="stat"><div class="n">Trading</div><div class="l">Agent type</div></div>
 </div>
 
 <h3>Causal vector</h3>
-<p>Auto-rendered markdown images let an injected file steer the coding assistant into beaconing data via image URLs</p>
+<p>Fabricated AI trading technology used to raise funds — investors&#x27; money routed away from the promised agent strategy</p>
 
 <h3>Source</h3>
-<p>Reported by <strong>Embrace The Red (Johann Rehberger)</strong>. Verified against the primary report.</p>
-<p><a href="https://embracethered.com/blog/posts/2024/github-copilot-chat-prompt-injection-data-exfiltration/" rel="nofollow noopener" target="_blank" class="btn ghost" style="font-size:.92rem;padding:9px 16px">Read the original report ↗</a></p>
+<p>Reported by <strong>InvestmentNews (SEC action)</strong>. Verified against the primary report.</p>
+<p><a href="https://www.investmentnews.com/regulation-legal-compliance/sec-sues-texas-man-over-alleged-123-million-ai-crypto-scheme/266827" rel="nofollow noopener" target="_blank" class="btn ghost" style="font-size:.92rem;padding:9px 16px">Read the original report ↗</a></p>
 </section>
 
 <div class="callout">
 <div class="k">How a spend firewall would have helped</div>
-<p>The exfiltration rode on an auto-rendered image URL the agent composed from untrusted input. An egress allowlist enforced outside the model — the merchant-allowlist pattern applied to network destinations — returns BLOCKED on any callback to a domain that is not approved, breaking the exfil regardless of what the injected file says.</p>
+<p>Fraudulent &#x27;AI trading&#x27; schemes exploit the same trust gap a spend firewall closes: the operator cannot verify what the agent actually does. A deterministic policy gate with a real audit trail — per-transaction caps, merchant allowlists, and approval thresholds — separates a real agent from a claim about one.</p>
 </div>
 
 <section>
@@ -235,7 +235,7 @@ tr:hover td{background:rgba(255,255,255,.015)}
 </div>
 </section>
 
-<h2>Related incidents</h2><div class="grid three"><div class="card"><h3><a href="/incidents/google-antigravity-exfil-2025-11/">Google&#x27;s Antigravity IDE vulnerable to data exfiltration and remote code execution via prompt injection</a></h3><p>Google · Nov 25, 2025</p></div><div class="card"><h3><a href="/incidents/anthropic-claude-code-espionage-2025-11/">State-sponsored group automates ~80–90% of a cyber-espionage operation using Claude Code and MCP tools</a></h3><p>Anthropic (Claude Code, abused by a threat actor) · Nov 1, 2025</p></div><div class="card"><h3><a href="/incidents/windsurf-cascade-exfil-2025-08/">Windsurf Cascade coding agent leaks developer secrets via indirect prompt injection</a></h3><p>Windsurf (Cascade) · Aug 21, 2025</p></div></div>
+<h2>Related incidents</h2><div class="grid three"><div class="card"><h3><a href="/incidents/sec-ai-ponzi-2025-11/">SEC charges $12M &#x27;AI crypto trading bot&#x27; as a Ponzi scheme</a></h3><p>Nathan Fuller · Nov 1, 2025</p></div><div class="card"><h3><a href="/incidents/trading-bot-441k-2025-10/">AI trading bot misreads tweet, sends $441K of tokens to a stranger</a></h3><p>anonymous (OpenAI employee side project) · Oct 1, 2025</p></div><div class="card"><h3><a href="/incidents/clawdbot-1m-2025-10/">Clawdbot trading agent reportedly loses $1,000,000</a></h3><p>Clawdbot (open-source project) · Oct 1, 2025</p></div></div>
 
 <div class="band">
 <h2>Don't be the next entry</h2>
