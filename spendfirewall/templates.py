@@ -157,6 +157,20 @@ def NAV_HTML(links: str, brand_link: bool = False) -> str:
 
 _LINKS_DOC = ('    <a href="/#how">How it works</a>\n    <a href="/#faq">FAQ</a>\n    <a href="/pricing">Pricing</a>\n    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>\n    <a href="/dashboard" class="btn">Live Dashboard</a>')
 
+PORTFOLIO_CROSS_PROMO_HTML = """<!-- CROSS-PORTFOLIO NETWORK FOOTER -->
+<nav aria-label="More products from Sipiteno" data-portfolio-cross-promo="v1" data-portfolio-origin="sipi.bot" style="margin-top:18px;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:center;gap:0 14px;font-size:13px">
+  <strong style="display:inline-flex;min-height:44px;align-items:center;color:var(--txt)">More from Sipiteno:</strong>
+  <a href="https://sipiteno.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">Sipiteno</a>
+  <a href="https://gitdealflow.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">GitDealFlow</a>
+  <a href="https://signals.gitdealflow.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">VC Deal Flow Signal</a>
+  <a href="https://invisibleexit.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">Invisible Exit</a>
+  <a href="https://unlocksaas.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">UnlockSaaS</a>
+  <a href="https://voicelogpro.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">VoiceLogPro</a>
+  <a href="https://carshake.online/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">CarShake</a>
+  <a href="https://churnlens.site/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">ChurnLens</a>
+  <a href="https://sanctionsai.dev/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">SanctionsAI</a>
+</nav>"""
+
 
 def landing_page_html() -> str:
     s = """<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){try{window.trustedTypes.createPolicy("default",{createHTML:function(s){return s},createScript:function(s){return s},createScriptURL:function(s){return s}})}catch(e){}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -756,8 +770,13 @@ if(run)run.addEventListener('click',function(){run.disabled=true;run.textContent
     s = s.replace("{CSS}", CSS)
     s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
     s = s.replace("{GA4_SNIPPET}", GA4_SNIPPET)
+    s = s.replace(
+        '  </div>\n</div></footer>\n<script>',
+        '  </div>\n' + PORTFOLIO_CROSS_PROMO_HTML + '\n</div></footer>\n<script>',
+        1,
+    )
 
-    # Expert Secrets persuasion spine — feature flags
+    # Expert Secrets persuasion spine, feature flags
     # Set any flag to False to disable the corresponding section at runtime.
     BRUNSON_ORIGIN_STORY  = True   # Ch 1/4/5/6 — founder Epiphany Bridge
     BRUNSON_FALSE_BELIEFS = True   # Ch 6/7     — Vehicle/Internal/External beliefs
@@ -832,6 +851,7 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
     <a href="/.well-known/mcp.json">MCP manifest</a> ·
     <a href="/agents.md">Agent guide</a>
   </div>
+  {PORTFOLIO_CROSS_PROMO_HTML}
 </div></footer>
 </body></html>"""
 
