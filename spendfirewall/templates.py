@@ -800,7 +800,7 @@ if(run)run.addEventListener('click',function(){run.disabled=true;run.textContent
         b = s.find('<div class="price mt24">', a)
         if a >= 0 and b > a: s = s[:a] + s[b:]
         s = s.replace('<div class="strike">Hiring a human to babysit spend: $4,500/mo</div>', '')
-    PORTFOLIO_NETWORK = False
+    PORTFOLIO_NETWORK = True
     if not PORTFOLIO_NETWORK:
         a = s.find('<!-- CROSS-PORTFOLIO NETWORK FOOTER')
         b = s.rfind('</body></html>')

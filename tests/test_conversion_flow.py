@@ -70,6 +70,24 @@ class CheckoutConversionTests(unittest.TestCase):
         self.assertIn("Run a free live check", html)
         self.assertNotIn("Get access</button>", html)
 
+    def test_homepage_keeps_measured_portfolio_cross_promo(self):
+        html = templates.landing_page_html()
+
+        self.assertEqual(html.count('data-portfolio-cross-promo="v1"'), 1)
+        self.assertEqual(html.count("utm_source=sipi.bot"), 9)
+        for domain in (
+            "sipiteno.com",
+            "gitdealflow.com",
+            "signals.gitdealflow.com",
+            "invisibleexit.com",
+            "unlocksaas.com",
+            "voicelogpro.com",
+            "carshake.online",
+            "churnlens.site",
+            "sanctionsai.dev",
+        ):
+            self.assertIn(f"https://{domain}/?utm_source=sipi.bot", html)
+
     def test_success_page_guides_activation(self):
         html = templates.key_success_html({"key": "sk_live_test", "tier": "team"})
 
