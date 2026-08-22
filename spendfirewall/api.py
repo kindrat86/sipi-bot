@@ -1364,6 +1364,21 @@ class Handler(BaseHTTPRequestHandler):
         # 0 impressions, so there was no ranking equity to protect.
         "/tools/risk-calculator": "/tools/agent-spend-risk-calculator",
         "/tools/risk-calculator/": "/tools/agent-spend-risk-calculator",
+        # 2026-08-22 organic budget repair: these five generated pages had zero
+        # trailing-28d impressions and less than 1,500 characters of body text.
+        # The two "calculators" contained no inputs or calculation code. The
+        # scenario/red-flag pages repeated claims already covered by the deeper
+        # keeper pages below. Keep both URL forms mapped after deleting the files.
+        "/calculators/agent-cost-calculator": "/tools/agent-spend-risk-calculator",
+        "/calculators/agent-cost-calculator/": "/tools/agent-spend-risk-calculator",
+        "/calculators/budget-sizing-calculator": "/tools/spend-policy-generator",
+        "/calculators/budget-sizing-calculator/": "/tools/spend-policy-generator",
+        "/redflags/off-hours-billing-activity": "/faq/what-is-ai-spend-anomaly",
+        "/redflags/off-hours-billing-activity/": "/faq/what-is-ai-spend-anomaly",
+        "/scenarios/agent-budget-breach": "/faq/what-happens-if-ai-agent-exceeds-budget",
+        "/scenarios/agent-budget-breach/": "/faq/what-happens-if-ai-agent-exceeds-budget",
+        "/scenarios/multi-tenant-billing-breach": "/guides/multi-agent-spend-governance/",
+        "/scenarios/multi-tenant-billing-breach/": "/guides/multi-agent-spend-governance/",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO

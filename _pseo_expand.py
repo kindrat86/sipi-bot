@@ -12,10 +12,6 @@ CANOPY = "Sipi Bot"
 
 PAGES = {
     "scenarios": [
-        ("agent-budget-breach", "AI Agent Budget Breach Scenario", [
-            "What happens when an AI agent exceeds its budget ceiling? This scenario walks through the escalation flow: the agent receives a budget exceeded error, triggers an alert to the human operator, and defaults to read-only mode pending approval.",
-            "This is one of the most common failure modes in agent spending. Sipi Bot's circuit breaker automatically detects the breach, logs the incident, and prevents further spending until the ceiling is reset.",
-        ], [("How does the circuit breaker trigger?", "When total spend in a period hits the configured ceiling, Sipi Bot immediately blocks all further agent payments and sends a notification via email, Slack, or webhook.")]),
 
         ("unauthorized-api-call", "Unauthorized API Call Blocking Scenario", [
             "An agent attempts to call an API endpoint that isn't on its allowlist. Sipi Bot intercepts the call, logs the attempt, and returns an unauthorized error to the agent.",
@@ -32,10 +28,7 @@ PAGES = {
             "The compromised key is immediately revoked, a new key is issued, the incident is logged, and the human operator is notified. All spending under the compromised key is flagged for audit.",
         ], [("How does Sipi Bot detect anomalous usage?", "It builds a baseline of normal agent behavior patterns (endpoints called, time of day, request volume). When usage deviates significantly, it flags the incident for human review.")]),
 
-        ("multi-tenant-billing-breach", "Multi-Tenant Billing Isolation Breach Scenario", [
-            "One tenant's agent attempts to spend against another tenant's budget. Sipi Bot enforces strict tenant isolation: each agent's spending is tied to its tenant's wallet, and cross-tenant charges are blocked at the routing layer.",
-            "The isolation is enforced at every payment attempt — not just at settlement. This prevents both accidental misrouting and intentional attempts to use another tenant's budget.",
-        ], [("Can one tenant share budget with another?", "Only if explicitly configured via the shared budget feature. By default each tenant's budget is isolated. Shared budgets require admin approval and create a separate audit trail.")]),
+
     ],
 
     "redflags": [
@@ -44,10 +37,6 @@ PAGES = {
             "This pattern often precedes budget breaches. Sipi Bot flags it immediately and throttles the agent if the spike continues for more than 5 consecutive minutes.",
         ], [("What's considered a micro-payment?", "Payments under $0.50 per transaction. An agent calling an LLM repeatedly with small prompts can rack up $100+ in minutes without triggering a single-payment limit.")]),
 
-        ("off-hours-billing-activity", "Off-Hours Billing Activity Spike", [
-            "Agents billing outside their normal operating hours is suspicious. A 3x increase in off-hours activity compared to baseline may indicate compromise or misconfiguration.",
-            "Sipi Bot flags off-hours spikes for human review. If compounded with other anomalies (new endpoint, different response size), the agent may be automatically paused.",
-        ], [("What counts as off-hours?", "Configurable per agent or tenant. Default is 10 PM — 6 AM in the agent's configured timezone. Different rules apply to global agents that operate 24/7.")]),
 
         ("new-endpoint-high-volume", "New Endpoint with High-Volume Spend", [
             "An agent suddenly starts calling a new API endpoint at high volume — significant because it's outside the agent's normal behavior pattern.",
@@ -61,20 +50,13 @@ PAGES = {
     ],
 
     "calculators": [
-        ("agent-cost-calculator", "AI Agent Cost Calculator", [
-            "Estimate the monthly cost of running AI agents. Enter your expected API calls per day, average tokens per request, and which models you're using.",
-            "This calculator helps you budget for agent deployment before you start building. Includes estimates for GPT-4o, Claude Sonnet, and DeepSeek models.",
-        ], [("Is usage-based or fixed pricing better for agents?", "Usage-based pricing aligns costs with value — you pay only for successful agent actions. Fixed pricing works better for predictable workloads with consistent call volumes.")]),
 
         ("runaway-cost-calculator", "Runaway Agent Cost Calculator", [
             "What would a runaway agent cost you? Enter your model, API pricing, and a conservative runaway scenario (e.g., 1000 calls/hour for 8 hours).",
             "See the potential damage from a loop bug, compromised key, or misconfigured retry logic. Then see how Sipi Bot's circuit breakers and velocity caps would have stopped it.",
         ], [("What's the most common runaway cost scenario?", "LLM API calls in a retry loop. An agent that gets rate-limited retries immediately, compounding the problem. Sipi Bot's exponential backoff prevents this.")]),
 
-        ("budget-sizing-calculator", "Agent Budget Sizing Calculator", [
-            "How much budget does your agent need? Enter expected usage, growth rate, and risk tolerance. Get recommended daily, weekly, and monthly ceilings.",
-            "The calculator considers both normal usage patterns and burst scenarios (e.g., product launches, traffic spikes). It recommends buffering 30% above projected peak usage.",
-        ], [("Should budgets be per-agent or per-team?", "Both. Set a per-agent daily ceiling to prevent individual runaways, and a per-team monthly budget to control overall spend. Sipi Bot supports both with hierarchical enforcement.")]),
+
     ],
 
     "guides": [
