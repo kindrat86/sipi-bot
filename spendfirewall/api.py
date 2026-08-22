@@ -442,16 +442,21 @@ class Handler(BaseHTTPRequestHandler):
         )
         return None
 
-    def _html(self, html: str, cacheable: bool = True):
+    def _html(self, html: str, cacheable: bool = True, noindex: bool | None = None):
+        if noindex is None:
+            # Preserve the safe default for private, non-cacheable capability
+            # pages such as /keys/<session>. Public non-cacheable pages can
+            # opt into indexing explicitly.
+            noindex = not cacheable
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         if cacheable:
             self.send_header("Cache-Control", "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800")
         else:
-            # Secret-bearing pages (e.g. /keys/<session>) must never sit in
-            # a shared/CDN cache or a search index.
+            # Non-cacheable pages must never sit in a shared/CDN cache.
             self.send_header("Cache-Control", "no-store, private")
             self.send_header("Pragma", "no-cache")
+        if noindex:
             self.send_header("X-Robots-Tag", "noindex, nofollow")
         self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
         self.send_header("X-Content-Type-Options", "nosniff")
@@ -660,7 +665,9 @@ class Handler(BaseHTTPRequestHandler):
             # The dashboard temporarily holds the customer's API key in
             # sessionStorage. Keep it non-cacheable and first-party-only so a
             # consented analytics SDK can never share its JavaScript context.
-            return self._html(templates.dashboard_html(), cacheable=False)
+            return self._html(
+                templates.dashboard_html(), cacheable=False, noindex=False
+            )
         if path == "/health":
             return self._json(200, {"ok": True, "service": "sipi.bot", "version": __version__},
                               noindex=True)

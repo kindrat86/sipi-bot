@@ -239,6 +239,14 @@ class DashboardSecurityTests(unittest.TestCase):
         self.assertNotIn("EventSource", html)
         self.assertNotIn('id="p-agents"', html)
 
+    def test_public_dashboard_is_non_cacheable_but_indexable(self):
+        with urllib.request.urlopen(self.base + "/dashboard", timeout=5) as response:
+            html = response.read().decode()
+            self.assertEqual(response.status, 200)
+            self.assertEqual(response.headers.get("Cache-Control"), "no-store, private")
+            self.assertIsNone(response.headers.get("X-Robots-Tag"))
+        self.assertIn('<meta name="robots" content="index, follow">', html)
+
     def test_subscribe_normalizes_deduplicates_and_unsubscribes(self):
         subscribers = os.path.join(self.tmp.name, "subscribers.txt")
         with mock.patch.object(api, "_SUBSCRIBERS_FILE", subscribers), \
