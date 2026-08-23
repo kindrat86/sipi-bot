@@ -1,6 +1,7 @@
 import os
 import tempfile
 import unittest
+from pathlib import Path
 from unittest import mock
 
 from spendfirewall import billing, templates
@@ -80,6 +81,11 @@ class CheckoutConversionTests(unittest.TestCase):
         self.assertNotIn("checkout_success_viewed", html)
         self.assertNotIn("posthog", html.lower())
         self.assertIn("history.replaceState", html)
+
+    def test_legacy_email_how_it_works_route_redirects_to_live_developer_guide(self):
+        api_source = (Path(__file__).parents[1] / "spendfirewall" / "api.py").read_text()
+        self.assertIn('if path == "/how-it-works":', api_source)
+        self.assertIn('self._redirect_301("/for/ai-developers")', api_source)
 
 
 if __name__ == "__main__":

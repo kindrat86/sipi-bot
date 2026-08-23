@@ -615,6 +615,12 @@ class Handler(BaseHTTPRequestHandler):
             self._redirect_301(path.rstrip("/"))
             return
 
+        # Legacy lifecycle emails linked to this retired route. Preserve the
+        # intent with the current developer integration guide rather than 404.
+        if path == "/how-it-works":
+            self._redirect_301("/for/ai-developers")
+            return
+
         # ── pSEO static pages ──────────────────────────
         try_pseo = self._serve_pseo(path)
         if try_pseo:
