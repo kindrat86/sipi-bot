@@ -96,13 +96,13 @@ def build_sitemap():
         # subdirectories like embed/tools/ too)
         if any(rel == d or rel.startswith(d + "/") for d in EXCLUDE_DIRS):
             continue
-        # Skip mirrored leaves that are served from repo-root: if the exact
-        # relative path exists at repo root, _serve_pseo() serves THAT file and
-        # the fleet walk below emits its bare URL. Emitting the public slash
-        # form here too would create a bare+slash duplicate pair.
-        if rel:
-            if os.path.isfile(os.path.join(ROOT, rel, "index.html")):
-                continue
+        # Mirror policy (2026-08-24, matches the deployed _serve_pseo hotfix):
+        # when BOTH a public/ copy and a repo-root copy exist, the PUBLIC copy
+        # wins at runtime — _serve_pseo() returns early for it and
+        # _serve_static serves the slash URL (the bare repo-root form 301s to
+        # slash). So public/ slash entries are ALWAYS emitted here, and the
+        # repo-root fleet walk below skips the twin. Emitting both would put a
+        # 301-redirect-source URL in the sitemap (GSC "Page with redirect").
         for f in files:
             if not f.endswith(".html"):
                 continue
@@ -137,6 +137,14 @@ def build_sitemap():
             if "index.html" not in files:
                 continue
             rel = os.path.relpath(root, ROOT)
+            # Mirror policy (2026-08-24): if a public/ twin exists, the public
+            # copy is the one served (slash URL) — already emitted by the
+            # public walk above. Skip the repo-root twin so the bare form
+            # (a 301 source under the public-copy-preference hotfix) never
+            # lands in the sitemap.
+            pub_twin = os.path.join(PUBLIC, rel, "index.html")
+            if os.path.isfile(pub_twin):
+                continue
             url_path = "/" + rel.replace(os.sep, "/")
             # Keep trailing slash for hub pages; leaf pages go bare
             segments = tuple(s for s in url_path.strip("/").split("/") if s)
