@@ -30,6 +30,7 @@ import os
 import queue
 import tempfile
 import threading
+from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Optional
 from urllib.parse import parse_qs, urlparse
@@ -43,6 +44,11 @@ _SUB_LOCK = threading.Lock()
 _SUBSCRIBER_FILE_LOCK = threading.RLock()
 _EVAL_REPORT_PATH = os.environ.get("EVAL_REPORT", os.path.join(os.getcwd(), "eval_report.json"))
 _SUBSCRIBERS_FILE = os.environ.get("SUBS_FILE", os.path.join(os.getcwd(), "subscribers.txt"))
+_PILOT_APPLICATIONS_FILE = os.environ.get(
+    "PILOT_APPLICATIONS_FILE",
+    os.path.join(os.path.dirname(_SUBSCRIBERS_FILE) or os.getcwd(), "pilot-applications.jsonl"),
+)
+_PILOT_FILE_LOCK = threading.RLock()
 # Trusted origin echoed on state-changing control-plane routes instead of *.
 _TRUSTED_ORIGIN = (os.environ.get("PUBLIC_URL") or "https://sipi.bot").rstrip("/")
 
@@ -52,6 +58,7 @@ from collections import defaultdict as _rl_defaultdict
 
 _RATE_LIMITS = {
     "subscribe": {"window": 3600, "max": 5},     # 5 email captures/hour/IP
+    "pilot":     {"window": 3600, "max": 3},     # 3 pilot applications/hour/IP
     "evaluate":  {"window": 60,   "max": 100},    # 100 evaluate calls/min/IP
     "default":   {"window": 60,   "max": 60},     # 60 req/min/IP fallback
 }
@@ -228,6 +235,101 @@ def _validated_transaction_input(
     return {"amount": amount, **values}, None
 
 
+def _validated_pilot_application(body: dict) -> tuple[Optional[dict], Optional[str]]:
+    """Validate and bound a paid-pilot application before persisting it."""
+    email = drip.normalize_email(body.get("email") or "")
+
+    def clean(name: str, maximum: int) -> str:
+        value = body.get(name) or ""
+        if not isinstance(value, str):
+            return ""
+        value = " ".join(value.strip().split())
+        if len(value) > maximum or any(ord(ch) < 32 for ch in value):
+            return ""
+        return value
+
+    company = clean("company", 120)
+    website = clean("website", 240)
+    agent_stack = clean("agent_stack", 500)
+    primary_risk = clean("primary_risk", 1500)
+    spend_band = body.get("monthly_spend_band")
+    allowed_bands = {"under_2k", "2k_10k", "10k_50k", "50k_plus", "unknown"}
+
+    if not company or len(company) < 2:
+        return None, "company_required"
+    if not email:
+        return None, "valid_work_email_required"
+    if not agent_stack or len(agent_stack) < 5:
+        return None, "agent_stack_required"
+    if spend_band not in allowed_bands:
+        return None, "monthly_spend_band_required"
+    if not primary_risk or len(primary_risk) < 10:
+        return None, "primary_risk_required"
+    if body.get("consent") is not True:
+        return None, "consent_required"
+    if website:
+        parsed = urlparse(website)
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+            return None, "valid_website_required"
+
+    return {
+        "company": company,
+        "email": email,
+        "website": website,
+        "agent_stack": agent_stack,
+        "monthly_spend_band": spend_band,
+        "primary_risk": primary_risk,
+        "submitted_at": datetime.now(timezone.utc).isoformat(),
+    }, None
+
+
+def _notify_pilot_application(application: dict) -> bool:
+    """Send a plain-text, best-effort notification to the internal sales inbox."""
+    api_key = os.environ.get("RESEND_API_KEY", "").strip()
+    sender = os.environ.get("EMAIL_FROM", "").strip()
+    recipient = os.environ.get("PILOT_NOTIFY_TO", "sales@sipiteno.com").strip()
+    if not api_key or not sender or not recipient:
+        return False
+
+    text = "\n".join([
+        "New sipi.bot paid pilot application",
+        "",
+        f"Company: {application['company']}",
+        f"Email: {application['email']}",
+        f"Website: {application.get('website') or '(not provided)'}",
+        f"Spend band: {application['monthly_spend_band']}",
+        f"Agent stack: {application['agent_stack']}",
+        f"Primary risk: {application['primary_risk']}",
+        f"Submitted: {application['submitted_at']}",
+    ])
+    # Encoding preflight: never send known mojibake markers.
+    if any(marker in text for marker in ("‚Ä", "Ã", "Â", "â€", "�")):
+        return False
+
+    payload = json.dumps({
+        "from": sender,
+        "to": [recipient],
+        "reply_to": application["email"],
+        "subject": "New sipi.bot paid pilot application",
+        "text": text,
+    }, ensure_ascii=True).encode("utf-8")
+    try:
+        import urllib.request as _request
+        request = _request.Request(
+            "https://api.resend.com/emails",
+            data=payload,
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+        _request.urlopen(request, timeout=5)
+        return True
+    except Exception:
+        return False
+
+
 def _inject_mobile_nav(html: str) -> str:
     """Inject a working mobile hamburger nav into a baked pSEO page.
 
@@ -316,6 +418,7 @@ _EXACT_ROUTES = frozenset({
     "/api/badge/firewall-status",
     "/api/mcp",
     "/api/nlweb",
+    "/api/pilot-applications",
     "/api/rules",
     "/api/stats",
     "/api/transactions",
@@ -333,6 +436,7 @@ _EXACT_ROUTES = frozenset({
     "/index.html",
     "/masterclass",
     "/openapi.json",
+    "/pilot",
     "/pricing",
     "/privacy",
     "/security",
@@ -605,6 +709,13 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_header("Content-Length", "0")
                 self.end_headers()
                 return
+
+        # The retired founder-loss story was not backed by verified evidence.
+        # Preserve any indexed links while sending readers to the technical,
+        # explicitly non-personal retry-loop article.
+        if path.rstrip("/") == "/blog/12400-story-eval-gym":
+            self._redirect_301("/blog/runaway-loops-anatomy/")
+            return
 
 
         # ── Trailing-slash normalisation for exact routes ──────────────
@@ -937,6 +1048,8 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, {"@context": "https://schema.org", "@type": "ItemList", "name": "sipi.bot Knowledge Base", "numberOfItems": len(_nlweb_items), "itemListElement": _nlweb_items})
         if path == "/pricing":
             return self._html(templates.pricing_html())
+        if path == "/pilot":
+            return self._html(templates.pilot_html())
         if path == "/masterclass":
             return self._html(templates.masterclass_html())
         # --- Dotcom Secrets funnel rungs (2026-07-27) ---
@@ -1797,6 +1910,31 @@ class Handler(BaseHTTPRequestHandler):
                 )
                 return self._json(200, {"ok": True, "message": message})
             return self._json(400, {"ok": False, "message": "Enter a valid email."})
+
+        if path == "/api/pilot-applications":
+            if not self._check_rate("pilot"):
+                return self._json(429, {"ok": False, "message": "Too many applications. Try again later."})
+            # Honeypot submissions get a generic success without storing data.
+            if body.get("fax"):
+                return self._json(201, {"ok": True, "message": "Application received."})
+            application, error = _validated_pilot_application(body)
+            if error:
+                return self._json(400, {"ok": False, "error": error, "message": "Check the required fields and try again."})
+            assert application is not None
+            try:
+                with _PILOT_FILE_LOCK:
+                    parent = os.path.dirname(_PILOT_APPLICATIONS_FILE)
+                    if parent:
+                        os.makedirs(parent, exist_ok=True)
+                    with open(_PILOT_APPLICATIONS_FILE, "a", encoding="utf-8") as handle:
+                        handle.write(json.dumps(application, ensure_ascii=True) + "\n")
+            except OSError:
+                return self._json(503, {"ok": False, "message": "Application could not be saved. Please try again."})
+            _notify_pilot_application(application)
+            return self._json(201, {
+                "ok": True,
+                "message": "Application received. If it fits the pilot, we will reply by email.",
+            })
 
         # Unsubscribe POST handler
         if path == "/unsubscribe" or path == "/api/unsubscribe":
