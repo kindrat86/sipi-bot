@@ -1249,7 +1249,18 @@ class Handler(BaseHTTPRequestHandler):
         if path.startswith("/embed/"):
             self._send_embed(data, ctype)
         elif ctype.startswith("text/html"):
-            self._html(data.decode("utf-8"))
+            html = data.decode("utf-8")
+            # Public pSEO leaves are slash-canonical. Keep the response's
+            # canonical, hreflang, and og:url aligned with the actual public
+            # URL even when a legacy generated file still carries a bare URL.
+            pseo_prefixes = ("/vs/", "/for/", "/learn/", "/integrations/", "/glossary/", "/use-cases/", "/faq/", "/alternatives-to/", "/benchmarks/", "/tutorials/", "/policies/", "/limits/", "/best/", "/how-to/", "/templates/", "/cost-of/", "/incidents/", "/blog/", "/tools/", "/changelog/", "/status/", "/calculators/", "/compliance/", "/guides/", "/redflags/", "/scenarios/", "/data/", "/sectors/", "/errors/", "/pricing-questions/")
+            if path.endswith("/") and path.startswith(pseo_prefixes) and path.count("/") >= 2:
+                import re
+                bare = "https://sipi.bot" + path.rstrip("/")
+                canonical = bare + "/"
+                html = re.sub(r'(<link[^>]+rel=["\'](?:canonical|alternate)["\'][^>]+href=["\'])' + re.escape(bare) + r'(["\'])', r'\1' + canonical + r'\2', html, flags=re.I)
+                html = re.sub(r'(<meta[^>]+property=["\']og:url["\'][^>]+content=["\'])' + re.escape(bare) + r'(["\'])', r'\1' + canonical + r'\2', html, flags=re.I)
+            self._html(html)
         else:
             self._send(200, data, ctype)
         return True
@@ -1501,6 +1512,20 @@ class Handler(BaseHTTPRequestHandler):
           W8 — BreadcrumbList JSON-LD injected into <head>
         """
         import os
+
+        # Prefer the deployed public copy whenever it exists. A legacy repo-root
+        # pSEO copy can otherwise intercept the slash-canonical public page,
+        # redirect its slash form to bare, and leave _serve_static to redirect
+        # the bare form back to slash. That creates the canonical redirect loop
+        # Google reported for public pSEO leaves.
+        public_root = os.environ.get("PUBLIC_DIR", os.path.join(os.getcwd(), "public"))
+        public_rel = path.lstrip("/") or "index.html"
+        if public_rel.endswith("/"):
+            public_rel += "index.html"
+        public_target = os.path.normpath(os.path.join(public_root, public_rel))
+        public_index = os.path.normpath(os.path.join(public_root, public_rel, "index.html"))
+        if os.path.isfile(public_target) or os.path.isfile(public_index):
+            return None
 
         # W5 — cannibalization 301s (checked before anything else so they win
         # regardless of which prefix the URL happens to live under).
