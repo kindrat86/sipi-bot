@@ -157,6 +157,20 @@ def NAV_HTML(links: str, brand_link: bool = False) -> str:
 
 _LINKS_DOC = ('    <a href="/#how">How it works</a>\n    <a href="/#faq">FAQ</a>\n    <a href="/pricing">Pricing</a>\n    <a href="/learn/how-to-control-ai-agent-spending">Compare approaches</a>\n    <a href="/dashboard" class="btn">Live Dashboard</a>')
 
+PORTFOLIO_CROSS_PROMO_HTML = """<!-- CROSS-PORTFOLIO NETWORK FOOTER -->
+<nav aria-label="More products from Sipiteno" data-portfolio-cross-promo="v1" data-portfolio-origin="sipi.bot" style="margin-top:18px;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:center;gap:0 14px;font-size:13px">
+  <strong style="display:inline-flex;min-height:44px;align-items:center;color:var(--txt)">More from Sipiteno:</strong>
+  <a href="https://sipiteno.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">Sipiteno</a>
+  <a href="https://gitdealflow.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">GitDealFlow</a>
+  <a href="https://signals.gitdealflow.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">VC Deal Flow Signal</a>
+  <a href="https://invisibleexit.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">Invisible Exit</a>
+  <a href="https://unlocksaas.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">UnlockSaaS</a>
+  <a href="https://voicelogpro.com/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">VoiceLogPro</a>
+  <a href="https://carshake.online/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">CarShake</a>
+  <a href="https://churnlens.site/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">ChurnLens</a>
+  <a href="https://sanctionsai.dev/?utm_source=sipi.bot&amp;utm_medium=referral&amp;utm_campaign=portfolio_crosspromo&amp;utm_content=footer" style="display:inline-flex;min-height:44px;align-items:center">SanctionsAI</a>
+</nav>"""
+
 
 def landing_page_html() -> str:
     s = """<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){try{window.trustedTypes.createPolicy("default",{createHTML:function(s){return s},createScript:function(s){return s},createScriptURL:function(s){return s}})}catch(e){}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -192,14 +206,14 @@ def landing_page_html() -> str:
     <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
     <a href="/learn/how-to-control-ai-agent-spending">Compare</a>
-    <a href="/pricing" class="btn">See plans</a>
+    <a href="/pilot" class="btn">Apply for pilot</a>
   </div>
 </div></nav>
 <script>(function(){var t=document.querySelector('.nav-toggle');if(!t)return;var n=t.closest('nav');function set(o){n.classList.toggle('menu-open',o);t.setAttribute('aria-expanded',o);t.setAttribute('aria-label',o?'Close menu':'Open menu');}t.addEventListener('click',function(){set(!n.classList.contains('menu-open'));});n.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){set(false);});});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&n.classList.contains('menu-open')){set(false);t.focus();}});})();</script>
 
 <header class="hero"><div class="wrap">
   <span class="tag">Spend controls for the agent economy</span>
-  <h1>Your AI agent just spent<br><span class="hl">$12,400 while you slept.</span></h1>
+  <h1>Your agent can retry a paid action<br><span class="hl">until the budget is gone.</span></h1>
   <p class="sub"><strong>sipi.bot is the pre-spend firewall for autonomous AI agents.</strong>
   One HTTP call checks every proposed payment against your caps, velocity limits,
   and merchant rules—then returns APPROVED, BLOCKED, or FLAGGED with a deterministic rules check,
@@ -209,7 +223,7 @@ def landing_page_html() -> str:
     Hope is not a spending policy.
   </p>
   <div class="hero-actions">
-    <a href="/pricing" class="btn" onclick="window.sipiTrack&&window.sipiTrack('pricing_view',{source:'hero_cta'})">Protect my agent — see plans</a>
+    <a href="/pilot" class="btn" onclick="window.sipiTrack&&window.sipiTrack('pilot_view',{source:'hero_cta'})">Apply for the paid implementation pilot</a>
     <a href="/playground/" class="btn ghost" onclick="window.sipiTrack&&window.sipiTrack('hero_policy_test_click',{source:'hero'})">Run a free live check</a>
   </div>
   <div class="hero-proof" aria-label="Product proof">
@@ -403,111 +417,6 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
   <p class="lead">Because the name gets misread: <strong>sipi.bot is a payment-control spend firewall for autonomous AI agents.</strong> It is <em>not</em> a SIP/VoIP telephony bot, and it is <em>not</em> an AI-bot-blocking tool or web-application firewall (WAF). It never holds your money — it's a decision API that returns approve, block, or flag with a deterministic rules check, and your existing payment rail is what actually moves (or doesn't move) the funds.</p>
 </div></section>
 
-<!-- ═══ EXPERT SECRETS: Origin Story + Epiphany Bridge (Ch 1,4,5,6) ═══ -->
-<section id="origin" style="border-bottom:1px solid var(--line)"><div class="wrap">
-  <h2>The Night I Almost Shipped a Bankrupt Agent</h2>
-  <p class="lead">Every product starts with a wound. This one started at 2:14 AM with a $12,400 log entry I couldn't believe was real.</p>
-  
-  <div style="max-width:760px;margin:32px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px">
-    <div style="color:var(--mut);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">The Backstory</div>
-    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:18px">
-      I deployed my first autonomous purchasing agent on a Tuesday. It was beautiful — four lines of orchestration, an x402 payment rail, and a prompt that said "buy GPU compute when under 70% utilization." I went to sleep feeling like I'd shipped the future.
-    </p>
-    
-    <div style="color:var(--mut);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">The Wall</div>
-    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:18px">
-      I woke up to Stripe notifications. The agent had hit a rate-limit at 2:14 AM and retried 40 times. It bought compute from a vendor I'd never heard of — <code style="background:rgba(255,84,112,.12);color:var(--red);padding:2px 6px;border-radius:4px;font-size:14px">unknown-gpu.ru</code>. It tipped an API into overage. Total damage: <strong style="color:var(--red)">$12,400</strong>. In seven hours. While I was sleeping.
-    </p>
-
-    <div style="color:var(--mut);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">The Epiphany</div>
-    <div style="border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin-bottom:18px">
-      <p style="font-size:17px;line-height:1.7;color:var(--txt);font-style:italic">
-        "The agent didn't do anything wrong. It followed the prompt. It bought compute when utilization dipped. It retried on failure — exactly what we train agents to do. The problem wasn't the agent. The problem was that <strong>nobody was checking</strong>. The payment rails move money. They don't ask if the merchant is sketchy, if the amount is suspicious, or if forty retries in three minutes is a bug or a feature. There was no firewall."
-      </p>
-      <p style="font-size:15px;color:var(--accent);margin-top:8px">— Maryan, founder</p>
-    </div>
-
-    <div style="color:var(--mut);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">The Internal Shift</div>
-    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:18px">
-      I spent the next week reading every provider's spend-control docs. OpenAI has usage limits — per-provider. Anthropic has rate limits — per-model. Stripe has Radar — for fraud, not agent velocity. Every solution was partial and reactive. You find out <em>after</em>. Nobody was building the thing that says "no" <em>before</em> the money moves.
-    </p>
-    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:18px">
-      So I stopped looking. I built the missing layer: a spend firewall that sits in front of every transaction, checks it against your rules, and returns approve, block, or flag — with a deterministic rules check. Not a dashboard. Not a report. A decision. Before the money moves.
-    </p>
-
-    <div style="color:var(--mut);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">The New Opportunity</div>
-    <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:8px">
-      The payment rails — x402, AP2, AgentKit — are letting agents spend autonomously. Every week more agents get deployed. Every week the total at-risk spend grows. And <strong>not one of those rails screens transactions before they settle</strong>. That gap — between an agent's ability to spend and your ability to control it — is exactly where sipi.bot lives.
-    </p>
-    <p style="font-size:17px;line-height:1.7;color:var(--txt)">
-      <strong style="color:var(--accent)">This isn't a spending cap. It's a spending policy.</strong> One curl call. One decision. Before a single dollar moves. That's the thing I needed at 2:14 AM. Now it's yours.
-    </p>
-  </div>
-
-  <div class="kpis mt40" style="max-width:600px;margin-left:auto;margin-right:auto">
-    <div class="kpi"><div class="n">$12,400</div><div class="l">loss that inspired sipi.bot</div></div>
-    <div class="kpi"><div class="n">1</div><div class="l">founder, shipping in the open</div></div>
-    <div class="kpi"><div class="n">MIT</div><div class="l">licensed — self-host forever</div></div>
-  </div>
-</div></section>
-
-<!-- ═══ The 3 False Beliefs That Keep Your Agent Unguarded (Ch 7) ═══ -->
-<section id="false-beliefs"><div class="wrap">
-  <h2 class="center">The 3 false beliefs that let agents run wild</h2>
-  <p class="lead center">If you're deploying an autonomous agent right now, you probably hold at least one of these. Here's why each one is wrong — and the epiphany that changes everything.</p>
-  
-  <div style="max-width:760px;margin:36px auto 0;display:flex;flex-direction:column;gap:24px">
-    <div class="card">
-      <div class="badge b-red" style="margin-bottom:10px">FALSE BELIEF #1 — The Vehicle</div>
-      <h3 style="font-size:20px;margin-bottom:8px">"My prompt handles spending — I told it to be careful."</h3>
-      <p style="color:var(--mut);margin-bottom:10px"><strong>The False Belief:</strong> A well-written prompt is a spending control. If I just add "don't overspend" to the system prompt, the agent will enforce its own budget.</p>
-      <p style="color:var(--accent)"><strong>The Epiphany:</strong> Prompts are suggestions, not controls. An agent in a retry loop, a hallucination, or a prompt injection doesn't "decide" to overspend — it executes what it was instructed to do. Your prompt is a wish. A spend firewall is a rule. Wishes don't survive 2 AM.</p>
-    </div>
-
-    <div class="card">
-      <div class="badge b-amber" style="margin-bottom:10px">FALSE BELIEF #2 — Internal Belief</div>
-      <h3 style="font-size:20px;margin-bottom:8px">"I'll catch it. I check my dashboard every morning."</h3>
-      <p style="color:var(--mut);margin-bottom:10px"><strong>The False Belief:</strong> Human review is a spending control. I monitor my agent. If something goes wrong, I'll see it and stop it.</p>
-      <p style="color:var(--accent)"><strong>The Epiphany:</strong> By the time you see it, the money is gone. At 2:14 AM, the agent retried 40 times in under three minutes. You woke up at 9:03 AM to $12,400 in Stripe notifications. Human review is not a control — it's a post-mortem. The firewall has to fire in milliseconds, not morning coffee.</p>
-    </div>
-
-    <div class="card">
-      <div class="badge b-green" style="margin-bottom:10px">FALSE BELIEF #3 — External Belief</div>
-      <h3 style="font-size:20px;margin-bottom:8px">"My payment provider handles this — they have fraud detection."</h3>
-      <p style="color:var(--mut);margin-bottom:10px"><strong>The False Belief:</strong> Stripe, Coinbase, or my bank will catch suspicious agent spending the same way they catch credit card fraud.</p>
-      <p style="color:var(--accent)"><strong>The Epiphany:</strong> Payment providers flag fraud — stolen cards, chargebacks, identity theft. They don't flag "your agent bought compute from a weird vendor 40 times in 3 minutes." To Stripe, that looks like legitimate API usage. The agent is authorized. The spending is the problem. And no payment rail screens for that. sipi.bot is the layer that does.</p>
-    </div>
-  </div>
-
-  <p class="center mt40" style="font-size:18px;color:var(--txt)">
-    Kill all three false beliefs and only one question remains:<br>
-    <strong style="color:var(--accent);font-size:20px">which rules does your agent need before it spends its first dollar?</strong>
-  </p>
-  <p class="center mt24"><a href="/pricing" class="btn">Set my rules →</a></p>
-</div></section>
-
-<!-- ═══ The Cause / Movement (Ch 2) ═══ -->
-<section id="cause"><div class="wrap">
-  <h2 class="center">We are the builders who stopped trusting the prompt.</h2>
-  <p class="lead center">A quiet movement of engineers who deploy autonomous agents — and refuse to hope the spending works out.</p>
-  <div style="max-width:680px;margin:32px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px">
-    <p style="font-size:16px;line-height:1.7;color:var(--txt);margin-bottom:14px">
-      We shipped agents that buy compute at 3 AM without asking. We woke up to Stripe notifications we couldn't explain. We learned — the hard way — that <strong>prompts are not controls</strong> and payment rails don't screen.
-    </p>
-    <p style="font-size:16px;line-height:1.7;color:var(--txt);margin-bottom:14px">
-      We stopped pretending "be careful" was a spending policy. We built a firewall that says <span style="color:var(--accent)">approve</span>, <span style="color:var(--red)">block</span>, or <span style="color:var(--amber)">flag</span> before a single dollar moves.
-    </p>
-    <p style="font-size:16px;line-height:1.7;color:var(--txt)">
-      <strong>We don't measure in signups. We measure in dollars not spent.</strong> Every blocked transaction is a $12,400 morning that didn't happen. This is not a self-improvement group. This is a shipping movement.
-    </p>
-  </div>
-  <div class="kpis mt40" style="max-width:600px;margin-left:auto;margin-right:auto">
-    <div class="kpi"><div class="n">No ML</div><div class="l">in the decision path</div></div>
-    <div class="kpi"><div class="n">53/53</div><div class="l">eval scenarios passed</div></div>
-    <div class="kpi"><div class="n">$0</div><div class="l">lost to runaway agents</div></div>
-  </div>
-</div></section>
-
 <section><div class="wrap">
   <h2 class="center">Hope is not a spending policy.</h2>
   <div class="contrast mt24">
@@ -584,7 +493,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
   <div class="wrap" style="max-width:680px;text-align:center">
     <span style="display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600;padding:4px 12px;border:1px solid rgba(0,212,170,.3);border-radius:999px;margin-bottom:14px">Free · 5-day email playbook</span>
     <h2 style="margin:0 0 8px">The Spend Firewall Playbook</h2>
-    <p style="color:var(--mut);font-size:16px;line-height:1.6;margin:0 0 20px">One email a day for five days. Day 1: the night my agent spent $12,400. Day 2: the six rules that stop it. Day 3: wiring it into your agent. Day 4: the eval suite. Day 5: the deployment checklist. No sales pressure — if the playbook isn't useful, unsubscribe anytime.</p>
+    <p style="color:var(--mut);font-size:16px;line-height:1.6;margin:0 0 20px">One email a day for five days. Day 1: how retry loops create runaway spend. Day 2: the six rules that stop it. Day 3: wiring the decision into your agent. Day 4: the eval suite. Day 5: the deployment checklist. No sales pressure - unsubscribe anytime.</p>
     <form class="form" style="max-width:460px;margin:0 auto" onsubmit="return sub(event)">
       <div style="display:flex;gap:8px">
         <label for="pb-em" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Email address</label><input type="email" id="pb-em" placeholder="you@company.com" required style="flex:1">
@@ -756,32 +665,20 @@ if(run)run.addEventListener('click',function(){run.disabled=true;run.textContent
     s = s.replace("{CSS}", CSS)
     s = s.replace("{POSTHOG}", POSTHOG_SNIPPET)
     s = s.replace("{GA4_SNIPPET}", GA4_SNIPPET)
+    s = s.replace(
+        '  </div>\n</div></footer>\n<script>',
+        '  </div>\n' + PORTFOLIO_CROSS_PROMO_HTML + '\n</div></footer>\n<script>',
+        1,
+    )
 
-    # Expert Secrets persuasion spine — feature flags
-    # Set any flag to False to disable the corresponding section at runtime.
-    BRUNSON_ORIGIN_STORY  = True   # Ch 1/4/5/6 — founder Epiphany Bridge
-    BRUNSON_FALSE_BELIEFS = True   # Ch 6/7     — Vehicle/Internal/External beliefs
-    BRUNSON_CAUSE         = True   # Ch 2       — movement / identity manifesto
-    BRUNSON_VALUE_STACK   = True   # Ch 14/16   — Stack & Close anchor
-
-    if not BRUNSON_ORIGIN_STORY:
-        a = s.find('<!-- \u2550\u2550\u2550 EXPERT SECRETS: Origin Story')
-        b = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
-        if a >= 0 and b > a: s = s[:a] + s[b:]
-    if not BRUNSON_FALSE_BELIEFS:
-        a = s.find('<!-- \u2550\u2550\u2550 The 3 False Beliefs')
-        b = s.find('<!-- \u2550\u2550\u2550 The Cause / Movement')
-        if a >= 0 and b > a: s = s[:a] + s[b:]
-    if not BRUNSON_CAUSE:
-        a = s.find('<!-- \u2550\u2550\u2550 The Cause / Movement')
-        b = s.find('<section><div class="wrap">\n  <h2 class="center">Hope is not')
-        if a >= 0 and b > a: s = s[:a] + s[b:]
+    # Optional pricing value stack.
+    BRUNSON_VALUE_STACK = True
     if not BRUNSON_VALUE_STACK:
         a = s.find('<!-- VALUE STACK')
         b = s.find('<div class="price mt24">', a)
         if a >= 0 and b > a: s = s[:a] + s[b:]
         s = s.replace('<div class="strike">Hiring a human to babysit spend: $4,500/mo</div>', '')
-    PORTFOLIO_NETWORK = False
+    PORTFOLIO_NETWORK = True
     if not PORTFOLIO_NETWORK:
         a = s.find('<!-- CROSS-PORTFOLIO NETWORK FOOTER')
         b = s.rfind('</body></html>')
@@ -832,6 +729,7 @@ def doc_page_html(title: str, canonical_path: str, description: str, body_html: 
     <a href="/.well-known/mcp.json">MCP manifest</a> ·
     <a href="/agents.md">Agent guide</a>
   </div>
+  {PORTFOLIO_CROSS_PROMO_HTML}
 </div></footer>
 </body></html>"""
 
@@ -1000,15 +898,17 @@ CALENDAR_BODY = """<h1>Content Calendar — sipi.bot Publishing Schedule</h1>
 """
 
 PRIVACY_BODY = """<h1>Privacy Policy</h1>
-<p class="lead">Last updated: 2026. sipi.bot collects the minimum data needed to evaluate transactions and operate the service.</p>
+<p class="lead">Last updated: 2026-08-24. sipi.bot collects the minimum data needed to evaluate transactions, review pilot applications, and operate the service.</p>
 <h2>What we process</h2>
 <p>When your agent submits a transaction for evaluation, we process the transaction metadata you send (amount, merchant, category, timestamps) to apply your rules and write an audit record. We do not store card numbers or payment credentials — sipi.bot is a decision layer, not a payment processor.</p>
 <h2>Account data</h2>
 <p>If you subscribe, we store your email and billing status (via Stripe). Stripe processes payment details under its own privacy policy; we never see full card data.</p>
+<h2>Pilot applications</h2>
+<p>If you apply for the paid implementation pilot, we store the company, work email, website, stack, spend range, and risk description you submit. Do not send credentials, API keys, bills, customer data, or payment details. We use Resend to deliver an internal application notification to the Sipiteno sales inbox.</p>
 <h2>Analytics</h2>
 __ANALYTICS_DISCLOSURE__
 <h2>Data retention & deletion</h2>
-<p>Audit logs are retained for your account's configured window. To request export or deletion of your data, contact us via <a href="https://github.com/kindrat86/sipi-bot">GitHub</a>.</p>
+<p>Audit logs are retained for your account's configured window. Pilot applications are retained while we evaluate or discuss the engagement and then for normal business recordkeeping. To request export or deletion of your data, email <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a>.</p>
 <h2>Self-hosting</h2>
 <p>If you self-host the open-source core, your transaction data never leaves your infrastructure and this policy does not apply to that deployment.</p>"""
 
@@ -1298,6 +1198,87 @@ setInterval(()=>{{if(workspaceKey())refresh();}},15000);
 </script></body></html>"""
 
 
+def pilot_html() -> str:
+    """Single paid implementation offer for teams that need hands-on setup."""
+    pilot_nav = (
+        '    <a href="/">Home</a>\n'
+        '    <a href="/pricing">Software pricing</a>\n'
+        '    <a href="/eval-report/">Public evals</a>\n'
+        '    <a href="#apply" class="btn">Apply for the pilot</a>'
+    )
+    return f"""<!doctype html><html lang="en"><head><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Agent Spend Control Implementation Pilot | sipi.bot</title>
+<meta name="description" content="A paid, fixed-scope sipi.bot implementation pilot: map one agent spending path, write enforceable rules, integrate the pre-spend decision, and validate it before launch.">
+<link rel="canonical" href="https://sipi.bot/pilot">
+<meta property="og:title" content="AI Agent Spend Control Implementation Pilot | sipi.bot">
+<meta property="og:description" content="Put enforceable spend controls into one real agent workflow with a fixed scope and acceptance tests.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/pilot"><meta property="og:image" content="https://sipi.bot/og.png"><meta name="theme-color" content="#00d4aa">
+<style>{CSS}
+.pilot-form{{max-width:720px;margin:30px auto 0;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px}}
+.pilot-form label{{display:block;font-weight:700;margin:16px 0 7px}}
+.pilot-form input,.pilot-form select,.pilot-form textarea{{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:13px 15px;border-radius:10px;font:inherit}}
+.pilot-form textarea{{min-height:130px;resize:vertical}}
+.pilot-form .check{{display:flex;gap:10px;align-items:flex-start;color:var(--mut);font-weight:400}}
+.pilot-form .check input{{width:auto;margin-top:5px}}
+.pilot-form .fine{{color:var(--mut);font-size:13px;margin-top:12px}}
+.pilot-form .hp{{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}}
+</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
+{NAV_HTML(pilot_nav, brand_link=True)}
+<header class="hero"><div class="wrap">
+  <span class="tag">Paid implementation pilot</span>
+  <h1>Put spend controls into<br><span style="color:var(--accent)">one real agent workflow.</span></h1>
+  <p class="sub">We map where one production agent can trigger paid API calls, cloud jobs, purchases, or retries. Then we write the policy, wire the pre-spend decision into that path, and validate the behavior before launch.</p>
+  <div class="hero-actions"><a href="#apply" class="btn">Apply for the paid pilot</a><a href="/eval-report/" class="btn ghost">Inspect 53/53 public evals</a></div>
+  <div class="hero-proof"><span>Fixed scope</span><span aria-hidden="true">&#183;</span><span>One workflow</span><span aria-hidden="true">&#183;</span><span>Acceptance-tested handoff</span></div>
+  <p style="max-width:720px;margin:20px auto 0;color:var(--mut);font-size:14px"><strong style="color:var(--txt)">AgentShield has been consolidated into sipi.bot.</strong> The old separate plans and funnel are retired. This is the single implementation path.</p>
+</div></header>
+
+<section><div class="wrap">
+  <h2 class="center">What the pilot delivers</h2>
+  <p class="lead center">The pilot is implementation work, not another dashboard subscription or a generic security audit.</p>
+  <div class="grid2" style="max-width:900px;margin:0 auto">
+    <div class="card"><h3>1. Spend-path map</h3><p style="color:var(--mut)">One documented workflow showing every paid tool, provider, retry path, approval point, and failure mode in scope.</p></div>
+    <div class="card"><h3>2. Enforceable policy</h3><p style="color:var(--mut)">Per-transaction caps, velocity limits, merchant and category rules, approval thresholds, and a clear default-deny decision where needed.</p></div>
+    <div class="card"><h3>3. Working integration</h3><p style="color:var(--mut)">The agent calls sipi.bot before the in-scope spend. Approved, blocked, and flagged outcomes are handled explicitly by the calling workflow.</p></div>
+    <div class="card"><h3>4. Verification and handoff</h3><p style="color:var(--mut)">Acceptance scenarios, an audit-log review, an operator runbook, and a recorded handoff for the team that owns the workflow.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="grid2" style="max-width:900px;margin:0 auto">
+    <div class="card"><h2 style="font-size:24px">Good fit</h2><ul class="tl"><li>Your agent can trigger paid APIs, cloud work, purchases, or credits.</li><li>You can provide a sandbox or test account for the in-scope path.</li><li>One technical owner can approve rules and run acceptance tests.</li></ul></div>
+    <div class="card"><h2 style="font-size:24px">Not this pilot</h2><ul class="tl"><li>A free architecture review or speculative proof of concept.</li><li>Unlimited integrations across an entire agent fleet.</li><li>A promise to recover losses from tools that bypass the decision.</li></ul></div>
+  </div>
+  <div style="max-width:900px;margin:22px auto 0;padding:20px 22px;border:1px solid rgba(0,212,170,.3);border-radius:14px;background:rgba(0,212,170,.05)">
+    <strong>This is not a free beta.</strong> It is a paid, fixed-scope engagement. Scope, fee, access requirements, and acceptance criteria are confirmed in writing before kickoff. Do not submit API keys, bills, credentials, or customer data in this form.
+  </div>
+</div></section>
+
+<section id="apply"><div class="wrap">
+  <h2 class="center">Apply for the pilot</h2>
+  <p class="lead center">Tell us about one workflow. No payment is taken on this page.</p>
+  <form class="pilot-form" action="/api/pilot-applications" method="post" id="pilot-form">
+    <div class="hp" aria-hidden="true"><label>Leave this blank<input name="fax" tabindex="-1" autocomplete="off"></label></div>
+    <div class="grid2">
+      <div><label for="pilot-company">Company</label><input id="pilot-company" name="company" maxlength="120" required autocomplete="organization"></div>
+      <div><label for="pilot-email">Work email</label><input id="pilot-email" name="email" type="email" maxlength="254" required autocomplete="email"></div>
+    </div>
+    <label for="pilot-website">Company website (optional)</label><input id="pilot-website" name="website" type="url" maxlength="240" placeholder="https://example.com" autocomplete="url">
+    <label for="pilot-stack">Agent stack and the paid action in scope</label><input id="pilot-stack" name="agent_stack" maxlength="500" required placeholder="Example: CrewAI agent provisions GPU jobs through our internal API">
+    <label for="pilot-spend">Current monthly AI, API, or cloud spend</label>
+    <select id="pilot-spend" name="monthly_spend_band" required><option value="">Choose a range</option><option value="under_2k">Under $2,000</option><option value="2k_10k">$2,000-$10,000</option><option value="10k_50k">$10,000-$50,000</option><option value="50k_plus">$50,000+</option><option value="unknown">Not measured yet</option></select>
+    <label for="pilot-risk">What spend failure are you trying to prevent?</label><textarea id="pilot-risk" name="primary_risk" minlength="10" maxlength="1500" required placeholder="Describe the retry loop, approval gap, merchant risk, or budget problem in one workflow."></textarea>
+    <label class="check"><input type="checkbox" name="consent" required><span>I agree that Sipiteno Ltd may use this information to review and respond to this pilot application.</span></label>
+    <button class="btn" type="submit" style="width:100%;margin-top:18px">Send my pilot application</button>
+    <p id="pilot-status" aria-live="polite" class="fine">Applications are reviewed for fit. Sending this form creates no contract or payment obligation.</p>
+  </form>
+</div></section>
+<footer><div class="wrap">sipi<span style="color:var(--accent)">.bot</span> - the spend firewall for autonomous AI agents.<br><a href="/privacy">Privacy</a> &#183; <a href="/terms">Terms</a> &#183; <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a></div></footer>
+<script>(function(){{var form=document.getElementById('pilot-form'),status=document.getElementById('pilot-status');if(!form)return;form.addEventListener('submit',function(e){{e.preventDefault();var button=form.querySelector('button[type=submit]');button.disabled=true;button.textContent='Sending...';var data=Object.fromEntries(new FormData(form).entries());data.consent=data.consent==='on';fetch(form.action,{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify(data)}}).then(function(r){{return r.json().then(function(d){{return{{ok:r.ok,data:d}}}})}}).then(function(x){{if(!x.ok)throw new Error(x.data.message||'Application could not be saved.');status.textContent=x.data.message;form.reset();window.sipiTrack&&window.sipiTrack('pilot_application_submitted',{{source:new URLSearchParams(location.search).get('source')||'direct'}});}}).catch(function(err){{status.textContent=err.message;}}).finally(function(){{button.disabled=false;button.textContent='Send my pilot application';}});}});}})();</script>
+</body></html>"""
+
+
 def pricing_html() -> str:
     return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -1312,13 +1293,18 @@ def pricing_html() -> str:
 <meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/pricing"><meta property="og:image" content="https://sipi.bot/og.png"><meta name="theme-color" content="#00d4aa">
 <style>{CSS}</style>{POSTHOG_SNIPPET}{GA4_SNIPPET}</head><body>
 <nav><div class="wrap"><div class="brand">sipi<span class="dot">.bot</span></div>
-<div class="nav-links"><a href="/">Home</a><a href="/dashboard" class="btn">Dashboard</a></div></div></nav>
+<div class="nav-links"><a href="/">Home</a><a href="/pilot">Implementation pilot</a><a href="/dashboard" class="btn">Dashboard</a></div></div></nav>
 <section class="hero" style="padding-top:70px">
   <div class="wrap">
   <span class="tag">Your agent's spending department</span>
   <h1 style="font-size:clamp(28px,5vw,44px)">Flat price. No metered surprises.</h1>
   <p class="sub">Hosted Team gives every agent one deterministic control point,
   unlimited evaluations, and an API key immediately after checkout.</p>
+  <div style="max-width:720px;margin:18px auto 28px;padding:20px 22px;border:1px solid rgba(0,212,170,.3);border-radius:14px;background:rgba(0,212,170,.05)">
+    <strong>Want us to implement the spend controls?</strong>
+    The paid pilot maps one agent workflow, writes the policy, wires the pre-spend decision, and validates the handoff.
+    <div style="margin-top:14px"><a href="/pilot" class="btn">Apply for the implementation pilot</a></div>
+  </div>
   <!-- Team is the primary hosted offer. Free tools remain a clear secondary path. -->
   <div style="max-width:440px;margin:18px auto 0;text-align:center">
     <div class="price" style="margin:0 auto">
@@ -1510,7 +1496,7 @@ def masterclass_html() -> str:
     <div class="badge b-amber" style="margin-bottom:10px">SECRET #2 — The Story</div>
     <h2>The 3 False Walls Every Builder Hits</h2>
     <p style="font-size:17px;line-height:1.7;color:var(--txt);margin-bottom:24px">
-      Here's what happened when I shipped my first agent without a firewall. Here's what happens to every builder who deploys an autonomous spender. The walls aren't real — but they feel real until you see them for what they are.
+      Here is a representative failure path for an agent deployed without a firewall. The examples below are illustrative, not a claim about a customer or founder loss.
     </p>
 
     <div style="display:flex;flex-direction:column;gap:18px">
@@ -1895,114 +1881,63 @@ The badge pulls live stats from the sipi.bot firewall engine. Every number is re
 </body></html>"""
     return s
 
-BLOG_CASE_STUDY_BODY = """<h1>How my own AI agent spent $12,400 while I slept — and the firewall I built to stop it</h1>
-<p class="author" style="color:#8a8d96;font-size:14px">By Maryan · July 2026</p>
+BLOG_CASE_STUDY_BODY = """<h1>How retry loops turn agent actions into runaway spend</h1>
+<p class="author" style="color:#8a8d96;font-size:14px">By Maryan · Updated August 2026</p>
 
 <hr style="border:none;border-top:1px solid var(--line);margin:30px 0">
 
-<p>I deployed my first autonomous purchasing agent on a Tuesday. It was beautiful — four lines of orchestration, an x402 payment rail, and a prompt that said "buy GPU compute when under 70% utilization." I went to sleep feeling like I'd shipped the future.</p>
+<p><strong>This is an illustrative failure scenario, not a claim about a founder or customer loss.</strong> An autonomous agent calls a paid API, receives a retryable error, and repeats the action faster than a human can notice. Each call is valid in isolation. Together they can exhaust a budget.</p>
 
-<p>I woke up to Stripe notifications.</p>
+<p>Provider rate limits cap request volume. Budget alerts report spend after it happens. Neither answers the policy question that matters before the next paid action: should this agent be allowed to proceed?</p>
 
-<p>The agent had hit a rate-limit at 2:14 AM and retried 40 times. It bought compute from a vendor I'd never heard of — <code>unknown-gpu.ru</code>. It tipped an API into overage. Total damage: <strong>$12,400</strong>. In seven hours. While I was sleeping.</p>
+<h2>The missing control point</h2>
+<p>sipi.bot sits before the paid action. The agent sends the amount, merchant, category, and context to a deterministic policy engine. The result is <code>APPROVED</code>, <code>BLOCKED</code>, or <code>FLAGGED</code>. The calling workflow must honor that result.</p>
 
-<p>The agent didn't do anything wrong. It followed the prompt. It bought compute when utilization dipped. It retried on failure — exactly what we train agents to do. The problem wasn't the agent. The problem was that <strong>nobody was checking</strong>. The payment rails move money. They don't ask if the merchant is sketchy, if the amount is suspicious, or if forty retries in three minutes is a bug or a feature. There was no firewall.</p>
-
-<hr style="border:none;border-top:1px solid var(--line);margin:30px 0">
-
-<h2>The search for a pre-spend guardrail</h2>
-
-<p>I spent the next week reading every provider's spend-control docs.</p>
-
-<p><strong>OpenAI</strong> has usage limits — per-provider, and they're reactive. You find out after the bill arrives. <strong>Anthropic</strong> has rate limits — per-model, not per-use-case. <strong>Stripe</strong> has Radar — for fraud detection on card payments, not for agent spend policy. <strong>Cloud providers</strong> have budget alerts — email notifications after you've already spent the money.</p>
-
-<p>Every solution was partial and reactive. Nobody was building the thing that says "no" <em>before</em> the money moves.</p>
-
-<p>The gap is structural: the agent-economy payment rails — x402, AP2, AgentKit, MCP tool calls — are letting agents spend autonomously, but <strong>not one of them screens transactions before they settle</strong>. A prompt is not a policy. A retry loop is not a feature.</p>
-
-<hr style="border:none;border-top:1px solid var(--line);margin:30px 0">
-
-<h2>Building the missing layer</h2>
-
-<p>So I stopped looking. I built sipi.bot: a spend firewall that sits in front of every transaction an autonomous agent attempts, evaluates it against your rules, and returns <code>APPROVED</code>, <code>BLOCKED</code>, or <code>FLAGGED</code> — with a deterministic rules check. Not a dashboard. Not a report. A decision. <strong>Before the money moves.</strong></p>
-
-<h3>Design principles</h3>
-
-<p><strong>Deterministic, not probabilistic.</strong> The rules engine is pure logic — no ML, no "risk scores." If a rule says block at $500, every $501 transaction is blocked, every time, with a reason you can audit.</p>
-
-<p><strong>HTTP-first, MCP-native.</strong> Any agent that speaks HTTP can call it. Agents using Claude Code, Cursor, or Hermes can use the MCP tool directly. One <code>curl</code> call before every spend.</p>
-
-<p><strong>Open source, MIT.</strong> The exact code running the hosted service is public on GitHub. You can read every rule-evaluation path and self-host the same engine — free, forever.</p>
-
-<h3>The six rule types</h3>
-
+<h2>The six controls in the open-source core</h2>
 <ol>
-<li><strong>Per-transaction caps</strong> — "max $500 per purchase"</li>
-<li><strong>Daily totals</strong> — "max $2,000 per day, across all agents"</li>
-<li><strong>Velocity limits</strong> — "max 5 transactions per minute" (runaway-loop protection)</li>
-<li><strong>Merchant allow/block lists</strong> — "never buy from <code>*.ru</code> domains"</li>
-<li><strong>Category limits</strong> — "max $50/month on API credits from unknown vendors"</li>
-<li><strong>Time-window constraints</strong> — "no purchases between 11 PM and 7 AM"</li>
+<li><strong>Per-transaction caps</strong> for a hard ceiling on one action</li>
+<li><strong>Daily totals</strong> across repeated actions</li>
+<li><strong>Velocity limits</strong> for retry-loop protection</li>
+<li><strong>Merchant allow and block lists</strong></li>
+<li><strong>Category limits</strong> for compute, data, ads, or other spend</li>
+<li><strong>Time-window constraints</strong> for unattended activity</li>
 </ol>
 
-<p>Every rule is checked in priority order. The first <code>BLOCK</code> stops the transaction instantly. <code>FLAGGED</code> transactions enter a human-in-the-loop queue — not auto-approved, not silently blocked. Every decision is written to a queryable audit log with the rule, reason, amount, agent identity, and timestamp.</p>
+<p>Every evaluation records the decision, rule, reason, amount, merchant, agent identity, and timestamp in the audit trail. The core is MIT licensed and its public eval suite is available at <a href="/eval-report/">sipi.bot/eval-report/</a>.</p>
 
-<hr style="border:none;border-top:1px solid var(--line);margin:30px 0">
-
-<h2>The shape of the problem today</h2>
-
-<p>We're still in the early days of autonomous agents. But the trajectory is clear:</p>
-
-<ul>
-<li>Every week, more agents get deployed with real spending power</li>
-<li>The payment rails — x402, AP2, AgentKit — are optimized for speed, not safety</li>
-<li>A single runaway agent can cost five figures in a night</li>
-<li><strong>Runaway retry loops are a concrete failure mode</strong> — test velocity and daily-total rules before giving an agent live payment access.</li>
-</ul>
-
-<p>The gap — between an agent's ability to spend and your ability to control it — is exactly where sipi.bot lives.</p>
-
-<hr style="border:none;border-top:1px solid var(--line);margin:30px 0">
-
-<h2>What's next</h2>
-
-<p>sipi.bot is live today. The open-source core is MIT-licensed at <a href="https://github.com/kindrat86/sipi-bot">github.com/kindrat86/sipi-bot</a> — free to self-host. The hosted version ($99/mo Team, $499/mo Business) adds the dashboard, managed approval queue, and persistent audit log.</p>
-
-<p>We're actively building: webhook/Slack alerts, compliance reporting, managed spend policies, and deeper framework integrations. The rule engine is extensible — if you need a rule type that doesn't exist, you can add it.</p>
-
-<p><strong>Try it:</strong> <code>pip install sipi-bot && sipi-guard</code>, or drop the MCP config into your agent and call <code>POST /v1/transactions/evaluate</code>.</p>
-
-<p><em>Built by Maryan in Kifisia, Greece. Previously: sanctions compliance tools for AI payments (sanctionsai.dev), churn analytics (churnlens.site).</em></p>
+<h2>From software to one working implementation</h2>
+<p>The software is only useful when the paid workflow calls it before execution and handles all three outcomes correctly. The paid implementation pilot maps one workflow, writes its policy, wires the decision into the path, and validates the handoff with acceptance scenarios.</p>
+<p><a class="btn" href="/pilot">Apply for the paid implementation pilot</a></p>
 """
 
 
 def blog_page_html() -> str:
-    """Single-founder origin-story blog post: how sipi.bot was born from a $12,400 runaway-agent incident."""
+    """Technical article about retry-loop spend risk and pre-spend controls."""
     return f"""<!doctype html><html lang="en"><head><script>if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){{try{{window.trustedTypes.createPolicy("default",{{createHTML:function(s){{return s}},createScript:function(s){{return s}},createScriptURL:function(s){{return s}}}})}}catch(e){{}}}}</script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot RSS" href="https://sipi.bot/feed.xml">
 <link rel="alternate" type="application/json" title="sipi.bot JSON Feed" href="https://sipi.bot/feed.json">
 <link rel="search" type="application/opensearchdescription+xml" title="sipi.bot" href="https://sipi.bot/opensearch.xml">
-<title>How my own AI agent spent $12,400 while I slept — sipi.bot</title>
-<meta name="description" content="The origin story of sipi.bot: a runaway AI agent spent $12,400 in 7 hours. Here's how the spend firewall was built to stop it from happening again.">
+<title>How Retry Loops Create Runaway Agent Spend | sipi.bot</title>
+<meta name="description" content="An illustrative agent retry-loop scenario, the limits of reactive alerts, and the six pre-spend controls in the open-source sipi.bot engine.">
 <link rel="canonical" href="https://sipi.bot/blog/">
 <link rel="alternate" hreflang="en" href="https://sipi.bot/blog/">
 <link rel="alternate" hreflang="en-US" href="https://sipi.bot/blog/">
 <link rel="alternate" hreflang="x-default" href="https://sipi.bot/blog/">
 <link rel="author" href="https://sipi.bot/about/">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="How my own AI agent spent $12,400 while I slept — sipi.bot">
-<meta property="og:description" content="The origin story of sipi.bot: a runaway AI agent spent $12,400 in 7 hours. Here's how the spend firewall was built to stop it from happening again.">
+<meta property="og:title" content="How Retry Loops Create Runaway Agent Spend | sipi.bot">
+<meta property="og:description" content="An illustrative retry-loop scenario and the pre-spend controls that stop repeated paid actions.">
 <meta property="og:type" content="article"><meta property="og:url" content="https://sipi.bot/blog/">
 <meta property="og:image" content="https://sipi.bot/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="sipi.bot — The pre-spend firewall for autonomous AI agents"><meta property="og:site_name" content="sipi.bot">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="How my own AI agent spent $12,400 while I slept — sipi.bot">
-<meta name="twitter:description" content="The origin story of sipi.bot: a runaway AI agent spent $12,400 in 7 hours. Here's how the spend firewall was built to stop it from happening again.">
+<meta name="twitter:title" content="How Retry Loops Create Runaway Agent Spend | sipi.bot">
+<meta name="twitter:description" content="An illustrative retry-loop scenario and the pre-spend controls that stop repeated paid actions.">
 <meta name="twitter:image" content="https://sipi.bot/og.png">
 <meta name="article:published_time" content="2026-07-21T00:00:00+00:00">
 <meta name="article:author" content="Maryan">
 <meta name="theme-color" content="#00d4aa">
-<script type="application/ld+json">{{"@context":"https://schema.org","@type":"Article","@id":"https://sipi.bot/blog/#article","headline":"How my own AI agent spent $12,400 while I slept — and the firewall I built to stop it","url":"https://sipi.bot/blog/","description":"The origin story of sipi.bot: a runaway AI agent spent $12,400 in 7 hours. Here's how the spend firewall was built to stop it from happening again.","datePublished":"2026-07-21T00:00:00+00:00","dateModified":"2026-07-21T00:00:00+00:00","author":{{"@type":"Person","name":"Maryan","url":"https://sipi.bot/about/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}},"image":"https://sipi.bot/og.png","mainEntityOfPage":"https://sipi.bot/blog/"}}</script>
+<script type="application/ld+json">{{"@context":"https://***@type":"Article","@id":"https://sipi.bot/blog/#article","headline":"How Retry Loops Create Runaway Agent Spend","url":"https://sipi.bot/blog/","description":"An illustrative retry-loop scenario and the six pre-spend controls in the open-source sipi.bot engine.","datePublished":"2026-07-21T00:00:00+00:00","dateModified":"2026-08-24T00:00:00+00:00","author":{{"@type":"Person","name":"Maryan","url":"https://sipi.bot/about/"}},"publisher":{{"@type":"Organization","name":"sipi.bot","url":"https://sipi.bot/"}},"image":"https://sipi.bot/og.png","mainEntityOfPage":"https://sipi.bot/blog/"}}</script>
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"https://sipi.bot/"}},{{"@type":"ListItem","position":2,"name":"Blog","item":"https://sipi.bot/blog/"}}]}}</script>
 <style>{CSS}</style>{{POSTHOG_SNIPPET}}{{GA4_SNIPPET}}<!-- /ux.css + /ux.js removed 2026-07-26. They loaded AFTER this page's own <style>{CSS}</style>, and ux.css is light by default (--ux-text:#0f172a, --ux-surface:#fff, dark only inside a prefers-color-scheme query). So for every light-mode visitor body text became #0f172a while .card kept this page's own --panel #121316 — measured 1.04:1, i.e. the "Who uses a spend firewall" cards were invisible in production. This page uses no .ux-* class, no var(--ux-*) and no ux.js hook, so the pair contributed nothing but the bug (and two render-blocking requests). --></head><body>
 <nav><div class="wrap">

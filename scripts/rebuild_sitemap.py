@@ -162,8 +162,15 @@ def build_sitemap():
     urls.setdefault(SITE_BASE + "/", None)
     urls.setdefault(SITE_BASE + "/blog/", None)
     # Flat dynamic pages served by api.py (2026-08-08: were missing from sitemap)
-    for flat in ["/about", "/pricing", "/security", "/terms", "/privacy"]:
+    for flat in ["/about", "/pilot", "/pricing", "/security", "/terms", "/privacy"]:
         urls.setdefault(SITE_BASE + flat, None)
+
+    # Retired because its personal founder-loss narrative was unverified.
+    for retired in (
+        "/blog/12400-story-eval-gym",
+        "/blog/12400-story-eval-gym/",
+    ):
+        urls.pop(SITE_BASE + retired, None)
 
     urls_sorted = sorted(urls.keys())
     parts = ['<?xml version="1.0" encoding="UTF-8"?>',

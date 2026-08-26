@@ -73,13 +73,7 @@ POSTS = [
         "date": "2026-03-10",
         "tags": ["velocity","runaway-loop","architecture"],
     },
-    {
-        "slug": "12400-story-eval-gym",
-        "title": "From $12,400 to 53/53: how we built sipi.bot's eval gym",
-        "description": "The founding story behind sipi.bot — why a $12,400 sleepless night led to an open-source spend firewall, and how we built the 53-scenario evaluation harness that tests it.",
-        "date": "2026-02-04",
-        "tags": ["founding-story","eval","open-source"],
-    },
+
     {
         "slug": "mcp-native-spend-controls",
         "title": "MCP-native spend controls: why agent tools need a payment firewall",

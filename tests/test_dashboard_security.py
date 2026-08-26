@@ -10,6 +10,11 @@ from unittest import mock
 from spendfirewall import api, billing, store, templates
 
 
+class _NoRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
 class DashboardSecurityTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -239,6 +244,32 @@ class DashboardSecurityTests(unittest.TestCase):
         self.assertNotIn("EventSource", html)
         self.assertNotIn('id="p-agents"', html)
 
+    def test_public_dashboard_is_non_cacheable_but_indexable(self):
+        with urllib.request.urlopen(self.base + "/dashboard", timeout=5) as response:
+            html = response.read().decode()
+            self.assertEqual(response.status, 200)
+            self.assertEqual(response.headers.get("Cache-Control"), "no-store, private")
+            self.assertIsNone(response.headers.get("X-Robots-Tag"))
+        self.assertIn('<meta name="robots" content="index, follow">', html)
+
+    def test_paid_pilot_page_is_public_and_indexable(self):
+        with urllib.request.urlopen(self.base + "/pilot", timeout=5) as response:
+            html = response.read().decode()
+            self.assertEqual(response.status, 200)
+            self.assertIsNone(response.headers.get("X-Robots-Tag"))
+        self.assertIn("Paid implementation pilot", html)
+        self.assertIn('rel="canonical" href="https://sipi.bot/pilot"', html)
+
+    def test_retired_unverified_founder_story_redirects_to_technical_article(self):
+        opener = urllib.request.build_opener(_NoRedirectHandler())
+        with self.assertRaises(urllib.error.HTTPError) as error:
+            opener.open(self.base + "/blog/12400-story-eval-gym/", timeout=5)
+        self.assertEqual(error.exception.code, 301)
+        self.assertEqual(
+            error.exception.headers["Location"], "/blog/runaway-loops-anatomy/"
+        )
+        error.exception.close()
+
     def test_subscribe_normalizes_deduplicates_and_unsubscribes(self):
         subscribers = os.path.join(self.tmp.name, "subscribers.txt")
         with mock.patch.object(api, "_SUBSCRIBERS_FILE", subscribers), \
@@ -272,6 +303,80 @@ class DashboardSecurityTests(unittest.TestCase):
             self.assertTrue(removed["removed"])
             with open(subscribers, encoding="utf-8") as handle:
                 self.assertEqual(handle.read(), "")
+
+    def test_pilot_application_is_validated_and_persisted(self):
+        applications = os.path.join(self.tmp.name, "pilot-applications.jsonl")
+        payload = {
+            "company": "  Example Labs  ",
+            "email": "  Buyer@Example.COM ",
+            "website": "https://example.com",
+            "agent_stack": "CrewAI provisions GPU jobs",
+            "monthly_spend_band": "2k_10k",
+            "primary_risk": "Retry loops can create duplicate GPU jobs overnight.",
+            "consent": True,
+            "fax": "",
+        }
+        with mock.patch.object(api, "_PILOT_APPLICATIONS_FILE", applications):
+            status, result = self.request(
+                "/api/pilot-applications", method="POST", body=payload
+            )
+
+        self.assertEqual(status, 201)
+        self.assertTrue(result["ok"])
+        with open(applications, encoding="utf-8") as handle:
+            record = json.loads(handle.read())
+        self.assertEqual(record["company"], "Example Labs")
+        self.assertEqual(record["email"], "buyer@example.com")
+        self.assertEqual(record["monthly_spend_band"], "2k_10k")
+        self.assertNotIn("fax", record)
+        self.assertIn("submitted_at", record)
+
+    def test_pilot_application_triggers_internal_notification(self):
+        applications = os.path.join(self.tmp.name, "pilot-notify.jsonl")
+        payload = {
+            "company": "Example Labs",
+            "email": "buyer@example.com",
+            "website": "",
+            "agent_stack": "LangGraph calls paid research APIs",
+            "monthly_spend_band": "10k_50k",
+            "primary_risk": "A retry storm can exhaust the monthly API budget.",
+            "consent": True,
+            "fax": "",
+        }
+        with mock.patch.object(api, "_PILOT_APPLICATIONS_FILE", applications), \
+                mock.patch.object(api, "_notify_pilot_application", create=True) as notify:
+            self.request("/api/pilot-applications", method="POST", body=payload)
+
+        notify.assert_called_once()
+        self.assertEqual(notify.call_args.args[0]["email"], "buyer@example.com")
+
+    def test_pilot_notification_uses_resend_with_plain_text_and_reply_to(self):
+        application = {
+            "company": "Example Labs",
+            "email": "buyer@example.com",
+            "website": "https://example.com",
+            "agent_stack": "LangGraph calls paid research APIs",
+            "monthly_spend_band": "10k_50k",
+            "primary_risk": "Retry storms can exhaust the monthly API budget.",
+            "submitted_at": "2026-08-24T12:00:00+00:00",
+        }
+        env = {
+            "RESEND_API_KEY": "re_test",
+            "EMAIL_FROM": "sipi.bot <noreply@mail.sipi.bot>",
+            "PILOT_NOTIFY_TO": "sales@sipiteno.com",
+        }
+        with mock.patch.dict(os.environ, env, clear=False), \
+                mock.patch.object(urllib.request, "urlopen") as urlopen:
+            sent = api._notify_pilot_application(application)
+
+        self.assertTrue(sent)
+        request = urlopen.call_args.args[0]
+        self.assertEqual(request.full_url, "https://api.resend.com/emails")
+        payload = json.loads(request.data)
+        self.assertEqual(payload["to"], ["sales@sipiteno.com"])
+        self.assertEqual(payload["reply_to"], "buyer@example.com")
+        self.assertNotIn("html", payload)
+        self.assertIn("Example Labs", payload["text"])
 
 
 if __name__ == "__main__":

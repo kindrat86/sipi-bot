@@ -30,6 +30,8 @@ Then open http://localhost:8080 (landing), http://localhost:8080/dashboard (cont
 
 **Hosted:** [sipi.bot](https://sipi.bot) · [dashboard](https://sipi.bot/dashboard) · [get an API key →](https://sipi.bot/pricing)
 
+**Need implementation, not another tool?** Apply for the single paid, fixed-scope [sipi.bot implementation pilot](https://sipi.bot/pilot). AgentShield's separate hosted offer and funnel have been consolidated into this product and implementation path.
+
 ## The core call an agent makes before spending
 
 ```bash

@@ -8,6 +8,7 @@ primary_region = "iad"
   SPENDFIREWALL_DB = "/data/spendfirewall.db"
   BILLING_DB = "/data/billing.db"
   SUBS_FILE = "/data/subscribers.txt"
+  PILOT_APPLICATIONS_FILE = "/data/pilot-applications.jsonl"
   EVAL_REPORT = "/app/eval_report.json"
 
 [[mounts]]
