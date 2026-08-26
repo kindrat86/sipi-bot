@@ -1,0 +1,140 @@
+<!doctype html><html lang="en"><head><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent Reliability Sprint | sipi.bot</title><meta name="description" content="Map one recurring workflow, define its approval gates and failure modes, then implement and acceptance-test the smallest production operator that can produce a measurable result.">
+<link rel="alternate" hreflang="en" href="https://sipi.bot/agent-reliability-sprint">
+<link rel="alternate" hreflang="en-US" href="https://sipi.bot/agent-reliability-sprint">
+<link rel="alternate" hreflang="x-default" href="https://sipi.bot/agent-reliability-sprint">
+<link rel="canonical" href="https://sipi.bot/agent-reliability-sprint">
+<meta property="og:image" content="https://sipi.bot/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="sipi.bot — The pre-spend firewall for autonomous AI agents"><meta property="og:site_name" content="sipi.bot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Agent Reliability Sprint | sipi.bot">
+<meta name="twitter:description" content="Map one recurring workflow, define its approval gates and failure modes, then implement and acceptance-test the smallest production operator that can produce a measurable result.">
+<meta name="twitter:image" content="https://sipi.bot/og.png">
+<meta property="og:title" content="Agent Reliability Sprint | sipi.bot"><meta property="og:description" content="Map one recurring workflow, define its approval gates and failure modes, then implement and acceptance-test the smallest production operator that can produce a measurable result."><meta property="og:type" content="website"><meta property="og:url" content="https://sipi.bot/agent-reliability-sprint"><meta name="theme-color" content="#00d4aa">
+<style>
+:root{--bg:#0a0a0a;--panel:#121316;--panel2:#17181c;--line:#23242a;
+--txt:#e8e8ea;--mut:#8a8d96;--accent:#00d4aa;--red:#ff5470;--amber:#ffb020;--green:#00d4aa;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid rgba(0,212,170,.5);outline-offset:3px}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.mono{font-family:'SF Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+nav{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:19px;letter-spacing:-.02em}
+.brand .dot{color:var(--accent)}
+.nav-links{display:flex;gap:22px;align-items:center;font-size:14px;flex-wrap:wrap}
+.nav-links a{color:var(--mut);min-height:44px;display:inline-flex;align-items:center}.nav-links a:hover{color:var(--txt)}.nav-links a.btn,.nav-links a.btn:hover,.nav-links a.btn:visited{color:#04120e}.nav-toggle{display:none;background:transparent;border:1px solid var(--line);border-radius:8px;color:var(--txt);width:44px;height:44px;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s}.nav-toggle:hover{border-color:var(--accent)}.nav-toggle svg{width:24px;height:24px;flex:0 0 auto;display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;background:var(--accent);color:#04120e;font-weight:700;padding:12px 22px;border-radius:10px;border:none;cursor:pointer;font-size:15px;transition:transform .18s ease,background .18s ease,border-color .18s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+section{padding:72px 0;border-bottom:1px solid var(--line)}
+.hero{padding:90px 0 80px;text-align:center;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(0,212,170,.10),transparent)}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:26px}
+.hero-proof{display:flex;align-items:center;justify-content:center;gap:10px 18px;flex-wrap:wrap;margin-top:18px;color:var(--mut);font-size:13px}
+.hero-proof a{text-decoration:underline;text-underline-offset:3px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:6px 14px;margin-bottom:24px}
+h1{font-size:clamp(32px,6vw,56px);line-height:1.05;letter-spacing:-.03em;font-weight:800;margin-bottom:20px}
+h1 .hl{color:var(--red)}
+.sub{font-size:clamp(17px,2.4vw,21px);color:var(--mut);max-width:680px;margin:0 auto 34px}
+h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;margin-bottom:14px;font-weight:800}
+.lead{color:var(--mut);font-size:18px;max-width:640px;margin-bottom:40px}
+.center{text-align:center;margin:0 auto}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px}
+.card h3{font-size:18px;margin-bottom:10px}
+.tl{list-style:none;display:flex;flex-direction:column;gap:12px}
+.tl li{display:flex;gap:14px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.tl .t{color:var(--mut);font-size:13px;min-width:52px;padding-top:2px}
+.badge{font-size:12px;font-weight:700;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.b-red{background:rgba(255,84,112,.14);color:var(--red)}
+.b-green{background:rgba(0,212,170,.14);color:var(--green)}
+.b-amber{background:rgba(255,176,32,.14);color:var(--amber)}
+.contrast{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.contrast>div{padding:26px}
+.contrast .old{background:rgba(255,84,112,.05)}
+.contrast .new{background:rgba(0,212,170,.05)}
+.contrast h3{font-size:15px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+.contrast ul{list-style:none;display:flex;flex-direction:column;gap:12px;font-size:15px}
+.contrast li{display:flex;gap:10px}
+.price{max-width:440px;margin:0 auto;background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid rgba(0,212,170,.3);border-radius:20px;padding:36px;text-align:center}
+.price .amt{font-size:52px;font-weight:800;letter-spacing:-.03em}
+.price .amt span{font-size:18px;color:var(--mut);font-weight:500}
+.price ul{list-style:none;text-align:left;margin:24px 0;display:flex;flex-direction:column;gap:12px}
+.price li{display:flex;gap:10px;color:var(--txt)}
+.price li .c{color:var(--accent)}
+.grid2>.price{display:flex;flex-direction:column}
+.grid2>.price>.btn{margin-top:auto}
+.grid3>.price{display:flex;flex-direction:column;max-width:none;width:100%;min-width:0}
+.grid3>.price>.btn{margin-top:auto}
+.strike{color:var(--mut);text-decoration:line-through;font-size:15px}
+.codebox{background:#000;border:1px solid var(--line);border-radius:12px;padding:18px;overflow-x:auto;font-size:13.5px;color:#cfd2d8;text-align:left}
+.codebox .k{color:var(--accent)}.codebox .s{color:var(--amber)}.codebox .c{color:var(--mut)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;text-align:center}
+.kpi .n{font-size:30px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.kpi .l{font-size:13px;color:var(--mut);margin-top:4px}
+footer{padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
+.form{display:flex;gap:10px;max-width:440px;margin:18px auto 0}
+.form input{flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:13px 15px;border-radius:10px;font-size:15px}
+.mt40{margin-top:40px}.mt24{margin-top:24px}
+.faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px;text-align:left}
+.faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.faq summary{font-weight:700;cursor:pointer;font-size:16px;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"+ ";color:var(--accent);font-weight:800}
+.faq details[open] summary::before{content:"– "}
+.faq details p{color:var(--mut);margin-top:12px;font-size:15px}
+.doc{max-width:760px;margin:0 auto;text-align:left}
+.doc h1{font-size:clamp(28px,5vw,40px);margin-bottom:8px}
+.doc p,.doc li{color:var(--mut);font-size:16px;margin-bottom:12px}
+.doc h2{font-size:22px;margin:28px 0 10px}
+.doc .lead{color:var(--txt);font-size:18px}
+.deflist{max-width:760px;margin:8px auto 0;text-align:left}
+.deflist dt{font-weight:700;color:var(--accent);margin-top:16px;font-size:17px}
+.deflist dd{margin:6px 0 0;color:var(--mut);font-size:15px}
+.deflist code{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-family:'SF Mono',monospace;font-size:13px;color:var(--txt)}
+.cmp{width:100%;border-collapse:collapse;margin-top:20px;font-size:14.5px}
+.cmp th,.cmp td{border:1px solid var(--line);padding:12px 14px;text-align:left}
+.cmp thead th{background:var(--panel2);color:var(--txt);font-weight:700}
+.cmp tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+.cmp tbody tr:last-child{background:rgba(0,212,170,.06)}
+.sec-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sec-table th,.sec-table td{border:1px solid var(--line);padding:12px 14px;text-align:left;vertical-align:top}
+.sec-table thead th{background:var(--panel2);color:var(--txt);font-weight:700}
+.sec-table code{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-family:'SF Mono',monospace;font-size:12.5px;color:var(--accent)}
+.doc ul{max-width:760px;margin:12px auto;text-align:left;color:var(--txt)}
+.doc ul li{margin:8px 0;line-height:1.6}
+.doc pre{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;max-width:760px;margin:16px auto;text-align:left}
+.doc pre code{background:none;border:0;padding:0;color:var(--accent);font-family:'SF Mono',monospace;font-size:13px}
+.doc .quiet{color:var(--mut);font-size:14px;max-width:760px;margin:24px auto 0}
+@media(max-width:760px){.grid2,.grid3,.contrast,.kpis{grid-template-columns:1fr}.decision3{grid-template-columns:1fr!important}.nav-toggle{display:inline-flex}#mainnav{position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 20px 18px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));gap:2px;display:none;z-index:30;max-height:calc(100dvh - 60px);overflow-y:auto;overscroll-behavior:contain}nav.menu-open #mainnav{display:flex}#mainnav a{width:100%;padding:10px 0;justify-content:flex-start}#mainnav a.btn{justify-content:center;margin-top:10px}#mainnav a:not(.btn){font-size:15px}section{padding:52px 0}.hero{padding:48px 0 56px}.hero .tag{margin-bottom:18px}.hero h1{margin-bottom:16px}.hero .sub{margin-bottom:0;font-size:17px}.hero-actions{align-items:stretch;margin-top:22px}.hero-actions .btn{width:100%}.hero-actions .text-link{min-height:44px;display:inline-flex;align-items:center;justify-content:center}.hero-proof{margin-top:14px;gap:6px 12px}.price{padding:28px 20px}.price .amt{font-size:42px}.cmp{font-size:12.5px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}.cmp th,.cmp td{padding:8px}}/* the comparison table is 371px inside a 335px column, so it pushed the whole document to 391px on a 375px phone; scroll it inside its own box instead */
+p,h1,h2,h3{text-wrap:pretty}
+</style><script src="/analytics.js" defer></script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot/"}, {"@type": "ListItem", "position": 2, "name": "Agent-reliability-sprint", "item": "https://sipi.bot/agent-reliability-sprint/"}]}</script></head><body>
+<nav><div class="wrap">
+  <div class="brand"><a href="/" style="color:var(--txt)">sipi<span class="dot">.bot</span></a></div>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <div class="nav-links" id="mainnav">
+    <a href="/">Home</a>
+    <a href="/pricing">Spend firewall</a>
+    <a href="/agent-reliability-sprint">Agent reliability</a>
+    <a href="/accessibility-audit">Accessibility QA</a>
+    <a href="/ai-search-visibility-audit">AI visibility</a>
+  </div>
+</div></nav>
+<script>(function(){var t=document.querySelector('.nav-toggle');if(!t)return;var n=t.closest('nav');function set(o){n.classList.toggle('menu-open',o);t.setAttribute('aria-expanded',o);t.setAttribute('aria-label',o?'Close menu':'Open menu');}t.addEventListener('click',function(){set(!n.classList.contains('menu-open'));});n.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){set(false);});});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&n.classList.contains('menu-open')){set(false);t.focus();}});})();</script>
+<header class="hero"><div class="wrap"><span class="tag">Fixed scope, one workflow</span><h1>Deploy one AI operator that fails safely.</h1><p class="sub">Map one recurring workflow, define its approval gates and failure modes, then implement and acceptance-test the smallest production operator that can produce a measurable result.</p><div class="hero-proof"><span>Tests, monitoring, human gates, runbook, and explicit exclusions</span></div></div></header>
+<section><div class="wrap"><h2 class="center">Choose the smallest useful engagement</h2><p class="lead center">Every checkout collects only a public URL or short public workflow description. Do not submit credentials, customer data, private files, or API keys.</p><div class="grid3" style="margin-top:34px"><div class="price" style="margin:0"><div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)">Diagnostic</div>
+        <div class="amt">€249</div><p style="color:var(--mut);min-height:76px">Opportunity and risk map, feasibility verdict, approval points, and fixed implementation scope. Credited toward the pilot.</p>
+        <a class="btn" style="width:100%;margin-top:18px" rel="nofollow" href="/checkout/agent_diagnostic?source=agent-reliability-sprint">Buy Diagnostic</a></div><div class="price" style="margin:0"><div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)">Pilot</div>
+        <div class="amt">€1,500</div><p style="color:var(--mut);min-height:76px">One production workflow, one or two integrations, acceptance tests, monitoring, and operator handoff.</p>
+        <a class="btn" style="width:100%;margin-top:18px" rel="nofollow" href="/checkout/agent_pilot?source=agent-reliability-sprint">Buy Pilot</a></div><div class="price" style="margin:0"><div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)">Care</div>
+        <div class="amt" aria-label="€299/month">€299<span>/month</span></div><p style="color:var(--mut);min-height:76px">Health monitoring, failure remediation, usage review, and two bounded improvements per month.</p>
+        <a class="btn" style="width:100%;margin-top:18px" rel="nofollow" href="/checkout/agent_care?source=agent-reliability-sprint">Buy Care</a></div></div></div></section>
+<section><div class="wrap"><div class="grid2" style="max-width:900px;margin:0 auto"><div class="card"><h2 style="font-size:26px">What you receive</h2><ul class="tl"><li>Workflow and failure-path map</li><li>Working bounded integration</li><li>Acceptance tests and monitoring</li><li>Operator runbook and handoff</li></ul></div><div class="card"><h2 style="font-size:26px">Honest boundary</h2><p style="color:var(--mut)">This is not an unlimited automation retainer or a promise to replace a team. The pilot covers one workflow with written acceptance criteria. AgentShield remains consolidated into sipi.bot; there is no separate AgentShield offer.</p><p style="color:var(--mut);margin-top:16px">The engagement covers one public target or one bounded workflow. Additional systems require a separate written scope.</p></div></div></div></section>
+<footer><div class="wrap">sipi<span style="color:var(--accent)">.bot</span> - reliable operating controls for AI agents and websites.<br><a href="/privacy">Privacy</a> &#183; <a href="/terms">Terms</a> &#183; <a href="mailto:sales@sipiteno.com">sales@sipiteno.com</a></div></footer>
+</body></html>
