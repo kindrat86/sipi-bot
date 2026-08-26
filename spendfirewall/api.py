@@ -1396,6 +1396,23 @@ class Handler(BaseHTTPRequestHandler):
         "/scenarios/agent-budget-breach/": "/faq/what-happens-if-ai-agent-exceeds-budget",
         "/scenarios/multi-tenant-billing-breach": "/guides/multi-agent-spend-governance/",
         "/scenarios/multi-tenant-billing-breach/": "/guides/multi-agent-spend-governance/",
+        # 2026-08-25 budget prepay: five more zero-impression thin pages retired
+        # before the next incident-corpus slice (§5.7 one-in/one-out). The
+        # "runaway cost calculator" page advertised inputs and a calculation it
+        # did not contain (§5.8 — same fake-calculator pattern removed
+        # 2026-08-22); its redirect target HAS a working calculator. The two
+        # guides duplicated deeper keeper pages. The two alternatives-to pages
+        # cannibalised the /vs/ twins (§4: /alternatives-to/* + /vs/* overlap).
+        "/calculators/runaway-cost-calculator": "/tools/agent-spend-risk-calculator",
+        "/calculators/runaway-cost-calculator/": "/tools/agent-spend-risk-calculator",
+        "/guides/merchant-allowlists": "/glossary/merchant-allowlist/",
+        "/guides/merchant-allowlists/": "/glossary/merchant-allowlist/",
+        "/guides/agent-spend-governance": "/guides/multi-agent-spend-governance/",
+        "/guides/agent-spend-governance/": "/guides/multi-agent-spend-governance/",
+        "/alternatives-to/langsmith": "/vs/langsmith",
+        "/alternatives-to/langsmith/": "/vs/langsmith",
+        "/alternatives-to/openrouter": "/vs/openrouter",
+        "/alternatives-to/openrouter/": "/vs/openrouter",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO

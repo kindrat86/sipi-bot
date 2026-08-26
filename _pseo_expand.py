@@ -51,20 +51,15 @@ PAGES = {
 
     "calculators": [
 
-        ("runaway-cost-calculator", "Runaway Agent Cost Calculator", [
-            "What would a runaway agent cost you? Enter your model, API pricing, and a conservative runaway scenario (e.g., 1000 calls/hour for 8 hours).",
-            "See the potential damage from a loop bug, compromised key, or misconfigured retry logic. Then see how Sipi Bot's circuit breakers and velocity caps would have stopped it.",
-        ], [("What's the most common runaway cost scenario?", "LLM API calls in a retry loop. An agent that gets rate-limited retries immediately, compounding the problem. Sipi Bot's exponential backoff prevents this.")]),
-
+        # 2026-08-25 retired: runaway-cost-calculator (0 impressions, 642 chars,
+        # advertised inputs/calculation it did not contain — §5.8). 301s to
+        # /tools/agent-spend-risk-calculator, which has a working calculator.
 
     ],
 
     "guides": [
-        ("agent-spend-governance", "AI Agent Spend Governance Guide", [
-            "Spend governance for AI agents is fundamentally different from human employee expense management. Agents operate at machine speed, can make thousands of decisions per minute, and don't have the judgment to distinguish normal from anomalous spending.",
-            "Key principles of agent spend governance: (1) Default-deny — agents should have zero spending capacity until explicitly granted, (2) Least-privilege — agents should only be allowed to spend on the specific API endpoints they need, (3) Defense in depth — multiple independent safeguards (budgets, velocity caps, allowlists) rather than a single gate.",
-            "Sipi Bot implements all three principles with an enterprise-grade policy engine. Every spend decision is evaluated against budget ceilings, merchant allowlists, velocity caps, and anomaly detection — all in under 100ms.",
-        ], [("What's the minimum governance setup for production agents?", "At minimum: a daily budget ceiling, a merchant allowlist with exactly the endpoints the agent needs, and a notification webhook for any blocked transaction."), ("How does agent spend governance differ from API key management?", "API key management controls access; spend governance controls cost. An agent with a valid API key can still rack up unlimited costs. Sipi Bot separates authentication from authorization at the payment level.")]),
+        # 2026-08-25 retired: agent-spend-governance (0 impressions, ~1,430
+        # chars) -> /guides/multi-agent-spend-governance/.
 
         ("circuit-breakers-for-ai-agents", "Circuit Breakers for AI Agents", [
             "A circuit breaker is an automatic switch that stops an agent from spending after it exceeds a threshold. Think of it as a fuse for your agent's budget — once blown, it stays off until manually reset.",
@@ -72,11 +67,8 @@ PAGES = {
             "Sipi Bot circuit breakers are configurable per agent, per team, and per project. You can set daily, weekly, and monthly ceilings with optional auto-reset (reduced ceiling) or manual-reset (full stop) behavior.",
         ], [("Should all agents have circuit breakers?", "Every agent with spending capacity needs at least one circuit breaker. The safest minimum is a daily ceiling at 150% of expected daily spend."), ("What happens after a circuit breaker trips?", "The agent receives a block response on the next payment attempt. The human operator gets an alert with the spending breakdown. The ceiling can be reset via dashboard or API.")]),
 
-        ("merchant-allowlists", "Merchant Allowlists for AI Agents", [
-            "A merchant allowlist is a restrictively curated list of API endpoints an agent is allowed to pay. Any payment attempt to an endpoint not on the list is automatically blocked.",
-            "The allowlist is the single most effective control against agent payment abuse. Even a compromised agent cannot spend on unapproved endpoints. Combined with circuit breakers, it creates a defense-in-depth payment security model.",
-            "Sipi Bot's allowlist supports wildcards (e.g., api.openai.com/v1/chat/completions), rate limits per endpoint, and time-based access (only allow billing during business hours).",
-        ], [("How restrictive should allowlists be?", "As restrictive as possible. Start with exactly the endpoints the agent needs. Add new endpoints as requirements emerge, not preemptively."), ("Can agents request new allowlist entries?", "Yes, through Sipi Bot's policy API. The request is logged, and an admin can approve it via the dashboard. This allows dynamic scaling without compromising security.")]),
+        # 2026-08-25 retired: merchant-allowlists (0 impressions, 1,100 chars)
+        # -> /glossary/merchant-allowlist/ (4,320-char keeper with same substance).
 
         ("velocity-caps", "Velocity Caps for AI Agent Spending", [
             "A velocity cap limits how many payments an agent can make in a given time window. Unlike a budget ceiling (total spend), a velocity cap limits the rate of spending.",

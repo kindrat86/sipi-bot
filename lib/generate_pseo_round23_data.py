@@ -1317,73 +1317,7 @@ ALTERNATIVES_TO = [
         ],
         related=[("sipi.bot vs Stripe Radar", "/vs/stripe-radar"), ("sipi.bot vs Stripe Billing", "/vs/stripe-billing"), ("Stripe integration", "/integrations/stripe")],
     ),
-    dict(
-        slug="openrouter",
-        title="OpenRouter Alternative for Agent Spend Control",
-        desc="OpenRouter routes to many models; it doesn't enforce spend policy. The alternative layer for controlling what agents spend. Honest comparison.",
-        h1="OpenRouter Alternative — For Agent Spend",
-        lead="OpenRouter is a routing layer — one API to many models. It optimizes access, not spend. Here's the layer that enforces the budget.",
-        sections=[
-            ("What OpenRouter does well",
-             ["One API to 100+ models, usage analytics, and per-key control.",
-              "Great for model flexibility and avoiding provider lock-in."]),
-            ("Where it can't help",
-             ["Routing isn't enforcement: no merchant allowlist, category budgets, or approval queue.",
-              "Rate limits cap requests, not dollars."]),
-            ("The alternative",
-             ["sipi.bot: a pre-spend decision layer in front of OpenRouter — the agent asks before it spends."]),
-        ],
-        table=dict(
-            headers=["Dimension", "OpenRouter", "sipi.bot"],
-            rows=[
-                ["Role", "Model routing", "Spend enforcement"],
-                ["Controls", "Keys, analytics", "Caps, allowlists, approvals"],
-                ["Unit", "Requests", "Dollars"],
-                ["Decision", "Route to model", "APPROVED / BLOCKED / FLAGGED"],
-            ],
-        ),
-        faqs=[
-            ("Do they compete?",
-             "No — they compose: sipi.bot decides, OpenRouter routes."),
-            ("Can I budget per agent on OpenRouter?",
-             "Per-key controls exist; per-agent dollar budgets come from the firewall layer."),
-        ],
-        related=[("sipi.bot vs OpenRouter", "/vs/openrouter"), ("OpenRouter integration", "/integrations/openrouter"), ("OpenRouter cost", "/cost-of/openrouter-api-cost")],
-    ),
-    dict(
-        slug="langsmith",
-        title="LangSmith Alternative for Agent Spend Control",
-        desc="LangSmith traces agent runs; it doesn't stop runaway spend. The alternative layer: a pre-spend firewall. Honest comparison.",
-        h1="LangSmith Alternative — For Agent Spend",
-        lead="LangSmith is the observability layer for LangChain and LangGraph. It shows you what agents did — after they did it. The alternative layer stops the money.",
-        sections=[
-            ("What LangSmith does well",
-             ["Deep tracing, evaluation, and cost tracking for LangChain workloads.",
-              "The standard for debugging agent runs."]),
-            ("Where it can't help",
-             ["Observability is post-hoc: a chart of the $12,400 night doesn't stop it.",
-              "No merchant allowlist, approval queue, or pre-spend rule engine."]),
-            ("The alternative",
-             ["sipi.bot: a pre-spend firewall that decides before the transaction — complementary to LangSmith, not a replacement for it."]),
-        ],
-        table=dict(
-            headers=["Dimension", "LangSmith", "sipi.bot"],
-            rows=[
-                ["Role", "Trace agent runs", "Gate agent spend"],
-                ["When it acts", "After requests", "Before transactions"],
-                ["Controls", "Traces, evals", "Caps, allowlists, approvals"],
-                ["Decision", "Insights", "APPROVED / BLOCKED / FLAGGED"],
-            ],
-        ),
-        faqs=[
-            ("Should I replace LangSmith?",
-             "No — keep tracing. Add the firewall; they're different layers."),
-            ("Can decisions feed into LangSmith?",
-             "Yes — the audit log is API-queryable, so decisions can join traces."),
-        ],
-        related=[("sipi.bot vs LangSmith", "/vs/langsmith"), ("Best observability tools", "/best/best-ai-agent-observability-tools"), ("LangChain integration", "/integrations/langchain")],
-    ),
-]
+        ]
 
 # --- hub metadata -----------------------------------------------------------
 # (all target sections already have hubs; patches add cards)
