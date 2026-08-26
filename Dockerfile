@@ -32,7 +32,6 @@ COPY cost-of/ ./cost-of/
 # 2026-07-18 pSEO expansion
 COPY scenarios/ ./scenarios/
 COPY redflags/ ./redflags/
-COPY calculators/ ./calculators/
 COPY guides/ ./guides/
 
 # 2026-07-27 traffic program — open incident database + freshness surfaces.
