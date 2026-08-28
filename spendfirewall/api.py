@@ -1533,6 +1533,21 @@ class Handler(BaseHTTPRequestHandler):
         "/alternatives-to/langsmith/": "/vs/langsmith",
         "/alternatives-to/openrouter": "/vs/openrouter",
         "/alternatives-to/openrouter/": "/vs/openrouter",
+        # 2026-08-28 §5.7 budget prepay: five zero-trailing-28d-impression
+        # /alternatives/* leaves retired. Each was a 2.5-2.8K-char single-page
+        # comparison with no /vs/ twin traffic; subject coverage moves to the
+        # deeper keeper pages below. Hub /alternatives/ and /alternatives/x402/
+        # are impressed and stay.
+        "/alternatives/aporia-guardrails": "/best/best-ai-guardrails-tools",
+        "/alternatives/aporia-guardrails/": "/best/best-ai-guardrails-tools",
+        "/alternatives/guardrails-ai": "/best/best-ai-guardrails-tools",
+        "/alternatives/guardrails-ai/": "/best/best-ai-guardrails-tools",
+        "/alternatives/nvidia-nemo-guardrails": "/best/best-ai-guardrails-tools",
+        "/alternatives/nvidia-nemo-guardrails/": "/best/best-ai-guardrails-tools",
+        "/alternatives/openpolicyagent": "/compare/cedar-opa-policy/",
+        "/alternatives/openpolicyagent/": "/compare/cedar-opa-policy/",
+        "/alternatives/prompt-security": "/best/best-prompt-injection-protection",
+        "/alternatives/prompt-security/": "/best/best-prompt-injection-protection",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO

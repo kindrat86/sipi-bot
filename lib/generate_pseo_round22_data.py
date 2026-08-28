@@ -529,7 +529,7 @@ BEST = [
             ("Can guardrails tools block a purchase?",
              "No — they operate on text. Blocking a purchase needs a decision layer in front of the transaction."),
         ],
-        related=[("Red flags in agent spend", "/redflags/red-flags-in-agent-spend"), ("Prompt injection protection", "/best/best-prompt-injection-protection"), ("sipi.bot vs Guardrails AI", "/alternatives/guardrails-ai")],
+        related=[("Red flags in agent spend", "/redflags/red-flags-in-agent-spend"), ("Prompt injection protection", "/best/best-prompt-injection-protection"), ("sipi.bot vs Lakera", "/vs/lakera")],
     ),
     dict(
         slug="best-prompt-injection-protection",
