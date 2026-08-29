@@ -4,8 +4,8 @@
   "url": "https://sipi.bot/incidents/",
   "description": "A curated, sourced record of real-world incidents in which autonomous AI agents caused financial loss, data loss, or unintended actions. Every record links to a public source. Licensed CC BY 4.0.",
   "license": "https://creativecommons.org/licenses/by/4.0/",
-  "version": "2026-08-27",
-  "last_updated": "2026-08-27",
+  "version": "2026-08-29",
+  "last_updated": "2026-08-29",
   "incidents": [
     {
       "id": "codex-9h-compaction-loop-2026-08",
@@ -60,6 +60,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "The $14,000 charge was the product of an unlimited, unmonitored credential against a metered model API. A velocity limit on Bedrock invocations and a daily total cap would have stopped the burn within minutes of the first anomalous call, and a category rule flagging a 1,000x jump in spend would have surfaced the incident the same hour instead of on the invoice."
+    },
+    {
+      "id": "replit-effort-billing-2026-07",
+      "title": "Replit Agent's effort-based billing hits $50/hour as looping inflates billable actions",
+      "date": "2026-07-16",
+      "organization": "Replit Agent users",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "An r/replit thread from July 16, 2026 reported Replit's AI Agent effectively charging $50/hour under effort-based pricing, with the poster stating the agent 'just reads files over and over to inflate the actions taken and burns through the budget'. Commenters reported being billed $50 every other day; the thread's top advice was to set a hard billing cap immediately. Effort pricing bills attempts, not outcomes, and attempts go unbounded exactly when the agent cannot see what is wrong.",
+      "category": "runaway-loop",
+      "agent_type": "coding",
+      "vector": "Per-attempt billing plus a file-reading loop: repeated billable actions with no progress test between them",
+      "outcome": "financial-loss",
+      "source_name": "Reddit r/replit - 'Replit's AI Agent is now charging me $50/hour' (2026-07-16)",
+      "source_url": "https://www.reddit.com/r/replit/comments/1uybdcx/replits_ai_agent_is_now_charging_me_50hour_at/",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "Paying per attempt turns a loop into a revenue event for the vendor and a loss event for the user. A velocity limit on consecutive billable actions trips on the Nth failing attempt and ends the run before the usage page does."
     },
     {
       "id": "codex-background-burn-2026-06",
@@ -266,6 +284,24 @@
       "firewall_relevance": "46 identical scheduled runs in 26 hours is a velocity signature, not a normal workload: a spend firewall with a daily ceiling or per-hour velocity limit returns BLOCKED on the run that crosses the bound, long before a six-thousand-dollar overnight loop completes."
     },
     {
+      "id": "lovable-regression-loop-2026-04",
+      "title": "Lovable users report 400 credits in two weeks lost to agent regression loops",
+      "date": "2026-04-15",
+      "organization": "Lovable (user reports)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "An April 2026 engineering teardown of Lovable credit burn documented the regression loop: the agent breaks something else while fixing the thing you asked, so every loop costs credits and returns net-zero progress. Users on the same seat reported multi-million-token auth spirals and 400 credits burned in two weeks on a Pro plan. The author's conclusion: the fix is not better prompts - it is stopping the AI, locking the architecture, and patching by hand.",
+      "category": "runaway-loop",
+      "agent_type": "coding",
+      "vector": "Per-action credit pricing plus context loss: each fix regresses another component, billing a full loop for zero net progress",
+      "outcome": "financial-loss",
+      "source_name": "Afterbuild Labs - 'Lovable burning credits: stop spiral' (2026-04-15)",
+      "source_url": "https://afterbuildlabs.com/platforms/lovable-developer/problems/stop-burning-credits",
+      "verified": true,
+      "type": "statistic",
+      "firewall_relevance": "A regression loop charges twice - once to break, once to 'fix'. Budgets need to stop per task, not per month: a per-task spend cap makes the second full rewrite of working code a blocked transaction instead of a billable one."
+    },
+    {
       "id": "pocketos-db-delete-2026-04",
       "title": "Claude Opus 4.6 agent deletes PocketOS production DB and backups in 9 seconds",
       "date": "2026-04-01",
@@ -336,6 +372,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "A consumption regression is invisible from inside the tool and obvious from outside it: per-call cost baselines with drift alerts flag the first session that costs 5x normal for the same task class, before a fifth of the weekly allowance is gone."
+    },
+    {
+      "id": "replit-auto-billing-loop-2026-02",
+      "title": "Replit subscription credits hit 100% on an undeployed prototype; auto-billing invoices $60 beyond the plan",
+      "date": "2026-02-12",
+      "organization": "Replit (community forum)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "A February 12, 2026 Replit community forum post reported monthly credits completely exhausted (100% used) by agent work on a React + MongoDB prototype that was never deployed publicly. A reply documented the auto-billing mechanic: once the included $25 credits are exhausted, usage continues and generates a new bill invoiced every $60. The user's only intended actions were running the app locally and making small changes.",
+      "category": "api-cost-spike",
+      "agent_type": "coding",
+      "vector": "Auto-renewing pay-as-you-go invoices keep metering an agent whose credit pool is already empty, with no stop condition on the spend",
+      "outcome": "financial-loss",
+      "source_name": "Replit Community Forum - 'Replit Credits Exhausted' (2026-02-12)",
+      "source_url": "https://replit.discourse.group/t/replit-credits-exhausted/9105",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "A spend policy must live outside the platform that profits from exceeding it. An external hard cap on agent spend makes the auto-invoice impossible: the agent stops when the budget stops, not when a human notices the charge."
     },
     {
       "id": "step-finance-2026-01",
@@ -938,6 +992,24 @@
       "firewall_relevance": "Claudius agreed in conversation to stop giving discounts, then resumed within days — prompts don't persist, policies do. A category rule blocking below-cost pricing and a daily discount budget cap the two behaviours that drove the losses, regardless of how the agent rationalises them."
     },
     {
+      "id": "cursor-pricing-spike-2025-06",
+      "title": "Cursor's June 2025 pricing switch left Pro users with surprise usage bills and mass refunds",
+      "date": "2025-06-16",
+      "organization": "Anysphere (Cursor)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "On June 16, 2025 Cursor replaced the Pro plan's 500-requests-per-month cap with a $20 monthly pool of frontier-model usage priced at API rates, with additional usage billed at cost. Users who had budgeted by request counts received large unexpected charges over the following weeks. On July 4 Anysphere published an apology titled 'Clarifying our pricing', admitted 'We missed the mark', and offered full refunds for any unexpected usage billed between June 16 and July 4.",
+      "category": "api-cost-spike",
+      "agent_type": "coding",
+      "vector": "Subscription pricing silently converted from request-capped to metered at-cost usage, with no hard spend ceiling on the pool",
+      "outcome": "financial-loss",
+      "source_name": "Cursor blog - Clarifying our pricing (2025-07-04)",
+      "source_url": "https://cursor.com/blog/june-2025-pricing",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "A metered usage pool with no ceiling is an unbounded spend path by design. A hard monthly USD cap enforced outside the vendor's billing page turns a 'usage credit pool' back into the limit the old request cap promised - and it cannot be silently repriced in a blog post."
+    },
+    {
       "id": "echoleak-copilot-2025-06",
       "title": "EchoLeak: zero-click prompt injection in Microsoft 365 Copilot exfiltrates internal data (CVE-2025-32711)",
       "date": "2025-06-11",
@@ -1080,6 +1152,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "Defense-in-depth: prompt injection will keep happening, so every consequential tool call (purchase, data send, provision) must be independently authorized by the firewall, not trusted to the agent's own judgment."
+    },
+    {
+      "id": "replit-agent-stuck-loop-2025-01",
+      "title": "Replit Agent stuck in add/remove code loop, burning paid actions with zero progress",
+      "date": "2025-01-25",
+      "organization": "Replit (community forum)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "A January 25, 2025 Replit community forum thread (633 views, replies from ten users) described the agent/assistant getting 'stuck in a continuous loop of not being able to progress' - adding and removing the same code sections over and over with no outcome resolved. New chat windows did not break the cycle; workarounds involved manually pasting error logs back to the agent. On Replit's credit model, every iteration of that loop is a billable action.",
+      "category": "runaway-loop",
+      "agent_type": "coding",
+      "vector": "Repeated failing build-fix cycles with no progress test, each cycle consuming paid agent actions",
+      "outcome": "service-disruption",
+      "source_name": "Replit Community Forum - 'Replit agent getting stuck in a loop' (2025-01-25)",
+      "source_url": "https://replit.discourse.group/t/replit-agent-getting-stuck-in-a-loop-any-advice/1279",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "This is the shape every runaway record shares: repeated failing actions with nothing between them that can say 'stop'. A velocity limit on consecutive identical-failure actions ends the loop at attempt two or three, before the credits burn."
     },
     {
       "id": "o3-arc-agi-cost-2024-12",
