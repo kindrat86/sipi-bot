@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Replay proof: huksley incident</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://sipi.bot/proof/pa_1427448271ddc273/">
+<style>
+body { font-family: -apple-system, system-ui, sans-serif; max-width: 760px;
+       margin: 2rem auto; padding: 0 1rem; line-height: 1.55; color: #1a1a1a; }
+h1 { font-size: 1.35rem; } h2 { font-size: 1.05rem; margin-top: 1.6rem; }
+code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+       font-size: 0.85rem; } pre { background: #f5f5f5; padding: 0.8rem;
+       border-radius: 6px; overflow-x: auto; }
+.meta { color: #555; } .limit { background: #fff8e6; padding: 0.7rem 1rem;
+       border-left: 3px solid #d9a400; border-radius: 4px; }
+footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd;
+       font-size: 0.85rem; color: #555; }
+</style>
+</head>
+<body>
+<h1>Replay proof: huksley &middot; $4,600</h1>
+<p class="meta">Target: huksley</p>
+<p class="meta">Original incident: <a href="https://news.ycombinator.com/item?id=31907374" rel="nofollow">https://news.ycombinator.com/item?id=31907374</a></p>
+<p class="meta">Incident date: 2022-06-28</p>
+<p class="meta">Reported amount: $4,600 &middot; merchant/service: aws-cloudfront-lambda-edge</p>
+<p>Serverless function called itself recursively via CloudFront + Lambda@Edge with 30s timeout; first alert $1,484; settled bill $4,600 (title rounds to $4.5k).</p>
+<h2>Replayed through the live sipi.bot endpoint</h2>
+<p>Request sent to <code>https://sipi.bot/v1/transactions/evaluate</code> on 2026-08-30T15:36:11.939938+00:00:</p>
+<pre>{
+  &quot;transaction_id&quot;: &quot;replay-it-004-1788104171&quot;,
+  &quot;amount&quot;: 4600.0,
+  &quot;currency&quot;: &quot;USD&quot;,
+  &quot;merchant&quot;: &quot;aws-cloudfront-lambda-edge&quot;,
+  &quot;description&quot;: &quot;Replay of publicly reported incident amount ($4,600, 2022-06-28) from https://news.ycombinator.com/item?id=31907374&quot;
+}</pre>
+<p>Exact response:</p>
+<pre>{
+  &quot;decision&quot;: &quot;BLOCKED&quot;,
+  &quot;reason&quot;: &quot;Block any single transaction over $500&quot;,
+  &quot;rule_id&quot;: &quot;rul_eff79f00f6&quot;,
+  &quot;triggered&quot;: [
+    {
+      &quot;rule_id&quot;: &quot;rul_eff79f00f6&quot;,
+      &quot;rule_type&quot;: &quot;per_transaction&quot;,
+      &quot;action&quot;: &quot;BLOCKED&quot;,
+      &quot;label&quot;: &quot;Block any single transaction over $500&quot;
+    }
+  ],
+  &quot;transaction_id&quot;: &quot;txn_e9ea1cbd2b71&quot;,
+  &quot;amount&quot;: 4600.0,
+  &quot;merchant&quot;: &quot;aws-cloudfront-lambda-edge&quot;,
+  &quot;category&quot;: &quot;&quot;
+}</pre>
+<p>For this replayed transaction proposal, the live sipi.bot endpoint returned BLOCKED with the rule shown above.</p>
+<h2>Limitations</h2>
+<p class="limit">This is a replay of a publicly reported amount, not a claim about avoided losses. The decision shown is a timestamped observation of
+the public demo decision API for this single replayed proposal, not a statement
+about the historical incident or any party's account.</p>
+<p>Source checked live at 2026-08-30T15:36:11.939938+00:00.</p>
+<footer>
+<p>Generated 2026-08-30T15:36:11.939938+00:00 from public data.</p>
+<p>sipi.bot is a decision API. It does not hold or move money. <a href="https://sipi.bot">sipi.bot</a> &middot;
+<a href="https://github.com/kindrat86/sipi-bot">GitHub</a></p>
+</footer>
+</body>
+</html>
