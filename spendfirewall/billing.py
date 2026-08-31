@@ -12,6 +12,9 @@ Env:
   STRIPE_WEBHOOK_SECRET  whsec_...
   STRIPE_PRICE_TEAM      price_...  ($99/mo Team)
   STRIPE_PRICE_BUSINESS  price_...  ($499/mo Business, optional)
+  STRIPE_PRICE_AGENT_PILOT      price_...  (EUR 1500 one-time, /agent-reliability-sprint/)
+  STRIPE_PRICE_AGENT_DIAGNOSTIC price_...  (EUR 249 one-time)
+  STRIPE_PRICE_AGENT_CARE       price_...  (EUR 299/mo)
   PUBLIC_URL             https://sipi.bot  (for success/cancel URLs)
 """
 from __future__ import annotations
@@ -108,6 +111,34 @@ def _activation_bucket(created_at: Optional[str]) -> str:
 TIERS = {
     "team": {"price_id_env": "STRIPE_PRICE_TEAM", "monthly_limit": 0, "label": "Team", "price": "$99/mo"},
     "business": {"price_id_env": "STRIPE_PRICE_BUSINESS", "monthly_limit": 0, "label": "Business", "price": "$499/mo"},
+    # Service tiers sold from /agent-reliability-sprint/. Prices live in the
+    # shared Stripe account under products:
+    #   sipi.bot Agent Reliability Pilot     EUR 1500 one-time
+    #   sipi.bot Agent Opportunity and Risk Audit (Diagnostic) EUR 249 one-time
+    #   sipi.bot Reliability Care            EUR 299/mo
+    # One-time engagements use mode=payment (Stripe rejects a one-time price
+    # inside a subscription Checkout Session).
+    "agent_pilot": {
+        "price_id_env": "STRIPE_PRICE_AGENT_PILOT",
+        "monthly_limit": 0,
+        "label": "Agent Reliability Pilot",
+        "price": "EUR 1,500 one-time",
+        "mode": "payment",
+    },
+    "agent_diagnostic": {
+        "price_id_env": "STRIPE_PRICE_AGENT_DIAGNOSTIC",
+        "monthly_limit": 0,
+        "label": "Agent Opportunity and Risk Audit",
+        "price": "EUR 249 one-time",
+        "mode": "payment",
+    },
+    "agent_care": {
+        "price_id_env": "STRIPE_PRICE_AGENT_CARE",
+        "monthly_limit": 0,
+        "label": "Reliability Care",
+        "price": "EUR 299/mo",
+        "mode": "subscription",
+    },
 }
 # monthly_limit 0 == unlimited evaluations (spend firewall is unlimited by design;
 # the value is the outcome/guarantee, not metered call volume).
@@ -226,8 +257,18 @@ def create_checkout_session(
     base = os.environ.get("PUBLIC_URL", "https://sipi.bot").rstrip("/")
     analytics_id = _safe_analytics_id(analytics_id)
     source_cta = (source_cta or "direct").strip()[:64]
+    if tier.get("mode") == "payment":
+        submit_text = (
+            "Your API key is issued immediately after payment. "
+            "We will contact you within one business day to scope the engagement."
+        )
+    else:
+        submit_text = (
+            "Your API key is issued immediately after payment. "
+            "If sipi.bot approves a spend that violates an active rule, that month is free."
+        )
     data = {
-        "mode": "subscription",
+        "mode": tier.get("mode", "subscription"),
         "line_items[0][price]": price_id,
         "line_items[0][quantity]": 1,
         "success_url": base + "/keys/{CHECKOUT_SESSION_ID}",
@@ -244,10 +285,7 @@ def create_checkout_session(
         "branding_settings[font_family]": "inter",
         "branding_settings[icon][type]": "url",
         "branding_settings[icon][url]": base + "/favicon.svg",
-        "custom_text[submit][message]": (
-            "Your API key is issued immediately after payment. "
-            "If sipi.bot approves a spend that violates an active rule, that month is free."
-        ),
+        "custom_text[submit][message]": submit_text,
     }
     if analytics_id:
         data["client_reference_id"] = analytics_id

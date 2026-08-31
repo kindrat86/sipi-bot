@@ -50,6 +50,52 @@ class CheckoutConversionTests(unittest.TestCase):
         )
         self.assertNotIn("client_reference_id", captured["data"])
 
+    def test_agent_service_tiers_are_checkoutable_with_correct_mode(self):
+        """/agent-reliability-sprint/ sells agent_pilot / agent_diagnostic /
+        agent_care. Before this fix every one of those /checkout/<plan> links
+        returned HTTP 400 {"error": "unknown plan"} because TIERS only knew
+        team/business."""
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = os.path.join(tmp, "billing.db")
+            captured = {}
+
+            def fake_stripe_post(path, data, api_version=None):
+                captured.clear()
+                captured.update(path=path, data=data, api_version=api_version)
+                return {"id": "cs_test_services", "url": "https://checkout.stripe.test/s"}
+
+            env = {
+                "STRIPE_SECRET_KEY": "***",
+                "STRIPE_PRICE_AGENT_PILOT": "price_pilot",
+                "STRIPE_PRICE_AGENT_DIAGNOSTIC": "price_diagnostic",
+                "STRIPE_PRICE_AGENT_CARE": "price_care",
+                "PUBLIC_URL": "https://sipi.bot",
+            }
+            with mock.patch.dict(os.environ, env, clear=False), \
+                    mock.patch.object(billing, "_DB", db_path), \
+                    mock.patch.object(billing, "_stripe_post", side_effect=fake_stripe_post):
+                pilot_url = billing.create_checkout_session("agent_pilot")
+                pilot_data = dict(captured["data"])
+                billing.create_checkout_session("agent_diagnostic")
+                diagnostic_data = dict(captured["data"])
+                billing.create_checkout_session("agent_care")
+                care_data = dict(captured["data"])
+
+        self.assertEqual(pilot_url, "https://checkout.stripe.test/s")
+        # One-time engagements must create payment-mode sessions...
+        self.assertEqual(pilot_data["mode"], "payment")
+        self.assertEqual(diagnostic_data["mode"], "payment")
+        # ...while Care stays a subscription.
+        self.assertEqual(care_data["mode"], "subscription")
+        # One-time engagements must not promise the monthly guarantee.
+        self.assertNotIn("that month is free", str(pilot_data))
+        self.assertNotIn("that month is free", str(diagnostic_data))
+        self.assertIn("that month is free", care_data["custom_text[submit][message]"])
+        self.assertIn(
+            "scope the engagement",
+            pilot_data["custom_text[submit][message]"],
+        )
+
     def test_pricing_leads_with_team_and_keeps_free_path_secondary(self):
         html = templates.pricing_html()
         team = html.index("Team · recommended")
