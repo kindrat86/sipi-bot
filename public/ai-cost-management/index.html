@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI cost management for agent teams: the answer-first guide (2026) | sipi.bot</title>
+<meta name="description" content="How to manage AI costs for agents and LLM apps: measurement, attribution, budgets, model routing, retries, caching, token controls, anomaly detection, and quality gates, in the order that works.">
+<link rel="canonical" href="https://sipi.bot/ai-cost-management/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="sipi.bot">
+<meta property="og:title" content="AI cost management for agent teams: the answer-first guide (2026)">
+<meta property="og:description" content="Measurement, attribution, budgets, routing, retries, caching, token controls, observability, anomaly detection, quality gates, and the implementation sequence.">
+<meta property="og:url" content="https://sipi.bot/ai-cost-management/">
+<meta property="og:image" content="https://sipi.bot/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI cost management for agent teams: the answer-first guide (2026)">
+<meta name="twitter:description" content="The levers that actually move AI spend, in the order that works.">
+<meta name="twitter:image" content="https://sipi.bot/og.png">
+<link rel="icon" type="image/svg+xml" href="https://sipi.bot/favicon.svg">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI cost management for agent teams: the answer-first guide (2026)", "description": "How to manage AI costs for agents and LLM apps: measurement, attribution, budgets, model routing, retries, caching, token controls, anomaly detection, and quality gates.", "url": "https://sipi.bot/ai-cost-management/", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://sipi.bot/ai-cost-management/"}, "datePublished": "2026-08-31", "dateModified": "2026-08-31", "author": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}, "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}, "image": "https://sipi.bot/og.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot/"}, {"@type": "ListItem", "position": 2, "name": "AI Cost Management", "item": "https://sipi.bot/ai-cost-management/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is AI cost management?", "acceptedAnswer": {"@type": "Answer", "text": "AI cost management is the practice of measuring, attributing, and controlling what you spend on models and agent-driven transactions. It spans usage telemetry, per-agent cost attribution, budgets and alerts, model routing, caching, retry policy, token controls, and enforcement when a spend decision must be stopped before money moves."}}, {"@type": "Question", "name": "Where should a team start with AI cost management?", "acceptedAnswer": {"@type": "Answer", "text": "Start with measurement, not tooling. Export token usage and cost from every provider, attribute each call to an agent, session, and feature, and establish a baseline week. Then set budgets and alerts, then apply the unit-cost levers (routing, caching, token controls, retry policy), and only then look at enforcement. The implementation sequence in this guide orders all of this."}}, {"@type": "Question", "name": "Is a provider spending cap enough to control AI costs?", "acceptedAnswer": {"@type": "Answer", "text": "No. A provider cap covers one provider, usually fires after spend has already accrued, and does nothing for agent-initiated purchases outside that provider. Provider budgets are a useful backstop, but multi-provider AI cost management also needs per-call attribution and a pre-spend decision point for agent transactions."}}, {"@type": "Question", "name": "Do caching and batch discounts reduce AI quality?", "acceptedAnswer": {"@type": "Answer", "text": "No. Provider prompt caching and batch APIs return the same model outputs; they change price and timing, not quality. Batch APIs trade latency for a lower rate, so they fit offline work, not interactive paths. Model routing can change quality, which is why it needs quality gates and evaluations before you shift traffic to cheaper models."}}]}</script>
+<style>
+:root{--bg:#0a0a0a;--bg-1:#121316;--bg-2:#181a1f;--line:#23242a;--line-2:#303239;--fg:#e8e8ea;--fg-2:#c9ccd3;--fg-3:#8a8d96;--mint:#00d4aa;--mint-2:#34e8c0;--mint-ink:#04120e;--mint-soft:rgba(0,212,170,.10);--mint-line:rgba(0,212,170,.34);--amber:#f5a524;--amber-soft:rgba(245,165,36,.10);--amber-line:rgba(245,165,36,.36);--r:12px;--r-l:16px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:24px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,system-ui,sans-serif;background:var(--bg);color:var(--fg);font-size:1.0625rem;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px}
+a{color:var(--mint);text-decoration:none}a:hover{text-decoration:underline}
+strong{color:var(--fg);font-weight:650}
+code{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:.9em;background:var(--bg-2);padding:.12em .4em;border-radius:6px;color:var(--mint-2)}
+h1{font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.1;letter-spacing:-.03em;font-weight:800;margin:14px 0}
+h2{font-size:clamp(1.25rem,2.4vw,1.55rem);letter-spacing:-.02em;font-weight:750;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--line)}
+h3{font-size:1.08rem;font-weight:650;margin:24px 0 8px}
+p{margin:0 0 14px;color:var(--fg-2)}
+ul,ol{margin:0 0 16px;padding-left:1.35em}li{margin:0 0 8px;color:var(--fg-2)}
+.lead{color:var(--fg-2);font-size:1.13rem;max-width:64ch}
+.kicker{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mint-2);margin:34px 0 6px}
+.crumbs{font-size:.83rem;color:var(--fg-3);margin:26px 0 4px}
+.answer{background:var(--mint-soft);border:1px solid var(--mint-line);border-left:3px solid var(--mint);border-radius:var(--r);padding:18px 20px;margin:22px 0 10px}
+.answer .k{font-size:.74rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mint-2);margin-bottom:8px}
+.answer p{margin:0 0 10px;color:var(--fg)} .answer p:last-child{margin:0}
+.callout{background:var(--amber-soft);border:1px solid var(--amber-line);border-left:3px solid var(--amber);border-radius:var(--r);padding:14px 18px;margin:20px 0}
+.callout .k{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:6px}
+.callout p{margin:0;color:var(--fg)}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.95rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--fg-3);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
+.steps{counter-reset:step;list-style:none;padding:0}
+.steps>li{counter-increment:step;position:relative;padding:0 0 18px 52px}
+.steps>li::before{content:counter(step);position:absolute;left:0;top:0;width:34px;height:34px;border-radius:50%;background:var(--mint);color:var(--mint-ink);font-weight:800;display:grid;place-items:center;font-size:.95rem}
+.steps>li strong{display:block;margin-bottom:2px}
+.faq details{background:var(--bg-1);border:1px solid var(--line);border-radius:var(--r);margin:0 0 10px}
+.faq summary{cursor:pointer;padding:15px 18px;font-weight:650;color:var(--fg);list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';color:var(--mint);font-weight:800;float:right}
+.faq details[open] summary::after{content:'–'}
+.faq .a{padding:0 18px 14px;color:var(--fg-2)}
+.band{margin:50px 0 20px;background:linear-gradient(135deg,var(--bg-1),var(--bg-2));border:1px solid var(--line);border-radius:var(--r-l);padding:30px}
+.band h2{border:none;margin:0 0 10px;padding:0}
+.band p{color:var(--fg-2);max-width:62ch}
+.btn{display:inline-block;padding:12px 20px;border-radius:999px;font-weight:700;margin:14px 10px 0 0}
+.btn.primary{background:var(--mint);color:var(--mint-ink)}
+.btn.ghost{border:1px solid var(--line-2);color:var(--fg)}
+.muted{color:var(--fg-3);font-size:.9rem}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 48px;color:var(--fg-3);font-size:.88rem}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav aria-label="Breadcrumb">
+<p class="crumbs"><a href="/">Home</a> <span aria-hidden="true">/</span> AI Cost Management</p>
+</nav>
+<p class="kicker">Authority guide</p>
+<h1>AI cost management for agent teams: the answer-first guide</h1>
+<p class="lead">AI cost management is not one tool. It is a stack of decisions: what you measure, how you attribute it, what you cap, which model you route to, what you cache, how you retry, and where a human or a policy says stop. This guide covers each lever with current provider mechanics, then gives the order to implement them.</p>
+
+<div class="answer" id="answer">
+<p class="k">The short answer</p>
+<p><strong>Manage AI costs with a layered system, not a single cap.</strong> Measure token usage on every call, attribute cost to the agent and feature that caused it, set budgets with alerts at the provider and app level, route routine work to cheaper models, cache repeated prefixes, cap retries, control context and output size, watch for anomalies against a baseline, and gate every model or prompt change with quality evaluations.</p>
+<p>The two levers with the largest effect for most teams: <strong>caching and batch discounts</strong> (same outputs, lower unit price) and <strong>routing plus token controls</strong> (fewer and cheaper tokens per task). The lever that stops disasters rather than trimming waste: <strong>a pre-spend decision point</strong> for agent-initiated transactions.</p>
+</div>
+
+<h2 id="measure">1. Measure: cost starts as token telemetry</h2>
+<p>Every major API returns usage with each response: input tokens, output tokens, and cached-token counts. Cost is those counts times the model's per-token rates, which differ for input, output, and cached tokens. If you only see the monthly invoice, you cannot manage anything.</p>
+<ul>
+<li><strong>Capture usage per call</strong>: model, input tokens, output tokens, cached tokens, latency, and a request id. Keep it in a queryable store, not a log line you grep.</li>
+<li><strong>Reconcile with the provider</strong>: OpenAI exposes a Completions Usage API and a Costs API for pulling usage and cost data programmatically (<a href="https://developers.openai.com/cookbook/examples/completions_usage_api" rel="noopener">official cookbook</a>). Reconcile your per-call math against it weekly when you start, because pricing tiers and batch or cache discounts change the arithmetic.</li>
+<li><strong>Track unit economics</strong>: cost per task, per session, per customer, not just total spend. Totals hide routing wins and runaway loops equally.</li>
+</ul>
+<p>Provider note, as of August 2026: OpenAI's usage and cost dashboards plus the Usage API cover model-level breakdowns; Anthropic and Google each expose usage in their consoles and response payloads. Verify current field names against the docs before building dashboards on them.</p>
+
+<h2 id="attribute">2. Attribution: know which agent spent it</h2>
+<p>A single API key shared by every agent makes every optimization blind. Attribution is what turns a bill into a decision.</p>
+<ul>
+<li><strong>Tag every call</strong> with agent id, session id, feature, and environment at the gateway or SDK layer, before it reaches the provider.</li>
+<li><strong>Separate keys per project or workspace</strong> where the provider supports it, so one team's experiment cannot hide inside another team's baseline.</li>
+<li><strong>Attribute downstream actions too</strong>: tool purchases, compute provisioning, and paid API calls made by the agent, not just model tokens. Token dashboards miss these entirely.</li>
+</ul>
+<p>Internal follow-ups: the <a href="/guides/guide-to-agent-spend-audits">agent spend audit guide</a> turns attribution data into decisions, and <a href="/how-to/how-to-monitor-ai-costs">how to monitor AI costs</a> covers the dashboard side.</p>
+
+<h2 id="budgets">3. Budgets: caps and alerts at two levels</h2>
+<p>Set budgets at the <em>provider</em> level (backstop) and the <em>app</em> level (control).</p>
+<ul>
+<li><strong>Provider backstops</strong>: Google Cloud budgets send email alerts at configurable percent thresholds and, for eligible AI services, can enforce a spend cap that pauses the service when usage crosses 100 percent of the budget (<a href="https://docs.cloud.google.com/billing/docs/how-to/budgets" rel="noopener">Cloud Billing budgets</a>, <a href="https://docs.cloud.google.com/billing/docs/how-to/budgets-spend-caps" rel="noopener">spend caps</a>; as of August 2026 eligible services include the Gemini API, Agent Platform, and Cloud Run). OpenAI and Anthropic both support workspace-level monthly budgets and hard limits in their consoles. Use them, but treat them as airbags, not steering.</li>
+<li><strong>App-level budgets</strong>: per-agent daily and per-session ceilings enforced in your own code before the call is made, with a defined behavior on breach: degrade to a cheaper model, queue for approval, or stop.</li>
+<li><strong>Pre-spend enforcement</strong>: budgets inside your app only cover model calls they wrap. When agents can move money (purchases, provisioning, paid tools), route the transaction through a decision point that returns approve, block, or flag against your rules before money moves. That is the sipi.bot pre-spend firewall model, and it is the only layer that acts before the charge.</li>
+</ul>
+<p>For starting numbers per use case, see <a href="/guides/guide-to-agent-budgeting-by-use-case">agent budgeting by use case</a>.</p>
+
+<h2 id="routing">4. Model routing: pay for capability only where needed</h2>
+<p>Most agent workloads are a ladder: a small, cheap model handles retrieval, classification, and tool selection; a large model handles hard reasoning steps. Routing decides per step.</p>
+<ul>
+<li><strong>Route by task, not by default</strong>: classify the step first, then pick the cheapest model that passes your quality bar for it.</li>
+<li><strong>Check current prices before you route</strong>: per-token rates differ by orders of magnitude across tiers and change often. The <a href="https://ai.google.dev/gemini-api/docs/pricing" rel="noopener">Gemini API pricing page</a> is an example of the level of detail providers publish (including batch and cache rates); OpenAI and Anthropic publish equivalent pages.</li>
+<li><strong>Fallback routing doubles as resilience</strong>: when the primary model errors or rate-limits, route to the alternate rather than retrying into the same wall.</li>
+</ul>
+<p>Routing changes quality, unlike caching. That is why it needs section 11's quality gates.</p>
+
+<h2 id="retries">5. Retries: the quiet multiplier of every incident</h2>
+<p>A retry loop is the most common way AI costs compound: a rate-limited agent that retries aggressively pays for compute or paid actions on every attempt. Anthropic's SDKs retry transient failures with exponential backoff twice by default and honor the <code>retry-after</code> header (<a href="https://platform.claude.com/docs/en/api/errors" rel="noopener">Claude API errors</a>); OpenAI documents rate-limit causes and backoff for 429 responses (<a href="https://help.openai.com/en/articles/5955604-how-can-i-solve-rate-limit-errors" rel="noopener">OpenAI help center</a>). Defaults are a floor, not a policy.</p>
+<ul>
+<li><strong>Bound every loop</strong>: max attempts, max elapsed time, and exponential backoff with jitter on every retrying call, including retries your SDK does silently.</li>
+<li><strong>Honor retry-after</strong>, and treat repeated 429s as a signal to switch models or shed load, not to retry harder.</li>
+<li><strong>Distinguish error classes</strong>: retry transient (429, 5xx, network); never retry a failure that will fail identically, and never auto-retry a payment or provisioning action without a spend check, or the loop itself becomes the incident.</li>
+<li><strong>Make writes idempotent</strong> so a retried action cannot double-charge.</li>
+</ul>
+
+<h2 id="caching">6. Caching: same outputs, lower unit price</h2>
+<p>Prompt caching reuses the computed prefix of repeated requests. It does not change model outputs, only price and latency. Mechanics as of August 2026:</p>
+<ul>
+<li><strong>OpenAI</strong>: caching is on by default for supported models, with a minimum cacheable prefix (1,024 tokens on newest models, 2,048 on older ones). Cache reads are discounted heavily, up to 90 percent on the newest models, around 50 percent on older tiers (<a href="https://developers.openai.com/api/docs/guides/prompt-caching" rel="noopener">prompt caching guide</a>).</li>
+<li><strong>Anthropic</strong>: explicit opt-in with <code>cache_control</code> markers. Writes cost 1.25x base input for a 5-minute TTL and 2x for 1 hour; reads cost 0.1x base input (<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" rel="noopener">prompt caching docs</a>).</li>
+<li><strong>Google Gemini</strong>: implicit caching is default on 2.5-and-newer models with no cost-saving guarantee; explicit caching guarantees savings and bills storage per hour (<a href="https://ai.google.dev/gemini-api/docs/generate-content/caching" rel="noopener">context caching docs</a>).</li>
+<li><strong>Batch APIs</strong>: for anything offline (evals, enrichment, backfills), OpenAI's Batch API cuts cost 50 percent with a 24-hour window and separate rate-limit pool (<a href="https://developers.openai.com/api/docs/guides/batch" rel="noopener">Batch API guide</a>), and Anthropic's Message Batches charges all usage at 50 percent (<a href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" rel="noopener">batch processing docs</a>). Gemini lists a 50 percent batch reduction on its pricing page.</li>
+</ul>
+<div class="callout">
+<p class="k">Design for the cache</p>
+<p>Cache hits reward stable prefixes: static system prompts, tool definitions, and reference material first; variable content last. A dynamically timestamped system prompt can zero out your hit rate. Watch the cached-token field in usage to verify.</p>
+</div>
+
+<h2 id="token-controls">7. Token controls: fewer tokens per task</h2>
+<p>The cheapest token is the one never processed.</p>
+<ul>
+<li><strong>Cap output</strong> with <code>max_tokens</code> sized to the task; unbounded generations are a classic runaway.</li>
+<li><strong>Trim context deliberately</strong>: retrieve only relevant chunks, summarize long histories, and drop stale tool output instead of letting the context grow monotonically across a session.</li>
+<li><strong>Compress prompts</strong>: boilerplate and few-shot padding that inflates every call adds up faster than any price change.</li>
+<li><strong>Set context budgets per feature</strong> and alert when a feature's average context drifts up.</li>
+</ul>
+
+<h2 id="observability">8. Observability: dashboards people actually read</h2>
+<p>Telemetry only pays if it is watched. Keep three views alive: total spend against budget, cost per task or per customer over time, and a per-agent breakdown that highlights the top spenders and the fastest movers. OpenAI's Usage API cookbook above is a working starting point for a custom dashboard; off-the-shelf LLM observability tools work too. The <a href="/best/ai-cost-management-tools">AI cost management tools comparison</a> maps the categories honestly, including where a pre-spend firewall fits versus observability and gateway layers.</p>
+
+<h2 id="anomaly-detection">9. Anomaly detection: catch the runaway before the invoice</h2>
+<p>Set a baseline week, then alert on deviation: cost per hour above a multiple of baseline, request velocity above normal, a single agent crossing its daily ceiling, or error rates spiking (a retry storm signature).</p>
+<ul>
+<li><strong>Provider alerts are the backstop</strong>: Google Cloud budget emails at 50, 80, 100 percent style thresholds, for example.</li>
+<li><strong>App-level detection is faster</strong>: minutes, not the billing cycle.</li>
+<li><strong>Pair detection with enforcement</strong>: an anomaly alert tells you a loop is burning money; only a pre-spend control stops attempt number twelve. The <a href="/blog/why-your-ai-bill-keeps-growing">anatomy of growing AI bills</a> covers the failure patterns in detail.</li>
+</ul>
+
+<h2 id="quality-gates">10. Quality gates: cost work must not ship regressions</h2>
+<p>Every cost lever that touches prompts or models can silently change behavior. Gate it.</p>
+<ul>
+<li><strong>Eval suite before any routing change</strong>: a fixed set of tasks with pass criteria, run on the candidate model or prompt before traffic shifts.</li>
+<li><strong>Canary the change</strong>: move a small share of traffic, compare quality and cost metrics, then widen.</li>
+<li><strong>Watch quality in production</strong>: error rates, user signals, and task success alongside cost, so a cheaper model that fails half its tasks is visible as what it is: more expensive.</li>
+</ul>
+
+<h2 id="sequence">11. The implementation sequence</h2>
+<p>Order matters: measurement before optimization, budgets before discounts, gates before routing. This is the sequence that works for most teams:</p>
+<ol class="steps">
+<li><strong>Instrument every call.</strong> Usage, cost, and attribution fields on all providers, in one store.</li>
+<li><strong>Build the baseline.</strong> One week of normal traffic: totals, per-agent, per-task unit costs.</li>
+<li><strong>Set budgets and alerts.</strong> Provider backstops plus app-level per-agent ceilings, with a defined breach behavior.</li>
+<li><strong>Fix retries.</strong> Bounded attempts, backoff with jitter, retry-after honored, idempotent writes.</li>
+<li><strong>Apply caching and batch.</strong> Stable prefixes, cache-friendly prompt order, offline work moved to batch endpoints.</li>
+<li><strong>Route by task.</strong> With quality gates live, move routine steps to cheaper models.</li>
+<li><strong>Control tokens.</strong> Context budgets, output caps, and retrieval that trims instead of appends.</li>
+<li><strong>Add pre-spend enforcement.</strong> When agents can transact, put a decision point in front of the money: approve, block, or flag against your rules, with one audit log.</li>
+</ol>
+
+<div class="band">
+<h2>Where sipi.bot fits</h2>
+<p>sipi.bot is the pre-spend firewall for autonomous AI agents: one API call in front of every agent transaction, returning APPROVED, BLOCKED, or FLAGGED against your caps, velocity limits, and merchant rules before money moves. It does not replace measurement, routing, or caching; it is the layer those tools do not cover, for the spend that is not tokens.</p>
+<p>The commercial next step is the existing paid fixed-scope implementation pilot: one real agent workflow, implemented end to end. There is also a free live check, no signup.</p>
+<a class="btn primary" href="/pilot">Apply for the paid implementation pilot</a>
+<a class="btn ghost" href="/playground/">Run a free live check</a>
+</div>
+
+<h2 id="faq">FAQ</h2>
+<div class="faq">
+<details><summary>What is AI cost management?</summary><p class="a">Measuring, attributing, and controlling what you spend on models and agent-driven transactions: usage telemetry, per-agent attribution, budgets and alerts, routing, caching, retry policy, token controls, and enforcement when a spend decision must be stopped before money moves.</p></details>
+<details><summary>Where should a team start?</summary><p class="a">With measurement, not tooling. Export usage and cost from every provider, attribute calls to agents and features, baseline a week, then set budgets, then apply unit-cost levers, then enforcement. The sequence section above orders all of it.</p></details>
+<details><summary>Is a provider spending cap enough?</summary><p class="a">No. It covers one provider, usually fires after spend has accrued, and ignores agent purchases outside that provider. Use it as a backstop alongside per-call attribution and a pre-spend decision point for agent transactions.</p></details>
+<details><summary>Do caching and batch discounts reduce quality?</summary><p class="a">No. Caching and batch return the same outputs at a different price and latency. Batch fits offline work only. Routing to cheaper models can change quality, which is why it needs evaluation gates before traffic shifts.</p></details>
+</div>
+
+<h2 id="sources">Official sources</h2>
+<ul>
+<li>OpenAI: <a href="https://developers.openai.com/api/docs/guides/prompt-caching" rel="noopener">prompt caching</a>, <a href="https://developers.openai.com/api/docs/guides/batch" rel="noopener">Batch API</a>, <a href="https://developers.openai.com/cookbook/examples/completions_usage_api" rel="noopener">Usage and Cost APIs cookbook</a>, <a href="https://help.openai.com/en/articles/5955604-how-can-i-solve-rate-limit-errors" rel="noopener">rate limits and 429s</a></li>
+<li>Anthropic: <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" rel="noopener">prompt caching</a>, <a href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" rel="noopener">Message Batches</a>, <a href="https://platform.claude.com/docs/en/api/errors" rel="noopener">API errors and retries</a></li>
+<li>Google: <a href="https://ai.google.dev/gemini-api/docs/pricing" rel="noopener">Gemini API pricing</a>, <a href="https://ai.google.dev/gemini-api/docs/generate-content/caching" rel="noopener">context caching</a>, <a href="https://docs.cloud.google.com/billing/docs/how-to/budgets" rel="noopener">Cloud Billing budgets</a>, <a href="https://docs.cloud.google.com/billing/docs/how-to/budgets-spend-caps" rel="noopener">spend caps</a></li>
+</ul>
+<p class="muted">Provider mechanics cited as of August 2026 and labeled where date-sensitive. Rates and thresholds change; verify against the linked pages before acting on them. This guide makes no claims about specific savings outcomes for any particular team.</p>
+
+<footer>
+<p>sipi.bot: the pre-spend firewall for autonomous AI agents. <a href="/">Home</a> · <a href="/pricing">Pricing</a> · <a href="/guides/">Guides</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a></p>
+</footer>
+</div>
+</body>
+</html>
