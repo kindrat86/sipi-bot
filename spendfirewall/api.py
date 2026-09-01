@@ -1548,6 +1548,20 @@ class Handler(BaseHTTPRequestHandler):
         "/alternatives/openpolicyagent/": "/compare/cedar-opa-policy/",
         "/alternatives/prompt-security": "/best/best-prompt-injection-protection",
         "/alternatives/prompt-security/": "/best/best-prompt-injection-protection",
+        # 2026-09-01 §5.7 budget prepay: five zero-trailing-28d-impression
+        # blog leaves retired. Each had only 1.7-1.9K rendered body characters
+        # including shared chrome and repeated a deeper, already-impressed
+        # glossary or answer page. Keep both URL forms mapped.
+        "/blog/the-agent-kill-switch": "/glossary/kill-switch",
+        "/blog/the-agent-kill-switch/": "/glossary/kill-switch",
+        "/blog/your-agents-need-a-budget-not-just-a-bill": "/glossary/spend-cap",
+        "/blog/your-agents-need-a-budget-not-just-a-bill/": "/glossary/spend-cap",
+        "/blog/the-agents-that-buy-things-need-the-strongest-budgets": "/glossary/merchant-allowlist",
+        "/blog/the-agents-that-buy-things-need-the-strongest-budgets/": "/glossary/merchant-allowlist",
+        "/blog/agent-spend-forecasting": "/answers/how-to-track-ai-agent-costs/",
+        "/blog/agent-spend-forecasting/": "/answers/how-to-track-ai-agent-costs/",
+        "/blog/the-image-generation-bill": "/answers/how-much-does-agentic-ai-cost/",
+        "/blog/the-image-generation-bill/": "/answers/how-much-does-agentic-ai-cost/",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO

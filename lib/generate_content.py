@@ -193,41 +193,6 @@ POSTS = [
         "date": "2026-01-30",
         "tags": ["cost","operations","best-practices"],
     },
-    {
-        "slug": "the-agent-kill-switch",
-        "title": "The agent kill switch: build it before you need it",
-        "description": "Runaways compound at machine speed — the kill switch has to be faster than the agent. What it is, how it works, and why ceilings mean you rarely need it.",
-        "date": "2026-01-15",
-        "tags": ["operations","security","rules"],
-    },
-    {
-        "slug": "your-agents-need-a-budget-not-just-a-bill",
-        "title": "Your agents need a budget, not just a bill",
-        "description": "Every agent platform bills you. Few give you a budget. The difference between a bill and a budget is a decision layer — here's how to build it.",
-        "date": "2025-12-20",
-        "tags": ["operations","cost","best-practices"],
-    },
-    {
-        "slug": "the-agents-that-buy-things-need-the-strongest-budgets",
-        "title": "The agents that buy things need the strongest budgets",
-        "description": "Procurement and purchasing agents exist to spend — one unvetted vendor, one wrong purchase. Why the buying agents get the tightest rules.",
-        "date": "2025-12-01",
-        "tags": ["operations","rules","procurement"],
-    },
-    {
-        "slug": "agent-spend-forecasting",
-        "title": "Agent spend forecasting: the ledger you're not keeping",
-        "description": "Forecasting agent spend isn't predicting the future — it's reading the audit log. The three inputs that make the forecast real.",
-        "date": "2025-11-15",
-        "tags": ["operations","cost","forecasting"],
-    },
-    {
-        "slug": "the-image-generation-bill",
-        "title": "The image generation bill: per-image costs add up fast",
-        "description": "DALL-E, Midjourney, and Stable Diffusion bill per image — and agents generate hundreds. The math agents don't show you.",
-        "date": "2025-10-30",
-        "tags": ["cost","images","architecture"],
-    },
 ]
 
 
@@ -761,96 +726,6 @@ def _body_for(post):
 
 <h3>The pattern</h3>
 <p>None of this is model-choice. That's why rate shopping alone never fixes the bill — and why the <a href="/benchmarks/agent-token-consumption-by-task">spend shape</a> matters more than the rate card.</p>
-</div>"""
-
-    if slug == "the-agent-kill-switch":
-        return """<section class="hero">
-<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The agent kill switch</div>
-<span class="tag navy">Operations</span>
-<h1>The agent kill switch: build it before you need it</h1>
-<p class="lead">Runaways compound at machine speed — the kill switch has to be faster than the agent. What it is, how it works, and why ceilings mean you rarely need it.</p>
-<div class="meta">January 15, 2026 · sipi.bot</div>
-</section>
-<div class="prose">
-<p>The <a href="/glossary/kill-switch">kill switch</a> is the control you hope never to use — which is exactly why you build it first. A runaway doesn't wait for a committee.</p>
-
-<h3>Speed is the requirement</h3>
-<p>Agents spend at machine speed; a retry loop can bill thousands in minutes. The kill switch must disable spending <em>instantly</em> — one action, affecting the agent, the fleet, or the merchant, enforced on the next transaction.</p>
-
-<h3>Why ceilings mean you rarely need it</h3>
-<p>The kill switch is the emergency brake; <a href="/glossary/velocity-limit">velocity limits</a> and <a href="/glossary/spend-cap">spend caps</a> are the cruise control. A governed agent hits its cap and stops on its own — the switch stays in the glovebox. That's the design: <a href="/how-to/how-to-stop-runaway-agents">stop the bleeding, contain, understand, prevent →</a></p>
-</div>"""
-
-    if slug == "your-agents-need-a-budget-not-just-a-bill":
-        return """<section class="hero">
-<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Your agents need a budget, not just a bill</div>
-<span class="tag navy">Operations</span>
-<h1>Your agents need a budget, not just a bill</h1>
-<p class="lead">Every agent platform bills you. Few give you a budget. The difference between a bill and a budget is a decision layer — here's how to build it.</p>
-<div class="meta">December 20, 2025 · sipi.bot</div>
-</section>
-<div class="prose">
-<p>Platforms are great at the <em>bill</em> — usage pages, invoices, alerts. They're almost universally bad at the <em>budget</em> — deciding, before the money moves, whether the spend may happen.</p>
-
-<h3>Bill vs budget</h3>
-<p>A bill is retrospective: what happened. A budget is prospective: what may happen. Alerts tell you after the damage; a <a href="/glossary/spend-cap">spend cap</a> prevents it. The platforms you run agents on bill you; the budget is the layer you add.</p>
-
-<h3>The three numbers</h3>
-<p><strong>The ceiling</strong> — the most an agent may spend in a period. <strong>The velocity limit</strong> — how fast it may spend. <strong>The allowlist</strong> — who it may pay. Those three numbers are the budget; everything else is dashboard. <a href="/answers/how-to-set-a-budget-for-ai-agents/">Set it →</a></p>
-</div>"""
-
-    if slug == "the-agents-that-buy-things-need-the-strongest-budgets":
-        return """<section class="hero">
-<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The agents that buy things</div>
-<span class="tag navy">Operations</span>
-<h1>The agents that buy things need the strongest budgets</h1>
-<p class="lead">Procurement and purchasing agents exist to spend — one unvetted vendor, one wrong purchase. Why the buying agents get the tightest rules.</p>
-<div class="meta">December 1, 2025 · sipi.bot</div>
-</section>
-<div class="prose">
-<p>Most agents spend as a side effect of doing work. <a href="/use-cases/procurement-agents">Procurement agents</a> spend as the point of their existence — they source, compare, and buy. The rules that fit a coding agent don't fit them.</p>
-
-<h3>The buying agent's risk profile</h3>
-<p>Purchasing is irreversible and vendor-directed: one unvetted merchant, one approved purchase, and procurement has happened. There's no retry to catch — the buy is the event.</p>
-
-<h3>The tightest controls</h3>
-<p>The <a href="/glossary/merchant-allowlist">allowlist is the centerpiece</a> — unapproved vendors are simply not payable. Then a per-requisition cap, an approval threshold for new vendors, and a full audit trail on every purchase. Buy with the strongest budget, always.</p>
-</div>"""
-
-    if slug == "agent-spend-forecasting":
-        return """<section class="hero">
-<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>Agent spend forecasting</div>
-<span class="tag warn">Cost</span>
-<h1>Agent spend forecasting: the ledger you're not keeping</h1>
-<p class="lead">Forecasting agent spend isn't predicting the future — it's reading the audit log. The three inputs that make the forecast real.</p>
-<div class="meta">November 15, 2025 · sipi.bot</div>
-</section>
-<div class="prose">
-<p>Most AI spend forecasts are vibes: take last month, add growth, round up. The audit log makes it arithmetic instead.</p>
-
-<h3>The three inputs</h3>
-<p><strong>Per-agent actuals</strong> — what each agent really spends, from the log. <strong>Volume trend</strong> — how calls grow per agent and per category. <strong>Ceiling proximity</strong> — how close agents run to their caps, which tells you whether the forecast is a floor or a ceiling.</p>
-
-<h3>The forecast</h3>
-<p>Next month ≈ per-agent actuals × volume trend, bounded by ceilings. That's not prediction — it's the ledger doing its job. <a href="/answers/how-to-track-ai-agent-costs/">Track it →</a> The monthly <a href="/templates/agent-cost-report-template">cost report</a> turns the log into the forecast.</p>
-</div>"""
-
-    if slug == "the-image-generation-bill":
-        return """<section class="hero">
-<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span>The image generation bill</div>
-<span class="tag warn">Cost</span>
-<h1>The image generation bill: per-image costs add up fast</h1>
-<p class="lead">DALL-E, Midjourney, and Stable Diffusion bill per image — and agents generate hundreds. The math agents don't show you.</p>
-<div class="meta">October 30, 2025 · sipi.bot</div>
-</section>
-<div class="prose">
-<p>Text models bill per token — visible in every dashboard. Image models bill per image — and agents iterate, regenerate, and scale without anyone doing the per-image math.</p>
-
-<h3>The multiplication</h3>
-<p>A content agent generating 100 assets with 3 iterations each is 300 billable images — before campaigns, A/B variants, or localization. At per-image rates that's a real line. <a href="/cost-of/dall-e-api-cost">DALL-E</a>, <a href="/cost-of/midjourney-cost">Midjourney</a>, and <a href="/cost-of/stable-diffusion-api-cost">Stable Diffusion providers</a> all multiply the same way.</p>
-
-<h3>The control</h3>
-<p>Per-agent ceilings on image generation, a regeneration limit (velocity), and a category budget that separates images from text. The bill is per-image × volume; the ceiling governs the volume. <a href="/answers/how-much-does-agentic-ai-cost/">The full cost picture →</a></p>
 </div>"""
 
     return ""  # fallback

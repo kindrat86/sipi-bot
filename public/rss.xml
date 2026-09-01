@@ -368,47 +368,6 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Fri, 30 Jan 2026 12:00:00 GMT</pubDate>
   </item>
-  <item>
-    <title>The agent kill switch: build it before you need it</title>
-    <link>https://sipi.bot/blog/the-agent-kill-switch/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/the-agent-kill-switch#540171c8-b287-5850-87b0-225c0ab4ed8b</guid>
-    <description>Runaways compound at machine speed — the kill switch has to be faster than the agent. What it is, how it works, and why ceilings mean you rarely need it.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Thu, 15 Jan 2026 12:00:00 GMT</pubDate>
-  </item>
-
-  <item>
-    <title>Your agents need a budget, not just a bill</title>
-    <link>https://sipi.bot/blog/your-agents-need-a-budget-not-just-a-bill/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/your-agents-need-a-budget-not-just-a-bill#ebd70a32-1e98-5961-8185-fc9149fb9a33</guid>
-    <description>Every agent platform bills you. Few give you a budget. The difference between a bill and a budget is a decision layer — here&#x27;s how to build it.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Sat, 20 Dec 2025 12:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>The agents that buy things need the strongest budgets</title>
-    <link>https://sipi.bot/blog/the-agents-that-buy-things-need-the-strongest-budgets/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/the-agents-that-buy-things-need-the-strongest-budgets#caf5312b-c365-591b-966d-fd95e0932dce</guid>
-    <description>Procurement and purchasing agents exist to spend — one unvetted vendor, one wrong purchase. Why the buying agents get the tightest rules.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Mon, 01 Dec 2025 12:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Agent spend forecasting: the ledger you&#x27;re not keeping</title>
-    <link>https://sipi.bot/blog/agent-spend-forecasting/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/agent-spend-forecasting#7f3be05e-0074-522a-9100-dd4d9883338a</guid>
-    <description>Forecasting agent spend isn&#x27;t predicting the future — it&#x27;s reading the audit log. The three inputs that make the forecast real.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Sat, 15 Nov 2025 12:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>The image generation bill: per-image costs add up fast</title>
-    <link>https://sipi.bot/blog/the-image-generation-bill/</link>
-    <guid isPermaLink="true">https://sipi.bot/blog/the-image-generation-bill#b07f2247-d4f5-5b48-8530-5eeaf83b3272</guid>
-    <description>DALL-E, Midjourney, and Stable Diffusion bill per image — and agents generate hundreds. The math agents don&#x27;t show you.</description>
-    <dc:creator>sipi.bot</dc:creator>
-    <pubDate>Thu, 30 Oct 2025 12:00:00 GMT</pubDate>
-  </item>
 
 
   </channel>
