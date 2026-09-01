@@ -562,6 +562,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <a href="/how-to/">how-to</a> ·
     <a href="/use-cases/">use cases</a> ·
     <a href="/guides/">deep guides</a> ·
+    <a href="/ai-cost-management/">AI cost management guide</a> ·
     <a href="/checklists/">checklists</a> ·
     <a href="/templates/agent-spend-policy-template">policy template</a>
   </div>
