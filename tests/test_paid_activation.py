@@ -109,6 +109,60 @@ class PaidActivationTests(unittest.TestCase):
             server.server_close()
             thread.join(timeout=5)
 
+    def test_checkout_webhook_ignores_foreign_shared_account_session_before_side_effects(self):
+        event = {
+            "id": "evt_gitdealflow_foreign",
+            "type": "checkout.session.completed",
+            "data": {
+                "object": {
+                    "id": "cs_gitdealflow_foreign",
+                    "payment_status": "paid",
+                    "amount_total": 100,
+                    "currency": "eur",
+                    "payment_link": "plink_1TU4ZvCwGoUDklReEjuprkH0",
+                    "metadata": {
+                        "source": "landing-tripwire",
+                        "tier": "teardown",
+                    },
+                    "line_items": {
+                        "data": [
+                            {"price": {"product": "prod_UT0aPLSENVCw5o"}}
+                        ]
+                    },
+                    "customer": "cus_gitdealflow_foreign",
+                    "customer_details": {"email": "foreign@example.com"},
+                }
+            },
+        }
+        raw = json.dumps(event).encode()
+
+        with mock.patch.dict(os.environ, {"STRIPE_WEBHOOK_SECRET": "whsec_test"}), \
+                mock.patch.object(billing, "verify_stripe_signature", return_value=True):
+            result = billing.handle_webhook(raw, "test-signature")
+
+        self.assertEqual(result, {"ignored": "foreign_checkout_session"})
+        self.capture.assert_not_called()
+        if os.path.exists(self.billing_db):
+            with sqlite3.connect(self.billing_db) as conn:
+                tables = {
+                    row[0]
+                    for row in conn.execute(
+                        "SELECT name FROM sqlite_master WHERE type='table'"
+                    )
+                }
+                if "api_keys" in tables:
+                    self.assertEqual(
+                        conn.execute("SELECT COUNT(*) FROM api_keys").fetchone()[0],
+                        0,
+                    )
+                if "processed_webhook_events" in tables:
+                    self.assertEqual(
+                        conn.execute(
+                            "SELECT COUNT(*) FROM processed_webhook_events"
+                        ).fetchone()[0],
+                        0,
+                    )
+
     def test_checkout_webhook_is_idempotent_and_analytics_are_sanitized(self):
         event = {
             "id": "evt_repeat",
@@ -127,6 +181,20 @@ class PaidActivationTests(unittest.TestCase):
             },
         }
         raw = json.dumps(event).encode()
+        billing.init_db()
+        with sqlite3.connect(self.billing_db) as conn:
+            conn.execute(
+                "INSERT INTO pending_sessions "
+                "(session_id, plan, created_at, analytics_id, source_cta) "
+                "VALUES (?,?,?,?,?)",
+                (
+                    "cs_sensitive",
+                    "team",
+                    "2026-09-02T00:00:00+00:00",
+                    "anon-browser-2",
+                    "pricing",
+                ),
+            )
         with mock.patch.dict(os.environ, {"STRIPE_WEBHOOK_SECRET": "whsec_test"}), \
                 mock.patch.object(billing, "verify_stripe_signature", return_value=True):
             first = billing.handle_webhook(raw, "test-signature")

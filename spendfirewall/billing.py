@@ -396,6 +396,39 @@ def verify_stripe_signature(raw_body: bytes, sig_header: str, secret: str,
         return False
 
 
+def _owned_pending_session(session_id: Optional[str]) -> Optional[dict[str, Any]]:
+    """Return a locally-created Checkout Session without mutating billing state."""
+    if not session_id or not os.path.exists(_DB):
+        return None
+    db_uri = "file:" + urllib.parse.quote(os.path.abspath(_DB)) + "?mode=ro"
+    try:
+        with sqlite3.connect(db_uri, uri=True, timeout=30) as c:
+            c.row_factory = sqlite3.Row
+            row = c.execute(
+                "SELECT plan, analytics_id, source_cta FROM pending_sessions "
+                "WHERE session_id=?",
+                (session_id,),
+            ).fetchone()
+            return dict(row) if row else None
+    except sqlite3.Error:
+        return None
+
+
+def _processed_event(event_id: str) -> bool:
+    """Check webhook idempotency without creating or migrating the database."""
+    if not event_id or not os.path.exists(_DB):
+        return False
+    db_uri = "file:" + urllib.parse.quote(os.path.abspath(_DB)) + "?mode=ro"
+    try:
+        with sqlite3.connect(db_uri, uri=True, timeout=30) as c:
+            return c.execute(
+                "SELECT 1 FROM processed_webhook_events WHERE event_id=?",
+                (event_id,),
+            ).fetchone() is not None
+    except sqlite3.Error:
+        return False
+
+
 def handle_webhook(raw_body: bytes, sig_header: str) -> dict:
     """Process a Stripe webhook. The signature is ALWAYS verified manually
     (pure-Python HMAC-SHA256; the unsigned-body fallbacks are gone).
@@ -418,6 +451,18 @@ def handle_webhook(raw_body: bytes, sig_header: str) -> dict:
     event_id = (event.get("id") or "").strip()
     etype = event.get("type")
     obj = event.get("data", {}).get("object", {})
+    if _processed_event(event_id):
+        return {"duplicate": True, "event": etype}
+    owned_session = None
+    if etype == "checkout.session.completed":
+        # The Stripe account and endpoint are shared across products. A valid
+        # signature proves account origin, not sipi.bot ownership. Only a
+        # session recorded locally when sipi.bot created Checkout is ours.
+        # Perform this read-only gate before idempotency records, key issuance,
+        # analytics, or any other webhook side effect.
+        owned_session = _owned_pending_session(obj.get("id"))
+        if not owned_session:
+            return {"ignored": "foreign_checkout_session"}
     if event_id:
         init_db()
         with _LOCK, _conn() as c:
@@ -429,33 +474,15 @@ def handle_webhook(raw_body: bytes, sig_header: str) -> dict:
                 return {"duplicate": True, "event": etype}
 
     if etype == "checkout.session.completed":
+        assert owned_session is not None
         cs_id = obj.get("id")
-        plan = (obj.get("metadata") or {}).get("plan")
-        analytics_id = _safe_analytics_id(obj.get("client_reference_id"))
-        source_cta = "direct"
-        if not plan:
-            with _LOCK, _conn() as c:
-                row = c.execute(
-                    "SELECT plan, analytics_id, source_cta FROM pending_sessions "
-                    "WHERE session_id=?",
-                    (cs_id,),
-                ).fetchone()
-                plan = row["plan"] if row else "team"
-                if row:
-                    analytics_id = _safe_analytics_id(row["analytics_id"])
-                    source_cta = row["source_cta"] or source_cta
-        else:
-            with _LOCK, _conn() as c:
-                row = c.execute(
-                    "SELECT analytics_id, source_cta FROM pending_sessions "
-                    "WHERE session_id=?",
-                    (cs_id,),
-                ).fetchone()
-                if row:
-                    analytics_id = _safe_analytics_id(
-                        obj.get("client_reference_id") or row["analytics_id"]
-                    )
-                    source_cta = row["source_cta"] or source_cta
+        # Local pending state is authoritative for the tier. Do not trust
+        # account-wide event metadata supplied by another shared product.
+        plan = owned_session["plan"]
+        analytics_id = _safe_analytics_id(
+            obj.get("client_reference_id") or owned_session["analytics_id"]
+        )
+        source_cta = owned_session["source_cta"] or "direct"
         email = (obj.get("customer_details") or {}).get("email") or obj.get("customer_email")
         api_key, created = _issue_key(
             plan,
