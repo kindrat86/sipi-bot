@@ -85,6 +85,14 @@ def _safe_analytics_id(value: Optional[str] = None) -> Optional[str]:
     return None
 
 
+def _stripe_id(value: Any) -> Optional[str]:
+    """Normalize an unexpanded Stripe ID or an expanded object to its ID."""
+    raw_id = value.get("id") if isinstance(value, dict) else value
+    if isinstance(raw_id, str) and raw_id.strip():
+        return raw_id.strip()
+    return None
+
+
 def _key_agent_id(api_key: str) -> str:
     """Stable pseudonymous agent id for a paid key without exposing the key."""
     return "billing_" + hashlib.sha256(api_key.encode()).hexdigest()[:24]
@@ -216,8 +224,15 @@ def init_db() -> None:
             )
         except sqlite3.IntegrityError:
             pass
-        # Abandoned Checkout sessions and old webhook replay markers otherwise
-        # grow forever. These windows are well beyond Stripe's retry period.
+        # Schema initialization must be side-effect-free with respect to live
+        # webhook ownership and idempotency rows. Webhook handlers only reach
+        # this function after a verified ownership read, and a duplicate must
+        # never trigger cleanup before its atomic claim.
+
+
+def prune_expired_billing_records() -> None:
+    """Perform non-critical retention cleanup outside webhook delivery."""
+    with _LOCK, _conn() as c:
         c.execute(
             "DELETE FROM pending_sessions WHERE created_at<?",
             ((datetime.now(timezone.utc) - timedelta(days=30)).isoformat(),),
@@ -290,8 +305,11 @@ def create_checkout_session(
     if analytics_id:
         data["client_reference_id"] = analytics_id
     # Per-session branding was added in Stripe's 2025-09-30.clover API.
-    session = _stripe_post("/checkout/sessions", data, api_version="2025-09-30.clover")
+    # Retention maintenance happens on a checkout-creation path, never during
+    # an inbound webhook before its event claim.
     init_db()
+    prune_expired_billing_records()
+    session = _stripe_post("/checkout/sessions", data, api_version="2025-09-30.clover")
     with _LOCK, _conn() as c:
         c.execute(
             "INSERT OR REPLACE INTO pending_sessions "
@@ -307,6 +325,44 @@ def create_checkout_session(
     return session["url"]
 
 
+def _issue_key_in_conn(
+    c: sqlite3.Connection,
+    plan: str,
+    email: Optional[str],
+    customer: Optional[str],
+    subscription: Optional[str],
+    checkout_session: Optional[str],
+    analytics_id: Optional[str],
+) -> tuple[str, bool]:
+    if checkout_session:
+        existing = c.execute(
+            "SELECT key FROM api_keys WHERE stripe_checkout_session=?",
+            (checkout_session,),
+        ).fetchone()
+        if existing:
+            return existing["key"], False
+    api_key = "sk_live_" + secrets.token_hex(24)
+    c.execute(
+        "INSERT INTO api_keys (key, tier, email, stripe_customer_id, stripe_subscription_id, "
+        "stripe_checkout_session, created_at, active, usage_count, usage_window_start, "
+        "analytics_id) VALUES (?,?,?,?,?,?,?,1,0,?,?)",
+        (
+            api_key,
+            plan,
+            email,
+            customer,
+            subscription,
+            checkout_session,
+            _now(),
+            _now(),
+            _safe_analytics_id(analytics_id),
+        ),
+    )
+    if checkout_session:
+        c.execute("DELETE FROM pending_sessions WHERE session_id=?", (checkout_session,))
+    return api_key, True
+
+
 def _issue_key(
     plan: str,
     email: Optional[str],
@@ -317,33 +373,15 @@ def _issue_key(
 ) -> tuple[str, bool]:
     init_db()
     with _LOCK, _conn() as c:
-        if checkout_session:
-            existing = c.execute(
-                "SELECT key FROM api_keys WHERE stripe_checkout_session=?",
-                (checkout_session,),
-            ).fetchone()
-            if existing:
-                return existing["key"], False
-        api_key = "sk_live_" + secrets.token_hex(24)
-        c.execute(
-            "INSERT INTO api_keys (key, tier, email, stripe_customer_id, stripe_subscription_id, "
-            "stripe_checkout_session, created_at, active, usage_count, usage_window_start, "
-            "analytics_id) VALUES (?,?,?,?,?,?,?,1,0,?,?)",
-            (
-                api_key,
-                plan,
-                email,
-                customer,
-                subscription,
-                checkout_session,
-                _now(),
-                _now(),
-                _safe_analytics_id(analytics_id),
-            ),
+        return _issue_key_in_conn(
+            c,
+            plan,
+            email,
+            customer,
+            subscription,
+            checkout_session,
+            analytics_id,
         )
-        if checkout_session:
-            c.execute("DELETE FROM pending_sessions WHERE session_id=?", (checkout_session,))
-    return api_key, True
 
 
 _QUARANTINE_FILE = os.environ.get(
@@ -401,17 +439,59 @@ def _owned_pending_session(session_id: Optional[str]) -> Optional[dict[str, Any]
     if not session_id or not os.path.exists(_DB):
         return None
     db_uri = "file:" + urllib.parse.quote(os.path.abspath(_DB)) + "?mode=ro"
-    try:
-        with sqlite3.connect(db_uri, uri=True, timeout=30) as c:
-            c.row_factory = sqlite3.Row
-            row = c.execute(
-                "SELECT plan, analytics_id, source_cta FROM pending_sessions "
-                "WHERE session_id=?",
-                (session_id,),
-            ).fetchone()
-            return dict(row) if row else None
-    except sqlite3.Error:
+    with sqlite3.connect(db_uri, uri=True, timeout=30) as c:
+        c.row_factory = sqlite3.Row
+        row = c.execute(
+            "SELECT plan, analytics_id, source_cta, created_at "
+            "FROM pending_sessions WHERE session_id=?",
+            (session_id,),
+        ).fetchone()
+        if not row:
+            return None
+        created_at = datetime.fromisoformat(str(row["created_at"]))
+        if created_at.tzinfo is None:
+            created_at = created_at.replace(tzinfo=timezone.utc)
+        if created_at < datetime.now(timezone.utc) - timedelta(days=30):
+            return None
+        return dict(row)
+
+
+def _owned_pending_session_in_conn(
+    c: sqlite3.Connection, session_id: Optional[str]
+) -> Optional[dict[str, Any]]:
+    """Revalidate local Checkout ownership inside the claim transaction."""
+    if not session_id:
         return None
+    row = c.execute(
+        "SELECT plan, analytics_id, source_cta, created_at "
+        "FROM pending_sessions WHERE session_id=?",
+        (session_id,),
+    ).fetchone()
+    if not row:
+        return None
+    created_at = datetime.fromisoformat(str(row["created_at"]))
+    if created_at.tzinfo is None:
+        created_at = created_at.replace(tzinfo=timezone.utc)
+    if created_at < datetime.now(timezone.utc) - timedelta(days=30):
+        return None
+    return dict(row)
+
+
+def _owned_subscription(
+    subscription_id: Optional[str], customer_id: Optional[str]
+) -> Optional[dict[str, Any]]:
+    """Return a subscription/customer pair already bound to a local API key."""
+    if not subscription_id or not customer_id or not os.path.exists(_DB):
+        return None
+    db_uri = "file:" + urllib.parse.quote(os.path.abspath(_DB)) + "?mode=ro"
+    with sqlite3.connect(db_uri, uri=True, timeout=30) as c:
+        c.row_factory = sqlite3.Row
+        row = c.execute(
+            "SELECT analytics_id, tier FROM api_keys "
+            "WHERE stripe_subscription_id=? AND stripe_customer_id=? LIMIT 1",
+            (subscription_id, customer_id),
+        ).fetchone()
+        return dict(row) if row else None
 
 
 def _processed_event(event_id: str) -> bool:
@@ -427,6 +507,58 @@ def _processed_event(event_id: str) -> bool:
             ).fetchone() is not None
     except sqlite3.Error:
         return False
+
+
+def _claim_event(c: sqlite3.Connection, event_id: str, event_type: str) -> bool:
+    claimed = c.execute(
+        "INSERT OR IGNORE INTO processed_webhook_events "
+        "(event_id, event_type, processed_at) VALUES (?,?,?)",
+        (event_id, event_type, _now()),
+    )
+    return claimed.rowcount == 1
+
+
+def _claim_owned_checkout_event(
+    c: sqlite3.Connection,
+    event_id: str,
+    event_type: str,
+    session_id: str,
+    expected_plan: Optional[str] = None,
+) -> tuple[str, Optional[dict[str, Any]]]:
+    """Atomically claim a fresh, locally-owned checkout event.
+
+    The freshness predicate runs inside the same SQLite statement that writes
+    the idempotency marker. This prevents a session crossing the retention
+    cutoff between a Python ownership check and key issuance.
+    """
+    c.execute("BEGIN IMMEDIATE")
+    params: list[Any] = [event_id, event_type, _now(), session_id]
+    plan_clause = ""
+    if expected_plan is not None:
+        plan_clause = " AND plan=?"
+        params.append(expected_plan)
+    claimed = c.execute(
+        "INSERT OR IGNORE INTO processed_webhook_events "
+        "(event_id, event_type, processed_at) "
+        "SELECT ?, ?, ? WHERE EXISTS ("
+        "SELECT 1 FROM pending_sessions "
+        "WHERE session_id=?" + plan_clause + " "
+        "AND julianday(created_at) >= julianday('now', '-30 days')"
+        ")",
+        params,
+    )
+    if claimed.rowcount == 1:
+        row = c.execute(
+            "SELECT plan, analytics_id, source_cta, created_at "
+            "FROM pending_sessions WHERE session_id=?",
+            (session_id,),
+        ).fetchone()
+        return "claimed", dict(row) if row else None
+    if c.execute(
+        "SELECT 1 FROM processed_webhook_events WHERE event_id=?", (event_id,)
+    ).fetchone():
+        return "duplicate", None
+    return "foreign", None
 
 
 def handle_webhook(raw_body: bytes, sig_header: str) -> dict:
@@ -448,12 +580,26 @@ def handle_webhook(raw_body: bytes, sig_header: str) -> dict:
         raise ValueError("signature_verification_failed")
     event = json.loads(raw_body.decode())
 
-    event_id = (event.get("id") or "").strip()
+    raw_event_id = event.get("id")
+    event_id = raw_event_id.strip() if isinstance(raw_event_id, str) else ""
     etype = event.get("type")
     obj = event.get("data", {}).get("object", {})
+    handled_events = {
+        "checkout.session.completed",
+        "customer.subscription.updated",
+        "customer.subscription.deleted",
+    }
+    if etype not in handled_events:
+        return {"ignored": etype}
+    if not re.fullmatch(r"evt_[A-Za-z0-9_]+", event_id):
+        return {"ignored": "invalid_event_id"}
     if _processed_event(event_id):
         return {"duplicate": True, "event": etype}
     owned_session = None
+    owned_subscription = None
+    plan: Optional[str] = None
+    customer_id: Optional[str] = None
+    subscription_id: Optional[str] = None
     if etype == "checkout.session.completed":
         # The Stripe account and endpoint are shared across products. A valid
         # signature proves account origin, not sipi.bot ownership. Only a
@@ -463,35 +609,65 @@ def handle_webhook(raw_body: bytes, sig_header: str) -> dict:
         owned_session = _owned_pending_session(obj.get("id"))
         if not owned_session:
             return {"ignored": "foreign_checkout_session"}
-    if event_id:
-        init_db()
-        with _LOCK, _conn() as c:
-            seen = c.execute(
-                "SELECT 1 FROM processed_webhook_events WHERE event_id=?",
-                (event_id,),
-            ).fetchone()
-            if seen:
-                return {"duplicate": True, "event": etype}
+        if obj.get("payment_status") != "paid":
+            return {"ignored": "unpaid_checkout_session"}
+        plan = owned_session.get("plan")
+        tier = TIERS.get(plan) if isinstance(plan, str) else None
+        expected_mode = tier.get("mode", "subscription") if tier else None
+        if not isinstance(plan, str) or not tier or obj.get("mode") != expected_mode:
+            return {"ignored": "invalid_owned_checkout_session"}
+        customer_id = _stripe_id(obj.get("customer"))
+        subscription_id = _stripe_id(obj.get("subscription"))
+        if expected_mode == "subscription" and (
+            not subscription_id or not customer_id
+        ):
+            return {"ignored": "invalid_owned_checkout_session"}
+    elif etype in {
+        "customer.subscription.updated",
+        "customer.subscription.deleted",
+    }:
+        customer_id = _stripe_id(obj.get("customer"))
+        subscription_id = _stripe_id(obj.get("id"))
+        owned_subscription = _owned_subscription(subscription_id, customer_id)
+        if not owned_subscription:
+            return {"ignored": "foreign_subscription"}
 
     if etype == "checkout.session.completed":
         assert owned_session is not None
-        cs_id = obj.get("id")
-        # Local pending state is authoritative for the tier. Do not trust
-        # account-wide event metadata supplied by another shared product.
-        plan = owned_session["plan"]
-        analytics_id = _safe_analytics_id(
-            obj.get("client_reference_id") or owned_session["analytics_id"]
-        )
-        source_cta = owned_session["source_cta"] or "direct"
+        assert isinstance(plan, str)
+        cs_id = _stripe_id(obj.get("id"))
+        if not cs_id:
+            return {"ignored": "foreign_checkout_session"}
         email = (obj.get("customer_details") or {}).get("email") or obj.get("customer_email")
-        api_key, created = _issue_key(
-            plan,
-            email,
-            obj.get("customer"),
-            obj.get("subscription"),
-            cs_id,
-            analytics_id,
-        )
+        with _LOCK, _conn() as c:
+            # Keep the read-only recheck as a fast fail-closed guard. The SQL
+            # claim below remains authoritative, binding freshness to the
+            # marker write at database time.
+            if not _owned_pending_session_in_conn(c, cs_id):
+                return {"ignored": "foreign_checkout_session"}
+            # The claim SQL verifies the pending row is still locally owned,
+            # still matches the already-validated plan, and remains fresh at
+            # the same instant it inserts the idempotency marker.
+            outcome, claimed_session = _claim_owned_checkout_event(
+                c, event_id, etype, cs_id, plan
+            )
+            if outcome == "duplicate":
+                return {"duplicate": True, "event": etype}
+            if outcome != "claimed" or not claimed_session:
+                return {"ignored": "foreign_checkout_session"}
+            analytics_id = _safe_analytics_id(
+                obj.get("client_reference_id") or claimed_session["analytics_id"]
+            )
+            source_cta = claimed_session["source_cta"] or "direct"
+            api_key, created = _issue_key_in_conn(
+                c,
+                plan,
+                email,
+                customer_id,
+                subscription_id,
+                cs_id,
+                analytics_id,
+            )
         if created:
             safe_revenue = {
                 "plan": plan,
@@ -505,64 +681,41 @@ def handle_webhook(raw_body: bytes, sig_header: str) -> dict:
                 analytics_id,
                 {"plan": plan, "source_cta": source_cta},
             )
-        if event_id:
-            with _LOCK, _conn() as c:
-                c.execute(
-                    "INSERT OR IGNORE INTO processed_webhook_events "
-                    "(event_id, event_type, processed_at) VALUES (?,?,?)",
-                    (event_id, etype, _now()),
-                )
         return {"issued": created, "tier": plan}
 
     if etype == "customer.subscription.deleted":
-        sub = obj.get("id")
+        assert owned_subscription is not None
+        sub = subscription_id
         with _LOCK, _conn() as c:
-            key_row = c.execute(
-                "SELECT analytics_id, tier FROM api_keys "
-                "WHERE stripe_subscription_id=? LIMIT 1",
-                (sub,),
-            ).fetchone()
-            c.execute("UPDATE api_keys SET active=0 WHERE stripe_subscription_id=?", (sub,))
+            if not _claim_event(c, event_id, etype):
+                return {"duplicate": True, "event": etype}
+            c.execute(
+                "UPDATE api_keys SET active=0 "
+                "WHERE stripe_subscription_id=? AND stripe_customer_id=?",
+                (sub, customer_id),
+            )
         _capture(
             "subscription_canceled",
-            _safe_analytics_id(key_row["analytics_id"] if key_row else None),
-            {
-                "plan": (
-                    key_row["tier"]
-                    if key_row
-                    else (obj.get("metadata") or {}).get("plan")
-                ),
-            },
+            _safe_analytics_id(owned_subscription["analytics_id"]),
+            {"plan": owned_subscription["tier"]},
         )
-        if event_id:
-            with _LOCK, _conn() as c:
-                c.execute(
-                    "INSERT OR IGNORE INTO processed_webhook_events "
-                    "(event_id, event_type, processed_at) VALUES (?,?,?)",
-                    (event_id, etype, _now()),
-                )
         return {"deactivated": sub}
 
     if etype == "customer.subscription.updated":
-        sub = obj.get("id")
+        sub = subscription_id
         status = obj.get("status")
-        if status in ("canceled", "unpaid", "incomplete_expired"):
-            with _LOCK, _conn() as c:
-                c.execute("UPDATE api_keys SET active=0 WHERE stripe_subscription_id=?", (sub,))
-                if event_id:
-                    c.execute(
-                        "INSERT OR IGNORE INTO processed_webhook_events "
-                        "(event_id, event_type, processed_at) VALUES (?,?,?)",
-                        (event_id, etype, _now()),
-                    )
-            return {"deactivated": sub, "status": status}
-        if event_id:
-            with _LOCK, _conn() as c:
+        deactivating = status in ("canceled", "unpaid", "incomplete_expired")
+        with _LOCK, _conn() as c:
+            if not _claim_event(c, event_id, etype):
+                return {"duplicate": True, "event": etype}
+            if deactivating:
                 c.execute(
-                    "INSERT OR IGNORE INTO processed_webhook_events "
-                    "(event_id, event_type, processed_at) VALUES (?,?,?)",
-                    (event_id, etype, _now()),
+                    "UPDATE api_keys SET active=0 "
+                    "WHERE stripe_subscription_id=? AND stripe_customer_id=?",
+                    (sub, customer_id),
                 )
+        if deactivating:
+            return {"deactivated": sub, "status": status}
         return {"ok": True, "status": status}
 
     return {"ignored": etype}
