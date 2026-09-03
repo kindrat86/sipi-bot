@@ -624,6 +624,22 @@ if(run)run.addEventListener('click',function(){run.disabled=true;run.textContent
       </div>
     </div>
     <p class="center quiet" style="margin-top:24px;font-size:0.875rem">A deterministic rules engine — no model in the decision path. <a href="/security">How sipi.bot handles security →</a></p>
+    <h3 class="center" style="margin-top:40px;font-size:1.25rem">Verified work</h3>
+    <div class="numbers-grid" style="grid-template-columns:repeat(3,1fr);max-width:900px">
+      <div class="number-card">
+        <div class="number" style="font-size:1.15rem">Sep 1, 2026</div>
+        <div class="number-label">checkout fixed so every plan (incl. pilot) is purchasable — commit <a href="https://github.com/kindrat86/sipi-bot/commit/fbe5724">fbe5724</a>, with regression tests</div>
+      </div>
+      <div class="number-card">
+        <div class="number" style="font-size:1.15rem">Aug 30, 2026</div>
+        <div class="number-label">pilot-application notifications delivered end-to-end (Resend receipt verified) — commit <a href="https://github.com/kindrat86/sipi-bot/commit/16e7051">16e7051</a>, full suite 50 passed</div>
+      </div>
+      <div class="number-card">
+        <div class="number" style="font-size:1.15rem">Aug 30, 2026</div>
+        <div class="number-label">incident-response campaign completed: 13/13 targets approved &amp; receipted, zero unapproved sends <a href="https://sipi.bot/incidents/">→ incidents</a></div>
+      </div>
+    </div>
+    <p class="center quiet" style="margin-top:16px;font-size:0.8125rem">No paying customers yet — these are shipped, verifiable fixes, not client logos. <a href="/pricing">Pricing &amp; pilot →</a></p>
   </div>
 </section>
 <style>
