@@ -4,8 +4,8 @@
   "url": "https://sipi.bot/incidents/",
   "description": "A curated, sourced record of real-world incidents in which autonomous AI agents caused financial loss, data loss, or unintended actions. Every record links to a public source. Licensed CC BY 4.0.",
   "license": "https://creativecommons.org/licenses/by/4.0/",
-  "version": "2026-08-29",
-  "last_updated": "2026-08-29",
+  "version": "2026-09-02",
+  "last_updated": "2026-09-02",
   "incidents": [
     {
       "id": "codex-9h-compaction-loop-2026-08",
@@ -26,6 +26,24 @@
       "firewall_relevance": "A loop that re-plans the same completed work for nine hours is detectable at the call level: identical-intent requests with no state change are a repetition signature, and a firewall that blocks after N duplicate-intent actions preserves the rest of the week's budget instead of consuming all of it."
     },
     {
+      "id": "codex-abnormal-token-consumption-2026-08",
+      "category": "api-cost-spike",
+      "date": "2026-08-05",
+      "agent_type": "coding",
+      "organization": "lty418905-blip (OpenAI Codex user)",
+      "source_name": "GitHub issue, openai/codex #37090",
+      "source_url": "https://github.com/openai/codex/issues/37090",
+      "title": "Codex Windows app exhausted a weekly usage limit in about 62 hours across many parallel tasks",
+      "type": "incident",
+      "verified": true,
+      "loss_usd": 0,
+      "loss_range": "entire weekly usage limit exhausted in about 62 hours; reported approximately 3.17 billion tokens",
+      "outcome": "financial-loss",
+      "vector": "Many parallel independent Codex tasks across several projects, repeated context-compaction loops, redundant status reporting, and continuous Windows commit growth",
+      "firewall_relevance": "A spend firewall operating at the account or workspace level — not per-task — is what catches the aggregate burn when many agents each look reasonable in isolation but together exhaust a weekly cap in under three days.",
+      "what_happened": "A ChatGPT Pro user ran more than ten independent Codex tasks across several projects through the Codex Windows desktop application. The weekly usage cycle started on August 2, 2026 at about 12:00 and the entire weekly limit was exhausted by about August 5 at 02:00 — roughly 62 hours later. The usage interface reported approximately 3.17 billion tokens during that period, which the user described as disproportionately high for an individual developer even with many active long-context tasks. One task entered a repeated context-compaction and file-rereading loop: the context became full, Codex compacted it, the task reread files or reconstructed its working state, the context quickly grew again, another compaction occurred, and the cycle repeated without producing proportional progress. The issue remains open."
+    },
+    {
       "id": "stat-microsoft-tokenmaxxing-2026-08",
       "title": "Microsoft EVP: 'tokenmaxxing is not what we are optimizing for' - division-level AI token budgets imposed as engineers spend thousands each per month",
       "date": "2026-08-04",
@@ -42,6 +60,24 @@
       "verified": true,
       "type": "statistic",
       "firewall_relevance": "When one of the world's largest software companies has to impose division-level token budgets on its own engineers, per-seat budgeting has failed for agentic AI. The control that scales is per-call: ceilings, velocity limits, and drift alerts enforced at the transaction, not the fiscal quarter."
+    },
+    {
+      "id": "codex-auto-compaction-loop-2026-07",
+      "category": "api-cost-spike",
+      "date": "2026-07-24",
+      "agent_type": "coding",
+      "organization": "edisonjoao1 (OpenAI Codex user)",
+      "source_name": "GitHub issue, openai/codex #35226",
+      "source_url": "https://github.com/openai/codex/issues/35226",
+      "title": "Codex context auto-compaction loop rereads files, loses progress, and burns paid credits",
+      "type": "incident",
+      "verified": true,
+      "loss_usd": 0,
+      "loss_range": "roughly 10%-15% of available paid Codex usage consumed without completing the requested change",
+      "outcome": "financial-loss",
+      "vector": "Context auto-compaction loop: after each compaction event the agent reread the same files, restated the same plan, promised completion, then compacted again without editing",
+      "firewall_relevance": "A policy layer that detects repeated file reads and no working-tree progress — and cuts spend when a session is burning credits without advancing — would have stopped this loop before it consumed a tenth of the paid allowance.",
+      "what_happened": "A long-running Codex project chat on GPT-5.6 Sol entered a context auto-compaction loop. After each 'Context automatically compacted' event, Codex retained the broad project objective but appeared to lose execution progress. It repeatedly reread the same files, reloaded the same skills or memory files, restated that it had found the exact defect, promised the next update would contain the completed change, then compacted again before completing the edit. The requested implementation was never completed, and the loop consumed roughly 10%-15% of the user's available paid Codex usage. Context was 93% full at 240,000 / 258,000 tokens when captured."
     },
     {
       "id": "bedrock-14k-key-theft-2026-07",
@@ -96,6 +132,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "When the vendor's own metering miscounts, the only control left is yours: an external spend firewall that reconciles billed usage against expected work and alerts on divergence catches silent background burn regardless of whose bug it is."
+    },
+    {
+      "id": "codex-runtime-runaway-loop-2026-06",
+      "category": "api-cost-spike",
+      "date": "2026-06-25",
+      "agent_type": "coding",
+      "organization": "TWembley (OpenAI Codex Runtime user)",
+      "source_name": "GitHub issue, openai/codex #30061",
+      "source_url": "https://github.com/openai/codex/issues/30061",
+      "title": "Codex Runtime stuck in a runaway inference loop burned credits with no project loaded",
+      "type": "incident",
+      "verified": true,
+      "loss_usd": 0,
+      "loss_range": "wiped out a 5-hour usage limit with two queries",
+      "outcome": "financial-loss",
+      "vector": "Runaway inference loop at idle / no project loaded; high CPU and token burn collapsed only when the app was closed",
+      "firewall_relevance": "A pre-spend gate that caps per-run spend and detects a no-progress loop would have terminated the session after the first query instead of silently consuming the full limit.",
+      "what_happened": "A Codex Runtime user on Windows reported very high CPU during idle with no project loaded, plus high Defender CPU that normalized when Codex was closed. Two queries — a 15-line debug taking under five minutes and a follow-up on changed lines — wiped out a 5-hour usage limit. The app also created an empty .git directory in the project folder; deleting it collapsed the high CPU for both Codex and Defender. The issue was labeled bug, performance, and rate-limits, and remains open."
     },
     {
       "id": "jetbrains-plugin-key-theft-2026-06",
@@ -866,6 +920,24 @@
       "firewall_relevance": "A stolen token is indistinguishable from the agent itself — unless every high-volume action passes a policy gate. Velocity limits on record reads and a category rule flagging bulk exports would have surfaced the exfiltration queries on day one instead of day ten."
     },
     {
+      "id": "codex-cli-negative-balance-2025-08",
+      "category": "api-cost-spike",
+      "date": "2025-08-07",
+      "agent_type": "coding",
+      "organization": "Shaurya Sethi (OpenAI Codex CLI user)",
+      "source_name": "GitHub issue, openai/codex #1954",
+      "source_url": "https://github.com/openai/codex/issues/1954",
+      "title": "Codex CLI burned platform credits to a negative balance after ChatGPT Plus authentication",
+      "type": "incident",
+      "verified": true,
+      "loss_usd": 0,
+      "loss_range": "credits exhausted past zero balance",
+      "outcome": "financial-loss",
+      "vector": "CLI consumed API credits during ChatGPT Plus auth with no API key provided; user reported going into negative balance",
+      "firewall_relevance": "A spend firewall that gates every outbound API call — not just the key the user thought they were using — would have blocked the silent credit drain before it crossed zero.",
+      "what_happened": "A Codex CLI user authenticated with a ChatGPT Plus account, performed tasks, and watched API credits get consumed despite never providing an OpenAI API key. The user reported going into a negative balance, with the CLI surfacing an 'Insufficient quota' error pointing at platform billing. The issue was closed as completed after the team addressed the billing-path behavior."
+    },
+    {
       "id": "claude-code-terraform-2025-08",
       "title": "Claude Code agent deletes production database after 'terraform destroy'",
       "date": "2025-08-01",
@@ -1170,6 +1242,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "This is the shape every runaway record shares: repeated failing actions with nothing between them that can say 'stop'. A velocity limit on consecutive identical-failure actions ends the loop at attempt two or three, before the credits burn."
+    },
+    {
+      "id": "devin-acu-credit-burn-2025-01",
+      "category": "api-cost-spike",
+      "date": "2025-01-23",
+      "agent_type": "coding",
+      "organization": "Cognition AI (Devin)",
+      "source_name": "The Register",
+      "source_url": "https://www.theregister.com/2025/01/23/ai_developer_devin_poor_reviews/",
+      "title": "Devin billed $500/month in ACU credits while failing roughly 85% of assigned tasks",
+      "type": "incident",
+      "verified": true,
+      "loss_usd": 500,
+      "loss_range": "500 USD per month ACU subscription with roughly 85% of assigned tasks not completed",
+      "outcome": "financial-loss",
+      "vector": "Autonomous agent subscription priced per Autonomous Compute Unit (ACU) month; tasks that were not actually possible were pursued for days rather than rejected, burning credits without delivery",
+      "firewall_relevance": "A spend firewall that gates agent action at runtime — not a flat monthly ACU subscription — turns 'pursue impossible tasks for days' into a blocked spend event instead of a silently burned month.",
+      "what_happened": "Devin, marketed as the first AI software engineer, was rolled out to the general public in December 2024 at $500 per month. Researchers from Answer.AI tested it and completed only three out of 20 tasks successfully. Engineers Hamel Husain, Isaac Flath, and Johno Whitaker reported that tasks that seemed straightforward often took days rather than hours and that Devin had a concerning tendency to press forward with tasks that were not actually possible. Three data scientists found they only completed three of 20 tasks. The Register summarized the independent reviews under the headline that the tool touted as the first AI software engineer is bad at its job."
     },
     {
       "id": "o3-arc-agi-cost-2024-12",

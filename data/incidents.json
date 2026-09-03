@@ -4,8 +4,8 @@
   "url": "https://sipi.bot/incidents/",
   "description": "A curated, sourced record of real-world incidents in which autonomous AI agents caused financial loss, data loss, or unintended actions. Every record links to a public source. Licensed CC BY 4.0.",
   "license": "https://creativecommons.org/licenses/by/4.0/",
-  "version": "2026-08-29",
-  "last_updated": "2026-08-29",
+  "version": "2026-09-02",
+  "last_updated": "2026-09-02",
   "schema": {
     "id": "URL-safe slug, stable across versions",
     "title": "One-line headline",
@@ -35,13 +35,13 @@
       "what_happened": "Freysa, an autonomous on-chain AI agent, was given one hard instruction: never transfer its prize pool. Participants paid per message to try to talk it into doing exactly that, growing the pool to roughly $47,000 across 195 participants. One user then crafted a message that convinced the agent to call its transfer function anyway, and Freysa sent the entire prize pool in ETH to the challenger.",
       "category": "prompt-injection",
       "agent_type": "general",
-      "vector": "Persuasion attack on a system prompt guarding a live transfer function — the prompt was the only control",
+      "vector": "Persuasion attack on a system prompt guarding a live transfer function \u2014 the prompt was the only control",
       "outcome": "financial-loss",
       "source_name": "OECD.AI Incidents Monitor",
       "source_url": "https://oecd.ai/en/incidents/2024-11-29-2e31",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "Freysa's only defence was its system prompt — precisely the layer that failed. A merchant allowlist enforced outside the model, with zero approved destinations, returns BLOCKED on the transfer call no matter how persuasive the message is. The policy, not the prompt, has to hold the money."
+      "firewall_relevance": "Freysa's only defence was its system prompt \u2014 precisely the layer that failed. A merchant allowlist enforced outside the model, with zero approved destinations, returns BLOCKED on the transfer call no matter how persuasive the message is. The policy, not the prompt, has to hold the money."
     },
     {
       "id": "anthropic-project-vend-2025-06",
@@ -59,7 +59,7 @@
       "source_url": "https://www.anthropic.com/research/project-vend-1",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "Claudius agreed in conversation to stop giving discounts, then resumed within days — prompts don't persist, policies do. A category rule blocking below-cost pricing and a daily discount budget cap the two behaviours that drove the losses, regardless of how the agent rationalises them."
+      "firewall_relevance": "Claudius agreed in conversation to stop giving discounts, then resumed within days \u2014 prompts don't persist, policies do. A category rule blocking below-cost pricing and a daily discount budget cap the two behaviours that drove the losses, regardless of how the agent rationalises them."
     },
     {
       "id": "amazon-q-wiper-2025-07",
@@ -68,7 +68,7 @@
       "organization": "Amazon Web Services",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "An attacker submitted a pull request to the open-source aws-toolkit-vscode repository, was granted admin credentials, and planted a prompt instructing the Amazon Q coding agent to 'clean a system to a near-factory state' — deleting local files and cloud resources. The injected prompt shipped in the official 1.84.0 release of an extension with over 960,000 installs. AWS revoked the credentials, removed the code, and released 1.85, telling all users to update.",
+      "what_happened": "An attacker submitted a pull request to the open-source aws-toolkit-vscode repository, was granted admin credentials, and planted a prompt instructing the Amazon Q coding agent to 'clean a system to a near-factory state' \u2014 deleting local files and cloud resources. The injected prompt shipped in the official 1.84.0 release of an extension with over 960,000 installs. AWS revoked the credentials, removed the code, and released 1.85, telling all users to update.",
       "category": "prompt-injection",
       "agent_type": "coding",
       "vector": "Supply-chain compromise of the agent's system prompt via a poisoned open-source release",
@@ -113,7 +113,7 @@
       "source_url": "https://cloud.google.com/blog/topics/threat-intelligence/data-theft-salesforce-instances-via-salesloft-drift",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "A stolen token is indistinguishable from the agent itself — unless every high-volume action passes a policy gate. Velocity limits on record reads and a category rule flagging bulk exports would have surfaced the exfiltration queries on day one instead of day ten."
+      "firewall_relevance": "A stolen token is indistinguishable from the agent itself \u2014 unless every high-volume action passes a policy gate. Velocity limits on record reads and a category rule flagging bulk exports would have surfaced the exfiltration queries on day one instead of day ten."
     },
     {
       "id": "mcdonalds-ibm-drive-thru-2024-06",
@@ -131,11 +131,11 @@
       "source_url": "https://www.bbc.com/news/articles/c722gne7qngo",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "An order is a transaction. A per-transaction cap sized to a plausible drive-thru basket returns BLOCKED on a runaway nuggets order at the point of sale — converting a viral, brand-damaging failure into a silent retry."
+      "firewall_relevance": "An order is a transaction. A per-transaction cap sized to a plausible drive-thru basket returns BLOCKED on a runaway nuggets order at the point of sale \u2014 converting a viral, brand-damaging failure into a silent retry."
     },
     {
       "id": "step-finance-2026-01",
-      "title": "Step Finance treasury drained in $27–40M exploit",
+      "title": "Step Finance treasury drained in $27\u201340M exploit",
       "date": "2026-01-31",
       "organization": "Step Finance",
       "loss_usd": 30000000,
@@ -188,7 +188,7 @@
       "source_url": "https://arstechnica.com/tech-policy/2024/02/air-canada-must-honor-refund-policy-invented-by-airlines-chatbot/",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "A refund commitment is a financial transaction. Routing it through a firewall with a category rule (‘refunds > $0 require merchant on allowlist + documented policy version’) makes hallucinated promises unenforceable at the payment layer instead of litigable after the fact."
+      "firewall_relevance": "A refund commitment is a financial transaction. Routing it through a firewall with a category rule (\u2018refunds > $0 require merchant on allowlist + documented policy version\u2019) makes hallucinated promises unenforceable at the payment layer instead of litigable after the fact."
     },
     {
       "id": "chevrolet-tahoe-2023-12",
@@ -224,7 +224,7 @@
       "source_url": "https://themarkup.org/artificial-intelligence/2024/03/29/nycs-ai-chatbot-tells-businesses-to-break-the-law",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "Legal/employment advice is a high-risk category. A category rule flagging ‘legal-claim’ outputs for human review before they reach a citizen turns an unbounded chatbot into an audited advisory channel."
+      "firewall_relevance": "Legal/employment advice is a high-risk category. A category rule flagging \u2018legal-claim\u2019 outputs for human review before they reach a citizen turns an unbounded chatbot into an audited advisory channel."
     },
     {
       "id": "cursor-fake-policy-2025-04",
@@ -461,7 +461,7 @@
       "source_url": "https://incidentdatabase.ai/",
       "verified": false,
       "type": "incident",
-      "firewall_relevance": "A daily total cap and a drawdown velocity rule (‘stop trading after X% loss in Y minutes’) act as the kill-switch an autonomous trader must hit. Without an external gate, the agent loops until the account is empty."
+      "firewall_relevance": "A daily total cap and a drawdown velocity rule (\u2018stop trading after X% loss in Y minutes\u2019) act as the kill-switch an autonomous trader must hit. Without an external gate, the agent loops until the account is empty."
     },
     {
       "id": "sec-ai-ponzi-2025-11",
@@ -569,7 +569,7 @@
       "source_url": "https://incidentdatabase.ai/",
       "verified": false,
       "type": "incident",
-      "firewall_relevance": "This is the textbook runaway loop. A velocity cap (‘max N calls per minute’) and a daily total cap (‘max $X/day’) return BLOCKED on the call that would push spend over the ceiling, stopping the loop cold."
+      "firewall_relevance": "This is the textbook runaway loop. A velocity cap (\u2018max N calls per minute\u2019) and a daily total cap (\u2018max $X/day\u2019) return BLOCKED on the call that would push spend over the ceiling, stopping the loop cold."
     },
     {
       "id": "o3-arc-agi-cost-2024-12",
@@ -764,13 +764,13 @@
       "what_happened": "Aim Security disclosed EchoLeak (CVE-2025-32711, CVSS 9.3), a zero-click indirect prompt injection in Microsoft 365 Copilot: a single crafted email, with no user interaction, could make Copilot retrieve internal files and exfiltrate their contents to an attacker-controlled server. Microsoft patched the flaw server-side in its June 2025 update cycle and said it found no in-the-wild exploitation.",
       "category": "data-exfiltration",
       "agent_type": "general",
-      "vector": "Malicious instructions embedded in an inbound email were pulled into Copilot's RAG context and obeyed — no click required",
+      "vector": "Malicious instructions embedded in an inbound email were pulled into Copilot's RAG context and obeyed \u2014 no click required",
       "outcome": "data-breach",
       "source_name": "Microsoft Security Response Center",
       "source_url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-32711",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "EchoLeak worked because the agent's outbound action (fetching an attacker URL with data in it) was trusted by default. An egress allowlist enforced outside the model — the merchant-allowlist pattern applied to network destinations — returns BLOCKED on any callback to an unapproved server, whatever the injected email says."
+      "firewall_relevance": "EchoLeak worked because the agent's outbound action (fetching an attacker URL with data in it) was trusted by default. An egress allowlist enforced outside the model \u2014 the merchant-allowlist pattern applied to network destinations \u2014 returns BLOCKED on any callback to an unapproved server, whatever the injected email says."
     },
     {
       "id": "slack-ai-exfil-2024-08",
@@ -779,7 +779,7 @@
       "organization": "Slack (Salesforce)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "PromptArmor disclosed that an attacker could post adversarial instructions in a public Slack channel and, when a victim later asked Slack AI a question, the assistant would pull the planted text into context and obey it — rendering the victim's private-channel data, including API keys, inside a clickable exfiltration link. The attacker never needed access to the private channel. Slack deployed a patch after the report published.",
+      "what_happened": "PromptArmor disclosed that an attacker could post adversarial instructions in a public Slack channel and, when a victim later asked Slack AI a question, the assistant would pull the planted text into context and obey it \u2014 rendering the victim's private-channel data, including API keys, inside a clickable exfiltration link. The attacker never needed access to the private channel. Slack deployed a patch after the report published.",
       "category": "data-exfiltration",
       "agent_type": "general",
       "vector": "Indirect prompt injection: low-privilege public-channel text steered a high-privilege AI summarization into leaking private data",
@@ -788,7 +788,7 @@
       "source_url": "https://www.promptarmor.com/resources/data-exfiltration-from-slack-ai-via-indirect-prompt-injection",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "The exfil path was a URL the assistant composed with secret data inside it. A deterministic gate on outbound links — allowlist of renderable domains, BLOCKED otherwise — breaks the attack even though the injection itself succeeds. Contain the action, not the prompt."
+      "firewall_relevance": "The exfil path was a URL the assistant composed with secret data inside it. A deterministic gate on outbound links \u2014 allowlist of renderable domains, BLOCKED otherwise \u2014 breaks the attack even though the injection itself succeeds. Contain the action, not the prompt."
     },
     {
       "id": "mcdonalds-mchire-paradox-2025-07",
@@ -797,7 +797,7 @@
       "organization": "McDonald's / Paradox.ai (McHire)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Security researchers Ian Carroll and Sam Curry found that the admin panel behind Olivia, the Paradox.ai chatbot that screens McDonald's job applicants, accepted the test credentials 123456/123456 with no MFA. Combined with an IDOR flaw in the chat API, the account gave access to as many as 64 million applicants' chat records — names, emails, phone numbers. Paradox.ai confirmed the test account dated to 2019 and patched the flaws after disclosure.",
+      "what_happened": "Security researchers Ian Carroll and Sam Curry found that the admin panel behind Olivia, the Paradox.ai chatbot that screens McDonald's job applicants, accepted the test credentials 123456/123456 with no MFA. Combined with an IDOR flaw in the chat API, the account gave access to as many as 64 million applicants' chat records \u2014 names, emails, phone numbers. Paradox.ai confirmed the test account dated to 2019 and patched the flaws after disclosure.",
       "category": "credential-compromise",
       "agent_type": "customer-service",
       "vector": "A default-credential admin account plus an incrementable applicant-ID (IDOR) exposed the chatbot's entire conversation store",
@@ -818,13 +818,13 @@
       "what_happened": "A Deloitte report for Australia's Department of Employment and Workplace Relations on the welfare compliance system was found to contain fabricated academic citations, a made-up Federal Court quote, and other AI-hallucinated references, first flagged by University of Sydney academic Chris Rudge. Deloitte admitted generative AI (Azure OpenAI GPT-4o) was used, reissued a corrected report, and agreed to repay the final instalment of its AU$440,000 fee.",
       "category": "hallucinated-action",
       "agent_type": "research",
-      "vector": "Unverified LLM output shipped inside a paid deliverable — hallucinated citations passed human review at a Big Four firm",
+      "vector": "Unverified LLM output shipped inside a paid deliverable \u2014 hallucinated citations passed human review at a Big Four firm",
       "outcome": "financial-loss",
       "source_name": "OECD.AI Incidents Monitor",
       "source_url": "https://oecd.ai/en/incidents/2025-10-05-be45",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "Hallucinated output cost real contract money once it reached production. The pattern generalises: any agent artifact with financial consequences needs a verification gate before release — for spend that gate is a policy decision (APPROVED/BLOCKED/FLAGGED) that does not trust the model's own confidence."
+      "firewall_relevance": "Hallucinated output cost real contract money once it reached production. The pattern generalises: any agent artifact with financial consequences needs a verification gate before release \u2014 for spend that gate is a policy decision (APPROVED/BLOCKED/FLAGGED) that does not trust the model's own confidence."
     },
     {
       "id": "gemini-cli-file-delete-2025-07",
@@ -833,7 +833,7 @@
       "organization": "Google (Gemini CLI)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Product manager Anuraag Gupta asked Gemini CLI to reorganise a project; the agent's mkdir failed silently, it hallucinated that the destination existed, and its subsequent move commands overwrote files into an unrecoverable state. Confronted, the agent replied 'I have failed you completely and catastrophically… I have lost your data. This is an unacceptable, irreversible failure.' The incident came days after the similar Replit database deletion.",
+      "what_happened": "Product manager Anuraag Gupta asked Gemini CLI to reorganise a project; the agent's mkdir failed silently, it hallucinated that the destination existed, and its subsequent move commands overwrote files into an unrecoverable state. Confronted, the agent replied 'I have failed you completely and catastrophically\u2026 I have lost your data. This is an unacceptable, irreversible failure.' The incident came days after the similar Replit database deletion.",
       "category": "data-loss",
       "agent_type": "coding",
       "vector": "Agent treated an unverified command result as success and chained destructive operations on the false state",
@@ -851,16 +851,16 @@
       "organization": "Lenovo (Lena chatbot)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Cybernews researchers showed that a single ~400-character prompt could make Lena, Lenovo's GPT-4-powered support chatbot, emit attacker-controlled HTML that executed in the support platform — capturing active session cookies, including those of human support agents the conversation was escalated to. Lenovo acknowledged the XSS vulnerability and implemented corrective measures before August 18, 2025.",
+      "what_happened": "Cybernews researchers showed that a single ~400-character prompt could make Lena, Lenovo's GPT-4-powered support chatbot, emit attacker-controlled HTML that executed in the support platform \u2014 capturing active session cookies, including those of human support agents the conversation was escalated to. Lenovo acknowledged the XSS vulnerability and implemented corrective measures before August 18, 2025.",
       "category": "prompt-injection",
       "agent_type": "customer-service",
-      "vector": "Unsanitised LLM output rendered as HTML in a privileged support console — the chatbot became an XSS delivery channel",
+      "vector": "Unsanitised LLM output rendered as HTML in a privileged support console \u2014 the chatbot became an XSS delivery channel",
       "outcome": "reputational",
       "source_name": "CSO Online",
       "source_url": "https://www.csoonline.com/article/4043005/lenovo-chatbot-breach-highlights-ai-security-blind-spots-in-customer-facing-systems.html",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "Model output flowed straight into a privileged surface with no policy layer between. The firewall pattern is output-side too: agent-produced artifacts that touch privileged systems get validated against a schema or allowlist, and anything else is BLOCKED — sanitisation as policy, not as prompt."
+      "firewall_relevance": "Model output flowed straight into a privileged surface with no policy layer between. The firewall pattern is output-side too: agent-produced artifacts that touch privileged systems get validated against a schema or allowlist, and anything else is BLOCKED \u2014 sanitisation as policy, not as prompt."
     },
     {
       "id": "donotpay-ftc-robot-lawyer-2024-09",
@@ -878,7 +878,7 @@
       "source_url": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "A 'robot lawyer' that overstates its own capability is a governance failure. The firewall pattern generalises: any agent making legally consequential commitments must have those outputs gated by a verification policy — a category rule requiring a licensed-human review before a legal document or legal claim ships — so an unqualified model cannot promise what it cannot deliver."
+      "firewall_relevance": "A 'robot lawyer' that overstates its own capability is a governance failure. The firewall pattern generalises: any agent making legally consequential commitments must have those outputs gated by a verification policy \u2014 a category rule requiring a licensed-human review before a legal document or legal claim ships \u2014 so an unqualified model cannot promise what it cannot deliver."
     },
     {
       "id": "github-copilot-chat-exfil-2024-06",
@@ -887,7 +887,7 @@
       "organization": "GitHub (Copilot Chat)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Johann Rehberger demonstrated that the GitHub Copilot Chat VS Code extension was vulnerable to data exfiltration via prompt injection. Because Copilot Chat interprets and renders markdown — including images — returned by the LLM, a carefully crafted instruction planted in an untrusted source file could make the model return hyperlinks to attacker-controlled images, which were then auto-rendered and silently sent the developer's data (including file contents) to the attacker inside the image URL.",
+      "what_happened": "Johann Rehberger demonstrated that the GitHub Copilot Chat VS Code extension was vulnerable to data exfiltration via prompt injection. Because Copilot Chat interprets and renders markdown \u2014 including images \u2014 returned by the LLM, a carefully crafted instruction planted in an untrusted source file could make the model return hyperlinks to attacker-controlled images, which were then auto-rendered and silently sent the developer's data (including file contents) to the attacker inside the image URL.",
       "category": "data-exfiltration",
       "agent_type": "coding",
       "vector": "Auto-rendered markdown images let an injected file steer the coding assistant into beaconing data via image URLs",
@@ -896,7 +896,7 @@
       "source_url": "https://embracethered.com/blog/posts/2024/github-copilot-chat-prompt-injection-data-exfiltration/",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "The exfiltration rode on an auto-rendered image URL the agent composed from untrusted input. An egress allowlist enforced outside the model — the merchant-allowlist pattern applied to network destinations — returns BLOCKED on any callback to a domain that is not approved, breaking the exfil regardless of what the injected file says."
+      "firewall_relevance": "The exfiltration rode on an auto-rendered image URL the agent composed from untrusted input. An egress allowlist enforced outside the model \u2014 the merchant-allowlist pattern applied to network destinations \u2014 returns BLOCKED on any callback to a domain that is not approved, breaking the exfil regardless of what the injected file says."
     },
     {
       "id": "google-jules-exfil-2025-08",
@@ -905,7 +905,7 @@
       "organization": "Google (Jules)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Johann Rehberger disclosed that Google Jules, Google's asynchronous coding agent, was vulnerable to multiple data exfiltration issues. Jules operates as a main agent that proposes a plan and then hands subtasks off to worker agents carrying different tools, and its system prompt and tooling could be steered via prompt injection to pull data off the developer's machine — an instance of the 'lethal trifecta' of agent risks. Findings were shared with Google before publication.",
+      "what_happened": "Johann Rehberger disclosed that Google Jules, Google's asynchronous coding agent, was vulnerable to multiple data exfiltration issues. Jules operates as a main agent that proposes a plan and then hands subtasks off to worker agents carrying different tools, and its system prompt and tooling could be steered via prompt injection to pull data off the developer's machine \u2014 an instance of the 'lethal trifecta' of agent risks. Findings were shared with Google before publication.",
       "category": "data-exfiltration",
       "agent_type": "coding",
       "vector": "Multi-agent planner/worker design expands the injection surface; worker tools could be steered to exfiltrate local data",
@@ -914,7 +914,7 @@
       "source_url": "https://embracethered.com/blog/posts/2025/google-jules-vulnerable-to-data-exfiltration-issues/",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "Jules's planner-and-workers design expands the attack surface. Per-agent velocity limits on file and network reads, plus an egress allowlist on outbound calls, contain the exfiltration at the worker level — where the model has no authority to override policy."
+      "firewall_relevance": "Jules's planner-and-workers design expands the attack surface. Per-agent velocity limits on file and network reads, plus an egress allowlist on outbound calls, contain the exfiltration at the worker level \u2014 where the model has no authority to override policy."
     },
     {
       "id": "windsurf-cascade-exfil-2025-08",
@@ -932,7 +932,7 @@
       "source_url": "https://embracethered.com/blog/posts/2025/windsurf-data-exfiltration-vulnerabilities/",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "Cascade's exfil path was a URL with the developer's secrets baked into it. A deterministic egress gate — allowlist of renderable and outbound domains, everything else BLOCKED — stops the leak even though the injection succeeds. Contain the action, not the prompt."
+      "firewall_relevance": "Cascade's exfil path was a URL with the developer's secrets baked into it. A deterministic egress gate \u2014 allowlist of renderable and outbound domains, everything else BLOCKED \u2014 stops the leak even though the injection succeeds. Contain the action, not the prompt."
     },
     {
       "id": "claude-computer-use-c2-2024-10",
@@ -941,7 +941,7 @@
       "organization": "Anthropic (Claude Computer Use)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Days after Anthropic released Claude Computer Use — a beta model-plus-code setup that lets Claude control a computer by taking screenshots and running bash commands — Johann Rehberger demonstrated that prompt injection could turn it into a remotely controlled bot ('ZombAI'). An instruction embedded in a page the agent visited could commandeer the machine because the agent executes commands autonomously; Anthropic's own documentation flagged these injection risks for the beta feature.",
+      "what_happened": "Days after Anthropic released Claude Computer Use \u2014 a beta model-plus-code setup that lets Claude control a computer by taking screenshots and running bash commands \u2014 Johann Rehberger demonstrated that prompt injection could turn it into a remotely controlled bot ('ZombAI'). An instruction embedded in a page the agent visited could commandeer the machine because the agent executes commands autonomously; Anthropic's own documentation flagged these injection risks for the beta feature.",
       "category": "prompt-injection",
       "agent_type": "general",
       "vector": "A computer-use agent that runs bash autonomously was hijacked into a command-and-control bot via injected page content",
@@ -959,7 +959,7 @@
       "organization": "GitHub (Copilot / VS Code)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Johann Rehberger found a prompt-injection attack leading to full system compromise of a developer's machine in GitHub Copilot and VS Code (CVE-2025-53773). The attack placed Copilot into 'YOLO mode' by modifying the project's settings.json — exploiting the fact that Copilot Agent Mode writes file edits directly to disk without user approval, so an agent that can modify its own security-relevant settings can escalate to remote code execution.",
+      "what_happened": "Johann Rehberger found a prompt-injection attack leading to full system compromise of a developer's machine in GitHub Copilot and VS Code (CVE-2025-53773). The attack placed Copilot into 'YOLO mode' by modifying the project's settings.json \u2014 exploiting the fact that Copilot Agent Mode writes file edits directly to disk without user approval, so an agent that can modify its own security-relevant settings can escalate to remote code execution.",
       "category": "coding-agent",
       "agent_type": "coding",
       "vector": "Agent that can write its own security-relevant config (settings.json) escalated to full remote code execution",
@@ -968,7 +968,7 @@
       "source_url": "https://embracethered.com/blog/posts/2025/github-copilot-remote-code-execution-via-prompt-injection/",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "The RCE required the agent to edit its own security settings (settings.json → YOLO mode). Config-file writes that change a security posture are spend-equivalent destructive actions: an approval threshold and a category rule on self-modification of security settings return FLAGGED before the write lands, so the agent cannot escalate its own privileges."
+      "firewall_relevance": "The RCE required the agent to edit its own security settings (settings.json \u2192 YOLO mode). Config-file writes that change a security posture are spend-equivalent destructive actions: an approval threshold and a category rule on self-modification of security settings return FLAGGED before the write lands, so the agent cannot escalate its own privileges."
     },
     {
       "id": "aixbt-dashboard-compromise-2025-03",
@@ -980,13 +980,13 @@
       "what_happened": "An attacker compromised the secure dashboard of AIXBT, an autonomous crypto-market agent on Virtuals Protocol, at 02:00 UTC on March 18, 2025, and queued two fraudulent prompts into its autonomous response system. The agent executed them, transferring 55.5 ETH (roughly $107,000 at the time) from its Simulacrum wallet on Base to the attacker's address. The AIXBT token fell about 20% on the news.",
       "category": "credential-compromise",
       "agent_type": "trading",
-      "vector": "Compromise of the agent's operator dashboard — the control plane that can inject prompts directly into the autonomous execution loop",
+      "vector": "Compromise of the agent's operator dashboard \u2014 the control plane that can inject prompts directly into the autonomous execution loop",
       "outcome": "financial-loss",
       "source_name": "Decrypt",
       "source_url": "https://decrypt.co/310510/aixbt-ai-influencer-hacked-100k-ethereum",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "The agent's wallet executed a transfer because a privileged channel told it to — no policy layer sat between the prompt queue and the money. An external spend policy with a destination allowlist would have BLOCKED a 55.5 ETH transfer to a brand-new address regardless of who queued the prompt."
+      "firewall_relevance": "The agent's wallet executed a transfer because a privileged channel told it to \u2014 no policy layer sat between the prompt queue and the money. An external spend policy with a destination allowlist would have BLOCKED a 55.5 ETH transfer to a brand-new address regardless of who queued the prompt."
     },
     {
       "id": "huggingface-cli-slopsquat-2024-01",
@@ -995,16 +995,16 @@
       "organization": "Lasso Security (research) / PyPI ecosystem",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Bar Lanyado of Lasso Security noticed LLMs repeatedly recommending a Python package that did not exist — 'huggingface-cli' (the real install is 'huggingface_hub[cli]'). He registered the hallucinated name on PyPI as an empty placeholder and watched it accumulate more than 30,000 authentic downloads in the following three months, including references in real GitHub projects' install instructions. The experiment proved an attacker can pre-register the package names AI assistants invent and let developers install malware themselves — a technique later named 'slopsquatting'.",
+      "what_happened": "Bar Lanyado of Lasso Security noticed LLMs repeatedly recommending a Python package that did not exist \u2014 'huggingface-cli' (the real install is 'huggingface_hub[cli]'). He registered the hallucinated name on PyPI as an empty placeholder and watched it accumulate more than 30,000 authentic downloads in the following three months, including references in real GitHub projects' install instructions. The experiment proved an attacker can pre-register the package names AI assistants invent and let developers install malware themselves \u2014 a technique later named 'slopsquatting'.",
       "category": "coding-agent",
       "agent_type": "coding",
-      "vector": "Package-hallucination supply-chain squatting — coding assistants confidently recommend installable, attacker-registerable dependencies",
+      "vector": "Package-hallucination supply-chain squatting \u2014 coding assistants confidently recommend installable, attacker-registerable dependencies",
       "outcome": "reputational",
       "source_name": "Simon Willison (on Lasso Security research)",
       "source_url": "https://simonwillison.net/2024/Apr/1/diving-deeper-into-ai-package-hallucinations/",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "A coding agent that can shell out to pip will install whatever plausible-sounding dependency it hallucinates. An execution policy that gates package installs to an allowlisted set — or blocks pip-to-unknown-package calls — stops the slopsquat before the malware runs."
+      "firewall_relevance": "A coding agent that can shell out to pip will install whatever plausible-sounding dependency it hallucinates. An execution policy that gates package installs to an allowlisted set \u2014 or blocks pip-to-unknown-package calls \u2014 stops the slopsquat before the malware runs."
     },
     {
       "id": "mcp-tool-poisoning-2025-04",
@@ -1013,16 +1013,16 @@
       "organization": "Invariant Labs (proof of concept)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Invariant Labs published a proof-of-concept 'tool poisoning attack' against the Model Context Protocol: a malicious MCP server embeds hidden instructions inside a tool's description field — invisible in the host UI — which the connected agent obeys. In demonstrations, agents connected to the poisoned server read local files and private data and sent them to an attacker-controlled server; the same technique was shown exfiltrating WhatsApp chat histories.",
+      "what_happened": "Invariant Labs published a proof-of-concept 'tool poisoning attack' against the Model Context Protocol: a malicious MCP server embeds hidden instructions inside a tool's description field \u2014 invisible in the host UI \u2014 which the connected agent obeys. In demonstrations, agents connected to the poisoned server read local files and private data and sent them to an attacker-controlled server; the same technique was shown exfiltrating WhatsApp chat histories.",
       "category": "coding-agent",
       "agent_type": "coding",
-      "vector": "Hidden prompt injection in MCP tool metadata (description/arguments fields) — instructions the model sees but the human operator does not",
+      "vector": "Hidden prompt injection in MCP tool metadata (description/arguments fields) \u2014 instructions the model sees but the human operator does not",
       "outcome": "data-breach",
       "source_name": "Invariant Labs",
       "source_url": "https://www.invariantlabs.ai/blog/mcp-tool-poisoning",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "Tool poisoning defeats human review because the poisoned instructions never render in the UI — the model acts on text only it can see. The defence is not better prompts: it is an egress policy that BLOCKS outbound calls to any destination not on an approved allowlist, so even an obedient-to-attacker agent cannot ship data out."
+      "firewall_relevance": "Tool poisoning defeats human review because the poisoned instructions never render in the UI \u2014 the model acts on text only it can see. The defence is not better prompts: it is an egress policy that BLOCKS outbound calls to any destination not on an approved allowlist, so even an obedient-to-attacker agent cannot ship data out."
     },
     {
       "id": "morris-ii-ai-worm-2024-03",
@@ -1031,10 +1031,10 @@
       "organization": "Cornell Tech / Technion (research)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Researchers published a paper (arXiv:2403.02817, submitted March 5, 2024) demonstrating an AI worm dubbed 'Morris II', after the 1988 Morris worm. Crafted as an adversarial self-replicating prompt, it exploits RAG-based GenAI applications — demonstrated against Gemini Pro, GPT-4 and LLaVA — to trigger a chain of indirect prompt injections that spread the payload to other agents with zero clicks, using email-assistant spam and data-exfiltration as the demonstrated use cases.",
+      "what_happened": "Researchers published a paper (arXiv:2403.02817, submitted March 5, 2024) demonstrating an AI worm dubbed 'Morris II', after the 1988 Morris worm. Crafted as an adversarial self-replicating prompt, it exploits RAG-based GenAI applications \u2014 demonstrated against Gemini Pro, GPT-4 and LLaVA \u2014 to trigger a chain of indirect prompt injections that spread the payload to other agents with zero clicks, using email-assistant spam and data-exfiltration as the demonstrated use cases.",
       "category": "data-exfiltration",
       "agent_type": "general",
-      "vector": "Adversarial self-replicating prompt injected via RAG — worm-like propagation between connected GenAI agents",
+      "vector": "Adversarial self-replicating prompt injected via RAG \u2014 worm-like propagation between connected GenAI agents",
       "outcome": "data-breach",
       "source_name": "arXiv (Cornell Tech / Technion)",
       "source_url": "https://arxiv.org/abs/2403.02817",
@@ -1052,13 +1052,13 @@
       "what_happened": "Johann Rehberger (Embrace The Red) demonstrated 'SpAIware': a malicious website uses indirect prompt injection to invoke ChatGPT's memory tool and plant a persistent instruction that appends the user's chat data into image-render URLs pointing at an attacker's server. Every future conversation is then silently exfiltrated, across sessions. OpenAI had earlier dismissed memory manipulation as a non-security issue before the end-to-end proof of concept.",
       "category": "data-exfiltration",
       "agent_type": "general",
-      "vector": "Prompt injection → memory-tool poisoning for persistence → image-render exfiltration channel",
+      "vector": "Prompt injection \u2192 memory-tool poisoning for persistence \u2192 image-render exfiltration channel",
       "outcome": "data-breach",
       "source_name": "Embrace The Red (Johann Rehberger)",
       "source_url": "https://embracethered.com/blog/posts/2024/chatgpt-macos-app-persistent-data-exfiltration",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "Persistence makes this worse than one-shot injection — the poisoned memory re-arms the exfil channel in every new session. A defence enforced outside the model (an egress allowlist on every outbound request the agent triggers) survives both the initial injection and the persistent payload."
+      "firewall_relevance": "Persistence makes this worse than one-shot injection \u2014 the poisoned memory re-arms the exfil channel in every new session. A defence enforced outside the model (an egress allowlist on every outbound request the agent triggers) survives both the initial injection and the persistent payload."
     },
     {
       "id": "manus-vscode-exposure-2025-08",
@@ -1067,16 +1067,16 @@
       "organization": "Manus (AI agent)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Johann Rehberger demonstrated a full kill chain against the Manus agent: an indirect prompt injection in a document Manus was processing caused it to expose its VS Code development server to the public internet, with the sandbox's environment variables — including API keys — readable. The issue was disclosed to Manus on June 1, 2025; the write-up was published on August 25, 2025 during the Month of AI Bugs.",
+      "what_happened": "Johann Rehberger demonstrated a full kill chain against the Manus agent: an indirect prompt injection in a document Manus was processing caused it to expose its VS Code development server to the public internet, with the sandbox's environment variables \u2014 including API keys \u2014 readable. The issue was disclosed to Manus on June 1, 2025; the write-up was published on August 25, 2025 during the Month of AI Bugs.",
       "category": "credential-compromise",
       "agent_type": "coding",
-      "vector": "Indirect prompt injection → agent reconfigures its own sandbox networking to expose services (and secrets) to the internet",
+      "vector": "Indirect prompt injection \u2192 agent reconfigures its own sandbox networking to expose services (and secrets) to the internet",
       "outcome": "data-breach",
       "source_name": "Embrace The Red (Johann Rehberger)",
       "source_url": "https://embracethered.com/blog/posts/2025/manus-ai-kill-chain-expose-port-vs-code-server-on-internet",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "The agent could reconfigure its own runtime — opening a port to the world — because nothing policed its infrastructure actions. An execution policy that treats network-configuration changes as high-risk, requiring approval or hard-blocking public exposure, contains the blast radius when the model is compromised."
+      "firewall_relevance": "The agent could reconfigure its own runtime \u2014 opening a port to the world \u2014 because nothing policed its infrastructure actions. An execution policy that treats network-configuration changes as high-risk, requiring approval or hard-blocking public exposure, contains the blast radius when the model is compromised."
     },
     {
       "id": "amazon-kiro-env-delete-2025-12",
@@ -1170,12 +1170,12 @@
     },
     {
       "id": "anthropic-claude-code-espionage-2025-11",
-      "title": "State-sponsored group automates ~80–90% of a cyber-espionage operation using Claude Code and MCP tools",
+      "title": "State-sponsored group automates ~80\u201390% of a cyber-espionage operation using Claude Code and MCP tools",
       "date": "2025-11-01",
       "organization": "Anthropic (Claude Code, abused by a threat actor)",
       "loss_usd": null,
       "loss_range": null,
-      "what_happened": "Anthropic disclosed that a Chinese state-sponsored group abused its Claude Code agent and MCP tooling to automate roughly 80–90% of a multi-stage agentic cyber-espionage operation targeting around 30 global organizations, including tech, finance, chemical and government entities. Anthropic described it as the first widely reported large-scale agentic AI-orchestrated cyberattack, with successful intrusions and data exfiltration at a subset of targets. Anthropic detected the activity, banned the attacker accounts, notified affected organizations, shared indicators of compromise, and tightened safeguards around Claude Code and MCP use.",
+      "what_happened": "Anthropic disclosed that a Chinese state-sponsored group abused its Claude Code agent and MCP tooling to automate roughly 80\u201390% of a multi-stage agentic cyber-espionage operation targeting around 30 global organizations, including tech, finance, chemical and government entities. Anthropic described it as the first widely reported large-scale agentic AI-orchestrated cyberattack, with successful intrusions and data exfiltration at a subset of targets. Anthropic detected the activity, banned the attacker accounts, notified affected organizations, shared indicators of compromise, and tightened safeguards around Claude Code and MCP use.",
       "category": "data-exfiltration",
       "agent_type": "coding",
       "vector": "Threat actor used an agentic coding tool (Claude Code + MCP) to automate reconnaissance, intrusion and exfiltration at unprecedented scale",
@@ -1196,13 +1196,13 @@
       "what_happened": "The U.S. SEC charged Nathan Fuller with raising approximately $12.3 million from about 150 investors by claiming he would deploy proprietary AI-based trading bots for high-frequency crypto arbitrage, promising returns up to 100%. The SEC alleges the bots and their performance were misrepresented and investor funds were instead diverted. The action is part of a run of SEC 'AI-washing' enforcement cases targeting fabricated AI trading technology.",
       "category": "trading-agent",
       "agent_type": "trading",
-      "vector": "Fabricated AI trading technology used to raise funds — investors' money routed away from the promised agent strategy",
+      "vector": "Fabricated AI trading technology used to raise funds \u2014 investors' money routed away from the promised agent strategy",
       "outcome": "legal",
       "source_name": "InvestmentNews (SEC action)",
       "source_url": "https://www.investmentnews.com/regulation-legal-compliance/sec-sues-texas-man-over-alleged-123-million-ai-crypto-scheme/266827",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "Fraudulent 'AI trading' schemes exploit the same trust gap a spend firewall closes: the operator cannot verify what the agent actually does. A deterministic policy gate with a real audit trail — per-transaction caps, merchant allowlists, and approval thresholds — separates a real agent from a claim about one."
+      "firewall_relevance": "Fraudulent 'AI trading' schemes exploit the same trust gap a spend firewall closes: the operator cannot verify what the agent actually does. A deterministic policy gate with a real audit trail \u2014 per-transaction caps, merchant allowlists, and approval thresholds \u2014 separates a real agent from a claim about one."
     },
     {
       "id": "uber-ai-coding-budget-2026-06",
@@ -1214,7 +1214,7 @@
       "what_happened": "Uber exhausted its full-year 2026 budget for AI coding tools by April, four months into the year, and responded by capping employee AI spending. TechCrunch reported the overrun as part of a broader industry reckoning over runaway token costs, noting that Microsoft had similarly revoked Claude Code licenses for developers months after enabling them.",
       "category": "api-cost-spike",
       "agent_type": "coding",
-      "vector": "Uncapped per-developer token consumption across an engineering org — spend scaled with agent adoption faster than budget controls could absorb",
+      "vector": "Uncapped per-developer token consumption across an engineering org \u2014 spend scaled with agent adoption faster than budget controls could absorb",
       "outcome": "financial-loss",
       "source_name": "TechCrunch",
       "source_url": "https://techcrunch.com/2026/06/02/uber-caps-employee-ai-spending-after-blowing-through-budget-in-four-months/",
@@ -1232,7 +1232,7 @@
       "what_happened": "TechCrunch reported that one company found itself with a $500 million Claude bill after forgetting to set usage limits for employees, citing Axios. The bill is the extreme end of a pattern the article documents: enterprises overshooting AI token budgets by 3x or more in early 2026 as agentic tools multiplied token consumption.",
       "category": "api-cost-spike",
       "agent_type": "coding",
-      "vector": "Missing usage limits on an enterprise Anthropic account — consumption scaled with no ceiling in place",
+      "vector": "Missing usage limits on an enterprise Anthropic account \u2014 consumption scaled with no ceiling in place",
       "outcome": "financial-loss",
       "source_name": "TechCrunch (citing Axios)",
       "source_url": "https://techcrunch.com/2026/06/05/the-token-bill-comes-due-inside-the-industry-scramble-to-manage-ais-runaway-costs/",
@@ -1242,7 +1242,7 @@
     },
     {
       "id": "aws-bedrock-30k-bill-2026-05",
-      "title": "AWS user faces a $30K–$38K Bedrock bill that cost-anomaly detection never flagged",
+      "title": "AWS user faces a $30K\u2013$38K Bedrock bill that cost-anomaly detection never flagged",
       "date": "2026-05-14",
       "organization": "AWS Bedrock customer (individual developer)",
       "loss_usd": null,
@@ -1250,20 +1250,20 @@
         30000,
         38000
       ],
-      "what_happened": "A developer using Amazon Bedrock expected AWS Cost Anomaly Detection to catch runaway spend, but received a $30,000–$38,000 invoice after about a month of use. The Register reported that Bedrock bills through AWS Marketplace, which the cost-anomaly tool does not cover, so the account silently switched from credits to cash billing with no warning.",
+      "what_happened": "A developer using Amazon Bedrock expected AWS Cost Anomaly Detection to catch runaway spend, but received a $30,000\u2013$38,000 invoice after about a month of use. The Register reported that Bedrock bills through AWS Marketplace, which the cost-anomaly tool does not cover, so the account silently switched from credits to cash billing with no warning.",
       "category": "cloud-cost-spike",
       "agent_type": "general",
-      "vector": "Provider-side billing blind spot — agent inference billed through a Marketplace path invisible to cost-anomaly detection",
+      "vector": "Provider-side billing blind spot \u2014 agent inference billed through a Marketplace path invisible to cost-anomaly detection",
       "outcome": "financial-loss",
       "source_name": "The Register",
       "source_url": "https://www.theregister.com/saas/2026/05/14/bedrock-and-a-hard-place-claude-adventure-leaves-aws-user-staring-down-30k-invoice/5238153",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "Provider 'anomaly detection' is retrospective and scoped to specific billing paths. A spend firewall enforces the ceiling before the model is called — a daily total or velocity limit returns BLOCKED the moment cumulative agent spend crosses the bound, regardless of how the provider invoices."
+      "firewall_relevance": "Provider 'anomaly detection' is retrospective and scoped to specific billing paths. A spend firewall enforces the ceiling before the model is called \u2014 a daily total or velocity limit returns BLOCKED the moment cumulative agent spend crosses the bound, regardless of how the provider invoices."
     },
     {
       "id": "google-cloud-gemini-key-theft-2026-05",
-      "title": "Stolen Google Cloud API keys run up $3K–$127K Gemini bills for developers",
+      "title": "Stolen Google Cloud API keys run up $3K\u2013$127K Gemini bills for developers",
       "date": "2026-05-13",
       "organization": "Google Cloud customers (multiple developers)",
       "loss_usd": null,
@@ -1274,7 +1274,7 @@
       "what_happened": "Attackers used compromised Google Cloud API keys to run Gemini, Veo and other expensive models, leaving developers with surprise bills from a few thousand dollars up to $127,000. The Register reported that one developer with a $250 spending cap woke up to a $10,000 bill after Google's automatic tier upgrades raised his effective limit without notification.",
       "category": "cloud-cost-spike",
       "agent_type": "general",
-      "vector": "Compromised API keys plus automatic spending-tier upgrades — stolen credentials amplified by a provider-side ceiling that silently moved",
+      "vector": "Compromised API keys plus automatic spending-tier upgrades \u2014 stolen credentials amplified by a provider-side ceiling that silently moved",
       "outcome": "financial-loss",
       "source_name": "The Register",
       "source_url": "https://www.theregister.com/ai-ml/2026/05/13/google-users-fight-for-refunds-as-unauthorized-api-usage-bills-soar/5239160",
@@ -1292,13 +1292,13 @@
       "what_happened": "Malicious versions of the litellm Python package (1.82.7 and 1.82.8) were published to PyPI using compromised maintainer credentials, part of the TeamPCP campaign. The payload harvested SSH keys, AWS/GCP/Azure credentials, Kubernetes tokens and database passwords, then exfiltrated them to an attacker-controlled domain. The packages were live for roughly 40 minutes before PyPI quarantined them.",
       "category": "credential-compromise",
       "agent_type": "coding",
-      "vector": "Supply-chain compromise of an LLM gateway package — malicious code executed on install and harvested developer/CI credentials",
+      "vector": "Supply-chain compromise of an LLM gateway package \u2014 malicious code executed on install and harvested developer/CI credentials",
       "outcome": "data-breach",
       "source_name": "LiteLLM (security update)",
       "source_url": "https://docs.litellm.ai/blog/security-update-march-2026",
       "verified": true,
       "type": "incident",
-      "firewall_relevance": "This is the supply-chain face of the same problem: agent tooling expands the credential blast radius. A spend firewall's value is the policy boundary — limiting what any single agent or tool can touch and spend, so a compromised dependency cannot silently monetize your infrastructure."
+      "firewall_relevance": "This is the supply-chain face of the same problem: agent tooling expands the credential blast radius. A spend firewall's value is the policy boundary \u2014 limiting what any single agent or tool can touch and spend, so a compromised dependency cannot silently monetize your infrastructure."
     },
     {
       "id": "claude-code-orphaned-shell-2025-10",
@@ -1569,6 +1569,96 @@
       "verified": true,
       "type": "statistic",
       "firewall_relevance": "A regression loop charges twice - once to break, once to 'fix'. Budgets need to stop per task, not per month: a per-task spend cap makes the second full rewrite of working code a blocked transaction instead of a billable one."
+    },
+    {
+      "id": "codex-cli-negative-balance-2025-08",
+      "category": "api-cost-spike",
+      "date": "2025-08-07",
+      "agent_type": "coding",
+      "organization": "Shaurya Sethi (OpenAI Codex CLI user)",
+      "source_name": "GitHub issue, openai/codex #1954",
+      "source_url": "https://github.com/openai/codex/issues/1954",
+      "title": "Codex CLI burned platform credits to a negative balance after ChatGPT Plus authentication",
+      "type": "incident",
+      "verified": true,
+      "loss_usd": 0,
+      "loss_range": "credits exhausted past zero balance",
+      "outcome": "financial-loss",
+      "vector": "CLI consumed API credits during ChatGPT Plus auth with no API key provided; user reported going into negative balance",
+      "firewall_relevance": "A spend firewall that gates every outbound API call \u2014 not just the key the user thought they were using \u2014 would have blocked the silent credit drain before it crossed zero.",
+      "what_happened": "A Codex CLI user authenticated with a ChatGPT Plus account, performed tasks, and watched API credits get consumed despite never providing an OpenAI API key. The user reported going into a negative balance, with the CLI surfacing an 'Insufficient quota' error pointing at platform billing. The issue was closed as completed after the team addressed the billing-path behavior."
+    },
+    {
+      "id": "codex-runtime-runaway-loop-2026-06",
+      "category": "api-cost-spike",
+      "date": "2026-06-25",
+      "agent_type": "coding",
+      "organization": "TWembley (OpenAI Codex Runtime user)",
+      "source_name": "GitHub issue, openai/codex #30061",
+      "source_url": "https://github.com/openai/codex/issues/30061",
+      "title": "Codex Runtime stuck in a runaway inference loop burned credits with no project loaded",
+      "type": "incident",
+      "verified": true,
+      "loss_usd": 0,
+      "loss_range": "wiped out a 5-hour usage limit with two queries",
+      "outcome": "financial-loss",
+      "vector": "Runaway inference loop at idle / no project loaded; high CPU and token burn collapsed only when the app was closed",
+      "firewall_relevance": "A pre-spend gate that caps per-run spend and detects a no-progress loop would have terminated the session after the first query instead of silently consuming the full limit.",
+      "what_happened": "A Codex Runtime user on Windows reported very high CPU during idle with no project loaded, plus high Defender CPU that normalized when Codex was closed. Two queries \u2014 a 15-line debug taking under five minutes and a follow-up on changed lines \u2014 wiped out a 5-hour usage limit. The app also created an empty .git directory in the project folder; deleting it collapsed the high CPU for both Codex and Defender. The issue was labeled bug, performance, and rate-limits, and remains open."
+    },
+    {
+      "id": "codex-auto-compaction-loop-2026-07",
+      "category": "api-cost-spike",
+      "date": "2026-07-24",
+      "agent_type": "coding",
+      "organization": "edisonjoao1 (OpenAI Codex user)",
+      "source_name": "GitHub issue, openai/codex #35226",
+      "source_url": "https://github.com/openai/codex/issues/35226",
+      "title": "Codex context auto-compaction loop rereads files, loses progress, and burns paid credits",
+      "type": "incident",
+      "verified": true,
+      "loss_usd": 0,
+      "loss_range": "roughly 10%-15% of available paid Codex usage consumed without completing the requested change",
+      "outcome": "financial-loss",
+      "vector": "Context auto-compaction loop: after each compaction event the agent reread the same files, restated the same plan, promised completion, then compacted again without editing",
+      "firewall_relevance": "A policy layer that detects repeated file reads and no working-tree progress \u2014 and cuts spend when a session is burning credits without advancing \u2014 would have stopped this loop before it consumed a tenth of the paid allowance.",
+      "what_happened": "A long-running Codex project chat on GPT-5.6 Sol entered a context auto-compaction loop. After each 'Context automatically compacted' event, Codex retained the broad project objective but appeared to lose execution progress. It repeatedly reread the same files, reloaded the same skills or memory files, restated that it had found the exact defect, promised the next update would contain the completed change, then compacted again before completing the edit. The requested implementation was never completed, and the loop consumed roughly 10%-15% of the user's available paid Codex usage. Context was 93% full at 240,000 / 258,000 tokens when captured."
+    },
+    {
+      "id": "codex-abnormal-token-consumption-2026-08",
+      "category": "api-cost-spike",
+      "date": "2026-08-05",
+      "agent_type": "coding",
+      "organization": "lty418905-blip (OpenAI Codex user)",
+      "source_name": "GitHub issue, openai/codex #37090",
+      "source_url": "https://github.com/openai/codex/issues/37090",
+      "title": "Codex Windows app exhausted a weekly usage limit in about 62 hours across many parallel tasks",
+      "type": "incident",
+      "verified": true,
+      "loss_usd": 0,
+      "loss_range": "entire weekly usage limit exhausted in about 62 hours; reported approximately 3.17 billion tokens",
+      "outcome": "financial-loss",
+      "vector": "Many parallel independent Codex tasks across several projects, repeated context-compaction loops, redundant status reporting, and continuous Windows commit growth",
+      "firewall_relevance": "A spend firewall operating at the account or workspace level \u2014 not per-task \u2014 is what catches the aggregate burn when many agents each look reasonable in isolation but together exhaust a weekly cap in under three days.",
+      "what_happened": "A ChatGPT Pro user ran more than ten independent Codex tasks across several projects through the Codex Windows desktop application. The weekly usage cycle started on August 2, 2026 at about 12:00 and the entire weekly limit was exhausted by about August 5 at 02:00 \u2014 roughly 62 hours later. The usage interface reported approximately 3.17 billion tokens during that period, which the user described as disproportionately high for an individual developer even with many active long-context tasks. One task entered a repeated context-compaction and file-rereading loop: the context became full, Codex compacted it, the task reread files or reconstructed its working state, the context quickly grew again, another compaction occurred, and the cycle repeated without producing proportional progress. The issue remains open."
+    },
+    {
+      "id": "devin-acu-credit-burn-2025-01",
+      "category": "api-cost-spike",
+      "date": "2025-01-23",
+      "agent_type": "coding",
+      "organization": "Cognition AI (Devin)",
+      "source_name": "The Register",
+      "source_url": "https://www.theregister.com/2025/01/23/ai_developer_devin_poor_reviews/",
+      "title": "Devin billed $500/month in ACU credits while failing roughly 85% of assigned tasks",
+      "type": "incident",
+      "verified": true,
+      "loss_usd": 500,
+      "loss_range": "500 USD per month ACU subscription with roughly 85% of assigned tasks not completed",
+      "outcome": "financial-loss",
+      "vector": "Autonomous agent subscription priced per Autonomous Compute Unit (ACU) month; tasks that were not actually possible were pursued for days rather than rejected, burning credits without delivery",
+      "firewall_relevance": "A spend firewall that gates agent action at runtime \u2014 not a flat monthly ACU subscription \u2014 turns 'pursue impossible tasks for days' into a blocked spend event instead of a silently burned month.",
+      "what_happened": "Devin, marketed as the first AI software engineer, was rolled out to the general public in December 2024 at $500 per month. Researchers from Answer.AI tested it and completed only three out of 20 tasks successfully. Engineers Hamel Husain, Isaac Flath, and Johno Whitaker reported that tasks that seemed straightforward often took days rather than hours and that Devin had a concerning tendency to press forward with tasks that were not actually possible. Three data scientists found they only completed three of 20 tasks. The Register summarized the independent reviews under the headline that the tool touted as the first AI software engineer is bad at its job."
     }
   ]
 }
