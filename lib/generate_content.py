@@ -429,7 +429,7 @@ def _body_for(post):
 <p><strong>The runaway risk.</strong> Not a line item — a multiplier. A <a href="/glossary/retry-loop">retry loop</a> turns one failed call into 40. The incident database's <a href="/benchmarks/agent-runaway-cost-average">runaway costs</a> show the range: hundreds to millions.</p>
 
 <h3>The number to budget</h3>
-<p>Work backwards from the task: estimate legitimate daily spend, multiply by 1.5, and make that the <a href="/limits/daily-spend-limits">daily ceiling</a>. Then let the audit log tell you the real number. The price of the agent isn't the token rate — it's the ceiling you enforce.</p>
+<p>Work backwards from the task: estimate legitimate daily spend, multiply by 1.5, and make that the <a href="/glossary/daily-spend-ceiling">daily ceiling</a>. Then let the audit log tell you the real number. The price of the agent isn't the token rate — it's the ceiling you enforce.</p>
 </div>"""
 
     if slug == "q2-2026-agent-incident-report":

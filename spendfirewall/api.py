@@ -1562,6 +1562,20 @@ class Handler(BaseHTTPRequestHandler):
         "/blog/agent-spend-forecasting/": "/answers/how-to-track-ai-agent-costs/",
         "/blog/the-image-generation-bill": "/answers/how-much-does-agentic-ai-cost/",
         "/blog/the-image-generation-bill/": "/answers/how-much-does-agentic-ai-cost/",
+        # 2026-09-04 §5.7 subtractive prepay: five more zero-trailing-28d-
+        # impression thin leaves retired (1.9-2.4K rendered body chars
+        # including shared chrome). Each 301s to a deeper, already-impressed
+        # page that covers the same query. Keep both URL forms mapped.
+        "/redflags/red-flags-in-voice-agents": "/glossary/spend-anomaly",
+        "/redflags/red-flags-in-voice-agents/": "/glossary/spend-anomaly",
+        "/redflags/red-flags-in-api-keys": "/glossary/agent-identity",
+        "/redflags/red-flags-in-api-keys/": "/glossary/agent-identity",
+        "/how-to/how-to-track-ai-spend": "/answers/how-to-track-ai-agent-costs/",
+        "/how-to/how-to-track-ai-spend/": "/answers/how-to-track-ai-agent-costs/",
+        "/limits/daily-spend-limits": "/glossary/daily-spend-ceiling",
+        "/limits/daily-spend-limits/": "/glossary/daily-spend-ceiling",
+        "/pricing-questions/does-sipi-bot-charge-per-api-call": "/pricing-questions/how-much-does-sipi-bot-cost",
+        "/pricing-questions/does-sipi-bot-charge-per-api-call/": "/pricing-questions/how-much-does-sipi-bot-cost",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO
