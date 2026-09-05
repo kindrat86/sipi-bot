@@ -317,7 +317,7 @@
   <url><loc>https://sipi.bot/guides/multi-agent-spend-governance/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/guides/preventing-runaway-agent-costs/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/guides/setting-up-agent-spend-firewall/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://sipi.bot/how-to/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/how-to/</loc><lastmod>2026-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/how-to-audit-agent-spending</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/how-to-block-agent-overspend</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/how-to/how-to-choose-an-llm-provider</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -345,6 +345,7 @@
   <url><loc>https://sipi.bot/incidents/anthropic-project-vend-2025-06</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/anthropic-snowboard-duplicate-2025-10</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/aws-bedrock-30k-bill-2026-05</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/incidents/aws-bedrock-credential-burn-2026-07</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/bedrock-14k-key-theft-2026-07</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/chatgpt-prompt-injection-exfil-2024-06</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/chatgpt-spaiware-memory-2024-09</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -356,6 +357,7 @@
   <url><loc>https://sipi.bot/incidents/claude-code-terraform-2025-08</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/claude-computer-use-c2-2024-10</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/claude-opus-blackmail-2025-05</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/incidents/claude-opus-npm-malware-crypto-2026-04</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/clawdbot-1m-2025-10</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/codex-9h-compaction-loop-2026-08</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/codex-abnormal-token-consumption-2026-08</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -379,8 +381,10 @@
   <url><loc>https://sipi.bot/incidents/github-copilot-chat-exfil-2024-06</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/github-copilot-rce-2025-08</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/google-antigravity-exfil-2025-11</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/incidents/google-cloud-api-key-abuse-2026-05</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/google-cloud-gemini-key-theft-2026-05</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/google-jules-exfil-2025-08</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/incidents/grok-bankr-prompt-injection-drain-2026-05</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/huggingface-cli-slopsquat-2024-01</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/humane-ai-pin-recall-2024-10</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/jetbrains-plugin-key-theft-2026-06</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -394,6 +398,7 @@
   <url><loc>https://sipi.bot/incidents/meta-galactica-2022-11</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/microsoft-tay-2016-03</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/morris-ii-ai-worm-2024-03</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/incidents/multi-agent-recursive-loop-47k-2026-03</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/nathan-fuller-sec-ai-bot-fraud-2026-05</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/nyc-mycity-2024-03</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/incidents/o3-arc-agi-cost-2024-12</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -504,7 +509,7 @@
   <url><loc>https://sipi.bot/learn/what-are-agentic-payments</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/learn/what-is-a-spend-firewall</loc><lastmod>2026-07-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/learn/what-is-an-ai-agent</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://sipi.bot/limits/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/limits/</loc><lastmod>2026-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/limits/anthropic-agent-limits</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/limits/monthly-spend-limits</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/limits/openai-agent-limits</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -522,7 +527,7 @@
   <url><loc>https://sipi.bot/policies/time-of-day-policy</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/policies/velocity-cap-policy</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/pricing</loc><lastmod>2026-08-26</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://sipi.bot/pricing-questions/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/pricing-questions/</loc><lastmod>2026-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/pricing-questions/can-i-self-host-sipi-bot</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/pricing-questions/does-sipi-bot-have-a-free-tier</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/pricing-questions/how-much-does-sipi-bot-cost</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -546,7 +551,7 @@
   <url><loc>https://sipi.bot/proof/pa_dbda2453345af8c3/</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/proof/pa_dda71eee74643ea7/</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/proof/pa_e2efba68c969a7f9/</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://sipi.bot/redflags/</loc><lastmod>2026-08-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sipi.bot/redflags/</loc><lastmod>2026-09-04</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/redflags/red-flags-in-agent-logs</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/redflags/red-flags-in-agent-payment-rails</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sipi.bot/redflags/red-flags-in-agent-spend</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>

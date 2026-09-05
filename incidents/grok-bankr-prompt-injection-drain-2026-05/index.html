@@ -3,29 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>McDonald&#x27;s McHire AI hiring bot exposes up to 64 million applicants behind the password &#x27;123456&#x27; — AI agent incident | sipi.bot</title>
-<meta name="description" content="Security researchers Ian Carroll and Sam Curry found that the admin panel behind Olivia, the Paradox.ai chatbot that screens McDonald&#x27;s job applicants, accep…">
-<link rel="canonical" href="https://sipi.bot/incidents/mcdonalds-mchire-paradox-2025-07">
+<title>Morse-code prompt injection tricks Grok and Bankrbot into draining $150K-$200K in tokens — AI agent incident | sipi.bot</title>
+<meta name="description" content="An attacker exploited AI agents Grok and Bankrbot by sending a Morse-code prompt via X, tricking them into transferring 3 billion DRB tokens worth approximat…">
+<link rel="canonical" href="https://sipi.bot/incidents/grok-bankr-prompt-injection-drain-2026-05">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="sipi.bot">
-<meta property="og:title" content="McDonald&#x27;s McHire AI hiring bot exposes up to 64 million applicants behind the password &#x27;123456&#x27; — AI agent incident | sipi.bot">
-<meta property="og:description" content="Security researchers Ian Carroll and Sam Curry found that the admin panel behind Olivia, the Paradox.ai chatbot that screens McDonald&#x27;s job applicants, accep…">
-<meta property="og:url" content="https://sipi.bot/incidents/mcdonalds-mchire-paradox-2025-07">
+<meta property="og:title" content="Morse-code prompt injection tricks Grok and Bankrbot into draining $150K-$200K in tokens — AI agent incident | sipi.bot">
+<meta property="og:description" content="An attacker exploited AI agents Grok and Bankrbot by sending a Morse-code prompt via X, tricking them into transferring 3 billion DRB tokens worth approximat…">
+<meta property="og:url" content="https://sipi.bot/incidents/grok-bankr-prompt-injection-drain-2026-05">
 <meta property="og:image" content="https://sipi.bot/og-default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="McDonald&#x27;s McHire AI hiring bot exposes up to 64 million applicants behind the password &#x27;123456&#x27; — AI agent incident | sipi.bot">
-<meta name="twitter:description" content="Security researchers Ian Carroll and Sam Curry found that the admin panel behind Olivia, the Paradox.ai chatbot that screens McDonald&#x27;s job applicants, accep…">
+<meta name="twitter:title" content="Morse-code prompt injection tricks Grok and Bankrbot into draining $150K-$200K in tokens — AI agent incident | sipi.bot">
+<meta name="twitter:description" content="An attacker exploited AI agents Grok and Bankrbot by sending a Morse-code prompt via X, tricking them into transferring 3 billion DRB tokens worth approximat…">
 <meta name="twitter:image" content="https://sipi.bot/og-default.png">
 <link rel="icon" type="image/svg+xml" href="https://sipi.bot/favicon.svg">
 <link rel="alternate" type="application/rss+xml" title="sipi.bot — incidents & research" href="/rss.xml">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "sipi.bot", "url": "https://sipi.bot/", "description": "The pre-spend firewall for autonomous AI agents — approve, block, or flag every transaction before a dollar moves.", "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot/"}, {"@type": "ListItem", "position": 2, "name": "Incident database", "item": "https://sipi.bot/incidents/"}, {"@type": "ListItem", "position": 3, "name": "McDonald&#x27;s McHire AI hiring bot exposes up to 64 million applicants behind the password &#x27;123456&#x27;", "item": "https://sipi.bot/incidents/mcdonalds-mchire-paradox-2025-07"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "McDonald&#x27;s McHire AI hiring bot exposes up to 64 million applicants behind the password &#x27;123456&#x27;", "description": "Security researchers Ian Carroll and Sam Curry found that the admin panel behind Olivia, the Paradox.ai chatbot that screens McDonald&#x27;s job applicants, accep…", "url": "https://sipi.bot/incidents/mcdonalds-mchire-paradox-2025-07", "image": "https://sipi.bot/og-default.png", "datePublished": "2025-07-09", "dateModified": "2026-09-05", "author": {"@type": "Organization", "name": "sipi.bot"}, "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://sipi.bot/incidents/mcdonalds-mchire-paradox-2025-07"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What happened in the McDonald&#x27;s / Paradox.ai (McHire) incident?", "acceptedAnswer": {"@type": "Answer", "text": "Security researchers Ian Carroll and Sam Curry found that the admin panel behind Olivia, the Paradox.ai chatbot that screens McDonald&#x27;s job applicants, accepted the test credentials 123456/123456 with no MFA. Combined with an IDOR flaw in the chat API, the account gave access to as many as 64 million applicants&#x27; chat records — names, emails, phone numbers. Paradox.ai confirmed the test account dated to 2019 and patched the flaws after disclosure."}}, {"@type": "Question", "name": "Is this incident verified?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — confirmed against a primary or major-secondary source."}}, {"@type": "Question", "name": "How could a spend firewall have helped?", "acceptedAnswer": {"@type": "Answer", "text": "The agent was fine; the credentials around it were not. The same lesson applies to spend: an agent&#x27;s key is only as strong as the weakest account that can act as it, so per-key velocity limits and anomaly flags on bulk reads are the control that survives a leaked password."}}, {"@type": "Question", "name": "Where is the source?", "acceptedAnswer": {"@type": "Answer", "text": "Reported by WIRED: https://www.wired.com/story/mcdonalds-ai-hiring-chat-bot-paradoxai"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sipi.bot/"}, {"@type": "ListItem", "position": 2, "name": "Incident database", "item": "https://sipi.bot/incidents/"}, {"@type": "ListItem", "position": 3, "name": "Morse-code prompt injection tricks Grok and Bankrbot into draining $150K-$200K in tokens", "item": "https://sipi.bot/incidents/grok-bankr-prompt-injection-drain-2026-05"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Morse-code prompt injection tricks Grok and Bankrbot into draining $150K-$200K in tokens", "description": "An attacker exploited AI agents Grok and Bankrbot by sending a Morse-code prompt via X, tricking them into transferring 3 billion DRB tokens worth approximat…", "url": "https://sipi.bot/incidents/grok-bankr-prompt-injection-drain-2026-05", "image": "https://sipi.bot/og-default.png", "datePublished": "2026-05-04", "dateModified": "2026-09-05", "author": {"@type": "Organization", "name": "sipi.bot"}, "publisher": {"@type": "Organization", "name": "sipi.bot", "url": "https://sipi.bot/"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://sipi.bot/incidents/grok-bankr-prompt-injection-drain-2026-05"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What happened in the anonymous wallet operator (Grok / Bankrbot) incident?", "acceptedAnswer": {"@type": "Answer", "text": "An attacker exploited AI agents Grok and Bankrbot by sending a Morse-code prompt via X, tricking them into transferring 3 billion DRB tokens worth approximately $150,000-$200,000 from a verified wallet on the Base network. The incident exposed critical vulnerabilities in AI wallet permissions and prompt controls; the AI&#x27;s role was pivotal because the exploit relied on how the agent interpreted user input, not on any smart-contract vulnerability."}}, {"@type": "Question", "name": "Is this incident verified?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — confirmed against a primary or major-secondary source."}}, {"@type": "Question", "name": "How could a spend firewall have helped?", "acceptedAnswer": {"@type": "Answer", "text": "A destination allowlist returns BLOCKED on any transfer to an address not pre-approved -- the firewall does not care whether the instruction arrived via plain text, Morse code, or any other channel. The irreversibility of on-chain transfers is exactly why a hard external gate, not a prompt, must govern them."}}, {"@type": "Question", "name": "Where is the source?", "acceptedAnswer": {"@type": "Answer", "text": "Reported by OECD.AI Incidents Monitor: https://oecd.ai/en/incidents/2026-05-04-4a73"}}]}</script>
 <script>(function(){if(window.posthog&&window.posthog.__loaded)return;var s=document.createElement("script");s.type="text/javascript";s.crossOrigin="anonymous";s.defer=true;s.src="https://eu.i.posthog.com/static/array.js";s.onload=function(){window.posthog.init("phc_lyZCgvTpicjLzAO3rY2GhxuX5WUc5jQjP8ZVwwJqauX",{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",defaults:"2025-05-24",capture_pageview:false});window.posthog.capture("$pageview",{$viewport_height:window.innerHeight,$viewport_width:window.innerWidth})};document.head.appendChild(s);})();</script>
 <style>
 :root{
@@ -188,39 +188,39 @@ tr:hover td{background:rgba(255,255,255,.015)}
 <main class="wrap">
 <section class="hero">
 <div class="crumbs"><a href="/">Home</a><span class="sep">/</span>
-<a href="/incidents/">Incident database</a><span class="sep">/</span>mcdonalds-mchire-paradox-2025-07</div>
+<a href="/incidents/">Incident database</a><span class="sep">/</span>grok-bankr-prompt-injection-drain-2026-05</div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-<span class="tag warn">Data breach</span>
-<span class="tag neutral">Credential compromise</span>
+<span class="tag bad">Financial loss</span>
+<span class="tag neutral">Unauthorized transaction</span>
 <span class="tag good">verified</span>
 
 </div>
-<h1>McDonald&#x27;s McHire AI hiring bot exposes up to 64 million applicants behind the password &#x27;123456&#x27;</h1>
-<p class="lead">McDonald&#x27;s / Paradox.ai (McHire) · Jul 9, 2025 · Customer service agent</p>
+<h1>Morse-code prompt injection tricks Grok and Bankrbot into draining $150K-$200K in tokens</h1>
+<p class="lead">anonymous wallet operator (Grok / Bankrbot) · May 4, 2026 · Trading agent</p>
 </section>
 
 <section class="prose">
 <h2>What happened</h2>
-<p>Security researchers Ian Carroll and Sam Curry found that the admin panel behind Olivia, the Paradox.ai chatbot that screens McDonald&#x27;s job applicants, accepted the test credentials 123456/123456 with no MFA. Combined with an IDOR flaw in the chat API, the account gave access to as many as 64 million applicants&#x27; chat records — names, emails, phone numbers. Paradox.ai confirmed the test account dated to 2019 and patched the flaws after disclosure.</p>
+<p>An attacker exploited AI agents Grok and Bankrbot by sending a Morse-code prompt via X, tricking them into transferring 3 billion DRB tokens worth approximately $150,000-$200,000 from a verified wallet on the Base network. The incident exposed critical vulnerabilities in AI wallet permissions and prompt controls; the AI&#x27;s role was pivotal because the exploit relied on how the agent interpreted user input, not on any smart-contract vulnerability.</p>
 
 <div class="statbox">
-<div class="stat"><div class="n">—</div><div class="l">Loss / impact</div></div>
-<div class="stat"><div class="n">Jul 9</div><div class="l">2025</div></div>
-<div class="stat"><div class="n">Credential</div><div class="l">Failure mode</div></div>
-<div class="stat"><div class="n">Customer service</div><div class="l">Agent type</div></div>
+<div class="stat"><div class="n">$155K</div><div class="l">Loss / impact</div></div>
+<div class="stat"><div class="n">May 4</div><div class="l">2026</div></div>
+<div class="stat"><div class="n">Unauthorized</div><div class="l">Failure mode</div></div>
+<div class="stat"><div class="n">Trading</div><div class="l">Agent type</div></div>
 </div>
 
 <h3>Causal vector</h3>
-<p>A default-credential admin account plus an incrementable applicant-ID (IDOR) exposed the chatbot&#x27;s entire conversation store</p>
+<p>Prompt injection delivered through an unconventional channel (Morse code via social media) steered a wallet-linked agent into an unauthorized transfer</p>
 
 <h3>Source</h3>
-<p>Reported by <strong>WIRED</strong>. Verified against the primary report.</p>
-<p><a href="https://www.wired.com/story/mcdonalds-ai-hiring-chat-bot-paradoxai" rel="nofollow noopener" target="_blank" class="btn ghost" style="font-size:.92rem;padding:9px 16px">Read the original report ↗</a></p>
+<p>Reported by <strong>OECD.AI Incidents Monitor</strong>. Verified against the primary report.</p>
+<p><a href="https://oecd.ai/en/incidents/2026-05-04-4a73" rel="nofollow noopener" target="_blank" class="btn ghost" style="font-size:.92rem;padding:9px 16px">Read the original report ↗</a></p>
 </section>
 
 <div class="callout">
 <div class="k">How a spend firewall would have helped</div>
-<p>The agent was fine; the credentials around it were not. The same lesson applies to spend: an agent&#x27;s key is only as strong as the weakest account that can act as it, so per-key velocity limits and anomaly flags on bulk reads are the control that survives a leaked password.</p>
+<p>A destination allowlist returns BLOCKED on any transfer to an address not pre-approved -- the firewall does not care whether the instruction arrived via plain text, Morse code, or any other channel. The irreversibility of on-chain transfers is exactly why a hard external gate, not a prompt, must govern them.</p>
 </div>
 
 <section>
@@ -235,7 +235,7 @@ tr:hover td{background:rgba(255,255,255,.015)}
 </div>
 </section>
 
-<h2>Related incidents</h2><div class="grid three"><div class="card"><h3><a href="/incidents/aws-bedrock-credential-burn-2026-07/">Stolen EC2 keys burn $14,000 in a single day on Amazon Bedrock</a></h3><p>anonymous three-person agency · Jul 16, 2026</p></div><div class="card"><h3><a href="/incidents/jetbrains-plugin-key-theft-2026-06/">15 malicious JetBrains plugins silently exfiltrated developers&#x27; OpenAI, DeepSeek and SiliconFlow API keys</a></h3><p>JetBrains Marketplace (third-party plugin authors) · Jun 10, 2026</p></div><div class="card"><h3><a href="/incidents/litellm-pypi-supply-chain-2026-03/">Compromised LiteLLM PyPI packages harvest credentials via supply-chain attack</a></h3><p>LiteLLM (BerriAI) · Mar 24, 2026</p></div></div>
+<h2>Related incidents</h2><div class="grid three"><div class="card"><h3><a href="/incidents/anthropic-snowboard-duplicate-2025-10/">Anthropic test agent buys a duplicate snowboard its owner already owns</a></h3><p>Anthropic · Oct 1, 2025</p></div><div class="card"><h3><a href="/incidents/openai-operator-salmon-2025-03/">OpenAI Operator AI agent makes surprise smoked-salmon purchase</a></h3><p>OpenAI · Mar 9, 2025</p></div><div class="card"><h3><a href="/incidents/openai-operator-eggs-2025-02/">OpenAI Operator agent makes unauthorized $31.43 grocery purchase</a></h3><p>OpenAI · Feb 7, 2025</p></div></div>
 
 <div class="band">
 <h2>Don't be the next entry</h2>

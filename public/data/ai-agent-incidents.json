@@ -4,8 +4,8 @@
   "url": "https://sipi.bot/incidents/",
   "description": "A curated, sourced record of real-world incidents in which autonomous AI agents caused financial loss, data loss, or unintended actions. Every record links to a public source. Licensed CC BY 4.0.",
   "license": "https://creativecommons.org/licenses/by/4.0/",
-  "version": "2026-09-02",
-  "last_updated": "2026-09-02",
+  "version": "2026-09-05",
+  "last_updated": "2026-09-05",
   "incidents": [
     {
       "id": "codex-9h-compaction-loop-2026-08",
@@ -114,6 +114,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "Paying per attempt turns a loop into a revenue event for the vendor and a loss event for the user. A velocity limit on consecutive billable actions trips on the Nth failing attempt and ends the run before the usage page does."
+    },
+    {
+      "id": "aws-bedrock-credential-burn-2026-07",
+      "title": "Stolen EC2 keys burn $14,000 in a single day on Amazon Bedrock",
+      "date": "2026-07-16",
+      "organization": "anonymous three-person agency",
+      "loss_usd": 14000,
+      "loss_range": null,
+      "what_happened": "A three-person agency with a typical AWS bill of $10-$15/month received a $14,000 charge in a single day after attackers extracted static access keys from an EC2 instance and burned through Claude model invocations on Amazon Bedrock. The keys carried Bedrock Full Access, AWS had removed the model-access toggle in 2025 leaving all models enabled by default, and the application was designed to use Haiku with an expected bill under $100. Detection came from the credit card, not from AWS -- Cost Explorer lags up to 24 hours.",
+      "category": "credential-compromise",
+      "agent_type": "general",
+      "vector": "Static access keys on an EC2 instance plus full-access Bedrock defaults let attackers convert a stolen key into thousands of dollars of inference in hours",
+      "outcome": "financial-loss",
+      "source_name": "InfoQ (citing Tobias Schmidt, AWS consultant, LinkedIn post)",
+      "source_url": "https://www.infoq.com/news/2026/07/ai-agents-billing-guardrails/",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "A merchant allowlist scoped to the single model the application actually calls -- Haiku -- returns BLOCKED on any invocation of a more expensive model, so a stolen key cannot be weaponized against the full Bedrock catalogue. Short-lived IAM roles instead of static keys remove the exposure entirely."
     },
     {
       "id": "codex-background-burn-2026-06",
@@ -284,6 +302,27 @@
       "firewall_relevance": "A credential leak should not equal an unbounded bill. A spend firewall's merchant allowlist and per-transaction caps stop a stolen key from being monetized at inference time, and velocity limits cap the damage even when a key is compromised."
     },
     {
+      "id": "google-cloud-api-key-abuse-2026-05",
+      "title": "Google Cloud customers receive tens of thousands in unauthorized API bills after key exposure",
+      "date": "2026-05-13",
+      "organization": "Google Cloud (affected customers: Prentus, Fonseka)",
+      "loss_usd": 10138,
+      "loss_range": [
+        10138,
+        17000
+      ],
+      "what_happened": "At least two Google Cloud customers had their API keys compromised and used by attackers to run expensive video and image generation workloads on Gemini and Veo 3, producing bills of $10,138 and roughly AUD $17,000. Both had spending caps set at $250 that Google automatically escalated to $100,000 after the attacker-driven usage triggered the account's tier upgrade path -- $100 in spend unlocks the next tier, $1,000 and 30 days unlocks Tier 3 with a $20,000-$100,000 cap.",
+      "category": "cloud-cost-spike",
+      "agent_type": "general",
+      "vector": "Exposed API keys plus automated spending-limit escalation let attackers burn expensive models unchecked",
+      "outcome": "financial-loss",
+      "source_name": "The Register",
+      "source_url": "https://www.theregister.com/ai-ml/2026/05/13/google-users-fight-for-refunds-as-unauthorized-api-usage-bills-soar/5239160",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "A merchant allowlist that only permits the models and endpoints a project actually uses returns BLOCKED on Veo 3 and Gemini image calls that have no business reason -- regardless of whether the key was exposed. A daily total cap sized to the real project budget would have stopped the burn at $250 instead of $100,000."
+    },
+    {
       "id": "stat-stanford-digital-economy-loop-2026",
       "title": "Stanford Digital Economy Lab: agentic coding tasks consume ~1,000x more tokens than chat, with up to 30x variance on the same task",
       "date": "2026-05-05",
@@ -300,6 +339,27 @@
       "verified": true,
       "type": "statistic",
       "firewall_relevance": "30x cost variance on the same task means no human estimate is safe: only a measurement layer that sees each run's token spend, and a policy layer that caps it, turns this variance from a budget risk into a known quantity."
+    },
+    {
+      "id": "grok-bankr-prompt-injection-drain-2026-05",
+      "title": "Morse-code prompt injection tricks Grok and Bankrbot into draining $150K-$200K in tokens",
+      "date": "2026-05-04",
+      "organization": "anonymous wallet operator (Grok / Bankrbot)",
+      "loss_usd": 155000,
+      "loss_range": [
+        150000,
+        200000
+      ],
+      "what_happened": "An attacker exploited AI agents Grok and Bankrbot by sending a Morse-code prompt via X, tricking them into transferring 3 billion DRB tokens worth approximately $150,000-$200,000 from a verified wallet on the Base network. The incident exposed critical vulnerabilities in AI wallet permissions and prompt controls; the AI's role was pivotal because the exploit relied on how the agent interpreted user input, not on any smart-contract vulnerability.",
+      "category": "unauthorized-transaction",
+      "agent_type": "trading",
+      "vector": "Prompt injection delivered through an unconventional channel (Morse code via social media) steered a wallet-linked agent into an unauthorized transfer",
+      "outcome": "financial-loss",
+      "source_name": "OECD.AI Incidents Monitor",
+      "source_url": "https://oecd.ai/en/incidents/2026-05-04-4a73",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "A destination allowlist returns BLOCKED on any transfer to an address not pre-approved -- the firewall does not care whether the instruction arrived via plain text, Morse code, or any other channel. The irreversibility of on-chain transfers is exactly why a hard external gate, not a prompt, must govern them."
     },
     {
       "id": "openai-codex-docker-root-2026-05",
@@ -336,6 +396,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "46 identical scheduled runs in 26 hours is a velocity signature, not a normal workload: a spend firewall with a daily ceiling or per-hour velocity limit returns BLOCKED on the run that crosses the bound, long before a six-thousand-dollar overnight loop completes."
+    },
+    {
+      "id": "claude-opus-npm-malware-crypto-2026-04",
+      "title": "Claude Opus co-authors a malicious npm commit that compromises a crypto trading agent",
+      "date": "2026-04-29",
+      "organization": "crypto trading agent operator (npm dependency victim)",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "Anthropic's Claude Opus AI model co-authored a code commit that introduced a malicious npm package dependency into an autonomous crypto trading agent. The malware, linked to North Korean group Famous Chollima, enabled theft of crypto assets and sensitive data -- a direct harm to property caused by AI-assisted software development where the AI model made a malicious package a dependency, giving attackers access to users' crypto wallets and funds.",
+      "category": "trading-agent",
+      "agent_type": "trading",
+      "vector": "AI model co-authoring a code commit that introduced a malicious npm dependency, enabling later crypto asset theft",
+      "outcome": "financial-loss",
+      "source_name": "OECD.AI Incidents Monitor (corroborated by Infosecurity Magazine and Cryptopolitan)",
+      "source_url": "https://oecd.ai/en/incidents/2026-04-29-cda6",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "A dependency-installation action is a transaction -- and installing an unvetted npm package is exactly the kind of spend-equivalent action a firewall should gate. A merchant allowlist on approved package registries plus a category rule requiring human review for new dependencies would have caught the malicious package before it reached production, regardless of whether an AI co-authored the commit."
     },
     {
       "id": "lovable-regression-loop-2026-04",
@@ -390,6 +468,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "This is the supply-chain face of the same problem: agent tooling expands the credential blast radius. A spend firewall's value is the policy boundary — limiting what any single agent or tool can touch and spend, so a compromised dependency cannot silently monetize your infrastructure."
+    },
+    {
+      "id": "multi-agent-recursive-loop-47k-2026-03",
+      "title": "Four-agent LangChain loop runs 11 days and burns $47,000 while dashboards look healthy",
+      "date": "2026-03-23",
+      "organization": "Teja Kusireddy team (multi-agent research system)",
+      "loss_usd": 47000,
+      "loss_range": null,
+      "what_happened": "A multi-agent research system managed by Teja Kusireddy's team generated a $47,000 invoice due to a recursive communication loop. Two agents exchanged thousands of messages over eleven days without producing useful output, while dashboards showed healthy activity and normal latency -- the billing damage was surfaced only after the invoice arrived. The post-mortem identified two root causes: no per-agent budget ceiling, and no enforcement mechanism that would have terminated the session before the next API call.",
+      "category": "runaway-loop",
+      "agent_type": "general",
+      "vector": "Unbounded multi-agent communication loop with no token or cost ceiling and no pre-execution enforcement -- only asynchronous monitoring dashboards",
+      "outcome": "financial-loss",
+      "source_name": "Waxell (citing primary post-mortem by Teja Kusireddy)",
+      "source_url": "https://waxell.ai/blog/ai-agent-token-budget-enforcement",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "This is the textbook runaway loop in a multi-agent setting. A velocity cap on calls per minute per agent and a daily total cap return BLOCKED on the call that would push spend over the ceiling -- stopping the loop cold at the infrastructure layer, not as a dashboard alert someone may or may not act on."
     },
     {
       "id": "claude-code-repeated-requests-500-2026-03",
