@@ -57,6 +57,8 @@ def guard(amount, merchant="", category="", description="", currency="USD") -> d
         raise SpendBlocked(d.get("reason", "blocked"), d)
     if decision == "FLAGGED":
         raise SpendNeedsApproval(d.get("reason", "needs approval"), d)
+    if decision != "APPROVED":
+        raise SpendBlocked("Missing or unrecognized approval decision", d)
     return d
 
 
