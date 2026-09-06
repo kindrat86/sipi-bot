@@ -42,6 +42,44 @@ Negative: exhausted budget after restart; simultaneous attempts (one dispatch, s
 
 Limitations: no account-wide/provider billing cap, no protection against stolen keys, direct calls or other ledgers, no sandbox against malicious local code, no guarantee provider charges stay below an unverified price estimate. A callback reference is a trust boundary, not a credential-isolation boundary. No support for distributed/network filesystem coordination. A new-day reset or refunds require explicit owner reconciliation, not automatic behavior.
 
+## Runnable local caller acceptance (continuation)
+
+Run from the repository root with no credentials or network access required:
+
+    /Users/sipi/.local/bin/python3.11 -m integrations.search_caller
+    /Users/sipi/.local/bin/python3.11 -m unittest discover -s tests -p test_search_caller.py -v
+    /Users/sipi/.local/bin/python3.11 -m unittest discover -s tests -v
+
+Actual local run: 93 tests passed. The executable synthetic caller returned one
+synthetic result, declared maximum_cents=10 and retries=0 at its transport seam,
+and blocked its second request. These amounts are fixtures, not provider pricing.
+
+Call path: SearchCaller.handle(request) -> SearchWorkflow.search -> committed
+SQLite reservation -> SearchCaller._dispatch -> owner-injected transport. The
+request accepts only request_id and query. Owner construction fixes the ledger,
+budget, maximum and transport; nonzero or malformed retries are rejected. There
+is no retry loop. Provider exceptions propagate without releasing reservations.
+
+SearchCaller requires an existing owner-only directory and uses the single fixed
+search.sqlite within it. New ledgers are created with mode 0600. Each handle call
+checks owner identity, regular-file type and absence of group/other permissions;
+missing or unsafe storage blocks before dispatch. The owner must also protect
+ancestor directories, keep this directory stable, and route every workflow call
+here. The checks are not protection against malicious same-user code, ledger
+replacement races, a privileged attacker, or intentional owner budget resets.
+
+Caller tests exercise reservation-before-transport, unknown/missing/null/lowercase/
+REVIEW verdicts, denied request policy overrides, concurrency (one dispatch among
+eight attempts), timeout without retries, duplicate/restart retention, and unsafe
+or missing storage. The pre-existing adapter and guard acceptance tests also run.
+
+The injected transport is trusted owner code and must actually enforce the
+supplied maximum and disable any internal SDK retries. This run proves only the
+synthetic transport contract and caller routing, not a real provider's billing
+maximum. A real provider adapter and its pricing/retry verification remain buyer
+acceptance gates. No production integration, customer, provider spend, release,
+fee agreement or independent human review is established by this local record.
+
 ## Related minimal correction
 
 integrations/sipi_guard.py previously returned any decision except BLOCKED or FLAGGED. Four reproduced cases reached the paid-call line. It now requires explicit APPROVED. No API or public-page changes, no dependency installs and no deployment.
