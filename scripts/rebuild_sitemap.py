@@ -9,6 +9,7 @@ looking for exactly the index.html files that route resolves (matching its
 lookup precisely, so nothing unreachable gets sitemapped).
 """
 import os, re, subprocess
+from html.parser import HTMLParser
 from xml.sax.saxutils import escape
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
@@ -82,6 +83,29 @@ def is_leaf(path_segments: tuple) -> bool:
     'vs') and the root '/' keep their trailing slashes.
     """
     return len(path_segments) >= 2
+
+
+class _RobotsParser(HTMLParser):
+    """Read real robots meta elements, ignoring examples in comments/scripts."""
+
+    def __init__(self):
+        super().__init__()
+        self.noindex = False
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag != "meta" or (attrs.get("name") or "").lower() not in ("robots", "googlebot"):
+            return
+        directives = re.split(r"[\s,]+", (attrs.get("content") or "").lower())
+        if "noindex" in directives or "none" in directives:
+            self.noindex = True
+
+
+def has_noindex(filepath):
+    parser = _RobotsParser()
+    with open(filepath, encoding="utf-8") as source:
+        parser.feed(source.read())
+    return parser.noindex
 
 
 def build_sitemap():
@@ -172,6 +196,11 @@ def build_sitemap():
     ):
         urls.pop(SITE_BASE + retired, None)
 
+    # A sitemap advertises indexable pages. Keep intentional noindex on proof
+    # pages (and other excluded HTML), but never submit those URLs to Google.
+    # Filter after mirror resolution so a hidden indexable twin cannot leak in.
+    urls = {url: source for url, source in urls.items()
+            if source is None or not has_noindex(source)}
     urls_sorted = sorted(urls.keys())
     parts = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
