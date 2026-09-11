@@ -145,7 +145,7 @@ HOW_TO = [
             ("How do I split provider vs firewall?",
              "Providers bill; the log attributes. Use both."),
         ],
-        related=[("How to track AI agent costs", "/answers/how-to-track-ai-agent-costs/"), ("How to monitor AI costs", "/how-to/how-to-monitor-ai-costs"), ("Agent cost report template", "/templates/agent-cost-report-template")],
+        related=[("How to track AI agent costs", "/answers/how-to-track-ai-agent-costs/"), ("How to monitor AI costs", "/how-to/how-to-monitor-ai-costs"), ("Agent cost report template", "/guides/guide-to-agent-spend-audits")],
     ),
 ]
 

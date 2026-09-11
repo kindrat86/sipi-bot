@@ -1576,6 +1576,20 @@ class Handler(BaseHTTPRequestHandler):
         "/limits/daily-spend-limits/": "/glossary/daily-spend-ceiling",
         "/pricing-questions/does-sipi-bot-charge-per-api-call": "/pricing-questions/how-much-does-sipi-bot-cost",
         "/pricing-questions/does-sipi-bot-charge-per-api-call/": "/pricing-questions/how-much-does-sipi-bot-cost",
+        # 2026-09-10 §5.7 subtractive prepay: five more zero-trailing-28d-
+        # impression thin leaves retired (1.8-1.9K rendered body chars
+        # including shared chrome). Each 301s to a deeper, already-impressed
+        # page that covers the same query. Keep both URL forms mapped.
+        "/templates/agent-cost-report-template": "/guides/guide-to-agent-spend-audits",
+        "/templates/agent-cost-report-template/": "/guides/guide-to-agent-spend-audits",
+        "/faq/does-sipi-bot-work-with-any-llm": "/answers/how-does-a-spend-firewall-work/",
+        "/faq/does-sipi-bot-work-with-any-llm/": "/answers/how-does-a-spend-firewall-work/",
+        "/templates/agent-spend-policy-one-pager": "/guides/agent-spend-policy-best-practices",
+        "/templates/agent-spend-policy-one-pager/": "/guides/agent-spend-policy-best-practices",
+        "/faq/how-fast-is-the-sipi-bot-decision": "/answers/how-does-a-spend-firewall-work/",
+        "/faq/how-fast-is-the-sipi-bot-decision/": "/answers/how-does-a-spend-firewall-work/",
+        "/blog/the-cloud-ai-platform-bill": "/vs/aws-budgets",
+        "/blog/the-cloud-ai-platform-bill/": "/vs/aws-budgets",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO

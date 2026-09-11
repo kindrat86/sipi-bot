@@ -4,8 +4,8 @@ Tenth round. 19 static pages + 2 blog:
   integrations +4: cline, roo-code, zapier, make
   cost-of +2: groq-api-cost, cohere-api-cost
   for +2: customer-success-teams, legal-teams
-  templates +3: vendor-offboarding-policy, agent-spend-policy-one-pager,
-                mcp-server-vetting-template
+  templates +3: vendor-offboarding-policy, mcp-server-vetting-template
+                (agent-spend-policy-one-pager retired 2026-09-11: zero-impression thin leaf)
   glossary +3: agent-orchestration, agentic-workflow, budget-alert
   how-to +2: how-to-vet-mcp-servers, how-to-handle-a-flagged-transaction
   best +1: best-agent-incident-response-tools
@@ -321,30 +321,6 @@ TEMPLATES = [
              "Cancel the subscription separately; the allowlist stops new spend today."),
         ],
         related=[("Vendor onboarding policy", "/templates/vendor-onboarding-policy"), ("Merchant allowlist template", "/templates/merchant-allowlist-template"), ("Procurement teams", "/for/procurement-teams")],
-    ),
-    dict(
-        slug="agent-spend-policy-one-pager",
-        title="Agent Spend Policy One-Pager Template",
-        desc="The one-page agent spend policy: budget, vendors, approvals, and review — short enough to actually be read.",
-        h1="Agent Spend Policy One-Pager",
-        lead="A policy nobody reads isn't a policy. This one-pager fits on a page and maps to real rules.",
-        sections=[
-            ("The one-pager",
-             ["Budget: daily ceiling [$], per-transaction cap [$].",
-              "Vendors: only allowlisted merchants may be paid.",
-              "Approvals: purchases over [$] wait for [OWNER].",
-              "Hours: overnight spend is flagged for review.",
-              "Review: the audit log is reviewed monthly by [OWNER]."]),
-            ("Why it works",
-             ["Every line maps to a rule — the policy and the enforcement are the same document."]),
-        ],
-        faqs=[
-            ("Is one page enough?",
-             "For enforcement, yes — the rules carry the weight, the page carries the intent."),
-            ("Who signs it?",
-             "The budget owner, reviewed quarterly."),
-        ],
-        related=[("Agent spend policy template", "/templates/agent-spend-policy-template"), ("How to create a spend policy", "/how-to/how-to-create-a-spend-policy"), ("Spend policy", "/glossary/spend-policy")],
     ),
     dict(
         slug="mcp-server-vetting-template",

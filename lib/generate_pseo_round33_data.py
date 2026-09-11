@@ -384,30 +384,6 @@ BENCHMARKS = [
 ]
 
 TEMPLATES = [
-    dict(
-        slug="agent-cost-report-template",
-        title="Agent Cost Report Template",
-        desc="The monthly agent cost report: spend by agent, category, and vendor, with blocked/flagged patterns and rule changes.",
-        h1="Agent Cost Report Template",
-        lead="A monthly agent cost report turns the audit log into decisions. Here's the structure that works.",
-        sections=[
-            ("The report",
-             ["1. Total spend vs budget, by agent.",
-              "2. Spend by category: inference, data, tools, payments.",
-              "3. Top vendors and any new merchants.",
-              "4. Blocked: what the firewall stopped.",
-              "5. Flagged: approved vs denied — the tuning signal.",
-              "6. Rule changes this month and their effect.",
-              "7. Next month: one rule change to make."]),
-        ],
-        faqs=[
-            ("How long does it take?",
-             "30 minutes a month once the log is the source."),
-            ("Who reads it?",
-             "The budget owner and finance."),
-        ],
-        related=[("Weekly spend review", "/templates/weekly-spend-review-template"), ("Agent spend audit guide", "/guides/guide-to-agent-spend-audits"), ("How to track AI agent costs", "/answers/how-to-track-ai-agent-costs/")],
-    ),
 ]
 
 ANSWERS = [

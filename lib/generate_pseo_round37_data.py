@@ -160,50 +160,6 @@ VS = [
 ]
 
 FAQ = [
-    dict(
-        slug="does-sipi-bot-work-with-any-llm",
-        title="Does sipi.bot Work with Any LLM?",
-        desc="Yes — sipi.bot is model-agnostic. It sits on the money path, not the model path.",
-        h1="Does sipi.bot Work with Any LLM?",
-        lead="Yes. sipi.bot doesn't touch the model layer — it sits on the money path. Any LLM, any framework, any provider.",
-        sections=[
-            ("Why it's model-agnostic",
-             ["The firewall evaluates transactions, not prompts.",
-              "HTTP, MCP, and CLI interfaces — no SDK lock-in."]),
-            ("What it covers",
-             ["All model providers and self-hosted stacks.",
-              "All the tools and merchants your agents call — not just inference."]),
-        ],
-        faqs=[
-            ("Does it slow inference?",
-             "No — it only evaluates spend actions, ~5 ms."),
-            ("Does it care which framework I use?",
-             "No — it composes with LangChain, CrewAI, Mastra, and the rest."),
-        ],
-        related=[("Framework-agnostic FAQ", "/faq/can-sipi-bot-work-with-any-framework"), ("Integrations hub", "/integrations/"), ("How to implement spend controls", "/how-to/how-to-implement-spend-controls")],
-    ),
-    dict(
-        slug="how-fast-is-the-sipi-bot-decision",
-        title="How Fast Is the sipi.bot Decision?",
-        desc="~5 ms per evaluation: deterministic rules, no model in the path.",
-        h1="How Fast Is the sipi.bot Decision?",
-        lead="About 5 milliseconds per evaluation — deterministic rules, no model in the path, no network round-trip to an LLM.",
-        sections=[
-            ("Why it's fast",
-             ["Rules are deterministic comparisons, not inference.",
-              "The evaluate endpoint is a single lightweight call."]),
-            ("What the number means",
-             ["Spend actions add ~5 ms — invisible next to API latency.",
-              "It's fast enough for payment rails and voice agents."]),
-        ],
-        faqs=[
-            ("Is it faster than a model-based check?",
-             "Yes — orders of magnitude. Rules don't reason, they decide."),
-            ("Where does latency come from?",
-             "Your network to the endpoint — the evaluation itself is microseconds."),
-        ],
-        related=[("How does the firewall work", "/answers/how-does-a-spend-firewall-work/"), ("Eval report", "/eval-report/"), ("The 5 ms design", "/answers/how-does-a-spend-firewall-work/")],
-    ),
 ]
 
 SECTORS = [
