@@ -1586,8 +1586,8 @@ class Handler(BaseHTTPRequestHandler):
         "/faq/does-sipi-bot-work-with-any-llm/": "/answers/how-does-a-spend-firewall-work/",
         "/templates/agent-spend-policy-one-pager": "/guides/agent-spend-policy-best-practices",
         "/templates/agent-spend-policy-one-pager/": "/guides/agent-spend-policy-best-practices",
-        "/faq/how-fast-is-the-sipi-bot-decision": "/answers/how-does-a-spend-firewall-work/",
-        "/faq/how-fast-is-the-sipi-bot-decision/": "/answers/how-does-a-spend-firewall-work/",
+        "/faq/how-fast-is-the-sipi-bot-decision": "/eval-report/",
+        "/faq/how-fast-is-the-sipi-bot-decision/": "/eval-report/",
         "/blog/the-cloud-ai-platform-bill": "/vs/aws-budgets",
         "/blog/the-cloud-ai-platform-bill/": "/vs/aws-budgets",
     }
