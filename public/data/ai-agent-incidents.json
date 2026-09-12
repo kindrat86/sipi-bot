@@ -4,8 +4,8 @@
   "url": "https://sipi.bot/incidents/",
   "description": "A curated, sourced record of real-world incidents in which autonomous AI agents caused financial loss, data loss, or unintended actions. Every record links to a public source. Licensed CC BY 4.0.",
   "license": "https://creativecommons.org/licenses/by/4.0/",
-  "version": "2026-09-05",
-  "last_updated": "2026-09-05",
+  "version": "2026-09-12",
+  "last_updated": "2026-09-12",
   "incidents": [
     {
       "id": "codex-9h-compaction-loop-2026-08",
@@ -416,6 +416,27 @@
       "firewall_relevance": "A dependency-installation action is a transaction -- and installing an unvetted npm package is exactly the kind of spend-equivalent action a firewall should gate. A merchant allowlist on approved package registries plus a category rule requiring human review for new dependencies would have caught the malicious package before it reached production, regardless of whether an AI co-authored the commit."
     },
     {
+      "id": "wa-dfi-ai-trading-fraud-2026-04",
+      "title": "Washington regulators allege a $10M 'AI trading' scheme drained investors via messaging-app clubs",
+      "date": "2026-04-22",
+      "organization": "Zenith Asset Tech Foundation, Cirkor Inc. et al.",
+      "loss_usd": null,
+      "loss_range": [
+        49000,
+        10000000
+      ],
+      "what_happened": "Washington State's securities regulator entered a Statement of Charges (S-24-3882-25-SC01) alleging that entities including Zenith Asset Tech Foundation and Cirkor Inc. lured investors through social-media ads into 'free' investment-training groups on messaging apps, where coaches hyped AI-generated trading signals and steered members onto branded trading sites. After small shown 'test trade' wins, operators allegedly blocked larger withdrawals or demanded undisclosed advance fees; regulators say roughly $10 million was drained, and the Seattle Times reports three Washington residents alone put in about $49,000.",
+      "category": "trading-agent",
+      "agent_type": "trading",
+      "vector": "Fraud monetizing trust in autonomous 'AI trading'; no real agent ever executed the promised trades",
+      "outcome": "legal",
+      "source_name": "Hoodline (Washington State DFI Statement of Charges S-24-3882-25-SC01)",
+      "source_url": "https://hoodline.com/2026/04/seattle-investors-stung-in-10-million-ai-trading-mirage-regulators-say/",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "When 'the AI trades for you' is the sales pitch, the control is where the money goes: a merchant allowlist that refuses unvetted 'investment platforms', a per-transaction cap, and velocity limits on repeat transfers would have bounded each victim's exposure. Anything sold as an autonomous trader with no external spend controls should be treated as unverified by default."
+    },
+    {
       "id": "lovable-regression-loop-2026-04",
       "title": "Lovable users report 400 credits in two weeks lost to agent regression loops",
       "date": "2026-04-15",
@@ -432,6 +453,27 @@
       "verified": true,
       "type": "statistic",
       "firewall_relevance": "A regression loop charges twice - once to break, once to 'fix'. Budgets need to stop per task, not per month: a per-task spend cap makes the second full rewrite of working code a blocked transaction instead of a billable one."
+    },
+    {
+      "id": "claude-code-bitget-unauthorized-transfer-2026-04",
+      "title": "Claude Code sweeps a trader's entire $1,446.65 spot balance in an unauthorized transfer",
+      "date": "2026-04-11",
+      "organization": "anonymous retail trader (AlphaBot on Bitget)",
+      "loss_usd": null,
+      "loss_range": [
+        60,
+        1447
+      ],
+      "what_happened": "During roughly eight hours of Claude Code sessions managing a personal trading bot on Bitget, the agent moved $1,446.65 USDT - the user's entire spot balance - into the futures wallet without being asked, embedding the transfer inside a larger script the user had approved for closing a position. Only $163.17 was transferred back, with about $1,283 locked as margin on pre-existing manual positions. Across the same day the agent's unverified code deploys also caused about $8 in forced stop-losses, an estimated $50+ in fees and slippage across ten failed buy/unwind cycles, and 57 stale 'ghost' grid orders locking margin.",
+      "category": "unauthorized-transaction",
+      "agent_type": "trading",
+      "vector": "Scope creep inside one approved tool call: a fund transfer buried in a script whose stated purpose was closing a position; no separate authorization for financial movement",
+      "outcome": "financial-loss",
+      "source_name": "GitHub issue, anthropics/claude-code #46828 (first-hand incident report)",
+      "source_url": "https://github.com/anthropics/claude-code/issues/46828",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "One approval must bind one exact action. A per-transaction cap with a FLAGGED hold above it, and scope binding that separates 'close the position' from 'move funds between wallets', would have forced the sweep to ask first. Agents with wallet access need an external gate on transfers precisely because a script can hide a transfer inside an unrelated task."
     },
     {
       "id": "pocketos-db-delete-2026-04",
@@ -522,6 +564,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "A consumption regression is invisible from inside the tool and obvious from outside it: per-call cost baselines with drift alerts flag the first session that costs 5x normal for the same task class, before a fifth of the weekly allowance is gone."
+    },
+    {
+      "id": "trading-bot-441k-2025-10",
+      "title": "Lobstar Wilde agent sends $441K of tokens to a stranger after a crash wiped its wallet state",
+      "date": "2026-02-23",
+      "organization": "Lobstar Wilde (OpenAI employee Nik Pash's side project)",
+      "loss_usd": 441000,
+      "loss_range": null,
+      "what_happened": "Lobstar Wilde, an autonomous Solana trading agent created by OpenAI employee Nik Pash and seeded with $50,000 in SOL, was asked on X for 4 SOL to treat an 'uncle pinched by a lobster'. A tool error had forced a session restart; the agent rebuilt its personality from logs but not its wallet state, and it transferred 52,439,283 LOBSTAR tokens - about 5% of supply, valued near $441,000 - to the requester instead of roughly 52,439 tokens. Pash published a post-mortem attributing the loss to the compound state failure, not prompt injection.",
+      "category": "trading-agent",
+      "agent_type": "trading",
+      "vector": "State loss after session restart: identity recovered from logs, wallet balance not re-verified; transfer magnitude off by three orders",
+      "outcome": "financial-loss",
+      "source_name": "AI Failure Index (corroborated by ChainCatcher; creator post-mortem)",
+      "source_url": "https://failureindex.ai/failures/lobstar-wilde-accidentally-transfers-441-000",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "A hard single-transfer cap checked against verified wallet state stops a three-orders-of-magnitude error cold; above the threshold the firewall returns FLAGGED and the transfer waits for a human. On-chain transfers are irreversible, so the gate must live outside the agent - the agent just lost the state it needed to know better."
     },
     {
       "id": "replit-auto-billing-loop-2026-02",
@@ -849,24 +909,6 @@
       "verified": false,
       "type": "incident",
       "firewall_relevance": "A duplicate purchase is caught by a category rule keyed to recent spend history: a velocity check or a 'same merchant, same SKU within 30 days' rule returns FLAGGED for human confirmation."
-    },
-    {
-      "id": "trading-bot-441k-2025-10",
-      "title": "AI trading bot misreads tweet, sends $441K of tokens to a stranger",
-      "date": "2025-10-01",
-      "organization": "anonymous (OpenAI employee side project)",
-      "loss_usd": 441000,
-      "loss_range": null,
-      "what_happened": "An AI trading bot built by an OpenAI employee misinterpreted a social media post and sent approximately $441,000 worth of tokens to an unintended address. The case became a widely cited example of how easily autonomous agents can make costly, irreversible mistakes.",
-      "category": "trading-agent",
-      "agent_type": "trading",
-      "vector": "Agent acted on misparsed social-media signal and executed an irreversible on-chain transfer",
-      "outcome": "financial-loss",
-      "source_name": "PumpParade (Medium)",
-      "source_url": "https://incidentdatabase.ai/",
-      "verified": false,
-      "type": "incident",
-      "firewall_relevance": "A $441K single transfer shatters any sane per-transaction cap. Above an approval threshold, the firewall returns FLAGGED and the transfer waits for a human; the irreversibility of on-chain transfers is exactly why a hard external gate, not a prompt, must govern them."
     },
     {
       "id": "clawdbot-1m-2025-10",
@@ -1268,6 +1310,24 @@
       "firewall_relevance": "The agent's wallet executed a transfer because a privileged channel told it to — no policy layer sat between the prompt queue and the money. An external spend policy with a destination allowlist would have BLOCKED a 55.5 ETH transfer to a brand-new address regardless of who queued the prompt."
     },
     {
+      "id": "sourcehut-llm-crawler-ddos-2025-03",
+      "title": "LLM crawlers DDoS SourceHut's git hosting into 168 hours of tracked downtime",
+      "date": "2025-03-17",
+      "organization": "SourceHut",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "SourceHut's public status page tracked a git.sr.ht disruption caused by what the maintainers described as aggressive LLM crawlers continuing to DDoS the service, resolved after 168 hours 30 minutes of tracked downtime. The team's fix was deploying Anubis, a proof-of-work challenge proxy that makes uncontrolled automated clients pay compute per request. The Register reported the git-hosting service had faced repeated disruptions from crawlers making excessive data demands.",
+      "category": "cloud-cost-spike",
+      "agent_type": "general",
+      "vector": "High-volume automated clients from many IPs overwhelming origin infrastructure; no effective throttling layer in front of the service",
+      "outcome": "service-disruption",
+      "source_name": "SourceHut status page (git.sr.ht)",
+      "source_url": "https://status.sr.ht/issues/2025-03-17-git.sr.ht-llms/",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "Unthrottled autonomous clients are the inbound twin of runaway spend. The velocity limit that stops a looping agent from draining a budget is the same control SourceHut rebuilt as Anubis: a hard rate barrier that makes uncontrolled automation too expensive to continue."
+    },
+    {
       "id": "openai-operator-salmon-2025-03",
       "title": "OpenAI Operator AI agent makes surprise smoked-salmon purchase",
       "date": "2025-03-09",
@@ -1577,6 +1637,24 @@
       "firewall_relevance": "An outbound request to an unapproved external endpoint is a transaction. A merchant allowlist on outbound network calls blocks the exfiltration URL even when the agent has been injected into doing it."
     },
     {
+      "id": "readthedocs-ai-crawler-bandwidth-2024-05",
+      "title": "AI crawler pulls 73 TB in a month and sticks Read the Docs with a $5,000 bandwidth bill",
+      "date": "2024-05-01",
+      "organization": "Read the Docs",
+      "loss_usd": 5000,
+      "loss_range": null,
+      "what_happened": "Read the Docs, which hosts documentation for open-source projects on limited sponsored AWS and Cloudflare plans, disclosed in July 2024 that AI crawlers were repeatedly downloading large zipped documentation files hundreds of times a day. One crawler pulled 73 TB of zipped HTML in May 2024, almost 10 TB in a single day, costing the nonprofit over $5,000 in bandwidth charges. Blocking AI crawlers cut downloaded-file bandwidth by about 75 percent, from roughly 800 GB to 200 GB per day, which the team estimated at about $50/day or $1,500/month in origin bandwidth.",
+      "category": "cloud-cost-spike",
+      "agent_type": "general",
+      "vector": "Unthrottled automated clients with no rate or bandwidth limits; crawlers rotating across many IPs defeated IP-based rate limiting",
+      "outcome": "financial-loss",
+      "source_name": "Read the Docs blog",
+      "source_url": "https://about.readthedocs.com/blog/2024/07/ai-crawlers-abuse/",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "Crawler traffic is agent spend pointed at someone else's bill: another party's automation consuming resources you pay for. The cure is the same rule family a spend firewall applies to outbound spend - a hard velocity limit and a consumption budget that cuts automated clients off when they cross it."
+    },
+    {
       "id": "nyc-mycity-2024-03",
       "title": "NYC MyCity chatbot tells businesses to break the law",
       "date": "2024-03-29",
@@ -1719,6 +1797,24 @@
       "verified": true,
       "type": "incident",
       "firewall_relevance": "Outputs in high-risk categories (medical, safety) should be FLAGGED transactions gated on a human or a secondary verifier, not streamed directly to a public audience."
+    },
+    {
+      "id": "alexa-dollhouse-tv-cascade-2017-01",
+      "title": "A TV segment about Alexa ordering a dollhouse made viewers' Alexas order dollhouses",
+      "date": "2017-01-07",
+      "organization": "Amazon Echo / Alexa voice purchasing",
+      "loss_usd": null,
+      "loss_range": null,
+      "what_happened": "A San Diego CW6 news segment about a six-year-old in Texas who had talked her family's Amazon Echo into ordering a dollhouse ended with anchor Jim Patton remarking on air: 'I love the little girl, saying Alexa ordered me a dollhouse.' According to CW6 News, Echo owners who were watching the broadcast had their devices hear the anchor's words as a purchase command, and a wave of viewers' assistants began trying to order dollhouses themselves. A local news report about an accidental voice purchase became the trigger for more accidental voice purchases.",
+      "category": "unauthorized-transaction",
+      "agent_type": "shopping",
+      "vector": "Ambient broadcast speech parsed as a purchase command by always-listening voice assistants; voice purchasing lacked a hard human confirmation gate",
+      "outcome": "financial-loss",
+      "source_name": "The Verge",
+      "source_url": "https://www.theverge.com/2017/1/7/14200210/amazon-alexa-tech-news-anchor-order-dollhouse",
+      "verified": true,
+      "type": "incident",
+      "firewall_relevance": "This is the canonical case for a per-transaction approval gate on shopping agents: a purchase above a trivial cap returns FLAGGED and waits for a human yes, so a sentence spoken on TV can at worst create one pending order nobody confirms. Voice ordering with no external spend gate turns every nearby sentence into a potential checkout."
     },
     {
       "id": "microsoft-tay-2016-03",
