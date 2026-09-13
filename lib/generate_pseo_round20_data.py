@@ -183,7 +183,7 @@ SECTORS = [
             ("Does sipi.bot keep records useful for client billing?",
              "The audit log records amount, merchant, category, the decision, and the rule that fired — exactly the shape of data procurement and billing need."),
         ],
-        related=[("Agent spend policy", "/templates/agent-spend-policy-template"), ("How to audit agent spending", "/how-to/how-to-audit-agent-spending"), ("Research agents", "/use-cases/research-agents")],
+        related=[("Agent spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("How to audit agent spending", "/how-to/how-to-audit-agent-spending"), ("Research agents", "/use-cases/research-agents")],
     ),
     dict(
         slug="marketing",
@@ -598,7 +598,7 @@ INTEGRATIONS = [
             ("Can I set a fleet-wide budget?",
              "Yes — a shared daily ceiling across agents is exactly what the firewall enforces."),
         ],
-        related=[("Multi-agent budgets", "/use-cases/multi-agent-budgets"), ("Agent spend policy", "/templates/agent-spend-policy-template"), ("Cost audit checklist", "/checklists/agent-cost-audit")],
+        related=[("Multi-agent budgets", "/use-cases/multi-agent-budgets"), ("Agent spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("Cost audit checklist", "/checklists/agent-cost-audit")],
     ),
     dict(
         slug="llama-index",
@@ -1065,7 +1065,7 @@ COST_OF = [
             ("How do I control agent spend in a Copilot org?",
              "Keep Copilot's own limits, and put sipi.bot in front of agent transactions across all merchants."),
         ],
-        related=[("sipi.bot vs GitHub Copilot", "/vs/github-copilot"), ("How to set spend limits", "/how-to/how-to-set-spend-limits"), ("Agent spend policy template", "/templates/agent-spend-policy-template")],
+        related=[("sipi.bot vs GitHub Copilot", "/vs/github-copilot"), ("How to set spend limits", "/how-to/how-to-set-spend-limits"), ("Spend policy best practices", "/guides/agent-spend-policy-best-practices/")],
     ),
     dict(
         slug="cursor-pricing",

@@ -616,7 +616,7 @@ BEST = [
             ("How do I start?",
              "Use the spend policy template, then turn it into rules in the firewall."),
         ],
-        related=[("Agent spend policy template", "/templates/agent-spend-policy-template"), ("How to create a spend policy", "/how-to/how-to-create-a-spend-policy"), ("Spend policy glossary", "/glossary/spend-policy")],
+        related=[("Spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("How to create a spend policy", "/how-to/how-to-create-a-spend-policy"), ("Spend policy glossary", "/glossary/spend-policy")],
     ),
     dict(
         slug="best-agent-cost-dashboards",

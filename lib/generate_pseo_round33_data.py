@@ -271,40 +271,6 @@ LEARN = [
 ]
 
 FAQ = [
-    dict(
-        slug="do-i-need-a-spend-firewall-if-i-use-cloud-budgets",
-        title="Do I Need a Spend Firewall If I Use Cloud Budgets?",
-        desc="Cloud budgets alert you after spend; a firewall decides before. The honest answer: they're different jobs — you want both.",
-        h1="Do I Need a Spend Firewall If I Use Cloud Budgets?",
-        lead="Yes — and it's not either/or. Cloud budgets monitor the cloud bill; a spend firewall decides before the money moves. Different moments, different jobs.",
-        sections=[
-            ("What cloud budgets do",
-             ["Alert when cloud usage crosses thresholds.",
-              "Cover the cloud provider's own services."]),
-            ("What they can't do",
-             ["Stop a transaction before it happens.",
-              "Gate spend outside the cloud — vendors, payment rails, tools."]),
-            ("What the firewall adds",
-             ["Pre-spend decisions across every merchant.",
-              "Deterministic rules, approvals, and a decision log."]),
-        ],
-        table=dict(
-            headers=["Job", "Cloud budgets", "Spend firewall"],
-            rows=[
-                ["Monitor after spend", "Yes", "No"],
-                ["Decide before spend", "No", "Yes"],
-                ["Cover all merchants", "No", "Yes"],
-                ["Approval queue", "No", "Yes"],
-            ],
-        ),
-        faqs=[
-            ("Can I keep my cloud budgets?",
-             "Absolutely — keep them. The firewall adds the pre-spend layer."),
-            ("What's the overlap?",
-             "Almost none — they operate at different moments."),
-        ],
-        related=[("sipi.bot vs AWS Budgets", "/vs/aws-budgets"), ("sipi.bot vs Google Cloud Budgets", "/vs/google-cloud-budgets"), ("Why do AI agents cost so much", "/answers/why-do-ai-agents-cost-so-much/")],
-    ),
 ]
 
 BEST = [

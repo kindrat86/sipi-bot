@@ -397,7 +397,7 @@ ERRORS = [
             ("Does a bad rule affect existing rules?",
              "No. Rejected rules are never stored; your existing rules keep enforcing."),
         ],
-        related=[("Transaction error", "/errors/transaction-error"), ("Rules engine", "/"), ("Agent spend policy", "/templates/agent-spend-policy-template")],
+        related=[("Transaction error", "/errors/transaction-error"), ("Rules engine", "/"), ("Agent spend policy", "/guides/agent-spend-policy-best-practices/")],
     ),
     dict(
         slug="internal-error",
@@ -605,7 +605,7 @@ INTEGRATIONS = [
             ("Is it self-hostable?",
              "The core is MIT-licensed — self-host alongside your Flowise deployment."),
         ],
-        related=[("Dify", "/integrations/dify"), ("n8n", "/integrations/n8n"), ("Templates", "/templates/agent-spend-policy-template")],
+        related=[("Dify", "/integrations/dify"), ("n8n", "/integrations/n8n"), ("Spend policy guide", "/guides/agent-spend-policy-best-practices/")],
     ),
     dict(
         slug="agentops",

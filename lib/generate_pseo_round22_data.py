@@ -15,42 +15,6 @@ Content rules (from CLAUDE.md + product truth):
 
 PRICING_QUESTIONS = [
     dict(
-        slug="is-sipi-bot-free",
-        title="Is sipi.bot Free? — Pricing Explained",
-        desc="Is sipi.bot free? The MIT core is free to self-host forever; hosted plans are flat-rate. What's free, what's paid, and how to start without paying.",
-        h1="Is sipi.bot Free?",
-        lead="Short answer: the core is free — it's MIT-licensed open source and you can self-host it forever. The hosted plans are what cost money, and they're flat-rate.",
-        sections=[
-            ("What's free",
-             ["The entire decision engine — MIT-licensed on GitHub, free to self-host forever.",
-              "The playground: run live transaction checks without a key or signup.",
-              "The full self-host guide and open-source documentation."]),
-            ("What's paid",
-             ["Hosted plans (Team $99/mo, Business $499/mo) add the live dashboard, the managed approval queue, and timestamped audit-log storage.",
-              "Both hosted plans are flat-rate with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers."]),
-            ("How to start for $0",
-             ["Self-host the MIT core, or use the playground to see the decision engine live. When you need the dashboard and approval workflow, the paid plans are flat and predictable."]),
-        ],
-        table=dict(
-            headers=["Option", "Cost", "Includes"],
-            rows=[
-                ["Self-host (MIT core)", "$0 forever", "Decision engine, HTTP/MCP/CLI"],
-                ["Playground", "$0", "Live checks, no signup"],
-                ["Team", "$99/mo", "Dashboard, approval queue, audit storage"],
-                ["Business", "$499/mo", "Everything in Team, org features"],
-            ],
-        ),
-        faqs=[
-            ("Is there a hosted free tier?",
-             "No — hosted is flat-rate paid. But the self-host core and the playground are genuinely free, so you can evaluate the product before paying."),
-            ("Are there per-call fees?",
-             "No. Both hosted plans include unlimited transaction evaluations."),
-            ("Is the open-source core the full product?",
-             "It's the full decision engine. Hosted plans add the operational layer: dashboard, approval queue, and stored audit log."),
-        ],
-        related=[("How much does sipi.bot cost", "/pricing-questions/how-much-does-sipi-bot-cost"), ("Self-host guide", "/self-hosted/"), ("Pricing", "/pricing")],
-    ),
-    dict(
         slug="how-much-does-sipi-bot-cost",
         title="How Much Does sipi.bot Cost? — Pricing Breakdown",
         desc="sipi.bot pricing: $99/mo Team, $499/mo Business, unlimited evaluations, no per-call fees. Plus a free MIT self-host core. Full breakdown.",
@@ -82,7 +46,7 @@ PRICING_QUESTIONS = [
             ("What's the difference between Team and Business?",
              "Team is $99/mo for teams getting started; Business is $499/mo for larger organizations. Both have unlimited evaluations."),
         ],
-        related=[("Is sipi.bot free", "/pricing-questions/is-sipi-bot-free"), ("Is sipi.bot worth it", "/pricing-questions/is-sipi-bot-worth-it"), ("Pricing", "/pricing")],
+        related=[("Does sipi.bot have a free tier", "/pricing-questions/does-sipi-bot-have-a-free-tier"), ("Is sipi.bot worth it", "/pricing-questions/is-sipi-bot-worth-it"), ("Pricing", "/pricing")],
     ),
     dict(
         slug="is-sipi-bot-worth-it",
@@ -148,7 +112,7 @@ PRICING_QUESTIONS = [
             ("Does self-host have all six rule types?",
              "Yes — the full deterministic rule engine is in the MIT core."),
         ],
-        related=[("Is sipi.bot free", "/pricing-questions/is-sipi-bot-free"), ("Self-host guide", "/self-hosted/"), ("Playground", "/playground/")],
+        related=[("Does sipi.bot have a free tier", "/pricing-questions/does-sipi-bot-have-a-free-tier"), ("Self-host guide", "/self-hosted/"), ("Playground", "/playground/")],
     ),
     dict(
         slug="can-i-self-host-sipi-bot",
@@ -184,7 +148,7 @@ PRICING_QUESTIONS = [
             ("Do I get updates?",
              "The repo is public — pull updates like any open-source project."),
         ],
-        related=[("Self-host guide", "/self-hosted/"), ("Is sipi.bot free", "/pricing-questions/is-sipi-bot-free"), ("Open source", "https://github.com/kindrat86/sipi-bot")],
+        related=[("Self-host guide", "/self-hosted/"), ("Does sipi.bot have a free tier", "/pricing-questions/does-sipi-bot-have-a-free-tier"), ("Open source", "https://github.com/kindrat86/sipi-bot")],
     ),
     dict(
         slug="does-sipi-bot-charge-per-api-call",
@@ -816,7 +780,7 @@ TEMPLATES = [
             ("What if the agent needs a new vendor mid-flight?",
              "The approval threshold catches it: new merchants are FLAGGED for review, not silently billed."),
         ],
-        related=[("Agent spend policy template", "/templates/agent-spend-policy-template"), ("Agent purchase policy", "/templates/agent-purchase-policy"), ("Merchant allowlists", "/guides/merchant-allowlists")],
+        related=[("Spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("Agent purchase policy", "/templates/agent-purchase-policy"), ("Merchant allowlists", "/guides/merchant-allowlists")],
     ),
 ]
 

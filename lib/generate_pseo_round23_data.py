@@ -530,7 +530,7 @@ GLOSSARY = [
             ("Where do I start?",
              "Three rules cover most risk: a cap, an allowlist, and a velocity limit."),
         ],
-        related=[("Agent spend policy template", "/templates/agent-spend-policy-template"), ("How to create a spend policy", "/how-to/how-to-create-a-spend-policy"), ("Six rule types", "/")],
+        related=[("Spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("How to create a spend policy", "/how-to/how-to-create-a-spend-policy"), ("Six rule types", "/")],
     ),
     dict(
         slug="context-window",
@@ -1249,7 +1249,7 @@ HOW_TO = [
             ("Who owns it?",
              "The budget owner — platform lead, finance, or CTO depending on org."),
         ],
-        related=[("Agent spend policy template", "/templates/agent-spend-policy-template"), ("Spend policy best practices", "/guides/agent-spend-policy-best-practices"), ("Spend policy glossary", "/glossary/spend-policy")],
+        related=[("Spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("Spend policy best practices", "/guides/agent-spend-policy-best-practices"), ("Spend policy glossary", "/glossary/spend-policy")],
     ),
     dict(
         slug="how-to-integrate-sipi-bot-with-mcp",

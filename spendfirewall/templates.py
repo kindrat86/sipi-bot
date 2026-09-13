@@ -240,7 +240,7 @@ def landing_page_html() -> str:
     <p style="color:var(--mut);font-size:clamp(13px,1.6vw,14px);margin:0 0 16px">The observable risk: retry loops, unapproved merchants, and distributed agent budgets that no single dashboard catches before the charge clears.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       <a href="/playground/" class="btn" onclick="window.sipiTrack&&window.sipiTrack('hero_policy_test_click',{source:'who_block'})">Run a no-signup policy test</a>
-      <a href="/learn/runaway-agent-cost-calculator" class="btn ghost" onclick="window.sipiTrack&&window.sipiTrack('risk_calculator_start',{source:'who_block'})">Use the risk calculator →</a>
+      <a href="/tools/agent-spend-risk-calculator" class="btn ghost" onclick="window.sipiTrack&&window.sipiTrack('risk_calculator_start',{source:'who_block'})">Use the risk calculator →</a>
     </div>
   </div>
   <!-- TRY IT NOW -->
@@ -564,7 +564,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <a href="/guides/">deep guides</a> ·
     <a href="/ai-cost-management/">AI cost management guide</a> ·
     <a href="/checklists/">checklists</a> ·
-    <a href="/templates/agent-spend-policy-template">policy template</a>
+    <a href="/guides/agent-spend-policy-best-practices/">policy template</a>
   </div>
   sipi<span style="color:var(--accent)">.bot</span> — the spend firewall for autonomous AI agents.<br>
   <a href="/dashboard">Dashboard</a> · <a href="/eval-report/">Eval report</a> · <a href="/.well-known/agent-card.json">Agent card</a> · <a href="/blog/">Blog</a> · <a href="/about">About</a> · <a href="/security">Security</a> · <a href="/status">Status</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>

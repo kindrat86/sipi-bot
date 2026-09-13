@@ -1590,6 +1590,18 @@ class Handler(BaseHTTPRequestHandler):
         "/faq/how-fast-is-the-sipi-bot-decision/": "/eval-report/",
         "/blog/the-cloud-ai-platform-bill": "/vs/aws-budgets",
         "/blog/the-cloud-ai-platform-bill/": "/vs/aws-budgets",
+        # 2026-09-13 subtractive prepay — five more zero-trailing-28d-impression
+        # thin leaves retired (fifth five). Same keep-both-forms convention.
+        "/faq/do-i-need-a-spend-firewall-if-i-use-cloud-budgets": "/vs/aws-budgets",
+        "/faq/do-i-need-a-spend-firewall-if-i-use-cloud-budgets/": "/vs/aws-budgets",
+        "/faq/how-to-monitor-ai-spend-real-time": "/answers/how-to-monitor-agent-spend-in-real-time/",
+        "/faq/how-to-monitor-ai-spend-real-time/": "/answers/how-to-monitor-agent-spend-in-real-time/",
+        "/pricing-questions/is-sipi-bot-free": "/pricing-questions/does-sipi-bot-have-a-free-tier",
+        "/pricing-questions/is-sipi-bot-free/": "/pricing-questions/does-sipi-bot-have-a-free-tier",
+        "/templates/agent-spend-policy-template": "/guides/agent-spend-policy-best-practices",
+        "/templates/agent-spend-policy-template/": "/guides/agent-spend-policy-best-practices",
+        "/learn/runaway-agent-cost-calculator": "/tools/agent-spend-risk-calculator",
+        "/learn/runaway-agent-cost-calculator/": "/tools/agent-spend-risk-calculator",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO
@@ -1625,7 +1637,7 @@ class Handler(BaseHTTPRequestHandler):
         '<div><strong>Learn:</strong> '
         '<a href="/learn/spend-firewall-guide">complete guide</a> · '
         '<a href="/learn/how-to-control-ai-agent-spending">control methods</a> · '
-        '<a href="/learn/runaway-agent-cost-calculator">cost calculator</a></div>'
+        '<a href="/tools/agent-spend-risk-calculator">cost calculator</a></div>'
         '<div><strong>Compare:</strong> '
         '<a href="/vs/">vs alternatives</a> · '
         '<a href="/best/">best-of</a> · '
@@ -1634,7 +1646,7 @@ class Handler(BaseHTTPRequestHandler):
         '<div><strong>Product:</strong> '
         '<a href="/pricing">pricing</a> · '
         '<a href="/dashboard">dashboard</a> · '
-        '<a href="/templates/agent-spend-policy-template">policy template</a> · '
+        '<a href="/guides/agent-spend-policy-best-practices/">policy template</a> · '
         '<a href="/badge">embed badge</a></div>'
         '<div style="margin-top:10px;color:#9ca3af">'
         '<a href="https://sipi.bot/">sipi.bot</a> — the pre-spend firewall for '
