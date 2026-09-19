@@ -1119,7 +1119,7 @@ COST_OF = [
             ("Can I cap a research agent's search spend?",
              "Yes — per-agent ceilings and category rules."),
         ],
-        related=[("Research agents", "/use-cases/research-agents"), ("How to monitor AI costs", "/how-to/how-to-monitor-ai-costs"), ("Token cost by provider", "/benchmarks/token-cost-by-provider")],
+        related=[("Research agents", "/use-cases/"), ("How to monitor AI costs", "/how-to/how-to-monitor-ai-costs"), ("Token cost by provider", "/benchmarks/token-cost-by-provider")],
     ),
     dict(
         slug="xai-grok-api-cost",

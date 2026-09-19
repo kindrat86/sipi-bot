@@ -251,7 +251,7 @@ SECTORS = [
             ("Does it slow research?",
              "No — ~5 ms per check."),
         ],
-        related=[("Healthcare sector", "/sectors/healthcare"), ("Research agents", "/use-cases/research-agents"), ("How to implement spend controls", "/how-to/how-to-implement-spend-controls")],
+        related=[("Healthcare sector", "/sectors/healthcare"), ("Research agents", "/use-cases/"), ("How to implement spend controls", "/how-to/how-to-implement-spend-controls")],
     ),
     dict(
         slug="utilities",

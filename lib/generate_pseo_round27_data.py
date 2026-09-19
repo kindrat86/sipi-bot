@@ -333,7 +333,7 @@ SECTORS = [
             ("Does it slow concierge bots?",
              "No — ~5 ms per check."),
         ],
-        related=[("Marketing sector", "/sectors/marketing"), ("Customer support bots", "/use-cases/customer-support-bots"), ("How to set spend limits", "/how-to/how-to-set-spend-limits")],
+        related=[("Marketing sector", "/sectors/marketing"), ("Customer support bots", "/use-cases/"), ("How to set spend limits", "/how-to/how-to-set-spend-limits")],
     ),
     dict(
         slug="energy",
@@ -449,7 +449,7 @@ USE_CASES = [
             ("Does it slow tenant responses?",
              "No — ~5 ms per check."),
         ],
-        related=[("Real estate sector", "/sectors/real-estate"), ("Customer support bots", "/use-cases/customer-support-bots"), ("How to implement spend controls", "/how-to/how-to-implement-spend-controls")],
+        related=[("Real estate sector", "/sectors/real-estate"), ("Customer support bots", "/use-cases/"), ("How to implement spend controls", "/how-to/how-to-implement-spend-controls")],
     ),
     dict(
         slug="restaurant-agents",

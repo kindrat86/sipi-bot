@@ -661,7 +661,7 @@ USE_CASES = [
             ("Does it slow signups?",
              "No — ~5 ms per check."),
         ],
-        related=[("Customer support bots", "/use-cases/customer-support-bots"), ("Email agents", "/use-cases/email-agents"), ("How to set spend limits", "/how-to/how-to-set-spend-limits")],
+        related=[("Customer support bots", "/use-cases/"), ("Email agents", "/use-cases/email-agents"), ("How to set spend limits", "/how-to/how-to-set-spend-limits")],
     ),
     dict(
         slug="hr-automation-agents",
@@ -699,7 +699,7 @@ USE_CASES = [
             ("What about seasonal hiring spikes?",
              "Set ceilings for peak season and route the rest through FLAGGED approval."),
         ],
-        related=[("Backoffice automation", "/use-cases/backoffice-automation"), ("Customer support bots", "/use-cases/customer-support-bots"), ("How to audit agent spending", "/how-to/how-to-audit-agent-spending")],
+        related=[("Backoffice automation", "/use-cases/backoffice-automation"), ("Customer support bots", "/use-cases/"), ("How to audit agent spending", "/how-to/how-to-audit-agent-spending")],
     ),
 ]
 

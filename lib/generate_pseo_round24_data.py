@@ -56,7 +56,7 @@ SECTORS = [
             ("Does the firewall slow tutoring?",
              "No — ~5 ms per check, only on spend actions."),
         ],
-        related=[("Customer support bots", "/use-cases/customer-support-bots"), ("How to set spend limits", "/how-to/how-to-set-spend-limits"), ("Agent budget", "/glossary/agent-budget")],
+        related=[("Customer support bots", "/use-cases/"), ("How to set spend limits", "/how-to/how-to-set-spend-limits"), ("Agent budget", "/glossary/agent-budget")],
     ),
     dict(
         slug="government",
@@ -279,7 +279,7 @@ COST_OF = [
             ("Can I cap a research agent's Perplexity spend?",
              "Yes — per-agent ceilings and category rules."),
         ],
-        related=[("Perplexity API cost", "/cost-of/perplexity-api-cost"), ("Research agents", "/use-cases/research-agents"), ("How to monitor AI costs", "/how-to/how-to-monitor-ai-costs")],
+        related=[("Perplexity API cost", "/cost-of/perplexity-api-cost"), ("Research agents", "/use-cases/"), ("How to monitor AI costs", "/how-to/how-to-monitor-ai-costs")],
     ),
 ]
 
@@ -530,7 +530,7 @@ USE_CASES = [
             ("What about paywalled data?",
              "Allowlist approved vendors; new ones go through FLAGGED review."),
         ],
-        related=[("Research agents", "/use-cases/research-agents"), ("Perplexity API cost", "/cost-of/perplexity-api-cost"), ("AI research labs", "/use-cases/ai-research-labs")],
+        related=[("Research agents", "/use-cases/"), ("Perplexity API cost", "/cost-of/perplexity-api-cost"), ("AI research labs", "/use-cases/ai-research-labs")],
     ),
 ]
 

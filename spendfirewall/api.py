@@ -1602,6 +1602,18 @@ class Handler(BaseHTTPRequestHandler):
         "/templates/agent-spend-policy-template/": "/guides/agent-spend-policy-best-practices",
         "/learn/runaway-agent-cost-calculator": "/tools/agent-spend-risk-calculator",
         "/learn/runaway-agent-cost-calculator/": "/tools/agent-spend-risk-calculator",
+        # 2026-09-19 subtractive prepay — five more zero-trailing-28d-impression
+        # thin leaves retired (sixth five). Same keep-both-forms convention.
+        "/use-cases/trading-bots": "/use-cases/",
+        "/use-cases/trading-bots/": "/use-cases/",
+        "/use-cases/customer-support-bots": "/use-cases/",
+        "/use-cases/customer-support-bots/": "/use-cases/",
+        "/use-cases/research-agents": "/use-cases/",
+        "/use-cases/research-agents/": "/use-cases/",
+        "/learn/agent-billing-audit-trail": "/learn/ai-cost-attribution",
+        "/learn/agent-billing-audit-trail/": "/learn/ai-cost-attribution",
+        "/learn/agent-credit-card-security": "/guides/agent-payment-firewall",
+        "/learn/agent-credit-card-security/": "/guides/agent-payment-firewall",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO

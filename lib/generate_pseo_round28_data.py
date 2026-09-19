@@ -474,7 +474,7 @@ SECTORS = [
             ("Does it slow customer care?",
              "No — ~5 ms per check."),
         ],
-        related=[("Customer support bots", "/use-cases/customer-support-bots"), ("Voice agents", "/use-cases/voice-agents"), ("How to implement spend controls", "/how-to/how-to-implement-spend-controls")],
+        related=[("Customer support bots", "/use-cases/"), ("Voice agents", "/use-cases/voice-agents"), ("How to implement spend controls", "/how-to/how-to-implement-spend-controls")],
     ),
 ]
 

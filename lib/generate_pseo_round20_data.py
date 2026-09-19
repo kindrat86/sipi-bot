@@ -97,7 +97,7 @@ SECTORS = [
             ("What if a legit claim-validation run gets blocked?",
              "That's what FLAGGED is for. Rather than hard-blocking a legitimate workflow, set an approval threshold: the transaction is allowed but routed to a human queue first. Agents keep working; the money waits."),
         ],
-        related=[("Customer support bots", "/use-cases/customer-support-bots"), ("Setting up a spend firewall", "/guides/setting-up-agent-spend-firewall"), ("Approval workflows", "/templates/approval-workflow")],
+        related=[("Customer support bots", "/use-cases/"), ("Setting up a spend firewall", "/guides/setting-up-agent-spend-firewall"), ("Approval workflows", "/templates/approval-workflow")],
     ),
     dict(
         slug="ecommerce",
@@ -183,7 +183,7 @@ SECTORS = [
             ("Does sipi.bot keep records useful for client billing?",
              "The audit log records amount, merchant, category, the decision, and the rule that fired — exactly the shape of data procurement and billing need."),
         ],
-        related=[("Agent spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("How to audit agent spending", "/how-to/how-to-audit-agent-spending"), ("Research agents", "/use-cases/research-agents")],
+        related=[("Agent spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("How to audit agent spending", "/how-to/how-to-audit-agent-spending"), ("Research agents", "/use-cases/")],
     ),
     dict(
         slug="marketing",

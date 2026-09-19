@@ -255,7 +255,7 @@ FOR = [
             ("Does it slow support?",
              "No — ~5 ms per check."),
         ],
-        related=[("Customer support bots", "/use-cases/customer-support-bots"), ("Customer onboarding agents", "/use-cases/customer-onboarding-agents"), ("How to set spend limits", "/how-to/how-to-set-spend-limits")],
+        related=[("Customer support bots", "/use-cases/"), ("Customer onboarding agents", "/use-cases/customer-onboarding-agents"), ("How to set spend limits", "/how-to/how-to-set-spend-limits")],
     ),
     dict(
         slug="legal-teams",
