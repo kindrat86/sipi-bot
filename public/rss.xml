@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Tue, 18 Aug 2026 17:14:30 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 24 Sep 2026 09:21:01 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -368,6 +368,7 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Fri, 30 Jan 2026 12:00:00 GMT</pubDate>
   </item>
+
 
 
   </channel>
