@@ -1568,8 +1568,8 @@ class Handler(BaseHTTPRequestHandler):
         # page that covers the same query. Keep both URL forms mapped.
         "/redflags/red-flags-in-voice-agents": "/glossary/spend-anomaly",
         "/redflags/red-flags-in-voice-agents/": "/glossary/spend-anomaly",
-        "/redflags/red-flags-in-api-keys": "/glossary/agent-identity",
-        "/redflags/red-flags-in-api-keys/": "/glossary/agent-identity",
+        "/redflags/red-flags-in-api-keys": "/glossary/",
+        "/redflags/red-flags-in-api-keys/": "/glossary/",
         "/how-to/how-to-track-ai-spend": "/answers/how-to-track-ai-agent-costs/",
         "/how-to/how-to-track-ai-spend/": "/answers/how-to-track-ai-agent-costs/",
         "/limits/daily-spend-limits": "/glossary/daily-spend-ceiling",
@@ -1614,6 +1614,18 @@ class Handler(BaseHTTPRequestHandler):
         "/learn/agent-billing-audit-trail/": "/learn/ai-cost-attribution",
         "/learn/agent-credit-card-security": "/guides/agent-payment-firewall",
         "/learn/agent-credit-card-security/": "/guides/agent-payment-firewall",
+        # 2026-09-25 subtractive prepay — five more zero-trailing-28d-impression
+        # thin leaves retired (seventh five). Same keep-both-forms convention.
+        "/glossary/agent-identity": "/glossary/",
+        "/glossary/agent-identity/": "/glossary/",
+        "/glossary/model-routing": "/glossary/",
+        "/glossary/model-routing/": "/glossary/",
+        "/glossary/category-rule": "/glossary/",
+        "/glossary/category-rule/": "/glossary/",
+        "/glossary/agent-orchestration": "/glossary/",
+        "/glossary/agent-orchestration/": "/glossary/",
+        "/glossary/context-window": "/benchmarks/llm-context-window-cost-comparison",
+        "/glossary/context-window/": "/benchmarks/llm-context-window-cost-comparison",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO

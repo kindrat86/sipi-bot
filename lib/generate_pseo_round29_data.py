@@ -350,31 +350,6 @@ TEMPLATES = [
 
 GLOSSARY = [
     dict(
-        slug="agent-orchestration",
-        term="Agent orchestration",
-        title="What is Agent Orchestration? | sipi.bot Glossary",
-        desc="Agent orchestration: coordinating multiple agents toward a goal — and the compounding spend risk it creates.",
-        h1="What is Agent Orchestration?",
-        lead="Agent orchestration is coordinating multiple agents — planning, delegating, and executing subtasks — toward a single goal.",
-        sections=[
-            ("How it works",
-             ["A coordinator decomposes a goal and delegates to specialized agents.",
-              "Agents run in parallel, share context, and report back."]),
-            ("Why it changes spend",
-             ["Orchestration multiplies spend: N agents × their tool calls and retries.",
-              "No single agent looks expensive; the fleet does."]),
-            ("The control",
-             ["Shared ceilings and velocity limits across the orchestrated fleet stop compounding."]),
-        ],
-        faqs=[
-            ("Is orchestration worth the complexity?",
-             "For complex goals, yes — but budget the fleet, not the agents."),
-            ("What's the biggest risk?",
-             "Compounding — many agents retrying the same failure in parallel."),
-        ],
-        related=[("Subagent", "/glossary/subagent"), ("Multi-agent budgets", "/use-cases/multi-agent-budgets"), ("Multi-agent compounding", "/scenarios/multi-agent-compounding-scenario")],
-    ),
-    dict(
         slug="agentic-workflow",
         term="Agentic workflow",
         title="What is an Agentic Workflow? | sipi.bot Glossary",

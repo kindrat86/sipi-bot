@@ -123,7 +123,7 @@ TUTORIALS = [
             ("Do categories affect the audit log?",
              "Yes — every decision records the category."),
         ],
-        related=[("Category rule", "/glossary/category-rule"), ("Category drift scenario", "/scenarios/merchant-category-drift-scenario"), ("Cost allocation template", "/templates/cost-allocation-template")],
+        related=[("Category rule", "/glossary/"), ("Category drift scenario", "/scenarios/merchant-category-drift-scenario"), ("Cost allocation template", "/templates/cost-allocation-template")],
     ),
     dict(
         slug="set-up-time-of-day-rules",
@@ -241,7 +241,7 @@ POLICIES = [
             ("How often to review?",
              "Monthly, or when agents change roles."),
         ],
-        related=[("Category rule", "/glossary/category-rule"), ("Category drift scenario", "/scenarios/merchant-category-drift-scenario"), ("Cost allocation", "/templates/cost-allocation-template")],
+        related=[("Category rule", "/glossary/"), ("Category drift scenario", "/scenarios/merchant-category-drift-scenario"), ("Cost allocation", "/templates/cost-allocation-template")],
     ),
     dict(
         slug="time-of-day-policy",

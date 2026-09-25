@@ -191,6 +191,8 @@ def build_glossary():
 
 def patch_hub(prefix, items, title_key, lead_key, heading):
     """Insert new cards into an existing hub before the guide/home links marker."""
+    if not items:
+        return  # nothing to patch (e.g. a round's group fully retired)
     hub_path = os.path.join(ROOT, prefix, "index.html")
     if not os.path.exists(hub_path):
         print(f"  !! {prefix}/index.html missing — skipped hub patch")

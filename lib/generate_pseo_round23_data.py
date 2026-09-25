@@ -532,29 +532,6 @@ GLOSSARY = [
         ],
         related=[("Spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("How to create a spend policy", "/how-to/how-to-create-a-spend-policy"), ("Six rule types", "/")],
     ),
-    dict(
-        slug="context-window",
-        term="Context window",
-        title="What is a Context Window? | sipi.bot Glossary",
-        desc="A context window is the tokens a model sees per call — and the biggest lever on LLM cost. Glossary definition with spend implications.",
-        h1="What is a Context Window?",
-        lead="A context window is the number of tokens a model processes per call — system prompt, history, and tool outputs. It's also the biggest lever on LLM cost.",
-        sections=[
-            ("How context drives cost",
-             ["Input tokens are billed per token; a 100K-token context costs ~100× a 1K one.",
-              "Agent tool outputs and conversation history pile into context every turn."]),
-            ("The optimization",
-             ["Trim tool outputs, summarize history, cache stable prefixes.",
-              "Cap per-call spend so one oversized context can't blow the budget."]),
-        ],
-        faqs=[
-            ("Why is context the most expensive shape?",
-             "Because it scales linearly with tokens, and agents re-send the same context repeatedly."),
-            ("How do I control it?",
-             "Context trimming, caching, and a per-transaction cap on inference calls."),
-        ],
-        related=[("Context window cost", "/benchmarks/llm-context-window-cost-comparison"), ("Token cache savings", "/benchmarks/token-cache-hit-savings"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
-    ),
 ]
 
 BENCHMARKS = [

@@ -319,32 +319,7 @@ USE_CASES = [
     ),
 ]
 
-GLOSSARY = [
-    dict(
-        slug="model-routing",
-        term="Model routing",
-        title="What is Model Routing? | sipi.bot Glossary",
-        desc="Model routing sends each request to the best model — the cost lever that pairs with spend control.",
-        h1="What is Model Routing?",
-        lead="Model routing sends each request to the right model — cheap for simple work, powerful for hard work. The biggest lever on the rate side of the cost equation.",
-        sections=[
-            ("How it works",
-             ["A gateway or router picks the model per request — by task, cost, or quality target."]),
-            ("Why it matters for cost",
-             ["Routing simple work to small models cuts the rate dramatically.",
-              "Gateways (LiteLLM, One API) make it configurable."]),
-            ("The honest pairing",
-             ["Routing cuts the rate; the firewall governs the volume. Both."]),
-        ],
-        faqs=[
-            ("Is routing the same as a gateway?",
-             "Routing is a gateway's core job — plus key management and caching."),
-            ("Does routing replace budgets?",
-             "No — it cuts rate; caps bound volume."),
-        ],
-        related=[("Best LLM gateways", "/best/best-llm-gateways-2026"), ("How to choose an LLM provider", "/how-to/how-to-choose-an-llm-provider"), ("How to reduce AI API costs", "/how-to/reduce-ai-api-costs")],
-    ),
-]
+GLOSSARY = []  # 2026-09-25: model-routing retired (5.7 prepay, seventh five)
 
 TEMPLATES = [
     dict(
@@ -367,7 +342,7 @@ TEMPLATES = [
             ("What's the compromise first step?",
              "Kill the agent's spending, then revoke the key — in that order."),
         ],
-        related=[("Red flags in API keys", "/redflags/red-flags-in-api-keys"), ("API key compromise scenario", "/scenarios/api-key-compromise-scenario"), ("Agent identity", "/glossary/agent-identity")],
+        related=[("Red flags in API keys", "/redflags/red-flags-in-api-keys"), ("API key compromise scenario", "/scenarios/api-key-compromise-scenario"), ("Agent identity", "/glossary/")],
     ),
 ]
 

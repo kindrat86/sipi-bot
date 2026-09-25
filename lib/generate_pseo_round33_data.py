@@ -181,7 +181,7 @@ INTEGRATIONS = [
             ("Can I cap per task?",
              "Yes — per-agent rules per task."),
         ],
-        related=[("AutoGPT", "/integrations/autogpt"), ("Agent orchestration", "/glossary/agent-orchestration"), ("How to set spend limits", "/how-to/how-to-set-spend-limits")],
+        related=[("AutoGPT", "/integrations/autogpt"), ("Agent orchestration", "/glossary/"), ("How to set spend limits", "/how-to/how-to-set-spend-limits")],
     ),
     dict(
         slug="gpt-engineer",
