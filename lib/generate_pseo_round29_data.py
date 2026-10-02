@@ -372,7 +372,7 @@ GLOSSARY = [
             ("How do you govern one?",
              "The same way you govern any side-effecting system: external gates on the money path."),
         ],
-        related=[("Agentic AI", "/glossary/agentic-ai"), ("How autonomous agents spend", "/learn/how-autonomous-agents-spend-money"), ("Spend policy", "/glossary/spend-policy")],
+        related=[("Agentic AI", "/glossary/agentic-ai"), ("How autonomous agents spend", "/learn/how-autonomous-agents-spend-money"), ("Spend policy", "/glossary/agent-spend-policy")],
     ),
     dict(
         slug="budget-alert",

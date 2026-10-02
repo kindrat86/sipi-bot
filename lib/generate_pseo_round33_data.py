@@ -242,7 +242,7 @@ LEARN = [
             ("Can I trust the model's spending judgment?",
              "Not alone — documented runaways show why the money path needs rules."),
         ],
-        related=[("What is an AI agent", "/learn/what-is-an-ai-agent"), ("Tool calling", "/glossary/tool-calling"), ("Spend policy", "/glossary/spend-policy")],
+        related=[("What is an AI agent", "/learn/what-is-an-ai-agent"), ("Tool calling", "/glossary/tool-calling"), ("Spend policy", "/glossary/agent-spend-policy")],
     ),
     dict(
         slug="agent-autonomy-levels",

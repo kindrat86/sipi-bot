@@ -232,32 +232,6 @@ HOW_TO = [
 ]
 
 GLOSSARY = [
-    dict(
-        slug="token-caching",
-        term="Token caching",
-        title="What is Token Caching? | sipi.bot Glossary",
-        desc="Token caching reuses billed context across calls — the single biggest lever on the rate side of the cost equation.",
-        h1="What is Token Caching?",
-        lead="Token caching lets providers reuse your context across calls and bill it at a discount — the biggest lever on the rate side of the cost equation.",
-        sections=[
-            ("How it works",
-             ["Providers cache stable prefixes (system prompts, tool schemas).",
-              "Cached input tokens bill at a lower rate."]),
-            ("Why it matters for agents",
-             ["Agents re-send large contexts every turn.",
-              "Caching turns repeated context into a discount."]),
-            ("The honest caveat",
-             ["Cache hit rates vary by workload — measure yours.",
-              "Caching cuts the rate; it doesn't govern the volume."]),
-        ],
-        faqs=[
-            ("Is caching automatic?",
-             "Often, for stable prefixes — check your provider's docs."),
-            ("Does caching replace caps?",
-             "No — it cuts rate; caps bound volume. Both."),
-        ],
-        related=[("How to reduce AI API costs", "/how-to/reduce-ai-api-costs"), ("Context window", "/benchmarks/llm-context-window-cost-comparison"), ("Cache-hit benchmark", "/benchmarks/token-cache-hit-savings")],
-    ),
 ]
 
 TEMPLATES = [

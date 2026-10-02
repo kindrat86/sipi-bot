@@ -285,30 +285,6 @@ COST_OF = [
 
 GLOSSARY = [
     dict(
-        slug="time-of-day-rule",
-        term="Time-of-day rule",
-        title="What is a Time-of-Day Rule? | sipi.bot Glossary",
-        desc="A time-of-day rule restricts or flags agent spend outside business hours — the control that stops the 2 AM runaway.",
-        h1="What is a Time-of-Day Rule?",
-        lead="A time-of-day rule restricts or flags agent transactions outside configured hours — so unattended overnight activity has to pass a human first.",
-        sections=[
-            ("How it works",
-             ["You define allowed hours (e.g. 9–18 local).",
-              "Transactions outside the window are BLOCKED or FLAGGED for review.",
-              "It's one of the six rule types a spend firewall enforces."]),
-            ("Why it matters",
-             ["The classic runaway happens at 2 AM, when no one is watching.",
-              "Time-of-day rules turn 'unattended overnight' into 'requires approval.'"]),
-        ],
-        faqs=[
-            ("Can legitimate overnight work pass?",
-             "Yes — set the rule to FLAG instead of BLOCK: overnight purchases wait for a human, then proceed."),
-            ("Which hours should I set?",
-             "Your team's business hours. Adjust per agent — a global fleet may need multiple windows."),
-        ],
-        related=[("Six rule types", "/"), ("Overnight runaway scenario", "/scenarios/overnight-runaway-scenario"), ("Off-hours red flag", "/redflags/off-hours-billing-activity")],
-    ),
-    dict(
         slug="approval-queue",
         term="Approval queue",
         title="What is an Approval Queue? | sipi.bot Glossary",
@@ -592,7 +568,7 @@ BEST = [
             ("How do I start?",
              "Use the spend policy template, then turn it into rules in the firewall."),
         ],
-        related=[("Spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("How to create a spend policy", "/how-to/how-to-create-a-spend-policy"), ("Spend policy glossary", "/glossary/spend-policy")],
+        related=[("Spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("How to create a spend policy", "/how-to/how-to-create-a-spend-policy"), ("Spend policy glossary", "/glossary/agent-spend-policy")],
     ),
     dict(
         slug="best-agent-cost-dashboards",

@@ -506,32 +506,6 @@ GLOSSARY = [
         ],
         related=[("Runaway loop anatomy", "/blog/runaway-loops-anatomy"), ("Velocity limit", "/glossary/velocity-limit"), ("Retry-loop cost patterns", "/benchmarks/agent-retry-loop-cost-patterns")],
     ),
-    dict(
-        slug="spend-policy",
-        term="Spend policy",
-        title="What is a Spend Policy? | sipi.bot Glossary",
-        desc="A spend policy is the set of rules that governs what an agent may buy. Glossary definition with the rule types that make one real.",
-        h1="What is a Spend Policy?",
-        lead="A spend policy is the enforceable set of rules governing what autonomous agents may purchase — caps, allowlists, velocity limits, categories, and approvals.",
-        sections=[
-            ("What a spend policy contains",
-             ["Per-transaction caps — the ceiling on any single purchase.",
-              "Daily/period ceilings — the rolling budget.",
-              "Velocity limits — how many transactions per window.",
-              "Merchant allowlists — who may be paid.",
-              "Category rules — what may be bought.",
-              "Approval thresholds — what waits for a human."]),
-            ("Policy vs prompt",
-             ["A prompt is a suggestion; a policy is a rule. The firewall enforces the policy deterministically — a prompt can't."]),
-        ],
-        faqs=[
-            ("How is a spend policy enforced?",
-             "Deterministically, in the request path — every transaction is evaluated against the rules before settlement."),
-            ("Where do I start?",
-             "Three rules cover most risk: a cap, an allowlist, and a velocity limit."),
-        ],
-        related=[("Spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("How to create a spend policy", "/how-to/how-to-create-a-spend-policy"), ("Six rule types", "/")],
-    ),
 ]
 
 BENCHMARKS = [
@@ -968,7 +942,7 @@ SCENARIOS = [
             ("What if the agent legitimately needs compute?",
              "Change the rule deliberately — the point is that drift requires a decision, not an accident."),
         ],
-        related=[("Category-based spending", "/glossary/category-based-spending"), ("Red flags in agent spend", "/redflags/red-flags-in-agent-spend"), ("Agent spend policy", "/glossary/spend-policy")],
+        related=[("Category-based spending", "/glossary/category-based-spending"), ("Red flags in agent spend", "/redflags/red-flags-in-agent-spend"), ("Agent spend policy", "/glossary/agent-spend-policy")],
     ),
     dict(
         slug="legit-workflow-false-positive-scenario",
@@ -1226,7 +1200,7 @@ HOW_TO = [
             ("Who owns it?",
              "The budget owner — platform lead, finance, or CTO depending on org."),
         ],
-        related=[("Spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("Spend policy best practices", "/guides/agent-spend-policy-best-practices"), ("Spend policy glossary", "/glossary/spend-policy")],
+        related=[("Spend policy best practices", "/guides/agent-spend-policy-best-practices/"), ("Spend policy best practices", "/guides/agent-spend-policy-best-practices"), ("Spend policy glossary", "/glossary/agent-spend-policy")],
     ),
     dict(
         slug="how-to-integrate-sipi-bot-with-mcp",

@@ -304,7 +304,7 @@ SCENARIOS = [
             ("What's the most common cause?",
              "A missing allowlist entry or a threshold set too high."),
         ],
-        related=[("Eval report", "/eval-report/"), ("How to stop runaway agents", "/how-to/how-to-stop-runaway-agents"), ("Kill switch", "/glossary/kill-switch")],
+        related=[("Eval report", "/eval-report/"), ("How to stop runaway agents", "/how-to/how-to-stop-runaway-agents"), ("Circuit breaker", "/glossary/circuit-breaker")],
     ),
 ]
 

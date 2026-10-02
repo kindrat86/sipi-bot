@@ -95,7 +95,7 @@ TUTORIALS = [
             ("Can I cap all workflows at once?",
              "Yes — shared rules apply across workflows."),
         ],
-        related=[("n8n integration", "/integrations/n8n"), ("Workflow automation", "/for/devops-automation"), ("Time-of-day rule", "/glossary/time-of-day-rule")],
+        related=[("n8n integration", "/integrations/n8n"), ("Workflow automation", "/for/devops-automation"), ("Time-of-day rule", "/policies/time-of-day-policy")],
     ),
     dict(
         slug="set-up-category-rules",
@@ -151,7 +151,7 @@ TUTORIALS = [
             ("Does it apply per agent?",
              "Yes — windows can differ per agent or fleet."),
         ],
-        related=[("Time-of-day rule", "/glossary/time-of-day-rule"), ("Overnight runaway scenario", "/scenarios/overnight-runaway-scenario"), ("Off-hours red flag", "/redflags/off-hours-billing-activity")],
+        related=[("Time-of-day policy", "/policies/time-of-day-policy"), ("Overnight runaway scenario", "/scenarios/overnight-runaway-scenario"), ("Off-hours red flag", "/redflags/off-hours-billing-activity")],
     ),
     dict(
         slug="create-an-approval-queue",
@@ -270,7 +270,7 @@ POLICIES = [
             ("Block or flag?",
              "FLAG is the balanced default — overnight work proceeds after morning review."),
         ],
-        related=[("Time-of-day rule", "/glossary/time-of-day-rule"), ("Overnight runaway scenario", "/scenarios/overnight-runaway-scenario"), ("Off-hours red flag", "/redflags/off-hours-billing-activity")],
+        related=[("Time-of-day policy", "/policies/time-of-day-policy"), ("Overnight runaway scenario", "/scenarios/overnight-runaway-scenario"), ("Off-hours red flag", "/redflags/off-hours-billing-activity")],
     ),
     dict(
         slug="approval-threshold-policy",
@@ -451,31 +451,6 @@ LEARN = [
              "It evaluates every transaction the same way: amount, merchant, category → decision."),
         ],
         related=[("Spend firewall", "/glossary/spend-firewall"), ("How spend control works", "/faq/how-ai-spend-control-works"), ("Agentic payments", "/glossary/agentic-payment")],
-    ),
-    dict(
-        slug="what-are-agentic-payments",
-        title="What Are Agentic Payments?",
-        desc="Agentic payments: payments initiated by agents on machine rails. The protocols, the risks, and the control layer.",
-        h1="What Are Agentic Payments?",
-        lead="Agentic payments are payments an agent initiates — not a human. The protocols exist; the safety layer is what's missing.",
-        sections=[
-            ("The protocols",
-             ["x402 — HTTP-based agent payments using the 402 status.",
-              "AP2 — Google's agent payments protocol.",
-              "AgentKit — onchain agent payments."]),
-            ("The difference from human payments",
-             ["No human reviews each payment — speed is the point.",
-              "Fast settlement means fast damage if something goes wrong."]),
-            ("The control layer",
-             ["A pre-spend firewall sits between the agent and the rail: APPROVED, BLOCKED, or FLAGGED before settlement."]),
-        ],
-        faqs=[
-            ("Are agentic payments mainstream?",
-             "Emerging — the rails are live, adoption is growing. Controls are the constraint."),
-            ("Who needs to care now?",
-             "Anyone deploying agents with payment capability — which is any agent with a tool that spends."),
-        ],
-        related=[("Agentic payment", "/glossary/agentic-payment"), ("AP2", "/glossary/ap2"), ("Agent payment firewall", "/guides/agent-payment-firewall")],
     ),
 ]
 

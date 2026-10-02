@@ -1552,8 +1552,8 @@ class Handler(BaseHTTPRequestHandler):
         # blog leaves retired. Each had only 1.7-1.9K rendered body characters
         # including shared chrome and repeated a deeper, already-impressed
         # glossary or answer page. Keep both URL forms mapped.
-        "/blog/the-agent-kill-switch": "/glossary/kill-switch",
-        "/blog/the-agent-kill-switch/": "/glossary/kill-switch",
+        "/blog/the-agent-kill-switch": "/glossary/circuit-breaker",
+        "/blog/the-agent-kill-switch/": "/glossary/circuit-breaker",
         "/blog/your-agents-need-a-budget-not-just-a-bill": "/glossary/spend-cap",
         "/blog/your-agents-need-a-budget-not-just-a-bill/": "/glossary/spend-cap",
         "/blog/the-agents-that-buy-things-need-the-strongest-budgets": "/glossary/merchant-allowlist",
@@ -1624,8 +1624,23 @@ class Handler(BaseHTTPRequestHandler):
         "/glossary/category-rule/": "/glossary/",
         "/glossary/agent-orchestration": "/glossary/",
         "/glossary/agent-orchestration/": "/glossary/",
-        "/glossary/context-window": "/benchmarks/llm-context-window-cost-comparison",
-        "/glossary/context-window/": "/benchmarks/llm-context-window-cost-comparison",
+        # 2026-10-02 §5.7 subtractive prepay — five more zero-trailing-28d-impression
+        # thin leaves retired (eighth five; GSC window 2026-08-31..2026-09-29,
+        # 288 impressed of 740 sitemap URLs, all five at 0 impressions).
+        # Each 301s to the nearest surviving same-intent page. Keep both URL
+        # forms mapped. NOTE: /blog/the-agent-kill-switch (retired 2026-09-01)
+        # pointed at /glossary/kill-switch, which is itself retired here — its
+        # mapping is repointed to /glossary/circuit-breaker above.
+        "/glossary/spend-policy": "/glossary/agent-spend-policy",
+        "/glossary/spend-policy/": "/glossary/agent-spend-policy",
+        "/glossary/time-of-day-rule": "/policies/time-of-day-policy",
+        "/glossary/time-of-day-rule/": "/policies/time-of-day-policy",
+        "/glossary/token-caching": "/benchmarks/token-cache-hit-savings",
+        "/glossary/token-caching/": "/benchmarks/token-cache-hit-savings",
+        "/learn/what-are-agentic-payments": "/glossary/agentic-payment",
+        "/learn/what-are-agentic-payments/": "/glossary/agentic-payment",
+        "/glossary/kill-switch": "/glossary/circuit-breaker",
+        "/glossary/kill-switch/": "/glossary/circuit-breaker",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO
