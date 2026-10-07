@@ -1641,6 +1641,26 @@ class Handler(BaseHTTPRequestHandler):
         "/learn/what-are-agentic-payments/": "/glossary/agentic-payment",
         "/glossary/kill-switch": "/glossary/circuit-breaker",
         "/glossary/kill-switch/": "/glossary/circuit-breaker",
+
+        # 2026-10-07 §5.7 subtractive prepay — ninth five: leaves with zero
+        # impressions in the trailing 30d (GSC window 2026-09-07..2026-10-06,
+        # 281 impressed of 740 sitemap URLs, all five at 0 impressions). Each
+        # 301s to the nearest same-intent page that holds real impressions:
+        # budget-alert -> agent-budget (7 impr, pos 7.4), velocity-cap ->
+        # velocity-limit (19 impr, pos 7.8; same control, alternate name),
+        # token-cost -> best-token-cost-trackers (16 impr), ai-cost-optimization
+        # -> /ai-cost-management (102 impr), what-is-a-spend-firewall ->
+        # spend-firewall-guide (34 impr, pos 4.0). Keep both URL forms mapped.
+        "/glossary/budget-alert": "/glossary/agent-budget",
+        "/glossary/budget-alert/": "/glossary/agent-budget",
+        "/glossary/velocity-cap": "/glossary/velocity-limit",
+        "/glossary/velocity-cap/": "/glossary/velocity-limit",
+        "/learn/token-cost": "/best/best-token-cost-trackers",
+        "/learn/token-cost/": "/best/best-token-cost-trackers",
+        "/learn/ai-cost-optimization": "/ai-cost-management",
+        "/learn/ai-cost-optimization/": "/ai-cost-management",
+        "/learn/what-is-a-spend-firewall": "/learn/spend-firewall-guide",
+        "/learn/what-is-a-spend-firewall/": "/learn/spend-firewall-guide",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO

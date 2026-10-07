@@ -374,29 +374,6 @@ GLOSSARY = [
         ],
         related=[("Agentic AI", "/glossary/agentic-ai"), ("How autonomous agents spend", "/learn/how-autonomous-agents-spend-money"), ("Spend policy", "/glossary/agent-spend-policy")],
     ),
-    dict(
-        slug="budget-alert",
-        term="Budget alert",
-        title="What is a Budget Alert? | sipi.bot Glossary",
-        desc="A budget alert fires when spend crosses a threshold — the monitoring companion to enforced ceilings.",
-        h1="What is a Budget Alert?",
-        lead="A budget alert notifies you when agent spend crosses a configured threshold — the monitoring layer on top of enforced ceilings.",
-        sections=[
-            ("How it works",
-             ["Thresholds per agent, category, or fleet.",
-              "Alerts fire on approach and breach."]),
-            ("Alert vs ceiling",
-             ["An alert tells you; a ceiling stops it.",
-              "Run both: alerts for awareness, ceilings for enforcement."]),
-        ],
-        faqs=[
-            ("What thresholds should I set?",
-             "80% of the ceiling (approach) and 100% (breach)."),
-            ("Do alerts replace ceilings?",
-             "No — alerts inform, ceilings enforce. Both."),
-        ],
-        related=[("Daily budget alert template", "/templates/daily-budget-alert"), ("How to monitor AI costs", "/how-to/how-to-monitor-ai-costs"), ("Daily spend ceiling", "/glossary/daily-spend-ceiling")],
-    ),
 ]
 
 HOW_TO = [
