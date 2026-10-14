@@ -1552,8 +1552,8 @@ class Handler(BaseHTTPRequestHandler):
         # blog leaves retired. Each had only 1.7-1.9K rendered body characters
         # including shared chrome and repeated a deeper, already-impressed
         # glossary or answer page. Keep both URL forms mapped.
-        "/blog/the-agent-kill-switch": "/glossary/circuit-breaker",
-        "/blog/the-agent-kill-switch/": "/glossary/circuit-breaker",
+        "/blog/the-agent-kill-switch": "/glossary/spend-circuit-breaker",
+        "/blog/the-agent-kill-switch/": "/glossary/spend-circuit-breaker",
         "/blog/your-agents-need-a-budget-not-just-a-bill": "/glossary/spend-cap",
         "/blog/your-agents-need-a-budget-not-just-a-bill/": "/glossary/spend-cap",
         "/blog/the-agents-that-buy-things-need-the-strongest-budgets": "/glossary/merchant-allowlist",
@@ -1639,8 +1639,8 @@ class Handler(BaseHTTPRequestHandler):
         "/glossary/token-caching/": "/benchmarks/token-cache-hit-savings",
         "/learn/what-are-agentic-payments": "/glossary/agentic-payment",
         "/learn/what-are-agentic-payments/": "/glossary/agentic-payment",
-        "/glossary/kill-switch": "/glossary/circuit-breaker",
-        "/glossary/kill-switch/": "/glossary/circuit-breaker",
+        "/glossary/kill-switch": "/glossary/spend-circuit-breaker",
+        "/glossary/kill-switch/": "/glossary/spend-circuit-breaker",
 
         # 2026-10-07 §5.7 subtractive prepay — ninth five: leaves with zero
         # impressions in the trailing 30d (GSC window 2026-09-07..2026-10-06,
@@ -1661,6 +1661,35 @@ class Handler(BaseHTTPRequestHandler):
         "/learn/ai-cost-optimization/": "/ai-cost-management",
         "/learn/what-is-a-spend-firewall": "/learn/spend-firewall-guide",
         "/learn/what-is-a-spend-firewall/": "/learn/spend-firewall-guide",
+
+        # 2026-10-11 §5.7 subtractive prepay — tenth five: leaves with zero
+        # impressions in the trailing 30d (GSC window 2026-09-11..2026-10-10,
+        # 270 impressed of 740 sitemap URLs, all five at 0 impressions). Each
+        # 301s to the nearest same-intent page that holds real impressions:
+        # circuit-breaker -> spend-circuit-breaker (3 impr, pos 7.0; the
+        # generic/branded split of the same control collapses into the branded
+        # keeper), cost-anomaly -> spend-anomaly (3 impr, pos 6.7), agent-
+        # audit-trail -> ai-billing-audit-trail (8 impr, pos 8.6), agent-cost-
+        # center -> ai-cost-attribution (4 impr, pos 69.5), agent-spend-control-
+        # best-practices -> how-to-implement-spend-controls (1 impr, pos 8.0).
+        # Two earlier entries (blog the-agent-kill-switch, glossary kill-switch)
+        # previously chained into /glossary/circuit-breaker and are repointed
+        # above to land on the surviving keeper. Also mapped: the impressed 404
+        # ghost /learn/ai-agent-budget-controls-best-practices (1 impr in this
+        # window, no backing file, no sitemap entry) to the same keeper as
+        # agent-spend-control-best-practices. Keep both URL forms mapped.
+        "/glossary/circuit-breaker": "/glossary/spend-circuit-breaker",
+        "/glossary/circuit-breaker/": "/glossary/spend-circuit-breaker",
+        "/glossary/cost-anomaly": "/glossary/spend-anomaly",
+        "/glossary/cost-anomaly/": "/glossary/spend-anomaly",
+        "/glossary/agent-audit-trail": "/learn/ai-billing-audit-trail",
+        "/glossary/agent-audit-trail/": "/learn/ai-billing-audit-trail",
+        "/glossary/agent-cost-center": "/learn/ai-cost-attribution",
+        "/glossary/agent-cost-center/": "/learn/ai-cost-attribution",
+        "/learn/agent-spend-control-best-practices": "/how-to/how-to-implement-spend-controls",
+        "/learn/agent-spend-control-best-practices/": "/how-to/how-to-implement-spend-controls",
+        "/learn/ai-agent-budget-controls-best-practices": "/how-to/how-to-implement-spend-controls",
+        "/learn/ai-agent-budget-controls-best-practices/": "/how-to/how-to-implement-spend-controls",
     }
 
     # W4 — site-wide Resources footer. Injected before </body> on every pSEO

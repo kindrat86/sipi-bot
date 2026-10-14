@@ -38,18 +38,16 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 
 <h2>Monitoring & compliance</h2>
 <div class="grid2">
-<div class="card"><h3><a href="/glossary/agent-audit-trail">Agent audit trail</a></h3><p>Tamper-evident, append-only log of every spend decision.</p></div>
+<div class="card"><h3><a href="/learn/ai-billing-audit-trail">AI billing audit trail</a></h3><p>Tamper-evident, append-only log of every spend decision — some teams call it the agent audit trail.</p></div>
 <div class="card"><h3><a href="/glossary/spend-anomaly">Spend anomaly</a></h3><p>Transaction pattern deviating from expected. Caught pre-spend or observed post-hoc.</p></div>
-<div class="card"><h3><a href="/glossary/cost-anomaly">Cost anomaly</a></h3><p>Unexpected cost spike in agent spending patterns.</p></div>
 <div class="card"><h3><a href="/glossary/runaway-cost">Runaway cost</a></h3><p>Uncontrolled agent spend — typically from retry loops or unattended sessions.</p></div>
-<div class="card"><h3><a href="/glossary/agent-cost-center">Agent cost center</a></h3><p>Treating each agent as a trackable cost center with its own budget and audit trail.</p></div>
+<div class="card"><h3><a href="/learn/ai-cost-attribution">AI cost attribution</a></h3><p>Tracking each agent as a cost center: attribute every dollar of agent spend to the agent, feature, or workflow that caused it.</p></div>
 <div class="card"><h3><a href="/glossary/token-burn-rate">Token burn rate</a></h3><p>Rate at which an agent consumes LLM tokens, measured in tokens or dollars per time unit.</p></div>
 </div>
 
 <h2>Operational controls</h2>
 <div class="grid2">
-<div class="card"><h3><a href="/glossary/circuit-breaker">Circuit breaker</a></h3><p>Automatic halt when a spend threshold or anomaly is detected.</p></div>
-<div class="card"><h3><a href="/glossary/spend-circuit-breaker">Spend circuit breaker</a></h3><p>Emergency stop on all agent spend when a critical threshold is breached.</p></div>
+<div class="card"><h3><a href="/glossary/spend-circuit-breaker">Spend circuit breaker</a></h3><p>Automatic halt when a spend threshold or anomaly is detected — the generic circuit breaker and sipi.bot's spend circuit breaker are the same control.</p></div>
 <div class="card"><h3><a href="/glossary/transaction-cap">Transaction cap</a></h3><p>Maximum allowed amount for a single transaction.</p></div>
 <div class="card"><h3><a href="/glossary/agent-budget">Agent budget</a></h3><p>The total spending authority assigned to a specific agent.</p></div>
 </div>
@@ -80,7 +78,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e7eb;color:#6b
 </div>
 <h2>Control terms</h2>
 <div class="grid2">
-<div class="card"><h3><a href="/glossary/circuit-breaker">What is a Circuit Breaker?</a></h3><p>A circuit breaker trips and halts agent execution when spend crosses a threshold — the emergency brake for a runaway.</p></div><div class="card"><h3><a href="/glossary/spend-cap">What is a Spend Cap?</a></h3><p>A spend cap is a hard ceiling on what an agent may spend — per transaction, per day, or per month.</p></div>
+<div class="card"><h3><a href="/glossary/spend-circuit-breaker">What is a Circuit Breaker?</a></h3><p>A circuit breaker trips and halts agent execution when spend crosses a threshold — the emergency brake for a runaway. The generic "circuit breaker" and sipi.bot's spend circuit breaker are the same control.</p></div><div class="card"><h3><a href="/glossary/spend-cap">What is a Spend Cap?</a></h3><p>A spend cap is a hard ceiling on what an agent may spend — per transaction, per day, or per month.</p></div>
 </div>
 <h2>Cost & identity terms</h2>
 <div class="grid2">
