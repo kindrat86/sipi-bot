@@ -223,7 +223,8 @@ def build_hub(d, incs, summ):
         ("How current is the data?",
          f"The database covers incidents from {summ['year_range'][0]} through {summ['year_range'][1]}. "
          f"It currently holds {summ['incidents']} documented incidents and {summ['statistics']} "
-         f"aggregate statistics, of which {summ['verified']} are verified against primary sources."),
+         f"aggregate statistics — {summ['total']} records in total. Of those, {summ['verified']} "
+         f"records are verified against primary sources."),
         ("How does this relate to sipi.bot?",
          "sipi.bot is a pre-spend firewall for autonomous AI agents. Each incident page includes a "
          "'How a spend firewall would have helped' note mapping the incident to the firewall's six "

@@ -297,7 +297,7 @@ def _body_for(post):
 <p class="byline"><div class="av">S</div> sipi.bot · April 15, 2026</p>
 </section>
 <div class="prose">
-<p>I've talked to over 200 teams running autonomous agents in production. Three beliefs come up in almost every conversation — and every team that held them eventually paid for it.</p>
+<p>I've spent months reading every public post-mortem of an agent that cost its operator money — the <a href="/incidents/">incident database</a> this site maintains now documents over a hundred of them. Three beliefs come up in almost every one — and every team that held them eventually paid for it.</p>
 
 <h3>False belief #1: "I'll catch it in the morning"</h3>
 <p>The <a href="/incidents/success-tax-47k-2025-12">$47,000 overnight runaway loop</a> started at 11 PM and burned until 7 AM. The engineer woke up to a bill that exceeded their monthly cloud budget by 47x. By the time you "check in the morning," the loop has run for hours. Unattended agents need real-time controls, not dashboard checks.</p>
@@ -306,7 +306,7 @@ def _body_for(post):
 <p>OpenAI and Anthropic monthly caps are soft ceilings — they limit the number of tokens you can consume, not the dollars you can spend per hour. A $200/month cap doesn't stop $200 of spend in 20 minutes. Worse, provider caps only cover API costs. They don't touch cloud provisioning (<a href="/incidents/dn42-aws-6500-2025-09">$6,500 AWS bill</a>), SaaS purchases, or on-chain transfers. A provider cap is an accounting setting, not a spend control.</p>
 
 <h3>False belief #3: "My agent would never do that"</h3>
-<p>Every documented incident in our database happened to someone who believed their agent would never do that. The Replit DB deletion during a code freeze? A trusted coding agent. The Cursor fake-policy debacle? A support bot that "always worked fine." Chevrolet's $1 Tahoe? A dealership chatbot. The agent doesn't need to be malicious — it just needs to be unbounded. <a href="/incidents/step-finance-2026-01">Browse all 34 documented incidents →</a></p>
+<p>Every documented incident in our database happened to someone who believed their agent would never do that. The Replit DB deletion during a code freeze? A trusted coding agent. The Cursor fake-policy debacle? A support bot that "always worked fine." Chevrolet's $1 Tahoe? A dealership chatbot. The agent doesn't need to be malicious — it just needs to be unbounded. <a href="/incidents/">Browse the full incident database →</a></p>
 
 <p><strong>What replaces these beliefs:</strong> one deterministic API call before the transaction. $99/mo. <a href="/pricing">Start here →</a></p>
 </div>"""

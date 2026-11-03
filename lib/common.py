@@ -309,7 +309,7 @@ def dataset_ld(*, name, description, canonical_path, license_url,
         "keywords": keywords or [],
     }
     if record_count is not None:
-        d["variableMeasured"] = f"{record_count} documented incidents"
+        d["variableMeasured"] = f"{record_count} documented records"
     if data_download:
         d["distribution"] = [
             {"@type": "DataDownload", "contentUrl": SITE + url, "encodingFormat": fmt, "name": name}

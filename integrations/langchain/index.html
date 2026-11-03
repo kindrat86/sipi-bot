@@ -120,6 +120,10 @@ audit trail tells you which step in the graph is expensive.</p>
 <h3>What about async chains?</h3>
 <p>Implement the async callback methods and use an async HTTP client, so the check
 does not block the event loop on every invocation.</p>
+<h3>Is there a copy-paste client?</h3>
+<p>Yes. The repo ships a zero-dependency <code>sipi_guard.py</code> client plus tested
+LangChain and CrewAI wrapper recipes (live-verified against sipi.bot):
+<a href="https://github.com/kindrat86/sipi-bot/blob/main/integrations/SPEND_GUARDRAILS_RECIPE.md">SPEND_GUARDRAILS_RECIPE.md</a>.</p>
 
 <div class="cta"><a href="https://sipi.bot/">Get started with sipi.bot &rarr;</a></div>
 
