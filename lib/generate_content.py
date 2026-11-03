@@ -202,10 +202,11 @@ def _body_for(post):
 <p class="byline"><div class="av">S</div> sipi.bot · July 27, 2026</p>
 </section>
 <div class="prose">
+<p><em>Update, November 3, 2026: the database has since grown. It now holds 125 sourced records — 115 documented incidents and 10 aggregate statistics — with 121 verified against primary sources, and tracked incident loss exposure of $569M. The launch figures below were accurate on publication day.</em></p>
 <p>Today we're launching the <a href="/incidents/">AI Agent Incident Database</a> — a sourced, public record of every time an autonomous AI agent lost money, leaked data, or did something its operator didn't intend. It's licensed CC BY 4.0, available as JSON/CSV/JSONL, and lives on <a href="https://github.com/kindrat86/ai-agent-incident-database">GitHub</a> with a weekly auto-sync.</p>
 
-<h3>What's in it</h3>
-<p>34 records spanning 2016–2026, with 29 verified against primary sources. Incidents range from a <strong>$31 unauthorized grocery delivery</strong> (OpenAI Operator bypassing its own confirmation guardrail) to <strong>$2.87 billion in aggregate crypto theft</strong> where AI agents were directly implicated (TRM Labs 2026 report).</p>
+<h3>What was in it at launch</h3>
+<p>34 records spanning 2016–2026, with 29 verified against primary sources. Incidents ranged from a <strong>$31 unauthorized grocery delivery</strong> (OpenAI Operator bypassing its own confirmation guardrail) to <strong>$2.87 billion in aggregate crypto theft</strong> where AI agents were directly implicated (TRM Labs 2026 report) — the aggregate figure behind the original "$2.91B tracked" headline.</p>
 <p>The database includes breakdowns by failure mode: 7 hallucinated-policy incidents, 6 prompt-injection exploitations, 5 documented cases of agents deleting production data, and 3 trading-agent catastrophes exceeding $440K each.</p>
 
 <h3>Why we built it</h3>
@@ -226,7 +227,7 @@ def _body_for(post):
 </section>
 <div class="prose">
 <p>A single unbounded while-loop cost an engineering team <strong>$47,000 overnight</strong>. The agent was performing API lookups in a research pipeline. One call failed with a transient HTTP 503. The agent retried. And retried. And retried — 30+ iterations, each one making a fresh, costly inference call — for eight hours while the engineer slept.</p>
-<p>This pattern — the runaway loop — is the single most common failure mode in our <a href="/incidents/">34-incident database</a>. It's not a model quality problem. It's a control-surface problem.</p>
+<p>This pattern — the runaway loop — is the most common failure mode in our <a href="/incidents/">incident database</a>. It's not a model quality problem. It's a control-surface problem.</p>
 
 <h3>How it happens, mechanically</h3>
 <p>A runaway loop requires three conditions: (1) the agent has access to a tool that costs money per call, (2) the tool can fail transiently (rate limits, network errors, 5xx), and (3) the agent's response to failure is "retry." Most agent frameworks retry by default. Most operators never configure a retry ceiling. The result: exponential cost as the loop compounds.</p>
@@ -434,7 +435,7 @@ def _body_for(post):
 <div class="meta">July 30, 2026 · sipi.bot</div>
 </section>
 <div class="prose">
-<p>The <a href="/incidents/">AI Agent Incident Database</a> now tracks 34 sourced incidents spanning 2016–2026 — agents that lost money, deleted data, or acted beyond intent. The Q2 read keeps surfacing the same three patterns.</p>
+<p>The <a href="/incidents/">AI Agent Incident Database</a> now tracks 115 sourced incidents (125 records with aggregate statistics) spanning 2016–2026 — agents that lost money, deleted data, or acted beyond intent. The Q2 read keeps surfacing the same three patterns.</p>
 
 <h3>Pattern 1: the retry loop</h3>
 <p>The single most common shape. One failed call, retried in a tight loop — overnight, unattended. The <a href="/blog/velocity-limits-explained">velocity limit</a> is the rule that stops it: a cap on transactions per window ends the loop at the source.</p>
@@ -746,7 +747,7 @@ def build_blog():
 </div>
 <div class="band">
 <h2>Every post is backed by real data</h2>
-<p>The blog draws on the <a href="/incidents/">AI Agent Incident Database</a> — 34 sourced records of agents that lost money, deleted data, or took unintended actions. No hypotheticals, no fabricated benchmarks.</p>
+<p>The blog draws on the <a href="/incidents/">AI Agent Incident Database</a> — 125 sourced records of agents that lost money, deleted data, or took unintended actions. No hypotheticals, no fabricated benchmarks.</p>
 <div class="btns">
 <a class="btn primary" href="/incidents/">Browse the incident database →</a>
 <a class="btn ghost" href="/tools/agent-spend-risk-calculator/">Score your risk</a>
@@ -836,7 +837,7 @@ def build_status():
 
 <section style="max-width:720px">
 <h2>Data services</h2>
-<div class="card"><h3>AI Agent Incident Database</h3><p>34 records, CC BY 4.0, available as JSON/CSV/JSONL. Auto-synced weekly.</p><p class="meta">Status: operational · <a href="/data/ai-agent-incidents.json">JSON</a> · <a href="https://github.com/kindrat86/ai-agent-incident-database">GitHub</a></p></div>
+<div class="card"><h3>AI Agent Incident Database</h3><p>125 records (115 incidents + 10 aggregate statistics), CC BY 4.0, available as JSON/CSV/JSONL. Auto-synced weekly.</p><p class="meta">Status: operational · <a href="/data/ai-agent-incidents.json">JSON</a> · <a href="https://github.com/kindrat86/ai-agent-incident-database">GitHub</a></p></div>
 <div class="card"><h3>Protected-by badge</h3><p>Free embeddable badge. No JS, no account. Live firewall stats via image URL.</p><p class="meta">Status: operational · <a href="/badge">/badge</a></p></div>
 </section>
 
@@ -853,7 +854,7 @@ def build_status():
         c.breadcrumb_ld([("Home","/"),("Status","/status/")]),
     ]
     html = c.page(title="sipi.bot Status — system status and API health | sipi.bot",
-                  description="sipi.bot system status: API operational at <5ms P99 latency, eval gym 53/53, incident database live with 34 records. Enterprise SLA available.",
+                  description="sipi.bot system status: API operational at <5ms P99 latency, eval gym 53/53, incident database live with 125 records. Enterprise SLA available.",
                   canonical_path="/status/", body=body, jsonld=jsonld)
     c.write(os.path.join(STATUS_DIR, "index.html"), html)
     print("status/: page")
@@ -916,10 +917,10 @@ def enrich_rss():
     inc_guid = "https://sipi.bot/incidents/#db-launch-2026-07-27"
     if inc_guid not in existing_guids:
         items.append(f"""  <item>
-    <title>AI Agent Incident Database — 34 records, $2.91B tracked</title>
+    <title>AI Agent Incident Database — 125 records, $569M incident losses tracked</title>
     <link>https://sipi.bot/incidents/</link>
     <guid isPermaLink="true">{inc_guid}</guid>
-    <description>Open, sourced database of real-world AI-agent incidents, CC BY 4.0. 34 records spanning 2016-2026. JSON, CSV, JSONL available.</description>
+    <description>Open, sourced database of real-world AI-agent incidents, CC BY 4.0. 125 records (115 incidents + 10 statistics) spanning 2016-2026, 121 verified. JSON, CSV, JSONL available.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Sun, 27 Jul 2026 12:00:00 GMT</pubDate>
   </item>""")

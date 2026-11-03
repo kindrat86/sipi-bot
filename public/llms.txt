@@ -33,7 +33,7 @@ as an MCP tool, an HTTP API, and a CLI. Open-source core (MIT), free to self-hos
 - [Token cost by provider](https://sipi.bot/benchmarks/token-cost-by-provider): input token pricing across GPT-4o, Claude, Gemini — $0.15/M to $15/M.
 
 ## AI Agent Incident Database (CC BY 4.0 open data)
-- [Incident database hub](https://sipi.bot/incidents/): filterable table of 34 sourced records of AI-agent-caused financial loss, data loss, and unintended actions — every entry links to a public source. Tracked loss exposure of $2.91B.
+- [Incident database hub](https://sipi.bot/incidents/): filterable table of 125 sourced records (115 documented incidents + 10 aggregate statistics) of AI-agent-caused financial loss, data loss, and unintended actions — every entry links to a public source, 121 records verified against primary sources. Tracked incident loss exposure of $569M.
 - [Incident statistics & charts](https://sipi.bot/incidents/stats/): aggregate loss by year, failure modes, outcomes, agent types — SVG charts, no JS required.
 - [JSON data](https://sipi.bot/data/ai-agent-incidents.json): full structured records, CC BY 4.0.
 - [CSV data](https://sipi.bot/data/ai-agent-incidents.csv): flat table for spreadsheet analysis.

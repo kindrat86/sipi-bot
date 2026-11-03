@@ -5,7 +5,7 @@
     <link>https://sipi.bot</link>
     <description>The Spend Firewall for AI Agents</description>
     <language>en</language>
-    <lastBuildDate>Tue, 03 Nov 2026 12:06:21 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2026 15:12:48 GMT</lastBuildDate>
     <generator>Hermes WebSub Feed Generator</generator>
     <ttl>60</ttl>
     <atom:link href="https://sipi.bot/feed.xml" rel="self" type="application/rss+xml"/>
@@ -232,10 +232,10 @@
     <pubDate>Tue, 20 Jan 2026 12:00:00 GMT</pubDate>
   </item>
 <item>
-    <title>AI Agent Incident Database — 34 records, $2.91B tracked</title>
+    <title>AI Agent Incident Database — 125 records, $569M incident losses tracked</title>
     <link>https://sipi.bot/incidents/</link>
     <guid isPermaLink="true">https://sipi.bot/incidents/#db-launch-2026-07-27</guid>
-    <description>Open, sourced database of real-world AI-agent incidents, CC BY 4.0. 34 records spanning 2016-2026. JSON, CSV, JSONL available.</description>
+    <description>Open, sourced database of real-world AI-agent incidents, CC BY 4.0. 125 records (115 incidents + 10 statistics) spanning 2016-2026, 121 verified. JSON, CSV, JSONL available.</description>
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Sun, 27 Jul 2026 12:00:00 GMT</pubDate>
   </item>
@@ -368,6 +368,7 @@
     <dc:creator>sipi.bot</dc:creator>
     <pubDate>Fri, 30 Jan 2026 12:00:00 GMT</pubDate>
   </item>
+
 
 
 

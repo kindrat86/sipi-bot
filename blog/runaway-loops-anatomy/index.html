@@ -192,7 +192,7 @@ tr:hover td{background:rgba(255,255,255,.015)}
 </section>
 <div class="prose">
 <p>A single unbounded while-loop cost an engineering team <strong>$47,000 overnight</strong>. The agent was performing API lookups in a research pipeline. One call failed with a transient HTTP 503. The agent retried. And retried. And retried — 30+ iterations, each one making a fresh, costly inference call — for eight hours while the engineer slept.</p>
-<p>This pattern — the runaway loop — is the single most common failure mode in our <a href="/incidents/">34-incident database</a>. It's not a model quality problem. It's a control-surface problem.</p>
+<p>This pattern — the runaway loop — is the most common failure mode in our <a href="/incidents/">incident database</a>. It's not a model quality problem. It's a control-surface problem.</p>
 
 <h3>How it happens, mechanically</h3>
 <p>A runaway loop requires three conditions: (1) the agent has access to a tool that costs money per call, (2) the tool can fail transiently (rate limits, network errors, 5xx), and (3) the agent's response to failure is "retry." Most agent frameworks retry by default. Most operators never configure a retry ceiling. The result: exponential cost as the loop compounds.</p>

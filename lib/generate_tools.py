@@ -439,14 +439,14 @@ def build_hub():
 <div class="card">
 <span class="tag neutral">Open data</span>
 <h3><a href="/incidents/">AI Agent Incident Database</a></h3>
-<p>34 sourced records of AI-agent-caused financial loss, data loss, and unintended actions. CC BY 4.0 — JSON, CSV, JSONL.</p>
-<div class="meta">34 incidents · $2.91B tracked · CC BY 4.0</div>
+<p>125 sourced records of AI-agent-caused financial loss, data loss, and unintended actions. CC BY 4.0 — JSON, CSV, JSONL.</p>
+<div class="meta">115 incidents · $569M tracked · CC BY 4.0</div>
 </div>
 </div>
 
 <div class="band" style="margin-top:40px">
 <h2>Every tool here runs on real data</h2>
-<p>The risk calculator and policy generator are calibrated on the <a href="/incidents/">AI Agent Incident Database</a> — 34 verified incidents of agents that lost money, leaked data, or took unintended actions. The patterns are real: unattended retry loops ($47K overnight), unverified merchants ($441K to a stranger), and the gap between "trust the prompt" and "verify the transaction."</p>
+<p>The risk calculator and policy generator are calibrated on the <a href="/incidents/">AI Agent Incident Database</a> — 125 sourced records, 121 verified, of agents that lost money, leaked data, or took unintended actions. The patterns are real: unattended retry loops ($47K overnight), unverified merchants ($441K to a stranger), and the gap between "trust the prompt" and "verify the transaction."</p>
 <div class="btns">
 <a class="btn primary" href="/pricing">Deploy the firewall — $99/mo</a>
 <a class="btn ghost" href="/incidents/">Browse the incident database →</a>
