@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Skool lesson: Add spend control to any AI agent in 10 lines - sipi.bot</title>
+<meta name="description" content="A ready-to-teach lesson for AI-agency communities: give any student's AI agent a spending firewall in 10 lines of code. Free to teach, 25% commission for community owners.">
+<link rel="canonical" href="https://sipi.bot/skool">
+<style>
+:root{--bg:#0a0a0a;--panel:#141414;--accent:#00d4aa;--orange:#e67e22;--txt:#e8e8ea;--mut:#8a8d96;--line:#23242a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font:16px/1.7 -apple-system,system-ui,sans-serif;max-width:820px;margin:0 auto;padding:40px 20px}
+h1{font-size:clamp(26px,5vw,40px);line-height:1.15;margin-bottom:12px}
+h2{font-size:22px;margin:32px 0 10px;color:var(--accent)}
+.tag{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:5px 12px;margin-bottom:18px}
+.sub{color:var(--mut);font-size:17px;margin-bottom:24px}
+code,pre{font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace}
+pre{background:#000;border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto;font-size:13px;color:#cfd2d8;margin:14px 0}
+.k{color:var(--accent)}.s{color:#ffb020}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin:18px 0}
+.orange{color:var(--orange);font-weight:700}
+.btn{display:inline-block;background:var(--accent);color:#04120e;font-weight:700;padding:12px 26px;border-radius:10px;text-decoration:none;margin-top:6px}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+ul{margin:10px 0 10px 22px}
+li{margin-bottom:8px}
+.small{font-size:12px;color:var(--mut)}
+</style>
+</head>
+<body>
+<span class="tag">Free lesson for AI-agency communities</span>
+<h1>Your students' agents have wallets. Give them rules.</h1>
+<p class="sub">A ready-to-teach lesson for Skool communities that build AI agents: add a spending firewall to any agent in 10 lines of code. Nothing to install, no API key for the demo. Teach it as-is, brand it as yours.</p>
+
+<h2>The lesson (copy-paste into your community)</h2>
+<div class="card">
+<p><strong>Hook for your members:</strong> "Your agent can buy API credits, book services, pay invoices. What stops it from spending $4,000 in a retry loop at 3am? Nothing. Let's fix that in 10 lines."</p>
+<p style="margin-top:10px"><strong>The 10 lines:</strong></p>
+<pre><span class="k">import</span> urllib.request, json
+
+<span class="k">def</span> agent_may_spend(amount, merchant, category=<span class="s">"saas"</span>):
+    req = urllib.request.Request(
+        <span class="s">"https://sipi.bot/v1/transactions/evaluate"</span>,
+        data=json.dumps({<span class="s">"amount"</span>: amount, <span class="s">"merchant"</span>: merchant, <span class="s">"category"</span>: category}).encode(),
+        headers={<span class="s">"Content-Type"</span>: <span class="s">"application/json"</span>})
+    decision = json.load(urllib.request.urlopen(req))
+    <span class="k">return</span> decision.get(<span class="s">"decision"</span>) == <span class="s">"APPROVED"</span>
+
+<span class="k">if not</span> agent_may_spend(200, <span class="s">"openai-credits"</span>):
+    <span class="k">raise</span> SystemExit(<span class="s">"Blocked by spend firewall"</span>)
+<span class="k"># ... only now let the agent actually buy</span></pre>
+<p class="small">Live demo, no key: POST to that URL right now and get APPROVED / BLOCKED / FLAGGED. 100 calls/min free. Students paste it into any agent - Python, Node, n8n, MCP - and the firewall is on.</p>
+</div>
+
+<h2>What to teach after the demo (5 min)</h2>
+<ul>
+<li><strong>Per-transaction cap</strong> - block anything over $200</li>
+<li><strong>Velocity limit</strong> - the retry-loop killer (40 failed buys at 2am stops at 10)</li>
+<li><strong>Merchant allowlist</strong> - unknown vendor = blocked</li>
+<li><strong>Human approval queue</strong> - anything unusual waits for the owner</li>
+</ul>
+<p>Full rules docs: <a href="https://sipi.bot/learn/spend-firewall-guide">spend firewall guide</a> &middot; live <a href="https://sipi.bot/dashboard">decision dashboard</a> &middot; <a href="https://sipi.bot/eval-report/">53/53 public evals</a></p>
+
+<h2>For community owners: make this lesson pay you</h2>
+<div class="card">
+<p>When your members outgrow the free API, they upgrade to hosted plans (<span class="orange">Starter $29/mo</span>, Team $99/mo). Join the affiliate program and earn <strong>25% commission on every referral</strong>, every month, for the life of the subscription.</p>
+<p style="margin-top:10px">10 students on Starter = <strong>$72.50/mo recurring</strong> for teaching one lesson you didn't have to write.</p>
+<p style="margin-top:10px"><span class="orange">&#9889; Launch week: your students use code LAUNCH50 for 50% off their first month (ends Nov 15) - easier yes, same 25% commission to you.</span></p>
+<p style="margin-top:14px">
+<a class="btn" href="mailto:sipi@sipi.bot?subject=Affiliate%20Application%20-%20Skool">Apply as affiliate (25%)</a>
+<a class="btn ghost" href="https://sipi.bot/playground/" style="margin-left:10px">Try the live firewall</a>
+</p>
+</div>
+
+<p class="small" style="margin-top:28px">sipi.bot is the pre-spend firewall for autonomous AI agents: one API call approves, blocks, or flags every transaction before money moves. Open-source core (MIT), hosted plans from $29/mo.</p>
+</body>
+</html>
