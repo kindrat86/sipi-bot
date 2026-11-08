@@ -223,9 +223,10 @@ def landing_page_html() -> str:
     Hope is not a spending policy.
   </p>
   <div class="hero-actions">
-    <a href="/pilot" class="btn" onclick="window.sipiTrack&&window.sipiTrack('pilot_view',{source:'hero_cta'})">Apply for the paid implementation pilot</a>
+    <a href="/pricing" class="btn" onclick="window.sipiTrack&&window.sipiTrack('pilot_view',{source:'hero_cta'})">Start Starter — $14.50 first month with LAUNCH50</a>
     <a href="/playground/" class="btn ghost" onclick="window.sipiTrack&&window.sipiTrack('hero_policy_test_click',{source:'hero'})">Run a free live check</a>
   </div>
+  <p style="text-align:center;color:#e67e22;font-size:12px;margin-top:10px">⚡ Launch week: 50% off first month, code LAUNCH50 — ends Nov 15</p>
   <div class="hero-proof" aria-label="Product proof">
     <a href="/eval-report/">53/53 public evals</a>
     <span aria-hidden="true">·</span>
@@ -1350,7 +1351,7 @@ def pricing_html() -> str:
       </ul>
       <a href="/checkout/starter?source=pricing_starter" rel="nofollow" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{{cta_id:'pricing_starter_checkout',destination:'/checkout/starter',placement:'pricing_starter',plan:'starter'}})" class="btn" style="width:100%">Start Starter — $29/mo</a>
       <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Green-light an active-rule violation and that month is free</p>
-      <p style="color:#e67e22;font-size:12px;margin-top:6px;text-align:center">⚡ Launch week: code <strong>LAUNCH50</strong> = 50% off your first month at checkout</p>
+      <p style="color:#e67e22;font-size:12px;margin-top:6px;text-align:center">⚡ Launch week: code <strong>LAUNCH50</strong> = 50% off your first month — ends Nov 15</p>
     </div>
     <div class="price" style="margin:0;border-color:var(--line)">
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Playground</div>
