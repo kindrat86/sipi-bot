@@ -484,6 +484,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <a href="/checkout/team?source=homepage_pricing" rel="nofollow" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{cta_id:'homepage_team_checkout',destination:'/checkout/team',placement:'homepage_pricing',plan:'team'})" class="btn" style="width:100%">Start Team — $99/mo</a>
     <a href="/playground/" class="btn ghost" style="width:100%;margin-top:10px">Try the live firewall first</a>
     <p style="color:var(--accent);font-size:12px;margin-top:10px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
+    <p style="color:var(--txt);font-size:14px;margin:16px 0 0;text-align:center;line-height:1.6"><strong>Zero-risk trial:</strong> the same engine is <a href="https://github.com/kindrat86/sipi-bot" style="color:var(--accent)">MIT-licensed on GitHub</a> — run it free forever if the hosted plan is not for you. You only pay for the hosted dashboard, approval queue, and managed logs.</p>
     <p class="mono" style="color:var(--mut);font-size:13px;margin-top:10px">Free self-host core &nbsp;•&nbsp; open on GitHub</p>
   </div>
 </div></section>
@@ -1349,6 +1350,7 @@ def pricing_html() -> str:
       </ul>
       <a href="/checkout/starter?source=pricing_starter" rel="nofollow" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{{cta_id:'pricing_starter_checkout',destination:'/checkout/starter',placement:'pricing_starter',plan:'starter'}})" class="btn" style="width:100%">Start Starter — $29/mo</a>
       <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Green-light an active-rule violation and that month is free</p>
+      <p style="color:#e67e22;font-size:12px;margin-top:6px;text-align:center">⚡ Launch week: code <strong>LAUNCH50</strong> = 50% off your first month at checkout</p>
     </div>
     <div class="price" style="margin:0;border-color:var(--line)">
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Playground</div>
