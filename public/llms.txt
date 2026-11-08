@@ -14,12 +14,13 @@ as an MCP tool, an HTTP API, and a CLI. Open-source core (MIT), free to self-hos
 
 ## Core endpoint
 - [POST /v1/transactions/evaluate](https://sipi.bot/v1/transactions/evaluate): body `{amount, merchant, category}` → returns `{decision, reason}`.
+- [x402 per-call access](https://sipi.bot/v1/transactions/evaluate): POST the same body with an `X-PAYMENT` header (x402 exact scheme, Base USDC, $0.02 per evaluation, payTo `0x904322bc54BAe297f34CFC25466a4cA360428c68`). A request without a key returns `402` with the payment `accepts` payload; signed `X-PAYMENT` returns the evaluation result.
 
 ## Key pages
 - [Home](https://sipi.bot): the spend firewall for AI agents.
 - [Complete guide](https://sipi.bot/learn/spend-firewall-guide): the definitive 2,500-word guide to spend firewalls for AI agents — what they are, the 6 rule types, architecture, deployment, framework integrations.
 - [Dashboard](https://sipi.bot/dashboard): live decisions, approvals, and rules.
-- [Pricing](https://sipi.bot/pricing): Team $99/mo, Business $499/mo.
+- [Pricing](https://sipi.bot/pricing): Starter $29/mo, Team $99/mo, Business $499/mo. Free playground and MIT self-host.
 - [Protected by Badge](https://sipi.bot/badge): embed a live "Protected by sipi.bot" badge on any site — free, no API key needed.
 - [Eval report (JSON)](https://sipi.bot/eval): 53/53 scenarios.
 - [Eval report (human-readable)](https://sipi.bot/eval-report/): the same results explained.
