@@ -1673,7 +1673,7 @@ footer a{color:var(--mut)}
 </div>
 
 <div style="text-align:center;margin:30px 0">
-<a href="https://buy.stripe.com/REPLACE_WITH_TRIPWIRE_LINK" class="btn" id="buy-btn">Get My Audit Report — $7 →</a>
+<a href="https://buy.stripe.com/28E3cucFd2d27kq2fC0x214" class="btn" id="buy-btn">Get My Audit Report — $7 →</a>
 <p class="secondary">One-time payment. Delivered to your email in under 10 minutes. <a href="/">No thanks, I'll take my chances →</a></p>
 </div>
 
