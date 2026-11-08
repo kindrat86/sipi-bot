@@ -277,9 +277,11 @@ _SOAP_CONTENT.append("""
 <div style='background:linear-gradient(135deg,#0d1f1a,#0a0a0a);border:1px solid rgba(0,212,170,0.12);border-radius:14px;padding:24px;text-align:center;margin-bottom:20px'>
 <p style='margin:0 0 8px;font-size:15px;font-weight:700;color:#fff'>The guarantee</p>
 <p style='margin:0 0 16px;font-size:13px;color:#999;line-height:1.6'>If sipi.bot ever green-lights a spend that breaks one of your active rules, that month is free.</p>
-<p style='margin:0 0 4px;font-size:24px;font-weight:800;color:#00d4aa'>$99<span style='font-size:11px;color:#555;font-weight:400'>/mo</span></p>
-<p style='margin:0 0 16px;font-size:11px;color:#555'>unlimited evaluations &middot; no per-call fees &middot; cancel anytime</p>
-<a href='https://sipi.bot/pricing' style='display:inline-block;background:#00d4aa;color:#0a0a0a;text-decoration:none;padding:12px 32px;border-radius:8px;font-weight:700;font-size:13px'>Protect my agent &rarr;</a>
+<p style='margin:0 0 4px;font-size:24px;font-weight:800;color:#00d4aa'>$14.50<span style='font-size:11px;color:#555;font-weight:400'>&nbsp;first month</span></p>
+<p style='margin:0 0 16px;font-size:11px;color:#e67e22;font-weight:700'>&#9889; Launch week: code LAUNCH50 = 50% off your first month &mdash; ends Nov 15</p>
+<p style='margin:0 0 16px;font-size:11px;color:#555'>then $29/mo &middot; unlimited evaluations &middot; no per-call fees &middot; cancel anytime</p>
+<a href='https://buy.stripe.com/fZu14mcFdcRGbAG1by0x218' style='display:inline-block;background:#00d4aa;color:#0a0a0a;text-decoration:none;padding:12px 32px;border-radius:8px;font-weight:700;font-size:13px'>Protect my agent &rarr;</a>
+<p style='margin:8px 0 0;font-size:10px;color:#555'>enter LAUNCH50 at checkout</p>
 </div>
 <p style='margin:0;font-size:13px;color:#555;line-height:1.6'>Thanks for reading the playbook. If it was useful, the next step is wiring sipi.bot into your agent before it goes to production. If it wasn't useful, unsubscribe anytime.</p>
 """)
