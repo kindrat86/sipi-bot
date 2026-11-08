@@ -99,13 +99,18 @@ class CheckoutConversionTests(unittest.TestCase):
     def test_pricing_leads_with_team_and_keeps_free_path_secondary(self):
         html = templates.pricing_html()
         team = html.index("Team · recommended")
+        starter = html.index("Starter · easiest start")
         playground = html.index(">Playground<")
-        business = html.index(">Business<")
+        business = html.index("Business $499/mo")
 
-        self.assertLess(team, playground)
+        # Team stays the recommended primary; Starter is the low-friction entry below it.
+        self.assertLess(team, starter)
+        self.assertLess(starter, playground)
         self.assertLess(playground, business)
         self.assertIn("API key issued immediately after payment", html)
         self.assertIn("Start Team — $99/mo", html)
+        self.assertIn("Start Starter — $29/mo", html)
+        self.assertIn("/checkout/starter", html)
 
     def test_homepage_exposes_focused_actions_before_long_form_content(self):
         html = templates.landing_page_html()

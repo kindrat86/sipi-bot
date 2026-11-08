@@ -520,7 +520,7 @@ curl -X POST https://sipi.bot/v1/transactions/evaluate \\<br>
     <details><summary>How does sipi.bot stop an agent from overspending?</summary>
       <p>Your agent calls sipi.bot before it spends. sipi.bot checks the transaction against per-transaction, daily, velocity, merchant, category, and time rules and returns approve, block, or flag. Velocity limits kill runaway retry loops instantly, and unknown merchants are blocked unless allowlisted.</p></details>
     <details><summary>How much does sipi.bot cost?</summary>
-      <p>Hosted plans are flat-rate: Team is <strong>$99/month</strong> and Business is $499/month, both with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever, and the full plan comparison is on the <a href="/pricing">pricing page</a>.</p></details>
+      <p>Hosted plans are flat-rate: Starter is <strong>$29/month</strong>, Team is $99/month, and Business is $499/month, all with unlimited transaction evaluations — no per-call fees, no metering, no overage tiers. The open-source core is MIT-licensed and free to self-host forever, and the full plan comparison is on the <a href="/pricing">pricing page</a>.</p></details>
     <details><summary>Does sipi.bot work with MCP and Claude Code?</summary>
       <p>Yes. sipi.bot is a native MCP tool, so Claude Code, Cursor, and Hermes call it directly, and it also exposes a plain HTTP API and a CLI so any agent runtime can use it. Client wrappers for LangChain, CrewAI, the OpenAI Agents SDK, and the Vercel AI SDK take a few lines each.</p></details>
     <details><summary>What happens if sipi.bot wrongly approves a spend?</summary>
@@ -1338,23 +1338,23 @@ def pricing_html() -> str:
     </div>
   </div>
   <div class="grid2" style="max-width:820px;margin:30px auto 0;text-align:left">
+    <div class="price" style="margin:0;border-color:var(--accent)">
+      <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)">Starter · easiest start</div>
+      <div class="amt">$29<span> / month</span></div>
+      <ul>
+        <li><span class="c">✓</span> Unlimited transaction evaluations</li>
+        <li><span class="c">✓</span> All rule types + human approval queue</li>
+        <li><span class="c">✓</span> Dashboard, audit log, MCP, HTTP + CLI</li>
+        <li><span class="c">✓</span> API key issued immediately after payment</li>
+      </ul>
+      <a href="/checkout/starter?source=pricing_starter" rel="nofollow" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{{cta_id:'pricing_starter_checkout',destination:'/checkout/starter',placement:'pricing_starter',plan:'starter'}})" class="btn" style="width:100%">Start Starter — $29/mo</a>
+      <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Green-light an active-rule violation and that month is free</p>
+    </div>
     <div class="price" style="margin:0;border-color:var(--line)">
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Playground</div>
       <div class="amt">$0</div>
       <p style="color:var(--mut);font-size:15px;margin:18px 0 14px">Run sample transactions through the live production firewall. No signup, install, or card.</p>
       <a href="/playground/" onclick="window.sipiTrack&&window.sipiTrack('playground_opened',{{source:'pricing'}})" class="btn ghost" style="width:100%">Try the live firewall →</a>
-    </div>
-    <div class="price" style="margin:0;border-color:var(--line)">
-      <div style="font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Business</div>
-      <div class="amt">$499<span> / month</span></div>
-      <ul>
-        <li><span class="c">✓</span> Everything in Team</li>
-        <li><span class="c">✓</span> Managed policy onboarding</li>
-        <li><span class="c">✓</span> Policy review and rule setup</li>
-        <li><span class="c">✓</span> Priority email support</li>
-      </ul>
-      <a href="/checkout/business?source=pricing_business" onclick="window.sipiTrack&&window.sipiTrack('cta_clicked',{{cta_id:'pricing_business_checkout',destination:'/checkout/business',placement:'pricing_business',plan:'business'}})" class="btn ghost" style="width:100%">Start Business →</a>
-      <p style="color:var(--accent);font-size:12px;margin-top:8px;text-align:center">🛡️ Guarantee: green-light a rule violation, month is free</p>
     </div>
   </div>
   <p class="mono" style="color:var(--mut);font-size:13px;margin-top:26px">
@@ -1365,16 +1365,16 @@ def pricing_html() -> str:
     <h2 style="font-size:clamp(22px,3.5vw,30px);text-align:center;margin-bottom:8px">What you're paying for, line by line</h2>
     <p class="sub" style="text-align:center;margin-bottom:30px">No per-call fees. No usage tiers. No surprise invoices when your agent fleet grows.</p>
     <table class="cmp">
-      <thead><tr><th>Capability</th><th>Self-host (free)</th><th>Team $99/mo</th><th>Business $499/mo</th></tr></thead>
+      <thead><tr><th>Capability</th><th>Self-host (free)</th><th>Starter $29/mo</th><th>Team $99/mo</th><th>Business $499/mo</th></tr></thead>
       <tbody>
-        <tr><td>Transaction evaluations</td><td>Unlimited</td><td>Unlimited</td><td>Unlimited</td></tr>
-        <tr><td>Rule types (per-tx, daily, velocity, merchant, category, time)</td><td>✓ All</td><td>✓ All</td><td>✓ All</td></tr>
-        <tr><td>Human-in-the-loop approval queue</td><td>✓</td><td>✓</td><td>✓</td></tr>
-        <tr><td>Queryable SQLite audit trail</td><td>✓ Local</td><td>✓ Hosted</td><td>✓ Hosted</td></tr>
-        <tr><td>MCP tool, HTTP API, CLI</td><td>✓</td><td>✓</td><td>✓</td></tr>
-        <tr><td>Dashboard</td><td>✓ Local</td><td>✓ Hosted</td><td>✓ Hosted + priority support</td></tr>
-        <tr><td>Managed spend policy (we write your rules)</td><td>—</td><td>—</td><td>✓</td></tr>
-        <tr><td>Rule-integrity guarantee</td><td>—</td><td>✓ Month free</td><td>✓ Month free</td></tr>
+        <tr><td>Transaction evaluations</td><td>Unlimited</td><td>Unlimited</td><td>Unlimited</td><td>Unlimited</td></tr>
+        <tr><td>Rule types (per-tx, daily, velocity, merchant, category, time)</td><td>✓ All</td><td>✓ All</td><td>✓ All</td><td>✓ All</td></tr>
+        <tr><td>Human-in-the-loop approval queue</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Queryable SQLite audit trail</td><td>✓ Local</td><td>✓ Hosted</td><td>✓ Hosted</td><td>✓ Hosted</td></tr>
+        <tr><td>MCP tool, HTTP API, CLI</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Dashboard</td><td>✓ Local</td><td>✓ Hosted</td><td>✓ Hosted</td><td>✓ Hosted + priority support</td></tr>
+        <tr><td>Managed spend policy (we write your rules)</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr>
+        <tr><td>Rule-integrity guarantee</td><td>—</td><td>✓ Month free</td><td>✓ Month free</td><td>✓ Month free</td></tr>
       </tbody>
     </table>
   </div>

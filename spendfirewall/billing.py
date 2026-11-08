@@ -117,6 +117,7 @@ def _activation_bucket(created_at: Optional[str]) -> str:
     return "over_7d"
 
 TIERS = {
+    "starter": {"price_id_env": "STRIPE_PRICE_STARTER", "monthly_limit": 0, "label": "Starter", "price": "$29/mo"},
     "team": {"price_id_env": "STRIPE_PRICE_TEAM", "monthly_limit": 0, "label": "Team", "price": "$99/mo"},
     "business": {"price_id_env": "STRIPE_PRICE_BUSINESS", "monthly_limit": 0, "label": "Business", "price": "$499/mo"},
     # Service tiers sold from /agent-reliability-sprint/. Prices live in the
