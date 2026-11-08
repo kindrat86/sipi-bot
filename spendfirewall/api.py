@@ -37,6 +37,7 @@ from urllib.parse import parse_qs, urlparse
 
 from . import __version__, core, store, templates
 from . import billing
+from . import x402
 from . import drip
 
 _SUBSCRIBERS: list[queue.Queue] = []
@@ -2013,6 +2014,21 @@ class Handler(BaseHTTPRequestHandler):
                     agent_id, auth_context = _resolve_api_key(paid_key)
                     if not auth_context:
                         return self._json(401, {"error": "invalid_api_key"})
+            # x402 per-call path: callers without a key can pay $0.02/check.
+            x402_paid = False
+            if not auth_context and x402.is_enabled():
+                x402_req = x402.build_payment_requirements(
+                    "POST", path, "sipi.bot spend-firewall transaction evaluation"
+                )
+                payment_header = self.headers.get("X-PAYMENT", "")
+                if payment_header:
+                    valid, reason = x402.verify_payment(payment_header, x402_req)
+                    if valid:
+                        x402_paid = True
+                    else:
+                        return self._json(402, {"error": "payment_invalid", "reason": reason})
+                else:
+                    return self._json(402, {"error": "payment_required", "accepts": x402_req})
             transaction, transaction_error = _validated_transaction_input(body)
             if transaction_error:
                 return self._json(400, {"error": transaction_error})
