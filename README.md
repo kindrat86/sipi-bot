@@ -28,7 +28,7 @@ python3.11 -m spendfirewall.cli eval --amount 6200 --merchant unknown-gpu.ru --c
 
 Then open http://localhost:8080 (landing), http://localhost:8080/dashboard (control room), http://localhost:8080/pricing (Team $99 / Business $499).
 
-**Hosted:** [sipi.bot](https://sipi.bot) · [dashboard](https://sipi.bot/dashboard) · [get an API key →](https://sipi.bot/pricing)
+**Hosted:** [sipi.bot](https://sipi.bot) · [dashboard](https://sipi.bot/dashboard) · [get an API key →](https://sipi.bot/pricing) · 🚀 launch week: `LAUNCH50` = 50% off your first month (until Nov 15)
 
 **Need implementation, not another tool?** Apply for the single paid, fixed-scope [sipi.bot implementation pilot](https://sipi.bot/pilot). AgentShield's separate hosted offer and funnel have been consolidated into this product and implementation path.
 
