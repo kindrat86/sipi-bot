@@ -14,7 +14,7 @@ as an MCP tool, an HTTP API, and a CLI. Open-source core (MIT), free to self-hos
 
 ## Core endpoint
 - [POST /v1/transactions/evaluate](https://sipi.bot/v1/transactions/evaluate): body `{amount, merchant, category}` → returns `{decision, reason}`.
-- [x402 per-call access](https://sipi.bot/v1/transactions/evaluate): POST the same body with an `X-PAYMENT` header (x402 exact scheme, Base USDC, $0.02 per evaluation, payTo `0x904322bc54BAe297f34CFC25466a4cA360428c68`). A request without a key returns `402` with the payment `accepts` payload; signed `X-PAYMENT` returns the evaluation result.
+- [x402 per-call access](https://sipi.bot/v1/transactions/evaluate): POST the same body with an `X-PAYMENT` header (x402 exact scheme, Base USDC, $0.02 per evaluation, payTo `0xe30f9cf88d8Aa89b7265685318a7ab085D8e4b85`). A request without a key returns `402` with the payment `accepts` payload; signed `X-PAYMENT` returns the evaluation result.
 
 ## Key pages
 - [Home](https://sipi.bot): the spend firewall for AI agents.
