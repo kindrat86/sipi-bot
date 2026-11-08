@@ -118,7 +118,7 @@ class CheckoutConversionTests(unittest.TestCase):
         first_code_example = html.index("<!-- TRY IT NOW -->")
 
         self.assertLess(actions, first_code_example)
-        self.assertIn("Apply for the paid implementation pilot", html)
+        self.assertIn("Start Starter", html)
         self.assertIn("Run a free live check", html)
         self.assertNotIn("Get access</button>", html)
 
@@ -135,12 +135,13 @@ class CheckoutConversionTests(unittest.TestCase):
         self.assertIn('name="primary_risk"', html)
         self.assertNotIn("AgentShield Starter Kit", html)
 
-    def test_homepage_and_pricing_prioritize_the_paid_pilot(self):
+    def test_homepage_and_pricing_prioritize_the_paid_starter(self):
         homepage = templates.landing_page_html()
         pricing = templates.pricing_html()
 
-        self.assertIn('href="/pilot" class="btn"', homepage)
-        self.assertIn("Apply for the paid implementation pilot", homepage)
+        self.assertIn('href="/pricing" class="btn"', homepage)
+        self.assertIn("Start Starter", homepage)
+        self.assertIn("LAUNCH50", homepage)
         self.assertIn('href="/pilot"', pricing)
         self.assertIn("Want us to implement the spend controls?", pricing)
 
