@@ -717,6 +717,13 @@ class Handler(BaseHTTPRequestHandler):
             self._redirect_301("/blog/runaway-loops-anatomy/")
             return
 
+        # /audit was the link used in all X/Reddit outreach (Leon Sasson et al.)
+        # but no page existed at that path - it 404ed and broke the $7 funnel.
+        # The $7 offer lives at /tripwire; send audit seekers there.
+        if path.rstrip("/") == "/audit":
+            self._redirect_301("/tripwire")
+            return
+
 
         # ── Trailing-slash normalisation for exact routes ──────────────
         # Two conventions coexist here on purpose: pSEO/static cluster pages
