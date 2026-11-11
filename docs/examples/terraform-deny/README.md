@@ -31,4 +31,4 @@ Fail-closed: when the gate API is unreachable, the wrapper exits non-zero and
 terraform never runs. The agent's AWS credentials alone are not sufficient -
 the call to the gate is a separate service with its own auth.
 
-Try it live, free, no signup: POST https://sipi.bot/v1/transactions/evaluate
+Try it live: POST https://sipi.bot/v1/transactions/evaluate ($0.02/call via x402, Base USDC - or free self-hosted, MIT)
